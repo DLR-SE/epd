@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>de.dlr-se.emir.epd</groupId>
+        <artifactId>OtherModules</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>NavigationToolsModule</artifactId>
+    <name>Navigation Tools</name>
+    <description>This module adds classical navigational tools to the EPD. This includes coordinate transformation,
+        bearing calculation and a maneuvering board.
+    </description>
+
+    <properties>
+        <eMIR-Plugin-Class>de.emir.rcp.other.NavigationToolsPlugin</eMIR-Plugin-Class>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.dlr-se.emir.model.universal</groupId>
+            <artifactId>Physics</artifactId>
+            <version>${model.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.dlr-se.emir.epd</groupId>
+            <artifactId>GeneralViews</artifactId>
+            <version>${epd.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.dlr-se.emir.model.domain.maritime</groupId>
+            <artifactId>IEC61174</artifactId>
+            <version>${model.version}</version>
+        </dependency>
+
+		<dependency>
+			<groupId>de.dlr-se.emir.services</groupId>
+			<artifactId>RouteServices</artifactId>
+			<version>${services.version}</version>
+		</dependency>
+    </dependencies>
+</project>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ASCII"?>
+<jgc:UMLGenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jgc="http://www.sos.de/de/sos/uml/UMLGenJava2">
+  <model href="AISSensor.tuml#//@model"/>
+  <usedModels xsi:type="jgc:UMLGenModel" href="../../Core/target/classes/Core.jgc#/"/>
+  <usedModels xsi:type="jgc:UMLGenModel" href="../../Sense/target/classes/Sense.jgc#/"/>
+  <usedModels xsi:type="jgc:UMLGenModel" href="../../Physics/target/classes/Physics.jgc#/"/>
+  <projects xsi:type="jgc:DataModelProject" rootDirectory=".">
+    <project xsi:type="jgc:ProjectModule" name="AISSensor" artifactID="AISSensor" version="0.0.1-SNAPSHOT" groupID="de.emir.model.application.sensors" generatePOM="false"/>
+    <extensionModules xsi:type="jgc:DataModelTestModule"/>
+    <interfaceModule xsi:type="jgc:DataModelInterfaceModule" prefix="" declareOperations="true"/>
+    <implementationModule xsi:type="jgc:DataModelImplementationModule" operationMode="STUB"/>
+    <metaModule xsi:type="jgc:DataModelMetaModule"/>
+  </projects>
+</jgc:UMLGenModel>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Polygon xmlns:xmi="http://www.omg.org/XMI" xmi:id="56b21506-342a-4877-be6b-04d2364614e8">
+    <shell xmi:id="91ed4429-ede7-48c9-96d3-e9d6268c42c4">
+        <points xmi:id="e66cc921-e84b-44e0-86ce-71f260b79efc">
+            <coordinats x="-4.0" xmi:id="eca55bb2-c17a-46cd-8d57-81bf906c475e" y="1.23" z="NaN">
+                <crs remarks="" xmi:id="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="RelativeEngineering2D">
+                    <orientationOffset>0.0</orientationOffset>
+                    <reference callSign="Sig" imo="54646" mmsi="1231" remarks="" type="GeneralCargo" xmi:id="bca50680-3203-49c8-a876-41f69a2bc856" xsi:type="Vessel">
+                        <characteristics xmi:id="b246f6fc-d4d9-4ffc-bc05-fa059bdc042c" xsi:type="ObjectSurfaceInformation">
+                            <geometry xmi:ref="56b21506-342a-4877-be6b-04d2364614e8"/>
+                        </characteristics>
+                        <ownedCoordinateSystem xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+                        <pose xmi:id="15594fb9-d53c-4434-90e7-e8f7ac6c9202">
+                            <coordinate x="0.0" xmi:id="67ff7ffd-3d93-497e-a527-f4ad66a0ad3d" y="0.0" z="NaN">
+                                <crs remarks="" xmi:id="17b431c2-1d60-417f-ad44-61be602691f4" xsi:type="WGS842D">
+                                    <name code="WGS84 2D" codeSpace="" version="" xmi:id="5bcd93b0-acda-4277-b960-cb255fe281f1"/>
+                                </crs>
+                            </coordinate>
+                            <orientation xmi:id="07b1b688-a943-430c-a72b-7709816cf966" xsi:type="Euler">
+                                <x unit="DEGREE" value="0.0" xmi:id="fe221bff-de64-4812-b2b0-4caa6af22563"/>
+                                <y unit="DEGREE" value="0.0" xmi:id="d2a69dd4-5c91-4caa-bbe3-a6e2d8d46a60"/>
+                                <z unit="DEGREE" value="0.0" xmi:id="bbf36ac1-c43c-4569-a0fc-d38daf0827b9"/>
+                            </orientation>
+                        </pose>
+                        <name code="KARL KARLSON" codeSpace="" version="" xmi:id="4ca51925-a98e-412c-a9e9-d46c53a7afc7"/>
+                    </reference>
+                    <origin x="0.0" xmi:id="6aecbf50-6c2e-4974-a9a8-02e2eb50d1b6" xsi:type="Vector2D" y="0.0"/>
+                    <name code="" codeSpace="" version="" xmi:id="3dfc2309-b110-4b5f-9f2a-15a90cf3ffb6"/>
+                </crs>
+            </coordinats>
+            <coordinats x="-3.89" xmi:id="43656b3b-08ed-451b-a123-09569a896e9c" y="3.9" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="-3.57" xmi:id="dfc5f38a-66fd-4485-942b-998554f8c0f6" y="7.08" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="-3.2" xmi:id="afca207c-7777-42e3-9145-567adffe549a" y="9.29" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="-2.4" xmi:id="fbc3313b-e1de-4a5b-b1c7-115a5a9b3901" y="12.31" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="-1.54" xmi:id="4cb3bca9-b9db-403f-a54c-3fe62b50cb5a" y="14.77" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="-0.84" xmi:id="f6305004-b45e-4620-ae02-e54f76ac8a21" y="15.94" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="0.01" xmi:id="8d14d337-d0b6-4d1f-a591-d1438b629e37" y="16.5" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="0.85" xmi:id="52ed4832-e322-4345-9052-7237f2d28445" y="15.93" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="1.63" xmi:id="9947baa7-5982-444f-ab66-e6cc2b249183" y="14.69" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="2.41" xmi:id="7e5af174-0a7f-4e89-ba2c-1d747f27e3f0" y="12.3" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="3.2" xmi:id="69cd93a1-b90a-4da2-aa2d-be6295be095a" y="9.28" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="3.6" xmi:id="83875837-c52c-45ff-94d7-ff3cc50dbcfa" y="7.11" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="3.9" xmi:id="5c4946b3-0a01-45fe-a7be-d638636f99ab" y="3.88" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="4.0" xmi:id="840a878c-d842-4e01-b655-fba2f78fddc6" y="1.23" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="3.95" xmi:id="61548c77-c6c3-41a5-850f-e8a1dcc84a41" y="-2.37" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="3.8" xmi:id="c29c5eb2-d776-42a5-9541-368cef7fc935" y="-6.97" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="3.6" xmi:id="732f7994-0b25-4f20-8ac3-b60f3e457f96" y="-10.39" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="3.5" xmi:id="8e40274b-51e8-4e26-be68-4e2af4b2fc09" y="-11.88" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="3.22" xmi:id="6e3e7b9d-a15e-4d91-b279-d099a6fa8d8f" y="-16.18" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="1.53" xmi:id="55588073-2d56-4a69-9a80-85ea8689e4dd" y="-16.4" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="0.01" xmi:id="11c8d931-b6bc-4b4b-a849-671b45b4c566" y="-16.5" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="-1.9" xmi:id="7300731f-598d-4e04-8696-593506e8f1aa" y="-16.37" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="-3.26" xmi:id="422ad6c5-ffd7-45fa-9af2-dba0b3a5d091" y="-16.17" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="-3.49" xmi:id="332d2fbd-b691-4f04-85a2-bd7d373221ce" y="-11.84" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="-3.65" xmi:id="1d9ab760-c0e7-48db-ab10-eb36396dbded" y="-10.35" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="-3.81" xmi:id="c275ed2d-8c5b-4a6d-996d-1d99ac36eaed" y="-7.09" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="-3.91" xmi:id="9f6a49df-b7ec-42e6-921c-e55d826e6bd8" y="-2.39" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+            <coordinats x="-4.0" xmi:id="d88c027a-3e27-419e-9b19-7b81a1dee458" y="1.23" z="NaN">
+                <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+            </coordinats>
+        </points>
+    </shell>
+    <crs xmi:ref="a87340f9-a19e-4f61-9ea4-fb5d1f081a0e"/>
+</Polygon>

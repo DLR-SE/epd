@@ -1,0 +1,979 @@
+#include "classpath:/model/CRS.tuml"
+#include "classpath:/model/Core.tuml"
+
+
+
+using UCore.de.*;
+/**
+* insert documentation for the model 
+* 
+*/
+Model Units { 
+	package de {
+		package emir {
+			package model {
+				package universal {
+					
+					/**
+					 * This package is based on the ISO 19103 Conceptual Schema Language - Package Units of Measure
+					 * There is a small difference in handling units, where units may be realized as enumerations instead of complex types. 
+					 */
+					package units {
+						
+						/**
+						 * The result from performing the act or process of ascertaining the extent, dimensions, or quantity of some entity.
+						 * A measure is always associated to a unit of measure. Ratio measures where the two base measures are in the same units (often considered unit-less) should be associated to UnitOfMeasure (same meter/meter for map scale) so that conversions to non-unitless ratios can be accomplished (such as miles/inch).
+						 */
+						abstract struct Measure {
+							/** The numerical value quantifying the extent or size of some quantity, in the units specified by the associated UnitOfMeasure class.**/
+							double value;
+							
+							/** rounds the result to the given decimal values
+							 * e.g. if numDecimals == 2 and value == 1.22392 => 1.22 == value
+							 * @return the old and accurate (not rounded) value
+							 */
+							double roundLocal(int numDecimals);
+						}
+						
+						abstract struct DirectedMeasure {
+							
+						}
+						
+						
+						
+						
+					////////////////////////////////////////////////////////////////////////
+					///							Distances								///
+					////////////////////////////////////////////////////////////////////////
+						
+						/**
+						 * Any of the measuring systems to measure the length, distance between two entities.  
+						 * Example are the English System of feet and inches or the metric system of  millimeters, centimeters and meters, 
+						 * also the System International (SI) System of Units.
+						 */
+						enum DistanceUnit {
+							METER = 0;
+							KILOMETER = 1;
+							CENTIMETER = 2; 
+							
+							MILLIMETER = 3;
+							/** also called statue mile or land mile. One mile is exactly 1609.344 meters */
+							MILES = 4;
+							/** a nautical mile is exactly 1852 meters or 1.15 miles */
+							NAUTICAL_MILES = 5;
+							/** One foot is exaclty 30.48 centimeters */
+							FOOT = 6;
+							/** one yard is defined as 3 foot or 0.9144m */
+							YARD = 7;
+							/** one cable is a tenth 1/10 of a nautical mile therefore 1 kbl = 185.2 meters */
+							CABLE = 8;
+						}
+						
+						
+						/** 
+						 * The measure of distance as an integral, i.e. the limit of an infinite sum of distances between points on a curve.  For example the length of curve, the perimeter of a polygon as the length of the boundary.
+						 */
+						struct Length extends Measure {
+							DistanceUnit[1] unit;
+							/** transform the value into the given unit, taking into account the current unit */
+							double getAs ( DistanceUnit dst_unit ) const;
+							void set(in double value, in DistanceUnit unit );
+							void set(in Length other);
+							
+							String readableString() const;
+							
+							boolean smaller(in Length other) const;
+							boolean greater(in Length other) const;
+							boolean equals(in Length other) const;
+							
+							Length add(in Length other) const;
+							void addLocal(in Length other);
+							Length sub(in Length other) const;
+							void subLocal(in Length other);
+							
+							Length divide(in double factor) const;
+							void divideLocal(in double factor);
+							Length multiply(in double factor) const;
+							void multiplyLocal(in double factor) const;
+							
+							/** linear interpolation between two length's*/
+							Length lerp(in Length other, in double factor);
+						}
+						
+						/**
+						 * Used as a type for returning distances and possibly lengths. Care must be taken when using distance where length is meant. The distance from start to end of a curve is not the length of the curve, but represents the length of the shortest curve between these two points. Since Distance is a length of some curve (albeit a hypothetical one), the unit of measure is the same.
+						 */
+						struct Distance extends Length {
+							/** linear interpolation between two distance's*/
+							Distance lerp(in Distance other, in double factor);
+						}
+						
+						enum VolumeUnit {
+							CUBIC_METER = 0;
+							BARREL = 1;
+							CUBIC_FOOT = 2;
+							CUBIC_DECIMETER = 3;
+							LITRE = 4;
+							GALLON = 5; 
+							PINT = 6;
+							CUBIC_INCH = 7;
+							CUBIC_CENTIMETER = 8;
+						}
+						struct Volume extends Measure {
+							VolumeUnit	unit = VolumeUnit.CUBIC_METER;
+							
+							double getAs ( VolumeUnit dst_unit ) const;
+							void set(in double value, in VolumeUnit unit );
+							void set(in Volume other);
+							
+							boolean smaller(in Volume other) const;
+							boolean greater(in Volume other) const;
+							boolean equals(in Volume other) const;
+							
+							String readableString() const;
+						}
+						
+						
+						enum TemperatureUnit {
+							KELVIN = 0;
+							CELSIUS = 1;
+							FARENHEIT = 2;
+						}
+						struct Temperature extends Measure {
+							TemperatureUnit 		unit;
+							
+							double getAs(in TemperatureUnit unit) const;
+							
+							void set(in double value, in TemperatureUnit unit);
+							void set(in Temperature other);
+							
+							Temperature add(in Temperature other) const;
+							Temperature add(in double value, in TemperatureUnit unit) const;
+							void addLocal(in Temperature other);
+							void addLocal(in double value, in TemperatureUnit unit);
+							
+							Temperature sub(in Temperature other) const;
+							Temperature sub(in double value, in TemperatureUnit unit) const;
+							void subLocal(in Temperature other);
+							void subLocal(in double value, in TemperatureUnit unit);
+						}
+						
+						
+						enum AngleUnit { 
+							RADIAN = 0;
+							DEGREE = 1;
+							REVOLUTION = 2;
+						}
+						
+						struct Percentage extends Measure {
+						}
+						
+						/**
+						 * The amount of rotation needed to bring one line or plane into coincidence with another, generally measured in radians or degrees.
+						 */
+						struct Angle extends Measure {
+							AngleUnit[1]		unit;
+							
+							void normalizeLocal();
+							Angle normalize() const;
+							
+							/** normalize the Angle to an interval between -180� and 180� or -PI to PI */
+							void normalize180Local();
+							/** normalize the Angle to an interval between -180� and 180� or -PI to PI */
+							Angle normalize180() const;
+							
+							/**
+							 * @deprecated use getAs(unit) instead
+							 */
+							double get(AngleUnit unit) const;
+							double getAs(AngleUnit unit) const;
+							
+							void set(in double value, in AngleUnit unit);
+							void set(in Angle other);
+							
+							Angle add(in Angle other) const;
+							Angle add(in double value, in AngleUnit unit) const;
+							void addLocal(in Angle other);
+							void addLocal(in double value, in AngleUnit unit);
+							
+							Angle sub(in Angle other) const;
+							Angle sub(in double value, in AngleUnit unit) const;
+							void subLocal(in Angle other);
+							void subLocal(in double value, in AngleUnit unit);
+							
+							String readableString() const;
+						}
+
+						////////////////////////////////////////////////////////////////////////
+						///						Time and Speed   							///
+						////////////////////////////////////////////////////////////////////////
+						
+						/**
+						 * A TimeUnit represents time durations at a given unit of granularity (...). 
+						 * A nanosecond is defined as one thousandth of a microsecond, 
+						 * a microsecond as one thousandth of a millisecond, 
+						 * a millisecond as one thousandth of a second, 
+						 * a minute as sixty seconds, 
+						 * an hour as sixty minutes, 
+						 * and a day as twenty four hours. 
+						 * 
+						 * @cite[doc. java.util.concurrent] 
+						 */
+						enum TimeUnit {
+							NANOSECOND = 0;
+							MICROSECOND = 1;
+							MILLISECOND = 2;
+							SECOND = 3;
+							MINUTE = 4;
+							HOUR = 5;
+							DAY = 6;
+						}
+
+						struct Time extends Measure {
+							TimeUnit[1] unit;
+														
+							/** returns the time value in the given unit, taking into account the current unit */
+							double getAs ( TimeUnit targetUnit ) const;
+							void set(in double value, in TimeUnit unit);
+							void set(in Time value);
+							
+							boolean smaller ( in Time other ) const;
+							boolean greater ( in Time other ) const;
+							/** compares the time with another one, allowing a small epsilon
+							 * @returns false if the difference between both times, is more than the epsilon value
+							 */
+							boolean equals ( in Time other, in double epsilon ) const;
+			
+							Time add(Time other) const;
+							void addLocal(Time other);
+							void addLocal(in double value, in TimeUnit unit);
+							
+							Time sub(Time other) const;
+							void subLocal(Time other);
+							
+							String readableString() const;
+							
+							int getYear() const;
+							int getMonth() const;
+							int getDay() const;
+							int getHourOfDay() const;
+							int getMinuteOfHour() const;
+							int getSecondsOfMinute() const;
+							int getMillisecondsOfSecond() const;
+						}
+
+						struct SpeedUnit {
+							DistanceUnit[1] distanceUnit;
+							TimeUnit[1] timeUnit;
+							
+							void set(DistanceUnit du, TimeUnit tu);
+							void set(SpeedUnit unit);
+							
+							String readableString() const;
+						}
+						instance DefaultSpeedUnit : SpeedUnit {
+							SpeedUnit.distanceUnit = DistanceUnit.METER;
+							SpeedUnit.timeUnit = TimeUnit.SECOND;
+						}
+						
+						/** 
+						 * Undirected: distance divided by time
+						 * \source (oriented) ISO 19130
+						 * \note for the directed version see Velocity
+						 */
+						struct Speed extends Measure 
+						{
+							SpeedUnit[1]		unit = DefaultSpeedUnit;
+							
+							/** 
+							 * returns the speed in the provided unit 
+							 */
+							double getAs(in SpeedUnit unit) const;
+							void set(in double value, in SpeedUnit unit);
+							void set(in Speed speed);
+							
+							boolean smaller(in Speed other) const;
+							boolean greater(in Speed other) const;
+							boolean equals(in Speed other, double epsilon) const;
+							
+							Speed add(in Speed other) const;
+							void addLocal(in Speed other);
+							
+							Speed sub(in Speed other) const;
+							void subLocal(in Speed other);
+							
+							String readableString() const;
+							
+							/**
+							 * @deprecated use integrate instead
+							 */
+							Distance getDistanceOverTime(in Time etablished) const;
+							
+							Distance integrate(in Time etablished) const;
+							
+							Speed lerp(in Speed other, double factor) const;
+						}
+
+						struct AngularSpeedUnit {
+							AngleUnit[1]		angleUnit;
+							TimeUnit[1]			timeUnit;
+							
+							String readableString() const;
+							
+							void set(in AngleUnit au, in TimeUnit tu);
+							void set(in AngularSpeedUnit other);
+						}
+						
+						/** 
+						 * Undirected: angular distance divided by time
+						 * \source (oriented) ISO 19130
+						 * \note for the directed version see AngularVelocity
+						 */
+						struct AngularSpeed extends Measure 
+						{ 
+							AngularSpeedUnit[1]		unit;
+							
+							/** 
+							 * returns the angular speed in the provided unit 
+							 */
+							double getAs(in AngularSpeedUnit unit) const;
+							void set(in double value, in AngularSpeedUnit unit);
+							void set(in AngularSpeed value);
+							
+							boolean smaller(in AngularSpeed other) const;
+							boolean greater(in AngularSpeed other) const;
+							boolean equals(in AngularSpeed other, double epsilon) const;
+							
+							AngularSpeed add(in AngularSpeed other) const;
+							void addLocal(in AngularSpeed other);
+							
+							AngularSpeed sub(in AngularSpeed other) const;
+							void subLocal(in AngularSpeed other);
+							
+							/**
+							 * @Deprecated use integrate(etablished) instead
+							 */
+							Angle getDeltaAngleOverTime(in Time etablished) const;
+							
+							Angle integrate(in Time etablished) const;
+							
+							String readableString() const;
+						}
+						
+						struct AccelerationUnit {
+							val SpeedUnit[1]	speedUnit = DefaultSpeedUnit;
+							TimeUnit[1]			timeUnit = TimeUnit.SECOND;
+							
+							String readableString() const;
+						}
+						
+						
+						/** 
+						 * Undirected: Acceleration is the rate of change of velocity as a function of time.
+						 * In calculus terms, acceleration is the second derivative of position with respect to time or, alternately, the first derivative of the velocity with respect to time.
+						 * The SI units for acceleration are m / s^2 (meters per second squared or meters per second per second), however it may be defined using other combinations of units, as defined in AccelerationUnit
+						 *    
+						 * \source (oriented) ISO 19130 - SD_UndirectedAcceleration
+						 * \note for the directed version see Velocity
+						 */
+						struct Acceleration extends Measure {
+							AccelerationUnit[1]		unit;
+							
+							/** 
+							 * returns the acceleration in the provided unit 
+							 */
+							double getAs(in AccelerationUnit unit) const;
+							void set(in double value, in AccelerationUnit unit);
+							void set(Acceleration other);
+							
+							boolean smaller(in Acceleration other) const;
+							boolean greater(in Acceleration other) const;
+							boolean equals(in Acceleration other, double epsilon) const;
+							
+							Acceleration add(in Acceleration other) const;
+							void addLocal(in Acceleration other);
+							
+							Acceleration sub(in Acceleration other) const;
+							void subLocal(in Acceleration other);
+													
+							Speed getDeltaSpeedOverTime(in Time etablished) const;
+							
+							String readableString() const;
+						}
+						
+						struct AngularAccelerationUnit {
+							AngularSpeedUnit[1]	speedUnit;
+							TimeUnit[1]				timeUnit;
+							
+							String readableString() const;
+						}
+						
+						/** 
+						 * Undirected: AngularAcceleration is the rate of change of the angular velocity as a function of time.
+						 * In calculus terms, AngularAcceleration is the second derivative of angle with respect to time or, alternately, the first derivative of the angular velocity with respect to time.
+						 * The SI units for AngularAcceleration are rad / s^2 (radians per second squared or radians per second per second), however it may be defined using other combinations of units, as defined in AngularAccelerationUnit
+						 *    
+						 * \source (oriented) ISO 19130 - SD_UndirectedAngularAcceleration
+						 * \note for the directed version see AngularVelocity
+						 */
+						struct AngularAcceleration extends Measure {
+							AngularAccelerationUnit[1]	unit;
+							
+							/** 
+							 * returns the angular acceleration in the provided unit 
+							 */
+							double getAs(in AngularAccelerationUnit unit) const;
+							void set(in double value, in AngularAccelerationUnit unit);
+							void set(in AngularAcceleration other);
+							
+							boolean smaller(in AngularAcceleration other) const;
+							boolean greater(in AngularAcceleration other) const;
+							boolean equals(in AngularAcceleration other, double epsilon) const;
+							
+							AngularAcceleration add(in AngularAcceleration other) const;
+							void addLocal(in AngularAcceleration other);
+							
+							AngularAcceleration sub(in AngularAcceleration other) const;
+							void subLocal(in AngularAcceleration other);
+							
+							AngularSpeed getDeltaSpeedOverTime(in Time etablished) const;
+							
+							String readableString() const;
+						}
+						
+						
+						
+						////////////////////////////////////////////////////////////////////////
+						///						Mechanics 									///
+						////////////////////////////////////////////////////////////////////////
+						
+						enum MassUnit {
+							KILOGRAM = 0;
+							GRAM = 1;
+							TONNE = 2;
+						}
+						
+						struct Mass extends Measure {
+							MassUnit[1]		unit;
+							
+							/** 
+							 * returns the mass value with the provided unit 
+							 */
+							double getAs(in MassUnit unit) const;
+							void set(in double value, in MassUnit unit);
+							void set(in Mass other);
+							
+							boolean smaller(in Mass other) const;
+							boolean greater(in Mass other) const;
+							boolean equals(in Mass other, double epsilon) const;
+							
+							Mass add(in Mass other) const;
+							void addLocal(in Mass other);
+							
+							Mass sub(in Mass other) const;
+							void subLocal(in Mass other);
+							
+							
+							String readableString() const;
+						}
+						
+						
+						
+						
+						/**
+						 * one's position in relation to true north, to points on the compass, or to a specific place or object.
+						 * \TODO: again what is the orientation defined? Against North or a specific CoordinateSystem?
+						 */
+						interface Orientation {									
+							Euler toEuler() const;
+							Quaternion toQuaternion() const;
+							Matrix3		toMatrix3() const;							
+							
+							String readableString() const;
+						}
+						
+						/**
+						 * A rotation normally is an action. It uses the same representation as a orientation.  
+						 */
+						interface Rotation {
+							Vector2D transform2D(in Vector2D other) const;
+							Vector3D transform3D(in Vector3D other) const;
+						}
+						
+						struct Euler implements Orientation, Rotation {
+							Angle 		x;
+							Angle		y;
+							Angle		z;
+							
+							/** normalizes all angles to a value between 0 and 360 Degree or 0 and 2*PI */
+							void normalize();
+							
+							void set(in double x, in double y, double z, AngleUnit unit);
+							void set(in Angle x, in Angle y, in Angle z);
+							void set(in Euler other);
+							
+							Euler toEuler() const;
+							Quaternion 	toQuaternion() const;
+							Matrix3		toMatrix3() const;
+						}
+						
+						struct Quaternion implements Orientation, Rotation {
+							double			x;
+							double			y;
+							double			z;
+							double 			w;
+							
+							void fromEuler(Euler e);
+							
+							Quaternion multiply(in Quaternion other) const;
+						
+							Quaternion 	toQuaternion() const;
+							Euler toEuler();
+							Matrix3 toMatrix3();
+							
+							/** set the orientation from Euler angles */
+							void set(in double x, in double y, double z, AngleUnit unit);
+							/** convenience method to set all variables at once */
+							void set(in double x, in double y, double z, double w);
+							void set(in Quaternion value);
+							
+							void normalizeLocal();
+							Quaternion normalize();
+							
+ 						 	/** 
+							 * returns the norm of this quaternion. This is the dot
+						     * product of this quaternion with itself.
+							**/
+							double norm();
+						}
+						
+						
+						
+						
+						
+						
+						
+						/**
+						 * Velocity is the instantaneous rate of change of position with time in a specified direction.  
+						 * The magnitude of the vector representing a value for velocity is expressed in units of measure appropriate for speed.
+						 * \source ISO 19103 Conceptual Schema Language 
+						 */
+						struct Velocity extends DirectedMeasure {
+							Vector[1]						value;
+							SpeedUnit[1]					unit;
+							CoordinateReferenceSystem 		crs;
+							
+							/** 
+							 * returns a vector which components are given in the provided SpeedUnit
+							 * @note if the provided unit is the same as this.unit, this.value is returned. 
+							 */
+							Vector getAs(in SpeedUnit unit) const;
+							Vector interpolate(in Vector current, in Time etablished) const;
+//							Coordinate getPosition(in Coordinate current, in Time etablished) const;
+
+							String readableString() const;
+							
+							Speed getMagnitude() const;
+							
+							void set(in Vector value, in SpeedUnit unit, in CoordinateReferenceSystem crs);
+							void set(in Velocity other);
+							
+							/**
+							 * transforms the velocity into the <param>targetCRS</param> coordinate reference system
+							 * if targetCRS equals to crs, a copy of this velocity is returned
+							 * @param targetCRS destination coordinate reference system
+							 * @return a new velocity, expressed in targetCRS
+							 */
+							Velocity get(in CoordinateReferenceSystem targetCRS) const;
+						}
+						
+						/**
+						 * AngularVelocity is the instantaneous rate of change of angular displacement with time in a specified direction.
+						 * \source ISO 19103 Conceptual Schema Language 
+						 */
+						struct AngularVelocity extends DirectedMeasure {
+							Euler[1]					value;
+							AngularSpeedUnit[1]			unit; 
+							CoordinateReferenceSystem 	crs;
+							
+							String readableString() const;
+							
+							void set(in Euler value, in AngularSpeedUnit unit, in CoordinateReferenceSystem crs);
+							void set(in AngularVelocity other);
+							
+							/** Returns the changed angle for each axis in a given time
+							 * @deprecated use integrate instead
+							 */
+							Euler getChange(in Time elapsed) const;
+							
+							/** Returns the changed angle for each axis in a given time */
+							Euler integrate(in Time elapsed) const;
+							
+							AngularSpeed getX() const;
+							AngularSpeed getY() const;
+							AngularSpeed getZ() const;
+							
+							Euler getAs(AngularSpeedUnit unit) const;
+						}
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						enum PowerUnit {
+							WATT = 0;
+							MILLI_WATT = 1;
+							MICRO_WATT = 2;
+							NANNO_WATT = 3;
+							KILO_WATT = 4;
+							MEGA_WATT = 5;
+							GIGA_WATT = 6;
+							//if more are required....							
+						}
+						struct Power extends Measure {
+							PowerUnit		unit;
+							
+							double getAs ( PowerUnit dst_unit ) const;
+							void set(in double value, in PowerUnit unit );
+							void set(in Power other);
+							
+							boolean smaller(in Power other) const;
+							boolean greater(in Power other) const;
+							boolean equals(in Power other) const;
+						}
+						
+						
+						
+						
+						struct RGBColor {
+							float	r;
+							float 	g;
+							float	b;
+							/** Alpha or transparency value a == 1 no transparency; a == 0 : full transparency*/
+							float 	a = 1.0; 
+						}
+						
+						/** Predefined set of named colors (hex value is annotated)
+						 * \note the first 13 colors has been sorted as they are sorted in the S57 standard
+						 * to allow a direct mapping between S57 enumeration and enumerated color values
+						 */
+						enum PredefinedColour {
+							COLOUR_UNKNOWN = 0;
+							@Color(Hex := "#FFFFFF")
+							WHITE = 1;
+							@Color(Hex := "#000000")
+							BLACK = 2;
+							@Color(Hex := "#FF0000")
+							RED = 3;
+							@Color(Hex := "#00FF00")
+							GREEN = 4;
+							@Color(Hex := "#0000FF")
+							BLUE = 5;
+							@Color(Hex := "#FFFF00")
+							YELLOW = 6;
+							@Color(Hex := "#808080")
+							GREY = 7;
+							@Color(Hex := "#964B00")
+							BROWN = 8;
+							@Color(Hex := "#FFBF00")
+							AMBER = 9;
+							@Color(Hex := "#8F00FF")
+							VIOLET = 10;
+							@Color(Hex := "#FF4F00")
+							ORANGE = 11;
+							@Color(Hex := "#FF00FF")
+							MAGENTA = 12;
+							@Color(Hex := "#FFC0CB")
+							PINK = 13;
+							@Color(Hex:="#F0F8FF")
+							AliceBlue  = 15;
+							@Color(Hex:="#FAEBD7")
+							AntiqueWhite  = 16;
+							@Color(Hex:="#00FFFF")
+							Aqua  = 17;
+							@Color(Hex:="#7FFFD4")
+							Aquamarine  = 18;
+							@Color(Hex:="#F0FFFF")
+							Azure  = 19;
+							@Color(Hex:="#F5F5DC")
+							Beige  = 20;
+							@Color(Hex:="#FFE4C4")
+							Bisque  = 21;
+							@Color(Hex:="#FFEBCD")
+							BlanchedAlmond  = 23;
+							@Color(Hex:="#8A2BE2")
+							BlueViolet  = 25;
+							@Color(Hex:="#DEB887")
+							BurlyWood  = 27;
+							@Color(Hex:="#5F9EA0")
+							CadetBlue  = 28;
+							@Color(Hex:="#7FFF00")
+							Chartreuse  = 29;
+							@Color(Hex:="#D2691E")
+							Chocolate  = 30;
+							@Color(Hex:="#FF7F50")
+							Coral  = 31;
+							@Color(Hex:="#6495ED")
+							CornflowerBlue  = 32;
+							@Color(Hex:="#FFF8DC")
+							Cornsilk  = 33;
+							@Color(Hex:="#DC143C")
+							Crimson  = 34;
+							@Color(Hex:="#00FFFF")
+							Cyan  = 35;
+							@Color(Hex:="#00008B")
+							DarkBlue  = 36;
+							@Color(Hex:="#008B8B")
+							DarkCyan  = 37;
+							@Color(Hex:="#B8860B")
+							DarkGoldenRod  = 38;
+							@Color(Hex:="#A9A9A9")
+							DarkGray  = 39;
+							@Color(Hex:="#A9A9A9")
+							DarkGrey  = 40;
+							@Color(Hex:="#006400")
+							DarkGreen  = 41;
+							@Color(Hex:="#BDB76B")
+							DarkKhaki  = 42;
+							@Color(Hex:="#8B008B")
+							DarkMagenta  = 43;
+							@Color(Hex:="#556B2F")
+							DarkOliveGreen  = 44;
+							@Color(Hex:="#FF8C00")
+							DarkOrange  = 45;
+							@Color(Hex:="#9932CC")
+							DarkOrchid  = 46;
+							@Color(Hex:="#8B0000")
+							DarkRed  = 47;
+							@Color(Hex:="#E9967A")
+							DarkSalmon  = 48;
+							@Color(Hex:="#8FBC8F")
+							DarkSeaGreen  = 49;
+							@Color(Hex:="#483D8B")
+							DarkSlateBlue  = 50;
+							@Color(Hex:="#2F4F4F")
+							DarkSlateGray  = 51;
+							@Color(Hex:="#2F4F4F")
+							DarkSlateGrey  = 52;
+							@Color(Hex:="#00CED1")
+							DarkTurquoise  = 53;
+							@Color(Hex:="#9400D3")
+							DarkViolet  = 54;
+							@Color(Hex:="#FF1493")
+							DeepPink  = 55;
+							@Color(Hex:="#00BFFF")
+							DeepSkyBlue  = 56;
+							@Color(Hex:="#696969")
+							DimGray  = 57;
+							@Color(Hex:="#696969")
+							DimGrey  = 58;
+							@Color(Hex:="#1E90FF")
+							DodgerBlue  = 59;
+							@Color(Hex:="#B22222")
+							FireBrick  = 60;
+							@Color(Hex:="#FFFAF0")
+							FloralWhite  = 61;
+							@Color(Hex:="#228B22")
+							ForestGreen  = 62;
+							@Color(Hex:="#FF00FF")
+							Fuchsia  = 63;
+							@Color(Hex:="#DCDCDC")
+							Gainsboro  = 64;
+							@Color(Hex:="#F8F8FF")
+							GhostWhite  = 65;
+							@Color(Hex:="#FFD700")
+							Gold  = 66;
+							@Color(Hex:="#DAA520")
+							GoldenRod  = 67;
+							@Color(Hex:="#808080")
+							Gray  = 68;
+							@Color(Hex:="#ADFF2F")
+							GreenYellow  = 71;
+							@Color(Hex:="#F0FFF0")
+							HoneyDew  = 72;
+							@Color(Hex:="#FF69B4")
+							HotPink  = 73;
+							@Color(Hex:="#CD5C5C")
+							IndianRed   = 74;
+							@Color(Hex:="#4B0082")
+							Indigo   = 75;
+							@Color(Hex:="#FFFFF0")
+							Ivory  = 76;
+							@Color(Hex:="#F0E68C")
+							Khaki  = 77;
+							@Color(Hex:="#E6E6FA")
+							Lavender  = 78;
+							@Color(Hex:="#FFF0F5")
+							LavenderBlush  = 79;
+							@Color(Hex:="#7CFC00")
+							LawnGreen  = 80;
+							@Color(Hex:="#FFFACD")
+							LemonChiffon  = 81;
+							@Color(Hex:="#ADD8E6")
+							LightBlue  = 82;
+							@Color(Hex:="#F08080")
+							LightCoral  = 83;
+							@Color(Hex:="#E0FFFF")
+							LightCyan  = 84;
+							@Color(Hex:="#FAFAD2")
+							LightGoldenRodYellow  = 85;
+							@Color(Hex:="#D3D3D3")
+							LightGray  = 86;
+							@Color(Hex:="#D3D3D3")
+							LightGrey  = 87;
+							@Color(Hex:="#90EE90")
+							LightGreen  = 88;
+							@Color(Hex:="#FFB6C1")
+							LightPink  = 89;
+							@Color(Hex:="#FFA07A")
+							LightSalmon  = 90;
+							@Color(Hex:="#20B2AA")
+							LightSeaGreen  = 91;
+							@Color(Hex:="#87CEFA")
+							LightSkyBlue  = 92;
+							@Color(Hex:="#778899")
+							LightSlateGray  = 93;
+							@Color(Hex:="#778899")
+							LightSlateGrey  = 94;
+							@Color(Hex:="#B0C4DE")
+							LightSteelBlue  = 95;
+							@Color(Hex:="#FFFFE0")
+							LightYellow  = 96;
+							@Color(Hex:="#00FF00")
+							Lime  = 97;
+							@Color(Hex:="#32CD32")
+							LimeGreen  = 98;
+							@Color(Hex:="#FAF0E6")
+							Linen  = 99;
+							@Color(Hex:="#800000")
+							Maroon  = 101;
+							@Color(Hex:="#66CDAA")
+							MediumAquaMarine  = 102;
+							@Color(Hex:="#0000CD")
+							MediumBlue  = 103;
+							@Color(Hex:="#BA55D3")
+							MediumOrchid  = 104;
+							@Color(Hex:="#9370DB")
+							MediumPurple  = 105;
+							@Color(Hex:="#3CB371")
+							MediumSeaGreen  = 106;
+							@Color(Hex:="#7B68EE")
+							MediumSlateBlue  = 107;
+							@Color(Hex:="#00FA9A")
+							MediumSpringGreen  = 108;
+							@Color(Hex:="#48D1CC")
+							MediumTurquoise  = 109;
+							@Color(Hex:="#C71585")
+							MediumVioletRed  = 110;
+							@Color(Hex:="#191970")
+							MidnightBlue  = 111;
+							@Color(Hex:="#F5FFFA")
+							MintCream  = 112;
+							@Color(Hex:="#FFE4E1")
+							MistyRose  = 113;
+							@Color(Hex:="#FFE4B5")
+							Moccasin  = 114;
+							@Color(Hex:="#FFDEAD")
+							NavajoWhite  = 115;
+							@Color(Hex:="#000080")
+							Navy  = 116;
+							@Color(Hex:="#FDF5E6")
+							OldLace  = 117;
+							@Color(Hex:="#808000")
+							Olive  = 118;
+							@Color(Hex:="#6B8E23")
+							OliveDrab  = 119;
+							@Color(Hex:="#FF4500")
+							OrangeRed  = 121;
+							@Color(Hex:="#DA70D6")
+							Orchid  = 122;
+							@Color(Hex:="#EEE8AA")
+							PaleGoldenRod  = 123;
+							@Color(Hex:="#98FB98")
+							PaleGreen  = 124;
+							@Color(Hex:="#AFEEEE")
+							PaleTurquoise  = 125;
+							@Color(Hex:="#DB7093")
+							PaleVioletRed  = 126;
+							@Color(Hex:="#FFEFD5")
+							PapayaWhip  = 127;
+							@Color(Hex:="#FFDAB9")
+							PeachPuff  = 128;
+							@Color(Hex:="#CD853F")
+							Peru  = 129;
+							@Color(Hex:="#DDA0DD")
+							Plum  = 131;
+							@Color(Hex:="#B0E0E6")
+							PowderBlue  = 132;
+							@Color(Hex:="#800080")
+							Purple  = 133;
+							@Color(Hex:="#663399")
+							RebeccaPurple  = 134;
+							@Color(Hex:="#BC8F8F")
+							RosyBrown  = 136;
+							@Color(Hex:="#4169E1")
+							RoyalBlue  = 137;
+							@Color(Hex:="#8B4513")
+							SaddleBrown  = 138;
+							@Color(Hex:="#FA8072")
+							Salmon  = 139;
+							@Color(Hex:="#F4A460")
+							SandyBrown  = 140;
+							@Color(Hex:="#2E8B57")
+							SeaGreen  = 141;
+							@Color(Hex:="#FFF5EE")
+							SeaShell  = 142;
+							@Color(Hex:="#A0522D")
+							Sienna  = 143;
+							@Color(Hex:="#C0C0C0")
+							Silver  = 144;
+							@Color(Hex:="#87CEEB")
+							SkyBlue  = 145;
+							@Color(Hex:="#6A5ACD")
+							SlateBlue  = 146;
+							@Color(Hex:="#708090")
+							SlateGray  = 147;
+							@Color(Hex:="#708090")
+							SlateGrey  = 148;
+							@Color(Hex:="#FFFAFA")
+							Snow  = 149;
+							@Color(Hex:="#00FF7F")
+							SpringGreen  = 150;
+							@Color(Hex:="#4682B4")
+							SteelBlue  = 151;
+							@Color(Hex:="#D2B48C")
+							Tan  = 152;
+							@Color(Hex:="#008080")
+							Teal  = 153;
+							@Color(Hex:="#D8BFD8")
+							Thistle  = 154;
+							@Color(Hex:="#FF6347")
+							Tomato  = 155;
+							@Color(Hex:="#40E0D0")
+							Turquoise  = 156;
+							@Color(Hex:="#F5DEB3")
+							Wheat  = 158;
+							@Color(Hex:="#F5F5F5")
+							WhiteSmoke  = 160;
+							@Color(Hex:="#9ACD32")
+							YellowGreen  = 162;
+						}
+						
+						struct Color extends RGBColor {
+							PredefinedColour	color;
+						}
+						
+						
+						
+						
+					}
+				}
+			}
+		}
+	}
+}
+	

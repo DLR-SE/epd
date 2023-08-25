@@ -1,0 +1,46 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>de.dlr-se.emir.runtime</groupId>
+		<artifactId>runtime</artifactId>
+		<version>4.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>epf</artifactId>
+	<name>eMIR Plugin Framework</name>
+	<description>Framework to load plugins and runtime dependencies from maven</description>
+
+	<dependencies>
+        <dependency>
+			<groupId>de.dlr-se.emir.runtime</groupId>
+			<artifactId>ucore</artifactId>
+			<version>${runtime.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.sbehrensen</groupId>
+			<artifactId>tesla-aether</artifactId>
+			<version>0.0.4-SNAPSHOT</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.reactivex.rxjava3/rxjava -->
+		<dependency>
+			<groupId>io.reactivex.rxjava3</groupId>
+			<artifactId>rxjava</artifactId>
+			<version>${rxjava.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.zafarkhaja</groupId>
+			<artifactId>java-semver</artifactId>
+			<version>0.9.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>

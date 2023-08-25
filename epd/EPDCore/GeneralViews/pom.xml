@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>de.dlr-se.emir.epd</groupId>
+        <artifactId>EPDCore</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>GeneralViews</artifactId>
+    <description>
+        Adds basic UI components to the EPD like a console, workspace and property-view, additionally adds basic menu
+        entries.
+    </description>
+
+    <properties>
+        <eMIR-Plugin-Class>de.emir.rcp.GeneralViewsPlugin</eMIR-Plugin-Class>
+    </properties>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/uk.ac.ed.ph.snuggletex/snuggletex-core -->
+        <dependency>
+            <groupId>uk.ac.ed.ph.snuggletex</groupId>
+            <artifactId>snuggletex-core</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/de.rototor.jeuclid/jeuclid-core -->
+        <dependency>
+            <groupId>de.rototor.jeuclid</groupId>
+            <artifactId>jeuclid-core</artifactId>
+            <version>3.1.14</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+                <exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis-ext</artifactId>
+				</exclusion>
+			</exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>de.dlr-se.emir.model.universal</groupId>
+            <artifactId>IO</artifactId>
+            <version>${model.version}</version>
+        </dependency>
+
+        <dependency>
+            <!-- Required by the OperationView to get access to ICapability interface -->
+            <groupId>de.dlr-se.emir.model.universal</groupId>
+            <artifactId>Physics</artifactId>
+            <version>${model.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.dlr-se.emir.runtime</groupId>
+            <artifactId>uiplugincore</artifactId>
+            <version>${runtime.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fifesoft</groupId>
+            <artifactId>autocomplete</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.lgooddatepicker</groupId>
+            <artifactId>LGoodDatePicker</artifactId>
+            <version>11.2.1</version>
+        </dependency>
+        
+        <dependency>
+	    	<groupId>com.github.kdekooter</groupId>
+	    	<artifactId>xml-text-editor</artifactId>
+	    	<version>c0f600076e</version>
+		</dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

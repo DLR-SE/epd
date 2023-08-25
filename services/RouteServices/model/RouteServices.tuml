@@ -1,0 +1,83 @@
+#import "classpath:/model/IEC61174.tuml"
+#import "classpath:/model/IO.tuml"
+
+using UCore.de.*;
+/**
+* insert documentation for the model 
+* 
+*/
+Model RouteServices { 
+	package de {
+		package emir {
+			package service {
+				package routeservices {		
+					/** Imports a route from an external route definition */
+					abstract class RouteImport {
+						/** imports the route from an external route definition. 
+						 * @return a valid route if the definition could be read or null if the route was not valid
+						 */
+						Route importRoute(in Object definition, in CoordinateReferenceSystem crs) const;
+					}
+					
+					/**
+					 * Exports a route from internal representatin (IEC61174) to an external format
+					 */
+					abstract class RouteExport {
+						/**
+						 * Exports the route to the given data stream
+						 * @param route route to be exported
+						 * @param stream target to which the route should be exported
+						 */
+						abstract boolean exportRoute(in Route route, inout OutputStream stream);
+					}
+					
+					class GMLRouteImport extends RouteImport {
+					}
+					
+					/** Loads a simple txt based route file, as it could be exported from the EPD
+					 * e.g: 
+					 * Route Template
+					 * Start	56 17.000N	011 00.000E	10.0	1	0.1,0.1	0.0
+					 * Stop		56 17.000N	012 20.000E	0.00	0	0.0,0.0	0.5
+					 */
+					class SimpleRouteFile extends RouteImport {	
+						/** if set to true, the importer expects the routes waypoints, to be defined in dezimal degress (53.84, 8.5) 
+						 * otherwise the degree minute second notation (56�17.3''
+						 */
+						boolean			dezimalNotation = false;
+					}
+					
+					class CSVRouteFile extends RouteImport {
+						
+					}
+					
+					/** Imports an RTZ (XML) route file
+					 * 
+					 * <?xml version="1.0"?>
+					 * <route xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.0" xmlns="http://www.cirm.org/RTZ/1/0">
+					 *   <routeInfo routeName="Barcelona - Las Palmas" />
+					 *   <waypoints>
+					 *     <waypoint name="" radius="0">
+					 *       <position lat="41.3335786967608" lon="2.16797561484445" />
+					 *     </waypoint>
+					 *     <waypoint name="" radius="0.2">
+					 *       <position lat="41.3276183895413" lon="2.16687065350792" />
+					 *       <leg starboardXTD="0.1" portsideXTD="0.1" geometryType="Orthodrome" speedMax="19" />
+					 *     </waypoint>
+					 */
+					class RTZRouteImport extends RouteImport {
+					}
+				
+					class RTZRouteExport extends RouteExport {
+						
+					}
+					
+					class SimpleRouteFileExport extends RouteExport{
+						
+					}	
+					
+				}
+			}
+		}		
+	}
+}	

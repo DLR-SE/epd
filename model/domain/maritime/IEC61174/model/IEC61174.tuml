@@ -1,0 +1,105 @@
+#import "classpath:/model/Spatial.tuml"
+ 
+using UCore.de.*;
+/**
+* insert documentation for the model 
+* 
+*/
+Model IEC61174 {
+	package de {
+		package emir {
+			package model {
+				package domain {
+					package maritime {
+						package iec61174 {
+
+							class Extension {
+								String manufactor;
+								String name;
+								String version;
+							}
+							abstract class IECElementWithExtension {
+								val Extension[*]		extensions;
+							}
+							
+							<< FeatureType >>
+							class WayPoints extends IECElementWithExtension {
+								val DefaultWayPoint			defaultWaypoint;
+								val Waypoint[*]				waypoints;
+							}
+							<< ComplexAttributeType >>
+							class Waypoint extends IECElementWithExtension {
+								int 			^id;
+								String 			name;
+								val Coordinate	position;
+								double			radius;
+								int				revision;
+								/** Each waypoint optionally contains information related to the leg from the previous waypoint */
+								val Leg			leg;
+							}
+							enum LegGeometryType {
+								Loxodome = 0;
+								Orthodome = 1;
+							}
+							/**
+							 * For documentation see IEC61174
+							 */
+							<< FeatureType >>
+							class Leg {
+								Distance 		starboardXTD;
+								Distance 		portsideXTD;
+								Distance 		safetyContour;
+								Distance		safetyDepth;
+								LegGeometryType	geometryType;
+								Speed 			planSpeedMin;
+								Speed			planSpeedMax;
+								Distance		draughtForward;
+								Distance		draughtAft;
+								
+								String			legInfo;
+								String			legNote1;
+								String			legNote2;
+							}
+							<< ComplexAttributeType >>
+							class DefaultWayPoint extends IECElementWithExtension {
+								double 	radius;
+							}
+							
+							
+							
+							<< FeatureType >>
+							class Route extends IECElementWithExtension{
+								String				name;
+								String 				version;
+								
+								val WayPoints		waypoints;
+								val RouteSchedule	schedule;
+								
+								/**
+								 * returns the length of the overall route, from the first to the last waypoint
+								 */
+								Length getLength() const;
+								/** returns the length from the coordinate to the end of the route. 
+								 */
+								Length getLength(Coordinate coord) const;
+								
+								/**
+								 * Returns the envelope containing all waypoints of this route
+								 */
+								Envelope getEnvelope() const;
+							}
+							
+							
+							struct RouteSchedule {
+								@DateTime   
+								Time			estimatedTimeOfDepature;
+								@DateTime
+								Time			estimatedTimeOfArrival;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ASCII"?>
+<csgc:CSharpUMLGenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:csgc="http://www.sos.de/de/sos/uml/UMLGenCSharp">
+  <model href="platform:/resource/SimpleFeatures/model/SimpleFeature.tuml#//@model"/>
+  <usedModels xsi:type="csgc:CSharpUMLGenModel" href="platform:/resource/Core/target/classes/Core.csgc#/"/>
+  <usedModels xsi:type="csgc:CSharpUMLGenModel" href="platform:/resource/Spatial/target/classes/Spatial.csgc#/"/>
+  <projects xsi:type="csgc:CSDataModelProject" rootDirectory="." sourceDirectory="src/main/csharp" testDirectory="src/test/csharp">
+    <project xsi:type="csgc:CSProjectModule" artifactID="SimpleFeatures" version="0.0.1-SNAPSHOT"/>
+    <interfaceModule xsi:type="csgc:CSDataModelInterfaceModule" prefix=""/>
+    <implementationModule xsi:type="csgc:CSDataModelImplementationModule"/>
+    <metaModule xsi:type="csgc:CSDataModelMetaModule"/>
+  </projects>
+</csgc:CSharpUMLGenModel>

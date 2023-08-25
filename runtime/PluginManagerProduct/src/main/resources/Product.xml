@@ -1,0 +1,23 @@
+<project>
+
+	<!-- This is NOT a MAVEN file it just uses a similar syntax -->
+
+	<name>PluginManagerProduct</name>
+	<description>This is the PluginManager. Use it to modify an existing product configuration or create a new product from scratch.</description>
+	<localRepos>~/.m2/repository</localRepos>
+
+	<workspaces>
+	</workspaces>
+
+	<dependencies>
+		<dependency>
+			<groupId>de.emir.runtime</groupId>
+			<artifactId>PluginManagerPlugin</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+	</repositories>
+
+</project>

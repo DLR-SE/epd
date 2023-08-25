@@ -1,0 +1,569 @@
+/** 
+* insert documentation for the model 
+* 
+*/ 
+Model UCore {    
+	package de {
+		
+		typedecl byte;
+		typedecl binary;
+		typedecl int;
+		typedecl double;
+		typedecl float;
+		typedecl long;
+		typedecl String;
+		typedecl void;
+		typedecl Object;
+		typedecl boolean;
+		typedecl URL;
+		
+		
+		package emir {
+			package tuml {
+				package ucore {
+					package runtime {
+						 package utils {
+						 	
+						 	
+						 	
+						 	class QualifiedName {
+						 		String[*] segments; 
+						 		
+						 		String toString(in String delimiter) const;
+						 		int numSegments() const;
+						 		
+						 		QualifiedName removeSegmentsFromEnd(in int num);
+						 		void localRemoveSegmentsFromEnd(in int num);
+						 		
+						 		QualifiedName removeSegmentsFromStart(in int num);
+						 		void localRemoveSegmentsFromStart(in int num);
+						 		
+						 		QualifiedName appendFront(in String segment);
+						 		void localAppendFront(in String segment);
+						 		
+						 		QualifiedName appendBack(in String segment);
+						 		void localAppendBack(in String segment);
+						 		
+						 		String lastSegment() const;
+						 		String firstSegment() const;
+						 		String segment(in int idx) const;
+						 		
+						 		boolean empty() const; //c++ - style
+						 		boolean isEmpty() const; //java-style
+						 	}
+						 	
+						 	/**
+						 	 * creates a qualified name for an UObject
+						 	 * therefore the QualifiedNameProvider checks the objects's class
+						 	 * if it contains a name feature
+						 	 */
+						 	class QualifiedNameProvider {
+						 		/** creates a qualified name for the given object, by appending
+						 		 * the value of the "name" feature of the object itself and all of its parents
+						 		 */
+						 		QualifiedName get(in UObject obj) const;
+						 		
+						 		/** 
+						 		 * creates a qualified name for the given object, that has a limited length
+						 		 */
+						 		QualifiedName get(in UObject obj, in int depth) const;
+						 		
+						 	}
+						 	/** extends the QualifiedNameProvider for the capability to use different 
+						 	 * features to get the name
+						 	 */
+						 	class QualifiedNameProviderExt extends QualifiedNameProvider {
+						 		/** the QualifiedNameProviderExt checks if the UObject contains one of the 
+						 		 * nameFeatures, and uses this to create the name
+						 		 * @note if more than one feature is available, the first matching feature fires
+						 		 */
+						 		val UStructuralFeature[*] nameFeatures;
+						 	}
+						 	
+						 	
+						 	
+						 	
+						 	
+						 	
+						 	
+						 	/////////////////////////////////////////////////////////////////////////////////
+						 	//				Pointer
+						 	/////////////////////////////////////////////////////////////////////////////////
+						 	
+						 	/**
+							 * A abstract pointer to an element into an object tree. 
+							 * In contrast to pointer in C++ or other languages, this pointer is not pointing to a specific 
+							 * object, but an position inside an object hierarchy, thus the underlying object may change, even if the 
+							 * pointer remains the same. 
+							 */
+							interface Pointer {
+								/** @returns the object, this pointer currently points on or null if not valid */
+								Object getValue() const;
+								/** sets the value of the pointed instance
+								 * the setValue behavior depends on the kind of pointer
+								 * - if the pointer is a FeaturePointer: 
+								 * -- if the feature is a list and the listIndex is invalid (<0) the value (if not null) is added to the list
+								 * -- if the feature is a list and the listIndex is valid, the value is set to the corresponding index in the list
+								 * -- if the feature is not a list and the value is not null, the feature value will be set (corresponds to eSet)
+								 * -- if the feature is not a list and the value is null, eUnSet is called. This not necessarily results in setting the value to null, but to its default value
+								 * - if the pointer is a ObjectPointer, the instance is changed
+								 */
+								void setValue(in Object value);
+								
+								/** 
+								 * Assign differs from setValue, in that case that the directly pointed instance is not changed, but 
+								 * all feature values from incoming value will be copied to the pointed instance. 
+								 * Features that are not part of the pointed instance, but can be found in the value, will be ignored 
+								 * Therefore this method may be used, if the incoming value is a superclass of the pointed instance
+								 * (e.g. pointer(Type: PhysicalObject)->assign(Type: Vessel))
+								 * @param copyContainments if set to true, the value of a containment feature is copied otherwise it is simply set. 
+								 */
+								void assign(in Object value, boolean copyContainments);
+								
+								/** @returns true if the pointer is currently pointing to an existing object */
+								boolean isValid() const;
+								
+								/** returns the type of the object, this pointer currently points on or null if not valid */
+								UType getType() const;
+								/** 
+								 * returns the expected type of the pointed object. This type may differ from <code>getType</code> in 
+								 * terms that it may is more abstract.
+								 */
+								UType getExpectedType() const;
+								
+								/** convinience method, that checks the <code>getValue</code> method, if it returns an UObject */
+								UObject getUObject() const;
+								
+								/** returns the container of the pointed object */
+								UObject getPointedContainer() const; 
+								
+								/** returns the feature that is used to access the pointed value */ 
+								UStructuralFeature getPointedFeature() const;
+								
+								/**
+								 * Changes the anchor of the pointer, e.g. the one and only fixed position within this pointer. <br> 
+								 *	- In case of a ObjectPointer, the instance is changed
+								 * 	- In case of an FeaturePointer the instance is changed, but feature and list index remain the same
+								 * 	- In case of an PointerChain the very first parent pointer is changed, that is not an PointerChain. 
+								 * 
+								 * Use this method to realocate a pointer to another tree with the same structure as the old tree  
+								 */
+								abstract void changeAnchor(in UObject root);
+								
+								/** creates a copy of this pointer that points to the same instance */
+								abstract Pointer copy();
+							}
+						
+							class ObjectPointer implements Pointer { 
+								UObject				theInstance;
+							}
+							class FeaturePointer implements Pointer {
+								UObject					theInstance;
+								ref IStructuralElement	feature;  
+								int						listIndex;
+							}
+							class PointerChain extends FeaturePointer {
+								Pointer 				parent;
+							}
+							
+							/**
+							 * The TypedPointer is dynamic pointer type, that search for the listIndex .th instance of a given type
+							 * inside an UObject (provided by the parent pointer). 
+							 * Thereby the result may change between two calls to getValue(), if in the meantime a new instance has been added. 
+							 * 
+							 * To find the concrete value, the TypePointer iterates (within each call) through all UStructuralFeatures 
+							 * and checks if the result type inherits the specified type. If that is the case and the value is not null
+							 * the index value is decremented until the index is <= 0. if the index is <= 0 the result is returned. 
+							 * 
+							 * With regard to list features the TypePointer iterates through all instances of the list (always decrement the index if the type match)
+							 * before going to the next feature.
+							 * 
+							 * @note the TypePointer does not iterate through operations, as they may have side effects 
+							 */
+							class TypePointer implements Pointer {
+								Pointer 				parent; 
+								UType					type;
+								int						listIndex;
+							}
+							
+							
+						}
+						 
+						class UAnnotationDetail {
+						  	String[1] key;
+						  	String[1] value;
+						}
+						class UAnnotation {
+							String[1] name;
+						  	val UAnnotationDetail[*] details;
+						  	
+						  	void addDetail(in String key, in String value);
+						  	UAnnotationDetail getDetail(String key);
+						}
+							
+						abstract class UModelElement {
+							String 					documentation;
+						  	val UAnnotation[*]		annotations;
+						  	ref UPackage			^package;					  
+						   
+						  	/** mark the meta data to be freezed, in this case, it can not be changed anymore */
+						  	void freeze();
+						  	/** check if the meta data has been freezed */
+						  	boolean isFrozen() const;
+						  
+						  	UAnnotation createAnnotation(in String name);
+						  	UAnnotation getAnnotation(String name);
+						  	UAnnotationDetail getAnnotationDetail(String name, String key);
+						  	
+						  	/**
+							 * initializes the model element, e.g. create private member for reflection access
+							 */
+							abstract void build();
+						}
+						
+						abstract class UNamedElement extends UModelElement{
+							String name;
+							
+							utils.QualifiedName getQualifiedName() const;
+						}
+							
+						class UModel extends UModelElement {					  
+							String[1]				modelName;
+						  	String 					fieldOfApplication;
+						  	String 					scope;
+						  	String 					versionDate;
+						  
+						  	val UPackage[1] 			rootPackage;
+						}
+						
+												
+						class UPackage extends UNamedElement {
+							val UModelElement[*] 	content
+													
+							/** 
+							 * creates a new sub package of this package
+							 * @note if the package allready exists (getSubpackage(name, true)) the existing package is returned
+							 */
+							UPackage createPackage(String name);
+							/**
+							 * creates a new interface within this package
+							 * @precondition isFrozen() == false
+							 */
+							UInterface createInterface(in String name);
+							/**
+							 * creates a new class within this package
+							 * @precondition isFrozen() == false
+							 */
+							UClass createClass(in String name);
+							/** 
+							 * creates a new enumeration in this package
+							 * @precondition isFrozen() == false
+							 */
+							UEnum createEnumeration(in String name);
+							
+							/**
+							 * returns the subpackage with the given namen, if it exists
+							 * @param name the name of the subpackage
+							 * @param ownedOnly if set to true, only this package is checked for the subpackage, otherwise
+							 * all owned subpackages (getContent().filter(typeof(UPackage))) will be checked too. 
+							 */
+							UPackage getSubpackage(in String name, in boolean ownedOnly) const;
+							
+							UClassifier getClassifier(in String name, in boolean ownedOnly) const;
+							UClassifier getClassifier(in utils.QualifiedName qn, in boolean ownedOnly) const;							
+						}
+						
+						enum NotificationType {
+							SET = 0;
+							UNSET = 1;
+							ADD = 2;
+							ADD_MANY = 3;
+							REMOVE = 4;
+							REMOVE_MANY = 5;
+						}
+						struct Notification {
+							NotificationType[1]		type;
+							ref UObject 			^instance;
+							ref UStructuralFeature	feature; 
+						}
+						interface IValueChangeListener {
+							/**
+							 * This method is called, when a feature has changed
+							 * @warn normally the new value has not been applied when this method is called. 
+							 * To get access to the new value, use notification.getNewValue()
+							 */
+							void onValueChange(in Notification notification);
+						}
+						
+//TODO uncomment and implement if resource support is required
+
+//						class Resource {
+//							URL					url;	
+//							ref UObject[*] 		content;
+//						}
+//						class ResourceSet {
+//							val Resource[*]		resources;
+//							
+//							Resource getResource(in URL url);  
+//						}
+						
+						abstract class UObject {							
+							/** the type of this object */
+							ref readonly UClass					uClassifier;
+							
+							/** if this instance is part of an composite association (composition)
+							 * the container points to the owner of this instance
+							 */
+							ref readonly UObject				uContainer;
+							ref readonly UStructuralFeature		uContainingFeature;
+							
+							/**
+							 * register a listener that is notified, whenever the value of an structural feature changes
+							 * @note an instance of listener can only be registered once, if the listener instance is already
+							 * registered, this method has no effect
+							 * @note this listener will be notified for each change, if you would like to have a selective
+							 * notification, use registerListener(feature, listener)
+							 */
+							void registerListener(in IValueChangeListener listener);
+							
+							/**
+							 * registers a listener that is notified, only if the value of the given feature changes
+							 * @note an instance of IValueChangeListener can only be registered once per UStructuralFeature. 
+							 * If this listener instance is already registered, this method has no effect. 
+							 */
+							void registerListener(in UStructuralFeature feature, in IValueChangeListener listener);
+							
+							/**
+							 * removes the listener
+							 * @note if the same instance of the listener has also been registered for an specific structural feature
+							 * this registration is not touched. 
+							 */
+							void removeClassifierListener(in IValueChangeListener listener);
+							/**
+							 * removes the listener from notification for the given feature. 
+							 * @note if the same instance of the listener has also been registered for any other feature, or for the whole class
+							 * this registrations are not touched
+							 */
+							void removeListener(in UStructuralFeature feature, in IValueChangeListener listener);
+							
+							/**
+							 * removes all listener for the given feature
+							 * @note if a listener for the whole class has been registered, this registration is not touched. 
+							 */
+							void removeAllListener(in UStructuralFeature feature);
+							/**
+							 * removes all listener that has not been registered for a specific structural feature. 
+							 */
+							void removeAllClassifierListener();
+							
+							/**
+							 * completly remove the listener from this UObject instance
+							 * 
+							 */
+							void removeListener(in IValueChangeListener listener);
+							
+							boolean needNotification(in UStructuralFeature feature) const;
+							
+							Object unset(in UStructuralFeature feature);
+							
+							Object uGet(in UStructuralFeature feature);
+							Object uGet(in UStructuralFeature feature, in int index);
+							
+							void uSet(in UStructuralFeature feature, in Object value);
+							void uAdd(in UStructuralFeature feature, in Object value);
+							void uAdd(in UStructuralFeature feature, in int index, in Object value);
+						
+							/**
+							 * Invokes an operation associated with this object (and defined in its UClassifier)
+							 * in case the Operation has more than one parameter, the value shall contain the paramter values as array, in the same 
+							 * order as the parameters. In case the Operation has no parameter the value may be null or any value (its ignored). 
+							 * @param operation the operation to be called on this instance
+							 * @param the parameter value(s) or null
+							 * @return the return value of the function or null if the operation is "void" operation
+							 */
+							Object invoke(in UOperation operation, in Object value);
+//							/** returns the resource where this instance is persisted in. */
+//							Resource getResource() const; 	
+						}
+						
+						/////////////////////////////////////////////////////////////////////////////////
+						//				Types	
+						/////////////////////////////////////////////////////////////////////////////////
+						
+						abstract class UType extends UNamedElement {
+							/** checks if the query type inherits from this type */
+							boolean inherits(in UType query) const;
+						}
+						class UPrimitiveType extends UType {}						
+						
+						abstract class UClassifier extends UType {
+							ref UClassifier[*] 	interfaces;
+						  	val UOperation[*] 		operations; 
+						  	
+						  	/**
+						  	 * adds a new superType / parent type to this classifier
+						  	 * @precondition isFrozen() == false
+						  	 */
+						  	void addParent(in UClassifier cl);
+						  	/** 
+						  	 * adds a new operation to this type
+						  	 * @precondition isFrozen() == false
+						  	 */
+						  	UOperation createOperation(in String name);				  
+						  
+						  	/** returns all structural features of this classifier, 
+						  	 * this includes the owned features as well as all features of 
+						  	 * its parents
+						  	 */
+						  	abstract UStructuralFeature[*] getAllStructuralFeatures();
+						  	
+						  	/**
+						  	 * returns all structural features, that have a primitive type (int, long, double, ...) 
+						  	 * as type; e.g. feature.isAttribute() == true
+						  	 */
+						  	UStructuralFeature[*] getAllAttributes() const;
+						  	/** 
+						  	 * returns all structural features that have a complex type; e.g. feature.isReference() == true
+						  	 */
+						  	UStructuralFeature[*] getAllReferences() const;
+						  	
+						  	/**
+							 * returns structural features. (references)
+							 * 
+							 * @param type minimum filter, only features, with a more rigid association type will be added
+							 * into the iterator, following the order: 
+							 * - COMPOSITION : only composite features
+							 * - ASSOCIATION: association and composition
+							 * - AGGREGATION: aggregation, association and compositon
+							 * - PROPERTY: all complex features
+							 * @return
+							 */
+						  	UStructuralFeature[*] getAllStructuralFeatures(UAssociationType type) const;
+						  	
+						  	UStructuralFeature getFeature(in String name) const; 
+						  	
+						  	UOperation getOperation(in String name) const;
+						  
+							UClassifier[*] getAllParents(); //including YInterfaces
+							
+						}
+						
+						class UInterface extends UClassifier {}
+						class UClass extends UClassifier {
+							boolean 						~abstract = false;
+						  	ref UClassifier					superType;
+						  	val UStructuralFeature[*] 		structuralFeatures;
+						  	
+						  	/** 
+						  	 * creates a new StructuralFeature for this class
+						  	 * @precondition isFrozen() == false
+						  	 */
+						  	UStructuralFeature createFeature(in String name);
+						  	
+						  	/**
+						  	 * Creates a new instance of the corresponding type
+						  	 */
+						  	UObject createNewInstance() const;
+						}
+							
+						class UEnum extends UClassifier {
+						  val UEnumerator[*] literals;
+						  
+						  /** 
+						   * creates a new Literal
+						   * @precondition isFrozen() == false
+						   */
+						  UEnumerator createLiteral(in String name, in int value);
+						  
+						  Object createNewInstance(in String name);
+						  Object createNewInstance(in int value);
+						  Object createNewInstance(in UEnumerator enumerator);
+						  
+						  UEnumerator getEnumerator(in String name);
+						  UEnumerator getEnumerator(in int value);
+						}
+							
+						class UEnumerator extends UNamedElement{
+							int 				value = 0;
+						}
+													
+						class UException extends UType {
+							ref UException superType;
+							String standardMessage;
+						}
+							
+						/////////////////////////////////////////////////////////////////////////////////
+						//				Variables	
+						/////////////////////////////////////////////////////////////////////////////////
+						
+						class UMultiplicity {
+							int			lower = 0;
+							int			upper = 1;
+						}
+						instance DefaultMultiplicity : UMultiplicity {
+							UMultiplicity.lower = 0
+							UMultiplicity.upper = 1
+						}
+						
+						interface IStructuralElement {
+							String getName() const;
+							String getDocumentation() const;
+							
+							UType getType() const;
+							UMultiplicity getMultiplicity() const;
+							
+							/** returns true, if the more than one element can be stored within this feature ( upperBound != 1) */
+							boolean isMany() const;
+						}
+						abstract class UTypedElement extends UNamedElement{ 
+							ref UType					type;
+							val UMultiplicity 			multiplicity;
+							
+							/** returns true, if the type (getType()) references to an UPrimitiveType */
+							boolean isAttribute() const;
+							/** returns true if the type is a complex type, e.g. isAttribute() == false */
+							boolean isReference() const;
+							/** returns true, if the more than one element can be stored within this feature ( upperBound != 1) */
+							boolean isMany() const;
+						}
+						class UStructuralFeature extends UTypedElement implements IStructuralElement {
+							UAssociationType			aggregation;
+							
+							UClass getOwner() const;
+							
+							/**
+							 * returns true if the feature can not be written, though the reflection system
+							 * @note a feature may be read only even if a setter is implemented within the implementation class, but not definied within the interface
+							 */
+							boolean isReadOnly() const;
+						}
+						
+						class UOperation extends UNamedElement implements IStructuralElement { 
+						  boolean 							~abstract;
+						  boolean							~const;
+						  val UParameter[*]					parameters;
+						}
+						
+						
+						class UParameter extends UTypedElement {
+						  	UDirectionType direction;
+						} 
+						
+						enum UDirectionType {
+						  	IN = 0;
+						  	OUT = 1;
+						  	INOUT = 2;
+						  	RETURN = 3;
+						}
+						enum UAssociationType {
+						  	ASSOCIATION = 0;
+						  	AGGREGATION = 1;
+							COMPOSITION = 2;
+							PROPERTY = 3;
+						}
+					}
+				}
+			}
+		}
+	}
+}

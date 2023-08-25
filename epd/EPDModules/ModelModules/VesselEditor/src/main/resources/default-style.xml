@@ -1,0 +1,71 @@
+<mxStylesheet>
+
+    <add as="EditPoint">
+        <add as="shape" value="ellipse"/>
+        <add as="perimeter" value="ellipsePerimeter"/>
+        <add as="fillColor" value="orange"/>
+        <add as="fontSize" value="1"/>
+    </add>
+    <add as="IntermediatePoint">
+        <add as="shape" value="ellipse"/>
+        <add as="perimeter" value="ellipsePerimeter"/>
+        <add as="fillColor" value="cyan"/>
+        <add as="fontSize" value="0"/>
+    </add>
+    <add as="defaultVertex" extend="defaultVertex">
+        <add as="fillColor" value="#adc5ff"/>
+        <add as="gradientColor" value="#7d85df"/>
+        <add as="strokeColor" value="#5d65df"/>
+        <add as="fontSize" value="0"/>
+        <add as="fontColor" value="#1d258f"/>
+        <add as="fontFamily" value="Verdana"/>
+    </add>
+    <add as="defaultEdge" extend="defaultEdge">
+        <add as="labelBackgroundColor" value="white"/>
+        <add as="rounded" value="1"/>
+        <add as="edgeStyle" value="straight"/>
+        <add as="strokeColor" value="#5d65df"/>
+        <add as="fontSize" value="0"/>
+        <add as="fontColor" value="#1d258f"/>
+        <add as="fontFamily" value="Verdana"/>
+    </add>
+    <add as="label">
+        <add as="shape" value="label"/>
+        <add as="perimeter" value="rectanglePerimeter"/>
+        <add as="fontStyle" value="1"/>
+        <add as="align" value="left"/>
+        <add as="verticalAlign" value="middle"/>
+        <add as="spacing" value="2"/>
+        <add as="spacingLeft" value="40"/>
+        <add as="imageWidth" value="16"/>
+        <add as="imageHeight" value="16"/>
+        <add as="rounded" value="1"/>
+        <add as="shadow" value="1"/>
+        <add as="glass" value="1"/>
+    </add>
+    <add as="icon" extend="label">
+        <add as="align" value="center"/>
+        <add as="imageAlign" value="center"/>
+        <add as="verticalLabelPosition" value="bottom"/>
+        <add as="verticalAlign" value="top"/>
+        <add as="spacingTop" value="4"/>
+        <add as="labelBackgroundColor" value="#FFFFFF"/>
+        <add as="spacing" value="0"/>
+        <add as="spacingLeft" value="0"/>
+        <add as="spacingTop" value="6"/>
+        <add as="fontStyle" value="0"/>
+        <add as="imageWidth" value="48"/>
+        <add as="imageHeight" value="48"/>
+    </add>
+    <add as="arrow">
+        <add as="fillColor" value="red"/>
+        <add as="labelBackgroundColor" value="white"/>
+        <add as="rounded" value="1"/>
+        <add as="edgeStyle" value="straight"/>
+        <add as="strokeColor" value="#5d65df"/>
+        <add as="strokeWidth" value="0.5"/>
+        <add as="fontSize" value="11"/>
+        <add as="fontColor" value="#1d258f"/>
+        <add as="fontFamily" value="Verdana"/>
+    </add>
+</mxStylesheet>

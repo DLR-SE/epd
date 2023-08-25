@@ -1,0 +1,2239 @@
+<?xml version='1.0'?>
+<root>
+	<resource name="dock.ui.ThemeMap">
+		<key>smooth</key>
+	</resource>
+	<resource name="CLookAndFeelMenuPiece">
+		<key>s.default</key>
+	</resource>
+	<resource name="ccontrol.frontend">
+		<frontend>
+			<settings>
+				<setting name="Analyse">
+					<base>
+						<roots>
+							<root name="external">
+								<layout factory="predefined">
+									<replacement id="rootexternal"/>
+									<delegate id="delegate_CommonDockStationFactory">
+										<root>true</root>
+										<content delegate="screen dock">
+											<placeholders>
+												<version>0</version>
+												<format>dock.PlaceholderList</format>
+												<entry>
+													<key shared="false">
+														<placeholder>dock.single.MapView</placeholder>
+													</key>
+													<item key="item" type="b">true</item>
+													<item key="item-keys" type="a">
+														<item type="s">x</item>
+														<item type="s">width</item>
+														<item type="s">y</item>
+														<item type="s">height</item>
+													</item>
+													<item key="item.x" type="i">2255</item>
+													<item key="item.width" type="i">1920</item>
+													<item key="item.y" type="i">374</item>
+													<item key="item.height" type="i">993</item>
+												</entry>
+												<entry>
+													<key shared="false">
+														<placeholder>dock.single.SchedulerView</placeholder>
+													</key>
+													<item key="item" type="b">true</item>
+													<item key="item-keys" type="a">
+														<item type="s">x</item>
+														<item type="s">width</item>
+														<item type="s">y</item>
+														<item type="s">height</item>
+													</item>
+													<item key="item.x" type="i">2002</item>
+													<item key="item.width" type="i">1920</item>
+													<item key="item.y" type="i">401</item>
+													<item key="item.height" type="i">891</item>
+												</entry>
+												<entry>
+													<key shared="false">
+														<placeholder>dock.single.DataView</placeholder>
+													</key>
+													<item key="item" type="b">true</item>
+													<item key="item-keys" type="a">
+														<item type="s">x</item>
+														<item type="s">width</item>
+														<item type="s">y</item>
+														<item type="s">height</item>
+													</item>
+													<item key="item.x" type="i">2309</item>
+													<item key="item.width" type="i">1920</item>
+													<item key="item.y" type="i">497</item>
+													<item key="item.height" type="i">776</item>
+												</entry>
+											</placeholders>
+										</content>
+									</delegate>
+								</layout>
+								<adjacent>
+									<layout factory="dock.RootStationAdjacentFactory">
+										<type>dock.CExternalizeArea</type>
+									</layout>
+								</adjacent>
+								<children ignore="false"/>
+							</root>
+							<root name="ccontrol north">
+								<layout factory="predefined">
+									<replacement id="rootccontrol north"/>
+									<delegate id="delegate_CommonDockStationFactory">
+										<root>true</root>
+										<content delegate="flap dock">
+											<window auto="false" direction="SOUTH"/>
+											<placeholders>
+												<version>0</version>
+												<format>dock.PlaceholderList</format>
+											</placeholders>
+										</content>
+									</delegate>
+								</layout>
+								<adjacent>
+									<layout factory="dock.RootStationAdjacentFactory">
+										<type>dock.CContentArea.minimize</type>
+									</layout>
+								</adjacent>
+								<children ignore="false"/>
+							</root>
+							<root name="ccontrol south">
+								<layout factory="predefined">
+									<replacement id="rootccontrol south"/>
+									<delegate id="delegate_CommonDockStationFactory">
+										<root>true</root>
+										<content delegate="flap dock">
+											<window auto="false" direction="NORTH"/>
+											<placeholders>
+												<version>0</version>
+												<format>dock.PlaceholderList</format>
+											</placeholders>
+										</content>
+									</delegate>
+								</layout>
+								<adjacent>
+									<layout factory="dock.RootStationAdjacentFactory">
+										<type>dock.CContentArea.minimize</type>
+									</layout>
+								</adjacent>
+								<children ignore="false"/>
+							</root>
+							<root name="ccontrol east">
+								<layout factory="predefined">
+									<replacement id="rootccontrol east"/>
+									<delegate id="delegate_CommonDockStationFactory">
+										<root>true</root>
+										<content delegate="flap dock">
+											<window auto="false" direction="WEST"/>
+											<placeholders>
+												<version>0</version>
+												<format>dock.PlaceholderList</format>
+											</placeholders>
+										</content>
+									</delegate>
+								</layout>
+								<adjacent>
+									<layout factory="dock.RootStationAdjacentFactory">
+										<type>dock.CContentArea.minimize</type>
+									</layout>
+								</adjacent>
+								<children ignore="false"/>
+							</root>
+							<root name="ccontrol center">
+								<layout factory="predefined" placeholder="dock.single.ccontrol\ center">
+									<replacement id="rootccontrol center"/>
+									<delegate id="delegate_CommonDockStationFactory">
+										<id>ccontrol center</id>
+										<root>true</root>
+										<content delegate="SplitDockStationFactory">
+											<fullscreen-action>false</fullscreen-action>
+											<node nodeId="1500643045563" orientation="VERTICAL" divider="0.7580645161290323">
+												<node nodeId="1500643049735" orientation="HORIZONTAL" divider="0.15989583333333332">
+													<leaf id="4" nodeId="1500643049733">
+														<placeholders>
+															<placeholder>dock.single.WorkspaceView</placeholder>
+														</placeholders>
+													</leaf>
+													<node nodeId="1500643105937" orientation="HORIZONTAL" divider="0.6352624495289366">
+														<leaf id="3" nodeId="1500643019212">
+															<placeholders>
+																<placeholder>dock.single.EditorArea</placeholder>
+															</placeholders>
+															<placeholder-map>
+																<version>0</version>
+																<format>dock.SplitDockStation</format>
+															</placeholder-map>
+														</leaf>
+														<leaf id="5" nodeId="1500643105935">
+															<placeholders>
+																<placeholder>dock.single.MapView</placeholder>
+																<placeholder>dock.single.DataView</placeholder>
+															</placeholders>
+															<placeholder-map>
+																<version>0</version>
+																<format>dock.PlaceholderList</format>
+																<entry>
+																	<key shared="false">
+																		<placeholder>dock.single.MapView</placeholder>
+																	</key>
+																	<item key="convert" type="b">true</item>
+																	<item key="convert-keys" type="a"/>
+																</entry>
+																<entry>
+																	<key shared="false">
+																		<placeholder>dock.single.DataView</placeholder>
+																	</key>
+																	<item key="convert" type="b">true</item>
+																	<item key="convert-keys" type="a"/>
+																</entry>
+															</placeholder-map>
+														</leaf>
+													</node>
+												</node>
+												<node nodeId="1500643047894" orientation="HORIZONTAL" divider="0.8533163265306123">
+													<node nodeId="1500643123492" orientation="HORIZONTAL" divider="0.18516624678855603">
+														<leaf id="1" nodeId="1500643123490">
+															<placeholders>
+																<placeholder>dock.single.SchedulerView</placeholder>
+															</placeholders>
+														</leaf>
+														<leaf id="0" nodeId="1500643045561">
+															<placeholders>
+																<placeholder>dock.single.Properties</placeholder>
+															</placeholders>
+														</leaf>
+													</node>
+													<leaf id="2" nodeId="1500643047892">
+														<placeholders>
+															<placeholder>dock.single.ConsoleView</placeholder>
+														</placeholders>
+													</leaf>
+												</node>
+											</node>
+										</content>
+									</delegate>
+								</layout>
+								<adjacent>
+									<layout factory="dock.RootStationAdjacentFactory">
+										<type>dock.CContentArea.center</type>
+									</layout>
+								</adjacent>
+								<children ignore="false">
+									<child>
+										<layout factory="predefined" placeholder="dock.single.Properties">
+											<replacement id="dockablesingle Properties"/>
+											<delegate id="delegate_ccontrol backup factory id">
+												<id>Properties</id>
+												<area/>
+											</delegate>
+										</layout>
+										<children ignore="false"/>
+									</child>
+									<child>
+										<layout factory="predefined" placeholder="dock.single.SchedulerView">
+											<replacement id="dockablesingle SchedulerView"/>
+											<delegate id="delegate_ccontrol backup factory id">
+												<id>SchedulerView</id>
+												<area/>
+											</delegate>
+										</layout>
+										<children ignore="false"/>
+									</child>
+									<child>
+										<layout factory="predefined" placeholder="dock.single.ConsoleView">
+											<replacement id="dockablesingle ConsoleView"/>
+											<delegate id="delegate_ccontrol backup factory id">
+												<id>ConsoleView</id>
+												<area/>
+											</delegate>
+										</layout>
+										<children ignore="false"/>
+									</child>
+									<child>
+										<layout factory="predefined" placeholder="dock.single.EditorArea">
+											<replacement id="dockablesingle EditorArea"/>
+											<delegate id="delegate_CommonDockStationFactory">
+												<id>EditorArea</id>
+												<root>true</root>
+												<content delegate="SplitDockStationFactory">
+													<fullscreen-action>false</fullscreen-action>
+													<node nodeId="1500643162426" orientation="VERTICAL" divider="0.5">
+														<leaf id="-1" nodeId="1500643162424">
+															<placeholders>
+																<placeholder>dock.single.DataView</placeholder>
+															</placeholders>
+														</leaf>
+														<node nodeId="1500643118274" orientation="VERTICAL" divider="0.5">
+															<leaf id="-1" nodeId="1500643118272">
+																<placeholders>
+																	<placeholder>dock.single.SchedulerView</placeholder>
+																</placeholders>
+															</leaf>
+															<node nodeId="1500643098900" orientation="VERTICAL" divider="0.5">
+																<leaf id="-1" nodeId="1500643098898">
+																	<placeholders>
+																		<placeholder>dock.single.MapView</placeholder>
+																	</placeholders>
+																</leaf>
+																<node nodeId="1500643054219" orientation="VERTICAL" divider="0.5">
+																	<leaf id="-1" nodeId="1500643054217">
+																		<placeholders>
+																			<placeholder>dock.multi.\0\ Model\ Editor</placeholder>
+																			<placeholder>dock.multi.\0\ Map\ View\ Layout\ Editor</placeholder>
+																		</placeholders>
+																		<placeholder-map>
+																			<version>0</version>
+																			<format>dock.PlaceholderList</format>
+																		</placeholder-map>
+																	</leaf>
+																	<node nodeId="1500643036059" orientation="VERTICAL" divider="0.5">
+																		<leaf id="-1" nodeId="1500643036057">
+																			<placeholders>
+																				<placeholder>dock.single.Properties</placeholder>
+																			</placeholders>
+																		</leaf>
+																		<node nodeId="1500643033378" orientation="VERTICAL" divider="0.5">
+																			<leaf id="-1" nodeId="1500643033376">
+																				<placeholders>
+																					<placeholder>dock.single.WorkspaceView</placeholder>
+																				</placeholders>
+																			</leaf>
+																			<leaf id="-1" nodeId="1500643030220">
+																				<placeholders>
+																					<placeholder>dock.single.ConsoleView</placeholder>
+																				</placeholders>
+																			</leaf>
+																		</node>
+																	</node>
+																</node>
+															</node>
+														</node>
+													</node>
+												</content>
+											</delegate>
+										</layout>
+										<adjacent>
+											<layout factory="dock.RootStationAdjacentFactory">
+												<type>dock.CWorkingArea</type>
+											</layout>
+										</adjacent>
+										<children ignore="true"/>
+									</child>
+									<child>
+										<layout factory="predefined" placeholder="dock.single.WorkspaceView">
+											<replacement id="dockablesingle WorkspaceView"/>
+											<delegate id="delegate_ccontrol backup factory id">
+												<id>WorkspaceView</id>
+												<area/>
+											</delegate>
+										</layout>
+										<children ignore="false"/>
+									</child>
+									<child>
+										<layout factory="delegate_StackDockStationFactory">
+											<selected>1</selected>
+											<placeholders>
+												<version>0</version>
+												<format>dock.PlaceholderList</format>
+												<entry>
+													<key shared="false">
+														<placeholder>dock.single.MapView</placeholder>
+													</key>
+													<item key="convert" type="b">true</item>
+													<item key="convert-keys" type="a">
+														<item type="s">index</item>
+														<item type="s">id</item>
+														<item type="s">placeholder</item>
+													</item>
+													<item key="dock.index" type="i">0</item>
+													<item key="dock.id" type="i">0</item>
+													<item key="dock.placeholder" type="s">dock.single.MapView</item>
+												</entry>
+												<entry>
+													<key shared="false">
+														<placeholder>dock.single.DataView</placeholder>
+													</key>
+													<item key="convert" type="b">true</item>
+													<item key="convert-keys" type="a">
+														<item type="s">index</item>
+														<item type="s">id</item>
+														<item type="s">placeholder</item>
+													</item>
+													<item key="dock.index" type="i">1</item>
+													<item key="dock.id" type="i">1</item>
+													<item key="dock.placeholder" type="s">dock.single.DataView</item>
+												</entry>
+											</placeholders>
+										</layout>
+										<children ignore="false">
+											<child>
+												<layout factory="predefined" placeholder="dock.single.MapView">
+													<replacement id="dockablesingle MapView"/>
+													<delegate id="delegate_ccontrol backup factory id">
+														<id>MapView</id>
+														<area/>
+													</delegate>
+												</layout>
+												<children ignore="false"/>
+											</child>
+											<child>
+												<layout factory="predefined" placeholder="dock.single.DataView">
+													<replacement id="dockablesingle DataView"/>
+													<delegate id="delegate_ccontrol backup factory id">
+														<id>DataView</id>
+														<area/>
+													</delegate>
+												</layout>
+												<children ignore="false"/>
+											</child>
+										</children>
+									</child>
+								</children>
+							</root>
+							<root name="ccontrol west">
+								<layout factory="predefined">
+									<replacement id="rootccontrol west"/>
+									<delegate id="delegate_CommonDockStationFactory">
+										<root>true</root>
+										<content delegate="flap dock">
+											<window auto="false" direction="EAST"/>
+											<placeholders>
+												<version>0</version>
+												<format>dock.PlaceholderList</format>
+												<entry>
+													<key shared="false">
+														<placeholder>dock.single.WorkspaceView</placeholder>
+													</key>
+												</entry>
+											</placeholders>
+										</content>
+									</delegate>
+								</layout>
+								<adjacent>
+									<layout factory="dock.RootStationAdjacentFactory">
+										<type>dock.CContentArea.minimize</type>
+									</layout>
+								</adjacent>
+								<children ignore="false"/>
+							</root>
+						</roots>
+						<children>
+							<child key="single PaletteView" location="false"/>
+						</children>
+					</base>
+					<modes>
+						<dockables>
+							<entry id="single Properties" current="dock.mode.normal">
+								<history>
+									<mode>dock.mode.normal</mode>
+								</history>
+								<properties>
+									<property id="dock.mode.normal">
+										<mode>dock.mode.normal</mode>
+										<root>EditorArea</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="SplitDockPlaceholderProperty">
+												<placeholder>dock.single.Properties</placeholder>
+												<backup-path>
+													<node location="TOP" size="0.5" id="1500643036059"/>
+													<leaf id="1500643036057"/>
+												</backup-path>
+											</property>
+										</location>
+									</property>
+								</properties>
+							</entry>
+							<entry id="single SchedulerView" current="dock.mode.normal">
+								<history>
+									<mode>dock.mode.externalized</mode>
+									<mode>dock.mode.normal</mode>
+								</history>
+								<properties>
+									<property id="dock.mode.externalized">
+										<mode>dock.mode.externalized</mode>
+										<root>external</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="screen dock">
+												<x>2002</x>
+												<y>401</y>
+												<width>1920</width>
+												<height>891</height>
+												<fullscreen>false</fullscreen>
+												<placeholder>dock.single.SchedulerView</placeholder>
+											</property>
+										</location>
+									</property>
+									<property id="dock.mode.normal">
+										<mode>dock.mode.normal</mode>
+										<root>ccontrol center</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="SplitDockPlaceholderProperty">
+												<placeholder>dock.single.SchedulerView</placeholder>
+												<backup-path>
+													<node location="BOTTOM" size="0.45185185185185184" id="1500643045563"/>
+													<node location="LEFT" size="0.8533163265306123" id="1500643047894"/>
+													<node location="LEFT" size="0.5268948655256723" id="1500643123492"/>
+													<leaf id="1500643123490"/>
+												</backup-path>
+											</property>
+										</location>
+									</property>
+								</properties>
+							</entry>
+							<entry id="single PaletteView">
+								<history/>
+								<properties/>
+							</entry>
+							<entry id="single DataView" current="dock.mode.normal">
+								<history>
+									<mode>dock.mode.externalized</mode>
+									<mode>dock.mode.normal</mode>
+								</history>
+								<properties>
+									<property id="dock.mode.externalized">
+										<mode>dock.mode.externalized</mode>
+										<root>external</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="screen dock">
+												<x>2309</x>
+												<y>497</y>
+												<width>1920</width>
+												<height>776</height>
+												<fullscreen>false</fullscreen>
+												<placeholder>dock.single.DataView</placeholder>
+											</property>
+										</location>
+									</property>
+									<property id="dock.mode.normal">
+										<mode>dock.mode.normal</mode>
+										<root>ccontrol center</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="SplitDockPlaceholderProperty">
+												<placeholder>dock.single.DataView</placeholder>
+												<backup-path>
+													<node location="TOP" size="0.7580645161290323" id="1500643045563"/>
+													<node location="RIGHT" size="0.8401041666666667" id="1500643049735"/>
+													<node location="RIGHT" size="0.3647375504710634" id="1500643105937"/>
+													<leaf id="1500643105935"/>
+												</backup-path>
+											</property>
+											<property factory="StackDockPropertyFactory">
+												<index>1</index>
+												<placeholder>dock.single.DataView</placeholder>
+											</property>
+										</location>
+									</property>
+								</properties>
+							</entry>
+							<entry id="single MapView" current="dock.mode.normal">
+								<history>
+									<mode>dock.mode.externalized</mode>
+									<mode>dock.mode.normal</mode>
+								</history>
+								<properties>
+									<property id="dock.mode.externalized">
+										<mode>dock.mode.externalized</mode>
+										<root>external</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="screen dock">
+												<x>2255</x>
+												<y>374</y>
+												<width>1920</width>
+												<height>993</height>
+												<fullscreen>false</fullscreen>
+												<placeholder>dock.single.MapView</placeholder>
+											</property>
+										</location>
+									</property>
+									<property id="dock.mode.normal">
+										<mode>dock.mode.normal</mode>
+										<root>ccontrol center</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="SplitDockPlaceholderProperty">
+												<placeholder>dock.single.MapView</placeholder>
+												<backup-path>
+													<node location="TOP" size="0.5481481481481482" id="1500643045563"/>
+													<node location="RIGHT" size="0.775" id="1500643049735"/>
+													<node location="RIGHT" size="0.648721399730821" id="1500643105937"/>
+													<leaf id="1500643105935"/>
+												</backup-path>
+											</property>
+										</location>
+									</property>
+								</properties>
+							</entry>
+							<entry id="single EditorArea" current="dock.mode.normal">
+								<history>
+									<mode>dock.mode.normal</mode>
+								</history>
+								<properties>
+									<property id="dock.mode.normal">
+										<mode>dock.mode.normal</mode>
+										<root>ccontrol center</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="SplitDockPlaceholderProperty">
+												<placeholder>dock.single.EditorArea</placeholder>
+												<backup-path>
+													<leaf id="1500643019212"/>
+												</backup-path>
+											</property>
+										</location>
+									</property>
+								</properties>
+							</entry>
+							<entry id="single WorkspaceView" current="dock.mode.normal">
+								<history>
+									<mode>dock.mode.minimized</mode>
+									<mode>dock.mode.normal</mode>
+								</history>
+								<properties>
+									<property id="dock.mode.minimized">
+										<mode>dock.mode.minimized</mode>
+										<root>ccontrol west</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="flap dock">
+												<index>0</index>
+												<holding>false</holding>
+												<size>400</size>
+												<placeholder>dock.single.WorkspaceView</placeholder>
+											</property>
+										</location>
+									</property>
+									<property id="dock.mode.normal">
+										<mode>dock.mode.normal</mode>
+										<root>EditorArea</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="SplitDockPlaceholderProperty">
+												<placeholder>dock.single.WorkspaceView</placeholder>
+												<backup-path>
+													<node location="BOTTOM" size="0.5" id="1500643036059"/>
+													<node location="TOP" size="0.5" id="1500643033378"/>
+													<leaf id="1500643033376"/>
+												</backup-path>
+											</property>
+										</location>
+									</property>
+								</properties>
+							</entry>
+							<entry id="single ConsoleView" current="dock.mode.normal">
+								<history>
+									<mode>dock.mode.normal</mode>
+								</history>
+								<properties>
+									<property id="dock.mode.normal">
+										<mode>dock.mode.normal</mode>
+										<root>EditorArea</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="SplitDockPlaceholderProperty">
+												<placeholder>dock.single.ConsoleView</placeholder>
+												<backup-path>
+													<node location="BOTTOM" size="0.5" id="1500643036059"/>
+													<node location="BOTTOM" size="0.5" id="1500643033378"/>
+													<leaf id="1500643030220"/>
+												</backup-path>
+											</property>
+										</location>
+									</property>
+								</properties>
+							</entry>
+						</dockables>
+						<modes>
+							<entry id="dock.mode.maximized"/>
+						</modes>
+					</modes>
+				</setting>
+				<setting name="default">
+					<base>
+						<roots>
+							<root name="external">
+								<layout factory="predefined">
+									<replacement id="rootexternal"/>
+									<delegate id="delegate_CommonDockStationFactory">
+										<root>true</root>
+										<content delegate="screen dock">
+											<placeholders>
+												<version>0</version>
+												<format>dock.PlaceholderList</format>
+												<entry>
+													<key shared="false">
+														<placeholder>dock.single.MapView</placeholder>
+													</key>
+													<item key="item" type="b">true</item>
+													<item key="item-keys" type="a">
+														<item type="s">x</item>
+														<item type="s">width</item>
+														<item type="s">y</item>
+														<item type="s">height</item>
+													</item>
+													<item key="item.x" type="i">2255</item>
+													<item key="item.width" type="i">1920</item>
+													<item key="item.y" type="i">374</item>
+													<item key="item.height" type="i">993</item>
+												</entry>
+												<entry>
+													<key shared="false">
+														<placeholder>dock.single.SchedulerView</placeholder>
+													</key>
+													<item key="item" type="b">true</item>
+													<item key="item-keys" type="a">
+														<item type="s">x</item>
+														<item type="s">width</item>
+														<item type="s">y</item>
+														<item type="s">height</item>
+													</item>
+													<item key="item.x" type="i">2002</item>
+													<item key="item.width" type="i">1920</item>
+													<item key="item.y" type="i">401</item>
+													<item key="item.height" type="i">891</item>
+												</entry>
+											</placeholders>
+										</content>
+									</delegate>
+								</layout>
+								<adjacent>
+									<layout factory="dock.RootStationAdjacentFactory">
+										<type>dock.CExternalizeArea</type>
+									</layout>
+								</adjacent>
+								<children ignore="false"/>
+							</root>
+							<root name="ccontrol north">
+								<layout factory="predefined">
+									<replacement id="rootccontrol north"/>
+									<delegate id="delegate_CommonDockStationFactory">
+										<root>true</root>
+										<content delegate="flap dock">
+											<window auto="false" direction="SOUTH"/>
+											<placeholders>
+												<version>0</version>
+												<format>dock.PlaceholderList</format>
+											</placeholders>
+										</content>
+									</delegate>
+								</layout>
+								<adjacent>
+									<layout factory="dock.RootStationAdjacentFactory">
+										<type>dock.CContentArea.minimize</type>
+									</layout>
+								</adjacent>
+								<children ignore="false"/>
+							</root>
+							<root name="ccontrol south">
+								<layout factory="predefined">
+									<replacement id="rootccontrol south"/>
+									<delegate id="delegate_CommonDockStationFactory">
+										<root>true</root>
+										<content delegate="flap dock">
+											<window auto="false" direction="NORTH"/>
+											<placeholders>
+												<version>0</version>
+												<format>dock.PlaceholderList</format>
+											</placeholders>
+										</content>
+									</delegate>
+								</layout>
+								<adjacent>
+									<layout factory="dock.RootStationAdjacentFactory">
+										<type>dock.CContentArea.minimize</type>
+									</layout>
+								</adjacent>
+								<children ignore="false"/>
+							</root>
+							<root name="ccontrol east">
+								<layout factory="predefined">
+									<replacement id="rootccontrol east"/>
+									<delegate id="delegate_CommonDockStationFactory">
+										<root>true</root>
+										<content delegate="flap dock">
+											<window auto="false" direction="WEST"/>
+											<placeholders>
+												<version>0</version>
+												<format>dock.PlaceholderList</format>
+											</placeholders>
+										</content>
+									</delegate>
+								</layout>
+								<adjacent>
+									<layout factory="dock.RootStationAdjacentFactory">
+										<type>dock.CContentArea.minimize</type>
+									</layout>
+								</adjacent>
+								<children ignore="false"/>
+							</root>
+							<root name="ccontrol center">
+								<layout factory="predefined" placeholder="dock.single.ccontrol\ center">
+									<replacement id="rootccontrol center"/>
+									<delegate id="delegate_CommonDockStationFactory">
+										<id>ccontrol center</id>
+										<root>true</root>
+										<content delegate="SplitDockStationFactory">
+											<fullscreen-action>false</fullscreen-action>
+											<node nodeId="1500643045563" orientation="VERTICAL" divider="0.7580645161290323">
+												<node nodeId="1500643049735" orientation="HORIZONTAL" divider="0.15989583333333332">
+													<leaf id="0" nodeId="1500643049733">
+														<placeholders>
+															<placeholder>dock.single.WorkspaceView</placeholder>
+														</placeholders>
+													</leaf>
+													<node nodeId="1500643105937" orientation="HORIZONTAL" divider="0.6352624495289366">
+														<leaf id="1" nodeId="1500643019212">
+															<placeholders>
+																<placeholder>dock.single.EditorArea</placeholder>
+															</placeholders>
+															<placeholder-map>
+																<version>0</version>
+																<format>dock.SplitDockStation</format>
+															</placeholder-map>
+														</leaf>
+														<leaf id="4" nodeId="1500643105935">
+															<placeholders>
+																<placeholder>dock.single.MapView</placeholder>
+															</placeholders>
+														</leaf>
+													</node>
+												</node>
+												<node nodeId="1500643047894" orientation="HORIZONTAL" divider="0.8533163265306123">
+													<node nodeId="1500643123492" orientation="HORIZONTAL" divider="0.18516624678855603">
+														<leaf id="5" nodeId="1500643123490">
+															<placeholders>
+																<placeholder>dock.single.SchedulerView</placeholder>
+															</placeholders>
+														</leaf>
+														<leaf id="2" nodeId="1500643045561">
+															<placeholders>
+																<placeholder>dock.single.Properties</placeholder>
+															</placeholders>
+														</leaf>
+													</node>
+													<leaf id="3" nodeId="1500643047892">
+														<placeholders>
+															<placeholder>dock.single.ConsoleView</placeholder>
+														</placeholders>
+													</leaf>
+												</node>
+											</node>
+										</content>
+									</delegate>
+								</layout>
+								<adjacent>
+									<layout factory="dock.RootStationAdjacentFactory">
+										<type>dock.CContentArea.center</type>
+									</layout>
+								</adjacent>
+								<children ignore="false">
+									<child>
+										<layout factory="predefined" placeholder="dock.single.WorkspaceView">
+											<replacement id="dockablesingle WorkspaceView"/>
+											<delegate id="delegate_ccontrol backup factory id">
+												<id>WorkspaceView</id>
+												<area/>
+											</delegate>
+										</layout>
+										<children ignore="false"/>
+									</child>
+									<child>
+										<layout factory="predefined" placeholder="dock.single.EditorArea">
+											<replacement id="dockablesingle EditorArea"/>
+											<delegate id="delegate_CommonDockStationFactory">
+												<id>EditorArea</id>
+												<root>true</root>
+												<content delegate="SplitDockStationFactory">
+													<fullscreen-action>false</fullscreen-action>
+													<node nodeId="1500643118274" orientation="VERTICAL" divider="0.5">
+														<leaf id="-1" nodeId="1500643118272">
+															<placeholders>
+																<placeholder>dock.single.SchedulerView</placeholder>
+															</placeholders>
+														</leaf>
+														<node nodeId="1500643098900" orientation="VERTICAL" divider="0.5">
+															<leaf id="-1" nodeId="1500643098898">
+																<placeholders>
+																	<placeholder>dock.single.MapView</placeholder>
+																</placeholders>
+															</leaf>
+															<node nodeId="1500643054219" orientation="VERTICAL" divider="0.5">
+																<leaf id="-1" nodeId="1500643054217">
+																	<placeholders>
+																		<placeholder>dock.multi.\0\ Model\ Editor</placeholder>
+																		<placeholder>dock.multi.\0\ Map\ View\ Layout\ Editor</placeholder>
+																	</placeholders>
+																	<placeholder-map>
+																		<version>0</version>
+																		<format>dock.PlaceholderList</format>
+																	</placeholder-map>
+																</leaf>
+																<node nodeId="1500643036059" orientation="VERTICAL" divider="0.5">
+																	<leaf id="-1" nodeId="1500643036057">
+																		<placeholders>
+																			<placeholder>dock.single.Properties</placeholder>
+																		</placeholders>
+																	</leaf>
+																	<node nodeId="1500643033378" orientation="VERTICAL" divider="0.5">
+																		<leaf id="-1" nodeId="1500643033376">
+																			<placeholders>
+																				<placeholder>dock.single.WorkspaceView</placeholder>
+																			</placeholders>
+																		</leaf>
+																		<leaf id="-1" nodeId="1500643030220">
+																			<placeholders>
+																				<placeholder>dock.single.ConsoleView</placeholder>
+																			</placeholders>
+																		</leaf>
+																	</node>
+																</node>
+															</node>
+														</node>
+													</node>
+												</content>
+											</delegate>
+										</layout>
+										<adjacent>
+											<layout factory="dock.RootStationAdjacentFactory">
+												<type>dock.CWorkingArea</type>
+											</layout>
+										</adjacent>
+										<children ignore="true"/>
+									</child>
+									<child>
+										<layout factory="predefined" placeholder="dock.single.Properties">
+											<replacement id="dockablesingle Properties"/>
+											<delegate id="delegate_ccontrol backup factory id">
+												<id>Properties</id>
+												<area/>
+											</delegate>
+										</layout>
+										<children ignore="false"/>
+									</child>
+									<child>
+										<layout factory="predefined" placeholder="dock.single.ConsoleView">
+											<replacement id="dockablesingle ConsoleView"/>
+											<delegate id="delegate_ccontrol backup factory id">
+												<id>ConsoleView</id>
+												<area/>
+											</delegate>
+										</layout>
+										<children ignore="false"/>
+									</child>
+									<child>
+										<layout factory="predefined" placeholder="dock.single.MapView">
+											<replacement id="dockablesingle MapView"/>
+											<delegate id="delegate_ccontrol backup factory id">
+												<id>MapView</id>
+												<area/>
+											</delegate>
+										</layout>
+										<children ignore="false"/>
+									</child>
+									<child>
+										<layout factory="predefined" placeholder="dock.single.SchedulerView">
+											<replacement id="dockablesingle SchedulerView"/>
+											<delegate id="delegate_ccontrol backup factory id">
+												<id>SchedulerView</id>
+												<area/>
+											</delegate>
+										</layout>
+										<children ignore="false"/>
+									</child>
+								</children>
+							</root>
+							<root name="ccontrol west">
+								<layout factory="predefined">
+									<replacement id="rootccontrol west"/>
+									<delegate id="delegate_CommonDockStationFactory">
+										<root>true</root>
+										<content delegate="flap dock">
+											<window auto="false" direction="EAST"/>
+											<placeholders>
+												<version>0</version>
+												<format>dock.PlaceholderList</format>
+												<entry>
+													<key shared="false">
+														<placeholder>dock.single.WorkspaceView</placeholder>
+													</key>
+												</entry>
+											</placeholders>
+										</content>
+									</delegate>
+								</layout>
+								<adjacent>
+									<layout factory="dock.RootStationAdjacentFactory">
+										<type>dock.CContentArea.minimize</type>
+									</layout>
+								</adjacent>
+								<children ignore="false"/>
+							</root>
+						</roots>
+						<children>
+							<child key="single PaletteView" location="false"/>
+							<child key="single DataView" location="false"/>
+						</children>
+					</base>
+					<modes>
+						<dockables>
+							<entry id="single Properties" current="dock.mode.normal">
+								<history>
+									<mode>dock.mode.normal</mode>
+								</history>
+								<properties>
+									<property id="dock.mode.normal">
+										<mode>dock.mode.normal</mode>
+										<root>EditorArea</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="SplitDockPlaceholderProperty">
+												<placeholder>dock.single.Properties</placeholder>
+												<backup-path>
+													<node location="TOP" size="0.5" id="1500643036059"/>
+													<leaf id="1500643036057"/>
+												</backup-path>
+											</property>
+										</location>
+									</property>
+								</properties>
+							</entry>
+							<entry id="single SchedulerView" current="dock.mode.normal">
+								<history>
+									<mode>dock.mode.externalized</mode>
+									<mode>dock.mode.normal</mode>
+								</history>
+								<properties>
+									<property id="dock.mode.externalized">
+										<mode>dock.mode.externalized</mode>
+										<root>external</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="screen dock">
+												<x>2002</x>
+												<y>401</y>
+												<width>1920</width>
+												<height>891</height>
+												<fullscreen>false</fullscreen>
+												<placeholder>dock.single.SchedulerView</placeholder>
+											</property>
+										</location>
+									</property>
+									<property id="dock.mode.normal">
+										<mode>dock.mode.normal</mode>
+										<root>ccontrol center</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="SplitDockPlaceholderProperty">
+												<placeholder>dock.single.SchedulerView</placeholder>
+												<backup-path>
+													<node location="BOTTOM" size="0.45185185185185184" id="1500643045563"/>
+													<node location="LEFT" size="0.8533163265306123" id="1500643047894"/>
+													<node location="LEFT" size="0.5268948655256723" id="1500643123492"/>
+													<leaf id="1500643123490"/>
+												</backup-path>
+											</property>
+										</location>
+									</property>
+								</properties>
+							</entry>
+							<entry id="single PaletteView">
+								<history/>
+								<properties/>
+							</entry>
+							<entry id="single DataView">
+								<history/>
+								<properties/>
+							</entry>
+							<entry id="single MapView" current="dock.mode.normal">
+								<history>
+									<mode>dock.mode.externalized</mode>
+									<mode>dock.mode.normal</mode>
+								</history>
+								<properties>
+									<property id="dock.mode.externalized">
+										<mode>dock.mode.externalized</mode>
+										<root>external</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="screen dock">
+												<x>2255</x>
+												<y>374</y>
+												<width>1920</width>
+												<height>993</height>
+												<fullscreen>false</fullscreen>
+												<placeholder>dock.single.MapView</placeholder>
+											</property>
+										</location>
+									</property>
+									<property id="dock.mode.normal">
+										<mode>dock.mode.normal</mode>
+										<root>ccontrol center</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="SplitDockPlaceholderProperty">
+												<placeholder>dock.single.MapView</placeholder>
+												<backup-path>
+													<node location="TOP" size="0.5481481481481482" id="1500643045563"/>
+													<node location="RIGHT" size="0.775" id="1500643049735"/>
+													<node location="RIGHT" size="0.648721399730821" id="1500643105937"/>
+													<leaf id="1500643105935"/>
+												</backup-path>
+											</property>
+										</location>
+									</property>
+								</properties>
+							</entry>
+							<entry id="single EditorArea" current="dock.mode.normal">
+								<history>
+									<mode>dock.mode.normal</mode>
+								</history>
+								<properties>
+									<property id="dock.mode.normal">
+										<mode>dock.mode.normal</mode>
+										<root>ccontrol center</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="SplitDockPlaceholderProperty">
+												<placeholder>dock.single.EditorArea</placeholder>
+												<backup-path>
+													<leaf id="1500643019212"/>
+												</backup-path>
+											</property>
+										</location>
+									</property>
+								</properties>
+							</entry>
+							<entry id="single WorkspaceView" current="dock.mode.normal">
+								<history>
+									<mode>dock.mode.minimized</mode>
+									<mode>dock.mode.normal</mode>
+								</history>
+								<properties>
+									<property id="dock.mode.minimized">
+										<mode>dock.mode.minimized</mode>
+										<root>ccontrol west</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="flap dock">
+												<index>0</index>
+												<holding>false</holding>
+												<size>400</size>
+												<placeholder>dock.single.WorkspaceView</placeholder>
+											</property>
+										</location>
+									</property>
+									<property id="dock.mode.normal">
+										<mode>dock.mode.normal</mode>
+										<root>EditorArea</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="SplitDockPlaceholderProperty">
+												<placeholder>dock.single.WorkspaceView</placeholder>
+												<backup-path>
+													<node location="BOTTOM" size="0.5" id="1500643036059"/>
+													<node location="TOP" size="0.5" id="1500643033378"/>
+													<leaf id="1500643033376"/>
+												</backup-path>
+											</property>
+										</location>
+									</property>
+								</properties>
+							</entry>
+							<entry id="single ConsoleView" current="dock.mode.normal">
+								<history>
+									<mode>dock.mode.normal</mode>
+								</history>
+								<properties>
+									<property id="dock.mode.normal">
+										<mode>dock.mode.normal</mode>
+										<root>EditorArea</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="SplitDockPlaceholderProperty">
+												<placeholder>dock.single.ConsoleView</placeholder>
+												<backup-path>
+													<node location="BOTTOM" size="0.5" id="1500643036059"/>
+													<node location="BOTTOM" size="0.5" id="1500643033378"/>
+													<leaf id="1500643030220"/>
+												</backup-path>
+											</property>
+										</location>
+									</property>
+								</properties>
+							</entry>
+						</dockables>
+						<modes>
+							<entry id="dock.mode.maximized"/>
+						</modes>
+					</modes>
+				</setting>
+				<setting name="ModelEditor">
+					<base>
+						<roots>
+							<root name="external">
+								<layout factory="predefined">
+									<replacement id="rootexternal"/>
+									<delegate id="delegate_CommonDockStationFactory">
+										<root>true</root>
+										<content delegate="screen dock">
+											<placeholders>
+												<version>0</version>
+												<format>dock.PlaceholderList</format>
+												<entry>
+													<key shared="false">
+														<placeholder>dock.single.MapView</placeholder>
+													</key>
+													<item key="item" type="b">true</item>
+													<item key="item-keys" type="a">
+														<item type="s">x</item>
+														<item type="s">width</item>
+														<item type="s">y</item>
+														<item type="s">height</item>
+													</item>
+													<item key="item.x" type="i">2255</item>
+													<item key="item.width" type="i">1920</item>
+													<item key="item.y" type="i">374</item>
+													<item key="item.height" type="i">993</item>
+												</entry>
+												<entry>
+													<key shared="false">
+														<placeholder>dock.single.SchedulerView</placeholder>
+													</key>
+													<item key="item" type="b">true</item>
+													<item key="item-keys" type="a">
+														<item type="s">x</item>
+														<item type="s">width</item>
+														<item type="s">y</item>
+														<item type="s">height</item>
+													</item>
+													<item key="item.x" type="i">2002</item>
+													<item key="item.width" type="i">1920</item>
+													<item key="item.y" type="i">401</item>
+													<item key="item.height" type="i">891</item>
+												</entry>
+											</placeholders>
+										</content>
+									</delegate>
+								</layout>
+								<adjacent>
+									<layout factory="dock.RootStationAdjacentFactory">
+										<type>dock.CExternalizeArea</type>
+									</layout>
+								</adjacent>
+								<children ignore="false"/>
+							</root>
+							<root name="ccontrol north">
+								<layout factory="predefined">
+									<replacement id="rootccontrol north"/>
+									<delegate id="delegate_CommonDockStationFactory">
+										<root>true</root>
+										<content delegate="flap dock">
+											<window auto="false" direction="SOUTH"/>
+											<placeholders>
+												<version>0</version>
+												<format>dock.PlaceholderList</format>
+											</placeholders>
+										</content>
+									</delegate>
+								</layout>
+								<adjacent>
+									<layout factory="dock.RootStationAdjacentFactory">
+										<type>dock.CContentArea.minimize</type>
+									</layout>
+								</adjacent>
+								<children ignore="false"/>
+							</root>
+							<root name="ccontrol south">
+								<layout factory="predefined">
+									<replacement id="rootccontrol south"/>
+									<delegate id="delegate_CommonDockStationFactory">
+										<root>true</root>
+										<content delegate="flap dock">
+											<window auto="false" direction="NORTH"/>
+											<placeholders>
+												<version>0</version>
+												<format>dock.PlaceholderList</format>
+											</placeholders>
+										</content>
+									</delegate>
+								</layout>
+								<adjacent>
+									<layout factory="dock.RootStationAdjacentFactory">
+										<type>dock.CContentArea.minimize</type>
+									</layout>
+								</adjacent>
+								<children ignore="false"/>
+							</root>
+							<root name="ccontrol east">
+								<layout factory="predefined">
+									<replacement id="rootccontrol east"/>
+									<delegate id="delegate_CommonDockStationFactory">
+										<root>true</root>
+										<content delegate="flap dock">
+											<window auto="false" direction="WEST"/>
+											<placeholders>
+												<version>0</version>
+												<format>dock.PlaceholderList</format>
+											</placeholders>
+										</content>
+									</delegate>
+								</layout>
+								<adjacent>
+									<layout factory="dock.RootStationAdjacentFactory">
+										<type>dock.CContentArea.minimize</type>
+									</layout>
+								</adjacent>
+								<children ignore="false"/>
+							</root>
+							<root name="ccontrol center">
+								<layout factory="predefined" placeholder="dock.single.ccontrol\ center">
+									<replacement id="rootccontrol center"/>
+									<delegate id="delegate_CommonDockStationFactory">
+										<id>ccontrol center</id>
+										<root>true</root>
+										<content delegate="SplitDockStationFactory">
+											<fullscreen-action>false</fullscreen-action>
+											<node nodeId="1500643045563" orientation="VERTICAL" divider="0.7580645161290323">
+												<node nodeId="1500643049735" orientation="HORIZONTAL" divider="0.15989583333333332">
+													<leaf id="0" nodeId="1500643049733">
+														<placeholders>
+															<placeholder>dock.single.WorkspaceView</placeholder>
+														</placeholders>
+													</leaf>
+													<node nodeId="1500643105937" orientation="HORIZONTAL" divider="0.6352624495289366">
+														<leaf id="1" nodeId="1500643019212">
+															<placeholders>
+																<placeholder>dock.single.EditorArea</placeholder>
+															</placeholders>
+															<placeholder-map>
+																<version>0</version>
+																<format>dock.SplitDockStation</format>
+															</placeholder-map>
+														</leaf>
+														<leaf id="4" nodeId="1500643105935">
+															<placeholders>
+																<placeholder>dock.single.MapView</placeholder>
+															</placeholders>
+														</leaf>
+													</node>
+												</node>
+												<node nodeId="1500643047894" orientation="HORIZONTAL" divider="0.8533163265306123">
+													<node nodeId="1500643123492" orientation="HORIZONTAL" divider="0.18516624678855603">
+														<leaf id="5" nodeId="1500643123490">
+															<placeholders>
+																<placeholder>dock.single.SchedulerView</placeholder>
+															</placeholders>
+														</leaf>
+														<leaf id="2" nodeId="1500643045561">
+															<placeholders>
+																<placeholder>dock.single.Properties</placeholder>
+															</placeholders>
+														</leaf>
+													</node>
+													<leaf id="3" nodeId="1500643047892">
+														<placeholders>
+															<placeholder>dock.single.ConsoleView</placeholder>
+														</placeholders>
+													</leaf>
+												</node>
+											</node>
+										</content>
+									</delegate>
+								</layout>
+								<adjacent>
+									<layout factory="dock.RootStationAdjacentFactory">
+										<type>dock.CContentArea.center</type>
+									</layout>
+								</adjacent>
+								<children ignore="false">
+									<child>
+										<layout factory="predefined" placeholder="dock.single.WorkspaceView">
+											<replacement id="dockablesingle WorkspaceView"/>
+											<delegate id="delegate_ccontrol backup factory id">
+												<id>WorkspaceView</id>
+												<area/>
+											</delegate>
+										</layout>
+										<children ignore="false"/>
+									</child>
+									<child>
+										<layout factory="predefined" placeholder="dock.single.EditorArea">
+											<replacement id="dockablesingle EditorArea"/>
+											<delegate id="delegate_CommonDockStationFactory">
+												<id>EditorArea</id>
+												<root>true</root>
+												<content delegate="SplitDockStationFactory">
+													<fullscreen-action>false</fullscreen-action>
+													<node nodeId="1500643118274" orientation="VERTICAL" divider="0.5">
+														<leaf id="-1" nodeId="1500643118272">
+															<placeholders>
+																<placeholder>dock.single.SchedulerView</placeholder>
+															</placeholders>
+														</leaf>
+														<node nodeId="1500643098900" orientation="VERTICAL" divider="0.5">
+															<leaf id="-1" nodeId="1500643098898">
+																<placeholders>
+																	<placeholder>dock.single.MapView</placeholder>
+																</placeholders>
+															</leaf>
+															<node nodeId="1500643054219" orientation="VERTICAL" divider="0.5">
+																<leaf id="-1" nodeId="1500643054217">
+																	<placeholders>
+																		<placeholder>dock.multi.\0\ Model\ Editor</placeholder>
+																		<placeholder>dock.multi.\0\ Map\ View\ Layout\ Editor</placeholder>
+																	</placeholders>
+																	<placeholder-map>
+																		<version>0</version>
+																		<format>dock.PlaceholderList</format>
+																	</placeholder-map>
+																</leaf>
+																<node nodeId="1500643036059" orientation="VERTICAL" divider="0.5">
+																	<leaf id="-1" nodeId="1500643036057">
+																		<placeholders>
+																			<placeholder>dock.single.Properties</placeholder>
+																		</placeholders>
+																	</leaf>
+																	<node nodeId="1500643033378" orientation="VERTICAL" divider="0.5">
+																		<leaf id="-1" nodeId="1500643033376">
+																			<placeholders>
+																				<placeholder>dock.single.WorkspaceView</placeholder>
+																			</placeholders>
+																		</leaf>
+																		<leaf id="-1" nodeId="1500643030220">
+																			<placeholders>
+																				<placeholder>dock.single.ConsoleView</placeholder>
+																			</placeholders>
+																		</leaf>
+																	</node>
+																</node>
+															</node>
+														</node>
+													</node>
+												</content>
+											</delegate>
+										</layout>
+										<adjacent>
+											<layout factory="dock.RootStationAdjacentFactory">
+												<type>dock.CWorkingArea</type>
+											</layout>
+										</adjacent>
+										<children ignore="true"/>
+									</child>
+									<child>
+										<layout factory="predefined" placeholder="dock.single.Properties">
+											<replacement id="dockablesingle Properties"/>
+											<delegate id="delegate_ccontrol backup factory id">
+												<id>Properties</id>
+												<area/>
+											</delegate>
+										</layout>
+										<children ignore="false"/>
+									</child>
+									<child>
+										<layout factory="predefined" placeholder="dock.single.ConsoleView">
+											<replacement id="dockablesingle ConsoleView"/>
+											<delegate id="delegate_ccontrol backup factory id">
+												<id>ConsoleView</id>
+												<area/>
+											</delegate>
+										</layout>
+										<children ignore="false"/>
+									</child>
+									<child>
+										<layout factory="predefined" placeholder="dock.single.MapView">
+											<replacement id="dockablesingle MapView"/>
+											<delegate id="delegate_ccontrol backup factory id">
+												<id>MapView</id>
+												<area/>
+											</delegate>
+										</layout>
+										<children ignore="false"/>
+									</child>
+									<child>
+										<layout factory="predefined" placeholder="dock.single.SchedulerView">
+											<replacement id="dockablesingle SchedulerView"/>
+											<delegate id="delegate_ccontrol backup factory id">
+												<id>SchedulerView</id>
+												<area/>
+											</delegate>
+										</layout>
+										<children ignore="false"/>
+									</child>
+								</children>
+							</root>
+							<root name="ccontrol west">
+								<layout factory="predefined">
+									<replacement id="rootccontrol west"/>
+									<delegate id="delegate_CommonDockStationFactory">
+										<root>true</root>
+										<content delegate="flap dock">
+											<window auto="false" direction="EAST"/>
+											<placeholders>
+												<version>0</version>
+												<format>dock.PlaceholderList</format>
+												<entry>
+													<key shared="false">
+														<placeholder>dock.single.WorkspaceView</placeholder>
+													</key>
+												</entry>
+											</placeholders>
+										</content>
+									</delegate>
+								</layout>
+								<adjacent>
+									<layout factory="dock.RootStationAdjacentFactory">
+										<type>dock.CContentArea.minimize</type>
+									</layout>
+								</adjacent>
+								<children ignore="false"/>
+							</root>
+						</roots>
+						<children>
+							<child key="single PaletteView" location="false"/>
+							<child key="single DataView" location="false"/>
+						</children>
+					</base>
+					<modes>
+						<dockables>
+							<entry id="single Properties" current="dock.mode.normal">
+								<history>
+									<mode>dock.mode.normal</mode>
+								</history>
+								<properties>
+									<property id="dock.mode.normal">
+										<mode>dock.mode.normal</mode>
+										<root>EditorArea</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="SplitDockPlaceholderProperty">
+												<placeholder>dock.single.Properties</placeholder>
+												<backup-path>
+													<node location="TOP" size="0.5" id="1500643036059"/>
+													<leaf id="1500643036057"/>
+												</backup-path>
+											</property>
+										</location>
+									</property>
+								</properties>
+							</entry>
+							<entry id="single SchedulerView" current="dock.mode.normal">
+								<history>
+									<mode>dock.mode.externalized</mode>
+									<mode>dock.mode.normal</mode>
+								</history>
+								<properties>
+									<property id="dock.mode.externalized">
+										<mode>dock.mode.externalized</mode>
+										<root>external</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="screen dock">
+												<x>2002</x>
+												<y>401</y>
+												<width>1920</width>
+												<height>891</height>
+												<fullscreen>false</fullscreen>
+												<placeholder>dock.single.SchedulerView</placeholder>
+											</property>
+										</location>
+									</property>
+									<property id="dock.mode.normal">
+										<mode>dock.mode.normal</mode>
+										<root>ccontrol center</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="SplitDockPlaceholderProperty">
+												<placeholder>dock.single.SchedulerView</placeholder>
+												<backup-path>
+													<node location="BOTTOM" size="0.45185185185185184" id="1500643045563"/>
+													<node location="LEFT" size="0.8533163265306123" id="1500643047894"/>
+													<node location="LEFT" size="0.5268948655256723" id="1500643123492"/>
+													<leaf id="1500643123490"/>
+												</backup-path>
+											</property>
+										</location>
+									</property>
+								</properties>
+							</entry>
+							<entry id="single PaletteView">
+								<history/>
+								<properties/>
+							</entry>
+							<entry id="single DataView">
+								<history/>
+								<properties/>
+							</entry>
+							<entry id="single MapView" current="dock.mode.normal">
+								<history>
+									<mode>dock.mode.externalized</mode>
+									<mode>dock.mode.normal</mode>
+								</history>
+								<properties>
+									<property id="dock.mode.externalized">
+										<mode>dock.mode.externalized</mode>
+										<root>external</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="screen dock">
+												<x>2255</x>
+												<y>374</y>
+												<width>1920</width>
+												<height>993</height>
+												<fullscreen>false</fullscreen>
+												<placeholder>dock.single.MapView</placeholder>
+											</property>
+										</location>
+									</property>
+									<property id="dock.mode.normal">
+										<mode>dock.mode.normal</mode>
+										<root>ccontrol center</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="SplitDockPlaceholderProperty">
+												<placeholder>dock.single.MapView</placeholder>
+												<backup-path>
+													<node location="TOP" size="0.5481481481481482" id="1500643045563"/>
+													<node location="RIGHT" size="0.775" id="1500643049735"/>
+													<node location="RIGHT" size="0.648721399730821" id="1500643105937"/>
+													<leaf id="1500643105935"/>
+												</backup-path>
+											</property>
+										</location>
+									</property>
+								</properties>
+							</entry>
+							<entry id="single EditorArea" current="dock.mode.normal">
+								<history>
+									<mode>dock.mode.normal</mode>
+								</history>
+								<properties>
+									<property id="dock.mode.normal">
+										<mode>dock.mode.normal</mode>
+										<root>ccontrol center</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="SplitDockPlaceholderProperty">
+												<placeholder>dock.single.EditorArea</placeholder>
+												<backup-path>
+													<leaf id="1500643019212"/>
+												</backup-path>
+											</property>
+										</location>
+									</property>
+								</properties>
+							</entry>
+							<entry id="single WorkspaceView" current="dock.mode.normal">
+								<history>
+									<mode>dock.mode.minimized</mode>
+									<mode>dock.mode.normal</mode>
+								</history>
+								<properties>
+									<property id="dock.mode.minimized">
+										<mode>dock.mode.minimized</mode>
+										<root>ccontrol west</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="flap dock">
+												<index>0</index>
+												<holding>false</holding>
+												<size>400</size>
+												<placeholder>dock.single.WorkspaceView</placeholder>
+											</property>
+										</location>
+									</property>
+									<property id="dock.mode.normal">
+										<mode>dock.mode.normal</mode>
+										<root>EditorArea</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="SplitDockPlaceholderProperty">
+												<placeholder>dock.single.WorkspaceView</placeholder>
+												<backup-path>
+													<node location="BOTTOM" size="0.5" id="1500643036059"/>
+													<node location="TOP" size="0.5" id="1500643033378"/>
+													<leaf id="1500643033376"/>
+												</backup-path>
+											</property>
+										</location>
+									</property>
+								</properties>
+							</entry>
+							<entry id="single ConsoleView" current="dock.mode.normal">
+								<history>
+									<mode>dock.mode.normal</mode>
+								</history>
+								<properties>
+									<property id="dock.mode.normal">
+										<mode>dock.mode.normal</mode>
+										<root>EditorArea</root>
+										<applicationDefined>false</applicationDefined>
+										<location>
+											<property factory="SplitDockPlaceholderProperty">
+												<placeholder>dock.single.ConsoleView</placeholder>
+												<backup-path>
+													<node location="BOTTOM" size="0.5" id="1500643036059"/>
+													<node location="BOTTOM" size="0.5" id="1500643033378"/>
+													<leaf id="1500643030220"/>
+												</backup-path>
+											</property>
+										</location>
+									</property>
+								</properties>
+							</entry>
+						</dockables>
+						<modes>
+							<entry id="dock.mode.maximized"/>
+						</modes>
+					</modes>
+				</setting>
+			</settings>
+			<current name="default">
+				<base>
+					<roots>
+						<root name="external">
+							<layout factory="predefined">
+								<replacement id="rootexternal"/>
+								<delegate id="delegate_CommonDockStationFactory">
+									<root>true</root>
+									<content delegate="screen dock">
+										<placeholders>
+											<version>0</version>
+											<format>dock.PlaceholderList</format>
+											<entry>
+												<key shared="false">
+													<placeholder>dock.single.MapView</placeholder>
+												</key>
+												<item key="item" type="b">true</item>
+												<item key="item-keys" type="a">
+													<item type="s">x</item>
+													<item type="s">width</item>
+													<item type="s">y</item>
+													<item type="s">height</item>
+												</item>
+												<item key="item.x" type="i">2255</item>
+												<item key="item.width" type="i">1920</item>
+												<item key="item.y" type="i">374</item>
+												<item key="item.height" type="i">993</item>
+											</entry>
+											<entry>
+												<key shared="false">
+													<placeholder>dock.single.SchedulerView</placeholder>
+												</key>
+												<item key="item" type="b">true</item>
+												<item key="item-keys" type="a">
+													<item type="s">x</item>
+													<item type="s">width</item>
+													<item type="s">y</item>
+													<item type="s">height</item>
+												</item>
+												<item key="item.x" type="i">2002</item>
+												<item key="item.width" type="i">1920</item>
+												<item key="item.y" type="i">401</item>
+												<item key="item.height" type="i">891</item>
+											</entry>
+										</placeholders>
+									</content>
+								</delegate>
+							</layout>
+							<adjacent>
+								<layout factory="dock.RootStationAdjacentFactory">
+									<type>dock.CExternalizeArea</type>
+								</layout>
+							</adjacent>
+							<children ignore="false"/>
+						</root>
+						<root name="ccontrol north">
+							<layout factory="predefined">
+								<replacement id="rootccontrol north"/>
+								<delegate id="delegate_CommonDockStationFactory">
+									<root>true</root>
+									<content delegate="flap dock">
+										<window auto="false" direction="SOUTH"/>
+										<placeholders>
+											<version>0</version>
+											<format>dock.PlaceholderList</format>
+										</placeholders>
+									</content>
+								</delegate>
+							</layout>
+							<adjacent>
+								<layout factory="dock.RootStationAdjacentFactory">
+									<type>dock.CContentArea.minimize</type>
+								</layout>
+							</adjacent>
+							<children ignore="false"/>
+						</root>
+						<root name="ccontrol south">
+							<layout factory="predefined">
+								<replacement id="rootccontrol south"/>
+								<delegate id="delegate_CommonDockStationFactory">
+									<root>true</root>
+									<content delegate="flap dock">
+										<window auto="false" direction="NORTH"/>
+										<placeholders>
+											<version>0</version>
+											<format>dock.PlaceholderList</format>
+										</placeholders>
+									</content>
+								</delegate>
+							</layout>
+							<adjacent>
+								<layout factory="dock.RootStationAdjacentFactory">
+									<type>dock.CContentArea.minimize</type>
+								</layout>
+							</adjacent>
+							<children ignore="false"/>
+						</root>
+						<root name="ccontrol east">
+							<layout factory="predefined">
+								<replacement id="rootccontrol east"/>
+								<delegate id="delegate_CommonDockStationFactory">
+									<root>true</root>
+									<content delegate="flap dock">
+										<window auto="false" direction="WEST"/>
+										<placeholders>
+											<version>0</version>
+											<format>dock.PlaceholderList</format>
+										</placeholders>
+									</content>
+								</delegate>
+							</layout>
+							<adjacent>
+								<layout factory="dock.RootStationAdjacentFactory">
+									<type>dock.CContentArea.minimize</type>
+								</layout>
+							</adjacent>
+							<children ignore="false"/>
+						</root>
+						<root name="ccontrol center">
+							<layout factory="predefined" placeholder="dock.single.ccontrol\ center">
+								<replacement id="rootccontrol center"/>
+								<delegate id="delegate_CommonDockStationFactory">
+									<id>ccontrol center</id>
+									<root>true</root>
+									<content delegate="SplitDockStationFactory">
+										<fullscreen-action>false</fullscreen-action>
+										<node nodeId="1500643045563" orientation="VERTICAL" divider="0.7580645161290323">
+											<node nodeId="1500643049735" orientation="HORIZONTAL" divider="0.15989583333333332">
+												<leaf id="0" nodeId="1500643049733">
+													<placeholders>
+														<placeholder>dock.single.WorkspaceView</placeholder>
+													</placeholders>
+												</leaf>
+												<node nodeId="1500643105937" orientation="HORIZONTAL" divider="0.6352624495289366">
+													<leaf id="1" nodeId="1500643019212">
+														<placeholders>
+															<placeholder>dock.single.EditorArea</placeholder>
+														</placeholders>
+														<placeholder-map>
+															<version>0</version>
+															<format>dock.SplitDockStation</format>
+														</placeholder-map>
+													</leaf>
+													<leaf id="2" nodeId="1500643105935">
+														<placeholders>
+															<placeholder>dock.single.MapView</placeholder>
+														</placeholders>
+													</leaf>
+												</node>
+											</node>
+											<node nodeId="1500643047894" orientation="HORIZONTAL" divider="0.8533163265306123">
+												<node nodeId="1500643123492" orientation="HORIZONTAL" divider="0.18516624678855603">
+													<leaf id="5" nodeId="1500643123490">
+														<placeholders>
+															<placeholder>dock.single.SchedulerView</placeholder>
+														</placeholders>
+													</leaf>
+													<leaf id="4" nodeId="1500643045561">
+														<placeholders>
+															<placeholder>dock.single.Properties</placeholder>
+														</placeholders>
+													</leaf>
+												</node>
+												<leaf id="3" nodeId="1500643047892">
+													<placeholders>
+														<placeholder>dock.single.ConsoleView</placeholder>
+													</placeholders>
+												</leaf>
+											</node>
+										</node>
+									</content>
+								</delegate>
+							</layout>
+							<adjacent>
+								<layout factory="dock.RootStationAdjacentFactory">
+									<type>dock.CContentArea.center</type>
+								</layout>
+							</adjacent>
+							<children ignore="false">
+								<child>
+									<layout factory="predefined" placeholder="dock.single.WorkspaceView">
+										<replacement id="dockablesingle WorkspaceView"/>
+										<delegate id="delegate_ccontrol backup factory id">
+											<id>WorkspaceView</id>
+											<area/>
+										</delegate>
+									</layout>
+									<children ignore="false"/>
+								</child>
+								<child>
+									<layout factory="predefined" placeholder="dock.single.EditorArea">
+										<replacement id="dockablesingle EditorArea"/>
+										<delegate id="delegate_CommonDockStationFactory">
+											<id>EditorArea</id>
+											<root>true</root>
+											<content delegate="SplitDockStationFactory">
+												<fullscreen-action>false</fullscreen-action>
+												<node nodeId="1500643162426" orientation="VERTICAL" divider="0.5">
+													<leaf id="-1" nodeId="1500643162424">
+														<placeholders>
+															<placeholder>dock.single.DataView</placeholder>
+														</placeholders>
+													</leaf>
+													<node nodeId="1500643118274" orientation="VERTICAL" divider="0.5">
+														<leaf id="-1" nodeId="1500643118272">
+															<placeholders>
+																<placeholder>dock.single.SchedulerView</placeholder>
+															</placeholders>
+														</leaf>
+														<node nodeId="1500643098900" orientation="VERTICAL" divider="0.5">
+															<leaf id="-1" nodeId="1500643098898">
+																<placeholders>
+																	<placeholder>dock.single.MapView</placeholder>
+																</placeholders>
+															</leaf>
+															<node nodeId="1500643054219" orientation="VERTICAL" divider="0.5">
+																<leaf id="-1" nodeId="1500643054217">
+																	<placeholders>
+																		<placeholder>dock.multi.\0\ Model\ Editor</placeholder>
+																		<placeholder>dock.multi.\0\ Map\ View\ Layout\ Editor</placeholder>
+																	</placeholders>
+																	<placeholder-map>
+																		<version>0</version>
+																		<format>dock.PlaceholderList</format>
+																	</placeholder-map>
+																</leaf>
+																<node nodeId="1500643036059" orientation="VERTICAL" divider="0.5">
+																	<leaf id="-1" nodeId="1500643036057">
+																		<placeholders>
+																			<placeholder>dock.single.Properties</placeholder>
+																		</placeholders>
+																	</leaf>
+																	<node nodeId="1500643033378" orientation="VERTICAL" divider="0.5">
+																		<leaf id="-1" nodeId="1500643033376">
+																			<placeholders>
+																				<placeholder>dock.single.WorkspaceView</placeholder>
+																			</placeholders>
+																		</leaf>
+																		<leaf id="-1" nodeId="1500643030220">
+																			<placeholders>
+																				<placeholder>dock.single.ConsoleView</placeholder>
+																			</placeholders>
+																		</leaf>
+																	</node>
+																</node>
+															</node>
+														</node>
+													</node>
+												</node>
+											</content>
+										</delegate>
+									</layout>
+									<adjacent>
+										<layout factory="dock.RootStationAdjacentFactory">
+											<type>dock.CWorkingArea</type>
+										</layout>
+									</adjacent>
+									<children ignore="false"/>
+								</child>
+								<child>
+									<layout factory="predefined" placeholder="dock.single.MapView">
+										<replacement id="dockablesingle MapView"/>
+										<delegate id="delegate_ccontrol backup factory id">
+											<id>MapView</id>
+											<area/>
+										</delegate>
+									</layout>
+									<children ignore="false"/>
+								</child>
+								<child>
+									<layout factory="predefined" placeholder="dock.single.ConsoleView">
+										<replacement id="dockablesingle ConsoleView"/>
+										<delegate id="delegate_ccontrol backup factory id">
+											<id>ConsoleView</id>
+											<area/>
+										</delegate>
+									</layout>
+									<children ignore="false"/>
+								</child>
+								<child>
+									<layout factory="predefined" placeholder="dock.single.Properties">
+										<replacement id="dockablesingle Properties"/>
+										<delegate id="delegate_ccontrol backup factory id">
+											<id>Properties</id>
+											<area/>
+										</delegate>
+									</layout>
+									<children ignore="false"/>
+								</child>
+								<child>
+									<layout factory="predefined" placeholder="dock.single.SchedulerView">
+										<replacement id="dockablesingle SchedulerView"/>
+										<delegate id="delegate_ccontrol backup factory id">
+											<id>SchedulerView</id>
+											<area/>
+										</delegate>
+									</layout>
+									<children ignore="false"/>
+								</child>
+							</children>
+						</root>
+						<root name="ccontrol west">
+							<layout factory="predefined">
+								<replacement id="rootccontrol west"/>
+								<delegate id="delegate_CommonDockStationFactory">
+									<root>true</root>
+									<content delegate="flap dock">
+										<window auto="false" direction="EAST"/>
+										<placeholders>
+											<version>0</version>
+											<format>dock.PlaceholderList</format>
+											<entry>
+												<key shared="false">
+													<placeholder>dock.single.WorkspaceView</placeholder>
+												</key>
+											</entry>
+										</placeholders>
+									</content>
+								</delegate>
+							</layout>
+							<adjacent>
+								<layout factory="dock.RootStationAdjacentFactory">
+									<type>dock.CContentArea.minimize</type>
+								</layout>
+							</adjacent>
+							<children ignore="false"/>
+						</root>
+					</roots>
+					<children>
+						<child key="single PaletteView" location="false"/>
+						<child key="single DataView" location="false">
+							<layout>
+								<layout factory="predefined" placeholder="dock.single.DataView">
+									<replacement id="dockablesingle DataView"/>
+									<delegate id="delegate_ccontrol backup factory id">
+										<id>DataView</id>
+										<area/>
+									</delegate>
+								</layout>
+								<children ignore="false"/>
+							</layout>
+						</child>
+					</children>
+				</base>
+				<modes>
+					<dockables>
+						<entry id="single Properties" current="dock.mode.normal">
+							<history>
+								<mode>dock.mode.normal</mode>
+							</history>
+							<properties>
+								<property id="dock.mode.normal">
+									<mode>dock.mode.normal</mode>
+									<root>EditorArea</root>
+									<applicationDefined>false</applicationDefined>
+									<location>
+										<property factory="SplitDockPlaceholderProperty">
+											<placeholder>dock.single.Properties</placeholder>
+											<backup-path>
+												<node location="TOP" size="0.5" id="1500643036059"/>
+												<leaf id="1500643036057"/>
+											</backup-path>
+										</property>
+									</location>
+								</property>
+							</properties>
+						</entry>
+						<entry id="single SchedulerView" current="dock.mode.normal">
+							<history>
+								<mode>dock.mode.externalized</mode>
+								<mode>dock.mode.normal</mode>
+							</history>
+							<properties>
+								<property id="dock.mode.externalized">
+									<mode>dock.mode.externalized</mode>
+									<root>external</root>
+									<applicationDefined>false</applicationDefined>
+									<location>
+										<property factory="screen dock">
+											<x>2002</x>
+											<y>401</y>
+											<width>1920</width>
+											<height>891</height>
+											<fullscreen>false</fullscreen>
+											<placeholder>dock.single.SchedulerView</placeholder>
+										</property>
+									</location>
+								</property>
+								<property id="dock.mode.normal">
+									<mode>dock.mode.normal</mode>
+									<root>ccontrol center</root>
+									<applicationDefined>false</applicationDefined>
+									<location>
+										<property factory="SplitDockPlaceholderProperty">
+											<placeholder>dock.single.SchedulerView</placeholder>
+											<backup-path>
+												<node location="BOTTOM" size="0.45185185185185184" id="1500643045563"/>
+												<node location="LEFT" size="0.8533163265306123" id="1500643047894"/>
+												<node location="LEFT" size="0.5268948655256723" id="1500643123492"/>
+												<leaf id="1500643123490"/>
+											</backup-path>
+										</property>
+									</location>
+								</property>
+							</properties>
+						</entry>
+						<entry id="single PaletteView">
+							<history/>
+							<properties/>
+						</entry>
+						<entry id="single DataView">
+							<history/>
+							<properties/>
+						</entry>
+						<entry id="single MapView" current="dock.mode.normal">
+							<history>
+								<mode>dock.mode.externalized</mode>
+								<mode>dock.mode.normal</mode>
+							</history>
+							<properties>
+								<property id="dock.mode.externalized">
+									<mode>dock.mode.externalized</mode>
+									<root>external</root>
+									<applicationDefined>false</applicationDefined>
+									<location>
+										<property factory="screen dock">
+											<x>2255</x>
+											<y>374</y>
+											<width>1920</width>
+											<height>993</height>
+											<fullscreen>false</fullscreen>
+											<placeholder>dock.single.MapView</placeholder>
+										</property>
+									</location>
+								</property>
+								<property id="dock.mode.normal">
+									<mode>dock.mode.normal</mode>
+									<root>ccontrol center</root>
+									<applicationDefined>false</applicationDefined>
+									<location>
+										<property factory="SplitDockPlaceholderProperty">
+											<placeholder>dock.single.MapView</placeholder>
+											<backup-path>
+												<node location="TOP" size="0.5481481481481482" id="1500643045563"/>
+												<node location="RIGHT" size="0.775" id="1500643049735"/>
+												<node location="RIGHT" size="0.648721399730821" id="1500643105937"/>
+												<leaf id="1500643105935"/>
+											</backup-path>
+										</property>
+									</location>
+								</property>
+							</properties>
+						</entry>
+						<entry id="single EditorArea" current="dock.mode.normal">
+							<history>
+								<mode>dock.mode.normal</mode>
+							</history>
+							<properties>
+								<property id="dock.mode.normal">
+									<mode>dock.mode.normal</mode>
+									<root>ccontrol center</root>
+									<applicationDefined>false</applicationDefined>
+									<location>
+										<property factory="SplitDockPlaceholderProperty">
+											<placeholder>dock.single.EditorArea</placeholder>
+											<backup-path>
+												<leaf id="1500643019212"/>
+											</backup-path>
+										</property>
+									</location>
+								</property>
+							</properties>
+						</entry>
+						<entry id="single WorkspaceView" current="dock.mode.normal">
+							<history>
+								<mode>dock.mode.minimized</mode>
+								<mode>dock.mode.normal</mode>
+							</history>
+							<properties>
+								<property id="dock.mode.minimized">
+									<mode>dock.mode.minimized</mode>
+									<root>ccontrol west</root>
+									<applicationDefined>false</applicationDefined>
+									<location>
+										<property factory="flap dock">
+											<index>0</index>
+											<holding>false</holding>
+											<size>400</size>
+											<placeholder>dock.single.WorkspaceView</placeholder>
+										</property>
+									</location>
+								</property>
+								<property id="dock.mode.normal">
+									<mode>dock.mode.normal</mode>
+									<root>EditorArea</root>
+									<applicationDefined>false</applicationDefined>
+									<location>
+										<property factory="SplitDockPlaceholderProperty">
+											<placeholder>dock.single.WorkspaceView</placeholder>
+											<backup-path>
+												<node location="BOTTOM" size="0.5" id="1500643036059"/>
+												<node location="TOP" size="0.5" id="1500643033378"/>
+												<leaf id="1500643033376"/>
+											</backup-path>
+										</property>
+									</location>
+								</property>
+							</properties>
+						</entry>
+						<entry id="single ConsoleView" current="dock.mode.normal">
+							<history>
+								<mode>dock.mode.normal</mode>
+							</history>
+							<properties>
+								<property id="dock.mode.normal">
+									<mode>dock.mode.normal</mode>
+									<root>EditorArea</root>
+									<applicationDefined>false</applicationDefined>
+									<location>
+										<property factory="SplitDockPlaceholderProperty">
+											<placeholder>dock.single.ConsoleView</placeholder>
+											<backup-path>
+												<node location="BOTTOM" size="0.5" id="1500643036059"/>
+												<node location="BOTTOM" size="0.5" id="1500643033378"/>
+												<leaf id="1500643030220"/>
+											</backup-path>
+										</property>
+									</location>
+								</property>
+							</properties>
+						</entry>
+					</dockables>
+					<modes>
+						<entry id="dock.mode.maximized"/>
+					</modes>
+				</modes>
+			</current>
+		</frontend>
+	</resource>
+	<resource name="ccontrol.preferences"/>
+</root>

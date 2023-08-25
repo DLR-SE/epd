@@ -1,0 +1,25 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>de.dlr-se.emir.runtime</groupId>
+    <artifactId>runtime</artifactId>
+    <version>4.0.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>productcore</artifactId>
+  <name>ProductCore</name>
+  <description>Basic structure for products based on the eMIR platform.</description>
+  
+  <dependencies>
+  	<dependency>
+  		<groupId>de.dlr-se.emir.runtime</groupId>
+  		<artifactId>uiplugincore</artifactId>
+  		<version>${runtime.version}</version>
+  	</dependency>
+	
+  	<dependency>
+  		<groupId>de.dlr-se.emir.runtime</groupId>
+  		<artifactId>epf</artifactId>
+  		<version>${runtime.version}</version>
+  	</dependency>
+  </dependencies>
+</project>

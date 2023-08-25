@@ -1,0 +1,311 @@
+<?xml version='1.0'?>
+<root>
+	<resource name="dock.ui.ThemeMap">
+		<key>smooth</key>
+	</resource>
+	<resource name="ccontrol.frontend">
+		<frontend>
+			<current>
+				<base>
+					<roots>
+						<root name="external">
+							<layout factory="predefined">
+								<replacement id="rootexternal"/>
+								<delegate id="delegate_CommonDockStationFactory">
+									<root>true</root>
+									<content delegate="screen dock">
+										<placeholders>
+											<version>0</version>
+											<format>dock.PlaceholderList</format>
+										</placeholders>
+									</content>
+								</delegate>
+							</layout>
+							<adjacent>
+								<layout factory="dock.RootStationAdjacentFactory">
+									<type>dock.CExternalizeArea</type>
+								</layout>
+							</adjacent>
+							<children ignore="false"/>
+						</root>
+						<root name="ccontrol north">
+							<layout factory="predefined">
+								<replacement id="rootccontrol north"/>
+								<delegate id="delegate_CommonDockStationFactory">
+									<root>true</root>
+									<content delegate="flap dock">
+										<window auto="false" direction="SOUTH"/>
+										<placeholders>
+											<version>0</version>
+											<format>dock.PlaceholderList</format>
+										</placeholders>
+									</content>
+								</delegate>
+							</layout>
+							<adjacent>
+								<layout factory="dock.RootStationAdjacentFactory">
+									<type>dock.CContentArea.minimize</type>
+								</layout>
+							</adjacent>
+							<children ignore="false"/>
+						</root>
+						<root name="ccontrol south">
+							<layout factory="predefined">
+								<replacement id="rootccontrol south"/>
+								<delegate id="delegate_CommonDockStationFactory">
+									<root>true</root>
+									<content delegate="flap dock">
+										<window auto="false" direction="NORTH"/>
+										<placeholders>
+											<version>0</version>
+											<format>dock.PlaceholderList</format>
+										</placeholders>
+									</content>
+								</delegate>
+							</layout>
+							<adjacent>
+								<layout factory="dock.RootStationAdjacentFactory">
+									<type>dock.CContentArea.minimize</type>
+								</layout>
+							</adjacent>
+							<children ignore="false"/>
+						</root>
+						<root name="ccontrol east">
+							<layout factory="predefined">
+								<replacement id="rootccontrol east"/>
+								<delegate id="delegate_CommonDockStationFactory">
+									<root>true</root>
+									<content delegate="flap dock">
+										<window auto="false" direction="WEST"/>
+										<placeholders>
+											<version>0</version>
+											<format>dock.PlaceholderList</format>
+										</placeholders>
+									</content>
+								</delegate>
+							</layout>
+							<adjacent>
+								<layout factory="dock.RootStationAdjacentFactory">
+									<type>dock.CContentArea.minimize</type>
+								</layout>
+							</adjacent>
+							<children ignore="false"/>
+						</root>
+						<root name="ccontrol center">
+							<layout factory="predefined" placeholder="dock.single.ccontrol\ center">
+								<replacement id="rootccontrol center"/>
+								<delegate id="delegate_CommonDockStationFactory">
+									<id>ccontrol center</id>
+									<root>true</root>
+									<content delegate="SplitDockStationFactory">
+										<fullscreen-action>false</fullscreen-action>
+										<node nodeId="1518613942264" orientation="HORIZONTAL" divider="0.7177215189873418">
+											<leaf id="2" nodeId="1518613931522">
+												<placeholders>
+													<placeholder>dock.single.de\.emir\.epd\.mapview\.views\.MapView</placeholder>
+												</placeholders>
+											</leaf>
+											<node nodeId="1518613944821" orientation="HORIZONTAL" divider="0.9969650986342944">
+												<node nodeId="1518613948715" orientation="VERTICAL" divider="0.4990403071017274">
+													<leaf id="3" nodeId="1518613931571">
+														<placeholders>
+															<placeholder>dock.single.de\.emir\.epd\.mapview\.views\.LayerView</placeholder>
+														</placeholders>
+													</leaf>
+													<leaf id="1" nodeId="1518613931451">
+														<placeholders>
+															<placeholder>dock.single.aisTargetView</placeholder>
+														</placeholders>
+													</leaf>
+												</node>
+												<leaf id="0" nodeId="1518613931161">
+													<placeholders>
+														<placeholder>dock.single.EditorArea</placeholder>
+													</placeholders>
+													<placeholder-map>
+														<version>0</version>
+														<format>dock.SplitDockStation</format>
+													</placeholder-map>
+												</leaf>
+											</node>
+										</node>
+									</content>
+								</delegate>
+							</layout>
+							<adjacent>
+								<layout factory="dock.RootStationAdjacentFactory">
+									<type>dock.CContentArea.center</type>
+								</layout>
+							</adjacent>
+							<children ignore="false">
+								<child>
+									<layout factory="predefined" placeholder="dock.single.EditorArea">
+										<replacement id="dockablesingle EditorArea"/>
+										<delegate id="delegate_CommonDockStationFactory">
+											<id>EditorArea</id>
+											<root>true</root>
+											<content delegate="SplitDockStationFactory">
+												<fullscreen-action>false</fullscreen-action>
+											</content>
+										</delegate>
+									</layout>
+									<adjacent>
+										<layout factory="dock.RootStationAdjacentFactory">
+											<type>dock.CWorkingArea</type>
+										</layout>
+									</adjacent>
+									<children ignore="false"/>
+								</child>
+								<child>
+									<layout factory="predefined" placeholder="dock.single.aisTargetView">
+										<replacement id="dockablesingle aisTargetView"/>
+										<delegate id="delegate_ccontrol backup factory id">
+											<id>aisTargetView</id>
+											<area/>
+										</delegate>
+									</layout>
+									<children ignore="false"/>
+								</child>
+								<child>
+									<layout factory="predefined" placeholder="dock.single.de\.emir\.epd\.mapview\.views\.MapView">
+										<replacement id="dockablesingle de.emir.epd.mapview.views.MapView"/>
+										<delegate id="delegate_ccontrol backup factory id">
+											<id>de.emir.epd.mapview.views.MapView</id>
+											<area/>
+										</delegate>
+									</layout>
+									<children ignore="false"/>
+								</child>
+								<child>
+									<layout factory="predefined" placeholder="dock.single.de\.emir\.epd\.mapview\.views\.LayerView">
+										<replacement id="dockablesingle de.emir.epd.mapview.views.LayerView"/>
+										<delegate id="delegate_ccontrol backup factory id">
+											<id>de.emir.epd.mapview.views.LayerView</id>
+											<area/>
+										</delegate>
+									</layout>
+									<children ignore="false"/>
+								</child>
+							</children>
+						</root>
+						<root name="ccontrol west">
+							<layout factory="predefined">
+								<replacement id="rootccontrol west"/>
+								<delegate id="delegate_CommonDockStationFactory">
+									<root>true</root>
+									<content delegate="flap dock">
+										<window auto="false" direction="EAST"/>
+										<placeholders>
+											<version>0</version>
+											<format>dock.PlaceholderList</format>
+										</placeholders>
+									</content>
+								</delegate>
+							</layout>
+							<adjacent>
+								<layout factory="dock.RootStationAdjacentFactory">
+									<type>dock.CContentArea.minimize</type>
+								</layout>
+							</adjacent>
+							<children ignore="false"/>
+						</root>
+					</roots>
+					<children/>
+				</base>
+				<modes>
+					<dockables>
+						<entry id="single aisTargetView" current="dock.mode.normal">
+							<history>
+								<mode>dock.mode.normal</mode>
+							</history>
+							<properties>
+								<property id="dock.mode.normal">
+									<mode>dock.mode.normal</mode>
+									<root>ccontrol center</root>
+									<applicationDefined>false</applicationDefined>
+									<location>
+										<property factory="SplitDockPlaceholderProperty">
+											<placeholder>dock.single.aisTargetView</placeholder>
+											<backup-path>
+												<node location="TOP" size="0.5" id="1518613931573"/>
+												<leaf id="1518613931451"/>
+											</backup-path>
+										</property>
+									</location>
+								</property>
+							</properties>
+						</entry>
+						<entry id="single de.emir.epd.mapview.views.MapView" current="dock.mode.normal">
+							<history>
+								<mode>dock.mode.normal</mode>
+							</history>
+							<properties>
+								<property id="dock.mode.normal">
+									<mode>dock.mode.normal</mode>
+									<root>ccontrol center</root>
+									<applicationDefined>false</applicationDefined>
+									<location>
+										<property factory="SplitDockPlaceholderProperty">
+											<placeholder>dock.single.de\.emir\.epd\.mapview\.views\.MapView</placeholder>
+											<backup-path>
+												<node location="TOP" size="0.5" id="1518613931573"/>
+												<node location="LEFT" size="0.16329113924050634" id="1518613938339"/>
+												<leaf id="1518613931522"/>
+											</backup-path>
+										</property>
+									</location>
+								</property>
+							</properties>
+						</entry>
+						<entry id="single EditorArea" current="dock.mode.normal">
+							<history>
+								<mode>dock.mode.normal</mode>
+							</history>
+							<properties>
+								<property id="dock.mode.normal">
+									<mode>dock.mode.normal</mode>
+									<root>ccontrol center</root>
+									<applicationDefined>false</applicationDefined>
+									<location>
+										<property factory="SplitDockPlaceholderProperty">
+											<placeholder>dock.single.EditorArea</placeholder>
+											<backup-path>
+												<leaf id="1518613931161"/>
+											</backup-path>
+										</property>
+									</location>
+								</property>
+							</properties>
+						</entry>
+						<entry id="single de.emir.epd.mapview.views.LayerView" current="dock.mode.normal">
+							<history>
+								<mode>dock.mode.normal</mode>
+							</history>
+							<properties>
+								<property id="dock.mode.normal">
+									<mode>dock.mode.normal</mode>
+									<root>ccontrol center</root>
+									<applicationDefined>false</applicationDefined>
+									<location>
+										<property factory="SplitDockPlaceholderProperty">
+											<placeholder>dock.single.de\.emir\.epd\.mapview\.views\.LayerView</placeholder>
+											<backup-path>
+												<node location="TOP" size="0.5" id="1518613931573"/>
+												<node location="LEFT" size="0.8042488619119879" id="1518613939774"/>
+												<leaf id="1518613931571"/>
+											</backup-path>
+										</property>
+									</location>
+								</property>
+							</properties>
+						</entry>
+					</dockables>
+					<modes>
+						<entry id="dock.mode.maximized"/>
+					</modes>
+				</modes>
+			</current>
+		</frontend>
+	</resource>
+	<resource name="ccontrol.preferences"/>
+</root>

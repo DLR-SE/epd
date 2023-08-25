@@ -1,0 +1,258 @@
+#import "classpath:/model/Core.tuml"  
+#import "classpath:/model/Math.tuml"     
+
+using UCore.de.*;
+
+/**
+* The S-100 standard has been designed for the producers and users of hydrographic information, however its principles can be extended to many other forms of geographic information including maps, and text documents.
+* The location of an object in the S-100 standard is defined by means of coordinates. Those coordinates relate a feature to a position. This Part describes all elements that are necessary to fully define the referencing by means of coordinate systems and datums. It defines the conceptual schema for the description of spatial referencing by coordinates and describes the minimum data required to define 1-, 2- and 3-dimensional spatial coordinate references.
+* In addition to the elements necessary to define a coordinate reference system this Part also describes operations to transform coordinates from one coordinate reference system to another. This includes operations for datum transformation and map projections.
+* Coordinate reference systems, as well as single elements to define them, may be registered in a register or defined by an organization in a document. This Part describes how those elements are identified.
+* \source S-100 Standard Version 2 Part 6
+*/
+Model CRS {
+	package de {
+		package emir {
+			package model {
+				package universal {
+					/**
+					 * \note for now we skip the definition of ComboundCRS as defined in S-100 Part 6 to keep the model as simple as possible
+					 * if there is a need to add these CRS they will be added here. 
+					 */
+					package crs {
+
+						enum AxisDirection {
+							/**
+						     * Axis positive direction is north. In a geographic or projected CRS,
+						     * north is defined through the geodetic datum. In an engineering CRS,
+						     * north may be defined with respect to an engineering object rather
+						     * than a geographical direction.
+						     * [GeoAPI]
+						     */
+							NORTH = 0;
+							/**
+						     * Axis positive direction is &pi;/2 radians clockwise from north.
+						     * This is usually used for Grid X coordinates and Longitude.
+						     * [GeoAPI]
+						     */
+							EAST = 1;
+							/**
+						     * Axis positive direction is &pi; radians clockwise from north.
+						     * [GeoAPI]
+						     */
+							SOUTH = 2;
+							 /**
+						     * Axis positive direction is 3&pi;/2 radians clockwise from north.
+						     * This is usually used for Grid X coordinates and Longitude.
+						     * [GeoAPI]
+						     */
+							WEST = 3;
+							 /**
+						     * Axis positive direction is up relative to gravity.
+						     * [GeoAPI]
+						     */
+							UP = 4;
+							/**
+						     * Axis positive direction is down relative to gravity.
+						     * [GeoAPI]
+						     */
+							DOWN = 5;
+						    /**
+						     * Axis positive direction is in the equatorial plane from the centre of the
+						     * modelled earth towards the intersection of the equator with the prime meridian.
+						     * [GeoAPI]
+						     */
+							GEOCENTRIC_X = 6;
+						    /**
+						     * Axis positive direction is in the equatorial plane from the centre of the
+						     * modelled earth towards the intersection of the equator and the meridian &pi;/2
+						     * radians eastwards from the prime meridian.
+						     * [GeoAPI]
+						     */
+							GEOCENTRIC_Y = 7;
+							 /**
+						     * Axis positive direction is from the centre of the modelled earth parallel to
+						     * its rotation axis and towards its north pole.
+						     * [GeoAPI]
+						     */
+							GEOCENTRIC_Z = 8;
+							 /**
+						     * Axis positive direction is right in display.
+						     * [GeoAPI]
+						     */
+							DISPLAY_LEFT = 9;
+							/**
+						     * Axis positive direction is left in display.
+						     * [GeoAPI]
+						     */
+							DISPLAY_RIGHT = 10;
+							/**
+						     * Axis positive direction is towards top of approximately vertical display surface.
+						     * [GeoAPI]
+						     */
+							DISPLAY_UP = 11;
+							/**
+						     * Axis positive direction is towards bottom of approximately vertical display surface.
+						     * [GeoAPI]
+						     */
+							DISPLAY_DOWN = 12;
+						}
+
+
+						<<ComplexAttributeType>> 
+						struct CoordinateSystemAxis {
+							AxisDirection direction;
+							/** symbolic name of this axis (axisSymbol in S100) */
+							String name;
+							/** defines the minimum valid scope of this axis and thus the minimum value of the valid envelope, created by this cs */
+							double[0 .. 1] minimumRange;
+							/** defines the maximum valid scope of this axis and thus the maximum value of the valid envelope, created by this cs */
+							double[0 .. 1] maximumRange;
+						} 
+						
+						/**The set of coordinate system axes that spans a given coordinate space. A coordinate system (CS)
+						 * is derived from a set of (mathematical) rules for specifying how coordinates in a given space
+						 * are to be assigned to points. The coordinate values in a coordinate tuple shall be recorded in
+						 * the order in which the coordinate system axes associations are recorded, whenever those
+						 * coordinates use a coordinate reference system that uses this coordinate system.
+						 * [GeoAPI]
+						 */
+						abstract class CoordinateSystem extends IdentifiedObject {
+							val CoordinateSystemAxis[1 .. 3] axes;
+						}
+
+
+
+
+
+
+						///////////////////////////////////////////////////////////////////////////////////////////////////////
+						// 							Coordinate Reference Systems 											//
+						//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+						/** 
+						 * coordinate reference system is a coordinate system that is related to the real world by a datum. 
+						 * Generally, the real world will be the Earth although the principles are not restricted to the Earth.
+						 * \source S-100 Version 2 Part 6 - CRS 
+						 */
+						abstract class CoordinateReferenceSystem extends IdentifiedObject {
+							/** the relevant coordinate system instance 
+							 * this is defined by ISO 19111 ( for SingleCRS)  
+							 **/
+							val CoordinateSystem		cs;
+							
+							/** returns the dimension of this CRS */
+							int dimension() const;    
+							  
+							 
+							/** returns a direction vector (x,y[,z]) that points to north and has a length of 1 meter*/
+							Vector getDirectionToNorth() const;
+							/** returns the bearing of an direction vector as set of angles (radian) 
+							 * @note the bearing refer to: the angle(s) away from North of a distant point as observed at the current point.
+							 * @returns double[1] if z != z (NaN) or double[2] if z == z
+							 **/
+							double[+] directionToBearing(in double x, in double y, in double z) const;
+							/** creates a direction vector that is rotated around yaw (radian) and pitch (radian)
+							 *  that points towards north, if both angles are 0 and rotates clockwise
+							 *  @note pitch is ignored if this is an 2D coordinate reference system
+							 * @param yaw rotation around the UP axis of the CRS (sometimes called azimuth) 
+							 * @param pitch rotation around the RIGHT axis of the CRS
+							 * @return a 2 or 3 dimensional vector that corresponds to the vector against north, rotated with yaw and pitch radians and has a length of 1 meter
+							 */
+							Vector bearingToDirection(in double yaw, in double pitch) const;
+						
+							CoordinateReferenceSystem copy ( ) const;
+							
+							/** Converts the CoordinateReferenceSystem into a WKT (Well Known Text) String, that can be parsed from external tools / api's, like geotools.  */
+							String toWKT() const;
+							
+							/** 
+							 * returns the distance between two coordinates, given in "this" CRS 
+							 * @return the distance in meters between the given points 
+							 **/
+							double getDistance(in Vector loc1, in Vector loc2);
+							
+							/**
+							 * Returns the distance and azimuth between both coordinates and thus is a convinience method for 
+							 * getDistance(...) and getAzimuth(...)
+							 * @note this method should be used if both values are needed, since both calculations often perform almost the same steps
+							 * @return double[2] with return[0] == Distance in meter and return[1] == azimuth in radians. 
+							 */
+							Vector getDistanceAndAzimuth(in Vector loc1, in Vector loc2);
+						}
+
+											 
+
+						/** @Brief Global WGS84 coordinate reference system, commonly used in most domains.  
+						 * the WGS84 coordinate reference system is one of the most frequently used systems, 
+						 * therefore we provide optimized implementations
+						 */
+						<<ComplexAttributeType>>
+						abstract class WGS84CRS extends CoordinateReferenceSystem {
+						}
+						
+						/** @Brief local coordinate reference system, only valid in a "small" area around its global position
+						 * The abstract local CRS indicates is a CRS that is only valid in a certain area (at least in terms of accuracy)
+				 		 * therefore it contains a field to define its position within a global coordinate reference system
+						 * @warn since units are not known yet (defined in unit package) in this class, all distances are defined in Meters (distances), radians (angles) or WGS84 (coordinates)  
+						 */
+						abstract class LocalCRS extends CoordinateReferenceSystem {
+							/** returns the origin of the CRS within a global CRS (e.g. WGS84)
+							 *  @note the dimension of the origin vector has to be the same as CoordinateReferenceSystem.dimension()
+							 * */
+							Vector[1] 	origin;//can not use Coordinate as data type since this would lead to a circular dependency to the spatial package
+							/** returns the orientation offset of this CRS, relativ to a global CRS (e.g. WGS84) 
+							 * @return a one dimensional list with the azimuth in radians, if the dimension is 2, otherwise a 3 dimensional rotation in the order [pitch, roll, yaw] (also in radians)
+							 */
+							double[+] orientationOffset; //can not use Angle as data type since this would lead to a circular dependency to the units package
+						}
+
+						/**
+						 * A contextually local coordinate reference system which can be divided into two broad categories: 
+						 * - earth-fixed systems applied to engineering activities on or near the surface of the earth; 
+						 * - CRSs on moving platforms such as road vehicles, vessels, aircraft or spacecraft.
+						 * \source ISO 19111:2007
+						 */
+						<<ComplexAttributeType>>
+						abstract class EngineeringCRS extends LocalCRS {				
+						}
+						
+						<<ComplexAttributeType>>
+						abstract class PolarCRS extends LocalCRS {
+							Vector[*] toPolarCoordinates(in Vector[*] vertices) const;
+							Vector[*] toPolarCoordinates(in Vector center, in Vector[*] vertices) const;
+						}
+						
+						
+						
+						///////////////////////////////////////////////////////////////////////////////////////////////////////
+						// 				concrete Coordinate Reference Systems to be used in eMIR							//
+						//////////////////////////////////////////////////////////////////////////////////////////////////////
+						
+						/** Defines the default global coordinate reference system (WGS84) for eMIR with 2 dimensions.
+						 * The WGS842D CRS corresponds to the EPSG code: urn:ogc:def:crs:EPSG:6.6:4326 (defined by GeoTools)
+						 * @note since, the order of WGS84 coordinates differes between different applications (either lat/lon or lon/lat)
+						 * we define the lat/lon order to be the default order for WGS84 in eMIR (that's the reason to not use the EPSG:4326)
+						 * Thereby we follow the chartographic order instead of the informatics/mathematics point of view. 
+						 */
+						class WGS842D extends WGS84CRS {}
+						/** Defines the default global CRS to be used in eMIR, for 3 dimensions. 
+						 * The WGS843D differes from its 2D version (WGS842D) that the z component of a coordinate is interpreted as altitude (in meters). 
+						 */
+						class WGS843D extends WGS84CRS {}
+						class Polar2D extends PolarCRS {}
+						class Polar3D extends PolarCRS {}
+						class Engineering2D extends EngineeringCRS {}
+						class Engineering3D extends EngineeringCRS {}
+						
+						/** generic coordinate reference system, that can either be specified using an EPSG code (like 4326 for WGS84) or an WKT string */
+						class NativeCRS extends CoordinateReferenceSystem {
+							/** wkt string, describing the native coordinate reference system */
+							String wkt;
+						}
+					}
+				}
+			}
+		}
+	}
+}	

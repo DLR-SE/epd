@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ASCII"?>
+<jgc:UMLGenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jgc="http://www.sos.de/de/sos/uml/UMLGenJava2">
+  <model href="platform:/resource/RouteServices/model/RouteServices.tuml#//@model"/>
+  <projects xsi:type="jgc:DataModelProject" rootDirectory=".">
+    <project xsi:type="jgc:ProjectModule" artifactID="services" version="4.0.0-SNAPSHOT" groupID="de.dlr-se.emir.services" generatePOM="false"/>
+    <extensionModules xsi:type="jgc:DataModelTestModule"/>
+    <interfaceModule xsi:type="jgc:DataModelInterfaceModule" declareOperations="true"/>
+    <implementationModule xsi:type="jgc:DataModelImplementationModule" operationMode="STUB"/>
+    <metaModule xsi:type="jgc:DataModelMetaModule"/>
+  </projects>
+</jgc:UMLGenModel>

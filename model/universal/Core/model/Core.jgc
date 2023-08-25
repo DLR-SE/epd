@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ASCII"?>
+<jgc:UMLGenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jgc="http://www.sos.de/de/sos/uml/UMLGenJava2">
+  <model href="Core.tuml#//@model"/>
+  <primitiveMappings qualifiedName="long">
+    <type href="Core.tuml#//@model/de/long"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="String">
+    <type href="Core.tuml#//@model/de/String"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="void">
+    <type href="Core.tuml#//@model/de/void"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="Object">
+    <type href="Core.tuml#//@model/de/Object"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="float">
+    <type href="Core.tuml#//@model/de/float"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="double">
+    <type href="Core.tuml#//@model/de/double"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="int">
+    <type href="Core.tuml#//@model/de/int"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="boolean">
+    <type href="Core.tuml#//@model/de/boolean"/>
+  </primitiveMappings>
+  <usedModels xsi:type="jgc:UMLGenModel" href="../../de.emir.runtime.ucore/model/UCore.jgc#/"/>
+  <projects xsi:type="jgc:DataModelProject" rootDirectory=".">
+    <project xsi:type="jgc:ProjectModule" artifactID="Core" version="0.0.1-SNAPSHOT" groupID="de.emir.model.universal" generatePOM="false"/>
+    <extensionModules xsi:type="jgc:DataModelTestModule"/>
+    <interfaceModule xsi:type="jgc:DataModelInterfaceModule" prefix="" declareOperations="true"/>
+    <implementationModule xsi:type="jgc:DataModelImplementationModule" operationMode="STUB"/>
+    <metaModule xsi:type="jgc:DataModelMetaModule"/>
+  </projects>
+</jgc:UMLGenModel>

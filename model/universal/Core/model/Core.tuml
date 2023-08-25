@@ -1,0 +1,240 @@
+ 
+//#import "pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml"
+#import "classpath:/model/UCore.tuml"
+
+using UCore.de.*;
+/** 
+* insert documentation for the model 
+*  
+*/    
+Model Core {      
+	package de { 
+		
+		//define some of the basic datatypes
+//		typedecl int ;
+//		typedecl double ;
+//		typedecl float ;
+//		typedecl long ;
+//		typedecl String ;
+//		typedecl void ;
+//		typedecl Object; 
+//		typedecl boolean ;
+		
+	
+		package emir { 
+			package model {
+				package universal {  
+					package core { 
+						
+						/** Identifier from ISO 19115-3 Metadata
+						 * \note for now the CI_Citation (also ISO 19115-3) is missing and should be added if required
+						 */
+						class MDIdentifier {
+							/** Identifier code or name, often from a controlled list or pattern defined by a code space.  */
+							String code; 
+							//Missing for the moment: CI_Citation
+							//val CICitation[0..1]	authority;
+						}
+						
+						class RSIdentifier extends MDIdentifier {
+							/** which is a version for the identifier  */
+							String 		version;
+							/** which unambiguously defines the namespace for the identifier  */
+							String		codeSpace;
+						}
+						
+						abstract class NamedElement {
+							/** The primary name by which the object can be identified */
+							val RSIdentifier[1] 		name;
+							
+							void setName(String name);
+							
+							/** @Brief: Convenience Method to check if the element has a valid name
+							 * Checks if the element has a valid name. 
+							 * A name is valid if: 
+							 * - getName() != null
+							 * - getName().getCode() != null 
+							 * - getName().getCode().isEmpty() == false
+							 * @return
+							 */
+							boolean hasValidName() const;
+							
+							/** @Brief Convenience Method to return the code of this element 
+							 * @return the value of getName().getCode() if hasValidName() returns true, null otherwise
+							 */
+							String getNameAsString() const;
+						 }
+					
+						/** Any object that can be identified shall inherit from this class */
+						abstract class IdentifiedObject extends NamedElement {
+							/** An identifier that references the (external) definition of the object */
+							val RSIdentifier			identifier;
+							/** An alternative name of the object */
+							String[*] 					allias;
+							/** Comments on or information about the object */
+							String						remarks;
+							/**
+							 * Member Observer may be used to observe changes of structural features within this object
+							 * @deprecated will be removed soon, as not used
+							 */
+							@Deprecated
+							MemberObserver[*]			observers;
+							
+							boolean hasAlias(in String name) const;
+						}
+
+						/**
+						 * The state of an environment or situation in which a Performer performs
+						 */
+						interface Condition {
+							boolean evaluate() const;
+						}
+						
+					
+						
+						
+						interface ModelReference {
+							/**
+							 * returns a pointer to the referenced object or null if the object could not be found or there is any other 
+							 * error within the configuration of the ModelReference 
+							 * @returns a pointer to the referenced element or null
+							 */
+							Pointer getPointer() const;   
+							
+						}
+						
+						class IdentifiedReference implements ModelReference 
+						{
+							/** contains the code of an RSIdentifier of an NamedElement */
+							String referencedIdentifier;
+						}
+						
+						/**
+						 * A ModelPath can be used to reference to a position within the model tree or any subtree. 
+						 * Thereby it is the direct representation of the Pointer (defined in UCore), but without the need
+						 * of knowing the UStructuralFeatures. 
+						 *  
+						 */
+						class ModelPath implements ModelReference
+						{
+							/** textual description from the instance, using the features (and list indices) to the 
+							 * required / observed feature
+							 * @note the pointerString shall follow this BNF: <FeatureName>(:<ListIndex>)?(,<FeatureName>(:<ListIndex>)?)*
+							 */
+							String pointerString;
+							/** Root element from which the pointerString starts and defines the Tree or SubTree root */
+							ref UObject rootInstance;	
+							
+							
+							/**
+							 * Checks the pointerString, if it follows the required grammar and can create a valid pointer. 
+							 */
+							boolean checkPointerString() const;
+//							/**
+//							 * Creates a pointer from the given information, e.g. parses the pointerString depending on the 
+//							 * root instance. 
+//							 * @returns a pointer to the referenced element or null, if either the pointerString is invalid or the rootInstance is not set
+//							 */
+//							utils.Pointer getPointer() const;
+						}
+												
+										
+						/**
+						 * An Observer is used to observe value changes and notifies a value change listener
+						 */
+						 @Deprecated
+						abstract class Observer extends IdentifiedObject
+						{
+							IValueChangeListener[*] operations;
+						}
+						
+						/**
+						 * Observes one structural feature, if the feature's value change.
+						 * Therefore the FeatureChangeObserver is the direct representation of the UObject Observation pattern.  
+						 */
+						 @Deprecated
+						class FeatureChangeObserver extends Observer 
+						{
+							ModelPath 	reference;
+						}
+						
+						@Deprecated
+						class MemberObserver extends Observer {
+							/** textual description from the instance, using the features (and list indices) to the 
+							 * required / observed feature
+							 * @note the pointerString shall follow this BNF: <FeatureName>(:<ListIndex>)?(,<FeatureName>(:<ListIndex>)?)*
+							 */
+							String pointerString;
+														
+							/**
+							 * Checks the pointerString, if it follows the required grammar and can create a valid pointer. 
+							 */
+							boolean checkPointerString() const;
+							/**
+							 * Creates a pointer from the given information, e.g. parses the pointerString depending on the 
+							 * root instance. 
+							 * @returns a pointer to the referenced element or null, if either the pointerString is invalid or the rootInstance is not set
+							 */
+							utils.Pointer getPointer() const;
+						}
+						
+						
+						abstract class AbstractInformation extends IdentifiedObject {
+							
+						}
+						abstract class AbstractFeature extends IdentifiedObject {
+							association AbstractInformation[*]	informationObjects;
+						}
+						
+						/**
+						 * An Variable can be used to store (or reference) a single value. 
+						 * The variable's name and documentation are to be taken from the IdentifiedObject
+						 */
+						abstract class Variable extends IdentifiedObject {
+							/**
+							 * This method expect the value to be in the correct type, otherwise it may throws an Exception
+							 */
+							void	setObjectValue(in Object value);
+							Object 	getValueAsObject() const;
+						}
+						
+						package var {
+							class IntVariable extends Variable { int value; }
+							class BoolVariable extends Variable { boolean value; }
+							class FloatVariable extends Variable { float value; }
+							class DoubleVariable extends Variable { double value; }
+							class StringVariable extends Variable { String value; }
+							class ObjectVariable extends Variable { Object value; }
+							class UObjectVariable extends Variable { UObject value; }
+							/** The PointerVariable is similar to an UObjectVariable (if pointed to an primitive type may also to the others)
+							 * however a pointer variable can never store its own values and thus is a reference to another value. 
+							 */
+							class PointerVariable extends Variable {
+								/** path to the represented value*/ 
+								ModelPath[1]		path;
+							}
+						}
+						
+						////////////////////TO BE MOVED TO ScriptManager ///////////////////////////////////
+						/**
+						 * @deprecated use condition from Scripting services 
+						 **/
+						@Deprecated
+						class JavaScriptCondition implements Condition {
+							/** The script to evaluate.
+							 * There are two options to define a script:
+							 * - define the full function like: <code> function eval(reference) { if (reference.getSpeed().getValue() > 5) return boolean; } </code> this method is used if the first word of the script starts with the term "function"
+							 * - define only the body of the script like: <code> if (reference.getSpeed().getValue() > 5) </code> in this case the optional reference (if not null) is called "reference". This method is used if the first word of the script is NOT "function" 
+							 */
+							String script;
+							/** an optional reference value that is provided as function parameter to the script function */
+							ref UObject reference; 
+						}
+						
+						
+					}
+				}
+			}
+		}		
+	}
+}	

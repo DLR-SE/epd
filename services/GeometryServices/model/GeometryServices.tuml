@@ -1,0 +1,65 @@
+#import "classpath:/model/Units.tuml"
+#import "classpath:/model/CRS.tuml"
+#import "classpath:/model/Spatial.tuml"
+#import "classpath:/model/Math.tuml"
+
+using UCore.de.*;
+/**
+* insert documentation for the model 
+* 
+*/
+Model GeometryServices {
+	package de {
+		package emir {
+			package service {
+				package geometry {
+					
+					class GeometryTransform {
+						Geometry transformGeometry2D(Geometry geom, Matrix2 mat);
+						Geometry transformGeometry3D(Geometry geom, Matrix3 mat);
+						Geometry transformGeometry(Geometry geom, Rotation rot, Coordinate translation);
+						Geometry normalizeGeometry(Geometry geom);
+						
+						void scaleGeometryLocal(in Vector scale, inout Geometry geom);
+						/** Moves all points that the center of the geometry corresponds with the dst coordinate */
+						void transformGeometryLocal(in Coordinate dst, inout Geometry geom);
+					}
+					
+					class WKTUtil {
+						Geometry loadWKT(String wkt);
+						String exportWKT(in Geometry geom);
+					}
+						
+					interface GeometryProvider {
+						Geometry createGeometry(in Object native_geom, in CoordinateReferenceSystem sourceCRS, in CoordinateReferenceSystem dstCRS);
+					}
+					class GeometryFactory 
+					{
+						val GeometryProvider[*]		provider;
+						Geometry createGeometry(in Object native_geom, in CoordinateReferenceSystem sourceCRS, in CoordinateReferenceSystem dstCRS); 
+					}
+					
+					
+					class SimpleFeatureGeometryProvider implements GeometryProvider {
+						
+					}
+					
+					
+					abstract class SpatialIndexVisitor {
+						/** returns true, if the next item should be visited */
+						boolean visit(in Object obj);
+					}
+					abstract class SpatialIndex{
+						void insert(in Envelope env, in Object value);
+						boolean remove(in Envelope env, in Object value);
+						Object[*] query(in Envelope env);
+						void query(in Envelope env, in SpatialIndexVisitor visitor);
+					}
+					class QuadTree extends SpatialIndex {
+												
+					}
+				}
+			}
+		}
+	}
+}

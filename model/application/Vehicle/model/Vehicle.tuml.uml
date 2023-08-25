@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ASCII"?>
+<uml:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_4HA-oIu2EeauGpm9aNsgZA" name="Vehicle">
+  <ownedComment xmi:id="_4HA-oYu2EeauGpm9aNsgZA" body="/**&#xD;&#xA;* insert documentation for the model &#xD;&#xA;* &#xD;&#xA;*/"/>
+  <packagedElement xsi:type="uml:Package" xmi:id="_4HA-oou2EeauGpm9aNsgZA" name="de">
+    <packagedElement xsi:type="uml:Package" xmi:id="_4HA-o4u2EeauGpm9aNsgZA" name="emir">
+      <packagedElement xsi:type="uml:Package" xmi:id="_4HA-pIu2EeauGpm9aNsgZA" name="model">
+        <packagedElement xsi:type="uml:Package" xmi:id="_4HA-pYu2EeauGpm9aNsgZA" name="application">
+          <packagedElement xsi:type="uml:Package" xmi:id="_4HA-pou2EeauGpm9aNsgZA" name="vehicle">
+            <packagedElement xsi:type="uml:Class" xmi:id="_4HA-p4u2EeauGpm9aNsgZA" name="Vehicle" isAbstract="true">
+              <generalization xmi:id="_4HA-qIu2EeauGpm9aNsgZA">
+                <general xsi:type="uml:Activity" href="Vehicle.tuml#|0"/>
+              </generalization>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_4HA-qYu2EeauGpm9aNsgZA" name="Landcraft" isAbstract="true">
+              <ownedComment xmi:id="_4HA-qou2EeauGpm9aNsgZA" body="/*&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * LandTransport includes all vehicles regarding rail, road and off-road transport&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+              <generalization xmi:id="_4HA-q4u2EeauGpm9aNsgZA" general="_4HA-p4u2EeauGpm9aNsgZA"/>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_4HA-rIu2EeauGpm9aNsgZA" name="Watercraft" isAbstract="true">
+              <ownedComment xmi:id="_4HA-rYu2EeauGpm9aNsgZA" body="/*&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * A watercraft, such as a barge, boat, ship or sailboat, successfully passes over a &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * body of water, such as a sea, ocean, lake, canal or river.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+              <generalization xmi:id="_4HA-rou2EeauGpm9aNsgZA" general="_4HA-p4u2EeauGpm9aNsgZA"/>
+            </packagedElement>
+          </packagedElement>
+        </packagedElement>
+      </packagedElement>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

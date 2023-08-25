@@ -1,0 +1,29 @@
+<project>
+	<!-- This is NOT a MAVEN file it just uses a similar syntax -->
+	<name>ProductCore</name>
+	<description>This is a generic product config. Replace it with your correct product data.</description>
+
+	<groupId>de.emir.runtime</groupId>
+	<artifactId>productcore</artifactId>
+	<version>4.0.0-SNAPSHOT</version>
+
+	<localRepos></localRepos>
+
+	<workspaces>
+        <!-- Put plugin dependecy projects here by adding the path to the respective pom.xml. -->
+	</workspaces>
+        <!-- Put binary dependecies here by adding the maven coordinates. -->
+	<dependencies>
+        
+	</dependencies>
+	
+	<repositories>
+		<repository>
+			<id>MavenCentral</id>
+			<url>http://repo1.maven.org/maven2/</url>
+			<username></username>
+			<password></password>
+		</repository>
+	</repositories>
+
+</project>

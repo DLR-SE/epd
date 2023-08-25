@@ -1,0 +1,105 @@
+<project>
+
+	<!-- This is NOT a MAVEN file it just uses a similar syntax -->
+
+	<name>EPDCommunity</name>
+	<description>eMaritime Prototype Display Community Edition</description>
+	<version>4.0.0-SNAPSHOT</version>
+<!--	<localRepos>%USER_PROFILE%\.m2\repository</localRepos>-->
+
+	<workspaces>
+	</workspaces>
+
+	<dependencies>
+		<dependency>
+			<groupId>de.dlr-se.emir.epd</groupId>
+			<artifactId>MapView</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.dlr-se.emir.epd</groupId>
+			<artifactId>SimpleNMEASensor</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.dlr-se.emir.epd</groupId>
+			<artifactId>MapMeasurements</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.dlr-se.emir.epd</groupId>
+			<artifactId>NavigationToolsModule</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.dlr-se.emir.epd</groupId>
+			<artifactId>OpenSeaMapPlugin</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.dlr-se.emir.epd</groupId>
+			<artifactId>RouteManager</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.dlr-se.emir.epd</groupId>
+			<artifactId>AISViewer</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.dlr-se.emir.epd</groupId>
+			<artifactId>OwnShipAdapter</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.dlr-se.emir.epd</groupId>
+			<artifactId>OwnshipViewer</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.dlr-se.emir.epd</groupId>
+			<artifactId>GeneralViews</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.dlr-se.emir.epd</groupId>
+			<artifactId>EPDModel</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.dlr-se.emir.epd</groupId>
+			<artifactId>EPDAisModelAdapter</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.dlr-se.emir.epd</groupId>
+			<artifactId>VesselEditor</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.dlr-se.emir.epd</groupId>
+			<artifactId>DevelopementToolsPlugin</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.dlr-se.emir.epd</groupId>
+			<artifactId>ExampleProject</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.dlr-se.emir.epd</groupId>
+			<artifactId>AlertView</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>MavenCentral</id>
+			<url>https://repo1.maven.org/maven2/</url>
+			<username></username>
+			<password></password>
+		</repository>
+	</repositories>
+
+</project>

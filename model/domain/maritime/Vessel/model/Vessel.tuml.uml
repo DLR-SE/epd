@@ -1,0 +1,1195 @@
+<?xml version="1.0" encoding="ASCII"?>
+<uml:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_6hnlcEmkEeiRIrZ3mgn37w" name="Vessel">
+  <ownedComment xmi:id="_6hnlcUmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;* insert documentation for the model &#xD;&#xA;* &#xD;&#xA;*/"/>
+  <packagedElement xsi:type="uml:Package" xmi:id="_6hnlckmkEeiRIrZ3mgn37w" name="de">
+    <packagedElement xsi:type="uml:Package" xmi:id="_6hnlc0mkEeiRIrZ3mgn37w" name="emir">
+      <packagedElement xsi:type="uml:Package" xmi:id="_6hnldEmkEeiRIrZ3mgn37w" name="model">
+        <packagedElement xsi:type="uml:Package" xmi:id="_6hnldUmkEeiRIrZ3mgn37w" name="domain">
+          <packagedElement xsi:type="uml:Package" xmi:id="_6hnldkmkEeiRIrZ3mgn37w" name="maritime">
+            <packagedElement xsi:type="uml:Package" xmi:id="_6hnld0mkEeiRIrZ3mgn37w" name="vessel">
+              <packagedElement xsi:type="uml:Enumeration" xmi:id="_6hnleEmkEeiRIrZ3mgn37w" name="VesselType">
+                <ownedLiteral xmi:id="_6hnleUmkEeiRIrZ3mgn37w" name="DryCargo">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlekmkEeiRIrZ3mgn37w"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnle0mkEeiRIrZ3mgn37w" name="DeckCargo">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlfEmkEeiRIrZ3mgn37w" value="1"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlfUmkEeiRIrZ3mgn37w" name="GeneralCargo">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlfkmkEeiRIrZ3mgn37w" value="2"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlf0mkEeiRIrZ3mgn37w" name="HeavyLiftShip">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlgEmkEeiRIrZ3mgn37w" value="3"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlgUmkEeiRIrZ3mgn37w" name="LivestockCarrier">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlgkmkEeiRIrZ3mgn37w" value="4"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlg0mkEeiRIrZ3mgn37w" name="BulkCarrier">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlhEmkEeiRIrZ3mgn37w" value="5"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlhUmkEeiRIrZ3mgn37w" name="OpenHatch">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlhkmkEeiRIrZ3mgn37w" value="6"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlh0mkEeiRIrZ3mgn37w" name="OreCarrier">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnliEmkEeiRIrZ3mgn37w" value="7"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnliUmkEeiRIrZ3mgn37w" name="OreOilCarrier">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlikmkEeiRIrZ3mgn37w" value="8"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnli0mkEeiRIrZ3mgn37w" name="WoodChipCarrier">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnljEmkEeiRIrZ3mgn37w" value="9"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnljUmkEeiRIrZ3mgn37w" name="Container">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnljkmkEeiRIrZ3mgn37w" value="10"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlj0mkEeiRIrZ3mgn37w" name="RoRo">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlkEmkEeiRIrZ3mgn37w" value="11"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlkUmkEeiRIrZ3mgn37w" name="VehicleCarrier">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlkkmkEeiRIrZ3mgn37w" value="12"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlk0mkEeiRIrZ3mgn37w" name="Tanker">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnllEmkEeiRIrZ3mgn37w" value="13"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnllUmkEeiRIrZ3mgn37w" name="AsphaltTanker">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnllkmkEeiRIrZ3mgn37w" value="14"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnll0mkEeiRIrZ3mgn37w" name="ChemicalOilTanker">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlmEmkEeiRIrZ3mgn37w" value="15"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlmUmkEeiRIrZ3mgn37w" name="CrudeOilTanker">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlmkmkEeiRIrZ3mgn37w" value="16"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlm0mkEeiRIrZ3mgn37w" name="LNGTanker">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlnEmkEeiRIrZ3mgn37w" value="17"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlnUmkEeiRIrZ3mgn37w" name="LPGTanker">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlnkmkEeiRIrZ3mgn37w" value="18"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnln0mkEeiRIrZ3mgn37w" name="WaterTanker">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnloEmkEeiRIrZ3mgn37w" value="19"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnloUmkEeiRIrZ3mgn37w" name="Reefer">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlokmkEeiRIrZ3mgn37w" value="20"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlo0mkEeiRIrZ3mgn37w" name="RefrigeratedFishCarrier">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlpEmkEeiRIrZ3mgn37w" value="21"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlpUmkEeiRIrZ3mgn37w" name="Passenger">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlpkmkEeiRIrZ3mgn37w" value="22"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlp0mkEeiRIrZ3mgn37w" name="CruiseShip">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlqEmkEeiRIrZ3mgn37w" value="23"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlqUmkEeiRIrZ3mgn37w" name="PassengerCargoShip">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlqkmkEeiRIrZ3mgn37w" value="24"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlq0mkEeiRIrZ3mgn37w" name="PassengerFerry">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlrEmkEeiRIrZ3mgn37w" value="25"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlrUmkEeiRIrZ3mgn37w" name="HighSpeedCraft">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlrkmkEeiRIrZ3mgn37w" value="26"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlr0mkEeiRIrZ3mgn37w" name="WinginGround">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlsEmkEeiRIrZ3mgn37w" value="27"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlsUmkEeiRIrZ3mgn37w" name="Other">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlskmkEeiRIrZ3mgn37w" value="28"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnls0mkEeiRIrZ3mgn37w" name="AntiPollution">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnltEmkEeiRIrZ3mgn37w" value="29"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnltUmkEeiRIrZ3mgn37w" name="Barge">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnltkmkEeiRIrZ3mgn37w" value="30"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlt0mkEeiRIrZ3mgn37w" name="CableShip">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnluEmkEeiRIrZ3mgn37w" value="31"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnluUmkEeiRIrZ3mgn37w" name="Crewboat">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlukmkEeiRIrZ3mgn37w" value="32"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlu0mkEeiRIrZ3mgn37w" name="DivingShip">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlvEmkEeiRIrZ3mgn37w" value="33"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlvUmkEeiRIrZ3mgn37w" name="Dredger">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlvkmkEeiRIrZ3mgn37w" value="34"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlv0mkEeiRIrZ3mgn37w" name="Drillship">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlwEmkEeiRIrZ3mgn37w" value="35"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlwUmkEeiRIrZ3mgn37w" name="Fishing">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlwkmkEeiRIrZ3mgn37w" value="36"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlw0mkEeiRIrZ3mgn37w" name="FloatingDock">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlxEmkEeiRIrZ3mgn37w" value="37"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlxUmkEeiRIrZ3mgn37w" name="Icebreaker">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlxkmkEeiRIrZ3mgn37w" value="38"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlx0mkEeiRIrZ3mgn37w" name="NavalMilitaryShip">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlyEmkEeiRIrZ3mgn37w" value="39"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlyUmkEeiRIrZ3mgn37w" name="NavigationAid">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlykmkEeiRIrZ3mgn37w" value="40"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnly0mkEeiRIrZ3mgn37w" name="OceanographicResearch">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlzEmkEeiRIrZ3mgn37w" value="41"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlzUmkEeiRIrZ3mgn37w" name="OffshoreConstruction">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnlzkmkEeiRIrZ3mgn37w" value="42"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnlz0mkEeiRIrZ3mgn37w" name="OilWellShip">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl0EmkEeiRIrZ3mgn37w" value="43"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl0UmkEeiRIrZ3mgn37w" name="PatrolVessel">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl0kmkEeiRIrZ3mgn37w" value="44"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl00mkEeiRIrZ3mgn37w" name="PilotShip">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl1EmkEeiRIrZ3mgn37w" value="45"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl1UmkEeiRIrZ3mgn37w" name="PipeCarrierPipelay">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl1kmkEeiRIrZ3mgn37w" value="46"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl10mkEeiRIrZ3mgn37w" name="Pontoon">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl2EmkEeiRIrZ3mgn37w" value="47"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl2UmkEeiRIrZ3mgn37w" name="PortPoliceLawEnforce">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl2kmkEeiRIrZ3mgn37w" value="48"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl20mkEeiRIrZ3mgn37w" name="RescueSalvageShip">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl3EmkEeiRIrZ3mgn37w" value="49"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl3UmkEeiRIrZ3mgn37w" name="SailingVessel">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl3kmkEeiRIrZ3mgn37w" value="50"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl30mkEeiRIrZ3mgn37w" name="SupplyShip">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl4EmkEeiRIrZ3mgn37w" value="51"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl4UmkEeiRIrZ3mgn37w" name="TrainingShip">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl4kmkEeiRIrZ3mgn37w" value="52"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl40mkEeiRIrZ3mgn37w" name="Tug">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl5EmkEeiRIrZ3mgn37w" value="53"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl5UmkEeiRIrZ3mgn37w" name="YachtPleasureCraft">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl5kmkEeiRIrZ3mgn37w" value="54"/>
+                </ownedLiteral>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Enumeration" xmi:id="_6hnl50mkEeiRIrZ3mgn37w" name="NavigationStatus">
+                <ownedLiteral xmi:id="_6hnl6EmkEeiRIrZ3mgn37w" name="UnderwayUsingEngine">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl6UmkEeiRIrZ3mgn37w"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl6kmkEeiRIrZ3mgn37w" name="AtAnchor">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl60mkEeiRIrZ3mgn37w" value="1"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl7EmkEeiRIrZ3mgn37w" name="NotUnderCommand">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl7UmkEeiRIrZ3mgn37w" value="2"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl7kmkEeiRIrZ3mgn37w" name="RestrictedManoeuverability">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl70mkEeiRIrZ3mgn37w" value="3"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl8EmkEeiRIrZ3mgn37w" name="ConstrainedByHerDraught">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl8UmkEeiRIrZ3mgn37w" value="4"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl8kmkEeiRIrZ3mgn37w" name="Moored">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl80mkEeiRIrZ3mgn37w" value="5"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl9EmkEeiRIrZ3mgn37w" name="Aground">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl9UmkEeiRIrZ3mgn37w" value="6"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl9kmkEeiRIrZ3mgn37w" name="EngagedInFising">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl90mkEeiRIrZ3mgn37w" value="7"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl-EmkEeiRIrZ3mgn37w" name="UnderwaySailing">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl-UmkEeiRIrZ3mgn37w" value="8"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl-kmkEeiRIrZ3mgn37w" name="ReservedForFutureUse9">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl-0mkEeiRIrZ3mgn37w" value="9"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl_EmkEeiRIrZ3mgn37w" name="ReservedForFutureUse10">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl_UmkEeiRIrZ3mgn37w" value="10"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnl_kmkEeiRIrZ3mgn37w" name="ReservedForFutureUse11">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnl_0mkEeiRIrZ3mgn37w" value="11"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnmAEmkEeiRIrZ3mgn37w" name="ReservedForFutureUse12">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnmAUmkEeiRIrZ3mgn37w" value="12"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnmAkmkEeiRIrZ3mgn37w" name="ReservedForFutureUse13">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnmA0mkEeiRIrZ3mgn37w" value="13"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnmBEmkEeiRIrZ3mgn37w" name="ReservedForFutureUse14">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnmBUmkEeiRIrZ3mgn37w" value="14"/>
+                </ownedLiteral>
+                <ownedLiteral xmi:id="_6hnmBkmkEeiRIrZ3mgn37w" name="NotDefined">
+                  <specification xsi:type="uml:LiteralInteger" xmi:id="_6hnmB0mkEeiRIrZ3mgn37w" value="15"/>
+                </ownedLiteral>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hnmCEmkEeiRIrZ3mgn37w" name="NavigationInformation">
+                <eAnnotations xmi:id="_6hnmCUmkEeiRIrZ3mgn37w" source="InformationType"/>
+                <generalization xmi:id="_6hnmCkmkEeiRIrZ3mgn37w" general="_6hnmHkmkEeiRIrZ3mgn37w"/>
+                <ownedAttribute xmi:id="_6hnmC0mkEeiRIrZ3mgn37w" name="status" type="_6hnl50mkEeiRIrZ3mgn37w">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hnmDEmkEeiRIrZ3mgn37w"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hnmDUmkEeiRIrZ3mgn37w" value="1"/>
+                </ownedAttribute>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hnmDkmkEeiRIrZ3mgn37w" name="Vessel">
+                <eAnnotations xmi:id="_6hnmD0mkEeiRIrZ3mgn37w" source="FeatureType"/>
+                <ownedComment xmi:id="_6hnmEEmkEeiRIrZ3mgn37w" body="/*&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; *  a nautical term for all kinds of craft designed for transportation on water, such as ships or boats.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;*/"/>
+                <generalization xmi:id="_6hnmEUmkEeiRIrZ3mgn37w">
+                  <general xsi:type="uml:Activity" href="Vessel.tuml#|2"/>
+                </generalization>
+                <ownedAttribute xmi:id="_6hnmEkmkEeiRIrZ3mgn37w" name="mmsi">
+                  <type xsi:type="uml:Activity" href="Vessel.tuml#|3"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hnmE0mkEeiRIrZ3mgn37w"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hnmFEmkEeiRIrZ3mgn37w" value="1"/>
+                </ownedAttribute>
+                <ownedAttribute xmi:id="_6hnmFUmkEeiRIrZ3mgn37w" name="imo">
+                  <type xsi:type="uml:Activity" href="Vessel.tuml#|4"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hnmFkmkEeiRIrZ3mgn37w"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hnmF0mkEeiRIrZ3mgn37w" value="1"/>
+                </ownedAttribute>
+                <ownedAttribute xmi:id="_6hnmGEmkEeiRIrZ3mgn37w" name="callSign">
+                  <type xsi:type="uml:Activity" href="Vessel.tuml#|5"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hnmGUmkEeiRIrZ3mgn37w"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hnmGkmkEeiRIrZ3mgn37w" value="1"/>
+                </ownedAttribute>
+                <ownedAttribute xmi:id="_6hnmG0mkEeiRIrZ3mgn37w" name="type" type="_6hnleEmkEeiRIrZ3mgn37w">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hnmHEmkEeiRIrZ3mgn37w"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hnmHUmkEeiRIrZ3mgn37w" value="1"/>
+                </ownedAttribute>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hnmHkmkEeiRIrZ3mgn37w" name="VesselCharacteristic" isAbstract="true">
+                <generalization xmi:id="_6hnmH0mkEeiRIrZ3mgn37w">
+                  <general xsi:type="uml:Activity" href="Vessel.tuml#|7"/>
+                </generalization>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hnmIEmkEeiRIrZ3mgn37w" name="VesselBuildInformation">
+                <eAnnotations xmi:id="_6hnmIUmkEeiRIrZ3mgn37w" source="InformationType"/>
+                <generalization xmi:id="_6hnmIkmkEeiRIrZ3mgn37w" general="_6hnmHkmkEeiRIrZ3mgn37w"/>
+                <ownedAttribute xmi:id="_6hnmI0mkEeiRIrZ3mgn37w" name="hullNumber">
+                  <type xsi:type="uml:Activity" href="Vessel.tuml#|9"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hnmJEmkEeiRIrZ3mgn37w"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hnmJUmkEeiRIrZ3mgn37w" value="1"/>
+                </ownedAttribute>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hnmJkmkEeiRIrZ3mgn37w" memberEnd="_6hnmJ0mkEeiRIrZ3mgn37w _6hoMgUmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoMgUmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hnmJ0mkEeiRIrZ3mgn37w" name="_manufactor_" type="_6hnmIEmkEeiRIrZ3mgn37w" association="_6hnmJkmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hnmKEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoMgEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoMgUmkEeiRIrZ3mgn37w" name="manufactor" aggregation="composite" association="_6hnmJkmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|10"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoMgkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoMg0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoMhEmkEeiRIrZ3mgn37w" memberEnd="_6hoMhUmkEeiRIrZ3mgn37w _6hoMiEmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoMiEmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoMhUmkEeiRIrZ3mgn37w" name="_buildTime_" type="_6hnmIEmkEeiRIrZ3mgn37w" association="_6hoMhEmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoMhkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoMh0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoMiEmkEeiRIrZ3mgn37w" name="buildTime" aggregation="composite" association="_6hoMhEmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|11"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoMiUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoMikmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoMi0mkEeiRIrZ3mgn37w" name="Displacement">
+                <ownedComment xmi:id="_6hoMjEmkEeiRIrZ3mgn37w" body="/** &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * A measurement of the weight of the vessel, usually used for warships. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Merchant ships are usually measured based on the volume of cargo space; see tonnage. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedOperation xmi:id="_6hoMjUmkEeiRIrZ3mgn37w" name="getDeadWeightMass">
+                  <eAnnotations xmi:id="_6hoMjkmkEeiRIrZ3mgn37w" source="const"/>
+                  <ownedComment xmi:id="_6hoMj0mkEeiRIrZ3mgn37w" body="/** returns the dead weight mass, in relation to sea water (1025 kg/m^3)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @param seawaterFactor scales the mass to get the displaced weight in fresh water use 1000 [kg/m^3] / 1025 [kg/m^3]&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @return the mass of the displaced water&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedParameter xmi:id="_6hoMkEmkEeiRIrZ3mgn37w" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|12"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoMkUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoMkkmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_6hoMk0mkEeiRIrZ3mgn37w" name="seawaterFactor">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|13"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoMlEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoMlUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoMlkmkEeiRIrZ3mgn37w" memberEnd="_6hoMmEmkEeiRIrZ3mgn37w _6hoMm0mkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoMm0mkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoMl0mkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * The weight of the ship excluding cargo, fuel, ballast, stores, passengers, and crew, but with water in the boilers to steaming level.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedEnd xmi:id="_6hoMmEmkEeiRIrZ3mgn37w" name="_light_" type="_6hoMi0mkEeiRIrZ3mgn37w" association="_6hoMlkmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoMmUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoMmkmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoMm0mkEeiRIrZ3mgn37w" name="light" aggregation="composite" association="_6hoMlkmkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoMnEmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * The weight of the ship excluding cargo, fuel, ballast, stores, passengers, and crew, but with water in the boilers to steaming level.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|14"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoMnUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoMnkmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoMn0mkEeiRIrZ3mgn37w" memberEnd="_6hoMoUmkEeiRIrZ3mgn37w _6hoMpEmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoMpEmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoMoEmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * The weight of the ship including cargo, passengers, fuel, water, stores, dunnage and such other items necessary for use on a voyage, which brings the vessel down to her load draft.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedEnd xmi:id="_6hoMoUmkEeiRIrZ3mgn37w" name="_loaded_" type="_6hoMi0mkEeiRIrZ3mgn37w" association="_6hoMn0mkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoMokmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoMo0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoMpEmkEeiRIrZ3mgn37w" name="loaded" aggregation="composite" association="_6hoMn0mkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoMpUmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * The weight of the ship including cargo, passengers, fuel, water, stores, dunnage and such other items necessary for use on a voyage, which brings the vessel down to her load draft.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|15"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoMpkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoMp0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoMqEmkEeiRIrZ3mgn37w" memberEnd="_6hoMqkmkEeiRIrZ3mgn37w _6hoMrUmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoMrUmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoMqUmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * (DWT) - The difference between displacement, light and displacement, loaded. A measure of the ship's total carrying capacity.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedEnd xmi:id="_6hoMqkmkEeiRIrZ3mgn37w" name="_deadweight_" type="_6hoMi0mkEeiRIrZ3mgn37w" association="_6hoMqEmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoMq0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoMrEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoMrUmkEeiRIrZ3mgn37w" name="deadweight" aggregation="composite" association="_6hoMqEmkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoMrkmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * (DWT) - The difference between displacement, light and displacement, loaded. A measure of the ship's total carrying capacity.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|16"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoMr0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoMsEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoMsUmkEeiRIrZ3mgn37w" memberEnd="_6hoMs0mkEeiRIrZ3mgn37w _6hoMtkmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoMtkmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoMskmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * The weight remaining after deducting fuel, water, stores, dunnage and such other items necessary for use on a voyage from the deadweight of the vessel.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedEnd xmi:id="_6hoMs0mkEeiRIrZ3mgn37w" name="_cargoDeadweigthTons_" type="_6hoMi0mkEeiRIrZ3mgn37w" association="_6hoMsUmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoMtEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoMtUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoMtkmkEeiRIrZ3mgn37w" name="cargoDeadweigthTons" aggregation="composite" association="_6hoMsUmkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoMt0mkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * The weight remaining after deducting fuel, water, stores, dunnage and such other items necessary for use on a voyage from the deadweight of the vessel.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|17"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoMuEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoMuUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoMukmkEeiRIrZ3mgn37w" name="WatercraftHull">
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoMu0mkEeiRIrZ3mgn37w" memberEnd="_6hoMvUmkEeiRIrZ3mgn37w _6hoMwEmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoMwEmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoMvEmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Beam or breadth (B) is the width of the hull. (ex: BWL is the maximum beam at the waterline)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedEnd xmi:id="_6hoMvUmkEeiRIrZ3mgn37w" name="_beam_" type="_6hoMukmkEeiRIrZ3mgn37w" association="_6hoMu0mkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoMvkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoMv0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoMwEmkEeiRIrZ3mgn37w" name="beam" aggregation="composite" association="_6hoMu0mkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoMwUmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Beam or breadth (B) is the width of the hull. (ex: BWL is the maximum beam at the waterline)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|18"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoMwkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoMw0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoMxEmkEeiRIrZ3mgn37w" memberEnd="_6hoMxkmkEeiRIrZ3mgn37w _6hoMyUmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoMyUmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoMxUmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * (LWL) is the length from the forwardmost point of the waterline measured in profile to the stern-most point of the waterline.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedEnd xmi:id="_6hoMxkmkEeiRIrZ3mgn37w" name="_lengthAtWaterline_" type="_6hoMukmkEeiRIrZ3mgn37w" association="_6hoMxEmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoMx0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoMyEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoMyUmkEeiRIrZ3mgn37w" name="lengthAtWaterline" aggregation="composite" association="_6hoMxEmkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoMykmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * (LWL) is the length from the forwardmost point of the waterline measured in profile to the stern-most point of the waterline.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|19"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoMy0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoMzEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoMzUmkEeiRIrZ3mgn37w" memberEnd="_6hoMz0mkEeiRIrZ3mgn37w _6hoM0kmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoM0kmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoMzkmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * (LOA) is the extreme length from one end to the other&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedEnd xmi:id="_6hoMz0mkEeiRIrZ3mgn37w" name="_overAllLength_" type="_6hoMukmkEeiRIrZ3mgn37w" association="_6hoMzUmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoM0EmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoM0UmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoM0kmkEeiRIrZ3mgn37w" name="overAllLength" aggregation="composite" association="_6hoMzUmkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoM00mkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * (LOA) is the extreme length from one end to the other&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|20"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoM1EmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoM1UmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoM1kmkEeiRIrZ3mgn37w" memberEnd="_6hoM2EmkEeiRIrZ3mgn37w _6hoM20mkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoM20mkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoM10mkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Draft (d) or (T) is the vertical distance from the bottom of the keel to the waterline.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedEnd xmi:id="_6hoM2EmkEeiRIrZ3mgn37w" name="_draft_" type="_6hoMukmkEeiRIrZ3mgn37w" association="_6hoM1kmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoM2UmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoM2kmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoM20mkEeiRIrZ3mgn37w" name="draft" aggregation="composite" association="_6hoM1kmkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoM3EmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Draft (d) or (T) is the vertical distance from the bottom of the keel to the waterline.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|21"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoM3UmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoM3kmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoM30mkEeiRIrZ3mgn37w" memberEnd="_6hoM4UmkEeiRIrZ3mgn37w _6hoM5EmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoM5EmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoM4EmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * (D) is the vertical distance measured from the top of the keel to the underside of the upper deck at side&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedEnd xmi:id="_6hoM4UmkEeiRIrZ3mgn37w" name="_mouldedDepth_" type="_6hoMukmkEeiRIrZ3mgn37w" association="_6hoM30mkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoM4kmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoM40mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoM5EmkEeiRIrZ3mgn37w" name="mouldedDepth" aggregation="composite" association="_6hoM30mkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoM5UmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * (D) is the vertical distance measured from the top of the keel to the underside of the upper deck at side&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|22"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoM5kmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoM50mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoM6EmkEeiRIrZ3mgn37w" memberEnd="_6hoM6kmkEeiRIrZ3mgn37w _6hoM7UmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoM7UmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoM6UmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Freeboard (FB) is depth plus the height of the keel structure minus draft.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedEnd xmi:id="_6hoM6kmkEeiRIrZ3mgn37w" name="_freeboard_" type="_6hoMukmkEeiRIrZ3mgn37w" association="_6hoM6EmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoM60mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoM7EmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoM7UmkEeiRIrZ3mgn37w" name="freeboard" aggregation="composite" association="_6hoM6EmkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoM7kmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Freeboard (FB) is depth plus the height of the keel structure minus draft.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|23"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoM70mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoM8EmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoM8UmkEeiRIrZ3mgn37w" name="VesselDimensionCharacteristic">
+                <generalization xmi:id="_6hoM8kmkEeiRIrZ3mgn37w">
+                  <general xsi:type="uml:Activity" href="Vessel.tuml#|24"/>
+                </generalization>
+                <ownedAttribute xmi:id="_6hoM80mkEeiRIrZ3mgn37w" name="neadTonnage">
+                  <ownedComment xmi:id="_6hoM9EmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Net tonnage (often abbreviated as NT, N.T. or nt) is a dimensionless index calculated from the total moulded volume of the ship's cargo spaces by using a mathematical formula. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Defined in The International Convention on Tonnage Measurement of Ships that was adopted by the International Maritime Organization in 1969, the net tonnage replaced the earlier net register tonnage (NRT) which denoted the volume of the ship's revenue-earning spaces in &quot;register tons&quot;, units of volume equal to 100 cubic feet (2.83 m3).&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Net tonnage is used to calculate the port duties and should not be taken as less than 30 per cent of the ship's gross tonnage.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * \source Wikipedia &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <type xsi:type="uml:Activity" href="Vessel.tuml#|25"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoM9UmkEeiRIrZ3mgn37w"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoM9kmkEeiRIrZ3mgn37w" value="1"/>
+                </ownedAttribute>
+                <ownedAttribute xmi:id="_6hoM90mkEeiRIrZ3mgn37w" name="blockCoefficient">
+                  <ownedComment xmi:id="_6hoM-EmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; *  Block coefficient (Cb) is the volume (V) divided by the LWL x BWL x T. If you draw a box around the submerged part of the ship, it is the ratio of the box volume occupied by the ship. It gives a sense of how much of the block defined by the LWL, beam (B) &amp; draft (T) is filled by the hull. Full forms such as oil tankers will have a high Cb where fine shapes such as sailboats will have a low Cb.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * \source Wikipedia / Beschnidt2010&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <type xsi:type="uml:Activity" href="Vessel.tuml#|26"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoM-UmkEeiRIrZ3mgn37w"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoM-kmkEeiRIrZ3mgn37w" value="1"/>
+                </ownedAttribute>
+                <ownedOperation xmi:id="_6hoM-0mkEeiRIrZ3mgn37w" name="getOverallLength">
+                  <eAnnotations xmi:id="_6hoM_EmkEeiRIrZ3mgn37w" source="const"/>
+                  <ownedParameter xmi:id="_6hoM_UmkEeiRIrZ3mgn37w" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|27"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoM_kmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoM_0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_6hoNAEmkEeiRIrZ3mgn37w" name="getOverallBeam">
+                  <eAnnotations xmi:id="_6hoNAUmkEeiRIrZ3mgn37w" source="const"/>
+                  <ownedParameter xmi:id="_6hoNAkmkEeiRIrZ3mgn37w" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|28"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNA0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNBEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNBUmkEeiRIrZ3mgn37w" memberEnd="_6hoNB0mkEeiRIrZ3mgn37w _6hoNCkmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNCkmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoNBkmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * A measurement of the weight of the vessel, usually used for warships. (Merchant ships are usually measured based on the volume of cargo space; see tonnage).&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedEnd xmi:id="_6hoNB0mkEeiRIrZ3mgn37w" name="_displacement_" type="_6hoM8UmkEeiRIrZ3mgn37w" association="_6hoNBUmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNCEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNCUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNCkmkEeiRIrZ3mgn37w" name="displacement" type="_6hoMi0mkEeiRIrZ3mgn37w" aggregation="composite" association="_6hoNBUmkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoNC0mkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * A measurement of the weight of the vessel, usually used for warships. (Merchant ships are usually measured based on the volume of cargo space; see tonnage).&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNDEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNDUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNDkmkEeiRIrZ3mgn37w" memberEnd="_6hoND0mkEeiRIrZ3mgn37w _6hoNEkmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNEkmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoND0mkEeiRIrZ3mgn37w" name="_hull_" type="_6hoM8UmkEeiRIrZ3mgn37w" association="_6hoNDkmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNEEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNEUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNEkmkEeiRIrZ3mgn37w" name="hull" type="_6hoMukmkEeiRIrZ3mgn37w" aggregation="composite" association="_6hoNDkmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNE0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNFEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoNFUmkEeiRIrZ3mgn37w" name="VesselSafetyCharacteristic">
+                <generalization xmi:id="_6hoNFkmkEeiRIrZ3mgn37w" general="_6hnmHkmkEeiRIrZ3mgn37w"/>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNF0mkEeiRIrZ3mgn37w" memberEnd="_6hoNGUmkEeiRIrZ3mgn37w _6hoNHEmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNHEmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoNGEmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Under Keel Clearance, space between keel and ground&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedEnd xmi:id="_6hoNGUmkEeiRIrZ3mgn37w" name="_underKeelClearance_" type="_6hoNFUmkEeiRIrZ3mgn37w" association="_6hoNF0mkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNGkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNG0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNHEmkEeiRIrZ3mgn37w" name="underKeelClearance" aggregation="composite" association="_6hoNF0mkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoNHUmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Under Keel Clearance, space between keel and ground&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|32"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNHkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNH0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNIEmkEeiRIrZ3mgn37w" memberEnd="_6hoNIkmkEeiRIrZ3mgn37w _6hoNJUmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNJUmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoNIUmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Space around a ship where no other ship should be &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedEnd xmi:id="_6hoNIkmkEeiRIrZ3mgn37w" name="_personalSpace_" type="_6hoNFUmkEeiRIrZ3mgn37w" association="_6hoNIEmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNI0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNJEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNJUmkEeiRIrZ3mgn37w" name="personalSpace" aggregation="composite" association="_6hoNIEmkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoNJkmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Space around a ship where no other ship should be &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|33"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNJ0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNKEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoNKUmkEeiRIrZ3mgn37w" name="EngineBuildInformation">
+                <eAnnotations xmi:id="_6hoNKkmkEeiRIrZ3mgn37w" source="InformationType"/>
+                <ownedAttribute xmi:id="_6hoNK0mkEeiRIrZ3mgn37w" name="model">
+                  <type xsi:type="uml:Activity" href="Vessel.tuml#|34"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNLEmkEeiRIrZ3mgn37w"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNLUmkEeiRIrZ3mgn37w" value="1"/>
+                </ownedAttribute>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNLkmkEeiRIrZ3mgn37w" memberEnd="_6hoNL0mkEeiRIrZ3mgn37w _6hoNMkmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNMkmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNL0mkEeiRIrZ3mgn37w" name="_manufactor_" type="_6hoNKUmkEeiRIrZ3mgn37w" association="_6hoNLkmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNMEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNMUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNMkmkEeiRIrZ3mgn37w" name="manufactor" aggregation="composite" association="_6hoNLkmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|35"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNM0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNNEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNNUmkEeiRIrZ3mgn37w" memberEnd="_6hoNNkmkEeiRIrZ3mgn37w _6hoNOUmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNOUmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNNkmkEeiRIrZ3mgn37w" name="_buildYear_" type="_6hoNKUmkEeiRIrZ3mgn37w" association="_6hoNNUmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNN0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNOEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNOUmkEeiRIrZ3mgn37w" name="buildYear" aggregation="composite" association="_6hoNNUmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|36"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNOkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNO0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoNPEmkEeiRIrZ3mgn37w" name="Engine">
+                <generalization xmi:id="_6hoNPUmkEeiRIrZ3mgn37w">
+                  <general xsi:type="uml:Activity" href="Vessel.tuml#|37"/>
+                </generalization>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNPkmkEeiRIrZ3mgn37w" memberEnd="_6hoNP0mkEeiRIrZ3mgn37w _6hoNQkmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNQkmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNP0mkEeiRIrZ3mgn37w" name="_buildInformation_" type="_6hoNPEmkEeiRIrZ3mgn37w" association="_6hoNPkmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNQEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNQUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNQkmkEeiRIrZ3mgn37w" name="buildInformation" type="_6hoNKUmkEeiRIrZ3mgn37w" aggregation="composite" association="_6hoNPkmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNQ0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNREmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNRUmkEeiRIrZ3mgn37w" memberEnd="_6hoNRkmkEeiRIrZ3mgn37w _6hoNSUmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNSUmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNRkmkEeiRIrZ3mgn37w" name="_acceleration_" type="_6hoNPEmkEeiRIrZ3mgn37w" association="_6hoNRUmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNR0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNSEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNSUmkEeiRIrZ3mgn37w" name="acceleration" aggregation="composite" association="_6hoNRUmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|39"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNSkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNS0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNTEmkEeiRIrZ3mgn37w" memberEnd="_6hoNTUmkEeiRIrZ3mgn37w _6hoNUEmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNUEmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNTUmkEeiRIrZ3mgn37w" name="_commandedEngineForce_" type="_6hoNPEmkEeiRIrZ3mgn37w" association="_6hoNTEmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNTkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNT0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNUEmkEeiRIrZ3mgn37w" name="commandedEngineForce" type="_6hoOkkmkEeiRIrZ3mgn37w" aggregation="composite" association="_6hoNTEmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNUUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNUkmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoNU0mkEeiRIrZ3mgn37w" name="InternalCombustionEngine">
+                <ownedComment xmi:id="_6hoNVEmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * An engine that converts chemical energy to mechanical energy&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <generalization xmi:id="_6hoNVUmkEeiRIrZ3mgn37w" general="_6hoNPEmkEeiRIrZ3mgn37w"/>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNVkmkEeiRIrZ3mgn37w" memberEnd="_6hoNV0mkEeiRIrZ3mgn37w _6hoNWkmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNWkmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNV0mkEeiRIrZ3mgn37w" name="_rpm_" type="_6hoNU0mkEeiRIrZ3mgn37w" association="_6hoNVkmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNWEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNWUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNWkmkEeiRIrZ3mgn37w" name="rpm" aggregation="composite" association="_6hoNVkmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|42"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNW0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNXEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNXUmkEeiRIrZ3mgn37w" memberEnd="_6hoNXkmkEeiRIrZ3mgn37w _6hoNYUmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNYUmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNXkmkEeiRIrZ3mgn37w" name="_maximumRpm_" type="_6hoNU0mkEeiRIrZ3mgn37w" association="_6hoNXUmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNX0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNYEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNYUmkEeiRIrZ3mgn37w" name="maximumRpm" aggregation="composite" association="_6hoNXUmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|43"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNYkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNY0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNZEmkEeiRIrZ3mgn37w" memberEnd="_6hoNZUmkEeiRIrZ3mgn37w _6hoNaEmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNaEmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNZUmkEeiRIrZ3mgn37w" name="_minimumRpm_" type="_6hoNU0mkEeiRIrZ3mgn37w" association="_6hoNZEmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNZkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNZ0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNaEmkEeiRIrZ3mgn37w" name="minimumRpm" aggregation="composite" association="_6hoNZEmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|44"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNaUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNakmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNa0mkEeiRIrZ3mgn37w" memberEnd="_6hoNbEmkEeiRIrZ3mgn37w _6hoNb0mkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNb0mkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNbEmkEeiRIrZ3mgn37w" name="_commandedRpm_" type="_6hoNU0mkEeiRIrZ3mgn37w" association="_6hoNa0mkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNbUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNbkmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNb0mkEeiRIrZ3mgn37w" name="commandedRpm" type="_6hoOykmkEeiRIrZ3mgn37w" aggregation="composite" association="_6hoNa0mkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNcEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNcUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoNckmkEeiRIrZ3mgn37w" name="Propeller">
+                <ownedComment xmi:id="_6hoNc0mkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * A propeller of a ship, used for converting mechanical energy to kinetic energy&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <generalization xmi:id="_6hoNdEmkEeiRIrZ3mgn37w">
+                  <general xsi:type="uml:Activity" href="Vessel.tuml#|46"/>
+                </generalization>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNdUmkEeiRIrZ3mgn37w" memberEnd="_6hoNdkmkEeiRIrZ3mgn37w _6hoNeUmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNeUmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNdkmkEeiRIrZ3mgn37w" name="_pitch_" type="_6hoNckmkEeiRIrZ3mgn37w" association="_6hoNdUmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNd0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNeEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNeUmkEeiRIrZ3mgn37w" name="pitch" aggregation="composite" association="_6hoNdUmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|47"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNekmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNe0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNfEmkEeiRIrZ3mgn37w" memberEnd="_6hoNfUmkEeiRIrZ3mgn37w _6hoNgEmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNgEmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNfUmkEeiRIrZ3mgn37w" name="_minimumPitch_" type="_6hoNckmkEeiRIrZ3mgn37w" association="_6hoNfEmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNfkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNf0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNgEmkEeiRIrZ3mgn37w" name="minimumPitch" aggregation="composite" association="_6hoNfEmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|48"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNgUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNgkmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNg0mkEeiRIrZ3mgn37w" memberEnd="_6hoNhEmkEeiRIrZ3mgn37w _6hoNh0mkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNh0mkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNhEmkEeiRIrZ3mgn37w" name="_maximumPitch_" type="_6hoNckmkEeiRIrZ3mgn37w" association="_6hoNg0mkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNhUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNhkmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNh0mkEeiRIrZ3mgn37w" name="maximumPitch" aggregation="composite" association="_6hoNg0mkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|49"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNiEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNiUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNikmkEeiRIrZ3mgn37w" memberEnd="_6hoNi0mkEeiRIrZ3mgn37w _6hoNjkmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNjkmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNi0mkEeiRIrZ3mgn37w" name="_commandedPitch_" type="_6hoNckmkEeiRIrZ3mgn37w" association="_6hoNikmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNjEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNjUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNjkmkEeiRIrZ3mgn37w" name="commandedPitch" type="_6hoO1EmkEeiRIrZ3mgn37w" aggregation="composite" association="_6hoNikmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNj0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNkEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoNkUmkEeiRIrZ3mgn37w" name="Rudder">
+                <generalization xmi:id="_6hoNkkmkEeiRIrZ3mgn37w">
+                  <general xsi:type="uml:Activity" href="Vessel.tuml#|51"/>
+                </generalization>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNk0mkEeiRIrZ3mgn37w" memberEnd="_6hoNlEmkEeiRIrZ3mgn37w _6hoNl0mkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNl0mkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNlEmkEeiRIrZ3mgn37w" name="_rateOfTurn_" type="_6hoNkUmkEeiRIrZ3mgn37w" association="_6hoNk0mkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNlUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNlkmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNl0mkEeiRIrZ3mgn37w" name="rateOfTurn" aggregation="composite" association="_6hoNk0mkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|52"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNmEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNmUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNmkmkEeiRIrZ3mgn37w" memberEnd="_6hoNm0mkEeiRIrZ3mgn37w _6hoNnkmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNnkmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNm0mkEeiRIrZ3mgn37w" name="_maximumAngle_" type="_6hoNkUmkEeiRIrZ3mgn37w" association="_6hoNmkmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNnEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNnUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNnkmkEeiRIrZ3mgn37w" name="maximumAngle" aggregation="composite" association="_6hoNmkmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|53"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNn0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNoEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNoUmkEeiRIrZ3mgn37w" memberEnd="_6hoNokmkEeiRIrZ3mgn37w _6hoNpUmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNpUmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNokmkEeiRIrZ3mgn37w" name="_commandedAngle_" type="_6hoNkUmkEeiRIrZ3mgn37w" association="_6hoNoUmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNo0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNpEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNpUmkEeiRIrZ3mgn37w" name="commandedAngle" type="_6hoOwEmkEeiRIrZ3mgn37w" aggregation="composite" association="_6hoNoUmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNpkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNp0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoNqEmkEeiRIrZ3mgn37w" name="PropulsionSystem">
+                <ownedComment xmi:id="_6hoNqUmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Propulsion is a means of creating force leading to movement. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * A propulsion system consists of a source of mechanical power, and a propulsor (means of converting this power into propulsive force).&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * A technological system uses an engine or motor as the power source, and wheels and axles, propellers, or a propulsive nozzle to generate the force. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Components such as clutches or gearboxes may be needed to connect the motor to axles, wheels, or propellors.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * \source wikipedia&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNqkmkEeiRIrZ3mgn37w" memberEnd="_6hoNq0mkEeiRIrZ3mgn37w _6hoNrkmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNrkmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNq0mkEeiRIrZ3mgn37w" name="_maximumVelocity_" type="_6hoNqEmkEeiRIrZ3mgn37w" association="_6hoNqkmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNrEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNrUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNrkmkEeiRIrZ3mgn37w" name="maximumVelocity" aggregation="composite" association="_6hoNqkmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|55"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNr0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNsEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNsUmkEeiRIrZ3mgn37w" memberEnd="_6hoNs0mkEeiRIrZ3mgn37w _6hoNtkmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNtkmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoNskmkEeiRIrZ3mgn37w" body="/** may be negativ to indicate backwards movements */"/>
+                  <ownedEnd xmi:id="_6hoNs0mkEeiRIrZ3mgn37w" name="_minimumVelocity_" type="_6hoNqEmkEeiRIrZ3mgn37w" association="_6hoNsUmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNtEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNtUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNtkmkEeiRIrZ3mgn37w" name="minimumVelocity" aggregation="composite" association="_6hoNsUmkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoNt0mkEeiRIrZ3mgn37w" body="/** may be negativ to indicate backwards movements */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|56"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNuEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNuUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNukmkEeiRIrZ3mgn37w" memberEnd="_6hoNu0mkEeiRIrZ3mgn37w _6hoNvkmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNvkmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNu0mkEeiRIrZ3mgn37w" name="_maximumAcceleration_" type="_6hoNqEmkEeiRIrZ3mgn37w" association="_6hoNukmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNvEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNvUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNvkmkEeiRIrZ3mgn37w" name="maximumAcceleration" aggregation="composite" association="_6hoNukmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|57"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNv0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNwEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNwUmkEeiRIrZ3mgn37w" memberEnd="_6hoNwkmkEeiRIrZ3mgn37w _6hoNxUmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNxUmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNwkmkEeiRIrZ3mgn37w" name="_minimumAcceleration_" type="_6hoNqEmkEeiRIrZ3mgn37w" association="_6hoNwUmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNw0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNxEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNxUmkEeiRIrZ3mgn37w" name="minimumAcceleration" aggregation="composite" association="_6hoNwUmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|58"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNxkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNx0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNyEmkEeiRIrZ3mgn37w" memberEnd="_6hoNyUmkEeiRIrZ3mgn37w _6hoNzEmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoNzEmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoNyUmkEeiRIrZ3mgn37w" name="_engines_" type="_6hoNqEmkEeiRIrZ3mgn37w" association="_6hoNyEmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNykmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoNy0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoNzEmkEeiRIrZ3mgn37w" name="engines" type="_6hoNPEmkEeiRIrZ3mgn37w" aggregation="composite" association="_6hoNyEmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoNzUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralString" xmi:id="_6hoNzkmkEeiRIrZ3mgn37w" value="*"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoNz0mkEeiRIrZ3mgn37w" memberEnd="_6hoN0EmkEeiRIrZ3mgn37w _6hoN00mkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoN00mkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoN0EmkEeiRIrZ3mgn37w" name="_propellers_" type="_6hoNqEmkEeiRIrZ3mgn37w" association="_6hoNz0mkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoN0UmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoN0kmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoN00mkEeiRIrZ3mgn37w" name="propellers" type="_6hoNckmkEeiRIrZ3mgn37w" aggregation="composite" association="_6hoNz0mkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoN1EmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralString" xmi:id="_6hoN1UmkEeiRIrZ3mgn37w" value="*"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoN1kmkEeiRIrZ3mgn37w" name="ControlSurfaces">
+                <ownedComment xmi:id="_6hoN10mkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * These forces and moments arise due to the Control Surfaces (CS) like rudder, fins, etc. movement&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * \source Mathematical Ship Modeling for Control Applications, 2002, Perez, Blanket&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoN2EmkEeiRIrZ3mgn37w" memberEnd="_6hoN2UmkEeiRIrZ3mgn37w _6hoN3EmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoN3EmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoN2UmkEeiRIrZ3mgn37w" name="_maximumRateOfTurn_" type="_6hoN1kmkEeiRIrZ3mgn37w" association="_6hoN2EmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoN2kmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoN20mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoN3EmkEeiRIrZ3mgn37w" name="maximumRateOfTurn" aggregation="composite" association="_6hoN2EmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|61"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoN3UmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoN3kmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoN30mkEeiRIrZ3mgn37w" memberEnd="_6hoN4EmkEeiRIrZ3mgn37w _6hoN40mkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoN40mkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoN4EmkEeiRIrZ3mgn37w" name="_rudders_" type="_6hoN1kmkEeiRIrZ3mgn37w" association="_6hoN30mkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoN4UmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoN4kmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoN40mkEeiRIrZ3mgn37w" name="rudders" type="_6hoNkUmkEeiRIrZ3mgn37w" aggregation="composite" association="_6hoN30mkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoN5EmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralString" xmi:id="_6hoN5UmkEeiRIrZ3mgn37w" value="*"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoN5kmkEeiRIrZ3mgn37w" name="DynamicSystem">
+                <ownedComment xmi:id="_6hoN50mkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * \source Mathematical Ship Modeling for Control Applications, 2002, Perez, Blanket&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <generalization xmi:id="_6hoN6EmkEeiRIrZ3mgn37w" general="_6hnmHkmkEeiRIrZ3mgn37w"/>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoN6UmkEeiRIrZ3mgn37w" memberEnd="_6hoN6kmkEeiRIrZ3mgn37w _6hoN7UmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoN7UmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoN6kmkEeiRIrZ3mgn37w" name="_propulsion_" type="_6hoN5kmkEeiRIrZ3mgn37w" association="_6hoN6UmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoN60mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoN7EmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoN7UmkEeiRIrZ3mgn37w" name="propulsion" type="_6hoNqEmkEeiRIrZ3mgn37w" aggregation="composite" association="_6hoN6UmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoN7kmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoN70mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoN8EmkEeiRIrZ3mgn37w" memberEnd="_6hoN8UmkEeiRIrZ3mgn37w _6hoN9EmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoN9EmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoN8UmkEeiRIrZ3mgn37w" name="_control_" type="_6hoN5kmkEeiRIrZ3mgn37w" association="_6hoN8EmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoN8kmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoN80mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoN9EmkEeiRIrZ3mgn37w" name="control" type="_6hoN1kmkEeiRIrZ3mgn37w" aggregation="composite" association="_6hoN8EmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoN9UmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoN9kmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoN90mkEeiRIrZ3mgn37w" name="CapacityCharacteristic">
+                <eAnnotations xmi:id="_6hoN-EmkEeiRIrZ3mgn37w" source="ComplexAttributeType"/>
+                <generalization xmi:id="_6hoN-UmkEeiRIrZ3mgn37w" general="_6hnmHkmkEeiRIrZ3mgn37w"/>
+                <ownedAttribute xmi:id="_6hoN-kmkEeiRIrZ3mgn37w" name="teu">
+                  <type xsi:type="uml:Activity" href="Vessel.tuml#|67"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoN-0mkEeiRIrZ3mgn37w"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoN_EmkEeiRIrZ3mgn37w" value="1"/>
+                </ownedAttribute>
+                <ownedAttribute xmi:id="_6hoN_UmkEeiRIrZ3mgn37w" name="passengers">
+                  <type xsi:type="uml:Activity" href="Vessel.tuml#|68"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoN_kmkEeiRIrZ3mgn37w"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoN_0mkEeiRIrZ3mgn37w" value="1"/>
+                </ownedAttribute>
+                <ownedAttribute xmi:id="_6hoOAEmkEeiRIrZ3mgn37w" name="cars">
+                  <type xsi:type="uml:Activity" href="Vessel.tuml#|69"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOAUmkEeiRIrZ3mgn37w"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOAkmkEeiRIrZ3mgn37w" value="1"/>
+                </ownedAttribute>
+                <ownedAttribute xmi:id="_6hoOA0mkEeiRIrZ3mgn37w" name="trucks">
+                  <type xsi:type="uml:Activity" href="Vessel.tuml#|70"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOBEmkEeiRIrZ3mgn37w"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOBUmkEeiRIrZ3mgn37w" value="1"/>
+                </ownedAttribute>
+                <ownedAttribute xmi:id="_6hoOBkmkEeiRIrZ3mgn37w" name="roRoLanes">
+                  <type xsi:type="uml:Activity" href="Vessel.tuml#|71"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOB0mkEeiRIrZ3mgn37w"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOCEmkEeiRIrZ3mgn37w" value="1"/>
+                </ownedAttribute>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOCUmkEeiRIrZ3mgn37w" memberEnd="_6hoOCkmkEeiRIrZ3mgn37w _6hoODUmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoODUmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoOCkmkEeiRIrZ3mgn37w" name="_liquids_" type="_6hoN90mkEeiRIrZ3mgn37w" association="_6hoOCUmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOC0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoODEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoODUmkEeiRIrZ3mgn37w" name="liquids" aggregation="composite" association="_6hoOCUmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|72"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoODkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOD0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOEEmkEeiRIrZ3mgn37w" memberEnd="_6hoOEUmkEeiRIrZ3mgn37w _6hoOFEmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoOFEmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoOEUmkEeiRIrZ3mgn37w" name="_ligquidGas_" type="_6hoN90mkEeiRIrZ3mgn37w" association="_6hoOEEmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOEkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOE0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoOFEmkEeiRIrZ3mgn37w" name="ligquidGas" aggregation="composite" association="_6hoOEEmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|73"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOFUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOFkmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOF0mkEeiRIrZ3mgn37w" memberEnd="_6hoOGEmkEeiRIrZ3mgn37w _6hoOG0mkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoOG0mkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoOGEmkEeiRIrZ3mgn37w" name="_oil_" type="_6hoN90mkEeiRIrZ3mgn37w" association="_6hoOF0mkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOGUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOGkmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoOG0mkEeiRIrZ3mgn37w" name="oil" aggregation="composite" association="_6hoOF0mkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|74"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOHEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOHUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoOHkmkEeiRIrZ3mgn37w" name="VoyageCharacteristic">
+                <generalization xmi:id="_6hoOH0mkEeiRIrZ3mgn37w" general="_6hnmHkmkEeiRIrZ3mgn37w"/>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOIEmkEeiRIrZ3mgn37w" memberEnd="_6hoOIkmkEeiRIrZ3mgn37w _6hoOJUmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoOJUmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoOIUmkEeiRIrZ3mgn37w" body="/** all routes assigned to this Voyage, each route may have a name and a schedule */"/>
+                  <ownedEnd xmi:id="_6hoOIkmkEeiRIrZ3mgn37w" name="_routes_" type="_6hoOHkmkEeiRIrZ3mgn37w" association="_6hoOIEmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOI0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOJEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoOJUmkEeiRIrZ3mgn37w" name="routes" aggregation="composite" association="_6hoOIEmkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoOJkmkEeiRIrZ3mgn37w" body="/** all routes assigned to this Voyage, each route may have a name and a schedule */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|76"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOJ0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralString" xmi:id="_6hoOKEmkEeiRIrZ3mgn37w" value="*"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOKUmkEeiRIrZ3mgn37w" memberEnd="_6hoOK0mkEeiRIrZ3mgn37w _6hoOLkmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoOLkmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoOKkmkEeiRIrZ3mgn37w" body="/** current active route or null, if no route is active. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note this route shall point to a route inside the routes[*] list&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedEnd xmi:id="_6hoOK0mkEeiRIrZ3mgn37w" name="_activeRoute_" type="_6hoOHkmkEeiRIrZ3mgn37w" association="_6hoOKUmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOLEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOLUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoOLkmkEeiRIrZ3mgn37w" name="activeRoute" aggregation="shared" association="_6hoOKUmkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoOL0mkEeiRIrZ3mgn37w" body="/** current active route or null, if no route is active. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note this route shall point to a route inside the routes[*] list&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|77"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOMEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOMUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoOMkmkEeiRIrZ3mgn37w" name="AutopilotConfiguration">
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOM0mkEeiRIrZ3mgn37w" memberEnd="_6hoONUmkEeiRIrZ3mgn37w _6hoOOEmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoOOEmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoONEmkEeiRIrZ3mgn37w" body="/** Maximum rudder angle the autopilot is allowed to use */"/>
+                  <ownedEnd xmi:id="_6hoONUmkEeiRIrZ3mgn37w" name="_angleLimit_" type="_6hoOMkmkEeiRIrZ3mgn37w" association="_6hoOM0mkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoONkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoON0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoOOEmkEeiRIrZ3mgn37w" name="angleLimit" aggregation="composite" association="_6hoOM0mkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoOOUmkEeiRIrZ3mgn37w" body="/** Maximum rudder angle the autopilot is allowed to use */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|78"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOOkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOO0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOPEmkEeiRIrZ3mgn37w" memberEnd="_6hoOPkmkEeiRIrZ3mgn37w _6hoOQUmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoOQUmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoOPUmkEeiRIrZ3mgn37w" body="/** Maximum rate of turn, the autopilot ia allowed to use */"/>
+                  <ownedEnd xmi:id="_6hoOPkmkEeiRIrZ3mgn37w" name="_maxTurnRate_" type="_6hoOMkmkEeiRIrZ3mgn37w" association="_6hoOPEmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOP0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOQEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoOQUmkEeiRIrZ3mgn37w" name="maxTurnRate" aggregation="composite" association="_6hoOPEmkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoOQkmkEeiRIrZ3mgn37w" body="/** Maximum rate of turn, the autopilot ia allowed to use */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|79"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOQ0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOREmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoORUmkEeiRIrZ3mgn37w" memberEnd="_6hoOR0mkEeiRIrZ3mgn37w _6hoOSkmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoOSkmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoORkmkEeiRIrZ3mgn37w" body="/** minimum speed (sog), the autopilot is allowed to use */"/>
+                  <ownedEnd xmi:id="_6hoOR0mkEeiRIrZ3mgn37w" name="_minSpeed_" type="_6hoOMkmkEeiRIrZ3mgn37w" association="_6hoORUmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOSEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOSUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoOSkmkEeiRIrZ3mgn37w" name="minSpeed" aggregation="composite" association="_6hoORUmkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoOS0mkEeiRIrZ3mgn37w" body="/** minimum speed (sog), the autopilot is allowed to use */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|80"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOTEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOTUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOTkmkEeiRIrZ3mgn37w" memberEnd="_6hoOUEmkEeiRIrZ3mgn37w _6hoOU0mkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoOU0mkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoOT0mkEeiRIrZ3mgn37w" body="/** maximum speed (sog), the autopliot is allowed to use */"/>
+                  <ownedEnd xmi:id="_6hoOUEmkEeiRIrZ3mgn37w" name="_maxSpeed_" type="_6hoOMkmkEeiRIrZ3mgn37w" association="_6hoOTkmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOUUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOUkmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoOU0mkEeiRIrZ3mgn37w" name="maxSpeed" aggregation="composite" association="_6hoOTkmkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoOVEmkEeiRIrZ3mgn37w" body="/** maximum speed (sog), the autopliot is allowed to use */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|81"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOVUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOVkmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoOV0mkEeiRIrZ3mgn37w" name="AutopilotAlarm">
+                <ownedAttribute xmi:id="_6hoOWEmkEeiRIrZ3mgn37w" name="message">
+                  <type xsi:type="uml:Activity" href="Vessel.tuml#|82"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOWUmkEeiRIrZ3mgn37w"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOWkmkEeiRIrZ3mgn37w" value="1"/>
+                </ownedAttribute>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOW0mkEeiRIrZ3mgn37w" memberEnd="_6hoOXEmkEeiRIrZ3mgn37w _6hoOX0mkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoOX0mkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoOXEmkEeiRIrZ3mgn37w" name="_creationTime_" type="_6hoOV0mkEeiRIrZ3mgn37w" association="_6hoOW0mkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOXUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOXkmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoOX0mkEeiRIrZ3mgn37w" name="creationTime" aggregation="composite" association="_6hoOW0mkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|83"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOYEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOYUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoOYkmkEeiRIrZ3mgn37w" name="Autopilot">
+                <generalization xmi:id="_6hoOY0mkEeiRIrZ3mgn37w" general="_6hnmHkmkEeiRIrZ3mgn37w"/>
+                <ownedAttribute xmi:id="_6hoOZEmkEeiRIrZ3mgn37w" name="trajectory">
+                  <ownedComment xmi:id="_6hoOZUmkEeiRIrZ3mgn37w" body="/** Trajectory the autopilot should follow */"/>
+                  <type xsi:type="uml:Activity" href="Vessel.tuml#|85"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOZkmkEeiRIrZ3mgn37w"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOZ0mkEeiRIrZ3mgn37w" value="1"/>
+                </ownedAttribute>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOaEmkEeiRIrZ3mgn37w" memberEnd="_6hoOaUmkEeiRIrZ3mgn37w _6hoObEmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoObEmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoOaUmkEeiRIrZ3mgn37w" name="_configuration_" type="_6hoOYkmkEeiRIrZ3mgn37w" association="_6hoOaEmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOakmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOa0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoObEmkEeiRIrZ3mgn37w" name="configuration" type="_6hoOMkmkEeiRIrZ3mgn37w" aggregation="composite" association="_6hoOaEmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoObUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoObkmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOb0mkEeiRIrZ3mgn37w" memberEnd="_6hoOcEmkEeiRIrZ3mgn37w _6hoOc0mkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoOc0mkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoOcEmkEeiRIrZ3mgn37w" name="_alarms_" type="_6hoOYkmkEeiRIrZ3mgn37w" association="_6hoOb0mkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOcUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOckmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoOc0mkEeiRIrZ3mgn37w" name="alarms" type="_6hoOV0mkEeiRIrZ3mgn37w" aggregation="composite" association="_6hoOb0mkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOdEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralString" xmi:id="_6hoOdUmkEeiRIrZ3mgn37w" value="*"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOdkmkEeiRIrZ3mgn37w" memberEnd="_6hoOd0mkEeiRIrZ3mgn37w _6hoOekmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoOekmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoOd0mkEeiRIrZ3mgn37w" name="_lastCommand_" type="_6hoOYkmkEeiRIrZ3mgn37w" association="_6hoOdkmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOeEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOeUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoOekmkEeiRIrZ3mgn37w" name="lastCommand" type="_6hoOkkmkEeiRIrZ3mgn37w" aggregation="composite" association="_6hoOdkmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOe0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOfEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOfUmkEeiRIrZ3mgn37w" memberEnd="_6hoOf0mkEeiRIrZ3mgn37w _6hoOgkmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoOgkmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoOfkmkEeiRIrZ3mgn37w" body="/** current active trajectory segment that is used by this autopilot &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note this segment has to be part of the current trajectory */"/>
+                  <ownedEnd xmi:id="_6hoOf0mkEeiRIrZ3mgn37w" name="_segment_" type="_6hoOYkmkEeiRIrZ3mgn37w" association="_6hoOfUmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOgEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOgUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoOgkmkEeiRIrZ3mgn37w" name="segment" aggregation="shared" association="_6hoOfUmkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoOg0mkEeiRIrZ3mgn37w" body="/** current active trajectory segment that is used by this autopilot &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note this segment has to be part of the current trajectory */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|89"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOhEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOhUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoOhkmkEeiRIrZ3mgn37w" name="StandingCommands">
+                <ownedComment xmi:id="_6hoOh0mkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * The StandingCommands characteristic holds all currently valid commands&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * which are not related to the machines (e.g. contains no MachineCommands)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Commands within this characteristic are typically given by an responsible nautical officer. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <generalization xmi:id="_6hoOiEmkEeiRIrZ3mgn37w" general="_6hnmHkmkEeiRIrZ3mgn37w"/>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOiUmkEeiRIrZ3mgn37w" memberEnd="_6hoOi0mkEeiRIrZ3mgn37w _6hoOjkmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoOjkmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoOikmkEeiRIrZ3mgn37w" body="/** List of currently valid steering commands */"/>
+                  <ownedEnd xmi:id="_6hoOi0mkEeiRIrZ3mgn37w" name="_commands_" type="_6hoOhkmkEeiRIrZ3mgn37w" association="_6hoOiUmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOjEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOjUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoOjkmkEeiRIrZ3mgn37w" name="commands" type="_6hoOpkmkEeiRIrZ3mgn37w" aggregation="composite" association="_6hoOiUmkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoOj0mkEeiRIrZ3mgn37w" body="/** List of currently valid steering commands */"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOkEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralString" xmi:id="_6hoOkUmkEeiRIrZ3mgn37w" value="*"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoOkkmkEeiRIrZ3mgn37w" name="CommandedValue" isAbstract="true">
+                <ownedComment xmi:id="_6hoOk0mkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Represents a generic value that has been commanded&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * (typically by the captain) to be achieved in the future&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOlEmkEeiRIrZ3mgn37w" memberEnd="_6hoOlkmkEeiRIrZ3mgn37w _6hoOmUmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoOmUmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoOlUmkEeiRIrZ3mgn37w" body="/** time of creation */"/>
+                  <ownedEnd xmi:id="_6hoOlkmkEeiRIrZ3mgn37w" name="_creationTime_" type="_6hoOkkmkEeiRIrZ3mgn37w" association="_6hoOlEmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOl0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOmEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoOmUmkEeiRIrZ3mgn37w" name="creationTime" aggregation="composite" association="_6hoOlEmkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoOmkmkEeiRIrZ3mgn37w" body="/** time of creation */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|92"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOm0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOnEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOnUmkEeiRIrZ3mgn37w" memberEnd="_6hoOn0mkEeiRIrZ3mgn37w _6hoOokmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoOokmkEeiRIrZ3mgn37w">
+                  <ownedComment xmi:id="_6hoOnkmkEeiRIrZ3mgn37w" body="/** Optional source of the command (for example the captain) */"/>
+                  <ownedEnd xmi:id="_6hoOn0mkEeiRIrZ3mgn37w" name="_source_" type="_6hoOkkmkEeiRIrZ3mgn37w" association="_6hoOnUmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOoEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOoUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoOokmkEeiRIrZ3mgn37w" name="source" aggregation="composite" association="_6hoOnUmkEeiRIrZ3mgn37w">
+                    <ownedComment xmi:id="_6hoOo0mkEeiRIrZ3mgn37w" body="/** Optional source of the command (for example the captain) */"/>
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|93"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOpEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOpUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoOpkmkEeiRIrZ3mgn37w" name="SteeringCommand" isAbstract="true">
+                <ownedComment xmi:id="_6hoOp0mkEeiRIrZ3mgn37w" body="/** Abstract command, related to steering, like direction / heading / speed&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * typically a command that is given and executed by some nautical officer&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <generalization xmi:id="_6hoOqEmkEeiRIrZ3mgn37w" general="_6hoOkkmkEeiRIrZ3mgn37w"/>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoOqUmkEeiRIrZ3mgn37w" name="SpeedCommand">
+                <ownedComment xmi:id="_6hoOqkmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * The commanded speed for the vessel, which is not directly&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * depended on any specific engine rpm or propeller pitch&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <generalization xmi:id="_6hoOq0mkEeiRIrZ3mgn37w" general="_6hoOpkmkEeiRIrZ3mgn37w"/>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOrEmkEeiRIrZ3mgn37w" memberEnd="_6hoOrUmkEeiRIrZ3mgn37w _6hoOsEmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoOsEmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoOrUmkEeiRIrZ3mgn37w" name="_speed_" type="_6hoOqUmkEeiRIrZ3mgn37w" association="_6hoOrEmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOrkmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOr0mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoOsEmkEeiRIrZ3mgn37w" name="speed" aggregation="composite" association="_6hoOrEmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|96"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOsUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOskmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoOs0mkEeiRIrZ3mgn37w" name="HeadingCommand">
+                <ownedComment xmi:id="_6hoOtEmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * The commanded heading, which is not directly depended&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * on any specific rudder angle.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <generalization xmi:id="_6hoOtUmkEeiRIrZ3mgn37w" general="_6hoOpkmkEeiRIrZ3mgn37w"/>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOtkmkEeiRIrZ3mgn37w" memberEnd="_6hoOt0mkEeiRIrZ3mgn37w _6hoOukmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoOukmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoOt0mkEeiRIrZ3mgn37w" name="_heading_" type="_6hoOs0mkEeiRIrZ3mgn37w" association="_6hoOtkmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOuEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOuUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoOukmkEeiRIrZ3mgn37w" name="heading" aggregation="composite" association="_6hoOtkmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|98"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOu0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOvEmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoOvUmkEeiRIrZ3mgn37w" name="MachineCommand" isAbstract="true">
+                <ownedComment xmi:id="_6hoOvkmkEeiRIrZ3mgn37w" body="/** An concrete command for a machine&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * typically this commands are read by an machine and produced &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * by an controlling instance of the vessel (for example a nautical officer) as result / decomposition of steering commands&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <generalization xmi:id="_6hoOv0mkEeiRIrZ3mgn37w" general="_6hoOkkmkEeiRIrZ3mgn37w"/>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoOwEmkEeiRIrZ3mgn37w" name="CommandedRudderAngle">
+                <ownedComment xmi:id="_6hoOwUmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * A specific command for a rudder angle change. Directed&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * to only one rudder.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <generalization xmi:id="_6hoOwkmkEeiRIrZ3mgn37w" general="_6hoOvUmkEeiRIrZ3mgn37w"/>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOw0mkEeiRIrZ3mgn37w" memberEnd="_6hoOxEmkEeiRIrZ3mgn37w _6hoOx0mkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoOx0mkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoOxEmkEeiRIrZ3mgn37w" name="_angle_" type="_6hoOwEmkEeiRIrZ3mgn37w" association="_6hoOw0mkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOxUmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOxkmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoOx0mkEeiRIrZ3mgn37w" name="angle" aggregation="composite" association="_6hoOw0mkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|101"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOyEmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoOyUmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoOykmkEeiRIrZ3mgn37w" name="CommandedEngineRpm">
+                <ownedComment xmi:id="_6hoOy0mkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * A command directed to change the rpm of a single engine&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <generalization xmi:id="_6hoOzEmkEeiRIrZ3mgn37w" general="_6hoOvUmkEeiRIrZ3mgn37w"/>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoOzUmkEeiRIrZ3mgn37w" memberEnd="_6hoOzkmkEeiRIrZ3mgn37w _6hoO0UmkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoO0UmkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoOzkmkEeiRIrZ3mgn37w" name="_rpm_" type="_6hoOykmkEeiRIrZ3mgn37w" association="_6hoOzUmkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoOz0mkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoO0EmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoO0UmkEeiRIrZ3mgn37w" name="rpm" aggregation="composite" association="_6hoOzUmkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|103"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoO0kmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoO00mkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_6hoO1EmkEeiRIrZ3mgn37w" name="CommandedPropellerPitch">
+                <ownedComment xmi:id="_6hoO1UmkEeiRIrZ3mgn37w" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * A command directed to change the pitch of a specific&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * propeller&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <generalization xmi:id="_6hoO1kmkEeiRIrZ3mgn37w" general="_6hoOvUmkEeiRIrZ3mgn37w"/>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_6hoO10mkEeiRIrZ3mgn37w" memberEnd="_6hoO2EmkEeiRIrZ3mgn37w _6hoO20mkEeiRIrZ3mgn37w" navigableOwnedEnd="_6hoO20mkEeiRIrZ3mgn37w">
+                  <ownedEnd xmi:id="_6hoO2EmkEeiRIrZ3mgn37w" name="_pitch_" type="_6hoO1EmkEeiRIrZ3mgn37w" association="_6hoO10mkEeiRIrZ3mgn37w">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoO2UmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoO2kmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_6hoO20mkEeiRIrZ3mgn37w" name="pitch" aggregation="composite" association="_6hoO10mkEeiRIrZ3mgn37w">
+                    <type xsi:type="uml:Activity" href="Vessel.tuml#|105"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6hoO3EmkEeiRIrZ3mgn37w"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_6hoO3UmkEeiRIrZ3mgn37w" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+            </packagedElement>
+          </packagedElement>
+        </packagedElement>
+      </packagedElement>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

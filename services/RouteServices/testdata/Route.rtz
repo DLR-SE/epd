@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<route xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.0" xmlns="http://www.cirm.org/RTZ/1/0">
+	<routeInfo routeName="Barcelona - Las Palmas" />
+	<waypoints>		<waypoint name="" radius="0.0">
+			<position lat="41.333580017089844" lon="2.167975664138794" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="41.32761764526367" lon="2.166870594024658" />
+			<leg geometryType="Orthodrome" starboardXTD="0.1" portsideXTD="0.1" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="41.3194694519043" lon="2.1694259643554688" />
+			<leg geometryType="Orthodrome" starboardXTD="0.1" portsideXTD="0.1" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="41.30686950683594" lon="2.1732242107391357" />
+			<leg geometryType="Orthodrome" starboardXTD="0.1" portsideXTD="0.1" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="41.295570373535156" lon="2.1732242107391357" />
+			<leg geometryType="Orthodrome" starboardXTD="0.1" portsideXTD="0.1" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="41.27237319946289" lon="2.1776468753814697" />
+			<leg geometryType="Orthodrome" starboardXTD="0.1" portsideXTD="0.1" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="41.26218795776367" lon="2.1787519454956055" />
+			<leg geometryType="Orthodrome" starboardXTD="0.1" portsideXTD="0.1" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="41.24955749511719" lon="2.177173137664795" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="40.93585968017578" lon="1.995611548423767" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="40.2158088684082" lon="1.299073576927185" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="39.43605041503906" lon="0.756577730178833" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="38.74039840698242" lon="0.40401139855384827" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="38.67393493652344" lon="0.35496199131011963" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="38.6258544921875" lon="0.29408299922943115" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="38.57887268066406" lon="0.23349255323410034" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="38.48210525512695" lon="0.12570108473300934" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="37.80207061767578" lon="0.06673721969127655" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="37.290138244628906" lon="-0.5360360145568848" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="36.35866928100586" lon="-1.5473555326461792" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="36.28279113769531" lon="-2.8399693965911865" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="36.22854995727539" lon="-3.683851718902588" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="36.05178451538086" lon="-5.038675785064697" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="36.01937484741211" lon="-5.3349223136901855" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="35.99436950683594" lon="-5.478987216949463" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="35.96469497680664" lon="-5.584939002990723" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="35.95845031738281" lon="-5.615994930267334" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="35.960174560546875" lon="-5.754929065704346" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="35.9619026184082" lon="-5.893863201141357" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="35.96363067626953" lon="-6.032797336578369" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="35.96084213256836" lon="-6.155386447906494" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="35.96070861816406" lon="-6.2900710105896" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="28.97210121154785" lon="-15.214653968811035" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="28.40172004699707" lon="-15.494478225708008" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="28.201213836669922" lon="-15.376249313354492" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="28.156368255615234" lon="-15.372884750366211" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="28.121200561523438" lon="-15.386062622070312" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.20000000298023224">
+			<position lat="28.124610900878906" lon="-15.410871505737305" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+		<waypoint name="" radius="0.0">
+			<position lat="28.128314971923828" lon="-15.420417785644531" />
+			<leg geometryType="Orthodrome" starboardXTD="1.0" portsideXTD="1.0" speedMax="19.0" />
+		</waypoint>
+	</waypoints>
+</route>

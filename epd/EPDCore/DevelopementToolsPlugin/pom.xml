@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>de.dlr-se.emir.epd</groupId>
+		<artifactId>EPDCore</artifactId>
+		<version>4.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>DevelopementToolsPlugin</artifactId>
+	<name>DevelopementTools Plugin</name>
+	<description>Adds the PluginMenu Entry to the EPD menu and an option to change the plugin configuration at runtime.
+	</description>
+  
+	<properties>
+		<eMIR-Plugin-Class>de.emir.rcp.DevelopementToolsPlugin</eMIR-Plugin-Class>
+	</properties>
+	
+	<dependencies>
+		<dependency>
+			<groupId>de.dlr-se.emir.runtime</groupId>
+			<artifactId>uiplugincore</artifactId>
+			<version>${runtime.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.dlr-se.emir.runtime</groupId>
+			<artifactId>productcore</artifactId>
+			<version>${runtime.version}</version>
+		</dependency>
+	</dependencies>
+</project>

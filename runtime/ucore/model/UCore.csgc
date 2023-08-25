@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ASCII"?>
+<csgc:CSharpUMLGenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:csgc="http://www.sos.de/de/sos/uml/UMLGenCSharp">
+  <model href="UCore.tuml#//@model"/>
+  <primitiveMappings qualifiedName="void">
+    <type href="UCore.tuml#//@model/de/void"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="bool">
+    <type href="UCore.tuml#//@model/de/boolean"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="object">
+    <type href="UCore.tuml#//@model/de/Object"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="string">
+    <type href="UCore.tuml#//@model/de/String"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="int">
+    <type href="UCore.tuml#//@model/de/int"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="float">
+    <type href="UCore.tuml#//@model/de/float"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="long">
+    <type href="UCore.tuml#//@model/de/long"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="double">
+    <type href="UCore.tuml#//@model/de/double"/>
+  </primitiveMappings>
+  <projects xsi:type="csgc:CSDataModelProject" rootDirectory="." sourceDirectory="src/main/csharp" testDirectory="src/test/csharp">
+    <project xsi:type="csgc:CSProjectModule" artifactID="UCore" version="0.1.0-SNAPSHOT"/>
+    <interfaceModule xsi:type="csgc:CSDataModelInterfaceModule" name="" prefix="" declareOperations="true"/>
+    <implementationModule xsi:type="csgc:CSDataModelImplementationModule" operationMode="STUB"/>
+    <metaModule xsi:type="csgc:CSDataModelMetaModule"/>
+  </projects>
+</csgc:CSharpUMLGenModel>

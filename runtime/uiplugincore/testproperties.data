@@ -1,0 +1,42 @@
+<map>
+  <entry>
+    <string>TestContext</string>
+    <de.emir.rcp.properties.PropertyContext>
+      <properties>
+        <entry>
+          <string>TestProperty2</string>
+          <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty serialization="custom">
+            <de.emir.tuml.ucore.runtime.prop.AbstractProperty>
+              <default/>
+            </de.emir.tuml.ucore.runtime.prop.AbstractProperty>
+            <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+              <default>
+                <mEditable>true</mEditable>
+                <mDescription>The second test property.</mDescription>
+                <mName>TestProperty2</mName>
+                <mValue class="long">23</mValue>
+              </default>
+            </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+          </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+        </entry>
+        <entry>
+          <string>TestProperty1</string>
+          <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty serialization="custom">
+            <de.emir.tuml.ucore.runtime.prop.AbstractProperty>
+              <default/>
+            </de.emir.tuml.ucore.runtime.prop.AbstractProperty>
+            <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+              <default>
+                <mEditable>true</mEditable>
+                <mDescription>The first test property a, simple String.</mDescription>
+                <mName>TestProperty1</mName>
+                <mValue class="string">StringValue</mValue>
+              </default>
+            </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+          </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+        </entry>
+      </properties>
+      <mListener/>
+    </de.emir.rcp.properties.PropertyContext>
+  </entry>
+</map>

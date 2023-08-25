@@ -1,0 +1,376 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<version>4.0.0-SNAPSHOT</version>
+	<groupId>de.dlr-se.emir</groupId>
+	<artifactId>emir</artifactId>
+	<name>eMIR-OpenSource</name>
+	<packaging>pom</packaging>
+	<description>This is the eMIR OpenSource project. This parent pom references all modules initially published to create the eMIR Prototype Display (EPD).</description>
+	
+	<developers>
+		<developer>
+			<name>Stefan Behrensen</name>
+			<email>stefan.behrensen@dlr.de</email>
+		</developer>
+		<developer>
+			<name>Jan Mentjes</name>
+			<email>jan.mentjes@dlr.de</email>
+		</developer>
+	</developers>
+
+	<contributors>
+		<contributor>
+			<name>Julius Möller</name>
+			<email>julius.moeller@uol.de</email>
+		</contributor>
+		<contributor>
+			<name>Florian Klein</name>
+		</contributor>
+		<contributor>
+			<name>Sören Schweigert</name>
+		</contributor>
+		<contributor>
+			<name>Alexander Oppermann</name>
+		</contributor>
+		<contributor>
+			<name>Volker Gollücke</name>
+		</contributor>
+	</contributors>
+	
+	<modules>
+		<module>runtime</module>
+		<module>model</module>
+		<module>services</module>
+		<module>epd</module>
+	</modules>
+	
+	<properties>
+		<runtime.version>4.0.0-SNAPSHOT</runtime.version>
+		<model.version>4.0.0-SNAPSHOT</model.version>
+		<services.version>4.0.0-SNAPSHOT</services.version>
+		<haggis.version>4.0.0-SNAPSHOT</haggis.version>
+		<epd.version>4.0.0-SNAPSHOT</epd.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<maven.require.version>3.5.4</maven.require.version>
+		<version.plugin.maven.jar>3.1.1</version.plugin.maven.jar>
+		<version.plugin.maven.clean>3.1.0</version.plugin.maven.clean>
+		<version.plugin.maven.install>3.0.0-M1</version.plugin.maven.install>
+		<version.plugin.maven.compiler>3.8.1</version.plugin.maven.compiler>
+		<version.plugin.maven.source>3.0.1</version.plugin.maven.source>
+		<version.plugin.maven.site>3.10.0</version.plugin.maven.site>
+		<version.plugin.maven.checkstyle>3.1.2</version.plugin.maven.checkstyle>
+		<version.plugin.maven.resources>3.1.0</version.plugin.maven.resources>
+		<version.plugin.maven.surefire>2.22.0</version.plugin.maven.surefire>
+		<version.plugin.maven.enforcer>3.0.0</version.plugin.maven.enforcer>
+		<version.plugin.maven.deploy>3.0.0-M1</version.plugin.maven.deploy>
+		<version.plugin.maven.shade>3.2.1</version.plugin.maven.shade>
+		<version.plugin.maven.assembly>3.1.1</version.plugin.maven.assembly>
+		<version.plugin.maven.javadoc>3.3.1</version.plugin.maven.javadoc>
+		<version.plugin.maven.project-info-reports>3.1.2</version.plugin.maven.project-info-reports>
+		<version.plugin.maven.spotbugs>4.5.2.0</version.plugin.maven.spotbugs>
+		<version.plugin.maven.failsafe>3.0.0-M5</version.plugin.maven.failsafe>
+		<junit.version>4.13.2</junit.version>
+		<slf4j.version>1.7.25</slf4j.version>
+		<guava.version>31.1-jre</guava.version>
+		<rxjava.version>3.1.4</rxjava.version>
+		<geotools.version>27.0</geotools.version>
+		<okhttp-version>3.14.9</okhttp-version>
+		<jts.version>1.18.2</jts.version>
+	</properties>
+	
+	<licenses>
+      <license>
+        <name>Apache-2.0</name>
+        <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        <distribution>repo</distribution>
+        <comments>A business-friendly OSS license</comments>
+      </license>
+    </licenses>
+
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+
+		<repository>
+			<id>EdinburghPH</id>
+			<url>https://www2.ph.ed.ac.uk/maven2</url>
+		</repository>
+		
+		<repository>
+			<id>osgeo</id>
+			<url>https://repo.osgeo.org/repository/release/</url>
+		</repository>
+	</repositories>
+	
+	<build>
+		<resources>
+			<resource>
+				<directory>model</directory>
+			</resource>
+
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+
+			<resource>
+				<directory>src/test/resources</directory>
+			</resource>
+			
+			<resource>
+				<directory>src/site/resources</directory>
+			</resource>
+		</resources>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${version.plugin.maven.compiler}</version>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>${version.plugin.maven.jar}</version>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>${version.plugin.maven.clean}</version>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>${version.plugin.maven.install}</version>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${version.plugin.maven.resources}</version>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${version.plugin.maven.surefire}</version>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>${version.plugin.maven.deploy}</version>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>${version.plugin.maven.assembly}</version>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-project-info-reports-plugin</artifactId>
+					<version>${version.plugin.maven.project-info-reports}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-enforcer-plugin</artifactId>
+					<version>${version.plugin.maven.enforcer}</version>
+					<executions>
+						<execution>
+							<id>enforce-maven</id>
+							<goals>
+								<goal>enforce</goal>
+							</goals>
+							<configuration>
+								<rules>
+									<requireMavenVersion>
+										<version>${maven.require.version}</version>
+									</requireMavenVersion>
+								</rules>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>${version.plugin.maven.site}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>license-maven-plugin</artifactId>
+					<version>1.16</version>
+					<executions>
+						<execution>
+							<id>download-licenses</id>
+							<goals>
+								<goal>download-licenses</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>${version.plugin.maven.checkstyle}</version>
+					<dependencies>
+						<dependency>
+							<groupId>com.puppycrawl.tools</groupId>
+							<artifactId>checkstyle</artifactId>
+							<version>9.2.1</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>${version.plugin.maven.javadoc}</version>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+							<configuration>
+								<doclint>none</doclint>
+							</configuration>
+						</execution>
+					</executions>
+					<configuration>
+						<doclet>nl.talsmasoftware.umldoclet.UMLDoclet</doclet>
+						<docletArtifact>
+							<groupId>nl.talsmasoftware</groupId>
+							<artifactId>umldoclet</artifactId>
+							<version>2.0.15</version>
+						</docletArtifact>
+						<tags>
+							<tag>
+								<name>generated</name>
+								<placement>X</placement>
+							</tag>
+						</tags>
+						<quiet>true</quiet>
+						<failOnError>false</failOnError>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>com.github.spotbugs</groupId>
+					<artifactId>spotbugs-maven-plugin</artifactId>
+					<version>${version.plugin.maven.spotbugs}</version>
+					<dependencies>
+						<dependency>
+							<groupId>com.github.spotbugs</groupId>
+							<artifactId>spotbugs</artifactId>
+							<version>4.5.3</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>${version.plugin.maven.failsafe}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${version.plugin.maven.checkstyle}</version>
+				<configuration>
+					<configLocation>config/sun_checks_emir.xml</configLocation>
+					<propertiesLocation>config/checkstyle_maven.properties</propertiesLocation>
+					<encoding>UTF-8</encoding>
+					<consoleOutput>false</consoleOutput>
+					<failsOnError>false</failsOnError>
+					<linkXRef>false</linkXRef>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>${version.plugin.maven.resources}</version>
+			</plugin>
+
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>${version.plugin.maven.spotbugs}</version>
+				<configuration>
+					<xmlOutput>true</xmlOutput>
+					<xmlOutputDirectory>target/site</xmlOutputDirectory>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<reportSets>
+					<reportSet>
+						<id>aggregate</id>
+						<inherited>false</inherited>
+						<reports>
+							<report>aggregate</report>
+						</reports>
+					</reportSet>
+					<reportSet>
+						<id>default</id>
+						<reports>
+							<report>javadoc</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
+	
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<distributionManagement>
+		<site>
+			<id>emir.website</id>
+			<name>eMIR Website</name>
+			<url>https://emaritime.de/</url>
+		</site>
+	</distributionManagement>
+</project>

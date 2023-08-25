@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>de.dlr-se.emir.epd</groupId>
+        <artifactId>EPDCore</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>MapView</artifactId>
+    <name>Map View Plugin</name>
+    <description>Adds a map view to the EPD. Via extension points, additional layers can be registered. The map view
+        provides basic tile sources as maps and is built on top of a fork of jxmapviewer2.
+    </description>
+
+    <properties>
+        <eMIR-Plugin-Class>de.emir.epd.mapview.MapViewPlugin</eMIR-Plugin-Class>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.sbehrensen</groupId>
+            <artifactId>jxmapviewer2</artifactId>
+            <version>2.7-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.dlr-se.emir.runtime</groupId>
+            <artifactId>uiplugincore</artifactId>
+            <version>${runtime.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.dlr-se.emir.model.universal</groupId>
+            <artifactId>Physics</artifactId>
+            <version>${model.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

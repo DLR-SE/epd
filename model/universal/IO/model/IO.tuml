@@ -1,0 +1,79 @@
+#import "classpath:/model/Core.tuml"
+
+using UCore.de.*;
+/**
+* 
+* Insert your copyright text
+*/
+Model IO { 
+	package de {
+		package emir {
+			package model {
+				package universal {
+					package io {
+						
+						/**
+						 * Wrapper around the java.io.File object to allow specification of files
+						 * instead using string to point to an file
+						 */
+						class File {
+							String absolutePath;
+							boolean isDirectory ( ) const;
+							boolean isFile ( ) const;
+							
+							boolean exists() const;
+							String getName() const;
+														
+							/** Trys to resolve the file if it does not exists yet therefore the 
+							 * method takes into account the position of the containing resource
+							 * @returns 1) this, if exists() evaluates to true 2) a new File if it could be found relative to the containing eResource or 3) null 
+							 */
+							File resolveFile() const;
+							
+							/** Lists all files in the directory, this object points to
+							 * @param depth search depth, set to -1 for unlimited search
+							 * @return list of files if this instance points to an directory (may be empty) or null, if this instance points towards a file
+							 */
+							File[*] listFiles(int depth);
+						}
+						
+						
+						struct OutputStream {
+							boolean isValid() const;
+							boolean isEmpty() const;
+							
+							int size() const;
+							
+							int write(int v);
+							int write(long v);
+							int write(boolean v);
+							int write(float v);
+							int write(double v);
+							int write(String v);
+							
+						}
+						
+						struct InputStream {
+							boolean isValid() const;
+							boolean isEmpty() const;
+							
+							int size() const;
+							
+							boolean readBoolean();
+							int readInt();
+							long readLong();
+							float readFloat();
+							double readDouble();
+							String readString();
+						}
+						
+//						struct DataStream {						
+//							boolean isValid() const;
+//							boolean isEmpty() const;
+//						}
+					}
+				}
+			}
+		}		
+	}
+}	

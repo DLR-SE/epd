@@ -1,0 +1,294 @@
+import "classpath:/model/Math.tuml"
+import "classpath:/model/Units.tuml"
+import "classpath:/model/CRS.tuml"
+ 
+using UCore.de.*;
+/**
+* insert documentation for the model  
+*    
+*/    
+Model Spatial { 
+	package de { 
+		package emir {
+			package model {
+				package universal {
+					package spatial {
+																		
+						
+						
+						<< ComplexAttributeType >>
+						struct Coordinate {
+							@NumberFormat(format="%1.7f") 
+							double							x;
+							@NumberFormat(format="%1.7f")
+							double							y;
+							@NumberFormat(format="%1.7f") 
+							double							z; 
+							/** references the current coordinate system, and therefore how x,y,z has to be read
+							 * if this value is set to null, a cartesian coordinate system (EngineeringCRS - default) is assumed
+							 */
+							CoordinateReferenceSystem		crs;
+							
+							Angle getAzimuth(in Coordinate other) const;
+							Distance getDistance(in Coordinate other) const;
+							
+							Coordinate getTarget(in Distance distance, in Angle azimuth) const;
+							
+							//NativeCoordinate getNativeCoordinate() const;
+										
+							int dimension() const;
+							
+							/** 
+							 * returns the longitude (WGS84) of this coordinate.
+							 * depending on the current crs, this includes a coordinate transformation 
+							 */
+							double getLatitude() const;
+							/** 
+							 * returns the longitude (WGS84) of this coordinate.
+							 * depending on the current crs, this includes a coordinate transformation 
+							 */
+							double getLongitude() const;
+													
+							/** returns a copy of this coordinate, that has been transformed into the given crs. 
+							 * if parameter crs is the same as the member crs, a copy is returned. 
+							 * \note if the member crs is set to null, the coordinate is assumed to be defined as WGS84 coordinate 
+							 */
+							Coordinate get(CoordinateReferenceSystem crs) const;
+							
+							void setLatLon(double lat, double lon);
+							void setLatLonAlt(double lat, double lon, double alt);
+							void setXY(double x, double y);
+							void setXYZ(double x, double y, double z);
+							
+							Coordinate copy() const;
+							
+							/**
+							 * Returns either an Vector2D or Vector3D, depending on the value of dimension()
+							 */
+							Vector toVector() const;
+							/** returns a 2D vector, skips the z value, if not NaN */
+							Vector2D toVector2D() const;
+							/** returns a 3D vector, fills the z value with 0 if dimension() == 2 */
+							Vector3D toVector3D() const; 
+							void fromVector(in Vector value, in CoordinateReferenceSystem crs);
+							void fromVector(in Vector value);
+							
+							/** takes over the values from <code>value</code> */
+							void set(in Coordinate value);
+							/** utility method to set all coordinate values and the crs 
+							 * @note this method calls the corresponding setter and thus produces IValueChange events
+							 */
+							void set(in double x, in double y, in double z, in CoordinateReferenceSystem crs);
+							
+							String readableString() const;
+						}
+						
+						
+						<< ComplexAttributeType >>
+						class Pose {
+							val Coordinate[1] 		coordinate;
+							val Orientation			orientation;
+							
+							String readableString() const;
+							
+							Pose copy() const;
+							void set(in Coordinate coord, in Orientation ori);
+						}
+						
+						
+						
+						
+						
+						<< ComplexAttributeType>>
+						struct Envelope {
+							Coordinate[1] 		minPoint;
+							Coordinate[1]		maxPoint;
+							
+							
+							Coordinate getCenter() const;
+							Vector getSize(in DistanceUnit unit) const;
+							
+							void correct();
+							
+							Envelope copy();
+							
+							void setLatLon(in double min_lat, in double min_lon, in double max_lat, in double max_lon);
+							void setXY(in double min_x, in double min_y, in double max_x, in double max_y);
+							void setXYZ(in double min_x, in double min_y, in double min_z, in double max_x, in double max_y, in double max_z);
+							
+							/** set the crs to min and max point */
+							void setCRS(in CoordinateReferenceSystem crs);
+							/** Applys the CRS to min and max point, by changing their x,y, and z values but without changing the instances */
+							void applyCRS(in CoordinateReferenceSystem crs); 
+							
+							/**
+							 * Checks weather both envelopes intersect with each other. 
+							 * Fails if one envelope is totally contained inside the other
+							 */
+							boolean intersects(in Envelope other) const;
+							/**
+							 * Checks if the other envelope is totally or partially inside this envelope
+							 */
+							boolean containsOrIntersects(in Envelope other) const;
+							
+							boolean contains(in Coordinate coord) const;
+							/**
+							 * Checks if the other envelope is inside this envelope, 
+							 * fails if they do intersect but the other envelope is not totally within this
+							 */
+							boolean contains(in Envelope other) const;
+							
+							/**
+							 * Expand the current instance to also covers the other envelope
+							 */
+							void expandLocal(in Envelope other);
+							/**
+							 * returns a new envelope that covers the current instance as well as the other envelope
+							 */
+							Envelope expand(in Envelope other) const;
+							/**
+							 * expands the current envelope to also cover the given coordinate
+							 */
+							void expandLocal(in Coordinate other);
+							/**
+							 * creates a new envelope that covers the current envelope as well as the given coordinate
+							 */
+							Envelope expand(in Coordinate other) const;
+
+							void tranformLocal(in Coordinate translate, in Rotation rotation);
+							Envelope transform(in Coordinate translate, in Rotation rotation) const;
+							/**
+							 * returns the four corners of the bounding box
+							 * - vertices[0] = mMinPoint;
+							 * - vertices[1] = Vec2d(mMaxPoint.X, mMinPoint.Y);
+							 * - vertices[2] = mMaxPoint;
+							 * - vertices[3] = Vec2d(mMinPoint.X, mMaxPoint.Y);
+							 */
+							Coordinate[*] getVertices() const;
+						}   
+						
+						abstract class Geometry {
+							abstract CoordinateSequence getCoordinates();
+																	
+							int			getDimension() const;									//works only on single geometry
+							int			numCoordinates() const;									//works only on single geometry
+							Coordinate 	getCoordinate(in int index) const;						//works only on single geometry
+							void		setCoordinate(in int index, in Coordinate coord);		//works only on single geometry
+							void 		removeCoordinate(in int index);							//works only on single geometry
+							
+							int 		getNumGeometries() const;								//works only on MultiGeometry
+							Geometry 	getGeometry(int idx) const;								//works only on MultiGeometry
+							
+							Envelope 	getEnvelope() const; 
+							boolean		intersects(in Geometry geom) const;
+							
+							boolean 	isConvex() const;
+							
+							/** Applys the coordinate reference system to all coordinates in this geometry, without changing their instance
+							 * e.g. change the values of the coordinate
+							 */
+							void applyCRS(in CoordinateReferenceSystem crs);
+							/** sets the coordinate system for the geometrie and all contained coordinates */
+							void recursiveSetCRS(in CoordinateReferenceSystem crs);
+							
+							CoordinateReferenceSystem getCRS();
+						}
+						
+				
+						/**
+						 * A coordinate sequence serves as container for the coordinates, forming a geometry
+						 */
+						<< ComplexAttributeType >>
+						struct CoordinateSequence {
+							CoordinateReferenceSystem[1]		crs;
+							readonly double[*]					xCoordinates;
+							readonly double[*]					yCoordinates;
+							readonly double[*]					zCoordinates;	
+							
+							int dimension() const; 
+							int numCoordinates() const;
+							Coordinate getCoordinate(in int idx) const;
+							void setCoordinate(in int idx, in Coordinate value);
+							void addCoordinate(in Coordinate value);
+							void addCoordinate(in int idx, in Coordinate value);
+							
+							void removeCoordinate(in int idx);
+							void removeCoordinate(in Coordinate coord);
+							
+							int getIndexOf(in Coordinate coord);
+							
+							//Coordinate[*] getCoordinates();
+							/** returns the boundingbox containing all coordinates within this sequence */
+							Envelope getEnvelope();
+						}
+						
+						abstract class EFeature {
+							String			featureType;
+							val Geometry 	geometry;	
+						}
+						
+						<< FeatureType >>
+						class GenericEFeature extends EFeature {
+						}
+						
+					
+						<< FeatureType >>
+						class SpatialLayer {
+							String					name;
+							val EFeature[*]			features;
+							
+							/**
+							 * returns all features that intersect with the given query geometry (geom). 
+							 * if exactQuery is set to false, only the corresponding envelopes will be checked, otherwise a full intersection test is performed (slower)
+							 */
+							EFeature[*] queryFeatures(in Geometry geom, in boolean exactQuery);  
+						} 
+						
+						
+						/** 
+						 * The Abstract class SpatialLayerContainer can be used to provide 
+						 * SpatialLayers, which are dynamically loaded. 
+						 * This abstract class could be used by a user interface to display 
+						 * all relevant layers, even if they are not part of the persistent model. 
+						 */
+						interface SpatialLayerContainer {
+							SpatialLayer[*] 	provideSpatialLayer() const;
+						}
+						
+						
+						
+						
+						class GraphEdge{
+							long id;
+							ref GraphNode	nodeA;
+							ref GraphNode 	nodeB;	
+						}
+						class GraphNode {
+							long id;
+							val Coordinate 		coordinate;
+							ref GraphEdge[*]	edges;
+							
+							/**
+							 * Returns the CRS of the coordinate
+							 */
+							CoordinateReferenceSystem getCRS() const;
+							/** Change the coordinate reference system of this node, without changing the instance of the coordinate (e.g. manipulates the values of x,y,z) */
+							void applyCRS(in CoordinateReferenceSystem crs);
+						}
+						class Graph {
+							GraphNode[*]	nodes;
+							GraphEdge[*]	edges;
+							
+							/** returns the CRS for this graph, that is the CRS of the first node */
+							CoordinateReferenceSystem getCRS() const;
+							/**
+							 * Set the given CRS for all nodes, without changing the instance of the Coordinate (e.g. the values of each node's coordiante is changed)
+							 */
+							void applyCRS(in CoordinateReferenceSystem crs);
+						}
+					}
+				}
+			}
+		}
+	}
+}

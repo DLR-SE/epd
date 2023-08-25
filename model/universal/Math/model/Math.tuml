@@ -1,0 +1,250 @@
+#import "classpath:/model/Core.tuml" 
+
+using UCore.de.*;
+/** 
+* insert documentation for the model 
+* 
+*/ 
+Model Math {    
+	package de {
+		package emir {
+			package model {
+				package universal {
+					package math {
+										 		
+						interface Vector {
+							int dimensions() const;
+							double get(int idx) const;
+							void set(int idx, double value);
+							void set(in Vector v);
+							
+							Vector copy() const;
+							String readableString() const;
+							
+							double getLength() const;
+							double getSquareLength() const; 
+						} 
+						
+						
+						struct Vector2D implements Vector {
+							double			x = 0.0;
+							double			y = 0.0;
+													
+							Vector2D add(Vector2D other) const;
+							void addLocal(Vector2D other);
+							
+							Vector2D sub(Vector2D other) const;
+							void subLocal(Vector2D other);
+							
+							Vector2D mult(Vector2D other) const;
+							void multLocal(Vector2D other);
+							Vector2D mult(double other) const;
+							void multLocal(double other);
+							
+							Vector2D div(Vector2D other) const;
+							void divLocal(Vector2D other);
+							
+							Vector2D div(double scalar) const;
+							void divLocal(double scalar);
+							
+							/** rotates this instance clock wise (CW) around the given radian */
+							void rotateLocalCW(in double angle_radian);
+							/** rotates a copy of this vector around the given radian in clock wise order */
+							Vector2D rotateCW(in double angle_radian) const;
+							
+							/** rotates this instance counter clock wise (CCW) around the given radian */
+							void rotateLocalCCW(in double angle_radian);
+							/** rotates a copy of this vector around the given radian in counter clock wise order */
+							Vector2D rotateCCW(in double angle_radian) const;
+							
+							double dot(in Vector2D other) const;
+							/** Performs a cross product calculation with another vector, 
+							 * in 2D this produces a scalar
+							 */
+							double cross(in Vector2D other) const;
+							
+							Vector2D normalize() const;
+							void normalizeLocal();
+						}
+						
+						struct Vector3D implements Vector {
+							double			x = 0.0;
+							double 			y = 0.0;
+							double			z = 0.0;
+													
+							
+							void set(in double x, in double y, in double z);						
+							
+							Vector3D add(in Vector3D other) const;
+							void addLocal(in Vector3D other);
+							
+							Vector3D sub(in Vector3D other) const;
+							void subLocal(in Vector3D other);
+							
+							Vector3D mult(in Vector3D other) const;
+							void multLocal(in Vector3D other);
+							
+							Vector3D mult(in double other) const;
+							void multLocal(in double other);
+							
+							Vector3D div(in Vector3D other) const;
+							void divLocal(in Vector3D other);
+							
+							Vector3D cross(in Vector3D other) const;
+							void crossLocal(in Vector3D other);
+							
+							Vector3D normalize() const;
+							void normalizeLocal();
+							
+							double dot(in Vector3D other) const;
+							
+							
+							/** rotates this instance clock wise (CW) 
+							 * @note this actually corresponds to a multiplication with a quaternion build from euler angles
+							 * 	  
+							 * @param xAxis rotation around the x - Axis in radians
+							 * @param yAxis rotation around the y - axis in radians
+							 * @param zAxis rotation around the z - axis in radians
+							 */
+							void rotateLocalCW(in double xAxis, in double yAxis, in double zAxis);
+							/** rotates a copy of this vector around the given radians in clock wise order
+							 *  @note this actually corresponds to a multiplication with a quaternion build from euler angles
+							 * 	  
+							 * @param xAxis rotation around the x - Axis in radians
+							 * @param yAxis rotation around the y - axis in radians
+							 * @param zAxis rotation around the z - axis in radians
+							 **/
+							Vector3D rotateCW(in double xAxis, in double yAxis, in double zAxis) const;
+							
+							/** rotates this instance counter clock wise (CCW) 
+ 							 * @note this actually corresponds to a multiplication with a quaternion build from euler angles
+							 * 	  
+							 * @param xAxis rotation around the x - Axis in radians
+							 * @param yAxis rotation around the y - axis in radians
+							 * @param zAxis rotation around the z - axis in radians
+							 **/
+							void rotateLocalCCW(in double xAxis, in double yAxis, in double zAxis);
+							/** rotates a copy of this vector around the given radians
+							 * @note this actually corresponds to a multiplication with a quaternion build from euler angles
+							 * 	  
+							 * @param xAxis rotation around the x - Axis in radians
+							 * @param yAxis rotation around the y - axis in radians
+							 * @param zAxis rotation around the z - axis in radians
+							 **/
+							Vector3D rotateCCW(in double xAxis, in double yAxis, in double zAxis) const;
+							
+							/** Builds a direction vector from (this) rotation vector.
+							 * This vector is assumed to be a rotation vector composed of 3 Euler angle rotations, in degrees.
+							 * The implementation performs the same calculations as using a matrix to do the rotation.
+							 * @param[in] forwards  The direction representing "forwards" which will be rotated by this vector.
+							 * @return A direction vector calculated by rotating the forwards direction by the 3 Euler angles (in radian) represented by this vector. 
+							 **/
+							 Vector3D getRotationToDirection(in Vector3D direction);
+						}
+						
+						struct Vector4D implements Vector {
+							double			x = 0.0;
+							double 			y = 0.0;
+							double			z = 0.0;
+							double			w = 0.0;
+						}
+						
+						
+						
+						
+						struct Matrix2 {
+							double m11 = 1.0; double m12 = 0.0;
+							double m21 = 0.0; double m22 = 1.0;
+						}
+						
+						struct Matrix3 {
+							double m11 = 1.0; double m12 = 0.0; double m13 = 0.0;
+							double m21 = 0.0; double m22 = 1.0; double m23 = 0.0;
+							double m31 = 0.0; double m32 = 0.0; double m33 = 1.0;
+						}
+						
+						struct Matrix4 {
+							double m11 = 1.0; double m12 = 0.0; double m13 = 0.0; double m14 = 0.0;
+							double m21 = 0.0; double m22 = 1.0; double m23 = 0.0; double m24 = 0.0;
+							double m31 = 0.0; double m32 = 0.0; double m33 = 1.0; double m34 = 0.0;
+							double m41 = 0.0; double m42 = 0.0; double m43 = 0.0; double m44 = 1.0;
+						}
+						
+						/**
+						 * Interface for a mathematical function with one input value
+						 */
+						interface Function1 {						
+							double getValue(in double x) const;
+						}
+						/**
+						 * Interface for a mathematical function with two input values
+						 */
+						interface Function2 {
+							double getValue(in double x, double y) const;
+						}
+						
+						/**
+						 * Interface for a mathematical function with three input values
+						 */
+						interface Function3 {
+							double getValue(in double x, double y, double z) const;
+						}
+						
+						/**
+						 * Interface for a function with N input values. The input has to be provided using a vector with dimension N
+						 */
+						interface FunctionN {
+							/**
+							 * calculates the function
+							 * @param v input vector with v.dimension() == N
+							 */
+							double getValue(in Vector v) const;
+						}
+						
+						
+						struct StringFunction1 implements Function1 {
+							/** textual definition of the function. 
+							 * The definition string needs to have at least one x or X variable and no other non digit values
+							 * for example
+							 * log(x) - y * (sqrt(x^cos(x)))
+							 * @ntoe x and X will be handled as the same variable
+							 */
+							String 				definition;
+							boolean	isValid() const;
+						}
+						
+						enum BorderBehavior {
+							/** the function returns the value of the first or last sample */
+							MIN_MAX_VALUE = 0;
+							/** the function does a linear interpolation (based on nearest two values, e.g. sample[1] & sample[0] for 
+							 * x < sample[0].x and sample[n-1] & sample[n] if x > sample[n].x
+							 */
+							LINEAR_EXTRAPOLATE = 1;
+							/** The function returns Not a Number (NaN) if the value is out of the sample range */
+							NaN = 2;
+							/** The function throws an InvalidArgument Exception */
+							EXCEPTION = 3;
+						}						
+						struct SampleFunction1 implements Function1 {
+							/** optional human readable description of the function" */							
+							String 					label;
+							/** optional human readable description of the domain for example "Time [s]" */
+							String 					domainLabel;
+							/** optional human readable description of the range for example "Temperature [degrees]" */
+							String					rangeLabel;
+							val BorderBehavior		borderBehavior;
+							val Vector2D[*]			samples;
+							
+							/**
+							 * Convenience method to add a new sample. The function creates a new Vector2D and insert it into the 
+							 * samples list. If there is already an entry with the same x-value the existing entry will be changed for the new y
+							 */
+							Vector2D addSample(in double x, in double y);
+						}
+						
+					}
+				}
+			}
+		}
+	}
+}

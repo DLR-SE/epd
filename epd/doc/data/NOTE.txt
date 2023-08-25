@@ -1,0 +1,3 @@
+ 
+The AIS file is a completely artificial scenario. All ship and voyage related information is based on a real ship. The
+track was therefore not driven by the specified ship, since all dynamic data was generated automatically.

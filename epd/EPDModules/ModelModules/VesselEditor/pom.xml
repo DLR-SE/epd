@@ -1,0 +1,66 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>de.dlr-se.emir.epd</groupId>
+        <artifactId>ModelModules</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>VesselEditor</artifactId>
+    <description>Adds views for editing Geometries. Adds a special view for editing a vessel visually</description>
+
+    <properties>
+        <eMIR-Plugin-Class>de.emir.rcp.parts.VesselEditorPlugin</eMIR-Plugin-Class>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.dlr-se.emir.model.universal</groupId>
+            <artifactId>Spatial.Operations</artifactId>
+            <version>${model.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.dlr-se.emir.model.universal</groupId>
+            <artifactId>SimpleFeatures.Operations</artifactId>
+            <version>${model.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.dlr-se.emir.epd</groupId>
+            <artifactId>GeneralViews</artifactId>
+            <version>${epd.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>de.dlr-se.emir.services</groupId>
+            <artifactId>GeometryServices</artifactId>
+            <version>${services.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.dlr-se.emir.model.universal</groupId>
+            <artifactId>Physics</artifactId>
+            <version>${model.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.dlr-se.emir.model.domain.maritime</groupId>
+            <artifactId>Vessel</artifactId>
+            <version>${model.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.dlr-se.emir.model.domain.maritime</groupId>
+            <artifactId>AISSensor</artifactId>
+            <version>${model.version}</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project>

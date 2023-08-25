@@ -1,0 +1,118 @@
+#import "classpath:/model/Physics.tuml"
+
+using UCore.de.*;
+/**
+* insert documentation for the model 
+* 
+*/
+Model Vehicle { 
+	package de {
+		package emir { 
+			package model {
+				package application {
+					package vehicle{
+						
+						struct TrajectorySegment {
+							String				name;
+							int 				id;
+							Coordinate			origin;
+							Coordinate			destination;
+							
+							Speed				speed;
+							
+							Distance			allowedPortCTE;
+							Distance			allowedStarboardCTE;
+							
+							/** returns the smallest distance from the given coodinate to the line segment */
+							Distance			getDistance(in Coordinate loc) const;
+							/** returns the orientation of the vector from origin -> destination as angle against north.  */
+							Angle				getOrientation() const;
+							
+							
+						}
+						
+						/**
+						 * A Trajectory defines the planned path of the vehicle. 
+						 * The difference between a trajectory and a route is a time behaviour and maybe some additional meta data. 
+						 * In this case the trajectory is build up from different segments with an desired speed, which represents the time behaviour.<br> 
+						 * 
+						 */
+						struct Trajectory {
+							/** Optional: name of the Trajectory, may be used to identify the Trajectory */
+							String						name; 
+							val TrajectorySegment[*]	segments;
+							//TODO: add waypoint switch - when to change the acceptance of the waypoint, e.g. if the vessels center passes the orthogonal line between segment and waypoint or if enter the radius, or ....
+							//TODO: add additional elements / meta data like: creator, ...
+							
+							/** Reference to an element that has been used to create this trajectory. This could be anything but in general this should be some kind of Route */
+							val ModelReference			source; 		
+							
+							/** returns the next valid segment  for this trajectory*/
+							TrajectorySegment getNearestSegment(in Coordinate location, in Orientation orientation) const; 
+						}
+						
+						/**
+						 * One track point
+						 * A track usually is a set of positions (with additional information) that have been seen in the past
+						  */
+						struct TrackElement{
+							/** Time of this measurement */
+							val Time			time;
+							/** Coordiante of the object at the given time */
+							val Coordinate		coordinate;
+							/** orientation of the object at the given time */
+							val Angle			heading;
+							/** course / direction of movement, that may differ from the orientation, of the object at the given time */
+							val Angle			course;
+							/** magnitude of movement in direction of course */
+							val Speed			speed;
+							/** an optional reference to the receiver / generator of this track element*/
+							ref Object[0 .. 1]	source;
+						}
+						
+						class Track {
+							/** ordered list of elements  
+							 */
+							TrackElement[*]		elements;
+														
+							/** returns the time of the first track point */
+							Time first() const;
+							
+							/** returns the time of the last track point */							
+							Time last() const;
+							
+							/**
+							 * returns a new track point for the given time. If there is no measurement available for this time point
+							 * the method will (linear) interpolate / may extrapolate the values
+							 * @return null, if elements is empty
+							 */
+							TrackElement getPositionAt(in Time p);
+						}
+						
+						class TrackCharacteristic extends Characteristic {
+							Track[*]			tracks;
+						}
+						
+						
+						
+						class Vehicle extends PhysicalObject {			
+						}
+						
+						/*
+						 * LandTransport includes all vehicles regarding rail, road and off-road transport
+						 */
+						class Landcraft extends Vehicle {
+						}
+						/*
+						 * A watercraft, such as a barge, boat, ship or sailboat, successfully passes over a 
+						 * body of water, such as a sea, ocean, lake, canal or river.
+						 */
+						class Watercraft extends Vehicle {
+						}
+						
+					}					
+				}
+			}
+		}		
+	}
+}	

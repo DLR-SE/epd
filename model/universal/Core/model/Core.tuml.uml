@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="ASCII"?>
+<uml:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_C1aCkHdAEea6HOgTyKs9Tw" name="Core">
+  <ownedComment xmi:id="_C1aCkXdAEea6HOgTyKs9Tw" body="/** &#xD;&#xA;* insert documentation for the model &#xD;&#xA;*  &#xD;&#xA;*/"/>
+  <packagedElement xsi:type="uml:Package" xmi:id="_C1aCkndAEea6HOgTyKs9Tw" name="de">
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_C1aCk3dAEea6HOgTyKs9Tw" name="int">
+      <redefinedClassifier xsi:type="uml:Activity" href="Core.tuml#|0"/>
+    </packagedElement>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_C1aClHdAEea6HOgTyKs9Tw" name="double">
+      <redefinedClassifier xsi:type="uml:Activity" href="Core.tuml#|1"/>
+    </packagedElement>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_C1aClXdAEea6HOgTyKs9Tw" name="float">
+      <redefinedClassifier xsi:type="uml:Activity" href="Core.tuml#|2"/>
+    </packagedElement>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_C1aClndAEea6HOgTyKs9Tw" name="long">
+      <redefinedClassifier xsi:type="uml:Activity" href="Core.tuml#|3"/>
+    </packagedElement>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_C1aCl3dAEea6HOgTyKs9Tw" name="String">
+      <redefinedClassifier xsi:type="uml:Activity" href="Core.tuml#|4"/>
+    </packagedElement>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_C1aCmHdAEea6HOgTyKs9Tw" name="void"/>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_C1aCmXdAEea6HOgTyKs9Tw" name="Object"/>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_C1aCmndAEea6HOgTyKs9Tw" name="boolean">
+      <redefinedClassifier xsi:type="uml:Activity" href="Core.tuml#|5"/>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Package" xmi:id="_C1aCm3dAEea6HOgTyKs9Tw" name="emir">
+      <packagedElement xsi:type="uml:Package" xmi:id="_C1aCnHdAEea6HOgTyKs9Tw" name="model">
+        <packagedElement xsi:type="uml:Package" xmi:id="_C1aCnXdAEea6HOgTyKs9Tw" name="universal">
+          <packagedElement xsi:type="uml:Package" xmi:id="_C1aCnndAEea6HOgTyKs9Tw" name="core">
+            <packagedElement xsi:type="uml:Class" xmi:id="_C1aCn3dAEea6HOgTyKs9Tw" name="MDIdentifier">
+              <ownedComment xmi:id="_C1aCoHdAEea6HOgTyKs9Tw" body="/** Identifier from ISO 19115-3 Metadata&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * \note for now the CI_Citation (also ISO 19115-3) is missing and should be added if required&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+              <ownedAttribute xmi:id="_C1aCoXdAEea6HOgTyKs9Tw" name="code" type="_C1aCl3dAEea6HOgTyKs9Tw">
+                <ownedComment xmi:id="_C1aCondAEea6HOgTyKs9Tw" body="/** Identifier code or name, often from a controlled list or pattern defined by a code space.  */"/>
+              </ownedAttribute>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_C1aCo3dAEea6HOgTyKs9Tw" name="RSIdentifier">
+              <generalization xmi:id="_C1aCpHdAEea6HOgTyKs9Tw" general="_C1aCn3dAEea6HOgTyKs9Tw"/>
+              <ownedAttribute xmi:id="_C1aCpXdAEea6HOgTyKs9Tw" name="version" type="_C1aCl3dAEea6HOgTyKs9Tw">
+                <ownedComment xmi:id="_C1aCpndAEea6HOgTyKs9Tw" body="/** which is a version for the identifier  */"/>
+              </ownedAttribute>
+              <ownedAttribute xmi:id="_C1aCp3dAEea6HOgTyKs9Tw" name="codeSpace" type="_C1aCl3dAEea6HOgTyKs9Tw">
+                <ownedComment xmi:id="_C1aCqHdAEea6HOgTyKs9Tw" body="/** which unambiguously defines the namespace for the identifier  */"/>
+              </ownedAttribute>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_C1aCqXdAEea6HOgTyKs9Tw" name="NamedElement" isAbstract="true">
+              <ownedOperation xmi:id="_C1aCqndAEea6HOgTyKs9Tw" name="setName">
+                <ownedParameter xmi:id="_C1aCq3dAEea6HOgTyKs9Tw" name="_return_" type="_C1aCmHdAEea6HOgTyKs9Tw" direction="return"/>
+                <ownedParameter xmi:id="_C1aCrHdAEea6HOgTyKs9Tw" name="name" type="_C1aCl3dAEea6HOgTyKs9Tw"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_C1aCrXdAEea6HOgTyKs9Tw" name="readableString">
+                <eAnnotations xmi:id="_C1aCrndAEea6HOgTyKs9Tw" source="const"/>
+                <ownedParameter xmi:id="_C1aCr3dAEea6HOgTyKs9Tw" name="_return_" type="_C1aCl3dAEea6HOgTyKs9Tw" direction="return"/>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_C1aCsHdAEea6HOgTyKs9Tw" memberEnd="_C1aCsndAEea6HOgTyKs9Tw _C1aCs3dAEea6HOgTyKs9Tw" navigableOwnedEnd="_C1aCs3dAEea6HOgTyKs9Tw">
+                <ownedComment xmi:id="_C1aCsXdAEea6HOgTyKs9Tw" body="/** The primary name by which the object can be identified */"/>
+                <ownedEnd xmi:id="_C1aCsndAEea6HOgTyKs9Tw" name="_name_" type="_C1aCqXdAEea6HOgTyKs9Tw" association="_C1aCsHdAEea6HOgTyKs9Tw"/>
+                <ownedEnd xmi:id="_C1aCs3dAEea6HOgTyKs9Tw" name="name" type="_C1aCo3dAEea6HOgTyKs9Tw" aggregation="composite" association="_C1aCsHdAEea6HOgTyKs9Tw">
+                  <ownedComment xmi:id="_C1aCtHdAEea6HOgTyKs9Tw" body="/** The primary name by which the object can be identified */"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_C1aCtXdAEea6HOgTyKs9Tw" value="1"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_C1aCtndAEea6HOgTyKs9Tw" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_C1aCt3dAEea6HOgTyKs9Tw" name="IdentifiedObject" isAbstract="true">
+              <ownedComment xmi:id="_C1aCuHdAEea6HOgTyKs9Tw" body="/** Any object that can be identified shall inherit from this class */"/>
+              <generalization xmi:id="_C1aCuXdAEea6HOgTyKs9Tw" general="_C1aCqXdAEea6HOgTyKs9Tw"/>
+              <ownedAttribute xmi:id="_C1aCundAEea6HOgTyKs9Tw" name="allias" type="_C1aCl3dAEea6HOgTyKs9Tw">
+                <ownedComment xmi:id="_C1aCu3dAEea6HOgTyKs9Tw" body="/** An alternative name of the object */"/>
+                <upperValue xsi:type="uml:LiteralString" xmi:id="_C1aCvHdAEea6HOgTyKs9Tw" value="*"/>
+              </ownedAttribute>
+              <ownedAttribute xmi:id="_C1aCvXdAEea6HOgTyKs9Tw" name="remarks" type="_C1aCl3dAEea6HOgTyKs9Tw">
+                <ownedComment xmi:id="_C1aCvndAEea6HOgTyKs9Tw" body="/** Comments on or information about the object */"/>
+              </ownedAttribute>
+              <ownedOperation xmi:id="_C1aCv3dAEea6HOgTyKs9Tw" name="hasAlias">
+                <eAnnotations xmi:id="_C1aCwHdAEea6HOgTyKs9Tw" source="const"/>
+                <ownedParameter xmi:id="_C1aCwXdAEea6HOgTyKs9Tw" name="_return_" type="_C1aCmndAEea6HOgTyKs9Tw" direction="return"/>
+                <ownedParameter xmi:id="_C1aCwndAEea6HOgTyKs9Tw" name="name" type="_C1aCl3dAEea6HOgTyKs9Tw"/>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_C1aCw3dAEea6HOgTyKs9Tw" memberEnd="_C1aCxXdAEea6HOgTyKs9Tw _C1aCxndAEea6HOgTyKs9Tw" navigableOwnedEnd="_C1aCxndAEea6HOgTyKs9Tw">
+                <ownedComment xmi:id="_C1aCxHdAEea6HOgTyKs9Tw" body="/** An identifier that references the (external) definition of the object */"/>
+                <ownedEnd xmi:id="_C1aCxXdAEea6HOgTyKs9Tw" name="_identifier_" type="_C1aCt3dAEea6HOgTyKs9Tw" association="_C1aCw3dAEea6HOgTyKs9Tw"/>
+                <ownedEnd xmi:id="_C1aCxndAEea6HOgTyKs9Tw" name="identifier" type="_C1aCo3dAEea6HOgTyKs9Tw" aggregation="composite" association="_C1aCw3dAEea6HOgTyKs9Tw">
+                  <ownedComment xmi:id="_C1aCx3dAEea6HOgTyKs9Tw" body="/** An identifier that references the (external) definition of the object */"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_C1aCyHdAEea6HOgTyKs9Tw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_C1aCyXdAEea6HOgTyKs9Tw" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Interface" xmi:id="_C1aCyndAEea6HOgTyKs9Tw" name="Condition">
+              <ownedComment xmi:id="_C1aCy3dAEea6HOgTyKs9Tw" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * The state of an environment or situation in which a Performer performs&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+              <ownedOperation xmi:id="_C1aCzHdAEea6HOgTyKs9Tw" name="evaluate">
+                <eAnnotations xmi:id="_C1aCzXdAEea6HOgTyKs9Tw" source="const"/>
+                <ownedParameter xmi:id="_C1aCzndAEea6HOgTyKs9Tw" name="_return_" type="_C1aCmndAEea6HOgTyKs9Tw" direction="return"/>
+              </ownedOperation>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_C1aCz3dAEea6HOgTyKs9Tw" name="AbstractInformation" isAbstract="true">
+              <generalization xmi:id="_C1aC0HdAEea6HOgTyKs9Tw" general="_C1aCt3dAEea6HOgTyKs9Tw"/>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_C1aC0XdAEea6HOgTyKs9Tw" name="AbstractFeature" isAbstract="true">
+              <generalization xmi:id="_C1aC0ndAEea6HOgTyKs9Tw" general="_C1aCt3dAEea6HOgTyKs9Tw"/>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_C1aC03dAEea6HOgTyKs9Tw" memberEnd="_C1aC1HdAEea6HOgTyKs9Tw _C1aC1XdAEea6HOgTyKs9Tw" navigableOwnedEnd="_C1aC1XdAEea6HOgTyKs9Tw">
+                <ownedEnd xmi:id="_C1aC1HdAEea6HOgTyKs9Tw" name="_informationObjects_" type="_C1aC0XdAEea6HOgTyKs9Tw" association="_C1aC03dAEea6HOgTyKs9Tw"/>
+                <ownedEnd xmi:id="_C1aC1XdAEea6HOgTyKs9Tw" name="informationObjects" type="_C1aCz3dAEea6HOgTyKs9Tw" association="_C1aC03dAEea6HOgTyKs9Tw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_C1aC1ndAEea6HOgTyKs9Tw"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_C1aC13dAEea6HOgTyKs9Tw" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+          </packagedElement>
+        </packagedElement>
+      </packagedElement>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

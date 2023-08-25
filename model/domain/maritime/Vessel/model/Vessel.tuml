@@ -1,0 +1,431 @@
+#import "classpath:/model/Vehicle.tuml"
+#import "classpath:/model/IEC61174.tuml"
+
+using UCore.de.*;
+/**
+* insert documentation for the model 
+* 
+*/
+Model Vessel {
+	package de {
+		package emir {
+			package model {
+				package domain {
+					package maritime {
+						package vessel {
+
+							
+							enum VesselType {
+								DryCargo = 0;
+								DeckCargo = 1;
+								GeneralCargo = 2;
+								HeavyLiftShip = 3;
+								LivestockCarrier = 4;
+								BulkCarrier = 5;
+								OpenHatch = 6;
+								OreCarrier = 7;
+								OreOilCarrier = 8;
+								WoodChipCarrier = 9;
+								Container = 10;
+								RoRo = 11;
+								VehicleCarrier = 12;
+								Tanker = 13;
+								AsphaltTanker = 14;
+								ChemicalOilTanker = 15;
+								CrudeOilTanker = 16;
+								LNGTanker = 17;
+								LPGTanker = 18;
+								WaterTanker = 19;
+								Reefer = 20;
+								RefrigeratedFishCarrier = 21;
+								Passenger = 22;
+								CruiseShip = 23;
+								PassengerCargoShip = 24;
+								PassengerFerry = 25;
+								HighSpeedCraft = 26;
+								WinginGround = 27;
+								Other = 28;
+								AntiPollution = 29;
+								Barge = 30;
+								CableShip = 31;
+								Crewboat = 32;
+								DivingShip = 33;
+								Dredger = 34;
+								Drillship = 35;
+								Fishing = 36;
+								FloatingDock = 37;
+								Icebreaker = 38;
+								NavalMilitaryShip = 39;
+								NavigationAid = 40;
+								OceanographicResearch = 41;
+								OffshoreConstruction = 42;
+								OilWellShip = 43;
+								PatrolVessel = 44;
+								PilotShip = 45;
+								PipeCarrierPipelay = 46;
+								Pontoon = 47;
+								PortPoliceLawEnforce = 48;
+								RescueSalvageShip = 49;
+								SailingVessel = 50;
+								SupplyShip = 51;
+								TrainingShip = 52;
+								Tug = 53;
+								YachtPleasureCraft = 54;
+							}
+
+							enum NavigationStatus {
+								UnderwayUsingEngine = 0;
+								AtAnchor = 1;
+								NotUnderCommand = 2;
+								RestrictedManoeuverability = 3;
+								ConstrainedByHerDraught = 4;
+								Moored = 5;
+								Aground = 6;
+								EngagedInFising = 7;
+								UnderwaySailing = 8;
+								ReservedForFutureUse9 = 9;
+								ReservedForFutureUse10 = 10;
+								ReservedForFutureUse11 = 11;
+								ReservedForFutureUse12 = 12;
+								ReservedForFutureUse13 = 13;
+								ReservedForFutureUse14 = 14;
+								NotDefined = 15;
+							}
+
+							<<InformationType>>
+							class NavigationInformation extends VesselCharacteristic {
+								NavigationStatus status;
+								
+							}
+							
+							/*
+							 *  a nautical term for all kinds of craft designed for transportation on water, such as ships or boats.
+							*/
+							<<FeatureType>>
+							class Vessel extends Watercraft {
+								long mmsi;
+								long imo;
+								String callSign;
+								VesselType type;
+							}
+
+							abstract class VesselCharacteristic extends Characteristic {
+
+							}
+
+							<<InformationType>>
+							class VesselBuildInformation extends VesselCharacteristic {
+								val RSIdentifier manufactor;
+//								ref Harbour homeHarbour;
+								val Time buildTime;
+								String hullNumber;
+								
+							}
+
+							/** 
+							 * A measurement of the weight of the vessel, usually used for warships. 
+							 * Merchant ships are usually measured based on the volume of cargo space; see tonnage. 
+							 */
+							struct Displacement {
+							/**
+								 * The weight of the ship excluding cargo, fuel, ballast, stores, passengers, and crew, but with water in the boilers to steaming level.
+								 */
+								val Volume light;
+								/**
+								 * The weight of the ship including cargo, passengers, fuel, water, stores, dunnage and such other items necessary for use on a voyage, which brings the vessel down to her load draft.
+								 */
+								val Volume loaded;
+								/**
+								 * (DWT) - The difference between displacement, light and displacement, loaded. A measure of the ship's total carrying capacity.
+								 */
+								val Volume deadweight;
+								/**
+								 * The weight remaining after deducting fuel, water, stores, dunnage and such other items necessary for use on a voyage from the deadweight of the vessel.
+								 */
+								val Volume cargoDeadweigthTons;
+								
+								/** returns the dead weight mass, in relation to sea water (1025 kg/m^3)
+								 * @param seawaterFactor scales the mass to get the displaced weight in fresh water use 1000 [kg/m^3] / 1025 [kg/m^3]
+								 * @return the mass of the displaced water
+								 */
+								Mass getDeadWeightMass(float seawaterFactor) const;
+							}
+
+							struct WatercraftHull {
+							/**
+								 * Beam or breadth (B) is the width of the hull. (ex: BWL is the maximum beam at the waterline)
+								 */
+								val Length beam;
+								/**
+								 * (LWL) is the length from the forwardmost point of the waterline measured in profile to the stern-most point of the waterline.
+								 */
+								val Length lengthAtWaterline;
+								/**
+								 * (LOA) is the extreme length from one end to the other
+								 */
+								val Length overAllLength;
+								/**
+								 * Draft (d) or (T) is the vertical distance from the bottom of the keel to the waterline.
+								 */
+								val Length draft;
+								/**
+								 * (D) is the vertical distance measured from the top of the keel to the underside of the upper deck at side
+								 */
+								val Length mouldedDepth;
+								/**
+								 * Freeboard (FB) is depth plus the height of the keel structure minus draft.
+								 */
+								val Length freeboard;
+							}
+							struct VesselDimensionCharacteristic extends MultiViewObjectSurfaceInforamtion { 
+							/**
+								 * Net tonnage (often abbreviated as NT, N.T. or nt) is a dimensionless index calculated from the total moulded volume of the ship's cargo spaces by using a mathematical formula. 
+								 * Defined in The International Convention on Tonnage Measurement of Ships that was adopted by the International Maritime Organization in 1969, the net tonnage replaced the earlier net register tonnage (NRT) which denoted the volume of the ship's revenue-earning spaces in "register tons", units of volume equal to 100 cubic feet (2.83 m3).
+								 * Net tonnage is used to calculate the port duties and should not be taken as less than 30 per cent of the ship's gross tonnage.
+								 * \source Wikipedia 
+								 */
+								double neadTonnage;
+								/**
+								 * A measurement of the weight of the vessel, usually used for warships. (Merchant ships are usually measured based on the volume of cargo space; see tonnage).
+								 */
+								val Displacement displacement;
+								val WatercraftHull hull;
+								
+								/**
+								 *  Block coefficient (Cb) is the volume (V) divided by the LWL x BWL x T. If you draw a box around the submerged part of the ship, it is the ratio of the box volume occupied by the ship. It gives a sense of how much of the block defined by the LWL, beam (B) & draft (T) is filled by the hull. Full forms such as oil tankers will have a high Cb where fine shapes such as sailboats will have a low Cb.
+								 * \source Wikipedia / Beschnidt2010
+								 */
+								double blockCoefficient; 
+								
+								Length getOverallLength ( ) const;
+								Length getOverallBeam ( ) const;
+							}
+							struct VesselSafetyCharacteristic extends VesselCharacteristic{
+								
+								/**
+								 * Under Keel Clearance, space between keel and ground
+								 */
+								val Length underKeelClearance;
+								
+								/**
+								 * Space around a ship where no other ship should be 
+								 */
+								val Length personalSpace;
+							}
+
+							<<InformationType>>
+							struct EngineBuildInformation {
+								val RSIdentifier manufactor;
+								val Time buildYear;
+								String model;
+							}
+
+							class Engine extends PhysicalObject {
+								val EngineBuildInformation[0 .. 1] buildInformation;
+								val Acceleration acceleration; // TODO: Fuel and fuel consumption
+								val CommandedValue commandedEngineForce;
+							}
+
+							/**
+							 * An engine that converts chemical energy to mechanical energy
+							 */
+							class InternalCombustionEngine extends Engine {
+								val AngularSpeed rpm;
+								val AngularSpeed maximumRpm;
+								val AngularSpeed minimumRpm;
+								val CommandedEngineRpm commandedRpm;
+							}
+							
+							/**
+							 * A propeller of a ship, used for converting mechanical energy to kinetic energy
+							 */
+							class Propeller extends PhysicalObject {
+								val Angle pitch;
+								val Angle minimumPitch;
+								val Angle maximumPitch;
+								val CommandedPropellerPitch commandedPitch;
+							}
+
+														
+							class Rudder extends PhysicalObject {
+								//angle is encoded in the orientation of the physical object
+								//if the size of the rudder is used, use the physical object - surface characteristics
+								val AngularSpeed rateOfTurn;
+								val Angle maximumAngle;
+								val CommandedRudderAngle commandedAngle;
+							}
+
+							/**
+							 * Propulsion is a means of creating force leading to movement. 
+							 * 
+							 * A propulsion system consists of a source of mechanical power, and a propulsor (means of converting this power into propulsive force).
+							 * A technological system uses an engine or motor as the power source, and wheels and axles, propellers, or a propulsive nozzle to generate the force. 
+							 * Components such as clutches or gearboxes may be needed to connect the motor to axles, wheels, or propellors.
+							 * 
+							 * \source wikipedia
+							 */
+							class PropulsionSystem {
+								val Velocity maximumVelocity;
+								/** may be negativ to indicate backwards movements */
+								val Velocity minimumVelocity;
+								val Acceleration maximumAcceleration;
+								val Acceleration minimumAcceleration; //may be negativ to break
+								val Engine[*] engines;
+								val Propeller[*] propellers;
+							}
+
+							/**
+							 * These forces and moments arise due to the Control Surfaces (CS) like rudder, fins, etc. movement
+							 * 
+							 * \source Mathematical Ship Modeling for Control Applications, 2002, Perez, Blanket
+							 */
+							class ControlSurfaces {
+								val AngularSpeed maximumRateOfTurn; //this is intend to be symmetric (port and starboard side are the same)
+								val Rudder[*] rudders;
+							}
+
+							/**
+							 * \source Mathematical Ship Modeling for Control Applications, 2002, Perez, Blanket
+							 */
+							class DynamicSystem extends VesselCharacteristic {
+								val PropulsionSystem propulsion;
+								val ControlSurfaces control; //TODO: Envirionmental impacts
+
+							}
+
+							<<ComplexAttributeType>>
+							class CapacityCharacteristic extends VesselCharacteristic {
+								int teu;
+								int passengers;
+								int cars;
+								int trucks;
+								int roRoLanes;
+								val Volume liquids;
+								val Volume ligquidGas;
+								val Volume oil;
+							}
+
+							class VoyageCharacteristic extends VesselCharacteristic {
+								/** all routes assigned to this Voyage, each route may have a name and a schedule */
+								val Route[*] routes;
+								/** current active route or null, if no route is active. 
+								 * @note this route shall point to a route inside the routes[*] list
+								 */
+								ref Route activeRoute;
+							}
+							
+							
+							struct AutopilotConfiguration {
+								/** Maximum rudder angle the autopilot is allowed to use */
+								val Angle 				angleLimit; 
+								/** Maximum rate of turn, the autopilot ia allowed to use */
+								val AngularSpeed		maxTurnRate;
+								/** minimum speed (sog), the autopilot is allowed to use */
+								val Speed				minSpeed;
+								/** maximum speed (sog), the autopliot is allowed to use */
+								val Speed				maxSpeed;
+							}
+							struct AutopilotAlarm {
+								val Time	creationTime;
+								String 		message;
+							}
+							class Autopilot extends VesselCharacteristic {
+								val AutopilotConfiguration	configuration;
+								
+								val AutopilotAlarm[*]		alarms;
+								
+								val CommandedValue			lastCommand;
+								
+								/** Trajectory the autopilot should follow */
+								Trajectory					trajectory;
+								/** current active trajectory segment that is used by this autopilot 
+								 * @note this segment has to be part of the current trajectory */
+								ref TrajectorySegment		segment;								
+							}
+							
+							
+							
+							
+							/**
+							 * The StandingCommands characteristic holds all currently valid commands
+							 * which are not related to the machines (e.g. contains no MachineCommands)
+							 * Commands within this characteristic are typically given by an responsible nautical officer. 
+							 */
+							class StandingCommands extends VesselCharacteristic {
+								/** List of currently valid steering commands */
+								val SteeringCommand[*]		commands;
+								//TODO: are there other commands, we have to consider, e.g. anchoring, watch, ...
+							}
+							
+							
+							/**
+							 * Represents a generic value that has been commanded
+							 * (typically by the captain) to be achieved in the future
+							 */
+							abstract class CommandedValue { 
+								/** time of creation */
+								val Time creationTime; 
+								/** Optional source of the command (for example the captain) */
+								val ModelReference source; 
+							}
+							
+							/** Abstract command, related to steering, like direction / heading / speed
+							 * typically a command that is given and executed by some nautical officer
+							 */
+							abstract class SteeringCommand extends CommandedValue {
+								
+							}
+							
+							/**
+							 * The commanded speed for the vessel, which is not directly
+							 * depended on any specific engine rpm or propeller pitch
+							 */
+							class SpeedCommand extends SteeringCommand {
+								val Speed speed;
+							}
+							
+							/**
+							 * The commanded heading, which is not directly depended
+							 * on any specific rudder angle.
+							 */
+							class HeadingCommand extends SteeringCommand {
+								val Angle heading;
+							}
+							
+							
+							/** An concrete command for a machine
+							 * typically this commands are read by an machine and produced 
+							 * by an controlling instance of the vessel (for example a nautical officer) as result / decomposition of steering commands
+							 */
+							abstract class MachineCommand extends CommandedValue {
+							}
+							
+							/**
+							 * A specific command for a rudder angle change. Directed
+							 * to only one rudder.
+							 */
+							class CommandedRudderAngle extends MachineCommand {
+								val Angle angle;
+							}
+							
+							/**
+							 * A command directed to change the rpm of a single engine
+							 */
+							class CommandedEngineRpm extends MachineCommand {
+								val AngularSpeed rpm;
+							}
+							
+							/**
+							 * A command directed to change the pitch of a specific
+							 * propeller
+							 */
+							class CommandedPropellerPitch extends MachineCommand {
+								val Angle pitch;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

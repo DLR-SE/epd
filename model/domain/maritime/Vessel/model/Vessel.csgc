@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ASCII"?>
+<csgc:CSharpUMLGenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:csgc="http://www.sos.de/de/sos/uml/UMLGenCSharp">
+  <model href="platform:/resource/Vessel/model/Vessel.tuml#//@model"/>
+  <usedModels xsi:type="csgc:CSharpUMLGenModel" href="platform:/resource/Core/target/classes/Core.csgc#/"/>
+  <usedModels xsi:type="csgc:CSharpUMLGenModel" href="platform:/resource/Vehicle/model/Vehicle.csgc#/"/>
+  <usedModels xsi:type="csgc:CSharpUMLGenModel" href="platform:/resource/ucore/model/UCore.csgc#/"/>
+  <usedModels xsi:type="csgc:CSharpUMLGenModel" href="platform:/resource/Physics/target/classes/Physics.csgc#/"/>
+  <usedModels xsi:type="csgc:CSharpUMLGenModel" href="platform:/resource/Units/model/Units.csgc#/"/>
+  <usedModels xsi:type="csgc:CSharpUMLGenModel" href="platform:/resource/IEC61174/model/IEC61174.csgc#/"/>
+  <projects xsi:type="csgc:CSDataModelProject" rootDirectory="." sourceDirectory="src/main/csharp" testDirectory="src/test/csharp">
+    <project xsi:type="csgc:CSProjectModule" artifactID="Vessel" version="0.9.0-SNAPSHOT"/>
+    <interfaceModule xsi:type="csgc:CSDataModelInterfaceModule" prefix=""/>
+    <implementationModule xsi:type="csgc:CSDataModelImplementationModule"/>
+    <metaModule xsi:type="csgc:CSDataModelMetaModule"/>
+  </projects>
+</csgc:CSharpUMLGenModel>

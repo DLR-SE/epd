@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>EPDCore</artifactId>
+        <groupId>de.dlr-se.emir.epd</groupId>
+        <version>4.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>AlertView</artifactId>
+    <name>Alert View</name>
+    <description>Adds an alert view to the status bar, that can be utilized to display various types of warnings (e.g.
+        loss of connection)
+    </description>
+
+    <properties>
+        <eMIR-Plugin-Class>de.emir.epd.alert.AlertViewPlugin</eMIR-Plugin-Class>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.dlr-se.emir.runtime</groupId>
+            <artifactId>uiplugincore</artifactId>
+            <version>${runtime.version}</version>
+        </dependency>
+    </dependencies>
+</project>

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="ASCII"?>
+<uml:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_YXHn8OiIEeaVp-DrxmYheg" name="Sense">
+  <ownedComment xmi:id="_YXHn8eiIEeaVp-DrxmYheg" body="/**&#xD;&#xA; * The Sense Package is used to describe basic concepts of sensors and their observations. &#xD;&#xA; * &#xD;&#xA; * A Sensor is modeled as the physical representation of a sensing device. Each Sensor consist of at least&#xD;&#xA; * one Port, that describe a measurement, observed by the sensor, in a specific area. &#xD;&#xA; * &#xD;&#xA; * Besides the Sensor the Sense Package describes a basic Observation, as a container for a sensor measurement. &#xD;&#xA; * The concrete sensor measurement is described in an inherited Observation. &#xD;&#xA; * &#xD;&#xA; * The third complex of the Sense Package is the description of an ErrorModel, that describes the expected measurement error &#xD;&#xA; * for a sensor observation. &#xD;&#xA; * &#xD;&#xA; * \ingroup application &#xD;&#xA; */"/>
+  <packagedElement xsi:type="uml:Package" xmi:id="_YXHn8uiIEeaVp-DrxmYheg" name="de">
+    <packagedElement xsi:type="uml:Package" xmi:id="_YXHn8-iIEeaVp-DrxmYheg" name="emir">
+      <packagedElement xsi:type="uml:Package" xmi:id="_YXHn9OiIEeaVp-DrxmYheg" name="model">
+        <packagedElement xsi:type="uml:Package" xmi:id="_YXHn9eiIEeaVp-DrxmYheg" name="application">
+          <packagedElement xsi:type="uml:Package" xmi:id="_YXHn9uiIEeaVp-DrxmYheg" name="sense">
+            <packagedElement xsi:type="uml:Class" xmi:id="_YXHn9-iIEeaVp-DrxmYheg" name="Measurement" isAbstract="true">
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_YXHn-OiIEeaVp-DrxmYheg" memberEnd="_YXHn-uiIEeaVp-DrxmYheg _YXHn_eiIEeaVp-DrxmYheg" navigableOwnedEnd="_YXHn_eiIEeaVp-DrxmYheg">
+                <ownedComment xmi:id="_YXHn-eiIEeaVp-DrxmYheg" body="/** Time, when the measurement was created */"/>
+                <ownedEnd xmi:id="_YXHn-uiIEeaVp-DrxmYheg" name="_timestamp_" type="_YXHn9-iIEeaVp-DrxmYheg" association="_YXHn-OiIEeaVp-DrxmYheg">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHn--iIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHn_OiIEeaVp-DrxmYheg" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_YXHn_eiIEeaVp-DrxmYheg" name="timestamp" aggregation="composite" association="_YXHn-OiIEeaVp-DrxmYheg">
+                  <ownedComment xmi:id="_YXHn_uiIEeaVp-DrxmYheg" body="/** Time, when the measurement was created */"/>
+                  <type xsi:type="uml:Activity" href="Sense.tuml#|0"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHn_-iIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoAOiIEeaVp-DrxmYheg" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_YXHoAeiIEeaVp-DrxmYheg" memberEnd="_YXHoAuiIEeaVp-DrxmYheg _YXHoBeiIEeaVp-DrxmYheg" navigableOwnedEnd="_YXHoBeiIEeaVp-DrxmYheg">
+                <ownedEnd xmi:id="_YXHoAuiIEeaVp-DrxmYheg" name="_sender_" type="_YXHn9-iIEeaVp-DrxmYheg" association="_YXHoAeiIEeaVp-DrxmYheg">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoA-iIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoBOiIEeaVp-DrxmYheg" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_YXHoBeiIEeaVp-DrxmYheg" name="sender" type="_YXHoGOiIEeaVp-DrxmYheg" aggregation="shared" association="_YXHoAeiIEeaVp-DrxmYheg">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoBuiIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoB-iIEeaVp-DrxmYheg" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_YXHoCOiIEeaVp-DrxmYheg" name="Observation">
+              <ownedComment xmi:id="_YXHoCeiIEeaVp-DrxmYheg" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Contains the observed phenomenon / measurement.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * the associated meta informations (like observedRegion, FeatureOfInterest, ...) are stored within the referenced port&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_YXHoCuiIEeaVp-DrxmYheg" memberEnd="_YXHoC-iIEeaVp-DrxmYheg _YXHoDuiIEeaVp-DrxmYheg" navigableOwnedEnd="_YXHoDuiIEeaVp-DrxmYheg">
+                <ownedEnd xmi:id="_YXHoC-iIEeaVp-DrxmYheg" name="_timestamp_" type="_YXHoCOiIEeaVp-DrxmYheg" association="_YXHoCuiIEeaVp-DrxmYheg">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoDOiIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoDeiIEeaVp-DrxmYheg" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_YXHoDuiIEeaVp-DrxmYheg" name="timestamp" aggregation="composite" association="_YXHoCuiIEeaVp-DrxmYheg">
+                  <type xsi:type="uml:Activity" href="Sense.tuml#|2"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoD-iIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoEOiIEeaVp-DrxmYheg" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_YXHoEeiIEeaVp-DrxmYheg" memberEnd="_YXHoEuiIEeaVp-DrxmYheg _YXHoFeiIEeaVp-DrxmYheg" navigableOwnedEnd="_YXHoFeiIEeaVp-DrxmYheg">
+                <ownedEnd xmi:id="_YXHoEuiIEeaVp-DrxmYheg" name="_measurements_" type="_YXHoCOiIEeaVp-DrxmYheg" association="_YXHoEeiIEeaVp-DrxmYheg">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoE-iIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoFOiIEeaVp-DrxmYheg" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_YXHoFeiIEeaVp-DrxmYheg" name="measurements" type="_YXHn9-iIEeaVp-DrxmYheg" aggregation="composite" association="_YXHoEeiIEeaVp-DrxmYheg">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoFuiIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_YXHoF-iIEeaVp-DrxmYheg" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_YXHoGOiIEeaVp-DrxmYheg" name="Port" isAbstract="true">
+              <ownedComment xmi:id="_YXHoGeiIEeaVp-DrxmYheg" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * A sensor outputs a piece of information (an observed value), the value itself being represented by an ObservationValue.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * [SSN] &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note to observe the occurrence of new measurements, put a listener on the measurement Feature&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+              <generalization xmi:id="_YXHoGuiIEeaVp-DrxmYheg">
+                <general xsi:type="uml:Activity" href="Sense.tuml#|4"/>
+              </generalization>
+              <ownedAttribute xmi:id="_YXHoG-iIEeaVp-DrxmYheg" name="observedRegion">
+                <ownedComment xmi:id="_YXHoHOiIEeaVp-DrxmYheg" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * describes the region for which the observation is valid.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Is always given relative to the attribute pose of the associated sensor&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <type xsi:type="uml:Activity" href="Sense.tuml#|5"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoHeiIEeaVp-DrxmYheg"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoHuiIEeaVp-DrxmYheg" value="1"/>
+              </ownedAttribute>
+              <ownedAttribute xmi:id="_YXHoH-iIEeaVp-DrxmYheg" name="errorModel" type="_YXHoWOiIEeaVp-DrxmYheg">
+                <ownedComment xmi:id="_YXHoIOiIEeaVp-DrxmYheg" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * optional: expected error models&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoIeiIEeaVp-DrxmYheg"/>
+                <upperValue xsi:type="uml:LiteralString" xmi:id="_YXHoIuiIEeaVp-DrxmYheg" value="*"/>
+              </ownedAttribute>
+              <ownedOperation xmi:id="_YXHoI-iIEeaVp-DrxmYheg" name="setCurrentMeasurement" isAbstract="true">
+                <ownedComment xmi:id="_YXHoJOiIEeaVp-DrxmYheg" body="/** replace the current measurement with a new one (convenience method to avoid casting, depending on the port) */"/>
+                <ownedParameter xmi:id="_YXHoJeiIEeaVp-DrxmYheg" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="Sense.tuml#|7"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoJuiIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoJ-iIEeaVp-DrxmYheg" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_YXHoKOiIEeaVp-DrxmYheg" name="measurement" type="_YXHn9-iIEeaVp-DrxmYheg">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoKeiIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoKuiIEeaVp-DrxmYheg" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_YXHoK-iIEeaVp-DrxmYheg" name="getLatestMeasurement">
+                <eAnnotations xmi:id="_YXHoLOiIEeaVp-DrxmYheg" source="const"/>
+                <ownedParameter xmi:id="_YXHoLeiIEeaVp-DrxmYheg" name="_return_" type="_YXHn9-iIEeaVp-DrxmYheg" direction="return">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoLuiIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoL-iIEeaVp-DrxmYheg" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_YXHoMOiIEeaVp-DrxmYheg" memberEnd="_YXHoMuiIEeaVp-DrxmYheg _YXHoNeiIEeaVp-DrxmYheg" navigableOwnedEnd="_YXHoNeiIEeaVp-DrxmYheg">
+                <ownedComment xmi:id="_YXHoMeiIEeaVp-DrxmYheg" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * always contains the most actual observation&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedEnd xmi:id="_YXHoMuiIEeaVp-DrxmYheg" name="_measurement_" type="_YXHoGOiIEeaVp-DrxmYheg" association="_YXHoMOiIEeaVp-DrxmYheg">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoM-iIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoNOiIEeaVp-DrxmYheg" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_YXHoNeiIEeaVp-DrxmYheg" name="measurement" type="_YXHoCOiIEeaVp-DrxmYheg" aggregation="composite" association="_YXHoMOiIEeaVp-DrxmYheg">
+                  <ownedComment xmi:id="_YXHoNuiIEeaVp-DrxmYheg" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * always contains the most actual observation&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoN-iIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoOOiIEeaVp-DrxmYheg" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_YXHoOeiIEeaVp-DrxmYheg" name="Sensor">
+              <ownedComment xmi:id="_YXHoOuiIEeaVp-DrxmYheg" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * A sensor can do (implements) sensing: that is, a sensor is any entity that can follow a sensing method and thus observe some Property of a FeatureOfInterest. Sensors may be physical devices, computational methods, a laboratory setup with a person following a method, or any other thing that can follow a Sensing Method to observe a Property.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * [SSN]&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+              <generalization xmi:id="_YXHoO-iIEeaVp-DrxmYheg">
+                <general xsi:type="uml:Activity" href="Sense.tuml#|11"/>
+              </generalization>
+              <ownedAttribute xmi:id="_YXHoPOiIEeaVp-DrxmYheg" name="active">
+                <ownedComment xmi:id="_YXHoPeiIEeaVp-DrxmYheg" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Only if the sensor is active, it will take measurements, with the &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * frequency defined with the attribute frequency&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <type xsi:type="uml:Activity" href="Sense.tuml#|12"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoPuiIEeaVp-DrxmYheg"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoP-iIEeaVp-DrxmYheg" value="1"/>
+              </ownedAttribute>
+              <ownedAttribute xmi:id="_YXHoQOiIEeaVp-DrxmYheg" name="frequency">
+                <ownedComment xmi:id="_YXHoQeiIEeaVp-DrxmYheg" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * The frequency in Hz, that is used to take measurements&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <type xsi:type="uml:Activity" href="Sense.tuml#|13"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoQuiIEeaVp-DrxmYheg"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoQ-iIEeaVp-DrxmYheg" value="1"/>
+              </ownedAttribute>
+              <ownedOperation xmi:id="_YXHoROiIEeaVp-DrxmYheg" name="getAllPorts" isAbstract="true">
+                <ownedComment xmi:id="_YXHoReiIEeaVp-DrxmYheg" body="/** returns a list of all ports of this sensor */"/>
+                <ownedParameter xmi:id="_YXHoRuiIEeaVp-DrxmYheg" name="_return_" type="_YXHoGOiIEeaVp-DrxmYheg" direction="return">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoR-iIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_YXHoSOiIEeaVp-DrxmYheg" value="*"/>
+                </ownedParameter>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_YXHoSeiIEeaVp-DrxmYheg" memberEnd="_YXHoS-iIEeaVp-DrxmYheg _YXHoTuiIEeaVp-DrxmYheg" navigableOwnedEnd="_YXHoTuiIEeaVp-DrxmYheg">
+                <ownedComment xmi:id="_YXHoSuiIEeaVp-DrxmYheg" body="/** Ports (measurements) generated by this sensor &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note to observe the occurence of new measurements, put a listener to the port (@see Port)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * */"/>
+                <ownedEnd xmi:id="_YXHoS-iIEeaVp-DrxmYheg" name="_ports_" type="_YXHoOeiIEeaVp-DrxmYheg" association="_YXHoSeiIEeaVp-DrxmYheg">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoTOiIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoTeiIEeaVp-DrxmYheg" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_YXHoTuiIEeaVp-DrxmYheg" name="ports" type="_YXHoGOiIEeaVp-DrxmYheg" aggregation="composite" association="_YXHoSeiIEeaVp-DrxmYheg">
+                  <ownedComment xmi:id="_YXHoT-iIEeaVp-DrxmYheg" body="/** Ports (measurements) generated by this sensor &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note to observe the occurence of new measurements, put a listener to the port (@see Port)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * */"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoUOiIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_YXHoUeiIEeaVp-DrxmYheg" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_YXHoUuiIEeaVp-DrxmYheg" name="Emitter" isAbstract="true">
+              <generalization xmi:id="_YXHoU-iIEeaVp-DrxmYheg">
+                <general xsi:type="uml:Activity" href="Sense.tuml#|16"/>
+              </generalization>
+              <ownedAttribute xmi:id="_YXHoVOiIEeaVp-DrxmYheg" name="areaOfInfluence">
+                <ownedComment xmi:id="_YXHoVeiIEeaVp-DrxmYheg" body="/** Area / Range of the emitter. Only sensors within this area shall be capable of receiving the emitted value&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * if the areaOfInfluence is not defined, the emitted value is visible everywhere. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <type xsi:type="uml:Activity" href="Sense.tuml#|17"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoVuiIEeaVp-DrxmYheg"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoV-iIEeaVp-DrxmYheg" value="1"/>
+              </ownedAttribute>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_YXHoWOiIEeaVp-DrxmYheg" name="ErrorModel" isAbstract="true">
+              <ownedComment xmi:id="_YXHoWeiIEeaVp-DrxmYheg" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * \defgroup SensorErrorModel&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * An error model describes the expected error for parts of the sensor Observation&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_YXHoWuiIEeaVp-DrxmYheg" memberEnd="_YXHoXOiIEeaVp-DrxmYheg _YXHoX-iIEeaVp-DrxmYheg" navigableOwnedEnd="_YXHoX-iIEeaVp-DrxmYheg">
+                <ownedComment xmi:id="_YXHoW-iIEeaVp-DrxmYheg" body="/** Expected type of observation */"/>
+                <ownedEnd xmi:id="_YXHoXOiIEeaVp-DrxmYheg" name="_observationType_" type="_YXHoWOiIEeaVp-DrxmYheg" association="_YXHoWuiIEeaVp-DrxmYheg">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoXeiIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoXuiIEeaVp-DrxmYheg" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_YXHoX-iIEeaVp-DrxmYheg" name="observationType" aggregation="shared" association="_YXHoWuiIEeaVp-DrxmYheg">
+                  <ownedComment xmi:id="_YXHoYOiIEeaVp-DrxmYheg" body="/** Expected type of observation */"/>
+                  <type xsi:type="uml:Activity" href="Sense.tuml#|18"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoYeiIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoYuiIEeaVp-DrxmYheg" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_YXHoY-iIEeaVp-DrxmYheg" memberEnd="_YXHoZeiIEeaVp-DrxmYheg _YXHoaOiIEeaVp-DrxmYheg" navigableOwnedEnd="_YXHoaOiIEeaVp-DrxmYheg">
+                <ownedComment xmi:id="_YXHoZOiIEeaVp-DrxmYheg" body="/** Pointer to features, that will be affected by this error model&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * each pointer should be positioned, relative to the observation that must inherit the observationType&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedEnd xmi:id="_YXHoZeiIEeaVp-DrxmYheg" name="_pointers_" type="_YXHoWOiIEeaVp-DrxmYheg" association="_YXHoY-iIEeaVp-DrxmYheg">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoZuiIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoZ-iIEeaVp-DrxmYheg" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_YXHoaOiIEeaVp-DrxmYheg" name="pointers" aggregation="shared" association="_YXHoY-iIEeaVp-DrxmYheg">
+                  <ownedComment xmi:id="_YXHoaeiIEeaVp-DrxmYheg" body="/** Pointer to features, that will be affected by this error model&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * each pointer should be positioned, relative to the observation that must inherit the observationType&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <type xsi:type="uml:Activity" href="Sense.tuml#|19"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoauiIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_YXHoa-iIEeaVp-DrxmYheg" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Package" xmi:id="_YXHobOiIEeaVp-DrxmYheg" name="ports">
+              <packagedElement xsi:type="uml:Class" xmi:id="_YXHobeiIEeaVp-DrxmYheg" name="LocationPort">
+                <ownedComment xmi:id="_YXHobuiIEeaVp-DrxmYheg" body="/** Measurement that holds the location of a not further specified object &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * this could be for example an GPS, Lorence or Galileo measure. Inherited structs may extend some additional &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * metadata like used satellites (if Satellite based sensor)*/"/>
+                <generalization xmi:id="_YXHob-iIEeaVp-DrxmYheg" general="_YXHoGOiIEeaVp-DrxmYheg"/>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_YXHocOiIEeaVp-DrxmYheg" name="OrientationPort">
+                <ownedComment xmi:id="_YXHoceiIEeaVp-DrxmYheg" body="/** Measurement that represents the orientation of the measured object, e.g. heading. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Orientation measures may be created by compass sensors. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <generalization xmi:id="_YXHocuiIEeaVp-DrxmYheg" general="_YXHoGOiIEeaVp-DrxmYheg"/>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_YXHoc-iIEeaVp-DrxmYheg" name="VelocityPort">
+                <ownedComment xmi:id="_YXHodOiIEeaVp-DrxmYheg" body="/** Measurement representing the velocity / speed of the measured object, e.g. could be a tachometer, &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * a wind sensor (wind speed), log (speed through water)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <generalization xmi:id="_YXHodeiIEeaVp-DrxmYheg" general="_YXHoGOiIEeaVp-DrxmYheg"/>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_YXHoduiIEeaVp-DrxmYheg" name="RotationPort">
+                <ownedComment xmi:id="_YXHod-iIEeaVp-DrxmYheg" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Measurement that represents the change of the orientation over time, e.g. the rotation. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * This could be created by a gyroscope&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <generalization xmi:id="_YXHoeOiIEeaVp-DrxmYheg" general="_YXHoGOiIEeaVp-DrxmYheg"/>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_YXHoeeiIEeaVp-DrxmYheg" name="TemperaturePort">
+                <ownedComment xmi:id="_YXHoeuiIEeaVp-DrxmYheg" body="/** Measurement containing the temperature of something */"/>
+                <generalization xmi:id="_YXHoe-iIEeaVp-DrxmYheg" general="_YXHoGOiIEeaVp-DrxmYheg"/>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_YXHofOiIEeaVp-DrxmYheg" name="DistancePort">
+                <generalization xmi:id="_YXHofeiIEeaVp-DrxmYheg" general="_YXHoGOiIEeaVp-DrxmYheg"/>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_YXHofuiIEeaVp-DrxmYheg" name="PositionPort">
+                <ownedComment xmi:id="_YXHof-iIEeaVp-DrxmYheg" body="/** The position Measurement differs from the LocationMeasurement in that form, that it measures the position&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * of an external object. Within the maritime domain such a measurement may be generated by an AIS sensor but also &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * by an Radar (reasoned from the own position of the radar and a DistanceMeasurement) &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <generalization xmi:id="_YXHogOiIEeaVp-DrxmYheg" general="_YXHoGOiIEeaVp-DrxmYheg"/>
+              </packagedElement>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Package" xmi:id="_YXHogeiIEeaVp-DrxmYheg" name="measurements">
+              <packagedElement xsi:type="uml:Class" xmi:id="_YXHoguiIEeaVp-DrxmYheg" name="LocationMeasurement">
+                <ownedComment xmi:id="_YXHog-iIEeaVp-DrxmYheg" body="/** Measurement that holds the location of a not further specified object &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * this could be for example an GPS, Lorence or Galileo measure. Inherited structs may extend some additional &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * metadata like used satellites (if Satellite based sensor)*/"/>
+                <generalization xmi:id="_YXHohOiIEeaVp-DrxmYheg" general="_YXHn9-iIEeaVp-DrxmYheg"/>
+                <ownedAttribute xmi:id="_YXHoheiIEeaVp-DrxmYheg" name="location">
+                  <type xsi:type="uml:Activity" href="Sense.tuml#|28"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHohuiIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoh-iIEeaVp-DrxmYheg" value="1"/>
+                </ownedAttribute>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_YXHoiOiIEeaVp-DrxmYheg" name="OrientationMeasurement">
+                <ownedComment xmi:id="_YXHoieiIEeaVp-DrxmYheg" body="/** Measurement that represents the orientation of the measured object, e.g. heading. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Orientation measures may be created by compass sensors. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <generalization xmi:id="_YXHoiuiIEeaVp-DrxmYheg" general="_YXHn9-iIEeaVp-DrxmYheg"/>
+                <ownedAttribute xmi:id="_YXHoi-iIEeaVp-DrxmYheg" name="orientation">
+                  <type xsi:type="uml:Activity" href="Sense.tuml#|30"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHojOiIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHojeiIEeaVp-DrxmYheg" value="1"/>
+                </ownedAttribute>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_YXHojuiIEeaVp-DrxmYheg" name="VelocityMeasurement">
+                <ownedComment xmi:id="_YXHoj-iIEeaVp-DrxmYheg" body="/** Measurement representing the velocity / speed of the measured object, e.g. could be a tachometer, &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * a wind sensor (wind speed), log (speed through water)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <generalization xmi:id="_YXHokOiIEeaVp-DrxmYheg" general="_YXHn9-iIEeaVp-DrxmYheg"/>
+                <ownedAttribute xmi:id="_YXHokeiIEeaVp-DrxmYheg" name="velocity">
+                  <type xsi:type="uml:Activity" href="Sense.tuml#|32"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHokuiIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHok-iIEeaVp-DrxmYheg" value="1"/>
+                </ownedAttribute>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_YXHolOiIEeaVp-DrxmYheg" name="RotationMeasurement">
+                <ownedComment xmi:id="_YXHoleiIEeaVp-DrxmYheg" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Measurement that represents the change of the orientation over time, e.g. the rotation. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * This could be created by a gyroscope&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <generalization xmi:id="_YXHoluiIEeaVp-DrxmYheg" general="_YXHn9-iIEeaVp-DrxmYheg"/>
+                <ownedAttribute xmi:id="_YXHol-iIEeaVp-DrxmYheg" name="velocity">
+                  <type xsi:type="uml:Activity" href="Sense.tuml#|34"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHomOiIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHomeiIEeaVp-DrxmYheg" value="1"/>
+                </ownedAttribute>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_YXHomuiIEeaVp-DrxmYheg" name="TemperatureMeasurement">
+                <ownedComment xmi:id="_YXHom-iIEeaVp-DrxmYheg" body="/** Measurement containing the temperature of something */"/>
+                <generalization xmi:id="_YXHonOiIEeaVp-DrxmYheg" general="_YXHn9-iIEeaVp-DrxmYheg"/>
+                <ownedAttribute xmi:id="_YXHoneiIEeaVp-DrxmYheg" name="temperature">
+                  <type xsi:type="uml:Activity" href="Sense.tuml#|36"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHonuiIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHon-iIEeaVp-DrxmYheg" value="1"/>
+                </ownedAttribute>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_YXHooOiIEeaVp-DrxmYheg" name="DistanceMeasurement">
+                <generalization xmi:id="_YXHooeiIEeaVp-DrxmYheg" general="_YXHn9-iIEeaVp-DrxmYheg"/>
+                <ownedAttribute xmi:id="_YXHoouiIEeaVp-DrxmYheg" name="distance">
+                  <type xsi:type="uml:Activity" href="Sense.tuml#|38"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoo-iIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHopOiIEeaVp-DrxmYheg" value="1"/>
+                </ownedAttribute>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_YXHopeiIEeaVp-DrxmYheg" name="PositionMeasurement">
+                <ownedComment xmi:id="_YXHopuiIEeaVp-DrxmYheg" body="/** The position Measurement differs from the LocationMeasurement in that form, that it measures the position&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * of an external object. Within the maritime domain such a measurement may be generated by an AIS sensor but also &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * by an Radar (reasoned from the own position of the radar and a DistanceMeasurement) &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <generalization xmi:id="_YXHop-iIEeaVp-DrxmYheg" general="_YXHn9-iIEeaVp-DrxmYheg"/>
+                <ownedAttribute xmi:id="_YXHoqOiIEeaVp-DrxmYheg" name="object">
+                  <type xsi:type="uml:Activity" href="Sense.tuml#|40"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_YXHoqeiIEeaVp-DrxmYheg"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_YXHoquiIEeaVp-DrxmYheg" value="1"/>
+                </ownedAttribute>
+              </packagedElement>
+            </packagedElement>
+          </packagedElement>
+        </packagedElement>
+      </packagedElement>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

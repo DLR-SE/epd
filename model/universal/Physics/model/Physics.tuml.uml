@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="ASCII"?>
+<uml:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_q1glII5PEeasn-Y9k7KXVw" name="Physics">
+  <ownedComment xmi:id="_q1glIY5PEeasn-Y9k7KXVw" body="/**&#xD;&#xA;* insert documentation for the model  &#xD;&#xA;*  &#xD;&#xA;*/"/>
+  <packagedElement xsi:type="uml:Package" xmi:id="_q1glIo5PEeasn-Y9k7KXVw" name="de">
+    <packagedElement xsi:type="uml:Package" xmi:id="_q1glI45PEeasn-Y9k7KXVw" name="emir">
+      <packagedElement xsi:type="uml:Package" xmi:id="_q1glJI5PEeasn-Y9k7KXVw" name="model">
+        <packagedElement xsi:type="uml:Package" xmi:id="_q1glJY5PEeasn-Y9k7KXVw" name="universal">
+          <packagedElement xsi:type="uml:Package" xmi:id="_q1glJo5PEeasn-Y9k7KXVw" name="physics">
+            <packagedElement xsi:type="uml:Class" xmi:id="_q1glJ45PEeasn-Y9k7KXVw" name="RelativeEngineeringCRS">
+              <eAnnotations xmi:id="_q1glKI5PEeasn-Y9k7KXVw" source="FeatureType"/>
+              <ownedComment xmi:id="_q1glKY5PEeasn-Y9k7KXVw" body="/** Convinience CRS that follows the referenced LocatableObject and thus creates&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * a stable coordinate reference system on top of the referenced object. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+              <generalization xmi:id="_q1glKo5PEeasn-Y9k7KXVw">
+                <general xsi:type="uml:Activity" href="Physics.tuml#|0"/>
+              </generalization>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_q1glK45PEeasn-Y9k7KXVw" memberEnd="_q1glLY5PEeasn-Y9k7KXVw _q1glMI5PEeasn-Y9k7KXVw" navigableOwnedEnd="_q1glMI5PEeasn-Y9k7KXVw">
+                <ownedComment xmi:id="_q1glLI5PEeasn-Y9k7KXVw" body="/** locatable object, used to resolve the origin and orientation offset for this local coordinate reference system */"/>
+                <ownedEnd xmi:id="_q1glLY5PEeasn-Y9k7KXVw" name="_reference_" type="_q1glJ45PEeasn-Y9k7KXVw" association="_q1glK45PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glLo5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glL45PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_q1glMI5PEeasn-Y9k7KXVw" name="reference" type="_q1glNI5PEeasn-Y9k7KXVw" aggregation="shared" association="_q1glK45PEeasn-Y9k7KXVw">
+                  <ownedComment xmi:id="_q1glMY5PEeasn-Y9k7KXVw" body="/** locatable object, used to resolve the origin and orientation offset for this local coordinate reference system */"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glMo5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glM45PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_q1glNI5PEeasn-Y9k7KXVw" name="LocatableObject" isAbstract="true">
+              <ownedComment xmi:id="_q1glNY5PEeasn-Y9k7KXVw" body="/** Each object that is located somehow shall extend this object&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * this has been separated from the PhysicalObject, since also non physical Objects &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * like EnvironmentFactors or Information could be located somehow and may be handled the same&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * way (regarding their location operations) as a physical object. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+              <generalization xmi:id="_q1glNo5PEeasn-Y9k7KXVw">
+                <general xsi:type="uml:Activity" href="Physics.tuml#|2"/>
+              </generalization>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_q1glN45PEeasn-Y9k7KXVw" memberEnd="_q1glOY5PEeasn-Y9k7KXVw _q1glPI5PEeasn-Y9k7KXVw" navigableOwnedEnd="_q1glPI5PEeasn-Y9k7KXVw">
+                <ownedComment xmi:id="_q1glOI5PEeasn-Y9k7KXVw" body="/** Each locatable objects builds its own coordinate system, whereas the objects center is also &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * the center of the reference system.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; **/"/>
+                <ownedEnd xmi:id="_q1glOY5PEeasn-Y9k7KXVw" name="_ownedCoordinateSystem_" type="_q1glNI5PEeasn-Y9k7KXVw" association="_q1glN45PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glOo5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glO45PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_q1glPI5PEeasn-Y9k7KXVw" name="ownedCoordinateSystem" type="_q1glJ45PEeasn-Y9k7KXVw" aggregation="composite" association="_q1glN45PEeasn-Y9k7KXVw">
+                  <ownedComment xmi:id="_q1glPY5PEeasn-Y9k7KXVw" body="/** Each locatable objects builds its own coordinate system, whereas the objects center is also &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * the center of the reference system.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; **/"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glPo5PEeasn-Y9k7KXVw" value="1"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glP45PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_q1glQI5PEeasn-Y9k7KXVw" memberEnd="_q1glQo5PEeasn-Y9k7KXVw _q1glRY5PEeasn-Y9k7KXVw" navigableOwnedEnd="_q1glRY5PEeasn-Y9k7KXVw">
+                <ownedComment xmi:id="_q1glQY5PEeasn-Y9k7KXVw" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * the pose is set to readonly to indicate, that an object that has an location &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * not necessarily can move, e.g. change its pose. For example a building does not move but is locatable&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedEnd xmi:id="_q1glQo5PEeasn-Y9k7KXVw" name="_pose_" type="_q1glNI5PEeasn-Y9k7KXVw" association="_q1glQI5PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glQ45PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glRI5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_q1glRY5PEeasn-Y9k7KXVw" name="pose" aggregation="composite" association="_q1glQI5PEeasn-Y9k7KXVw">
+                  <ownedComment xmi:id="_q1glRo5PEeasn-Y9k7KXVw" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * the pose is set to readonly to indicate, that an object that has an location &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * not necessarily can move, e.g. change its pose. For example a building does not move but is locatable&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|4"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glR45PEeasn-Y9k7KXVw" value="1"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glSI5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_q1glSY5PEeasn-Y9k7KXVw" name="Capability" isAbstract="true">
+              <ownedComment xmi:id="_q1glSo5PEeasn-Y9k7KXVw" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;* &#x9;The ability to achieve a Desired Effect under specified (performance)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;*&#x9;standards and conditions through combinations of ways and means (activities and&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;* &#x9;resources) to perform a set of activities [DoDAF v2.02]&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;*/"/>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_q1glS45PEeasn-Y9k7KXVw" name="Characteristic" isAbstract="true">
+              <eAnnotations xmi:id="_q1glTI5PEeasn-Y9k7KXVw" source="GMF">
+                <details xmi:id="_q1glTY5PEeasn-Y9k7KXVw" key="alias" value="PhysicalObjectCharacteristic"/>
+              </eAnnotations>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_q1glTo5PEeasn-Y9k7KXVw" name="ObjectSurfaceInformation">
+              <generalization xmi:id="_q1glT45PEeasn-Y9k7KXVw" general="_q1glS45PEeasn-Y9k7KXVw"/>
+              <ownedOperation xmi:id="_q1glUI5PEeasn-Y9k7KXVw" name="getWidth">
+                <eAnnotations xmi:id="_q1glUY5PEeasn-Y9k7KXVw" source="const"/>
+                <ownedComment xmi:id="_q1glUo5PEeasn-Y9k7KXVw" body="/** Returns the with of the Object. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * The Width may be calculated from the defined geometry*/"/>
+                <ownedParameter xmi:id="_q1glU45PEeasn-Y9k7KXVw" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|6"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glVI5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glVY5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_q1glVo5PEeasn-Y9k7KXVw" name="getLength">
+                <eAnnotations xmi:id="_q1glV45PEeasn-Y9k7KXVw" source="const"/>
+                <ownedComment xmi:id="_q1glWI5PEeasn-Y9k7KXVw" body="/** returns the length of the object&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * The length of the object may be calculated from the geometry&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_q1glWY5PEeasn-Y9k7KXVw" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|7"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glWo5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glW45PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_q1glXI5PEeasn-Y9k7KXVw" name="getHeight">
+                <eAnnotations xmi:id="_q1glXY5PEeasn-Y9k7KXVw" source="const"/>
+                <ownedComment xmi:id="_q1glXo5PEeasn-Y9k7KXVw" body="/** returns the height of the object (bounds)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * The height of the object may be calculated from the geometry, if the geometry is defined in 3 dimensions, &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * otherwise null is returned&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_q1glX45PEeasn-Y9k7KXVw" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|8"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glYI5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glYY5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_q1glYo5PEeasn-Y9k7KXVw" memberEnd="_q1glY45PEeasn-Y9k7KXVw _q1glZo5PEeasn-Y9k7KXVw" navigableOwnedEnd="_q1glZo5PEeasn-Y9k7KXVw">
+                <ownedEnd xmi:id="_q1glY45PEeasn-Y9k7KXVw" name="_geometry_" type="_q1glTo5PEeasn-Y9k7KXVw" association="_q1glYo5PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glZI5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glZY5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_q1glZo5PEeasn-Y9k7KXVw" name="geometry" aggregation="composite" association="_q1glYo5PEeasn-Y9k7KXVw">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|9"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glZ45PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glaI5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_q1glaY5PEeasn-Y9k7KXVw" name="DynamicObjectCharacteristic">
+              <generalization xmi:id="_q1glao5PEeasn-Y9k7KXVw" general="_q1glS45PEeasn-Y9k7KXVw"/>
+              <ownedOperation xmi:id="_q1gla45PEeasn-Y9k7KXVw" name="set">
+                <ownedParameter xmi:id="_q1glbI5PEeasn-Y9k7KXVw" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|11"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glbY5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glbo5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_q1glb45PEeasn-Y9k7KXVw" name="linVel">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|12"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glcI5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glcY5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_q1glco5PEeasn-Y9k7KXVw" name="angVal">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|13"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glc45PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gldI5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_q1gldY5PEeasn-Y9k7KXVw" name="calculate">
+                <ownedParameter xmi:id="_q1gldo5PEeasn-Y9k7KXVw" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|14"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gld45PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gleI5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_q1gleY5PEeasn-Y9k7KXVw" name="loc0">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|15"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gleo5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gle45PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_q1glfI5PEeasn-Y9k7KXVw" name="loc1">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|16"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glfY5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glfo5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_q1glf45PEeasn-Y9k7KXVw" name="heading0">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|17"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glgI5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glgY5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_q1glgo5PEeasn-Y9k7KXVw" name="heading1">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|18"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glg45PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glhI5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_q1glhY5PEeasn-Y9k7KXVw" name="elapsed">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|19"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glho5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glh45PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_q1gliI5PEeasn-Y9k7KXVw" memberEnd="_q1gliY5PEeasn-Y9k7KXVw _q1gljI5PEeasn-Y9k7KXVw" navigableOwnedEnd="_q1gljI5PEeasn-Y9k7KXVw">
+                <ownedEnd xmi:id="_q1gliY5PEeasn-Y9k7KXVw" name="_angularVelocity_" type="_q1glaY5PEeasn-Y9k7KXVw" association="_q1gliI5PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glio5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gli45PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_q1gljI5PEeasn-Y9k7KXVw" name="angularVelocity" aggregation="composite" association="_q1gliI5PEeasn-Y9k7KXVw">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|20"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gljY5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gljo5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_q1glj45PEeasn-Y9k7KXVw" memberEnd="_q1glkI5PEeasn-Y9k7KXVw _q1glk45PEeasn-Y9k7KXVw" navigableOwnedEnd="_q1glk45PEeasn-Y9k7KXVw">
+                <ownedEnd xmi:id="_q1glkI5PEeasn-Y9k7KXVw" name="_linearVelocity_" type="_q1glaY5PEeasn-Y9k7KXVw" association="_q1glj45PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glkY5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glko5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_q1glk45PEeasn-Y9k7KXVw" name="linearVelocity" aggregation="composite" association="_q1glj45PEeasn-Y9k7KXVw">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|21"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gllI5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gllY5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_q1gllo5PEeasn-Y9k7KXVw" name="PoseChangeCapability">
+              <eAnnotations xmi:id="_q1gll45PEeasn-Y9k7KXVw" source="ComplexAttributeType"/>
+              <generalization xmi:id="_q1glmI5PEeasn-Y9k7KXVw" general="_q1glSY5PEeasn-Y9k7KXVw"/>
+              <ownedOperation xmi:id="_q1glmY5PEeasn-Y9k7KXVw" name="setLocation">
+                <ownedParameter xmi:id="_q1glmo5PEeasn-Y9k7KXVw" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|23"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glm45PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glnI5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_q1glnY5PEeasn-Y9k7KXVw" name="coordinate">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|24"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glno5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gln45PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_q1gloI5PEeasn-Y9k7KXVw" name="setOrientation">
+                <ownedParameter xmi:id="_q1gloY5PEeasn-Y9k7KXVw" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|25"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gloo5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glo45PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_q1glpI5PEeasn-Y9k7KXVw" name="rotation">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|26"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glpY5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glpo5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_q1glp45PEeasn-Y9k7KXVw" name="PhysicalObject">
+              <eAnnotations xmi:id="_q1glqI5PEeasn-Y9k7KXVw" source="FeatureType"/>
+              <generalization xmi:id="_q1glqY5PEeasn-Y9k7KXVw" general="_q1glNI5PEeasn-Y9k7KXVw"/>
+              <ownedOperation xmi:id="_q1glqo5PEeasn-Y9k7KXVw" name="getFirstCharacteristic">
+                <ownedParameter xmi:id="_q1glq45PEeasn-Y9k7KXVw" name="_return_" type="_q1glS45PEeasn-Y9k7KXVw" direction="return">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glrI5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glrY5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_q1glro5PEeasn-Y9k7KXVw" name="type">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|29"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glr45PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glsI5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_q1glsY5PEeasn-Y9k7KXVw" name="includeSubTypes">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|30"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glso5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gls45PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_q1gltI5PEeasn-Y9k7KXVw" name="getAllCharacteristics">
+                <ownedParameter xmi:id="_q1gltY5PEeasn-Y9k7KXVw" name="_return_" type="_q1glS45PEeasn-Y9k7KXVw" direction="return">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glto5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_q1glt45PEeasn-Y9k7KXVw" value="*"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_q1gluI5PEeasn-Y9k7KXVw" name="type">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|32"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gluY5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gluo5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_q1glu45PEeasn-Y9k7KXVw" name="includeSubTypes">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|33"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glvI5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glvY5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_q1glvo5PEeasn-Y9k7KXVw" name="getFirstCapability">
+                <ownedParameter xmi:id="_q1glv45PEeasn-Y9k7KXVw" name="_return_" type="_q1glSY5PEeasn-Y9k7KXVw" direction="return">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glwI5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glwY5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_q1glwo5PEeasn-Y9k7KXVw" name="type">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|35"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glw45PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glxI5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_q1glxY5PEeasn-Y9k7KXVw" name="includeSubTypes">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|36"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glxo5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glx45PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_q1glyI5PEeasn-Y9k7KXVw" name="getAllCapabilities">
+                <ownedParameter xmi:id="_q1glyY5PEeasn-Y9k7KXVw" name="_return_" type="_q1glSY5PEeasn-Y9k7KXVw" direction="return">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glyo5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_q1gly45PEeasn-Y9k7KXVw" value="*"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_q1glzI5PEeasn-Y9k7KXVw" name="type">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|38"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1glzY5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1glzo5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_q1glz45PEeasn-Y9k7KXVw" name="includeSubTypes">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|39"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gl0I5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gl0Y5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_q1gl0o5PEeasn-Y9k7KXVw" name="getParent">
+                <eAnnotations xmi:id="_q1gl045PEeasn-Y9k7KXVw" source="const"/>
+                <ownedParameter xmi:id="_q1gl1I5PEeasn-Y9k7KXVw" name="_return_" type="_q1glp45PEeasn-Y9k7KXVw" direction="return">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gl1Y5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gl1o5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_q1gl145PEeasn-Y9k7KXVw" name="getPoseChangeCapability">
+                <ownedParameter xmi:id="_q1gl2I5PEeasn-Y9k7KXVw" name="_return_" type="_q1gllo5PEeasn-Y9k7KXVw" direction="return">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gl2Y5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gl2o5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_q1gl245PEeasn-Y9k7KXVw" name="getWorldPose">
+                <eAnnotations xmi:id="_q1gl3I5PEeasn-Y9k7KXVw" source="const"/>
+                <ownedParameter xmi:id="_q1gl3Y5PEeasn-Y9k7KXVw" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|42"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gl3o5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gl345PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_q1gl4I5PEeasn-Y9k7KXVw" name="getLocalPose">
+                <eAnnotations xmi:id="_q1gl4Y5PEeasn-Y9k7KXVw" source="const"/>
+                <ownedParameter xmi:id="_q1gl4o5PEeasn-Y9k7KXVw" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|43"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gl445PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gl5I5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_q1gl5Y5PEeasn-Y9k7KXVw" name="setWorldPose">
+                <ownedComment xmi:id="_q1gl5o5PEeasn-Y9k7KXVw" body="/** Throws an NullPointerException if the object does not own a PoseChangeCpapbility */"/>
+                <ownedParameter xmi:id="_q1gl545PEeasn-Y9k7KXVw" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|44"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gl6I5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gl6Y5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_q1gl6o5PEeasn-Y9k7KXVw" name="wp">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|45"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gl645PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gl7I5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_q1gl7Y5PEeasn-Y9k7KXVw" memberEnd="_q1gl8I5PEeasn-Y9k7KXVw _q1gl845PEeasn-Y9k7KXVw" navigableOwnedEnd="_q1gl845PEeasn-Y9k7KXVw">
+                <eAnnotations xmi:id="_q1gl7o5PEeasn-Y9k7KXVw" source="GMF">
+                  <details xmi:id="_q1gl745PEeasn-Y9k7KXVw" key="alias" value="objectCharacteristics"/>
+                </eAnnotations>
+                <ownedEnd xmi:id="_q1gl8I5PEeasn-Y9k7KXVw" name="_characteristics_" type="_q1glp45PEeasn-Y9k7KXVw" association="_q1gl7Y5PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gl8Y5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gl8o5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_q1gl845PEeasn-Y9k7KXVw" name="characteristics" type="_q1glS45PEeasn-Y9k7KXVw" aggregation="composite" association="_q1gl7Y5PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gl9I5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_q1gl9Y5PEeasn-Y9k7KXVw" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_q1gl9o5PEeasn-Y9k7KXVw" memberEnd="_q1gl945PEeasn-Y9k7KXVw _q1gl-o5PEeasn-Y9k7KXVw" navigableOwnedEnd="_q1gl-o5PEeasn-Y9k7KXVw">
+                <ownedEnd xmi:id="_q1gl945PEeasn-Y9k7KXVw" name="_capabilities_" type="_q1glp45PEeasn-Y9k7KXVw" association="_q1gl9o5PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gl-I5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gl-Y5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_q1gl-o5PEeasn-Y9k7KXVw" name="capabilities" type="_q1glSY5PEeasn-Y9k7KXVw" aggregation="composite" association="_q1gl9o5PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gl-45PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_q1gl_I5PEeasn-Y9k7KXVw" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_q1gl_Y5PEeasn-Y9k7KXVw" memberEnd="_q1gl_o5PEeasn-Y9k7KXVw _q1gmAY5PEeasn-Y9k7KXVw" navigableOwnedEnd="_q1gmAY5PEeasn-Y9k7KXVw">
+                <ownedEnd xmi:id="_q1gl_o5PEeasn-Y9k7KXVw" name="_children_" type="_q1glp45PEeasn-Y9k7KXVw" association="_q1gl_Y5PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gl_45PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gmAI5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_q1gmAY5PEeasn-Y9k7KXVw" name="children" type="_q1glp45PEeasn-Y9k7KXVw" aggregation="composite" association="_q1gl_Y5PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gmAo5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_q1gmA45PEeasn-Y9k7KXVw" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_q1gmBI5PEeasn-Y9k7KXVw" name="EnvironmentFactor" isAbstract="true">
+              <generalization xmi:id="_q1gmBY5PEeasn-Y9k7KXVw" general="_q1glNI5PEeasn-Y9k7KXVw"/>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_q1gmBo5PEeasn-Y9k7KXVw" memberEnd="_q1gmB45PEeasn-Y9k7KXVw _q1gmCo5PEeasn-Y9k7KXVw" navigableOwnedEnd="_q1gmCo5PEeasn-Y9k7KXVw">
+                <ownedEnd xmi:id="_q1gmB45PEeasn-Y9k7KXVw" name="_areaOfInfluence_" type="_q1gmBI5PEeasn-Y9k7KXVw" association="_q1gmBo5PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gmCI5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gmCY5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_q1gmCo5PEeasn-Y9k7KXVw" name="areaOfInfluence" aggregation="composite" association="_q1gmBo5PEeasn-Y9k7KXVw">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|50"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gmC45PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gmDI5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_q1gmDY5PEeasn-Y9k7KXVw" name="Wind">
+              <generalization xmi:id="_q1gmDo5PEeasn-Y9k7KXVw" general="_q1gmBI5PEeasn-Y9k7KXVw"/>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_q1gmD45PEeasn-Y9k7KXVw" memberEnd="_q1gmEI5PEeasn-Y9k7KXVw _q1gmE45PEeasn-Y9k7KXVw" navigableOwnedEnd="_q1gmE45PEeasn-Y9k7KXVw">
+                <ownedEnd xmi:id="_q1gmEI5PEeasn-Y9k7KXVw" name="_velocity_" type="_q1gmDY5PEeasn-Y9k7KXVw" association="_q1gmD45PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gmEY5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gmEo5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_q1gmE45PEeasn-Y9k7KXVw" name="velocity" aggregation="composite" association="_q1gmD45PEeasn-Y9k7KXVw">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|52"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gmFI5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gmFY5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_q1gmFo5PEeasn-Y9k7KXVw" name="EnvironmentLayer" isAbstract="true">
+              <generalization xmi:id="_q1gmF45PEeasn-Y9k7KXVw">
+                <general xsi:type="uml:Activity" href="Physics.tuml#|53"/>
+              </generalization>
+              <ownedOperation xmi:id="_q1gmGI5PEeasn-Y9k7KXVw" name="getEnvironmentCRS">
+                <eAnnotations xmi:id="_q1gmGY5PEeasn-Y9k7KXVw" source="const"/>
+                <ownedParameter xmi:id="_q1gmGo5PEeasn-Y9k7KXVw" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|54"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gmG45PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gmHI5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_q1gmHY5PEeasn-Y9k7KXVw" name="getEnvironment">
+                <eAnnotations xmi:id="_q1gmHo5PEeasn-Y9k7KXVw" source="const"/>
+                <ownedParameter xmi:id="_q1gmH45PEeasn-Y9k7KXVw" name="_return_" type="_q1gmPY5PEeasn-Y9k7KXVw" direction="return">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gmII5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gmIY5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_q1gmIo5PEeasn-Y9k7KXVw" name="ObjectLayer">
+              <generalization xmi:id="_q1gmI45PEeasn-Y9k7KXVw" general="_q1gmFo5PEeasn-Y9k7KXVw"/>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_q1gmJI5PEeasn-Y9k7KXVw" memberEnd="_q1gmJY5PEeasn-Y9k7KXVw _q1gmKI5PEeasn-Y9k7KXVw" navigableOwnedEnd="_q1gmKI5PEeasn-Y9k7KXVw">
+                <ownedEnd xmi:id="_q1gmJY5PEeasn-Y9k7KXVw" name="_objects_" type="_q1gmIo5PEeasn-Y9k7KXVw" association="_q1gmJI5PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gmJo5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gmJ45PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_q1gmKI5PEeasn-Y9k7KXVw" name="objects" type="_q1glNI5PEeasn-Y9k7KXVw" aggregation="composite" association="_q1gmJI5PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gmKY5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_q1gmKo5PEeasn-Y9k7KXVw" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_q1gmK45PEeasn-Y9k7KXVw" name="GeographicLayer">
+              <generalization xmi:id="_q1gmLI5PEeasn-Y9k7KXVw" general="_q1gmFo5PEeasn-Y9k7KXVw"/>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_q1gmLY5PEeasn-Y9k7KXVw" memberEnd="_q1gmLo5PEeasn-Y9k7KXVw _q1gmMY5PEeasn-Y9k7KXVw" navigableOwnedEnd="_q1gmMY5PEeasn-Y9k7KXVw">
+                <ownedEnd xmi:id="_q1gmLo5PEeasn-Y9k7KXVw" name="_spatials_" type="_q1gmK45PEeasn-Y9k7KXVw" association="_q1gmLY5PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gmL45PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gmMI5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_q1gmMY5PEeasn-Y9k7KXVw" name="spatials" aggregation="composite" association="_q1gmLY5PEeasn-Y9k7KXVw">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|59"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gmMo5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_q1gmM45PEeasn-Y9k7KXVw" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_q1gmNI5PEeasn-Y9k7KXVw" name="EnvironmentFactorLayer">
+              <generalization xmi:id="_q1gmNY5PEeasn-Y9k7KXVw" general="_q1gmFo5PEeasn-Y9k7KXVw"/>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_q1gmNo5PEeasn-Y9k7KXVw" memberEnd="_q1gmN45PEeasn-Y9k7KXVw _q1gmOo5PEeasn-Y9k7KXVw" navigableOwnedEnd="_q1gmOo5PEeasn-Y9k7KXVw">
+                <ownedEnd xmi:id="_q1gmN45PEeasn-Y9k7KXVw" name="_environmentFactors_" type="_q1gmNI5PEeasn-Y9k7KXVw" association="_q1gmNo5PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gmOI5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gmOY5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_q1gmOo5PEeasn-Y9k7KXVw" name="environmentFactors" type="_q1gmBI5PEeasn-Y9k7KXVw" aggregation="composite" association="_q1gmNo5PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gmO45PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_q1gmPI5PEeasn-Y9k7KXVw" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_q1gmPY5PEeasn-Y9k7KXVw" name="Environment">
+              <generalization xmi:id="_q1gmPo5PEeasn-Y9k7KXVw">
+                <general xsi:type="uml:Activity" href="Physics.tuml#|62"/>
+              </generalization>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_q1gmP45PEeasn-Y9k7KXVw" memberEnd="_q1gmQI5PEeasn-Y9k7KXVw _q1gmQ45PEeasn-Y9k7KXVw" navigableOwnedEnd="_q1gmQ45PEeasn-Y9k7KXVw">
+                <ownedEnd xmi:id="_q1gmQI5PEeasn-Y9k7KXVw" name="_crs_" type="_q1gmPY5PEeasn-Y9k7KXVw" association="_q1gmP45PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gmQY5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gmQo5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_q1gmQ45PEeasn-Y9k7KXVw" name="crs" aggregation="composite" association="_q1gmP45PEeasn-Y9k7KXVw">
+                  <type xsi:type="uml:Activity" href="Physics.tuml#|63"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gmRI5PEeasn-Y9k7KXVw" value="1"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gmRY5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_q1gmRo5PEeasn-Y9k7KXVw" memberEnd="_q1gmR45PEeasn-Y9k7KXVw _q1gmSo5PEeasn-Y9k7KXVw" navigableOwnedEnd="_q1gmSo5PEeasn-Y9k7KXVw">
+                <ownedEnd xmi:id="_q1gmR45PEeasn-Y9k7KXVw" name="_layer_" type="_q1gmPY5PEeasn-Y9k7KXVw" association="_q1gmRo5PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gmSI5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gmSY5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_q1gmSo5PEeasn-Y9k7KXVw" name="layer" type="_q1gmFo5PEeasn-Y9k7KXVw" aggregation="composite" association="_q1gmRo5PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gmS45PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_q1gmTI5PEeasn-Y9k7KXVw" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_q1gmTY5PEeasn-Y9k7KXVw" memberEnd="_q1gmTo5PEeasn-Y9k7KXVw _q1gmUY5PEeasn-Y9k7KXVw" navigableOwnedEnd="_q1gmUY5PEeasn-Y9k7KXVw">
+                <ownedEnd xmi:id="_q1gmTo5PEeasn-Y9k7KXVw" name="_children_" type="_q1gmPY5PEeasn-Y9k7KXVw" association="_q1gmTY5PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gmT45PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_q1gmUI5PEeasn-Y9k7KXVw" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_q1gmUY5PEeasn-Y9k7KXVw" name="children" type="_q1gmPY5PEeasn-Y9k7KXVw" aggregation="composite" association="_q1gmTY5PEeasn-Y9k7KXVw">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_q1gmUo5PEeasn-Y9k7KXVw"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_q1gmU45PEeasn-Y9k7KXVw" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+          </packagedElement>
+        </packagedElement>
+      </packagedElement>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>de.dlr-se.emir.epd</groupId>
+        <artifactId>EPDCore</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>MapMeasurements</artifactId>
+    <name>Map Measurements</name>
+    <description>The EPD map measurements plugin includes utility functions to measure geo information on the map. Angle
+        and distance measurements are currently implemented.
+    </description>
+
+    <properties>
+        <eMIR-Plugin-Class>de.emir.epd.mapview.measurements.MapMeasurementsPlugin</eMIR-Plugin-Class>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.dlr-se.emir.epd</groupId>
+            <artifactId>MapView</artifactId>
+            <version>${epd.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.dlr-se.emir.model.universal</groupId>
+            <artifactId>Spatial</artifactId>
+            <version>${model.version}</version>
+        </dependency>
+    </dependencies>
+</project>

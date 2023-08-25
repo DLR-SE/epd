@@ -1,0 +1,70 @@
+
+#import "classpath:/model/Sense.tuml"
+
+using UCore.de.*;
+
+Model AISSensor { 
+	package de {
+		package emir { 
+			package model {
+				package application {
+					package sensor {
+						package ais {
+							/**
+							 * AIS Emitter Class. Commercial ships are required to use A, private ships and small vessels usually use B.
+							 */
+							enum AISEmitterClass {
+								A = 0;
+								B = 1;
+							}
+							
+							/**
+							 * An AISEmitter is used to emit / send AISMessages. 
+							 * @note we distinguish between sensor (AISSensor) and emitter since not all available sensors are able to send own messages, e.g. small vessels like sailing yacht
+							 * (in fact this would lead to more traffic as the AIS network could handle)
+							 */
+							class AISEmitter extends Emitter {
+								val Time fixedAISInvterval;
+								val boolean sendInFixedInterval;
+								val AISEmitterClass aisEmitterClass;
+							}
+							
+							class AISPort extends ports.PositionPort { 
+								AISMeasurement 		getAISMeasurement() const; //returns the same value as PositionPort.measurement 	
+							}
+							
+							struct AISMeasurement extends measurements.PositionMeasurement {
+								int messageID; 
+							}
+							
+							
+//							struct AISObservation extends Observation {
+//								/**
+//								 * an locatable object, measured by the sensor
+//								 * in most cases, this object should be a vessel (e.g. Messages 1,2,3,5, ...) but could also be some kind of ATON in future
+//								 * 
+//								 * @note the object does not nessesary need to be part of an existing data model (e.g. could be a new created instance)
+//								 * @note if the sensor is able to identify objects the object.identifier should be set and used for unique identification
+//								 */
+//								ref PhysicalObject				object; 
+//								
+//								int messageID;
+//							}
+
+
+							/** 
+							 * Characteristic that indicates, that an Object has been captured / discovered through an AIS sensor
+							 */
+							class AISCharacteristic extends Characteristic {
+								/** contains the time of the last AIS measurement */
+								val Time				lastMeasurement;
+								/** the device that has been used */
+								ref AISPort				measurementDevice;
+							} 
+						}
+					}					
+				}
+			}
+		}		
+	}
+}	

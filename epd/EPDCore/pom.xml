@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.dlr-se.emir.epd</groupId>
+        <artifactId>epd</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>EPDCore</artifactId>
+	<name>EPDCore</name>
+    <description>This project contains all the core modules of the EPD.</description>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>AlertView</module>
+		<module>GeneralViews</module>
+		<module>MapView</module>
+		<module>DevelopementToolsPlugin</module>
+		<module>SimpleNMEASensor</module>
+		<module>AISViewer</module>
+		<module>MapMeasurements</module>
+		<module>EPDModel</module>
+		<module>OwnshipViewer</module>
+        <module>OwnShipAdapter</module>
+    </modules>
+</project>

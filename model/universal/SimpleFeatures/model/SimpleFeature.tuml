@@ -1,0 +1,67 @@
+#import "classpath:/model/Spatial.tuml"
+#import "classpath:/model/Core.tuml"
+ 
+using UCore.de.*;
+/** 
+* insert documentation for the model  
+* 
+*/
+Model SimpleFeature {  
+package de { 
+		package emir {
+			package model {
+				package universal {
+					package spatial {
+						package sf {
+							
+							abstract class MultiGeometry extends Geometry {
+							}
+							
+							<< ComplexAttributeType >>
+							struct Point extends Geometry {
+								val Coordinate coordinate;
+							}					
+							
+							<< ComplexAttributeType >>
+							struct LineString extends Geometry {
+								val CoordinateSequence		points;
+							}
+							
+							<< ComplexAttributeType >>
+							struct MultiLineString extends MultiGeometry {
+								val LineString[*]	lines;
+							}
+							
+							/** Same as the LineString but has to be closed (first coordinate has to be the same as the last) */
+							<< ComplexAttributeType >>
+							struct LinearRing extends LineString {
+								boolean isClosed();
+								/** closes the ring by copying the first coordinate to the point list, if not already closed */
+								void close();
+							}
+							
+							<< ComplexAttributeType >>
+							struct Polygon extends Geometry {
+								val LinearRing 			shell;
+								val LinearRing[*]		holes;
+							}
+							
+							<< ComplexAttributeType >>
+							struct MultiPolygon extends MultiGeometry {
+								val Polygon[*]			polygons;
+							}
+							
+							/** The WKTGeometry is a helper geometry, where the geometry is specified using a WKT (Well known text) String
+							 * the internal geometry (getNativeGeometry()) is determinated at runtime
+							 */
+							 << ComplexAttributeType >>
+							struct WKTGeometry extends Geometry {
+								String 	wkt;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}	

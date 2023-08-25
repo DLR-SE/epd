@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="ASCII"?>
+<uml:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_fieEIGPdEeat9ctxFs_QcQ" name="UCore">
+  <ownedComment xmi:id="_fieEIWPdEeat9ctxFs_QcQ" body="/** &#xD;&#xA;* insert documentation for the model &#xD;&#xA;* &#xD;&#xA;*/"/>
+  <packagedElement xsi:type="uml:Package" xmi:id="_fieEImPdEeat9ctxFs_QcQ" name="de">
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_fieEI2PdEeat9ctxFs_QcQ" name="int">
+      <redefinedClassifier xsi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </packagedElement>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_fieEJGPdEeat9ctxFs_QcQ" name="double">
+      <redefinedClassifier xsi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+    </packagedElement>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_fieEJWPdEeat9ctxFs_QcQ" name="float">
+      <redefinedClassifier xsi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+    </packagedElement>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_fieEJmPdEeat9ctxFs_QcQ" name="long">
+      <redefinedClassifier xsi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+    </packagedElement>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_fieEJ2PdEeat9ctxFs_QcQ" name="String">
+      <redefinedClassifier xsi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </packagedElement>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_fieEKGPdEeat9ctxFs_QcQ" name="void"/>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_fieEKWPdEeat9ctxFs_QcQ" name="Object"/>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_fieEKmPdEeat9ctxFs_QcQ" name="boolean">
+      <redefinedClassifier xsi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Package" xmi:id="_fieEK2PdEeat9ctxFs_QcQ" name="emir">
+      <packagedElement xsi:type="uml:Package" xmi:id="_fieELGPdEeat9ctxFs_QcQ" name="tuml">
+        <packagedElement xsi:type="uml:Package" xmi:id="_fieELWPdEeat9ctxFs_QcQ" name="ucore">
+          <packagedElement xsi:type="uml:Package" xmi:id="_fieELmPdEeat9ctxFs_QcQ" name="runtime">
+            <packagedElement xsi:type="uml:Package" xmi:id="_fieEL2PdEeat9ctxFs_QcQ" name="utils">
+              <packagedElement xsi:type="uml:Class" xmi:id="_fieEMGPdEeat9ctxFs_QcQ" name="QualifiedName">
+                <ownedAttribute xmi:id="_fieEMWPdEeat9ctxFs_QcQ" name="segments" type="_fieEJ2PdEeat9ctxFs_QcQ">
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_fieEMmPdEeat9ctxFs_QcQ" value="*"/>
+                </ownedAttribute>
+                <ownedOperation xmi:id="_fieEM2PdEeat9ctxFs_QcQ" name="toString">
+                  <eAnnotations xmi:id="_fieENGPdEeat9ctxFs_QcQ" source="const"/>
+                  <ownedParameter xmi:id="_fieENWPdEeat9ctxFs_QcQ" name="_return_" type="_fieEJ2PdEeat9ctxFs_QcQ" direction="return"/>
+                  <ownedParameter xmi:id="_fieENmPdEeat9ctxFs_QcQ" name="delimiter" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_fieEN2PdEeat9ctxFs_QcQ" name="numSegments">
+                  <eAnnotations xmi:id="_fieEOGPdEeat9ctxFs_QcQ" source="const"/>
+                  <ownedParameter xmi:id="_fieEOWPdEeat9ctxFs_QcQ" name="_return_" type="_fieEI2PdEeat9ctxFs_QcQ" direction="return"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_fieEOmPdEeat9ctxFs_QcQ" name="removeSegmentsFromEnd">
+                  <ownedParameter xmi:id="_fieEO2PdEeat9ctxFs_QcQ" name="_return_" type="_fieEMGPdEeat9ctxFs_QcQ" direction="return"/>
+                  <ownedParameter xmi:id="_fieEPGPdEeat9ctxFs_QcQ" name="num" type="_fieEI2PdEeat9ctxFs_QcQ"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_fieEPWPdEeat9ctxFs_QcQ" name="localRemoveSegmentsFromEnd">
+                  <ownedParameter xmi:id="_fieEPmPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+                  <ownedParameter xmi:id="_fieEP2PdEeat9ctxFs_QcQ" name="num" type="_fieEI2PdEeat9ctxFs_QcQ"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_fieEQGPdEeat9ctxFs_QcQ" name="removeSegmentsFromStart">
+                  <ownedParameter xmi:id="_fieEQWPdEeat9ctxFs_QcQ" name="_return_" type="_fieEMGPdEeat9ctxFs_QcQ" direction="return"/>
+                  <ownedParameter xmi:id="_fieEQmPdEeat9ctxFs_QcQ" name="num" type="_fieEI2PdEeat9ctxFs_QcQ"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_fieEQ2PdEeat9ctxFs_QcQ" name="localRemoveSegmentsFromStart">
+                  <ownedParameter xmi:id="_fieERGPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+                  <ownedParameter xmi:id="_fieERWPdEeat9ctxFs_QcQ" name="num" type="_fieEI2PdEeat9ctxFs_QcQ"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_fieERmPdEeat9ctxFs_QcQ" name="appendFront">
+                  <ownedParameter xmi:id="_fieER2PdEeat9ctxFs_QcQ" name="_return_" type="_fieEMGPdEeat9ctxFs_QcQ" direction="return"/>
+                  <ownedParameter xmi:id="_fieESGPdEeat9ctxFs_QcQ" name="segment" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_fieESWPdEeat9ctxFs_QcQ" name="localAppendFront">
+                  <ownedParameter xmi:id="_fieESmPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+                  <ownedParameter xmi:id="_fieES2PdEeat9ctxFs_QcQ" name="segment" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_fieETGPdEeat9ctxFs_QcQ" name="appendBack">
+                  <ownedParameter xmi:id="_fieETWPdEeat9ctxFs_QcQ" name="_return_" type="_fieEMGPdEeat9ctxFs_QcQ" direction="return"/>
+                  <ownedParameter xmi:id="_fieETmPdEeat9ctxFs_QcQ" name="segment" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_fieET2PdEeat9ctxFs_QcQ" name="localAppendBack">
+                  <ownedParameter xmi:id="_fieEUGPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+                  <ownedParameter xmi:id="_fieEUWPdEeat9ctxFs_QcQ" name="segment" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_fieEUmPdEeat9ctxFs_QcQ" name="lastSegment">
+                  <eAnnotations xmi:id="_fieEU2PdEeat9ctxFs_QcQ" source="const"/>
+                  <ownedParameter xmi:id="_fieEVGPdEeat9ctxFs_QcQ" name="_return_" type="_fieEJ2PdEeat9ctxFs_QcQ" direction="return"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_fieEVWPdEeat9ctxFs_QcQ" name="firstSegment">
+                  <eAnnotations xmi:id="_fieEVmPdEeat9ctxFs_QcQ" source="const"/>
+                  <ownedParameter xmi:id="_fieEV2PdEeat9ctxFs_QcQ" name="_return_" type="_fieEJ2PdEeat9ctxFs_QcQ" direction="return"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_fieEWGPdEeat9ctxFs_QcQ" name="segment">
+                  <eAnnotations xmi:id="_fieEWWPdEeat9ctxFs_QcQ" source="const"/>
+                  <ownedParameter xmi:id="_fieEWmPdEeat9ctxFs_QcQ" name="_return_" type="_fieEJ2PdEeat9ctxFs_QcQ" direction="return"/>
+                  <ownedParameter xmi:id="_fieEW2PdEeat9ctxFs_QcQ" name="idx" type="_fieEI2PdEeat9ctxFs_QcQ"/>
+                </ownedOperation>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_fieEXGPdEeat9ctxFs_QcQ" name="QualifiedNameProvider">
+                <ownedComment xmi:id="_fieEXWPdEeat9ctxFs_QcQ" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9; * creates a qualified name for an UObject&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9; * therefore the QualifiedNameProvider checks the objects's class&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9; * if it contains a name feature&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9; */"/>
+                <ownedOperation xmi:id="_fieEXmPdEeat9ctxFs_QcQ" name="get">
+                  <eAnnotations xmi:id="_fieEX2PdEeat9ctxFs_QcQ" source="const"/>
+                  <ownedComment xmi:id="_fieEYGPdEeat9ctxFs_QcQ" body="/** creates a qualified name for the given object, by appending&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; * the value of the &quot;name&quot; feature of the object itself and all of its parents&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; */"/>
+                  <ownedParameter xmi:id="_fieEYWPdEeat9ctxFs_QcQ" name="_return_" type="_fieEMGPdEeat9ctxFs_QcQ" direction="return"/>
+                  <ownedParameter xmi:id="_fieEYmPdEeat9ctxFs_QcQ" name="obj" type="_fierMGPdEeat9ctxFs_QcQ"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_fieEY2PdEeat9ctxFs_QcQ" name="get">
+                  <eAnnotations xmi:id="_fieEZGPdEeat9ctxFs_QcQ" source="const"/>
+                  <ownedComment xmi:id="_fieEZWPdEeat9ctxFs_QcQ" body="/** &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; * creates a qualified name for the given object, that has a limited length&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; */"/>
+                  <ownedParameter xmi:id="_fieEZmPdEeat9ctxFs_QcQ" name="_return_" type="_fieEMGPdEeat9ctxFs_QcQ" direction="return"/>
+                  <ownedParameter xmi:id="_fieEZ2PdEeat9ctxFs_QcQ" name="obj" type="_fierMGPdEeat9ctxFs_QcQ"/>
+                  <ownedParameter xmi:id="_fieEaGPdEeat9ctxFs_QcQ" name="depth" type="_fieEI2PdEeat9ctxFs_QcQ"/>
+                </ownedOperation>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_fieEaWPdEeat9ctxFs_QcQ" name="QualifiedNameProviderExt">
+                <ownedComment xmi:id="_fieEamPdEeat9ctxFs_QcQ" body="/** extends the QualifiedNameProvider for the capability to use different &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9; * features to get the name&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9; */"/>
+                <generalization xmi:id="_fieEa2PdEeat9ctxFs_QcQ" general="_fieEXGPdEeat9ctxFs_QcQ"/>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_fieEbGPdEeat9ctxFs_QcQ" memberEnd="_fieEbmPdEeat9ctxFs_QcQ _fieEb2PdEeat9ctxFs_QcQ" navigableOwnedEnd="_fieEb2PdEeat9ctxFs_QcQ">
+                  <ownedComment xmi:id="_fieEbWPdEeat9ctxFs_QcQ" body="/** the QualifiedNameProviderExt checks if the UObject contains one of the &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; * nameFeatures, and uses this to create the name&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; * @note if more than one feature is available, the first matching feature fires&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; */"/>
+                  <ownedEnd xmi:id="_fieEbmPdEeat9ctxFs_QcQ" name="_nameFeatures_" type="_fieEaWPdEeat9ctxFs_QcQ" association="_fieEbGPdEeat9ctxFs_QcQ"/>
+                  <ownedEnd xmi:id="_fieEb2PdEeat9ctxFs_QcQ" name="nameFeatures" type="_fiesDWPdEeat9ctxFs_QcQ" aggregation="composite" association="_fieEbGPdEeat9ctxFs_QcQ">
+                    <ownedComment xmi:id="_fieEcGPdEeat9ctxFs_QcQ" body="/** the QualifiedNameProviderExt checks if the UObject contains one of the &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; * nameFeatures, and uses this to create the name&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; * @note if more than one feature is available, the first matching feature fires&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; */"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fieEcWPdEeat9ctxFs_QcQ"/>
+                    <upperValue xsi:type="uml:LiteralString" xmi:id="_fieEcmPdEeat9ctxFs_QcQ" value="*"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Interface" xmi:id="_fieEc2PdEeat9ctxFs_QcQ" name="Pointer">
+                <ownedComment xmi:id="_fieEdGPdEeat9ctxFs_QcQ" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * A abstract pointer to an element into an object tree. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * In contrast to pointer in C++ or other languages, this pointer is not pointing to a specific &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * object, but an position inside an object hierarchy, thus the underlying object may change, even if the &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * pointer remains the same. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedOperation xmi:id="_fieEdWPdEeat9ctxFs_QcQ" name="getValue">
+                  <eAnnotations xmi:id="_fieEdmPdEeat9ctxFs_QcQ" source="const"/>
+                  <ownedComment xmi:id="_fieEd2PdEeat9ctxFs_QcQ" body="/** @returns the object, this pointer currently points on or null if not valid */"/>
+                  <ownedParameter xmi:id="_fieEeGPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKWPdEeat9ctxFs_QcQ" direction="return"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_fieEeWPdEeat9ctxFs_QcQ" name="setValue">
+                  <ownedComment xmi:id="_fieEemPdEeat9ctxFs_QcQ" body="/** sets the value of the pointed instance&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * the setValue behavior depends on the kind of pointer&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * - if the pointer is a FeaturePointer: &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * -- if the feature is a list and the listIndex is invalid (&lt;0) the value (if not null) is added to the list&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * -- if the feature is a list and the listIndex is valid, the value is set to the corresponding index in the list&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * -- if the feature is not a list and the value is not null, the feature value will be set (corresponds to eSet)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * -- if the feature is not a list and the value is null, eUnSet is called. This not necessarily results in setting the value to null, but to its default value&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * - if the pointer is a ObjectPointer, the instance is changed&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedParameter xmi:id="_fieEe2PdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+                  <ownedParameter xmi:id="_fieEfGPdEeat9ctxFs_QcQ" name="value" type="_fieEKWPdEeat9ctxFs_QcQ"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_fieEfWPdEeat9ctxFs_QcQ" name="assign">
+                  <ownedComment xmi:id="_fieEfmPdEeat9ctxFs_QcQ" body="/** &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Assign differs from setValue, in that case that the directly pointed instance is not changed, but &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * all feature values from incoming value will be copied to the pointed instance. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Features that are not part of the pointed instance, but can be found in the value, will be ignored &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Therefore this method may be used, if the incoming value is a superclass of the pointed instance&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * (e.g. pointer(Type: PhysicalObject)->assign(Type: Vessel))&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @param copyContainments if set to true, the value of a containment feature is copied otherwise it is simply set. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedParameter xmi:id="_fieEf2PdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+                  <ownedParameter xmi:id="_fieEgGPdEeat9ctxFs_QcQ" name="value" type="_fieEKWPdEeat9ctxFs_QcQ"/>
+                  <ownedParameter xmi:id="_fieEgWPdEeat9ctxFs_QcQ" name="copyContainments" type="_fieEKmPdEeat9ctxFs_QcQ"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_fieEgmPdEeat9ctxFs_QcQ" name="isValid">
+                  <eAnnotations xmi:id="_fieEg2PdEeat9ctxFs_QcQ" source="const"/>
+                  <ownedComment xmi:id="_fieEhGPdEeat9ctxFs_QcQ" body="/** @returns true if the pointer is currently pointing to an existing object */"/>
+                  <ownedParameter xmi:id="_fieEhWPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKmPdEeat9ctxFs_QcQ" direction="return"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_fieEhmPdEeat9ctxFs_QcQ" name="getType">
+                  <eAnnotations xmi:id="_fieEh2PdEeat9ctxFs_QcQ" source="const"/>
+                  <ownedComment xmi:id="_fieEiGPdEeat9ctxFs_QcQ" body="/** returns the type of the object, this pointer currently points on or null if not valid */"/>
+                  <ownedParameter xmi:id="_fieEiWPdEeat9ctxFs_QcQ" name="_return_" type="_fiergGPdEeat9ctxFs_QcQ" direction="return"/>
+                </ownedOperation>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_fieEimPdEeat9ctxFs_QcQ" name="ObjectPointer">
+                <interfaceRealization xmi:id="_fieEi2PdEeat9ctxFs_QcQ" client="_fieEimPdEeat9ctxFs_QcQ _fieEimPdEeat9ctxFs_QcQ" supplier="_fieEc2PdEeat9ctxFs_QcQ" contract="_fieEc2PdEeat9ctxFs_QcQ"/>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_fieEjGPdEeat9ctxFs_QcQ" memberEnd="_fieEjWPdEeat9ctxFs_QcQ _fieEjmPdEeat9ctxFs_QcQ" navigableOwnedEnd="_fieEjmPdEeat9ctxFs_QcQ">
+                  <ownedEnd xmi:id="_fieEjWPdEeat9ctxFs_QcQ" name="_theInstance_" type="_fieEimPdEeat9ctxFs_QcQ" association="_fieEjGPdEeat9ctxFs_QcQ"/>
+                  <ownedEnd xmi:id="_fieEjmPdEeat9ctxFs_QcQ" name="theInstance" type="_fierMGPdEeat9ctxFs_QcQ" aggregation="shared" association="_fieEjGPdEeat9ctxFs_QcQ">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fieEj2PdEeat9ctxFs_QcQ"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_fieEkGPdEeat9ctxFs_QcQ" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_fieEkWPdEeat9ctxFs_QcQ" name="FeaturePointer">
+                <ownedAttribute xmi:id="_fieEkmPdEeat9ctxFs_QcQ" name="listIndex" type="_fieEI2PdEeat9ctxFs_QcQ"/>
+                <interfaceRealization xmi:id="_fieEk2PdEeat9ctxFs_QcQ" client="_fieEkWPdEeat9ctxFs_QcQ _fieEkWPdEeat9ctxFs_QcQ" supplier="_fieEc2PdEeat9ctxFs_QcQ" contract="_fieEc2PdEeat9ctxFs_QcQ"/>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_fieElGPdEeat9ctxFs_QcQ" memberEnd="_fieElWPdEeat9ctxFs_QcQ _fieElmPdEeat9ctxFs_QcQ" navigableOwnedEnd="_fieElmPdEeat9ctxFs_QcQ">
+                  <ownedEnd xmi:id="_fieElWPdEeat9ctxFs_QcQ" name="_theInstance_" type="_fieEkWPdEeat9ctxFs_QcQ" association="_fieElGPdEeat9ctxFs_QcQ"/>
+                  <ownedEnd xmi:id="_fieElmPdEeat9ctxFs_QcQ" name="theInstance" type="_fierMGPdEeat9ctxFs_QcQ" aggregation="shared" association="_fieElGPdEeat9ctxFs_QcQ">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fieEl2PdEeat9ctxFs_QcQ"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_fieEmGPdEeat9ctxFs_QcQ" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_fieEmWPdEeat9ctxFs_QcQ" memberEnd="_fieEmmPdEeat9ctxFs_QcQ _fieEm2PdEeat9ctxFs_QcQ" navigableOwnedEnd="_fieEm2PdEeat9ctxFs_QcQ">
+                  <ownedEnd xmi:id="_fieEmmPdEeat9ctxFs_QcQ" name="_feature_" type="_fieEkWPdEeat9ctxFs_QcQ" association="_fieEmWPdEeat9ctxFs_QcQ"/>
+                  <ownedEnd xmi:id="_fieEm2PdEeat9ctxFs_QcQ" name="feature" type="_fiesDWPdEeat9ctxFs_QcQ" aggregation="shared" association="_fieEmWPdEeat9ctxFs_QcQ">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fieEnGPdEeat9ctxFs_QcQ"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_fieEnWPdEeat9ctxFs_QcQ" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_fieEnmPdEeat9ctxFs_QcQ" name="PointerChain">
+                <generalization xmi:id="_fieEn2PdEeat9ctxFs_QcQ" general="_fieEkWPdEeat9ctxFs_QcQ"/>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_fieEoGPdEeat9ctxFs_QcQ" memberEnd="_fieEoWPdEeat9ctxFs_QcQ _fieEomPdEeat9ctxFs_QcQ" navigableOwnedEnd="_fieEomPdEeat9ctxFs_QcQ">
+                  <ownedEnd xmi:id="_fieEoWPdEeat9ctxFs_QcQ" name="_parent_" type="_fieEnmPdEeat9ctxFs_QcQ" association="_fieEoGPdEeat9ctxFs_QcQ"/>
+                  <ownedEnd xmi:id="_fieEomPdEeat9ctxFs_QcQ" name="parent" type="_fieEc2PdEeat9ctxFs_QcQ" aggregation="composite" association="_fieEoGPdEeat9ctxFs_QcQ">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fieEo2PdEeat9ctxFs_QcQ"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_fieEpGPdEeat9ctxFs_QcQ" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fieEpWPdEeat9ctxFs_QcQ" name="UAnnotationDetail">
+              <ownedAttribute xmi:id="_fieEpmPdEeat9ctxFs_QcQ" name="key" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              <ownedAttribute xmi:id="_fieEp2PdEeat9ctxFs_QcQ" name="value" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fieEqGPdEeat9ctxFs_QcQ" name="UAnnotation">
+              <ownedAttribute xmi:id="_fieEqWPdEeat9ctxFs_QcQ" name="name" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              <ownedOperation xmi:id="_fieEqmPdEeat9ctxFs_QcQ" name="getDetail">
+                <ownedParameter xmi:id="_fieEq2PdEeat9ctxFs_QcQ" name="_return_" type="_fieEpWPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fieErGPdEeat9ctxFs_QcQ" name="key" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_fieErWPdEeat9ctxFs_QcQ" memberEnd="_fieErmPdEeat9ctxFs_QcQ _fieEr2PdEeat9ctxFs_QcQ" navigableOwnedEnd="_fieEr2PdEeat9ctxFs_QcQ">
+                <ownedEnd xmi:id="_fieErmPdEeat9ctxFs_QcQ" name="_details_" type="_fieEqGPdEeat9ctxFs_QcQ" association="_fieErWPdEeat9ctxFs_QcQ"/>
+                <ownedEnd xmi:id="_fieEr2PdEeat9ctxFs_QcQ" name="details" type="_fieEpWPdEeat9ctxFs_QcQ" aggregation="composite" association="_fieErWPdEeat9ctxFs_QcQ">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fieEsGPdEeat9ctxFs_QcQ"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_fieEsWPdEeat9ctxFs_QcQ" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fieEsmPdEeat9ctxFs_QcQ" name="UModelElement" isAbstract="true">
+              <ownedAttribute xmi:id="_fieEs2PdEeat9ctxFs_QcQ" name="documentation" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              <ownedOperation xmi:id="_fieEtGPdEeat9ctxFs_QcQ" name="freeze">
+                <ownedComment xmi:id="_fieEtWPdEeat9ctxFs_QcQ" body="/** mark the meta data to be freezed, in this case, it can not be changed anymore */"/>
+                <ownedParameter xmi:id="_fieEtmPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fieEt2PdEeat9ctxFs_QcQ" name="isFrozen">
+                <eAnnotations xmi:id="_fieEuGPdEeat9ctxFs_QcQ" source="const"/>
+                <ownedComment xmi:id="_fieEuWPdEeat9ctxFs_QcQ" body="/** check if the meta data has been freezed */"/>
+                <ownedParameter xmi:id="_fieEumPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKmPdEeat9ctxFs_QcQ" direction="return"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fieEu2PdEeat9ctxFs_QcQ" name="getAnnotation">
+                <ownedParameter xmi:id="_fieEvGPdEeat9ctxFs_QcQ" name="_return_" type="_fieEqGPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fieEvWPdEeat9ctxFs_QcQ" name="name" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fieEvmPdEeat9ctxFs_QcQ" name="getAnnotationDetail">
+                <ownedParameter xmi:id="_fieEv2PdEeat9ctxFs_QcQ" name="_return_" type="_fieEpWPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fieEwGPdEeat9ctxFs_QcQ" name="name" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+                <ownedParameter xmi:id="_fieEwWPdEeat9ctxFs_QcQ" name="key" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fieEwmPdEeat9ctxFs_QcQ" name="build" isAbstract="true">
+                <ownedComment xmi:id="_fieEw2PdEeat9ctxFs_QcQ" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * initializes the model element, e.g. create private member for reflection access&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_fieExGPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_fieExWPdEeat9ctxFs_QcQ" memberEnd="_fieExmPdEeat9ctxFs_QcQ _fieEx2PdEeat9ctxFs_QcQ" navigableOwnedEnd="_fieEx2PdEeat9ctxFs_QcQ">
+                <ownedEnd xmi:id="_fieExmPdEeat9ctxFs_QcQ" name="_annotations_" type="_fieEsmPdEeat9ctxFs_QcQ" association="_fieExWPdEeat9ctxFs_QcQ"/>
+                <ownedEnd xmi:id="_fieEx2PdEeat9ctxFs_QcQ" name="annotations" type="_fieEqGPdEeat9ctxFs_QcQ" aggregation="composite" association="_fieExWPdEeat9ctxFs_QcQ">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fieEyGPdEeat9ctxFs_QcQ"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_fieEyWPdEeat9ctxFs_QcQ" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_fieEymPdEeat9ctxFs_QcQ" memberEnd="_fieEy2PdEeat9ctxFs_QcQ _fieEzGPdEeat9ctxFs_QcQ" navigableOwnedEnd="_fieEzGPdEeat9ctxFs_QcQ">
+                <ownedEnd xmi:id="_fieEy2PdEeat9ctxFs_QcQ" name="_package_" type="_fieEsmPdEeat9ctxFs_QcQ" association="_fieEymPdEeat9ctxFs_QcQ"/>
+                <ownedEnd xmi:id="_fieEzGPdEeat9ctxFs_QcQ" name="package" type="_fieE4GPdEeat9ctxFs_QcQ" aggregation="shared" association="_fieEymPdEeat9ctxFs_QcQ">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fieEzWPdEeat9ctxFs_QcQ" value="1"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_fieEzmPdEeat9ctxFs_QcQ" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fieEz2PdEeat9ctxFs_QcQ" name="UNamedElement" isAbstract="true">
+              <generalization xmi:id="_fieE0GPdEeat9ctxFs_QcQ" general="_fieEsmPdEeat9ctxFs_QcQ"/>
+              <ownedAttribute xmi:id="_fieE0WPdEeat9ctxFs_QcQ" name="name" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              <ownedOperation xmi:id="_fieE0mPdEeat9ctxFs_QcQ" name="getQualifiedName">
+                <eAnnotations xmi:id="_fieE02PdEeat9ctxFs_QcQ" source="const"/>
+                <ownedParameter xmi:id="_fieE1GPdEeat9ctxFs_QcQ" name="_return_" type="_fieEMGPdEeat9ctxFs_QcQ" direction="return"/>
+              </ownedOperation>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fieE1WPdEeat9ctxFs_QcQ" name="UModel">
+              <generalization xmi:id="_fieE1mPdEeat9ctxFs_QcQ" general="_fieEsmPdEeat9ctxFs_QcQ"/>
+              <ownedAttribute xmi:id="_fieE12PdEeat9ctxFs_QcQ" name="modelName" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              <ownedAttribute xmi:id="_fieE2GPdEeat9ctxFs_QcQ" name="fieldOfApplication" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              <ownedAttribute xmi:id="_fieE2WPdEeat9ctxFs_QcQ" name="scope" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              <ownedAttribute xmi:id="_fieE2mPdEeat9ctxFs_QcQ" name="versionDate" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_fieE22PdEeat9ctxFs_QcQ" memberEnd="_fieE3GPdEeat9ctxFs_QcQ _fieE3WPdEeat9ctxFs_QcQ" navigableOwnedEnd="_fieE3WPdEeat9ctxFs_QcQ">
+                <ownedEnd xmi:id="_fieE3GPdEeat9ctxFs_QcQ" name="_rootPackage_" type="_fieE1WPdEeat9ctxFs_QcQ" association="_fieE22PdEeat9ctxFs_QcQ"/>
+                <ownedEnd xmi:id="_fieE3WPdEeat9ctxFs_QcQ" name="rootPackage" type="_fieE4GPdEeat9ctxFs_QcQ" aggregation="composite" association="_fieE22PdEeat9ctxFs_QcQ">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fieE3mPdEeat9ctxFs_QcQ"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_fieE32PdEeat9ctxFs_QcQ" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fieE4GPdEeat9ctxFs_QcQ" name="UPackage">
+              <generalization xmi:id="_fieE4WPdEeat9ctxFs_QcQ" general="_fieEz2PdEeat9ctxFs_QcQ"/>
+              <ownedOperation xmi:id="_fieE4mPdEeat9ctxFs_QcQ" name="createPackage">
+                <ownedComment xmi:id="_fieE42PdEeat9ctxFs_QcQ" body="/** &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * creates a new sub package of this package&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note if the package allready exists (getSubpackage(name, true)) the existing package is returned&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_fieE5GPdEeat9ctxFs_QcQ" name="_return_" type="_fieE4GPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fieE5WPdEeat9ctxFs_QcQ" name="name" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fieE5mPdEeat9ctxFs_QcQ" name="createInterface">
+                <ownedComment xmi:id="_fieE52PdEeat9ctxFs_QcQ" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * creates a new interface within this package&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @precondition isFrozen() == false&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_fieE6GPdEeat9ctxFs_QcQ" name="_return_" type="_fierrGPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fieE6WPdEeat9ctxFs_QcQ" name="name" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fieE6mPdEeat9ctxFs_QcQ" name="createClass">
+                <ownedComment xmi:id="_fieE62PdEeat9ctxFs_QcQ" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * creates a new class within this package&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @precondition isFrozen() == false&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_fieE7GPdEeat9ctxFs_QcQ" name="_return_" type="_fierrmPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fieE7WPdEeat9ctxFs_QcQ" name="name" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fieE7mPdEeat9ctxFs_QcQ" name="createEnumeration">
+                <ownedComment xmi:id="_fieE72PdEeat9ctxFs_QcQ" body="/** &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * creates a new enumeration in this package&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @precondition isFrozen() == false&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_fieE8GPdEeat9ctxFs_QcQ" name="_return_" type="_fierxGPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fieE8WPdEeat9ctxFs_QcQ" name="name" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fieE8mPdEeat9ctxFs_QcQ" name="getSubpackage">
+                <eAnnotations xmi:id="_fieE82PdEeat9ctxFs_QcQ" source="const"/>
+                <ownedComment xmi:id="_fieE9GPdEeat9ctxFs_QcQ" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * returns the subpackage with the given namen, if it exists&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @param name the name of the subpackage&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @param ownedOnly if set to true, only this package is checked for the subpackage, otherwise&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * all owned subpackages (getContent().filter(typeof(UPackage))) will be checked too. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_fieE9WPdEeat9ctxFs_QcQ" name="_return_" type="_fieE4GPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fieE9mPdEeat9ctxFs_QcQ" name="name" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+                <ownedParameter xmi:id="_fieE92PdEeat9ctxFs_QcQ" name="ownedOnly" type="_fieEKmPdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fieE-GPdEeat9ctxFs_QcQ" name="getClassifier">
+                <eAnnotations xmi:id="_fieE-WPdEeat9ctxFs_QcQ" source="const"/>
+                <ownedParameter xmi:id="_fieE-mPdEeat9ctxFs_QcQ" name="_return_" type="_fiergGPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fieE-2PdEeat9ctxFs_QcQ" name="name" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+                <ownedParameter xmi:id="_fieE_GPdEeat9ctxFs_QcQ" name="ownedOnly" type="_fieEKmPdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fieE_WPdEeat9ctxFs_QcQ" name="getClassifier">
+                <eAnnotations xmi:id="_fieE_mPdEeat9ctxFs_QcQ" source="const"/>
+                <ownedParameter xmi:id="_fieE_2PdEeat9ctxFs_QcQ" name="_return_" type="_fiergGPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fieFAGPdEeat9ctxFs_QcQ" name="qn" type="_fieEMGPdEeat9ctxFs_QcQ"/>
+                <ownedParameter xmi:id="_fieFAWPdEeat9ctxFs_QcQ" name="ownedOnly" type="_fieEKmPdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_fieFAmPdEeat9ctxFs_QcQ" memberEnd="_fieFA2PdEeat9ctxFs_QcQ _fieFBGPdEeat9ctxFs_QcQ" navigableOwnedEnd="_fieFBGPdEeat9ctxFs_QcQ">
+                <ownedEnd xmi:id="_fieFA2PdEeat9ctxFs_QcQ" name="_content_" type="_fieE4GPdEeat9ctxFs_QcQ" association="_fieFAmPdEeat9ctxFs_QcQ"/>
+                <ownedEnd xmi:id="_fieFBGPdEeat9ctxFs_QcQ" name="content" type="_fieEsmPdEeat9ctxFs_QcQ" aggregation="composite" association="_fieFAmPdEeat9ctxFs_QcQ">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fieFBWPdEeat9ctxFs_QcQ"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_fieFBmPdEeat9ctxFs_QcQ" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Enumeration" xmi:id="_fieFB2PdEeat9ctxFs_QcQ" name="NotificationType">
+              <ownedLiteral xmi:id="_fieFCGPdEeat9ctxFs_QcQ" name="SET">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_fieFCWPdEeat9ctxFs_QcQ"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_fieFCmPdEeat9ctxFs_QcQ" name="UNSET">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_fieFC2PdEeat9ctxFs_QcQ" value="1"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_fieFDGPdEeat9ctxFs_QcQ" name="ADD">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_fieFDWPdEeat9ctxFs_QcQ" value="2"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_fieFDmPdEeat9ctxFs_QcQ" name="ADD_MANY">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_fieFD2PdEeat9ctxFs_QcQ" value="3"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_fieFEGPdEeat9ctxFs_QcQ" name="REMOVE">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_fieFEWPdEeat9ctxFs_QcQ" value="4"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_fieFEmPdEeat9ctxFs_QcQ" name="REMOVE_MANY">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_fieFE2PdEeat9ctxFs_QcQ" value="5"/>
+              </ownedLiteral>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fieFFGPdEeat9ctxFs_QcQ" name="Notification">
+              <ownedAttribute xmi:id="_fieFFWPdEeat9ctxFs_QcQ" name="type" type="_fieFB2PdEeat9ctxFs_QcQ"/>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_fieFFmPdEeat9ctxFs_QcQ" memberEnd="_fieFF2PdEeat9ctxFs_QcQ _fieFGGPdEeat9ctxFs_QcQ" navigableOwnedEnd="_fieFGGPdEeat9ctxFs_QcQ">
+                <ownedEnd xmi:id="_fieFF2PdEeat9ctxFs_QcQ" name="_instance_" type="_fieFFGPdEeat9ctxFs_QcQ" association="_fieFFmPdEeat9ctxFs_QcQ"/>
+                <ownedEnd xmi:id="_fieFGGPdEeat9ctxFs_QcQ" name="instance" type="_fierMGPdEeat9ctxFs_QcQ" aggregation="shared" association="_fieFFmPdEeat9ctxFs_QcQ">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fieFGWPdEeat9ctxFs_QcQ"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_fieFGmPdEeat9ctxFs_QcQ" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_fieFG2PdEeat9ctxFs_QcQ" memberEnd="_fieFHGPdEeat9ctxFs_QcQ _fieFHWPdEeat9ctxFs_QcQ" navigableOwnedEnd="_fieFHWPdEeat9ctxFs_QcQ">
+                <ownedEnd xmi:id="_fieFHGPdEeat9ctxFs_QcQ" name="_feature_" type="_fieFFGPdEeat9ctxFs_QcQ" association="_fieFG2PdEeat9ctxFs_QcQ"/>
+                <ownedEnd xmi:id="_fieFHWPdEeat9ctxFs_QcQ" name="feature" type="_fiesDWPdEeat9ctxFs_QcQ" aggregation="shared" association="_fieFG2PdEeat9ctxFs_QcQ">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fieFHmPdEeat9ctxFs_QcQ"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_fieFH2PdEeat9ctxFs_QcQ" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Interface" xmi:id="_fieFIGPdEeat9ctxFs_QcQ" name="IValueChangeListener">
+              <ownedOperation xmi:id="_fieFIWPdEeat9ctxFs_QcQ" name="onValueChange">
+                <ownedComment xmi:id="_fieFImPdEeat9ctxFs_QcQ" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * This method is called, when a feature has changed&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @warn normally the new value has not been applied when this method is called. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * To get access to the new value, use notification.getNewValue()&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_fieFI2PdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fieFJGPdEeat9ctxFs_QcQ" name="notification" type="_fieFFGPdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fierMGPdEeat9ctxFs_QcQ" name="UObject" isAbstract="true">
+              <ownedOperation xmi:id="_fierMWPdEeat9ctxFs_QcQ" name="registerListener">
+                <ownedComment xmi:id="_fierMmPdEeat9ctxFs_QcQ" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * register a listener that is notified, whenever the value of an structural feature changes&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note an instance of listener can only be registered once, if the listener instance is already&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * registered, this method has no effect&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note this listener will be notified for each change, if you would like to have a selective&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * notification, use registerListener(feature, listener)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_fierM2PdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fierNGPdEeat9ctxFs_QcQ" name="listener" type="_fieFIGPdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fierNWPdEeat9ctxFs_QcQ" name="registerListener">
+                <ownedComment xmi:id="_fierNmPdEeat9ctxFs_QcQ" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * registers a listener that is notified, only if the value of the given feature changes&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note an instance of IValueChangeListener can only be registered once per UStructuralFeature. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * If this listener instance is already registered, this method has no effect. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_fierN2PdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fierOGPdEeat9ctxFs_QcQ" name="feature" type="_fiesDWPdEeat9ctxFs_QcQ"/>
+                <ownedParameter xmi:id="_fierOWPdEeat9ctxFs_QcQ" name="listener" type="_fieFIGPdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fierOmPdEeat9ctxFs_QcQ" name="removeClassifierListener">
+                <ownedComment xmi:id="_fierO2PdEeat9ctxFs_QcQ" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * removes the listener&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note if the same instance of the listener has also been registered for an specific structural feature&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * this registration is not touched. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_fierPGPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fierPWPdEeat9ctxFs_QcQ" name="listener" type="_fieFIGPdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fierPmPdEeat9ctxFs_QcQ" name="removeListener">
+                <ownedComment xmi:id="_fierP2PdEeat9ctxFs_QcQ" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * removes the listener from notification for the given feature. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note if the same instance of the listener has also been registered for any other feature, or for the whole class&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * this registrations are not touched&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_fierQGPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fierQWPdEeat9ctxFs_QcQ" name="feature" type="_fiesDWPdEeat9ctxFs_QcQ"/>
+                <ownedParameter xmi:id="_fierQmPdEeat9ctxFs_QcQ" name="listener" type="_fieFIGPdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fierQ2PdEeat9ctxFs_QcQ" name="removeAllListener">
+                <ownedComment xmi:id="_fierRGPdEeat9ctxFs_QcQ" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * removes all listener for the given feature&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note if a listener for the whole class has been registered, this registration is not touched. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_fierRWPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fierRmPdEeat9ctxFs_QcQ" name="feature" type="_fiesDWPdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fierR2PdEeat9ctxFs_QcQ" name="removeAllClassifierListener">
+                <ownedComment xmi:id="_fierSGPdEeat9ctxFs_QcQ" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * removes all listener that has not been registered for a specific structural feature. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_fierSWPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fierSmPdEeat9ctxFs_QcQ" name="removeListener">
+                <ownedComment xmi:id="_fierS2PdEeat9ctxFs_QcQ" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * completly remove the listener from this UObject instance&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_fierTGPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fierTWPdEeat9ctxFs_QcQ" name="listener" type="_fieFIGPdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fierTmPdEeat9ctxFs_QcQ" name="needNotification">
+                <eAnnotations xmi:id="_fierT2PdEeat9ctxFs_QcQ" source="const"/>
+                <ownedParameter xmi:id="_fierUGPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKmPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fierUWPdEeat9ctxFs_QcQ" name="feature" type="_fiesDWPdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fierUmPdEeat9ctxFs_QcQ" name="unset">
+                <ownedParameter xmi:id="_fierU2PdEeat9ctxFs_QcQ" name="_return_" type="_fieEKWPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fierVGPdEeat9ctxFs_QcQ" name="feature" type="_fiesDWPdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fierVWPdEeat9ctxFs_QcQ" name="uGet">
+                <ownedParameter xmi:id="_fierVmPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKWPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fierV2PdEeat9ctxFs_QcQ" name="feature" type="_fiesDWPdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fierWGPdEeat9ctxFs_QcQ" name="uGet">
+                <ownedParameter xmi:id="_fierWWPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKWPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fierWmPdEeat9ctxFs_QcQ" name="feature" type="_fiesDWPdEeat9ctxFs_QcQ"/>
+                <ownedParameter xmi:id="_fierW2PdEeat9ctxFs_QcQ" name="index" type="_fieEI2PdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fierXGPdEeat9ctxFs_QcQ" name="uSet">
+                <ownedParameter xmi:id="_fierXWPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fierXmPdEeat9ctxFs_QcQ" name="feature" type="_fiesDWPdEeat9ctxFs_QcQ"/>
+                <ownedParameter xmi:id="_fierX2PdEeat9ctxFs_QcQ" name="value" type="_fieEKWPdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fierYGPdEeat9ctxFs_QcQ" name="uAdd">
+                <ownedParameter xmi:id="_fierYWPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fierYmPdEeat9ctxFs_QcQ" name="feature" type="_fiesDWPdEeat9ctxFs_QcQ"/>
+                <ownedParameter xmi:id="_fierY2PdEeat9ctxFs_QcQ" name="value" type="_fieEKWPdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fierZGPdEeat9ctxFs_QcQ" name="uAdd">
+                <ownedParameter xmi:id="_fierZWPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fierZmPdEeat9ctxFs_QcQ" name="feature" type="_fiesDWPdEeat9ctxFs_QcQ"/>
+                <ownedParameter xmi:id="_fierZ2PdEeat9ctxFs_QcQ" name="index" type="_fieEI2PdEeat9ctxFs_QcQ"/>
+                <ownedParameter xmi:id="_fieraGPdEeat9ctxFs_QcQ" name="value" type="_fieEKWPdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_fieraWPdEeat9ctxFs_QcQ" memberEnd="_fiera2PdEeat9ctxFs_QcQ _fierbGPdEeat9ctxFs_QcQ" navigableOwnedEnd="_fierbGPdEeat9ctxFs_QcQ">
+                <ownedComment xmi:id="_fieramPdEeat9ctxFs_QcQ" body="/** the type of this object */"/>
+                <ownedEnd xmi:id="_fiera2PdEeat9ctxFs_QcQ" name="_uClassifier_" type="_fierMGPdEeat9ctxFs_QcQ" association="_fieraWPdEeat9ctxFs_QcQ"/>
+                <ownedEnd xmi:id="_fierbGPdEeat9ctxFs_QcQ" name="uClassifier" type="_fierrmPdEeat9ctxFs_QcQ" isReadOnly="true" aggregation="shared" association="_fieraWPdEeat9ctxFs_QcQ">
+                  <ownedComment xmi:id="_fierbWPdEeat9ctxFs_QcQ" body="/** the type of this object */"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fierbmPdEeat9ctxFs_QcQ"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_fierb2PdEeat9ctxFs_QcQ" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_fiercGPdEeat9ctxFs_QcQ" memberEnd="_fiercmPdEeat9ctxFs_QcQ _fierc2PdEeat9ctxFs_QcQ" navigableOwnedEnd="_fierc2PdEeat9ctxFs_QcQ">
+                <ownedComment xmi:id="_fiercWPdEeat9ctxFs_QcQ" body="/** if this instance is part of an composite association (composition)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * the container points to the owner of this instance&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedEnd xmi:id="_fiercmPdEeat9ctxFs_QcQ" name="_uContainer_" type="_fierMGPdEeat9ctxFs_QcQ" association="_fiercGPdEeat9ctxFs_QcQ"/>
+                <ownedEnd xmi:id="_fierc2PdEeat9ctxFs_QcQ" name="uContainer" type="_fierMGPdEeat9ctxFs_QcQ" isReadOnly="true" aggregation="shared" association="_fiercGPdEeat9ctxFs_QcQ">
+                  <ownedComment xmi:id="_fierdGPdEeat9ctxFs_QcQ" body="/** if this instance is part of an composite association (composition)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * the container points to the owner of this instance&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fierdWPdEeat9ctxFs_QcQ"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_fierdmPdEeat9ctxFs_QcQ" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_fierd2PdEeat9ctxFs_QcQ" memberEnd="_fiereGPdEeat9ctxFs_QcQ _fiereWPdEeat9ctxFs_QcQ" navigableOwnedEnd="_fiereWPdEeat9ctxFs_QcQ">
+                <ownedEnd xmi:id="_fiereGPdEeat9ctxFs_QcQ" name="_uContainingFeature_" type="_fierMGPdEeat9ctxFs_QcQ" association="_fierd2PdEeat9ctxFs_QcQ"/>
+                <ownedEnd xmi:id="_fiereWPdEeat9ctxFs_QcQ" name="uContainingFeature" type="_fiesDWPdEeat9ctxFs_QcQ" isReadOnly="true" aggregation="shared" association="_fierd2PdEeat9ctxFs_QcQ">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fieremPdEeat9ctxFs_QcQ"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_fiere2PdEeat9ctxFs_QcQ" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fierfGPdEeat9ctxFs_QcQ" name="UType" isAbstract="true">
+              <generalization xmi:id="_fierfWPdEeat9ctxFs_QcQ" general="_fieEz2PdEeat9ctxFs_QcQ"/>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fierfmPdEeat9ctxFs_QcQ" name="UPrimitiveType">
+              <generalization xmi:id="_fierf2PdEeat9ctxFs_QcQ" general="_fierfGPdEeat9ctxFs_QcQ"/>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fiergGPdEeat9ctxFs_QcQ" name="UClassifier" isAbstract="true">
+              <generalization xmi:id="_fiergWPdEeat9ctxFs_QcQ" general="_fierfGPdEeat9ctxFs_QcQ"/>
+              <ownedOperation xmi:id="_fiergmPdEeat9ctxFs_QcQ" name="addParent">
+                <ownedComment xmi:id="_fierg2PdEeat9ctxFs_QcQ" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * adds a new superType / parent type to this classifier&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * @precondition isFrozen() == false&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; */"/>
+                <ownedParameter xmi:id="_fierhGPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKGPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fierhWPdEeat9ctxFs_QcQ" name="cl" type="_fiergGPdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fierhmPdEeat9ctxFs_QcQ" name="createOperation">
+                <ownedComment xmi:id="_fierh2PdEeat9ctxFs_QcQ" body="/** &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * adds a new operation to this type&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * @precondition isFrozen() == false&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; */"/>
+                <ownedParameter xmi:id="_fieriGPdEeat9ctxFs_QcQ" name="_return_" type="_fiesGGPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fieriWPdEeat9ctxFs_QcQ" name="name" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fierimPdEeat9ctxFs_QcQ" name="getAllStructuralFeatures" isAbstract="true">
+                <ownedComment xmi:id="_fieri2PdEeat9ctxFs_QcQ" body="/** returns all structural features of this classifier, &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * this includes the owned features as well as all features of &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * its parents&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; */"/>
+                <ownedParameter xmi:id="_fierjGPdEeat9ctxFs_QcQ" name="_return_" type="_fiesDWPdEeat9ctxFs_QcQ" direction="return">
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_fierjWPdEeat9ctxFs_QcQ" value="*"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fierjmPdEeat9ctxFs_QcQ" name="getAllAttributes">
+                <eAnnotations xmi:id="_fierj2PdEeat9ctxFs_QcQ" source="const"/>
+                <ownedComment xmi:id="_fierkGPdEeat9ctxFs_QcQ" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * returns all structural features, that have a primitive type (int, long, double, ...) &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * as type; e.g. feature.isAttribute() == true&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; */"/>
+                <ownedParameter xmi:id="_fierkWPdEeat9ctxFs_QcQ" name="_return_" type="_fiesDWPdEeat9ctxFs_QcQ" direction="return">
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_fierkmPdEeat9ctxFs_QcQ" value="*"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fierk2PdEeat9ctxFs_QcQ" name="getAllReferences">
+                <eAnnotations xmi:id="_fierlGPdEeat9ctxFs_QcQ" source="const"/>
+                <ownedComment xmi:id="_fierlWPdEeat9ctxFs_QcQ" body="/** &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * returns all structural features that have a complex type; e.g. feature.isReference() == true&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; */"/>
+                <ownedParameter xmi:id="_fierlmPdEeat9ctxFs_QcQ" name="_return_" type="_fiesDWPdEeat9ctxFs_QcQ" direction="return">
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_fierl2PdEeat9ctxFs_QcQ" value="*"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fiermGPdEeat9ctxFs_QcQ" name="getFeature">
+                <eAnnotations xmi:id="_fiermWPdEeat9ctxFs_QcQ" source="const"/>
+                <ownedParameter xmi:id="_fiermmPdEeat9ctxFs_QcQ" name="_return_" type="_fiesDWPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fierm2PdEeat9ctxFs_QcQ" name="name" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fiernGPdEeat9ctxFs_QcQ" name="getAllParents">
+                <ownedParameter xmi:id="_fiernWPdEeat9ctxFs_QcQ" name="_return_" type="_fiergGPdEeat9ctxFs_QcQ" direction="return">
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_fiernmPdEeat9ctxFs_QcQ" value="*"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fiern2PdEeat9ctxFs_QcQ" name="inherits">
+                <ownedParameter xmi:id="_fieroGPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKmPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fieroWPdEeat9ctxFs_QcQ" name="parent" type="_fiergGPdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_fieromPdEeat9ctxFs_QcQ" memberEnd="_fiero2PdEeat9ctxFs_QcQ _fierpGPdEeat9ctxFs_QcQ" navigableOwnedEnd="_fierpGPdEeat9ctxFs_QcQ">
+                <ownedEnd xmi:id="_fiero2PdEeat9ctxFs_QcQ" name="_interfaces_" type="_fiergGPdEeat9ctxFs_QcQ" association="_fieromPdEeat9ctxFs_QcQ"/>
+                <ownedEnd xmi:id="_fierpGPdEeat9ctxFs_QcQ" name="interfaces" type="_fiergGPdEeat9ctxFs_QcQ" aggregation="shared" association="_fieromPdEeat9ctxFs_QcQ">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fierpWPdEeat9ctxFs_QcQ"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_fierpmPdEeat9ctxFs_QcQ" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_fierp2PdEeat9ctxFs_QcQ" memberEnd="_fierqGPdEeat9ctxFs_QcQ _fierqWPdEeat9ctxFs_QcQ" navigableOwnedEnd="_fierqWPdEeat9ctxFs_QcQ">
+                <ownedEnd xmi:id="_fierqGPdEeat9ctxFs_QcQ" name="_operations_" type="_fiergGPdEeat9ctxFs_QcQ" association="_fierp2PdEeat9ctxFs_QcQ"/>
+                <ownedEnd xmi:id="_fierqWPdEeat9ctxFs_QcQ" name="operations" type="_fiesGGPdEeat9ctxFs_QcQ" aggregation="composite" association="_fierp2PdEeat9ctxFs_QcQ">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fierqmPdEeat9ctxFs_QcQ"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_fierq2PdEeat9ctxFs_QcQ" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fierrGPdEeat9ctxFs_QcQ" name="UInterface">
+              <generalization xmi:id="_fierrWPdEeat9ctxFs_QcQ" general="_fiergGPdEeat9ctxFs_QcQ"/>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fierrmPdEeat9ctxFs_QcQ" name="UClass">
+              <generalization xmi:id="_fierr2PdEeat9ctxFs_QcQ" general="_fiergGPdEeat9ctxFs_QcQ"/>
+              <ownedAttribute xmi:id="_fiersGPdEeat9ctxFs_QcQ" name="~abstract" type="_fieEKmPdEeat9ctxFs_QcQ">
+                <defaultValue xsi:type="uml:LiteralBoolean" xmi:id="_fiersWPdEeat9ctxFs_QcQ"/>
+              </ownedAttribute>
+              <ownedOperation xmi:id="_fiersmPdEeat9ctxFs_QcQ" name="createFeature">
+                <ownedComment xmi:id="_fiers2PdEeat9ctxFs_QcQ" body="/** &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * creates a new StructuralFeature for this class&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * @precondition isFrozen() == false&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; */"/>
+                <ownedParameter xmi:id="_fiertGPdEeat9ctxFs_QcQ" name="_return_" type="_fiesDWPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fiertWPdEeat9ctxFs_QcQ" name="name" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fiertmPdEeat9ctxFs_QcQ" name="createNewInstance">
+                <eAnnotations xmi:id="_fiert2PdEeat9ctxFs_QcQ" source="const"/>
+                <ownedComment xmi:id="_fieruGPdEeat9ctxFs_QcQ" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * Creates a new instance of the corresponding type&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; */"/>
+                <ownedParameter xmi:id="_fieruWPdEeat9ctxFs_QcQ" name="_return_" type="_fierMGPdEeat9ctxFs_QcQ" direction="return"/>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_fierumPdEeat9ctxFs_QcQ" memberEnd="_fieru2PdEeat9ctxFs_QcQ _fiervGPdEeat9ctxFs_QcQ" navigableOwnedEnd="_fiervGPdEeat9ctxFs_QcQ">
+                <ownedEnd xmi:id="_fieru2PdEeat9ctxFs_QcQ" name="_superType_" type="_fierrmPdEeat9ctxFs_QcQ" association="_fierumPdEeat9ctxFs_QcQ"/>
+                <ownedEnd xmi:id="_fiervGPdEeat9ctxFs_QcQ" name="superType" type="_fiergGPdEeat9ctxFs_QcQ" aggregation="shared" association="_fierumPdEeat9ctxFs_QcQ">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fiervWPdEeat9ctxFs_QcQ"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_fiervmPdEeat9ctxFs_QcQ" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_fierv2PdEeat9ctxFs_QcQ" memberEnd="_fierwGPdEeat9ctxFs_QcQ _fierwWPdEeat9ctxFs_QcQ" navigableOwnedEnd="_fierwWPdEeat9ctxFs_QcQ">
+                <ownedEnd xmi:id="_fierwGPdEeat9ctxFs_QcQ" name="_structuralFeatures_" type="_fierrmPdEeat9ctxFs_QcQ" association="_fierv2PdEeat9ctxFs_QcQ"/>
+                <ownedEnd xmi:id="_fierwWPdEeat9ctxFs_QcQ" name="structuralFeatures" type="_fiesDWPdEeat9ctxFs_QcQ" aggregation="composite" association="_fierv2PdEeat9ctxFs_QcQ">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fierwmPdEeat9ctxFs_QcQ"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_fierw2PdEeat9ctxFs_QcQ" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fierxGPdEeat9ctxFs_QcQ" name="UEnum">
+              <generalization xmi:id="_fierxWPdEeat9ctxFs_QcQ" general="_fiergGPdEeat9ctxFs_QcQ"/>
+              <ownedOperation xmi:id="_fierxmPdEeat9ctxFs_QcQ" name="createLiteral">
+                <ownedComment xmi:id="_fierx2PdEeat9ctxFs_QcQ" body="/** &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   * creates a new Literal&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   * @precondition isFrozen() == false&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   */"/>
+                <ownedParameter xmi:id="_fieryGPdEeat9ctxFs_QcQ" name="_return_" type="_fier32PdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fieryWPdEeat9ctxFs_QcQ" name="name" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+                <ownedParameter xmi:id="_fierymPdEeat9ctxFs_QcQ" name="value" type="_fieEI2PdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fiery2PdEeat9ctxFs_QcQ" name="createNewInstance">
+                <ownedParameter xmi:id="_fierzGPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKWPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fierzWPdEeat9ctxFs_QcQ" name="name" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fierzmPdEeat9ctxFs_QcQ" name="createNewInstance">
+                <ownedParameter xmi:id="_fierz2PdEeat9ctxFs_QcQ" name="_return_" type="_fieEKWPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fier0GPdEeat9ctxFs_QcQ" name="value" type="_fieEI2PdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fier0WPdEeat9ctxFs_QcQ" name="createNewInstance">
+                <ownedParameter xmi:id="_fier0mPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKWPdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fier02PdEeat9ctxFs_QcQ" name="enumerator" type="_fier32PdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fier1GPdEeat9ctxFs_QcQ" name="getEnumerator">
+                <ownedParameter xmi:id="_fier1WPdEeat9ctxFs_QcQ" name="_return_" type="_fier32PdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fier1mPdEeat9ctxFs_QcQ" name="name" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fier12PdEeat9ctxFs_QcQ" name="getEnumerator">
+                <ownedParameter xmi:id="_fier2GPdEeat9ctxFs_QcQ" name="_return_" type="_fier32PdEeat9ctxFs_QcQ" direction="return"/>
+                <ownedParameter xmi:id="_fier2WPdEeat9ctxFs_QcQ" name="value" type="_fieEI2PdEeat9ctxFs_QcQ"/>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_fier2mPdEeat9ctxFs_QcQ" memberEnd="_fier22PdEeat9ctxFs_QcQ _fier3GPdEeat9ctxFs_QcQ" navigableOwnedEnd="_fier3GPdEeat9ctxFs_QcQ">
+                <ownedEnd xmi:id="_fier22PdEeat9ctxFs_QcQ" name="_literals_" type="_fierxGPdEeat9ctxFs_QcQ" association="_fier2mPdEeat9ctxFs_QcQ"/>
+                <ownedEnd xmi:id="_fier3GPdEeat9ctxFs_QcQ" name="literals" type="_fier32PdEeat9ctxFs_QcQ" aggregation="composite" association="_fier2mPdEeat9ctxFs_QcQ">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fier3WPdEeat9ctxFs_QcQ"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_fier3mPdEeat9ctxFs_QcQ" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fier32PdEeat9ctxFs_QcQ" name="UEnumerator">
+              <generalization xmi:id="_fier4GPdEeat9ctxFs_QcQ" general="_fieEz2PdEeat9ctxFs_QcQ"/>
+              <ownedAttribute xmi:id="_fier4WPdEeat9ctxFs_QcQ" name="value" type="_fieEI2PdEeat9ctxFs_QcQ">
+                <defaultValue xsi:type="uml:LiteralInteger" xmi:id="_fier4mPdEeat9ctxFs_QcQ"/>
+              </ownedAttribute>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fier42PdEeat9ctxFs_QcQ" name="UException">
+              <generalization xmi:id="_fier5GPdEeat9ctxFs_QcQ" general="_fierfGPdEeat9ctxFs_QcQ"/>
+              <ownedAttribute xmi:id="_fier5WPdEeat9ctxFs_QcQ" name="standardMessage" type="_fieEJ2PdEeat9ctxFs_QcQ"/>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_fier5mPdEeat9ctxFs_QcQ" memberEnd="_fier52PdEeat9ctxFs_QcQ _fier6GPdEeat9ctxFs_QcQ" navigableOwnedEnd="_fier6GPdEeat9ctxFs_QcQ">
+                <ownedEnd xmi:id="_fier52PdEeat9ctxFs_QcQ" name="_superType_" type="_fier42PdEeat9ctxFs_QcQ" association="_fier5mPdEeat9ctxFs_QcQ"/>
+                <ownedEnd xmi:id="_fier6GPdEeat9ctxFs_QcQ" name="superType" type="_fier42PdEeat9ctxFs_QcQ" aggregation="shared" association="_fier5mPdEeat9ctxFs_QcQ">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fier6WPdEeat9ctxFs_QcQ"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_fier6mPdEeat9ctxFs_QcQ" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fier62PdEeat9ctxFs_QcQ" name="UMultiplicity">
+              <ownedAttribute xmi:id="_fier7GPdEeat9ctxFs_QcQ" name="lower" type="_fieEI2PdEeat9ctxFs_QcQ">
+                <defaultValue xsi:type="uml:LiteralInteger" xmi:id="_fier7WPdEeat9ctxFs_QcQ"/>
+              </ownedAttribute>
+              <ownedAttribute xmi:id="_fier7mPdEeat9ctxFs_QcQ" name="upper" type="_fieEI2PdEeat9ctxFs_QcQ">
+                <defaultValue xsi:type="uml:LiteralInteger" xmi:id="_fier72PdEeat9ctxFs_QcQ" value="1"/>
+              </ownedAttribute>
+            </packagedElement>
+            <packagedElement xsi:type="uml:InstanceSpecification" xmi:id="_fier8GPdEeat9ctxFs_QcQ" name="DefaultMultiplicity" classifier="_fier62PdEeat9ctxFs_QcQ">
+              <slot xmi:id="_fier8WPdEeat9ctxFs_QcQ" definingFeature="_fier7GPdEeat9ctxFs_QcQ">
+                <value xsi:type="uml:LiteralInteger" xmi:id="_fier8mPdEeat9ctxFs_QcQ"/>
+              </slot>
+              <slot xmi:id="_fier82PdEeat9ctxFs_QcQ" definingFeature="_fier7mPdEeat9ctxFs_QcQ">
+                <value xsi:type="uml:LiteralInteger" xmi:id="_fier9GPdEeat9ctxFs_QcQ" value="1"/>
+              </slot>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fier9WPdEeat9ctxFs_QcQ" name="UTypedElement" isAbstract="true">
+              <generalization xmi:id="_fier9mPdEeat9ctxFs_QcQ" general="_fieEz2PdEeat9ctxFs_QcQ"/>
+              <ownedOperation xmi:id="_fier92PdEeat9ctxFs_QcQ" name="isMany">
+                <eAnnotations xmi:id="_fier-GPdEeat9ctxFs_QcQ" source="const"/>
+                <ownedComment xmi:id="_fier-WPdEeat9ctxFs_QcQ" body="/** returns true, if the more than one element can be stored within this feature ( upperBound != 1) */"/>
+                <ownedParameter xmi:id="_fier-mPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKmPdEeat9ctxFs_QcQ" direction="return"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fier-2PdEeat9ctxFs_QcQ" name="isAttribute">
+                <eAnnotations xmi:id="_fier_GPdEeat9ctxFs_QcQ" source="const"/>
+                <ownedComment xmi:id="_fier_WPdEeat9ctxFs_QcQ" body="/** returns true, if the type (getType()) references to an UPrimitiveType */"/>
+                <ownedParameter xmi:id="_fier_mPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKmPdEeat9ctxFs_QcQ" direction="return"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fier_2PdEeat9ctxFs_QcQ" name="isReference">
+                <eAnnotations xmi:id="_fiesAGPdEeat9ctxFs_QcQ" source="const"/>
+                <ownedComment xmi:id="_fiesAWPdEeat9ctxFs_QcQ" body="/** returns true if the type is a complex type, e.g. isAttribute() == false */"/>
+                <ownedParameter xmi:id="_fiesAmPdEeat9ctxFs_QcQ" name="_return_" type="_fieEKmPdEeat9ctxFs_QcQ" direction="return"/>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_fiesA2PdEeat9ctxFs_QcQ" memberEnd="_fiesBGPdEeat9ctxFs_QcQ _fiesBWPdEeat9ctxFs_QcQ" navigableOwnedEnd="_fiesBWPdEeat9ctxFs_QcQ">
+                <ownedEnd xmi:id="_fiesBGPdEeat9ctxFs_QcQ" name="_type_" type="_fier9WPdEeat9ctxFs_QcQ" association="_fiesA2PdEeat9ctxFs_QcQ"/>
+                <ownedEnd xmi:id="_fiesBWPdEeat9ctxFs_QcQ" name="type" type="_fierfGPdEeat9ctxFs_QcQ" aggregation="shared" association="_fiesA2PdEeat9ctxFs_QcQ">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fiesBmPdEeat9ctxFs_QcQ"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_fiesB2PdEeat9ctxFs_QcQ" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_fiesCGPdEeat9ctxFs_QcQ" memberEnd="_fiesCWPdEeat9ctxFs_QcQ _fiesCmPdEeat9ctxFs_QcQ" navigableOwnedEnd="_fiesCmPdEeat9ctxFs_QcQ">
+                <ownedEnd xmi:id="_fiesCWPdEeat9ctxFs_QcQ" name="_multiplicity_" type="_fier9WPdEeat9ctxFs_QcQ" association="_fiesCGPdEeat9ctxFs_QcQ"/>
+                <ownedEnd xmi:id="_fiesCmPdEeat9ctxFs_QcQ" name="multiplicity" type="_fier62PdEeat9ctxFs_QcQ" aggregation="composite" association="_fiesCGPdEeat9ctxFs_QcQ">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fiesC2PdEeat9ctxFs_QcQ"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_fiesDGPdEeat9ctxFs_QcQ" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fiesDWPdEeat9ctxFs_QcQ" name="UStructuralFeature">
+              <generalization xmi:id="_fiesDmPdEeat9ctxFs_QcQ" general="_fier9WPdEeat9ctxFs_QcQ"/>
+              <ownedAttribute xmi:id="_fiesD2PdEeat9ctxFs_QcQ" name="aggregation" type="_fiesLmPdEeat9ctxFs_QcQ">
+                <defaultValue xsi:type="uml:LiteralString" xmi:id="_fiesEGPdEeat9ctxFs_QcQ" value="UAssociationType.AGGREGATION"/>
+              </ownedAttribute>
+              <ownedOperation xmi:id="_fiesEWPdEeat9ctxFs_QcQ" name="getOwner">
+                <eAnnotations xmi:id="_fiesEmPdEeat9ctxFs_QcQ" source="const"/>
+                <ownedParameter xmi:id="_fiesE2PdEeat9ctxFs_QcQ" name="_return_" type="_fierrmPdEeat9ctxFs_QcQ" direction="return"/>
+              </ownedOperation>
+              <ownedOperation xmi:id="_fiesFGPdEeat9ctxFs_QcQ" name="isReadOnly">
+                <eAnnotations xmi:id="_fiesFWPdEeat9ctxFs_QcQ" source="const"/>
+                <ownedComment xmi:id="_fiesFmPdEeat9ctxFs_QcQ" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * returns true if the feature can not be written, though the reflection system&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note a feature may be read only even if a setter is implemented within the implementation class, but not definied within the interface&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_fiesF2PdEeat9ctxFs_QcQ" name="_return_" type="_fieEKmPdEeat9ctxFs_QcQ" direction="return"/>
+              </ownedOperation>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fiesGGPdEeat9ctxFs_QcQ" name="UOperation">
+              <generalization xmi:id="_fiesGWPdEeat9ctxFs_QcQ" general="_fieEz2PdEeat9ctxFs_QcQ"/>
+              <ownedAttribute xmi:id="_fiesGmPdEeat9ctxFs_QcQ" name="~abstract" type="_fieEKmPdEeat9ctxFs_QcQ"/>
+              <ownedAttribute xmi:id="_fiesG2PdEeat9ctxFs_QcQ" name="~const" type="_fieEKmPdEeat9ctxFs_QcQ"/>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_fiesHGPdEeat9ctxFs_QcQ" memberEnd="_fiesHWPdEeat9ctxFs_QcQ _fiesHmPdEeat9ctxFs_QcQ" navigableOwnedEnd="_fiesHmPdEeat9ctxFs_QcQ">
+                <ownedEnd xmi:id="_fiesHWPdEeat9ctxFs_QcQ" name="_parameters_" type="_fiesGGPdEeat9ctxFs_QcQ" association="_fiesHGPdEeat9ctxFs_QcQ"/>
+                <ownedEnd xmi:id="_fiesHmPdEeat9ctxFs_QcQ" name="parameters" type="_fiesIWPdEeat9ctxFs_QcQ" aggregation="composite" association="_fiesHGPdEeat9ctxFs_QcQ">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_fiesH2PdEeat9ctxFs_QcQ"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_fiesIGPdEeat9ctxFs_QcQ" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_fiesIWPdEeat9ctxFs_QcQ" name="UParameter" isAbstract="true">
+              <generalization xmi:id="_fiesImPdEeat9ctxFs_QcQ" general="_fier9WPdEeat9ctxFs_QcQ"/>
+              <ownedAttribute xmi:id="_fiesI2PdEeat9ctxFs_QcQ" name="direction" type="_fiesJWPdEeat9ctxFs_QcQ">
+                <defaultValue xsi:type="uml:LiteralString" xmi:id="_fiesJGPdEeat9ctxFs_QcQ" value="IN"/>
+              </ownedAttribute>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Enumeration" xmi:id="_fiesJWPdEeat9ctxFs_QcQ" name="UDirectionType">
+              <ownedLiteral xmi:id="_fiesJmPdEeat9ctxFs_QcQ" name="IN">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_fiesJ2PdEeat9ctxFs_QcQ"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_fiesKGPdEeat9ctxFs_QcQ" name="OUT">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_fiesKWPdEeat9ctxFs_QcQ" value="1"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_fiesKmPdEeat9ctxFs_QcQ" name="INOUT">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_fiesK2PdEeat9ctxFs_QcQ" value="2"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_fiesLGPdEeat9ctxFs_QcQ" name="RETURN">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_fiesLWPdEeat9ctxFs_QcQ" value="3"/>
+              </ownedLiteral>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Enumeration" xmi:id="_fiesLmPdEeat9ctxFs_QcQ" name="UAssociationType">
+              <ownedLiteral xmi:id="_fiesL2PdEeat9ctxFs_QcQ" name="ASSOCIATION">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_fiesMGPdEeat9ctxFs_QcQ"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_fiesMWPdEeat9ctxFs_QcQ" name="AGGREGATION">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_fiesMmPdEeat9ctxFs_QcQ" value="1"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_fiesM2PdEeat9ctxFs_QcQ" name="COMPOSITION">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_fiesNGPdEeat9ctxFs_QcQ" value="2"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_fiesNWPdEeat9ctxFs_QcQ" name="PROPERTY">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_fiesNmPdEeat9ctxFs_QcQ" value="3"/>
+              </ownedLiteral>
+            </packagedElement>
+          </packagedElement>
+        </packagedElement>
+      </packagedElement>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

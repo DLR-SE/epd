@@ -1,0 +1,1627 @@
+<?xml version="1.0" encoding="ASCII"?>
+<uml:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_lqzXgH9uEei_Gs2eKrNFag" name="UCore">
+  <ownedComment xmi:id="_lqzXgX9uEei_Gs2eKrNFag" body="/** &#xD;&#xA;* insert documentation for the model &#xD;&#xA;* &#xD;&#xA;*/"/>
+  <packagedElement xsi:type="uml:Package" xmi:id="_lqzXgn9uEei_Gs2eKrNFag" name="de">
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_lqzXg39uEei_Gs2eKrNFag" name="int"/>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_lqzXhH9uEei_Gs2eKrNFag" name="double"/>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_lqzXhX9uEei_Gs2eKrNFag" name="float"/>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_lqzXhn9uEei_Gs2eKrNFag" name="long"/>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_lqzXh39uEei_Gs2eKrNFag" name="String"/>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_lqzXiH9uEei_Gs2eKrNFag" name="void"/>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_lqzXiX9uEei_Gs2eKrNFag" name="Object"/>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_lqzXin9uEei_Gs2eKrNFag" name="boolean"/>
+    <packagedElement xsi:type="uml:PrimitiveType" xmi:id="_lqzXi39uEei_Gs2eKrNFag" name="URL"/>
+    <packagedElement xsi:type="uml:Package" xmi:id="_lqzXjH9uEei_Gs2eKrNFag" name="emir">
+      <packagedElement xsi:type="uml:Package" xmi:id="_lqzXjX9uEei_Gs2eKrNFag" name="tuml">
+        <packagedElement xsi:type="uml:Package" xmi:id="_lqzXjn9uEei_Gs2eKrNFag" name="ucore">
+          <packagedElement xsi:type="uml:Package" xmi:id="_lqzXj39uEei_Gs2eKrNFag" name="runtime">
+            <packagedElement xsi:type="uml:Package" xmi:id="_lqzXkH9uEei_Gs2eKrNFag" name="utils">
+              <packagedElement xsi:type="uml:Class" xmi:id="_lqzXkX9uEei_Gs2eKrNFag" name="QualifiedName">
+                <ownedAttribute xmi:id="_lqzXkn9uEei_Gs2eKrNFag" name="segments">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|0"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzXk39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_lqzXlH9uEei_Gs2eKrNFag" value="*"/>
+                </ownedAttribute>
+                <ownedOperation xmi:id="_lqzXlX9uEei_Gs2eKrNFag" name="toString">
+                  <eAnnotations xmi:id="_lqzXln9uEei_Gs2eKrNFag" source="const"/>
+                  <ownedParameter xmi:id="_lqzXl39uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|1"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzXmH9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzXmX9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_lqzXmn9uEei_Gs2eKrNFag" name="delimiter">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|2"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzXm39uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzXnH9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqzXnX9uEei_Gs2eKrNFag" name="numSegments">
+                  <eAnnotations xmi:id="_lqzXnn9uEei_Gs2eKrNFag" source="const"/>
+                  <ownedParameter xmi:id="_lqzXn39uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|3"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzXoH9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzXoX9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqzXon9uEei_Gs2eKrNFag" name="removeSegmentsFromEnd">
+                  <ownedParameter xmi:id="_lqzXo39uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|4"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzXpH9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzXpX9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_lqzXpn9uEei_Gs2eKrNFag" name="num">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|5"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzXp39uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzXqH9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqzXqX9uEei_Gs2eKrNFag" name="localRemoveSegmentsFromEnd">
+                  <ownedParameter xmi:id="_lqzXqn9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|6"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzXq39uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzXrH9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_lqzXrX9uEei_Gs2eKrNFag" name="num">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|7"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzXrn9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzXr39uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqzXsH9uEei_Gs2eKrNFag" name="removeSegmentsFromStart">
+                  <ownedParameter xmi:id="_lqzXsX9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|8"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzXsn9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzXs39uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_lqzXtH9uEei_Gs2eKrNFag" name="num">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|9"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzXtX9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzXtn9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqzXt39uEei_Gs2eKrNFag" name="localRemoveSegmentsFromStart">
+                  <ownedParameter xmi:id="_lqzXuH9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|10"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzXuX9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzXun9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_lqzXu39uEei_Gs2eKrNFag" name="num">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|11"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzXvH9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzXvX9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqzXvn9uEei_Gs2eKrNFag" name="appendFront">
+                  <ownedParameter xmi:id="_lqzXv39uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|12"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzXwH9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzXwX9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_lqzXwn9uEei_Gs2eKrNFag" name="segment">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|13"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzXw39uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzXxH9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqzXxX9uEei_Gs2eKrNFag" name="localAppendFront">
+                  <ownedParameter xmi:id="_lqzXxn9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|14"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzXx39uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzXyH9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_lqzXyX9uEei_Gs2eKrNFag" name="segment">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|15"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzXyn9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzXy39uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqzXzH9uEei_Gs2eKrNFag" name="appendBack">
+                  <ownedParameter xmi:id="_lqzXzX9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|16"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzXzn9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzXz39uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_lqzX0H9uEei_Gs2eKrNFag" name="segment">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|17"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzX0X9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzX0n9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqzX039uEei_Gs2eKrNFag" name="localAppendBack">
+                  <ownedParameter xmi:id="_lqzX1H9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|18"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzX1X9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzX1n9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_lqzX139uEei_Gs2eKrNFag" name="segment">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|19"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzX2H9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzX2X9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqzX2n9uEei_Gs2eKrNFag" name="lastSegment">
+                  <eAnnotations xmi:id="_lqzX239uEei_Gs2eKrNFag" source="const"/>
+                  <ownedParameter xmi:id="_lqzX3H9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|20"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzX3X9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzX3n9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqzX339uEei_Gs2eKrNFag" name="firstSegment">
+                  <eAnnotations xmi:id="_lqzX4H9uEei_Gs2eKrNFag" source="const"/>
+                  <ownedParameter xmi:id="_lqzX4X9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|21"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzX4n9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzX439uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqzX5H9uEei_Gs2eKrNFag" name="segment">
+                  <eAnnotations xmi:id="_lqzX5X9uEei_Gs2eKrNFag" source="const"/>
+                  <ownedParameter xmi:id="_lqzX5n9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|22"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzX539uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzX6H9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_lqzX6X9uEei_Gs2eKrNFag" name="idx">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|23"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzX6n9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzX639uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqzX7H9uEei_Gs2eKrNFag" name="empty">
+                  <eAnnotations xmi:id="_lqzX7X9uEei_Gs2eKrNFag" source="const"/>
+                  <ownedParameter xmi:id="_lqzX7n9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|24"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzX739uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzX8H9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqzX8X9uEei_Gs2eKrNFag" name="isEmpty">
+                  <eAnnotations xmi:id="_lqzX8n9uEei_Gs2eKrNFag" source="const"/>
+                  <ownedParameter xmi:id="_lqzX839uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|25"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzX9H9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzX9X9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_lqzX9n9uEei_Gs2eKrNFag" name="QualifiedNameProvider">
+                <ownedComment xmi:id="_lqzX939uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9; * creates a qualified name for an UObject&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9; * therefore the QualifiedNameProvider checks the objects's class&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9; * if it contains a name feature&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9; */"/>
+                <ownedOperation xmi:id="_lqzX-H9uEei_Gs2eKrNFag" name="get">
+                  <eAnnotations xmi:id="_lqzX-X9uEei_Gs2eKrNFag" source="const"/>
+                  <ownedComment xmi:id="_lqzX-n9uEei_Gs2eKrNFag" body="/** creates a qualified name for the given object, by appending&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; * the value of the &quot;name&quot; feature of the object itself and all of its parents&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; */"/>
+                  <ownedParameter xmi:id="_lqzX-39uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|26"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzX_H9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzX_X9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_lqzX_n9uEei_Gs2eKrNFag" name="obj">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|27"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzX_39uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzYAH9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqzYAX9uEei_Gs2eKrNFag" name="get">
+                  <eAnnotations xmi:id="_lqzYAn9uEei_Gs2eKrNFag" source="const"/>
+                  <ownedComment xmi:id="_lqzYA39uEei_Gs2eKrNFag" body="/** &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; * creates a qualified name for the given object, that has a limited length&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; */"/>
+                  <ownedParameter xmi:id="_lqzYBH9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|28"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzYBX9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzYBn9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_lqzYB39uEei_Gs2eKrNFag" name="obj">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|29"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzYCH9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzYCX9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_lqzYCn9uEei_Gs2eKrNFag" name="depth">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|30"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqzYC39uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqzYDH9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_lqzYDX9uEei_Gs2eKrNFag" name="QualifiedNameProviderExt">
+                <ownedComment xmi:id="_lqz-kH9uEei_Gs2eKrNFag" body="/** extends the QualifiedNameProvider for the capability to use different &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9; * features to get the name&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9; */"/>
+                <generalization xmi:id="_lqz-kX9uEei_Gs2eKrNFag">
+                  <general xsi:type="uml:Activity" href="UCore.tuml#|31"/>
+                </generalization>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_lqz-kn9uEei_Gs2eKrNFag" memberEnd="_lqz-lH9uEei_Gs2eKrNFag _lqz-l39uEei_Gs2eKrNFag" navigableOwnedEnd="_lqz-l39uEei_Gs2eKrNFag">
+                  <ownedComment xmi:id="_lqz-k39uEei_Gs2eKrNFag" body="/** the QualifiedNameProviderExt checks if the UObject contains one of the &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; * nameFeatures, and uses this to create the name&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; * @note if more than one feature is available, the first matching feature fires&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; */"/>
+                  <ownedEnd xmi:id="_lqz-lH9uEei_Gs2eKrNFag" name="_nameFeatures_" type="_lqzYDX9uEei_Gs2eKrNFag" association="_lqz-kn9uEei_Gs2eKrNFag">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-lX9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-ln9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_lqz-l39uEei_Gs2eKrNFag" name="nameFeatures" aggregation="composite" association="_lqz-kn9uEei_Gs2eKrNFag">
+                    <ownedComment xmi:id="_lqz-mH9uEei_Gs2eKrNFag" body="/** the QualifiedNameProviderExt checks if the UObject contains one of the &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; * nameFeatures, and uses this to create the name&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; * @note if more than one feature is available, the first matching feature fires&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#x9;&#x9; */"/>
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|32"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-mX9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralString" xmi:id="_lqz-mn9uEei_Gs2eKrNFag" value="*"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Interface" xmi:id="_lqz-m39uEei_Gs2eKrNFag" name="Pointer">
+                <ownedComment xmi:id="_lqz-nH9uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * A abstract pointer to an element into an object tree. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * In contrast to pointer in C++ or other languages, this pointer is not pointing to a specific &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * object, but an position inside an object hierarchy, thus the underlying object may change, even if the &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * pointer remains the same. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedOperation xmi:id="_lqz-nX9uEei_Gs2eKrNFag" name="getValue">
+                  <eAnnotations xmi:id="_lqz-nn9uEei_Gs2eKrNFag" source="const"/>
+                  <ownedComment xmi:id="_lqz-n39uEei_Gs2eKrNFag" body="/** @returns the object, this pointer currently points on or null if not valid */"/>
+                  <ownedParameter xmi:id="_lqz-oH9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|33"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-oX9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-on9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqz-o39uEei_Gs2eKrNFag" name="setValue">
+                  <ownedComment xmi:id="_lqz-pH9uEei_Gs2eKrNFag" body="/** sets the value of the pointed instance&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * the setValue behavior depends on the kind of pointer&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * - if the pointer is a FeaturePointer: &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * -- if the feature is a list and the listIndex is invalid (&lt;0) the value (if not null) is added to the list&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * -- if the feature is a list and the listIndex is valid, the value is set to the corresponding index in the list&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * -- if the feature is not a list and the value is not null, the feature value will be set (corresponds to eSet)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * -- if the feature is not a list and the value is null, eUnSet is called. This not necessarily results in setting the value to null, but to its default value&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * - if the pointer is a ObjectPointer, the instance is changed&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedParameter xmi:id="_lqz-pX9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|34"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-pn9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-p39uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_lqz-qH9uEei_Gs2eKrNFag" name="value">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|35"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-qX9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-qn9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqz-q39uEei_Gs2eKrNFag" name="assign">
+                  <ownedComment xmi:id="_lqz-rH9uEei_Gs2eKrNFag" body="/** &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Assign differs from setValue, in that case that the directly pointed instance is not changed, but &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * all feature values from incoming value will be copied to the pointed instance. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Features that are not part of the pointed instance, but can be found in the value, will be ignored &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Therefore this method may be used, if the incoming value is a superclass of the pointed instance&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * (e.g. pointer(Type: PhysicalObject)->assign(Type: Vessel))&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @param copyContainments if set to true, the value of a containment feature is copied otherwise it is simply set. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedParameter xmi:id="_lqz-rX9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|36"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-rn9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-r39uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_lqz-sH9uEei_Gs2eKrNFag" name="value">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|37"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-sX9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-sn9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_lqz-s39uEei_Gs2eKrNFag" name="copyContainments">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|38"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-tH9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-tX9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqz-tn9uEei_Gs2eKrNFag" name="isValid">
+                  <eAnnotations xmi:id="_lqz-t39uEei_Gs2eKrNFag" source="const"/>
+                  <ownedComment xmi:id="_lqz-uH9uEei_Gs2eKrNFag" body="/** @returns true if the pointer is currently pointing to an existing object */"/>
+                  <ownedParameter xmi:id="_lqz-uX9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|39"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-un9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-u39uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqz-vH9uEei_Gs2eKrNFag" name="getType">
+                  <eAnnotations xmi:id="_lqz-vX9uEei_Gs2eKrNFag" source="const"/>
+                  <ownedComment xmi:id="_lqz-vn9uEei_Gs2eKrNFag" body="/** returns the type of the object, this pointer currently points on or null if not valid */"/>
+                  <ownedParameter xmi:id="_lqz-v39uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|40"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-wH9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-wX9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqz-wn9uEei_Gs2eKrNFag" name="getExpectedType">
+                  <eAnnotations xmi:id="_lqz-w39uEei_Gs2eKrNFag" source="const"/>
+                  <ownedComment xmi:id="_lqz-xH9uEei_Gs2eKrNFag" body="/** &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * returns the expected type of the pointed object. This type may differ from &lt;code>getType&lt;/code> in &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * terms that it may is more abstract.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedParameter xmi:id="_lqz-xX9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|41"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-xn9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-x39uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqz-yH9uEei_Gs2eKrNFag" name="getUObject">
+                  <eAnnotations xmi:id="_lqz-yX9uEei_Gs2eKrNFag" source="const"/>
+                  <ownedComment xmi:id="_lqz-yn9uEei_Gs2eKrNFag" body="/** convinience method, that checks the &lt;code>getValue&lt;/code> method, if it returns an UObject */"/>
+                  <ownedParameter xmi:id="_lqz-y39uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|42"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-zH9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-zX9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqz-zn9uEei_Gs2eKrNFag" name="getPointedContainer">
+                  <eAnnotations xmi:id="_lqz-z39uEei_Gs2eKrNFag" source="const"/>
+                  <ownedComment xmi:id="_lqz-0H9uEei_Gs2eKrNFag" body="/** returns the container of the pointed object */"/>
+                  <ownedParameter xmi:id="_lqz-0X9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|43"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-0n9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-039uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqz-1H9uEei_Gs2eKrNFag" name="getPointedFeature">
+                  <eAnnotations xmi:id="_lqz-1X9uEei_Gs2eKrNFag" source="const"/>
+                  <ownedComment xmi:id="_lqz-1n9uEei_Gs2eKrNFag" body="/** returns the feature that is used to access the pointed value */"/>
+                  <ownedParameter xmi:id="_lqz-139uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|44"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-2H9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-2X9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqz-2n9uEei_Gs2eKrNFag" name="changeAnchor" isAbstract="true">
+                  <ownedComment xmi:id="_lqz-239uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Changes the anchor of the pointer, e.g. the one and only fixed position within this pointer. &lt;br> &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; *&#x9;- In case of a ObjectPointer, the instance is changed&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * &#x9;- In case of an FeaturePointer the instance is changed, but feature and list index remain the same&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * &#x9;- In case of an PointerChain the very first parent pointer is changed, that is not an PointerChain. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Use this method to realocate a pointer to another tree with the same structure as the old tree  &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <ownedParameter xmi:id="_lqz-3H9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|45"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-3X9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-3n9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_lqz-339uEei_Gs2eKrNFag" name="root">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|46"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-4H9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-4X9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_lqz-4n9uEei_Gs2eKrNFag" name="copy" isAbstract="true">
+                  <ownedComment xmi:id="_lqz-439uEei_Gs2eKrNFag" body="/** creates a copy of this pointer that points to the same instance */"/>
+                  <ownedParameter xmi:id="_lqz-5H9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|47"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-5X9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-5n9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedParameter>
+                </ownedOperation>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_lqz-539uEei_Gs2eKrNFag" name="ObjectPointer">
+                <ownedAttribute xmi:id="_lqz-6H9uEei_Gs2eKrNFag" name="theInstance">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|48"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-6X9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-6n9uEei_Gs2eKrNFag" value="1"/>
+                </ownedAttribute>
+                <interfaceRealization xmi:id="_lqz-639uEei_Gs2eKrNFag" client="_lqz-539uEei_Gs2eKrNFag">
+                  <contract href="UCore.tuml#|49"/>
+                </interfaceRealization>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_lqz-7H9uEei_Gs2eKrNFag" name="FeaturePointer">
+                <ownedAttribute xmi:id="_lqz-7X9uEei_Gs2eKrNFag" name="theInstance">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|50"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-7n9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-739uEei_Gs2eKrNFag" value="1"/>
+                </ownedAttribute>
+                <ownedAttribute xmi:id="_lqz-8H9uEei_Gs2eKrNFag" name="listIndex">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|51"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-8X9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-8n9uEei_Gs2eKrNFag" value="1"/>
+                </ownedAttribute>
+                <interfaceRealization xmi:id="_lqz-839uEei_Gs2eKrNFag" client="_lqz-7H9uEei_Gs2eKrNFag">
+                  <contract href="UCore.tuml#|52"/>
+                </interfaceRealization>
+                <nestedClassifier xsi:type="uml:Association" xmi:id="_lqz-9H9uEei_Gs2eKrNFag" memberEnd="_lqz-9X9uEei_Gs2eKrNFag _lqz--H9uEei_Gs2eKrNFag" navigableOwnedEnd="_lqz--H9uEei_Gs2eKrNFag">
+                  <ownedEnd xmi:id="_lqz-9X9uEei_Gs2eKrNFag" name="_feature_" type="_lqz-7H9uEei_Gs2eKrNFag" association="_lqz-9H9uEei_Gs2eKrNFag">
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-9n9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-939uEei_Gs2eKrNFag" value="1"/>
+                  </ownedEnd>
+                  <ownedEnd xmi:id="_lqz--H9uEei_Gs2eKrNFag" name="feature" aggregation="shared" association="_lqz-9H9uEei_Gs2eKrNFag">
+                    <type xsi:type="uml:Activity" href="UCore.tuml#|53"/>
+                    <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz--X9uEei_Gs2eKrNFag"/>
+                    <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz--n9uEei_Gs2eKrNFag" value="1"/>
+                  </ownedEnd>
+                </nestedClassifier>
+              </packagedElement>
+              <packagedElement xsi:type="uml:Class" xmi:id="_lqz--39uEei_Gs2eKrNFag" name="PointerChain">
+                <generalization xmi:id="_lqz-_H9uEei_Gs2eKrNFag">
+                  <general xsi:type="uml:Activity" href="UCore.tuml#|54"/>
+                </generalization>
+                <ownedAttribute xmi:id="_lqz-_X9uEei_Gs2eKrNFag" name="parent">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|55"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz-_n9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz-_39uEei_Gs2eKrNFag" value="1"/>
+                </ownedAttribute>
+              </packagedElement>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lqz_AH9uEei_Gs2eKrNFag" name="UAnnotationDetail">
+              <ownedAttribute xmi:id="_lqz_AX9uEei_Gs2eKrNFag" name="key">
+                <type xsi:type="uml:Activity" href="UCore.tuml#|56"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_An9uEei_Gs2eKrNFag" value="1"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_A39uEei_Gs2eKrNFag" value="1"/>
+              </ownedAttribute>
+              <ownedAttribute xmi:id="_lqz_BH9uEei_Gs2eKrNFag" name="value">
+                <type xsi:type="uml:Activity" href="UCore.tuml#|57"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_BX9uEei_Gs2eKrNFag" value="1"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_Bn9uEei_Gs2eKrNFag" value="1"/>
+              </ownedAttribute>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lqz_B39uEei_Gs2eKrNFag" name="UAnnotation">
+              <ownedAttribute xmi:id="_lqz_CH9uEei_Gs2eKrNFag" name="name">
+                <type xsi:type="uml:Activity" href="UCore.tuml#|58"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_CX9uEei_Gs2eKrNFag" value="1"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_Cn9uEei_Gs2eKrNFag" value="1"/>
+              </ownedAttribute>
+              <ownedOperation xmi:id="_lqz_C39uEei_Gs2eKrNFag" name="addDetail">
+                <ownedParameter xmi:id="_lqz_DH9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|59"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_DX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_Dn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lqz_D39uEei_Gs2eKrNFag" name="key">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|60"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_EH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_EX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lqz_En9uEei_Gs2eKrNFag" name="value">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|61"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_E39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_FH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lqz_FX9uEei_Gs2eKrNFag" name="getDetail">
+                <ownedParameter xmi:id="_lqz_Fn9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|62"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_F39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_GH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lqz_GX9uEei_Gs2eKrNFag" name="key">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|63"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_Gn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_G39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_lqz_HH9uEei_Gs2eKrNFag" memberEnd="_lqz_HX9uEei_Gs2eKrNFag _lqz_IH9uEei_Gs2eKrNFag" navigableOwnedEnd="_lqz_IH9uEei_Gs2eKrNFag">
+                <ownedEnd xmi:id="_lqz_HX9uEei_Gs2eKrNFag" name="_details_" type="_lqz_B39uEei_Gs2eKrNFag" association="_lqz_HH9uEei_Gs2eKrNFag">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_Hn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_H39uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_lqz_IH9uEei_Gs2eKrNFag" name="details" aggregation="composite" association="_lqz_HH9uEei_Gs2eKrNFag">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|64"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_IX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_lqz_In9uEei_Gs2eKrNFag" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lqz_I39uEei_Gs2eKrNFag" name="UModelElement" isAbstract="true">
+              <ownedAttribute xmi:id="_lqz_JH9uEei_Gs2eKrNFag" name="documentation">
+                <type xsi:type="uml:Activity" href="UCore.tuml#|65"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_JX9uEei_Gs2eKrNFag"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_Jn9uEei_Gs2eKrNFag" value="1"/>
+              </ownedAttribute>
+              <ownedOperation xmi:id="_lqz_J39uEei_Gs2eKrNFag" name="freeze">
+                <ownedComment xmi:id="_lqz_KH9uEei_Gs2eKrNFag" body="/** mark the meta data to be freezed, in this case, it can not be changed anymore */"/>
+                <ownedParameter xmi:id="_lqz_KX9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|66"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_Kn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_K39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lqz_LH9uEei_Gs2eKrNFag" name="isFrozen">
+                <eAnnotations xmi:id="_lqz_LX9uEei_Gs2eKrNFag" source="const"/>
+                <ownedComment xmi:id="_lqz_Ln9uEei_Gs2eKrNFag" body="/** check if the meta data has been freezed */"/>
+                <ownedParameter xmi:id="_lqz_L39uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|67"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_MH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_MX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lqz_Mn9uEei_Gs2eKrNFag" name="createAnnotation">
+                <ownedParameter xmi:id="_lqz_M39uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|68"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_NH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_NX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lqz_Nn9uEei_Gs2eKrNFag" name="name">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|69"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_N39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_OH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lqz_OX9uEei_Gs2eKrNFag" name="getAnnotation">
+                <ownedParameter xmi:id="_lqz_On9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|70"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_O39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_PH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lqz_PX9uEei_Gs2eKrNFag" name="name">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|71"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_Pn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_P39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lqz_QH9uEei_Gs2eKrNFag" name="getAnnotationDetail">
+                <ownedParameter xmi:id="_lqz_QX9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|72"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_Qn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_Q39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lqz_RH9uEei_Gs2eKrNFag" name="name">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|73"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_RX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_Rn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lqz_R39uEei_Gs2eKrNFag" name="key">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|74"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_SH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_SX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lqz_Sn9uEei_Gs2eKrNFag" name="build" isAbstract="true">
+                <ownedComment xmi:id="_lqz_S39uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * initializes the model element, e.g. create private member for reflection access&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_lqz_TH9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|75"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_TX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_Tn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_lqz_T39uEei_Gs2eKrNFag" memberEnd="_lqz_UH9uEei_Gs2eKrNFag _lqz_U39uEei_Gs2eKrNFag" navigableOwnedEnd="_lqz_U39uEei_Gs2eKrNFag">
+                <ownedEnd xmi:id="_lqz_UH9uEei_Gs2eKrNFag" name="_annotations_" type="_lqz_I39uEei_Gs2eKrNFag" association="_lqz_T39uEei_Gs2eKrNFag">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_UX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_Un9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_lqz_U39uEei_Gs2eKrNFag" name="annotations" aggregation="composite" association="_lqz_T39uEei_Gs2eKrNFag">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|76"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_VH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_lqz_VX9uEei_Gs2eKrNFag" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_lqz_Vn9uEei_Gs2eKrNFag" memberEnd="_lqz_V39uEei_Gs2eKrNFag _lqz_Wn9uEei_Gs2eKrNFag" navigableOwnedEnd="_lqz_Wn9uEei_Gs2eKrNFag">
+                <ownedEnd xmi:id="_lqz_V39uEei_Gs2eKrNFag" name="_package_" type="_lqz_I39uEei_Gs2eKrNFag" association="_lqz_Vn9uEei_Gs2eKrNFag">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_WH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_WX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_lqz_Wn9uEei_Gs2eKrNFag" name="package" aggregation="shared" association="_lqz_Vn9uEei_Gs2eKrNFag">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|77"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_W39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_XH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lqz_XX9uEei_Gs2eKrNFag" name="UNamedElement" isAbstract="true">
+              <generalization xmi:id="_lqz_Xn9uEei_Gs2eKrNFag">
+                <general xsi:type="uml:Activity" href="UCore.tuml#|78"/>
+              </generalization>
+              <ownedAttribute xmi:id="_lqz_X39uEei_Gs2eKrNFag" name="name">
+                <type xsi:type="uml:Activity" href="UCore.tuml#|79"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_YH9uEei_Gs2eKrNFag"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_YX9uEei_Gs2eKrNFag" value="1"/>
+              </ownedAttribute>
+              <ownedOperation xmi:id="_lqz_Yn9uEei_Gs2eKrNFag" name="getQualifiedName">
+                <eAnnotations xmi:id="_lqz_Y39uEei_Gs2eKrNFag" source="const"/>
+                <ownedParameter xmi:id="_lqz_ZH9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|80"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_ZX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_Zn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lqz_Z39uEei_Gs2eKrNFag" name="UModel">
+              <generalization xmi:id="_lqz_aH9uEei_Gs2eKrNFag">
+                <general xsi:type="uml:Activity" href="UCore.tuml#|81"/>
+              </generalization>
+              <ownedAttribute xmi:id="_lqz_aX9uEei_Gs2eKrNFag" name="modelName">
+                <type xsi:type="uml:Activity" href="UCore.tuml#|82"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_an9uEei_Gs2eKrNFag" value="1"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_a39uEei_Gs2eKrNFag" value="1"/>
+              </ownedAttribute>
+              <ownedAttribute xmi:id="_lqz_bH9uEei_Gs2eKrNFag" name="fieldOfApplication">
+                <type xsi:type="uml:Activity" href="UCore.tuml#|83"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_bX9uEei_Gs2eKrNFag"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_bn9uEei_Gs2eKrNFag" value="1"/>
+              </ownedAttribute>
+              <ownedAttribute xmi:id="_lqz_b39uEei_Gs2eKrNFag" name="scope">
+                <type xsi:type="uml:Activity" href="UCore.tuml#|84"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_cH9uEei_Gs2eKrNFag"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_cX9uEei_Gs2eKrNFag" value="1"/>
+              </ownedAttribute>
+              <ownedAttribute xmi:id="_lqz_cn9uEei_Gs2eKrNFag" name="versionDate">
+                <type xsi:type="uml:Activity" href="UCore.tuml#|85"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_c39uEei_Gs2eKrNFag"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_dH9uEei_Gs2eKrNFag" value="1"/>
+              </ownedAttribute>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_lqz_dX9uEei_Gs2eKrNFag" memberEnd="_lqz_dn9uEei_Gs2eKrNFag _lqz_eX9uEei_Gs2eKrNFag" navigableOwnedEnd="_lqz_eX9uEei_Gs2eKrNFag">
+                <ownedEnd xmi:id="_lqz_dn9uEei_Gs2eKrNFag" name="_rootPackage_" type="_lqz_Z39uEei_Gs2eKrNFag" association="_lqz_dX9uEei_Gs2eKrNFag">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_d39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_eH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_lqz_eX9uEei_Gs2eKrNFag" name="rootPackage" aggregation="composite" association="_lqz_dX9uEei_Gs2eKrNFag">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|86"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_en9uEei_Gs2eKrNFag" value="1"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_e39uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lqz_fH9uEei_Gs2eKrNFag" name="UPackage">
+              <generalization xmi:id="_lqz_fX9uEei_Gs2eKrNFag">
+                <general xsi:type="uml:Activity" href="UCore.tuml#|87"/>
+              </generalization>
+              <ownedOperation xmi:id="_lqz_fn9uEei_Gs2eKrNFag" name="createPackage">
+                <ownedComment xmi:id="_lqz_f39uEei_Gs2eKrNFag" body="/** &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * creates a new sub package of this package&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note if the package allready exists (getSubpackage(name, true)) the existing package is returned&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_lqz_gH9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|88"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lqz_gX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lqz_gn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0loH9uEei_Gs2eKrNFag" name="name">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|89"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0loX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0lon9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0lo39uEei_Gs2eKrNFag" name="createInterface">
+                <ownedComment xmi:id="_lq0lpH9uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * creates a new interface within this package&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @precondition isFrozen() == false&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_lq0lpX9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|90"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0lpn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0lp39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0lqH9uEei_Gs2eKrNFag" name="name">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|91"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0lqX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0lqn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0lq39uEei_Gs2eKrNFag" name="createClass">
+                <ownedComment xmi:id="_lq0lrH9uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * creates a new class within this package&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @precondition isFrozen() == false&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_lq0lrX9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|92"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0lrn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0lr39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0lsH9uEei_Gs2eKrNFag" name="name">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|93"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0lsX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0lsn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0ls39uEei_Gs2eKrNFag" name="createEnumeration">
+                <ownedComment xmi:id="_lq0ltH9uEei_Gs2eKrNFag" body="/** &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * creates a new enumeration in this package&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @precondition isFrozen() == false&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_lq0ltX9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|94"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0ltn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0lt39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0luH9uEei_Gs2eKrNFag" name="name">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|95"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0luX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0lun9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0lu39uEei_Gs2eKrNFag" name="getSubpackage">
+                <eAnnotations xmi:id="_lq0lvH9uEei_Gs2eKrNFag" source="const"/>
+                <ownedComment xmi:id="_lq0lvX9uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * returns the subpackage with the given namen, if it exists&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @param name the name of the subpackage&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @param ownedOnly if set to true, only this package is checked for the subpackage, otherwise&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * all owned subpackages (getContent().filter(typeof(UPackage))) will be checked too. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_lq0lvn9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|96"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0lv39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0lwH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0lwX9uEei_Gs2eKrNFag" name="name">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|97"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0lwn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0lw39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0lxH9uEei_Gs2eKrNFag" name="ownedOnly">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|98"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0lxX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0lxn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0lx39uEei_Gs2eKrNFag" name="getClassifier">
+                <eAnnotations xmi:id="_lq0lyH9uEei_Gs2eKrNFag" source="const"/>
+                <ownedParameter xmi:id="_lq0lyX9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|99"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0lyn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0ly39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0lzH9uEei_Gs2eKrNFag" name="name">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|100"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0lzX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0lzn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0lz39uEei_Gs2eKrNFag" name="ownedOnly">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|101"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0l0H9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0l0X9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0l0n9uEei_Gs2eKrNFag" name="getClassifier">
+                <eAnnotations xmi:id="_lq0l039uEei_Gs2eKrNFag" source="const"/>
+                <ownedParameter xmi:id="_lq0l1H9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|102"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0l1X9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0l1n9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0l139uEei_Gs2eKrNFag" name="qn">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|103"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0l2H9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0l2X9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0l2n9uEei_Gs2eKrNFag" name="ownedOnly">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|104"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0l239uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0l3H9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_lq0l3X9uEei_Gs2eKrNFag" memberEnd="_lq0l3n9uEei_Gs2eKrNFag _lq0l4X9uEei_Gs2eKrNFag" navigableOwnedEnd="_lq0l4X9uEei_Gs2eKrNFag">
+                <ownedEnd xmi:id="_lq0l3n9uEei_Gs2eKrNFag" name="_content_" type="_lqz_fH9uEei_Gs2eKrNFag" association="_lq0l3X9uEei_Gs2eKrNFag">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0l339uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0l4H9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_lq0l4X9uEei_Gs2eKrNFag" name="content" aggregation="composite" association="_lq0l3X9uEei_Gs2eKrNFag">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|105"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0l4n9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_lq0l439uEei_Gs2eKrNFag" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Enumeration" xmi:id="_lq0l5H9uEei_Gs2eKrNFag" name="NotificationType">
+              <ownedLiteral xmi:id="_lq0l5X9uEei_Gs2eKrNFag" name="SET">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_lq0l5n9uEei_Gs2eKrNFag"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_lq0l539uEei_Gs2eKrNFag" name="UNSET">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_lq0l6H9uEei_Gs2eKrNFag" value="1"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_lq0l6X9uEei_Gs2eKrNFag" name="ADD">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_lq0l6n9uEei_Gs2eKrNFag" value="2"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_lq0l639uEei_Gs2eKrNFag" name="ADD_MANY">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_lq0l7H9uEei_Gs2eKrNFag" value="3"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_lq0l7X9uEei_Gs2eKrNFag" name="REMOVE">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_lq0l7n9uEei_Gs2eKrNFag" value="4"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_lq0l739uEei_Gs2eKrNFag" name="REMOVE_MANY">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_lq0l8H9uEei_Gs2eKrNFag" value="5"/>
+              </ownedLiteral>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lq0l8X9uEei_Gs2eKrNFag" name="Notification">
+              <eAnnotations xmi:id="_lq0l8n9uEei_Gs2eKrNFag" source="struct"/>
+              <ownedAttribute xmi:id="_lq0l839uEei_Gs2eKrNFag" name="type">
+                <type xsi:type="uml:Activity" href="UCore.tuml#|106"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0l9H9uEei_Gs2eKrNFag" value="1"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0l9X9uEei_Gs2eKrNFag" value="1"/>
+              </ownedAttribute>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_lq0l9n9uEei_Gs2eKrNFag" memberEnd="_lq0l939uEei_Gs2eKrNFag _lq0l-n9uEei_Gs2eKrNFag" navigableOwnedEnd="_lq0l-n9uEei_Gs2eKrNFag">
+                <ownedEnd xmi:id="_lq0l939uEei_Gs2eKrNFag" name="_instance_" type="_lq0l8X9uEei_Gs2eKrNFag" association="_lq0l9n9uEei_Gs2eKrNFag">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0l-H9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0l-X9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_lq0l-n9uEei_Gs2eKrNFag" name="instance" aggregation="shared" association="_lq0l9n9uEei_Gs2eKrNFag">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|107"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0l-39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0l_H9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_lq0l_X9uEei_Gs2eKrNFag" memberEnd="_lq0l_n9uEei_Gs2eKrNFag _lq0mAX9uEei_Gs2eKrNFag" navigableOwnedEnd="_lq0mAX9uEei_Gs2eKrNFag">
+                <ownedEnd xmi:id="_lq0l_n9uEei_Gs2eKrNFag" name="_feature_" type="_lq0l8X9uEei_Gs2eKrNFag" association="_lq0l_X9uEei_Gs2eKrNFag">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0l_39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mAH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_lq0mAX9uEei_Gs2eKrNFag" name="feature" aggregation="shared" association="_lq0l_X9uEei_Gs2eKrNFag">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|108"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mAn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mA39uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Interface" xmi:id="_lq0mBH9uEei_Gs2eKrNFag" name="IValueChangeListener">
+              <ownedOperation xmi:id="_lq0mBX9uEei_Gs2eKrNFag" name="onValueChange">
+                <ownedComment xmi:id="_lq0mBn9uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * This method is called, when a feature has changed&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @warn normally the new value has not been applied when this method is called. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * To get access to the new value, use notification.getNewValue()&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_lq0mB39uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|109"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mCH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mCX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mCn9uEei_Gs2eKrNFag" name="notification">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|110"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mC39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mDH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lq0mDX9uEei_Gs2eKrNFag" name="UObject" isAbstract="true">
+              <ownedOperation xmi:id="_lq0mDn9uEei_Gs2eKrNFag" name="registerListener">
+                <ownedComment xmi:id="_lq0mD39uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * register a listener that is notified, whenever the value of an structural feature changes&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note an instance of listener can only be registered once, if the listener instance is already&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * registered, this method has no effect&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note this listener will be notified for each change, if you would like to have a selective&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * notification, use registerListener(feature, listener)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_lq0mEH9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|111"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mEX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mEn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mE39uEei_Gs2eKrNFag" name="listener">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|112"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mFH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mFX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0mFn9uEei_Gs2eKrNFag" name="registerListener">
+                <ownedComment xmi:id="_lq0mF39uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * registers a listener that is notified, only if the value of the given feature changes&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note an instance of IValueChangeListener can only be registered once per UStructuralFeature. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * If this listener instance is already registered, this method has no effect. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_lq0mGH9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|113"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mGX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mGn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mG39uEei_Gs2eKrNFag" name="feature">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|114"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mHH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mHX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mHn9uEei_Gs2eKrNFag" name="listener">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|115"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mH39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mIH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0mIX9uEei_Gs2eKrNFag" name="removeClassifierListener">
+                <ownedComment xmi:id="_lq0mIn9uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * removes the listener&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note if the same instance of the listener has also been registered for an specific structural feature&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * this registration is not touched. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_lq0mI39uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|116"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mJH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mJX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mJn9uEei_Gs2eKrNFag" name="listener">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|117"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mJ39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mKH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0mKX9uEei_Gs2eKrNFag" name="removeListener">
+                <ownedComment xmi:id="_lq0mKn9uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * removes the listener from notification for the given feature. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note if the same instance of the listener has also been registered for any other feature, or for the whole class&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * this registrations are not touched&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_lq0mK39uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|118"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mLH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mLX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mLn9uEei_Gs2eKrNFag" name="feature">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|119"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mL39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mMH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mMX9uEei_Gs2eKrNFag" name="listener">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|120"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mMn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mM39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0mNH9uEei_Gs2eKrNFag" name="removeAllListener">
+                <ownedComment xmi:id="_lq0mNX9uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * removes all listener for the given feature&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note if a listener for the whole class has been registered, this registration is not touched. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_lq0mNn9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|121"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mN39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mOH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mOX9uEei_Gs2eKrNFag" name="feature">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|122"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mOn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mO39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0mPH9uEei_Gs2eKrNFag" name="removeAllClassifierListener">
+                <ownedComment xmi:id="_lq0mPX9uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * removes all listener that has not been registered for a specific structural feature. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_lq0mPn9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|123"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mP39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mQH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0mQX9uEei_Gs2eKrNFag" name="removeListener">
+                <ownedComment xmi:id="_lq0mQn9uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * completly remove the listener from this UObject instance&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_lq0mQ39uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|124"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mRH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mRX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mRn9uEei_Gs2eKrNFag" name="listener">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|125"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mR39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mSH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0mSX9uEei_Gs2eKrNFag" name="needNotification">
+                <eAnnotations xmi:id="_lq0mSn9uEei_Gs2eKrNFag" source="const"/>
+                <ownedParameter xmi:id="_lq0mS39uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|126"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mTH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mTX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mTn9uEei_Gs2eKrNFag" name="feature">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|127"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mT39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mUH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0mUX9uEei_Gs2eKrNFag" name="unset">
+                <ownedParameter xmi:id="_lq0mUn9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|128"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mU39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mVH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mVX9uEei_Gs2eKrNFag" name="feature">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|129"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mVn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mV39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0mWH9uEei_Gs2eKrNFag" name="uGet">
+                <ownedParameter xmi:id="_lq0mWX9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|130"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mWn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mW39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mXH9uEei_Gs2eKrNFag" name="feature">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|131"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mXX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mXn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0mX39uEei_Gs2eKrNFag" name="uGet">
+                <ownedParameter xmi:id="_lq0mYH9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|132"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mYX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mYn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mY39uEei_Gs2eKrNFag" name="feature">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|133"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mZH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mZX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mZn9uEei_Gs2eKrNFag" name="index">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|134"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mZ39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0maH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0maX9uEei_Gs2eKrNFag" name="uSet">
+                <ownedParameter xmi:id="_lq0man9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|135"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0ma39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mbH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mbX9uEei_Gs2eKrNFag" name="feature">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|136"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mbn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mb39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mcH9uEei_Gs2eKrNFag" name="value">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|137"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mcX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mcn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0mc39uEei_Gs2eKrNFag" name="uAdd">
+                <ownedParameter xmi:id="_lq0mdH9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|138"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mdX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mdn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0md39uEei_Gs2eKrNFag" name="feature">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|139"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0meH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0meX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0men9uEei_Gs2eKrNFag" name="value">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|140"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0me39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mfH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0mfX9uEei_Gs2eKrNFag" name="uAdd">
+                <ownedParameter xmi:id="_lq0mfn9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|141"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mf39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mgH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mgX9uEei_Gs2eKrNFag" name="feature">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|142"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mgn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mg39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mhH9uEei_Gs2eKrNFag" name="index">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|143"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mhX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mhn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mh39uEei_Gs2eKrNFag" name="value">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|144"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0miH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0miX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq0min9uEei_Gs2eKrNFag" name="invoke">
+                <ownedComment xmi:id="_lq0mi39uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * Invokes an operation associated with this object (and defined in its UClassifier)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * in case the Operation has more than one parameter, the value shall contain the paramter values as array, in the same &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * order as the parameters. In case the Operation has no parameter the value may be null or any value (its ignored). &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @param operation the operation to be called on this instance&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @param the parameter value(s) or null&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @return the return value of the function or null if the operation is &quot;void&quot; operation&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_lq0mjH9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|145"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mjX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mjn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mj39uEei_Gs2eKrNFag" name="operation">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|146"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mkH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mkX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq0mkn9uEei_Gs2eKrNFag" name="value">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|147"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mk39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mlH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_lq0mlX9uEei_Gs2eKrNFag" memberEnd="_lq0ml39uEei_Gs2eKrNFag _lq0mmn9uEei_Gs2eKrNFag" navigableOwnedEnd="_lq0mmn9uEei_Gs2eKrNFag">
+                <ownedComment xmi:id="_lq0mln9uEei_Gs2eKrNFag" body="/** the type of this object */"/>
+                <ownedEnd xmi:id="_lq0ml39uEei_Gs2eKrNFag" name="_uClassifier_" type="_lq0mDX9uEei_Gs2eKrNFag" association="_lq0mlX9uEei_Gs2eKrNFag">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq0mmH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq0mmX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_lq0mmn9uEei_Gs2eKrNFag" name="uClassifier" isReadOnly="true" aggregation="shared" association="_lq0mlX9uEei_Gs2eKrNFag">
+                  <ownedComment xmi:id="_lq0mm39uEei_Gs2eKrNFag" body="/** the type of this object */"/>
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|148"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1MsH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1MsX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_lq1Msn9uEei_Gs2eKrNFag" memberEnd="_lq1MtH9uEei_Gs2eKrNFag _lq1Mt39uEei_Gs2eKrNFag" navigableOwnedEnd="_lq1Mt39uEei_Gs2eKrNFag">
+                <ownedComment xmi:id="_lq1Ms39uEei_Gs2eKrNFag" body="/** if this instance is part of an composite association (composition)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * the container points to the owner of this instance&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedEnd xmi:id="_lq1MtH9uEei_Gs2eKrNFag" name="_uContainer_" type="_lq0mDX9uEei_Gs2eKrNFag" association="_lq1Msn9uEei_Gs2eKrNFag">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1MtX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1Mtn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_lq1Mt39uEei_Gs2eKrNFag" name="uContainer" isReadOnly="true" aggregation="shared" association="_lq1Msn9uEei_Gs2eKrNFag">
+                  <ownedComment xmi:id="_lq1MuH9uEei_Gs2eKrNFag" body="/** if this instance is part of an composite association (composition)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * the container points to the owner of this instance&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|149"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1MuX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1Mun9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_lq1Mu39uEei_Gs2eKrNFag" memberEnd="_lq1MvH9uEei_Gs2eKrNFag _lq1Mv39uEei_Gs2eKrNFag" navigableOwnedEnd="_lq1Mv39uEei_Gs2eKrNFag">
+                <ownedEnd xmi:id="_lq1MvH9uEei_Gs2eKrNFag" name="_uContainingFeature_" type="_lq0mDX9uEei_Gs2eKrNFag" association="_lq1Mu39uEei_Gs2eKrNFag">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1MvX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1Mvn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_lq1Mv39uEei_Gs2eKrNFag" name="uContainingFeature" isReadOnly="true" aggregation="shared" association="_lq1Mu39uEei_Gs2eKrNFag">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|150"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1MwH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1MwX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lq1Mwn9uEei_Gs2eKrNFag" name="UType" isAbstract="true">
+              <generalization xmi:id="_lq1Mw39uEei_Gs2eKrNFag">
+                <general xsi:type="uml:Activity" href="UCore.tuml#|151"/>
+              </generalization>
+              <ownedOperation xmi:id="_lq1MxH9uEei_Gs2eKrNFag" name="inherits">
+                <eAnnotations xmi:id="_lq1MxX9uEei_Gs2eKrNFag" source="const"/>
+                <ownedComment xmi:id="_lq1Mxn9uEei_Gs2eKrNFag" body="/** checks if the query type inherits from this type */"/>
+                <ownedParameter xmi:id="_lq1Mx39uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|152"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1MyH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1MyX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq1Myn9uEei_Gs2eKrNFag" name="query">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|153"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1My39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1MzH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lq1MzX9uEei_Gs2eKrNFag" name="UPrimitiveType">
+              <generalization xmi:id="_lq1Mzn9uEei_Gs2eKrNFag">
+                <general xsi:type="uml:Activity" href="UCore.tuml#|154"/>
+              </generalization>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lq1Mz39uEei_Gs2eKrNFag" name="UClassifier" isAbstract="true">
+              <generalization xmi:id="_lq1M0H9uEei_Gs2eKrNFag">
+                <general xsi:type="uml:Activity" href="UCore.tuml#|155"/>
+              </generalization>
+              <ownedOperation xmi:id="_lq1M0X9uEei_Gs2eKrNFag" name="addParent">
+                <ownedComment xmi:id="_lq1M0n9uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * adds a new superType / parent type to this classifier&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * @precondition isFrozen() == false&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; */"/>
+                <ownedParameter xmi:id="_lq1M039uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|156"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1M1H9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1M1X9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq1M1n9uEei_Gs2eKrNFag" name="cl">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|157"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1M139uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1M2H9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1M2X9uEei_Gs2eKrNFag" name="createOperation">
+                <ownedComment xmi:id="_lq1M2n9uEei_Gs2eKrNFag" body="/** &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * adds a new operation to this type&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * @precondition isFrozen() == false&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; */"/>
+                <ownedParameter xmi:id="_lq1M239uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|158"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1M3H9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1M3X9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq1M3n9uEei_Gs2eKrNFag" name="name">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|159"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1M339uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1M4H9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1M4X9uEei_Gs2eKrNFag" name="getAllStructuralFeatures" isAbstract="true">
+                <ownedComment xmi:id="_lq1M4n9uEei_Gs2eKrNFag" body="/** returns all structural features of this classifier, &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * this includes the owned features as well as all features of &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * its parents&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; */"/>
+                <ownedParameter xmi:id="_lq1M439uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|160"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1M5H9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_lq1M5X9uEei_Gs2eKrNFag" value="*"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1M5n9uEei_Gs2eKrNFag" name="getAllAttributes">
+                <eAnnotations xmi:id="_lq1M539uEei_Gs2eKrNFag" source="const"/>
+                <ownedComment xmi:id="_lq1M6H9uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * returns all structural features, that have a primitive type (int, long, double, ...) &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * as type; e.g. feature.isAttribute() == true&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; */"/>
+                <ownedParameter xmi:id="_lq1M6X9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|161"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1M6n9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_lq1M639uEei_Gs2eKrNFag" value="*"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1M7H9uEei_Gs2eKrNFag" name="getAllReferences">
+                <eAnnotations xmi:id="_lq1M7X9uEei_Gs2eKrNFag" source="const"/>
+                <ownedComment xmi:id="_lq1M7n9uEei_Gs2eKrNFag" body="/** &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * returns all structural features that have a complex type; e.g. feature.isReference() == true&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; */"/>
+                <ownedParameter xmi:id="_lq1M739uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|162"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1M8H9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_lq1M8X9uEei_Gs2eKrNFag" value="*"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1M8n9uEei_Gs2eKrNFag" name="getAllStructuralFeatures">
+                <eAnnotations xmi:id="_lq1M839uEei_Gs2eKrNFag" source="const"/>
+                <ownedComment xmi:id="_lq1M9H9uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * returns structural features. (references)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @param type minimum filter, only features, with a more rigid association type will be added&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * into the iterator, following the order: &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * - COMPOSITION : only composite features&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * - ASSOCIATION: association and composition&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * - AGGREGATION: aggregation, association and compositon&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * - PROPERTY: all complex features&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @return&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_lq1M9X9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|163"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1M9n9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_lq1M939uEei_Gs2eKrNFag" value="*"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq1M-H9uEei_Gs2eKrNFag" name="type">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|164"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1M-X9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1M-n9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1M-39uEei_Gs2eKrNFag" name="getFeature">
+                <eAnnotations xmi:id="_lq1M_H9uEei_Gs2eKrNFag" source="const"/>
+                <ownedParameter xmi:id="_lq1M_X9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|165"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1M_n9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1M_39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq1NAH9uEei_Gs2eKrNFag" name="name">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|166"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NAX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NAn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1NA39uEei_Gs2eKrNFag" name="getOperation">
+                <eAnnotations xmi:id="_lq1NBH9uEei_Gs2eKrNFag" source="const"/>
+                <ownedParameter xmi:id="_lq1NBX9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|167"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NBn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NB39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq1NCH9uEei_Gs2eKrNFag" name="name">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|168"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NCX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NCn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1NC39uEei_Gs2eKrNFag" name="getAllParents">
+                <ownedParameter xmi:id="_lq1NDH9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|169"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NDX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_lq1NDn9uEei_Gs2eKrNFag" value="*"/>
+                </ownedParameter>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_lq1ND39uEei_Gs2eKrNFag" memberEnd="_lq1NEH9uEei_Gs2eKrNFag _lq1NE39uEei_Gs2eKrNFag" navigableOwnedEnd="_lq1NE39uEei_Gs2eKrNFag">
+                <ownedEnd xmi:id="_lq1NEH9uEei_Gs2eKrNFag" name="_interfaces_" type="_lq1Mz39uEei_Gs2eKrNFag" association="_lq1ND39uEei_Gs2eKrNFag">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NEX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NEn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_lq1NE39uEei_Gs2eKrNFag" name="interfaces" aggregation="shared" association="_lq1ND39uEei_Gs2eKrNFag">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|170"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NFH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_lq1NFX9uEei_Gs2eKrNFag" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_lq1NFn9uEei_Gs2eKrNFag" memberEnd="_lq1NF39uEei_Gs2eKrNFag _lq1NGn9uEei_Gs2eKrNFag" navigableOwnedEnd="_lq1NGn9uEei_Gs2eKrNFag">
+                <ownedEnd xmi:id="_lq1NF39uEei_Gs2eKrNFag" name="_operations_" type="_lq1Mz39uEei_Gs2eKrNFag" association="_lq1NFn9uEei_Gs2eKrNFag">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NGH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NGX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_lq1NGn9uEei_Gs2eKrNFag" name="operations" aggregation="composite" association="_lq1NFn9uEei_Gs2eKrNFag">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|171"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NG39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_lq1NHH9uEei_Gs2eKrNFag" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lq1NHX9uEei_Gs2eKrNFag" name="UInterface">
+              <generalization xmi:id="_lq1NHn9uEei_Gs2eKrNFag">
+                <general xsi:type="uml:Activity" href="UCore.tuml#|172"/>
+              </generalization>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lq1NH39uEei_Gs2eKrNFag" name="UClass">
+              <generalization xmi:id="_lq1NIH9uEei_Gs2eKrNFag">
+                <general xsi:type="uml:Activity" href="UCore.tuml#|173"/>
+              </generalization>
+              <ownedAttribute xmi:id="_lq1NIX9uEei_Gs2eKrNFag" name="~abstract">
+                <type xsi:type="uml:Activity" href="UCore.tuml#|174"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NIn9uEei_Gs2eKrNFag"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NI39uEei_Gs2eKrNFag" value="1"/>
+                <defaultValue xsi:type="uml:LiteralBoolean" xmi:id="_lq1NJH9uEei_Gs2eKrNFag"/>
+              </ownedAttribute>
+              <ownedOperation xmi:id="_lq1NJX9uEei_Gs2eKrNFag" name="createFeature">
+                <ownedComment xmi:id="_lq1NJn9uEei_Gs2eKrNFag" body="/** &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * creates a new StructuralFeature for this class&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * @precondition isFrozen() == false&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; */"/>
+                <ownedParameter xmi:id="_lq1NJ39uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|175"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NKH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NKX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq1NKn9uEei_Gs2eKrNFag" name="name">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|176"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NK39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NLH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1NLX9uEei_Gs2eKrNFag" name="createNewInstance">
+                <eAnnotations xmi:id="_lq1NLn9uEei_Gs2eKrNFag" source="const"/>
+                <ownedComment xmi:id="_lq1NL39uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; * Creates a new instance of the corresponding type&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  &#x9; */"/>
+                <ownedParameter xmi:id="_lq1NMH9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|177"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NMX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NMn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_lq1NM39uEei_Gs2eKrNFag" memberEnd="_lq1NNH9uEei_Gs2eKrNFag _lq1NN39uEei_Gs2eKrNFag" navigableOwnedEnd="_lq1NN39uEei_Gs2eKrNFag">
+                <ownedEnd xmi:id="_lq1NNH9uEei_Gs2eKrNFag" name="_superType_" type="_lq1NH39uEei_Gs2eKrNFag" association="_lq1NM39uEei_Gs2eKrNFag">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NNX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NNn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_lq1NN39uEei_Gs2eKrNFag" name="superType" aggregation="shared" association="_lq1NM39uEei_Gs2eKrNFag">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|178"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NOH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NOX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_lq1NOn9uEei_Gs2eKrNFag" memberEnd="_lq1NO39uEei_Gs2eKrNFag _lq1NPn9uEei_Gs2eKrNFag" navigableOwnedEnd="_lq1NPn9uEei_Gs2eKrNFag">
+                <ownedEnd xmi:id="_lq1NO39uEei_Gs2eKrNFag" name="_structuralFeatures_" type="_lq1NH39uEei_Gs2eKrNFag" association="_lq1NOn9uEei_Gs2eKrNFag">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NPH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NPX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_lq1NPn9uEei_Gs2eKrNFag" name="structuralFeatures" aggregation="composite" association="_lq1NOn9uEei_Gs2eKrNFag">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|179"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NP39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_lq1NQH9uEei_Gs2eKrNFag" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lq1NQX9uEei_Gs2eKrNFag" name="UEnum">
+              <generalization xmi:id="_lq1NQn9uEei_Gs2eKrNFag">
+                <general xsi:type="uml:Activity" href="UCore.tuml#|180"/>
+              </generalization>
+              <ownedOperation xmi:id="_lq1NQ39uEei_Gs2eKrNFag" name="createLiteral">
+                <ownedComment xmi:id="_lq1NRH9uEei_Gs2eKrNFag" body="/** &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   * creates a new Literal&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   * @precondition isFrozen() == false&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   */"/>
+                <ownedParameter xmi:id="_lq1NRX9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|181"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NRn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NR39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq1NSH9uEei_Gs2eKrNFag" name="name">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|182"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NSX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NSn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq1NS39uEei_Gs2eKrNFag" name="value">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|183"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NTH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NTX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1NTn9uEei_Gs2eKrNFag" name="createNewInstance">
+                <ownedParameter xmi:id="_lq1NT39uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|184"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NUH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NUX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq1NUn9uEei_Gs2eKrNFag" name="name">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|185"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NU39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NVH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1NVX9uEei_Gs2eKrNFag" name="createNewInstance">
+                <ownedParameter xmi:id="_lq1NVn9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|186"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NV39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NWH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq1NWX9uEei_Gs2eKrNFag" name="value">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|187"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NWn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NW39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1NXH9uEei_Gs2eKrNFag" name="createNewInstance">
+                <ownedParameter xmi:id="_lq1NXX9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|188"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NXn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NX39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq1NYH9uEei_Gs2eKrNFag" name="enumerator">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|189"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NYX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NYn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1NY39uEei_Gs2eKrNFag" name="getEnumerator">
+                <ownedParameter xmi:id="_lq1NZH9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|190"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NZX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NZn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq1NZ39uEei_Gs2eKrNFag" name="name">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|191"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NaH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NaX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1Nan9uEei_Gs2eKrNFag" name="getEnumerator">
+                <ownedParameter xmi:id="_lq1Na39uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|192"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NbH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NbX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+                <ownedParameter xmi:id="_lq1Nbn9uEei_Gs2eKrNFag" name="value">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|193"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1Nb39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NcH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_lq1NcX9uEei_Gs2eKrNFag" memberEnd="_lq1Ncn9uEei_Gs2eKrNFag _lq1NdX9uEei_Gs2eKrNFag" navigableOwnedEnd="_lq1NdX9uEei_Gs2eKrNFag">
+                <ownedEnd xmi:id="_lq1Ncn9uEei_Gs2eKrNFag" name="_literals_" type="_lq1NQX9uEei_Gs2eKrNFag" association="_lq1NcX9uEei_Gs2eKrNFag">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1Nc39uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NdH9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_lq1NdX9uEei_Gs2eKrNFag" name="literals" aggregation="composite" association="_lq1NcX9uEei_Gs2eKrNFag">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|194"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1Ndn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_lq1Nd39uEei_Gs2eKrNFag" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lq1NeH9uEei_Gs2eKrNFag" name="UEnumerator">
+              <generalization xmi:id="_lq1NeX9uEei_Gs2eKrNFag">
+                <general xsi:type="uml:Activity" href="UCore.tuml#|195"/>
+              </generalization>
+              <ownedAttribute xmi:id="_lq1Nen9uEei_Gs2eKrNFag" name="value">
+                <type xsi:type="uml:Activity" href="UCore.tuml#|196"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1Ne39uEei_Gs2eKrNFag"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NfH9uEei_Gs2eKrNFag" value="1"/>
+                <defaultValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NfX9uEei_Gs2eKrNFag"/>
+              </ownedAttribute>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lq1Nfn9uEei_Gs2eKrNFag" name="UException">
+              <generalization xmi:id="_lq1Nf39uEei_Gs2eKrNFag">
+                <general xsi:type="uml:Activity" href="UCore.tuml#|197"/>
+              </generalization>
+              <ownedAttribute xmi:id="_lq1NgH9uEei_Gs2eKrNFag" name="standardMessage">
+                <type xsi:type="uml:Activity" href="UCore.tuml#|198"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NgX9uEei_Gs2eKrNFag"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1Ngn9uEei_Gs2eKrNFag" value="1"/>
+              </ownedAttribute>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_lq1Ng39uEei_Gs2eKrNFag" memberEnd="_lq1NhH9uEei_Gs2eKrNFag _lq1Nh39uEei_Gs2eKrNFag" navigableOwnedEnd="_lq1Nh39uEei_Gs2eKrNFag">
+                <ownedEnd xmi:id="_lq1NhH9uEei_Gs2eKrNFag" name="_superType_" type="_lq1Nfn9uEei_Gs2eKrNFag" association="_lq1Ng39uEei_Gs2eKrNFag">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NhX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1Nhn9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_lq1Nh39uEei_Gs2eKrNFag" name="superType" aggregation="shared" association="_lq1Ng39uEei_Gs2eKrNFag">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|199"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NiH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NiX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lq1Nin9uEei_Gs2eKrNFag" name="UMultiplicity">
+              <ownedAttribute xmi:id="_lq1Ni39uEei_Gs2eKrNFag" name="lower">
+                <type xsi:type="uml:Activity" href="UCore.tuml#|200"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NjH9uEei_Gs2eKrNFag"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NjX9uEei_Gs2eKrNFag" value="1"/>
+                <defaultValue xsi:type="uml:LiteralInteger" xmi:id="_lq1Njn9uEei_Gs2eKrNFag"/>
+              </ownedAttribute>
+              <ownedAttribute xmi:id="_lq1Nj39uEei_Gs2eKrNFag" name="upper">
+                <type xsi:type="uml:Activity" href="UCore.tuml#|201"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NkH9uEei_Gs2eKrNFag"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NkX9uEei_Gs2eKrNFag" value="1"/>
+                <defaultValue xsi:type="uml:LiteralInteger" xmi:id="_lq1Nkn9uEei_Gs2eKrNFag" value="1"/>
+              </ownedAttribute>
+            </packagedElement>
+            <packagedElement xsi:type="uml:InstanceSpecification" xmi:id="_lq1Nk39uEei_Gs2eKrNFag" name="DefaultMultiplicity">
+              <classifier xsi:type="uml:Activity" href="UCore.tuml#|202"/>
+              <slot xmi:id="_lq1NlH9uEei_Gs2eKrNFag">
+                <definingFeature xsi:type="uml:Property" href="UCore.tuml#|203"/>
+                <value xsi:type="uml:LiteralInteger" xmi:id="_lq1NlX9uEei_Gs2eKrNFag"/>
+              </slot>
+              <slot xmi:id="_lq1Nln9uEei_Gs2eKrNFag">
+                <definingFeature xsi:type="uml:Property" href="UCore.tuml#|204"/>
+                <value xsi:type="uml:LiteralInteger" xmi:id="_lq1Nl39uEei_Gs2eKrNFag" value="1"/>
+              </slot>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Interface" xmi:id="_lq1NmH9uEei_Gs2eKrNFag" name="IStructuralElement">
+              <ownedOperation xmi:id="_lq1NmX9uEei_Gs2eKrNFag" name="getName">
+                <eAnnotations xmi:id="_lq1Nmn9uEei_Gs2eKrNFag" source="const"/>
+                <ownedParameter xmi:id="_lq1Nm39uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|205"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NnH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1NnX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1Nnn9uEei_Gs2eKrNFag" name="getDocumentation">
+                <eAnnotations xmi:id="_lq1Nn39uEei_Gs2eKrNFag" source="const"/>
+                <ownedParameter xmi:id="_lq1NoH9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|206"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1NoX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1Non9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1No39uEei_Gs2eKrNFag" name="getType">
+                <eAnnotations xmi:id="_lq1NpH9uEei_Gs2eKrNFag" source="const"/>
+                <ownedParameter xmi:id="_lq1NpX9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|207"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1Npn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1Np39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1NqH9uEei_Gs2eKrNFag" name="getMultiplicity">
+                <eAnnotations xmi:id="_lq1NqX9uEei_Gs2eKrNFag" source="const"/>
+                <ownedParameter xmi:id="_lq1Nqn9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|208"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1zwH9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1zwX9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1zwn9uEei_Gs2eKrNFag" name="isMany">
+                <eAnnotations xmi:id="_lq1zw39uEei_Gs2eKrNFag" source="const"/>
+                <ownedComment xmi:id="_lq1zxH9uEei_Gs2eKrNFag" body="/** returns true, if the more than one element can be stored within this feature ( upperBound != 1) */"/>
+                <ownedParameter xmi:id="_lq1zxX9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|209"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1zxn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1zx39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lq1zyH9uEei_Gs2eKrNFag" name="UTypedElement" isAbstract="true">
+              <generalization xmi:id="_lq1zyX9uEei_Gs2eKrNFag">
+                <general xsi:type="uml:Activity" href="UCore.tuml#|210"/>
+              </generalization>
+              <ownedOperation xmi:id="_lq1zyn9uEei_Gs2eKrNFag" name="isAttribute">
+                <eAnnotations xmi:id="_lq1zy39uEei_Gs2eKrNFag" source="const"/>
+                <ownedComment xmi:id="_lq1zzH9uEei_Gs2eKrNFag" body="/** returns true, if the type (getType()) references to an UPrimitiveType */"/>
+                <ownedParameter xmi:id="_lq1zzX9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|211"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1zzn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1zz39uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1z0H9uEei_Gs2eKrNFag" name="isReference">
+                <eAnnotations xmi:id="_lq1z0X9uEei_Gs2eKrNFag" source="const"/>
+                <ownedComment xmi:id="_lq1z0n9uEei_Gs2eKrNFag" body="/** returns true if the type is a complex type, e.g. isAttribute() == false */"/>
+                <ownedParameter xmi:id="_lq1z039uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|212"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1z1H9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1z1X9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1z1n9uEei_Gs2eKrNFag" name="isMany">
+                <eAnnotations xmi:id="_lq1z139uEei_Gs2eKrNFag" source="const"/>
+                <ownedComment xmi:id="_lq1z2H9uEei_Gs2eKrNFag" body="/** returns true, if the more than one element can be stored within this feature ( upperBound != 1) */"/>
+                <ownedParameter xmi:id="_lq1z2X9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|213"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1z2n9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1z239uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_lq1z3H9uEei_Gs2eKrNFag" memberEnd="_lq1z3X9uEei_Gs2eKrNFag _lq1z4H9uEei_Gs2eKrNFag" navigableOwnedEnd="_lq1z4H9uEei_Gs2eKrNFag">
+                <ownedEnd xmi:id="_lq1z3X9uEei_Gs2eKrNFag" name="_type_" type="_lq1zyH9uEei_Gs2eKrNFag" association="_lq1z3H9uEei_Gs2eKrNFag">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1z3n9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1z339uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_lq1z4H9uEei_Gs2eKrNFag" name="type" aggregation="shared" association="_lq1z3H9uEei_Gs2eKrNFag">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|214"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1z4X9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1z4n9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_lq1z439uEei_Gs2eKrNFag" memberEnd="_lq1z5H9uEei_Gs2eKrNFag _lq1z539uEei_Gs2eKrNFag" navigableOwnedEnd="_lq1z539uEei_Gs2eKrNFag">
+                <ownedEnd xmi:id="_lq1z5H9uEei_Gs2eKrNFag" name="_multiplicity_" type="_lq1zyH9uEei_Gs2eKrNFag" association="_lq1z439uEei_Gs2eKrNFag">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1z5X9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1z5n9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_lq1z539uEei_Gs2eKrNFag" name="multiplicity" aggregation="composite" association="_lq1z439uEei_Gs2eKrNFag">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|215"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1z6H9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1z6X9uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lq1z6n9uEei_Gs2eKrNFag" name="UStructuralFeature">
+              <generalization xmi:id="_lq1z639uEei_Gs2eKrNFag">
+                <general xsi:type="uml:Activity" href="UCore.tuml#|216"/>
+              </generalization>
+              <ownedAttribute xmi:id="_lq1z7H9uEei_Gs2eKrNFag" name="aggregation">
+                <type xsi:type="uml:Activity" href="UCore.tuml#|217"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1z7X9uEei_Gs2eKrNFag"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1z7n9uEei_Gs2eKrNFag" value="1"/>
+              </ownedAttribute>
+              <interfaceRealization xmi:id="_lq1z739uEei_Gs2eKrNFag" client="_lq1z6n9uEei_Gs2eKrNFag">
+                <contract href="UCore.tuml#|218"/>
+              </interfaceRealization>
+              <ownedOperation xmi:id="_lq1z8H9uEei_Gs2eKrNFag" name="getOwner">
+                <eAnnotations xmi:id="_lq1z8X9uEei_Gs2eKrNFag" source="const"/>
+                <ownedParameter xmi:id="_lq1z8n9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|219"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1z839uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1z9H9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_lq1z9X9uEei_Gs2eKrNFag" name="isReadOnly">
+                <eAnnotations xmi:id="_lq1z9n9uEei_Gs2eKrNFag" source="const"/>
+                <ownedComment xmi:id="_lq1z939uEei_Gs2eKrNFag" body="/**&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * returns true if the feature can not be written, though the reflection system&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; * @note a feature may be read only even if a setter is implemented within the implementation class, but not definied within the interface&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; */"/>
+                <ownedParameter xmi:id="_lq1z-H9uEei_Gs2eKrNFag" name="_return_" direction="return">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|220"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1z-X9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1z-n9uEei_Gs2eKrNFag" value="1"/>
+                </ownedParameter>
+              </ownedOperation>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lq1z-39uEei_Gs2eKrNFag" name="UOperation">
+              <generalization xmi:id="_lq1z_H9uEei_Gs2eKrNFag">
+                <general xsi:type="uml:Activity" href="UCore.tuml#|221"/>
+              </generalization>
+              <ownedAttribute xmi:id="_lq1z_X9uEei_Gs2eKrNFag" name="~abstract">
+                <type xsi:type="uml:Activity" href="UCore.tuml#|222"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq1z_n9uEei_Gs2eKrNFag"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq1z_39uEei_Gs2eKrNFag" value="1"/>
+              </ownedAttribute>
+              <ownedAttribute xmi:id="_lq10AH9uEei_Gs2eKrNFag" name="~const">
+                <type xsi:type="uml:Activity" href="UCore.tuml#|223"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq10AX9uEei_Gs2eKrNFag"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq10An9uEei_Gs2eKrNFag" value="1"/>
+              </ownedAttribute>
+              <interfaceRealization xmi:id="_lq10A39uEei_Gs2eKrNFag" client="_lq1z-39uEei_Gs2eKrNFag">
+                <contract href="UCore.tuml#|224"/>
+              </interfaceRealization>
+              <nestedClassifier xsi:type="uml:Association" xmi:id="_lq10BH9uEei_Gs2eKrNFag" memberEnd="_lq10BX9uEei_Gs2eKrNFag _lq10CH9uEei_Gs2eKrNFag" navigableOwnedEnd="_lq10CH9uEei_Gs2eKrNFag">
+                <ownedEnd xmi:id="_lq10BX9uEei_Gs2eKrNFag" name="_parameters_" type="_lq1z-39uEei_Gs2eKrNFag" association="_lq10BH9uEei_Gs2eKrNFag">
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq10Bn9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq10B39uEei_Gs2eKrNFag" value="1"/>
+                </ownedEnd>
+                <ownedEnd xmi:id="_lq10CH9uEei_Gs2eKrNFag" name="parameters" aggregation="composite" association="_lq10BH9uEei_Gs2eKrNFag">
+                  <type xsi:type="uml:Activity" href="UCore.tuml#|225"/>
+                  <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq10CX9uEei_Gs2eKrNFag"/>
+                  <upperValue xsi:type="uml:LiteralString" xmi:id="_lq10Cn9uEei_Gs2eKrNFag" value="*"/>
+                </ownedEnd>
+              </nestedClassifier>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Class" xmi:id="_lq10C39uEei_Gs2eKrNFag" name="UParameter">
+              <generalization xmi:id="_lq10DH9uEei_Gs2eKrNFag">
+                <general xsi:type="uml:Activity" href="UCore.tuml#|226"/>
+              </generalization>
+              <ownedAttribute xmi:id="_lq10DX9uEei_Gs2eKrNFag" name="direction">
+                <type xsi:type="uml:Activity" href="UCore.tuml#|227"/>
+                <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lq10Dn9uEei_Gs2eKrNFag"/>
+                <upperValue xsi:type="uml:LiteralUnlimitedNatural" xmi:id="_lq10D39uEei_Gs2eKrNFag" value="1"/>
+              </ownedAttribute>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Enumeration" xmi:id="_lq10EH9uEei_Gs2eKrNFag" name="UDirectionType">
+              <ownedLiteral xmi:id="_lq10EX9uEei_Gs2eKrNFag" name="IN">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_lq10En9uEei_Gs2eKrNFag"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_lq10E39uEei_Gs2eKrNFag" name="OUT">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_lq10FH9uEei_Gs2eKrNFag" value="1"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_lq10FX9uEei_Gs2eKrNFag" name="INOUT">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_lq10Fn9uEei_Gs2eKrNFag" value="2"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_lq10F39uEei_Gs2eKrNFag" name="RETURN">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_lq10GH9uEei_Gs2eKrNFag" value="3"/>
+              </ownedLiteral>
+            </packagedElement>
+            <packagedElement xsi:type="uml:Enumeration" xmi:id="_lq10GX9uEei_Gs2eKrNFag" name="UAssociationType">
+              <ownedLiteral xmi:id="_lq10Gn9uEei_Gs2eKrNFag" name="ASSOCIATION">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_lq10G39uEei_Gs2eKrNFag"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_lq10HH9uEei_Gs2eKrNFag" name="AGGREGATION">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_lq10HX9uEei_Gs2eKrNFag" value="1"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_lq10Hn9uEei_Gs2eKrNFag" name="COMPOSITION">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_lq10H39uEei_Gs2eKrNFag" value="2"/>
+              </ownedLiteral>
+              <ownedLiteral xmi:id="_lq10IH9uEei_Gs2eKrNFag" name="PROPERTY">
+                <specification xsi:type="uml:LiteralInteger" xmi:id="_lq10IX9uEei_Gs2eKrNFag" value="3"/>
+              </ownedLiteral>
+            </packagedElement>
+          </packagedElement>
+        </packagedElement>
+      </packagedElement>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

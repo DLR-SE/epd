@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ASCII"?>
+<jgc:UMLGenJava xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jgc="http://www.sos.de/de/sos/uml/UMLGenJava">
+  <model href="UCore.tuml#//@model"/>
+  <settings>
+    <project xsi:type="jgc:JavaProjectSettings" rootDirectory="." projectName="UCore" sourceDirectory="src/main/java" testDirectory="src/test/java" groupID="de.sos.ymf.tuml" version="0.0.1-SNAPSHOT"/>
+    <inter typePrefix="" typePostfix=""/>
+    <impl typePrefix="" typePostfix="Impl"/>
+  </settings>
+  <primitiveMappings qualifiedName="int">
+    <type href="UCore.tuml#//@model/de/int"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="double">
+    <type href="UCore.tuml#//@model/de/double"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="Object">
+    <type href="UCore.tuml#//@model/de/Object"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="boolean">
+    <type href="UCore.tuml#//@model/de/boolean"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="float">
+    <type href="UCore.tuml#//@model/de/float"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="long">
+    <type href="UCore.tuml#//@model/de/long"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="String">
+    <type href="UCore.tuml#//@model/de/String"/>
+  </primitiveMappings>
+  <primitiveMappings qualifiedName="void">
+    <type href="UCore.tuml#//@model/de/void"/>
+  </primitiveMappings>
+</jgc:UMLGenJava>

@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>CRS</artifactId>
+    <parent>
+        <groupId>de.dlr-se.emir.model.universal</groupId>
+        <artifactId>universal</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+    </parent>
+	
+    <properties>
+        <eMIR-Plugin-Class>de.emir.model.universal.CRSModel</eMIR-Plugin-Class>
+    </properties>
+	
+    <dependencies>
+        <dependency>
+            <groupId>de.dlr-se.emir.model.universal</groupId>
+            <artifactId>Math</artifactId>
+            <version>${model.version}</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>de.dlr-se.emir.model.universal</groupId>
+            <artifactId>Core</artifactId>
+            <version>${model.version}</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>net.jafama</groupId>
+            <artifactId>jafama</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>net.sf.geographiclib</groupId>
+            <artifactId>GeographicLib-Java</artifactId>
+            <version>2.0</version>
+        </dependency>
+    </dependencies>
+</project>

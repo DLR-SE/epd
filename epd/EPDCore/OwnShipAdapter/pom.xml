@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>EPDCore</artifactId>
+        <groupId>de.dlr-se.emir.epd</groupId>
+        <version>4.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>OwnShipAdapter</artifactId>
+    <name>Own Ship Adapter</name>
+    <description>This plugin can be used to "mock" own ship data from a NMEA AIS-stream. This is done by interpreting
+        messages from a ship with a user-defined data as data from the own ship.
+    </description>
+
+    <properties>
+        <eMIR-Plugin-Class>de.emir.epd.ownship.OwnShipAdapterPlugin</eMIR-Plugin-Class>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.dlr-se.emir.epd</groupId>
+            <artifactId>SimpleNMEASensor</artifactId>
+            <version>${epd.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.dlr-se.emir.epd</groupId>
+            <artifactId>RouteManager</artifactId>
+            <version>${epd.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.dlr-se.emir.epd</groupId>
+            <artifactId>OwnshipViewer</artifactId>
+            <version>${epd.version}</version>
+        </dependency>
+    </dependencies>
+</project>

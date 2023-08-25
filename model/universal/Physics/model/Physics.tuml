@@ -1,0 +1,204 @@
+#import "classpath:/model/Units.tuml"
+#import "classpath:/model/Spatial.tuml"
+#import "classpath:/model/Core.tuml"
+
+using UCore.de.*;
+/**
+* insert documentation for the model  
+*  
+*/
+Model Physics {
+	package de {
+		package emir {
+			package model {
+				package universal {
+					package physics {
+						
+						/** Convinience CRS that follows the referenced LocatableObject and thus creates
+						 * a stable coordinate reference system on top of the referenced object. 
+						 */
+						<< FeatureType >>
+						class RelativeEngineering2D extends Engineering2D {
+							/** locatable object, used to resolve the origin and orientation offset for this local coordinate reference system */
+							ref LocatableObject 		reference;
+						}
+						
+						   
+								  
+						
+						/** Each object that is located somehow shall extend this object
+						 * this has been separated from the PhysicalObject, since also non physical Objects 
+						 * like EnvironmentFactors or Information could be located somehow and may be handled the same
+						 * way (regarding their location operations) as a physical object. 
+						 */
+						abstract class LocatableObject extends IdentifiedObject {
+							/** Each locatable objects builds its own coordinate system, whereas the objects center is also 
+							 * the center of the reference system.
+							 **/
+							val RelativeEngineering2D[1]				ownedCoordinateSystem;
+							/**
+							 * the pose is set to readonly to indicate, that an object that has an location 
+							 * not necessarily can move, e.g. change its pose. For example a building does not move but is locatable
+							 */
+							val Pose[1]			pose;
+							 
+							
+						} 
+						
+						
+						
+						/**
+						* 	The ability to achieve a Desired Effect under specified (performance)
+						*	standards and conditions through combinations of ways and means (activities and
+						* 	resources) to perform a set of activities [DoDAF v2.02]
+						*/
+						interface ICapability {}
+						
+						interface IExecutableCapability extends ICapability {
+							void execute();
+						}
+						
+						/**
+						 * Abstract implementation of an ICapability used for backward compatibility
+						 */
+						abstract class Capability implements ICapability{
+							
+						}
+								
+						/** An (I)Characteristic is used to specialize an PhysicalObject. 
+						 * The interface is meant to be empty and has to be filled by implementing classes.
+						 * @note ICharacteristics are identified (within a PhysicalObject) through its type (UClassifier). However it
+						 * is possible to add more than one characteristic of the same type to an PhysicalObject
+						 */
+						interface ICharacteristic {}
+						
+						/**
+						 * Abstract implementation of an ICharacteristics, mainly used for backward compatibility */
+						@GMF(alias := "PhysicalObjectCharacteristic")
+						abstract class Characteristic implements ICharacteristic{
+						}
+						
+						
+						
+						struct ObjectSurfaceInformation extends Characteristic {
+							val Geometry		geometry;
+							
+							/** Returns the with of the Object. 
+							 * The Width may be calculated from the defined geometry*/
+							Length getWidth() const;
+							/** returns the length of the object
+							 * The length of the object may be calculated from the geometry
+							 */
+							Length getLength() const;
+							/** returns the height of the object (bounds)
+							 * The height of the object may be calculated from the geometry, if the geometry is defined in 3 dimensions, 
+							 * otherwise null is returned
+							 */
+							Length getHeight() const; 
+							
+							/** returns the 2D boundingbox of this object*/
+							Envelope getBoundingBox2D();
+							/** returns the 3D boundingbox of this object, if a third dimension could be detected, otherwise this is equals with getBoundingBox2D() */
+							Envelope getBoundingBox3D();
+						}
+						
+						struct MultiViewObjectSurfaceInforamtion extends ObjectSurfaceInformation {
+							/** 
+							 * Geometry as seen from a 90 degree angle along the main axis of the vessel
+							 * 
+							 */
+							Geometry sideGeometry;
+							/**
+							 * Geometry as seen if the vessel moves directly towards the own position
+							 */
+							Geometry frontGeometry; 
+							
+							/** returns the ObjectSurfaceInformation.geometry that is regarded as the geometry as viewed from top */
+							Geometry getTopGeometry() const;
+						}
+						
+						struct DynamicObjectCharacteristic extends Characteristic {
+							val AngularVelocity		angularVelocity; 
+							val Velocity			linearVelocity;
+							
+							void set(in Velocity linVel, in AngularVelocity angVal);
+							
+							void calculate(in Coordinate loc0, in Coordinate loc1, in Angle heading0, in Angle heading1, in Time elapsed);
+						}
+						
+						
+						<< ComplexAttributeType >>
+						class PoseChangeCapability extends Capability {
+							boolean setLocation(Coordinate coordinate);
+							boolean setOrientation(Orientation rotation);
+							
+						}
+						
+						<< FeatureType >>
+						class PhysicalObject extends LocatableObject {
+							@GMF(alias := "objectCharacteristics")
+							val ICharacteristic[*]					characteristics;
+							val ICapability[*]						capabilities;
+							val PhysicalObject[*]					children;
+							
+							ICharacteristic 	getFirstCharacteristic(UClassifier type, boolean includeSubTypes);
+							ICharacteristic[*] 	getAllCharacteristics(UClassifier type, boolean includeSubTypes);
+							
+							ICapability 		getFirstCapability(UClassifier type, boolean includeSubTypes);
+							ICapability[*] 		getAllCapabilities(UClassifier type, boolean includeSubTypes);
+						}
+						
+						
+						abstract class EnvironmentFactor extends LocatableObject {
+							val Geometry			areaOfInfluence;
+						}
+						class Wind extends EnvironmentFactor {
+							val Velocity 	velocity;
+						}
+						
+						
+						abstract class EnvironmentLayer extends IdentifiedObject {
+							CoordinateReferenceSystem getEnvironmentCRS() const;
+							Environment getEnvironment() const;							
+						}
+						
+
+
+						class ObjectLayer extends EnvironmentLayer {
+							val LocatableObject[*]			objects;
+						}
+						class GeographicLayer extends EnvironmentLayer {
+							val SpatialLayer[*]			spatials;
+						}
+						class EnvironmentFactorLayer extends EnvironmentLayer {
+							val EnvironmentFactor[*]		environmentFactors;
+						}
+						class Environment extends IdentifiedObject {
+							val CoordinateReferenceSystem[1]	crs;
+							val EnvironmentLayer[*]				layer;
+							val Environment[*]					children;
+						}
+						
+						
+						
+						struct Force extends DirectedMeasure
+						{
+							Vector			direction;
+							Coordinate		origin;
+							
+							double getMagnitude() const;
+							
+							Torque getTorque(Coordinate atPosition) const;
+							Force getForceAtPosition(Coordinate atPosition) const;
+						}
+						
+						struct Torque extends DirectedMeasure {
+							Vector 			value;
+						}
+					}
+				}
+			}
+
+		}
+	}
+}
