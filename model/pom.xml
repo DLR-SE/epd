@@ -15,11 +15,6 @@
 	<description>This contains the eMIR data model. It is separated in modules by usage level.</description>
 
 	<repositories>
-		<repository>
-			<id>emirgitlab</id>
-			<url>https://gitlab.dlr.de/api/v4/projects/25659/packages/maven</url>
-		</repository>
-		
 		<!-- Open Source Geospatial Foundation is the official repository used
 			by the GeoTools project for stable releases - use this repository when using
 			an official GeoTools numbered release -->
