@@ -7,19 +7,31 @@ import java.util.List;
 import de.emir.rcp.editor.model.form.part.PropertySheetFormProvider;
 import de.emir.tuml.ucore.runtime.UClassifier;
 import de.emir.tuml.ucore.runtime.extension.IExtensionPoint;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.utils.Pointer;
 
 public class FormEditorPartManager implements IExtensionPoint {
 
 	public static final String FORM_PROVIDER_EXTENSIONPOINT_ID = "de.emir.ui.emod.formprovider";
 
-	private static FormEditorPartManager sTheInstance = null;
-
+	private static volatile FormEditorPartManager sTheInstance = null;
+        private static Object MUTEX = new Object();
 	private HashMap<UClassifier, List<IFormEditorPart>> mProvider = new HashMap<>();
 	private boolean mInitialized = false;
 
 	public static FormEditorPartManager getInstance() {
-		return sTheInstance;
+            FormEditorPartManager result = sTheInstance;
+            if (result == null) {
+                synchronized (MUTEX) {
+                    result = sTheInstance;
+                    if (result == null) try {
+                        sTheInstance = result = new FormEditorPartManager();
+                    } catch (IllegalAccessException ex) {
+                        ULog.error("Could not create FormEditorPartManager instance. " + ex.getLocalizedMessage());
+                    } 
+                }
+            }
+            return result;
 	}
 
 	public FormEditorPartManager() throws IllegalAccessException {

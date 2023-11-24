@@ -5,6 +5,8 @@
  */
 
 import de.emir.service.codecs.nmea0183.encoding.sentence.AISSentence;
+import de.emir.service.codecs.nmea0183.encoding.sentence.Sentence;
+import de.emir.service.codecs.nmea0183.encoding.sentence.SentenceFactory;
 import de.emir.service.codecs.nmea0183.encoding.sentence.aissentences.AISSentenceHandler;
 import de.emir.service.codecs.nmea0183.encoding.sentence.aissentences.payload.decoded.DecodedAISPayload;
 import java.util.HashMap;

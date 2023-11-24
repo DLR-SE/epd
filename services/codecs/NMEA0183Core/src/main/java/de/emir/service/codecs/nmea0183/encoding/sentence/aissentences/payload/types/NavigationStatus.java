@@ -8,7 +8,7 @@ public enum NavigationStatus {
 	ConstrainedByHerDraught(4),
 	Moored(5),
 	Aground(6),
-	EngagedInFising(7),
+	EngagedInFishing(7),
 	UnderwaySailing(8),
 	ReservedForFutureUse9(9),
 	ReservedForFutureUse10(10),
