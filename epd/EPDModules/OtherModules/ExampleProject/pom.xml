@@ -6,7 +6,7 @@
     <parent>
         <artifactId>OtherModules</artifactId>
         <groupId>de.dlr-se.emir.epd</groupId>
-        <version>4.0.0-SNAPSHOT</version>
+        <version>4.0.0</version>
     </parent>
     <artifactId>ExampleProject</artifactId>
     <name>Example Project</name>

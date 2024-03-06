@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>de.dlr-se.emir.epd</groupId>
 		<artifactId>ModelModules</artifactId>
-		<version>4.0.0-SNAPSHOT</version>
+		<version>4.0.0</version>
 	</parent>
 	<artifactId>EPDAisModelAdapter</artifactId>
 	<name>EPD AIS Model Adapter</name>

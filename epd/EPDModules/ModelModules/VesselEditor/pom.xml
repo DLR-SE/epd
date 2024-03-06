@@ -4,7 +4,7 @@
     <parent>
         <groupId>de.dlr-se.emir.epd</groupId>
         <artifactId>ModelModules</artifactId>
-        <version>4.0.0-SNAPSHOT</version>
+        <version>4.0.0</version>
     </parent>
     <artifactId>VesselEditor</artifactId>
     <description>Adds views for editing Geometries. Adds a special view for editing a vessel visually</description>

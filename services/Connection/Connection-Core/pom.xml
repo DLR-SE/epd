@@ -4,10 +4,10 @@
 	<parent>
 		<groupId>de.dlr-se.emir.services</groupId>
 		<artifactId>connection</artifactId>
-		<version>4.0.0-SNAPSHOT</version>
+		<version>4.0.0</version>
 	</parent>
 	<artifactId>connection-core</artifactId>
-	<version>4.0.0-SNAPSHOT</version>
+	<version>4.0.0</version>
 	<name>Connection API</name>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
