@@ -5,14 +5,12 @@ import java.awt.Image;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.LookAndFeel;
-import javax.swing.plaf.basic.BasicLookAndFeel;
 
 import com.formdev.flatlaf.util.SystemInfo;
 
 import de.emir.rcp.model.AbstractModelProvider;
 import de.emir.rcp.pluginmanager.model.PmModelProvider;
 import de.emir.tuml.ucore.runtime.resources.IconManager;
-import javax.swing.UIManager;
 
 public class PluginManagerProduct extends AbstractUIProduct {
 
@@ -52,7 +50,7 @@ public class PluginManagerProduct extends AbstractUIProduct {
 
     @Override
     public String getSplashImagePath() {
-        return "PluginManagerSplash.png";
+        return "Splash.png";
     }
 
     public String getTitle() {

@@ -13,27 +13,32 @@ import de.emir.rcp.manager.SelectionManager;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.views.AbstractView;
 import de.emir.tuml.ucore.runtime.ITreeValueChangeListener;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * UI component for the AIS target info display.
+ */
 public class AisTargetView extends AbstractView {
-    private JLabel nameLbl;
-    private JLabel mmsiLbl;
-    private JLabel typeLbl;
-    private JLabel destinationLbl;
-    private JLabel dimensionsLbl;
-    private JLabel draughtLbl;
-    private JLabel posLbl;
-    private JLabel sogLbl;
-    private JLabel cogLbl;
-    private JLabel headingLbl;
-    private JLabel rotLbl;
+    protected JLabel nameLbl;
+    protected JLabel mmsiLbl;
+    protected JLabel typeLbl;
+    protected JLabel destinationLbl;
+    protected JLabel dimensionsLbl;
+    protected JLabel draughtLbl;
+    protected JLabel posLbl;
+    protected JLabel sogLbl;
+    protected JLabel cogLbl;
+    protected JLabel headingLbl;
+    protected JLabel rotLbl;
     protected Vessel currentSelected;
     protected Vessel currentFocused;
 
     protected ITreeValueChangeListener targetTreeListener;
     protected Vessel currentTarget;
+    protected boolean isListenerRegistered = false;
 
     private JPanel area;
     private JScrollPane sc;
@@ -52,8 +57,8 @@ public class AisTargetView extends AbstractView {
         Container parent = new JPanel();
         GridBagLayout gbl_parent = new GridBagLayout();
 
-        gbl_parent.columnWeights = new double[]{1.0};
-        gbl_parent.rowWeights = new double[]{1.0};
+        gbl_parent.columnWeights = new double[] { 1.0 };
+        gbl_parent.rowWeights = new double[] { 1.0 };
         parent.setLayout(gbl_parent);
 
         int row = 0;
@@ -74,12 +79,11 @@ public class AisTargetView extends AbstractView {
         sc.setViewportView(area);
         GridBagLayout gbl_area = new GridBagLayout();
 
-        gbl_area.columnWeights = new double[]{0.0, 1.0};
-        gbl_area.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+        gbl_area.columnWeights = new double[] { 0.0, 1.0 };
+        gbl_area.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
         area.setLayout(gbl_area);
 
-
-//        row++;
+        // row++;
         JLabel lblName = new JLabel("Name:");
         lblName.setForeground(UIManager.getColor("Label.disabledForeground"));
         GridBagConstraints gbc_lblName = new GridBagConstraints();
@@ -91,7 +95,8 @@ public class AisTargetView extends AbstractView {
 
         nameLbl = new JLabel("Unknown");
         this.nameLbl.setForeground(UIManager.getColor("Label.foreground"));
-        nameLbl.setFont(nameLbl.getFont().deriveFont(nameLbl.getFont().getStyle() | Font.BOLD, nameLbl.getFont().getSize() + 3));
+        nameLbl.setFont(nameLbl.getFont().deriveFont(nameLbl.getFont().getStyle() | Font.BOLD,
+                nameLbl.getFont().getSize() + 3));
 
         GridBagConstraints gbc_nameLbl = new GridBagConstraints();
         gbc_nameLbl.anchor = GridBagConstraints.WEST;
@@ -111,7 +116,8 @@ public class AisTargetView extends AbstractView {
         area.add(lblMmsi, gbc_lblMmsi);
 
         mmsiLbl = new JLabel("Unknown");
-        mmsiLbl.setFont(mmsiLbl.getFont().deriveFont(mmsiLbl.getFont().getStyle() | Font.BOLD, mmsiLbl.getFont().getSize() + 3));
+        mmsiLbl.setFont(mmsiLbl.getFont().deriveFont(mmsiLbl.getFont().getStyle() | Font.BOLD,
+                mmsiLbl.getFont().getSize() + 3));
         GridBagConstraints gbc_mmsiLbl = new GridBagConstraints();
         gbc_mmsiLbl.insets = new Insets(0, 5, 5, 0);
         gbc_mmsiLbl.anchor = GridBagConstraints.WEST;
@@ -130,7 +136,8 @@ public class AisTargetView extends AbstractView {
         area.add(lbltype, gbc_lbltype);
 
         typeLbl = new JLabel("Unknown");
-        typeLbl.setFont(typeLbl.getFont().deriveFont(typeLbl.getFont().getStyle() | Font.BOLD, typeLbl.getFont().getSize() + 3));
+        typeLbl.setFont(typeLbl.getFont().deriveFont(typeLbl.getFont().getStyle() | Font.BOLD,
+                typeLbl.getFont().getSize() + 3));
         GridBagConstraints gbc_typeLbl = new GridBagConstraints();
         gbc_typeLbl.insets = new Insets(0, 5, 5, 0);
         gbc_typeLbl.anchor = GridBagConstraints.WEST;
@@ -139,7 +146,7 @@ public class AisTargetView extends AbstractView {
         area.add(typeLbl, gbc_typeLbl);
 
         row++;
-//        JLabel lblDimensions = new JLabel("Dimensions (l, w):");
+        // JLabel lblDimensions = new JLabel("Dimensions (l, w):");
         JLabel lblDimensions = new JLabel("Length/Width:");
         lblDimensions.setForeground(UIManager.getColor("Label.disabledForeground"));
         GridBagConstraints gbc_lblDimensions = new GridBagConstraints();
@@ -150,7 +157,8 @@ public class AisTargetView extends AbstractView {
         area.add(lblDimensions, gbc_lblDimensions);
 
         dimensionsLbl = new JLabel("Unknown");
-        dimensionsLbl.setFont(dimensionsLbl.getFont().deriveFont(dimensionsLbl.getFont().getStyle() | Font.BOLD, dimensionsLbl.getFont().getSize() + 3));
+        dimensionsLbl.setFont(dimensionsLbl.getFont().deriveFont(dimensionsLbl.getFont().getStyle() | Font.BOLD,
+                dimensionsLbl.getFont().getSize() + 3));
         GridBagConstraints gbc_dimensionsLbl = new GridBagConstraints();
         gbc_dimensionsLbl.insets = new Insets(0, 5, 5, 0);
         gbc_dimensionsLbl.anchor = GridBagConstraints.WEST;
@@ -179,7 +187,8 @@ public class AisTargetView extends AbstractView {
         area.add(lblDestination, gbc_lblDestination);
 
         destinationLbl = new JLabel("Unknown");
-        destinationLbl.setFont(destinationLbl.getFont().deriveFont(destinationLbl.getFont().getStyle() | Font.BOLD, destinationLbl.getFont().getSize() + 3));
+        destinationLbl.setFont(destinationLbl.getFont().deriveFont(destinationLbl.getFont().getStyle() | Font.BOLD,
+                destinationLbl.getFont().getSize() + 3));
         GridBagConstraints gbc_destinationLbl = new GridBagConstraints();
         gbc_destinationLbl.insets = new Insets(0, 5, 5, 0);
         gbc_destinationLbl.anchor = GridBagConstraints.WEST;
@@ -198,7 +207,8 @@ public class AisTargetView extends AbstractView {
         area.add(lblDraught, gbc_lblDraught);
 
         draughtLbl = new JLabel("Unknown");
-        draughtLbl.setFont(draughtLbl.getFont().deriveFont(draughtLbl.getFont().getStyle() | Font.BOLD, draughtLbl.getFont().getSize() + 3));
+        draughtLbl.setFont(draughtLbl.getFont().deriveFont(draughtLbl.getFont().getStyle() | Font.BOLD,
+                draughtLbl.getFont().getSize() + 3));
         GridBagConstraints gbc_draughtLbl = new GridBagConstraints();
         gbc_draughtLbl.insets = new Insets(0, 5, 5, 0);
         gbc_draughtLbl.anchor = GridBagConstraints.WEST;
@@ -227,7 +237,8 @@ public class AisTargetView extends AbstractView {
         area.add(lblPosition, gbc_lblPosition);
 
         posLbl = new JLabel("Unknown");
-        posLbl.setFont(posLbl.getFont().deriveFont(posLbl.getFont().getStyle() | Font.BOLD, posLbl.getFont().getSize() + 3));
+        posLbl.setFont(
+                posLbl.getFont().deriveFont(posLbl.getFont().getStyle() | Font.BOLD, posLbl.getFont().getSize() + 3));
         GridBagConstraints gbc_posLbl = new GridBagConstraints();
         gbc_posLbl.anchor = GridBagConstraints.WEST;
         gbc_posLbl.insets = new Insets(0, 5, 5, 5);
@@ -246,7 +257,8 @@ public class AisTargetView extends AbstractView {
         area.add(lblSog, gbc_lblSog);
 
         sogLbl = new JLabel("Unknown");
-        sogLbl.setFont(sogLbl.getFont().deriveFont(sogLbl.getFont().getStyle() | Font.BOLD, sogLbl.getFont().getSize() + 3));
+        sogLbl.setFont(
+                sogLbl.getFont().deriveFont(sogLbl.getFont().getStyle() | Font.BOLD, sogLbl.getFont().getSize() + 3));
         GridBagConstraints gbc_sogLbl = new GridBagConstraints();
         gbc_sogLbl.insets = new Insets(0, 5, 5, 0);
         gbc_sogLbl.anchor = GridBagConstraints.WEST;
@@ -265,7 +277,8 @@ public class AisTargetView extends AbstractView {
         area.add(lblCog, gbc_lblCog);
 
         cogLbl = new JLabel("Unknown");
-        cogLbl.setFont(cogLbl.getFont().deriveFont(cogLbl.getFont().getStyle() | Font.BOLD, cogLbl.getFont().getSize() + 3));
+        cogLbl.setFont(
+                cogLbl.getFont().deriveFont(cogLbl.getFont().getStyle() | Font.BOLD, cogLbl.getFont().getSize() + 3));
         GridBagConstraints gbc_cogLbl = new GridBagConstraints();
         gbc_cogLbl.insets = new Insets(0, 5, 5, 0);
         gbc_cogLbl.anchor = GridBagConstraints.WEST;
@@ -284,7 +297,8 @@ public class AisTargetView extends AbstractView {
         area.add(lblHeading, gbc_lblHeading);
 
         headingLbl = new JLabel("Unknown");
-        headingLbl.setFont(headingLbl.getFont().deriveFont(headingLbl.getFont().getStyle() | Font.BOLD, headingLbl.getFont().getSize() + 3));
+        headingLbl.setFont(headingLbl.getFont().deriveFont(headingLbl.getFont().getStyle() | Font.BOLD,
+                headingLbl.getFont().getSize() + 3));
         GridBagConstraints gbc_headingLbl = new GridBagConstraints();
         gbc_headingLbl.insets = new Insets(0, 5, 5, 0);
         gbc_headingLbl.anchor = GridBagConstraints.WEST;
@@ -303,7 +317,8 @@ public class AisTargetView extends AbstractView {
         area.add(lblRot, gbc_lblRot);
 
         rotLbl = new JLabel("Unknown");
-        rotLbl.setFont(rotLbl.getFont().deriveFont(rotLbl.getFont().getStyle() | Font.BOLD, rotLbl.getFont().getSize() + 3));
+        rotLbl.setFont(
+                rotLbl.getFont().deriveFont(rotLbl.getFont().getStyle() | Font.BOLD, rotLbl.getFont().getSize() + 3));
         GridBagConstraints gbc_rotLbl = new GridBagConstraints();
         gbc_rotLbl.insets = new Insets(0, 5, 5, 0);
         gbc_rotLbl.anchor = GridBagConstraints.WEST;
@@ -324,33 +339,45 @@ public class AisTargetView extends AbstractView {
         SelectionManager sm = PlatformUtil.getSelectionManager();
 
         sm.subscribe(MVBasic.MAP_FOCUS_CTX, oo -> {
-
             if (oo.isPresent() == true && oo.get() instanceof Vessel) {
                 currentFocused = (Vessel) oo.get();
+                // If the current selected target changed, remove treelisteners for the old
+                // target, set the new target and register the listeners.
+                if (currentTarget != currentFocused) {
+                    currentTarget.removeTreeListener(targetTreeListener);
+                    currentTarget = currentFocused;
+                    currentTarget.registerTreeListener(targetTreeListener);
+                }
             } else {
                 currentFocused = null;
             }
-
-            updateCurrentTarget();
+            updateInformation();
+            // updateCurrentTarget();
 
         });
 
         sm.subscribe(MVBasic.MAP_SELECTION_CTX, oo -> {
-
+           
             if (oo.isPresent() == true && oo.get() instanceof Vessel) {
                 currentSelected = (Vessel) oo.get();
+                if (currentTarget != currentSelected && currentSelected != null) {
+                    if (currentTarget != null) {
+                        currentTarget.removeTreeListener(targetTreeListener);
+                    }
+                    currentTarget = currentSelected;
+                    currentTarget.registerTreeListener(targetTreeListener);
+                }
             } else {
                 currentSelected = null;
             }
-
-            updateCurrentTarget();
+            updateInformation();
+            // updateCurrentTarget();
 
         });
 
     }
 
     protected void updateCurrentTarget() {
-
         if (currentTarget != null) {
             currentTarget.removeTreeListener(targetTreeListener);
         }
@@ -364,7 +391,6 @@ public class AisTargetView extends AbstractView {
         if (currentTarget != null) {
             currentTarget.registerTreeListener(targetTreeListener);
         }
-
         updateInformation();
     }
 
@@ -436,9 +462,8 @@ public class AisTargetView extends AbstractView {
             if (coord != null) {
                 posLbl.setText(
                         CRSUtils.toDegreeMinuteSecond(coord.getLatitude()) +
-                        " / " +
-                        CRSUtils.toDegreeMinuteSecond(coord.getLongitude())
-                );
+                                " / " +
+                                CRSUtils.toDegreeMinuteSecond(coord.getLongitude()));
             } else {
                 posLbl.setText("Unknown");
             }
@@ -449,7 +474,11 @@ public class AisTargetView extends AbstractView {
         Speed sogSpeed = PhysicalObjectUtils.getSOG(v);
         if (sogSpeed != null) {
             float sog = (float) sogSpeed.getAs(SpeedUnit.KNOTS);
-            sogLbl.setText(String.format("%.1fkn", sog));
+            if (Float.compare(sog, 102.3f) == 0) {
+                sogLbl.setText("Not available");
+            } else {
+                sogLbl.setText(String.format("%.1fkn", sog));
+            }
         } else {
             sogLbl.setText("Unknown");
         }
@@ -457,7 +486,11 @@ public class AisTargetView extends AbstractView {
         Angle cogAngle = PhysicalObjectUtils.getCOG(v);
         if (cogAngle != null) {
             float cog = (float) cogAngle.getAs(AngleUnit.DEGREE);
-            cogLbl.setText(String.format("%.1f°", cog));
+            if (Float.compare(cog, 360.0f) == 0) {
+                cogLbl.setText("Not available");
+            } else {
+                cogLbl.setText(String.format("%.1f°", cog));
+            }
         } else {
             cogLbl.setText("Unknown");
         }
@@ -465,7 +498,11 @@ public class AisTargetView extends AbstractView {
         Angle headingAngle = PhysicalObjectUtils.getHeading(v);
         if (headingAngle != null) {
             float heading = (float) headingAngle.getAs(AngleUnit.DEGREE);
-            headingLbl.setText(String.format("%.1f°", heading));
+            if (Float.compare(heading, 511.0f) == 0) {
+                headingLbl.setText("Not available");
+            } else {
+                headingLbl.setText(String.format("%.1f°", heading));
+            }
         } else {
             headingLbl.setText("Unknown");
         }
@@ -473,7 +510,12 @@ public class AisTargetView extends AbstractView {
         AngularSpeed rotSpeed = PhysicalObjectUtils.getRateOfTurn(v);
         if (rotSpeed != null) {
             double rot = rotSpeed.getAs(AngularSpeedUnit.DEGREES_PER_MINUTE);
-            rotLbl.setText(String.format("%.1f°/min", rot));
+            if (Double.compare(rot, -128.0) == 0) {
+                rotLbl.setText("Not available");
+            } else {
+                rotLbl.setText(String.format("%.1f°/min", rot));
+            }
+
         } else {
             rotLbl.setText("Unknown");
         }

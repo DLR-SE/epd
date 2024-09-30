@@ -1,5 +1,9 @@
 package de.emir.rcp.settings.basics.keybindings;
 
+import de.emir.model.universal.plugincore.var.AbstractKeyBinding;
+import de.emir.model.universal.plugincore.var.EditorKeyBinding;
+import de.emir.model.universal.plugincore.var.GlobalKeyBinding;
+import de.emir.model.universal.plugincore.var.ViewKeyBinding;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,10 +12,6 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import de.emir.rcp.editors.ep.Editor;
-import de.emir.rcp.keybindings.ep.AbstractKeyBinding;
-import de.emir.rcp.keybindings.ep.EditorKeyBinding;
-import de.emir.rcp.keybindings.ep.GlobalKeyBinding;
-import de.emir.rcp.keybindings.ep.ViewKeyBinding;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.settings.basics.keybindings.KeyBindingSettingsPage.KeyBindingData;
 import de.emir.rcp.views.ep.ViewDescriptor;

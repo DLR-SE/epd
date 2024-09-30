@@ -69,7 +69,7 @@ public class SettingsWizardPage extends AbstractWizardPage {
 				
 			}
 		});
-		area.setTreeWidth(160);
+		area.setTreeWidth(120);
 		area.setDetailsAreaProvider(new IDetailsAreaProvider() {
 			
 			@Override

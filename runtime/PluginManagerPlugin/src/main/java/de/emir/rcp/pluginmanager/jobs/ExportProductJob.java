@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -349,9 +351,14 @@ public class ExportProductJob implements IJob {
             pm.build();
             productFile.setLocalRepository("repository");
 
+            if(data.isRemoveCredentials()) {
+                productFile.clearCredentials();
+            }
+
             if (data.isRemoveAllRepositories() == true) {
                 productFile.clearRepositories();
             }
+
 
         } else if (data.isOnlineRelease()) {
             String targetRepoPath = targetRoot.getAbsolutePath() + File.separator + "repository";
@@ -375,6 +382,10 @@ public class ExportProductJob implements IJob {
             pm.load();
             pm.build();
             productFile.setLocalRepository("repository");
+
+            if(data.isRemoveCredentials()) {
+                productFile.clearCredentials();
+            }
 
             if (data.isRemoveAllRepositories() == true) {
                 productFile.clearRepositories();
@@ -413,7 +424,24 @@ public class ExportProductJob implements IJob {
 
                     copyFile(f.toPath(), sourceRepo, targetRepo);
 
+                    // Find all metadata files for each dependency and copy to the exported repo to enable
+                    // support for maven version ranges which is only possible if the metadata files are present
+                    File metadataPath = f.getParentFile().getParentFile();
+                    try(Stream<Path> stream = Files.list(metadataPath.toPath())) {
+                        List<Path> files = stream
+                                .filter(path -> !Files.isDirectory(path))
+                                .filter(path -> path.getFileName().toString().startsWith("maven-metadata"))
+                                .filter(path -> path.getFileName().toString().endsWith(".xml"))
+                                .collect(Collectors.toList());
+                        for(Path path : files) {
+                            copyFile(path, sourceRepo, targetRepo);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
+
+
 
                 for (URL url : descURLs) {
                     File f = new File(url.toURI());

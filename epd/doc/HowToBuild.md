@@ -1,7 +1,7 @@
 ## Build Instructions
 
-The EPD is entirely written in Java 11 and by using Maven. By default, the code is only compatible with Java 11 and 
-also requires a JRE11 environment for execution. For other Java versions take a look at the chapter 
+The EPD is entirely written in Java 21 and by using Maven. By default, the code is only compatible with Java 21 and 
+also requires a JRE21 environment for execution. For other Java versions take a look at the chapter 
 [Other Java Versions](#other-java-versions), which may include version specific instructions for building and 
 running. The user interface of the EPD is built on top of swing and a fork of 
 [jxMapViewer](https://github.com/sbehrensen/jxmapviewer2).
@@ -55,10 +55,7 @@ The following section provides step-by-step instructions to build an executable 
 
 ### Other Java Versions
 
-This section contains java version specific instructions for other Java Versions as Java 11. 
-
-#### Java 19
-The EPD can be build with Java 19 build running an instance requires additional arguments for the JVM:
-`--add-opens java.desktop/java.awt=ALL-UNNAMED` (tested on `Debian 11` with `Java 19`).
+This section contains java version specific instructions for other Java Versions as Java 21. 
+Currently no other Java versions have been tested with the EPD version 4.1.0.
 
 

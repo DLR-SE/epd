@@ -144,6 +144,8 @@ public abstract class AbstractGeometryPanel extends JPanel {
     }
 
     protected void updateTransform() {
+        if (geometry == null) return;
+        
         if (mTransform == null) {
             getPointTransform();
         }

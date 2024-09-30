@@ -1,5 +1,6 @@
 package de.emir.rcp.settings.basics.keybindings;
 
+import de.emir.model.universal.plugincore.var.GlobalKeyBinding;
 import java.awt.Component;
 
 import javax.swing.Icon;
@@ -9,7 +10,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 import de.emir.rcp.editors.ep.Editor;
-import de.emir.rcp.keybindings.ep.GlobalKeyBinding;
 import de.emir.rcp.views.ep.ViewDescriptor;
 import de.emir.tuml.ucore.runtime.resources.IconManager;
 

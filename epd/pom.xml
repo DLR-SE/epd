@@ -4,7 +4,7 @@
     <parent>
         <groupId>de.dlr-se.emir</groupId>
         <artifactId>emir</artifactId>
-        <version>4.0.0-SNAPSHOT</version>
+        <version>4.1.0</version>
     </parent>
     <artifactId>epd</artifactId>
 	<groupId>de.dlr-se.emir.epd</groupId>
@@ -12,6 +12,15 @@
 	<packaging>pom</packaging>
     <description>eMIR Prototype Display (EPD) conatains frontend plugins to assemble eMIR products like prototype ECDIS or VTS.
     </description>
+
+    <build>
+        <plugins>
+            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+			</plugin>
+        </plugins>
+    </build>
 
 	<modules>
 		<module>EPDCore</module>

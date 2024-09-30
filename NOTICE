@@ -3,3 +3,7 @@ Copyright 2023 German Aerospace Center (DLR) Institute of Systems Engineering fo
 
 This product includes software developed at
 The Apache Software Foundation (http://www.apache.org/).
+
+This product includes software from:
+- the FasterXML Jackson project at https://github.com/FasterXML/jackson
+- the testng-team testng project at https://github.com/testng-team/testng

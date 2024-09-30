@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<UPackage documentation="" name="" xmlns:xmi="http://www.omg.org/XMI" xmi:id="dc03cad1-f171-4ce2-b2f7-0bf597ae97ab">
+    <content documentation="" name="EditorsProperties" xmi:id="f4975983-e93f-4759-9e76-dd4806e8232c" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="UPackage">
+        <content documentation="" name="OpenFilesEditorMap" xmi:id="96d071b6-b2e0-48b5-83f9-e58619ccb7f0" xsi:type="UPackage">
+            <content documentation="" name="" xmi:id="a69508fe-9462-4ab9-a3b2-8b728f9ed324" xsi:type="ConfigMap">
+                <package xmi:ref="96d071b6-b2e0-48b5-83f9-e58619ccb7f0"/>
+            </content>
+            <package xmi:ref="f4975983-e93f-4759-9e76-dd4806e8232c"/>
+        </content>
+        <content documentation="" name="FileExtMap" xmi:id="efcd37fe-c795-497d-bacc-4ff4aa93b9af" xsi:type="UPackage">
+            <content documentation="" name="" xmi:id="cc870925-46a7-46c3-8366-fb8f52a2d731" xsi:type="ConfigMap">
+                <package xmi:ref="efcd37fe-c795-497d-bacc-4ff4aa93b9af"/>
+            </content>
+            <package xmi:ref="f4975983-e93f-4759-9e76-dd4806e8232c"/>
+        </content>
+        <package xmi:ref="dc03cad1-f171-4ce2-b2f7-0bf597ae97ab"/>
+    </content>
+    <content xmi:ref="f4975983-e93f-4759-9e76-dd4806e8232c"/>
+    <content documentation="" name="de.emir.rcp.dev.DevToolPropertiesContext" xmi:id="289efce4-b3d6-485c-90b5-3efde8af0761" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="UPackage">
+        <UProperty d="" e="true" n="de">
+            <UProperty d="" e="true" n="emir">
+                <UProperty d="" e="true" n="rcp">
+                    <UProperty d="" e="true" n="dev">
+                        <UProperty d="" e="true" n="DevToolPropertiesContext" t="Boolean" v="false"/>
+                    </UProperty>
+                </UProperty>
+            </UProperty>
+        </UProperty>
+        <package xmi:ref="dc03cad1-f171-4ce2-b2f7-0bf597ae97ab"/>
+    </content>
+    <content xmi:ref="289efce4-b3d6-485c-90b5-3efde8af0761"/>
+    <content documentation="" name="keyBindingPropertyContext" xmi:id="77e05ca8-ca21-4ef8-afa5-ec004e7a425b" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="UPackage">
+        <content documentation="" name="keyBindings" xmi:id="3eee0d22-0a0f-4cdd-8501-9c3c24854d8e" xsi:type="UPackage">
+            <content documentation="" name="" xmi:id="fe23bf8c-269f-466e-9123-d923beab7e4f" xsi:type="KeyBindings">
+                <deltas xmi:id="ca897826-ef41-463f-a993-e235ccc2fd06" xsi:type="UserDefinedDeltaAddKeyBinding">
+                    <newBinding commandID="de.emir.rcp.pluginmanager.cmd.SaveAndExitCommand" documentation="" key="ALT+X" name="de.emir.rcp.pluginmanager.cmd.SaveAndExitCommandALT+X" xmi:id="0197d319-f5ba-4ac0-9aac-6ef92090fa10" xsi:type="GlobalKeyBinding"/>
+                </deltas>
+                <deltas xmi:id="24554972-0cbc-4276-889d-4325e9adaa14" xsi:type="UserDefinedDeltaAddKeyBinding">
+                    <newBinding commandID="de.emir.rcp.pluginmanager.cmd.buggedAddPluginCommand" documentation="" key="CTRL+A" name="de.emir.rcp.pluginmanager.cmd.buggedAddPluginCommandCTRL+A" xmi:id="68c31deb-66ad-49aa-a9c5-a8c0ba372b3c" xsi:type="GlobalKeyBinding"/>
+                </deltas>
+                <deltas xmi:id="f4650259-e7d7-4c4b-b9cc-5358032b908d" xsi:type="UserDefinedDeltaChangeKeyBinding">
+                    <remove xmi:id="baf07037-4d05-4743-b905-fedd70bfdc06">
+                        <oldBinding xmi:ref="68c31deb-66ad-49aa-a9c5-a8c0ba372b3c"/>
+                    </remove>
+                    <add xmi:id="8d175bdb-443f-4f6c-b761-98c80ef0fe87">
+                        <newBinding commandID="de.emir.rcp.pluginmanager.cmd.buggedAddPluginCommand" documentation="" key="CTRL+A" name="" xmi:id="9cf41af2-8f48-45d8-a1a4-24927cbc75b7" xsi:type="GlobalKeyBinding"/>
+                    </add>
+                </deltas>
+                <deltas xmi:id="280057fe-bbfe-448b-9aa2-ee281334ddcf" xsi:type="UserDefinedDeltaDeleteKeyBinding">
+                    <oldBinding xmi:ref="9cf41af2-8f48-45d8-a1a4-24927cbc75b7"/>
+                </deltas>
+                <deltas xmi:id="c729ed22-9dd6-4823-8646-f11405be269c" xsi:type="UserDefinedDeltaAddKeyBinding">
+                    <newBinding commandID="de.emir.rcp.pluginmanager.cmd.buggedAddPluginCommand" documentation="" key="CTRL+P" name="de.emir.rcp.pluginmanager.cmd.buggedAddPluginCommandCTRL+P" xmi:id="a77cf56b-f8df-47c4-a2ae-ac9bae8c286b" xsi:type="GlobalKeyBinding"/>
+                </deltas>
+                <deltas xmi:id="54726bee-c6dc-4df4-80d8-4152e5e5a9a5" xsi:type="UserDefinedDeltaAddKeyBinding">
+                    <newBinding commandID="de.emir.rcp.pluginmanager.cmd.ResolvedependenciesCommand" documentation="" key="CTRL+R" name="de.emir.rcp.pluginmanager.cmd.ResolvedependenciesCommandCTRL+R" xmi:id="17e11529-f5e4-40bb-81eb-2f313bbcbe4c" xsi:type="GlobalKeyBinding"/>
+                </deltas>
+                <deltas xmi:id="f3ca6d9a-3d57-4fb8-bf7e-08197a4fe3a3" xsi:type="UserDefinedDeltaAddKeyBinding">
+                    <newBinding commandID="de.emir.rcp.pluginmanager.cmd.ExportProductCommand" documentation="" key="CTRL+E" name="de.emir.rcp.pluginmanager.cmd.ExportProductCommandCTRL+E" xmi:id="32bfb088-6cc2-4bf3-984a-1be3452a960a" xsi:type="GlobalKeyBinding"/>
+                </deltas>
+                <deltas xmi:id="cc2b82b1-5ce3-417d-ac61-d2020dc366d7" xsi:type="UserDefinedDeltaAddKeyBinding">
+                    <newBinding commandID="de.emir.rcp.pluginmanager.cmd.ExportProductCommand" documentation="" key="E" name="de.emir.rcp.pluginmanager.cmd.ExportProductCommandE" xmi:id="9429af3c-0bee-4411-9888-860508805e9d" xsi:type="GlobalKeyBinding"/>
+                </deltas>
+                <package xmi:ref="3eee0d22-0a0f-4cdd-8501-9c3c24854d8e"/>
+            </content>
+            <package xmi:ref="77e05ca8-ca21-4ef8-afa5-ec004e7a425b"/>
+        </content>
+        <package xmi:ref="dc03cad1-f171-4ce2-b2f7-0bf597ae97ab"/>
+    </content>
+    <content xmi:ref="77e05ca8-ca21-4ef8-afa5-ec004e7a425b"/>
+    <content documentation="" name="System" xmi:id="afa889dd-4739-473b-abf5-403604a055b5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="UPackage">
+        <UProperty d="" e="true" n="LayoutLockState" t="Boolean" v="true"/>
+        <UProperty d="" e="true" n="ShowExitDialog" t="Boolean" v="true"/>
+        <UProperty d="" e="true" n="Maximized" t="Integer" v="0"/>
+        <content documentation="" name="MainFrameGeometry" xmi:id="21e9fc57-5c4e-4137-ac8c-02398deb556b" xsi:type="UPackage">
+            <content documentation="" height="600" name="" width="800" x="600" xmi:id="de2564a6-2e5f-4a63-9ce4-7965a0034731" xsi:type="ConfigRectangle" y="500">
+                <package xmi:ref="21e9fc57-5c4e-4137-ac8c-02398deb556b"/>
+            </content>
+            <package xmi:ref="afa889dd-4739-473b-abf5-403604a055b5"/>
+        </content>
+        <package xmi:ref="dc03cad1-f171-4ce2-b2f7-0bf597ae97ab"/>
+    </content>
+    <content xmi:ref="afa889dd-4739-473b-abf5-403604a055b5"/>
+</UPackage>

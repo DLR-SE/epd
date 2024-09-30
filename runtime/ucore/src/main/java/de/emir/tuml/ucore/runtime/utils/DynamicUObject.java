@@ -244,4 +244,9 @@ public class DynamicUObject implements UObject {
 		//TODO
 		return null;
 	}
+
+    @Override
+    public void addProperty(IProperty property) {
+        //TODO
+    }
 }

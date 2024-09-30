@@ -9,7 +9,9 @@ public enum PositionFixingDevice {
 	Chayka(5),
 	IntegratedNavigationSystem(6),
 	Surveyed(7),
-	Galileo(8);
+	Galileo(8),
+    NotInUse(9),
+    InternalGNSS(15);
 	
 	private final Integer device;
 
@@ -27,6 +29,7 @@ public enum PositionFixingDevice {
 
 	public static PositionFixingDevice fromInteger(Integer integer) {
 		if (integer != null) {
+            if (integer >= 9 && integer <= 14) return PositionFixingDevice.NotInUse;
 			for (PositionFixingDevice b : PositionFixingDevice.values()) {
 				if (integer.equals(b.device)) {
 					return b;

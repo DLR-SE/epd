@@ -24,6 +24,10 @@ public class MMSI implements Serializable {
 	public static MMSI valueOf(Long mmsi) {
 		return new MMSI(mmsi);
 	}
+
+    public MMSI(MMSI copy) {
+        this.mmsi = copy.mmsi;
+    }
 	
 	@Override
 	public int hashCode() {

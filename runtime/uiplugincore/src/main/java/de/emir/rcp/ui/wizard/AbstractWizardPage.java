@@ -5,8 +5,7 @@ import java.awt.LayoutManager;
 import javax.swing.JPanel;
 
 /**
- * @auhtor Johannes Donath <johannesd@evil-co.com>
- * @copyright Copyright (C) 2014 Evil-Co <http://www.evil-co.org>
+ * @auhtor Johannes Donath
  */
 public abstract class AbstractWizardPage extends JPanel implements IWizardPage {
 

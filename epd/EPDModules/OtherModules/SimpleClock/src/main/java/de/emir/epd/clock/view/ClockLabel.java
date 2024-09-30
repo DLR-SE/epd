@@ -3,11 +3,7 @@
  */
 package de.emir.epd.clock.view;
 
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.time.Instant;
@@ -78,12 +74,23 @@ public class ClockLabel extends JLabel {
 
 	public Dimension getTextSize(JLabel label, Font font) {
 		Dimension size = new Dimension();
-		g.setFont(font);
-		FontMetrics fm = g.getFontMetrics(font);
-		//size.width = fm.stringWidth(" " + label.getText() + " ");
-		size.width = fm.stringWidth(" 9999-99-99 ");
-		size.height = fm.getHeight() * 2;
-		return size;
+		if(g != null) {
+			g.setFont(font);
+			FontMetrics fm = g.getFontMetrics(font);
+			//size.width = fm.stringWidth(" " + label.getText() + " ");
+			size.width = fm.stringWidth(" 9999-99-99 ");
+			size.height = fm.getHeight() * 2;
+			return size;
+		} else {
+			Canvas c = new Canvas();
+			c.setFont(font);
+			FontMetrics fm = c.getFontMetrics(font);
+			//size.width = fm.stringWidth(" " + label.getText() + " ");
+			size.width = fm.stringWidth(" 9999-99-99 ");
+			size.height = fm.getHeight() * 2;
+			return size;
+		}
+
 	}
 
 	@Override

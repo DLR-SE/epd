@@ -38,14 +38,14 @@ public class ConsoleView extends AbstractView {
 
 	private ConsolePanel mPanel;
 
-	private IProperty<Level> mLogLevel = null;
+	private IProperty<String> mLogLevel = null;
 
 	private PropertyContext pContext = PropertyStore.getContext(PROPERTY_CONTEXT_ID);
 
 	public ConsoleView(String id) {
 		super(id);
-		
-		mLogLevel = pContext.getProperty(LOG_LEVEL_PROPERTY, Level.INFO); 
+
+		mLogLevel = pContext.getProperty(LOG_LEVEL_PROPERTY, "INFO");
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class ConsoleView extends AbstractView {
 			public synchronized void doAppend(LoggingEvent event) {
 				if (event == null || event.getLevel() == null)
 					return;
-				if (event.getLevel().isGreaterOrEqual(mLogLevel.getValue()))
+				if (event.getLevel().isGreaterOrEqual(Level.toLevel(mLogLevel.getValue())))
 					publisher.onNext(event);
 			}
 		});

@@ -1,5 +1,11 @@
 package de.emir.tuml.ucore.runtime.prop.internal;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import de.emir.tuml.ucore.runtime.IDisposable;
 import de.emir.tuml.ucore.runtime.ITreeValueChangeListener;
 import de.emir.tuml.ucore.runtime.UObject;
@@ -8,23 +14,21 @@ import de.emir.tuml.ucore.runtime.prop.AbstractProperty;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
 import de.emir.tuml.ucore.runtime.utils.Pointer;
 
-public class GenericProperty<T extends Object> extends AbstractProperty<T> implements IDisposable {
+public class GenericProperty<T> extends AbstractProperty<T> implements IDisposable {
 
     /**
      * 
      */
     private static final long serialVersionUID = -8405591448562089600L;
-    private final String 	mName;
-    private final String 	mDescription;
-    private final boolean 	mEditable;
+    private final String name;
+    private final String description;
+    private final boolean editable;
 
-    protected T 			mValue;
-    
-    
+    protected T value;
     
     //////////////// Optional created values ///////////////////
-	private Pointer 		mPointer;
-	private IDisposable		mPointerDisposable;
+	private Pointer 		pointer;
+	private IDisposable		pointerDisposable;
 
     public GenericProperty(String name, String description) {
         this(name, description, true);
@@ -33,56 +37,61 @@ public class GenericProperty<T extends Object> extends AbstractProperty<T> imple
     public GenericProperty(final String name, final String description, final boolean editable) {
         this(name, description, editable, null);
     }
-
+                
+    @JsonCreator
     public GenericProperty(final String name, final String description, final boolean editable, final T value) {
         super();
-        mName = name;
-        mDescription = description;
-        mEditable = editable;
+        this.name = name;
+        this.description = description;
+        this.editable = editable;
 
-        mValue = value;
+        this.value = value;
     }
 
     public GenericProperty(GenericProperty<T> _copy) {
         super(_copy);
-        mName = _copy.mName;
-        mDescription = _copy.mDescription;
-        mEditable = _copy.mEditable;
-        mValue = _copy.mValue;
+        name = _copy.name;
+        description = _copy.description;
+        editable = _copy.editable;
+        value = _copy.value;
     }
 
     @Override
     public String getName() {
-        return mName;
+        return name;
     }
 
     @Override
     public String getDescription() {
-        return mDescription;
+        return description;
     }
 
     @Override
     public Class<?> getType() {
-        return mValue != null ? mValue.getClass() : null;
+        return value != null ? value.getClass() : null;
+    }
+    
+    public void setType(Class<?> type) {
+        // do nothing
     }
 
     @Override
     public T getValue() {
-        return mValue;
+        return value;
     }
 
     @Override
     public void setValue(Object value) {
-        if (value != mValue) {
-            Object oldValue = mValue;
-            mValue = (T) value;
-            firePropertyChange(oldValue, mValue);
+        if (value != this.value) {
+            Object oldValue = this.value;
+            this.value = (T) value;
+            firePropertyChange(oldValue, this.value);
         }
     }
 
     @Override
     public boolean isEditable() {
-        return mEditable;
+        return editable;
     }
 
     @Override
@@ -104,35 +113,34 @@ public class GenericProperty<T extends Object> extends AbstractProperty<T> imple
         setValue(value);
     }
 
-    
     public Pointer getPointer() {
-    	if (mPointer == null) {
+    	if (pointer == null) {
 	    	Object value = getValue();
 	    	if (value != null && value instanceof UObject) {
-	    		mPointer = PointerOperations.create((UObject)value);
-	    		mPointerDisposable = PointerOperations.observePointer(
-                        mPointer,
+	    		pointer = PointerOperations.create((UObject)value);
+	    		pointerDisposable = PointerOperations.observePointer(
+                        pointer,
                         (ITreeValueChangeListener) pl -> firePropertyChange(pl.getOldValue(), pl.getNewValue()
                         )
                 );
 	    	}
     	}
-    	return mPointer;
+    	return pointer;
     }
     
     
 	@Override
 	public void dispose() {
 		super.dispose();
-		if (mPointerDisposable != null)
-			mPointerDisposable.dispose();
-		mPointer = null;
-		mPointerDisposable = null;
+		if (pointerDisposable != null)
+			pointerDisposable.dispose();
+		pointer = null;
+		pointerDisposable = null;
 	}
 
 	@Override
 	public boolean isDisposed() {
-		return super.isDisposed() || mPointerDisposable != null;
+		return super.isDisposed() || pointerDisposable != null;
 	}
     
     

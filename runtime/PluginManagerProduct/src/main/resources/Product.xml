@@ -2,18 +2,19 @@
 
 	<!-- This is NOT a MAVEN file it just uses a similar syntax -->
 
-	<name>PluginManagerProduct</name>
+	<name>${project.name}</name>
 	<description>This is the PluginManager. Use it to modify an existing product configuration or create a new product from scratch.</description>
-	<localRepos>~/.m2/repository</localRepos>
+	<version>${project.version}</version>
+	<localRepos>${settings.localRepository}</localRepos>
 
 	<workspaces>
 	</workspaces>
 
 	<dependencies>
 		<dependency>
-			<groupId>de.emir.runtime</groupId>
+			<groupId>de.dlr-se.emir.runtime</groupId>
 			<artifactId>PluginManagerPlugin</artifactId>
-			<version>4.0.0-SNAPSHOT</version>
+			<version>${runtime.version}</version>
 		</dependency>
 	</dependencies>
 

@@ -63,8 +63,8 @@ public class EnvelopeImpl extends UObjectImpl implements Envelope
 	 *	@generated
 	 */
 	public EnvelopeImpl(final Envelope _copy) {
-		mMinPoint = _copy.getMinPoint();
-		mMaxPoint = _copy.getMaxPoint();
+		mMinPoint = new CoordinateImpl(_copy.getMinPoint());
+		mMaxPoint = new CoordinateImpl(_copy.getMaxPoint());
 	}
 	
 	/**
@@ -72,8 +72,8 @@ public class EnvelopeImpl extends UObjectImpl implements Envelope
 	 *	@generated
 	 */
 	public EnvelopeImpl(Coordinate _minPoint, Coordinate _maxPoint) {
-		mMinPoint = _minPoint; 
-		mMaxPoint = _maxPoint; 
+		mMinPoint = new CoordinateImpl(_minPoint); 
+		mMaxPoint = new CoordinateImpl(_maxPoint); 
 	}
 	
 	public EnvelopeImpl(double x, double y, double x2, double y2, CoordinateReferenceSystem crs) {

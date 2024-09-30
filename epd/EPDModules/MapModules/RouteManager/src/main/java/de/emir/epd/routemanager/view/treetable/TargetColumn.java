@@ -1,9 +1,9 @@
 package de.emir.epd.routemanager.view.treetable;
 
 import de.emir.epd.routemanager.IRouteManager.IRouteAccessModel;
-import de.emir.ui.utils.treetable.TreeTableModel;
 import de.emir.ui.utils.treetable.umodel.AbstractColumnProvider;
 import de.emir.ui.utils.treetable.umodel.IColumnProvider;
+import org.jdesktop.swingx.treetable.TreeTableModel;
 
 public class TargetColumn extends AbstractColumnProvider implements IColumnProvider {
 

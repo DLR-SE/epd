@@ -1,10 +1,5 @@
 package de.emir.service.routeservices.impl;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
-import de.emir.service.routeservices.RouteservicesPackage;
-
 import de.emir.model.domain.maritime.iec61174.Route;
 import de.emir.model.domain.maritime.iec61174.WayPoints;
 import de.emir.model.domain.maritime.iec61174.Waypoint;
@@ -17,21 +12,26 @@ import de.emir.model.universal.spatial.impl.CoordinateImpl;
 import de.emir.model.universal.units.SpeedUnit;
 import de.emir.model.universal.units.impl.SpeedImpl;
 import de.emir.service.routeservices.ICSVRouteFile;
-import de.emir.service.routeservices.impl.RouteImportImpl;
+import de.emir.service.routeservices.RouteservicesPackage;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
+
 
 /**
- *	@generated 
+ *	@generated
  */
 @UMLImplementation(classifier = ICSVRouteFile.class)
-public class CSVRouteFileImpl extends RouteImportImpl implements ICSVRouteFile  
+public class CSVRouteFileImpl extends RouteImportImpl implements ICSVRouteFile
 {
-	
-	
-			
+
+
+
 	/**
 	 *	Default constructor
 	 *	@generated
@@ -39,7 +39,7 @@ public class CSVRouteFileImpl extends RouteImportImpl implements ICSVRouteFile
 	public CSVRouteFileImpl(){
 		super();
 	}
-	
+
 	/**
 	 *	Default copy constructor
 	 *	@generated
@@ -47,8 +47,8 @@ public class CSVRouteFileImpl extends RouteImportImpl implements ICSVRouteFile
 	public CSVRouteFileImpl(final ICSVRouteFile _copy) {
 		super(_copy);
 	}
-	
-	
+
+
 	/**
 	 * @generated
 	 */
@@ -70,7 +70,7 @@ public class CSVRouteFileImpl extends RouteImportImpl implements ICSVRouteFile
 		BufferedReader reader = new BufferedReader(new StringReader(definition.toString()));
 		return loadCSV(reader, crs);
 	}
-	
+
 	private Route loadCSV(BufferedReader reader, CoordinateReferenceSystem crs){
 			Route route = new RouteImpl();
 	        WayPoints wps = new WayPointsImpl();
@@ -79,7 +79,7 @@ public class CSVRouteFileImpl extends RouteImportImpl implements ICSVRouteFile
 	            boolean firstLine = true;
 	            String line = null;
 	            String formatErrorMsg = "Unrecognized route format";
-	            
+
 	            while ((line = reader.readLine()) != null) {
 	                // Ignore empty lines and comments
 	                if (line.length() == 0 || line.startsWith("//") || line.startsWith("#")) {
@@ -123,13 +123,13 @@ public class CSVRouteFileImpl extends RouteImportImpl implements ICSVRouteFile
 	                    } catch (Exception e) {
 	                        throw new IOException(formatErrorMsg + ": Error in position");
 	                    }
-	                   
+
 	                    // Add waypoint
 	                    route.getWaypoints().getWaypoints().add(wp);
 
 	                }
 	            }
-	            
+
 	        } catch (IOException e) {
 	            ULog.error("Failed to load route file: " + e.getMessage());
 	            try {
@@ -149,5 +149,10 @@ public class CSVRouteFileImpl extends RouteImportImpl implements ICSVRouteFile
 	        }
 
 	        return route;
+	}
+
+	@Override
+	public FileNameExtensionFilter getFileExtension() {
+		return new FileNameExtensionFilter("Comma Separated Values", "cvs", "CVS");
 	}
 }

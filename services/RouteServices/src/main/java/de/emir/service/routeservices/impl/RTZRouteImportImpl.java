@@ -1,24 +1,6 @@
 package de.emir.service.routeservices.impl;
 
-import java.io.IOException;
-import java.io.StringBufferInputStream;
-import de.emir.service.routeservices.IRTZRouteImport;
-import de.emir.service.routeservices.RouteservicesPackage;
-import de.emir.service.routeservices.impl.RouteImportImpl;
-import java.util.Collection;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
-
-import de.emir.model.domain.maritime.iec61174.Leg;
-import de.emir.model.domain.maritime.iec61174.LegGeometryType;
-import de.emir.model.domain.maritime.iec61174.Route;
-import de.emir.model.domain.maritime.iec61174.WayPoints;
-import de.emir.model.domain.maritime.iec61174.Waypoint;
+import de.emir.model.domain.maritime.iec61174.*;
 import de.emir.model.domain.maritime.iec61174.impl.LegImpl;
 import de.emir.model.domain.maritime.iec61174.impl.RouteImpl;
 import de.emir.model.domain.maritime.iec61174.impl.WayPointsImpl;
@@ -31,10 +13,21 @@ import de.emir.model.universal.units.DistanceUnit;
 import de.emir.model.universal.units.SpeedUnit;
 import de.emir.model.universal.units.impl.DistanceImpl;
 import de.emir.model.universal.units.impl.SpeedImpl;
+import de.emir.service.routeservices.IRTZRouteImport;
+import de.emir.service.routeservices.RouteservicesPackage;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
-import de.emir.tuml.ucore.runtime.utils.XMLReader;
 import de.emir.tuml.ucore.runtime.utils.XMLReaderIgnoreCase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
+
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.io.StringBufferInputStream;
+import java.util.Collection;
 
 
 /**
@@ -169,5 +162,10 @@ public class RTZRouteImportImpl extends RouteImportImpl implements IRTZRouteImpo
 		}
 		route.setWaypoints(wps);
 		return route;
+	}
+
+	@Override
+	public FileNameExtensionFilter getFileExtension() {
+		return new FileNameExtensionFilter("Route plan exchange format", "rtz", "RTZ");
 	}
 }

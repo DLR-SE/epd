@@ -179,12 +179,23 @@ public class QuaternionImpl extends UObjectImpl implements Quaternion , Orientat
 
 	/**
 	 * @inheritDoc
-	 * @generated
 	 */
 	public Quaternion multiply(final Quaternion other)
 	{
-		//TODO: 
-		throw new UnsupportedOperationException("multiply not yet implemented");
+		double a1 = this.getW();
+		double b1 = this.getX();
+		double c1 = this.getY();
+		double d1 = this.getZ();
+		double a2 = other.getW();
+		double b2 = other.getX();
+		double c2 = other.getY();
+		double d2 = other.getZ();
+		return new QuaternionImpl(
+				a1 * b2 + b1 * a2 + c1 * d2 + d1 * c2,
+				a1 * c2 - b1 * d2 + c1 * a2 + d1 * b2,
+				a1 * d2 + b1 * c2 - c1 * b2 + d1 * a2,
+				a1 * a2 - b1 * b2 - c1 * c2 - d1 * d2
+		);
 	}
 
 	/**

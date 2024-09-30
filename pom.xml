@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<version>4.0.0-SNAPSHOT</version>
+	<version>4.1.0</version>
 	<groupId>de.dlr-se.emir</groupId>
 	<artifactId>emir</artifactId>
 	<name>eMIR-OpenSource</name>
@@ -17,6 +17,14 @@
 		<developer>
 			<name>Jan Mentjes</name>
 			<email>jan.mentjes@dlr.de</email>
+		</developer>
+		<developer>
+			<name>Daniel Paland</name>
+			<email>daniel.paland@dlr.de</email>
+		</developer>
+		<developer>
+			<name>Arne Bokern</name>
+			<email>arne.bokern@dlr.de</email>
 		</developer>
 	</developers>
 
@@ -47,39 +55,44 @@
 	</modules>
 	
 	<properties>
-		<runtime.version>4.0.0-SNAPSHOT</runtime.version>
-		<model.version>4.0.0-SNAPSHOT</model.version>
-		<services.version>4.0.0-SNAPSHOT</services.version>
-		<haggis.version>4.0.0-SNAPSHOT</haggis.version>
-		<epd.version>4.0.0-SNAPSHOT</epd.version>
+		<runtime.version>4.1.0</runtime.version>
+		<model.version>4.1.0</model.version>
+		<services.version>4.1.0</services.version>
+		<haggis.version>4.1.0</haggis.version>
+		<epd.version>4.1.0</epd.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
-		<maven.require.version>3.5.4</maven.require.version>
-		<version.plugin.maven.jar>3.1.1</version.plugin.maven.jar>
-		<version.plugin.maven.clean>3.1.0</version.plugin.maven.clean>
-		<version.plugin.maven.install>3.0.0-M1</version.plugin.maven.install>
-		<version.plugin.maven.compiler>3.8.1</version.plugin.maven.compiler>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
+		<maven.require.version>3.6.3</maven.require.version>
+		<version.plugin.maven.jar>3.4.2</version.plugin.maven.jar>
+		<version.plugin.maven.clean>3.4.0</version.plugin.maven.clean>
+		<version.plugin.maven.install>3.1.3</version.plugin.maven.install>
+		<version.plugin.maven.compiler>3.13.0</version.plugin.maven.compiler>
 		<version.plugin.maven.source>3.0.1</version.plugin.maven.source>
-		<version.plugin.maven.site>3.10.0</version.plugin.maven.site>
-		<version.plugin.maven.checkstyle>3.1.2</version.plugin.maven.checkstyle>
-		<version.plugin.maven.resources>3.1.0</version.plugin.maven.resources>
-		<version.plugin.maven.surefire>2.22.0</version.plugin.maven.surefire>
-		<version.plugin.maven.enforcer>3.0.0</version.plugin.maven.enforcer>
-		<version.plugin.maven.deploy>3.0.0-M1</version.plugin.maven.deploy>
+		<version.plugin.maven.site>3.20.0</version.plugin.maven.site>
+		<version.plugin.maven.checkstyle>3.5.0</version.plugin.maven.checkstyle>
+		<version.plugin.maven.resources>3.3.1</version.plugin.maven.resources>
+		<version.plugin.maven.surefire>3.5.0</version.plugin.maven.surefire>
+		<version.plugin.maven.enforcer>3.5.0</version.plugin.maven.enforcer>
+		<version.plugin.maven.deploy>3.1.3</version.plugin.maven.deploy>
 		<version.plugin.maven.shade>3.2.1</version.plugin.maven.shade>
-		<version.plugin.maven.assembly>3.1.1</version.plugin.maven.assembly>
-		<version.plugin.maven.javadoc>3.3.1</version.plugin.maven.javadoc>
-		<version.plugin.maven.project-info-reports>3.1.2</version.plugin.maven.project-info-reports>
-		<version.plugin.maven.spotbugs>4.5.2.0</version.plugin.maven.spotbugs>
-		<version.plugin.maven.failsafe>3.0.0-M5</version.plugin.maven.failsafe>
+		<version.plugin.maven.assembly>3.7.1</version.plugin.maven.assembly>
+		<version.plugin.maven.javadoc>3.10.0</version.plugin.maven.javadoc>
+		<version.plugin.maven.project-info-reports>3.7.0</version.plugin.maven.project-info-reports>
+		<version.plugin.maven.spotbugs>4.8.6.2</version.plugin.maven.spotbugs>
+		<version.plugin.maven.failsafe>3.5.0</version.plugin.maven.failsafe>
+		<version.plugin.maven.license>2.4.0</version.plugin.maven.license>
 		<junit.version>4.13.2</junit.version>
 		<slf4j.version>1.7.25</slf4j.version>
-		<guava.version>31.1-jre</guava.version>
-		<rxjava.version>3.1.4</rxjava.version>
-		<geotools.version>27.0</geotools.version>
+		<guava.version>33.3.0-jre</guava.version>
+		<rxjava.version>3.1.9</rxjava.version>
+		<geotools.version>31.3</geotools.version>
+		<opengis.version>3.0.2</opengis.version>
 		<okhttp-version>3.14.9</okhttp-version>
 		<jts.version>1.18.2</jts.version>
+		<checkstyle.version>10.18.1</checkstyle.version>
+		<spotbugs.version>4.8.6</spotbugs.version>
+		<umldoclet.version>2.2.0</umldoclet.version>
 	</properties>
 	
 	<licenses>
@@ -92,6 +105,11 @@
     </licenses>
 
 	<repositories>
+		<repository>
+			<id>emirgitlab</id>
+			<url>https://gitlab.dlr.de/api/v4/projects/25659/packages/maven</url>
+		</repository>
+		
 		<repository>
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
@@ -199,12 +217,19 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-site-plugin</artifactId>
 					<version>${version.plugin.maven.site}</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.apache.maven.doxia</groupId>
+							<artifactId>doxia-module-markdown</artifactId>
+							<version>2.0.0-M12</version>
+						</dependency>
+					</dependencies>
 				</plugin>
 
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>license-maven-plugin</artifactId>
-					<version>1.16</version>
+					<version>${version.plugin.maven.license}</version>
 					<executions>
 						<execution>
 							<id>download-licenses</id>
@@ -223,7 +248,7 @@
 						<dependency>
 							<groupId>com.puppycrawl.tools</groupId>
 							<artifactId>checkstyle</artifactId>
-							<version>9.2.1</version>
+							<version>${checkstyle.version}</version>
 						</dependency>
 					</dependencies>
 				</plugin>
@@ -248,7 +273,7 @@
 						<docletArtifact>
 							<groupId>nl.talsmasoftware</groupId>
 							<artifactId>umldoclet</artifactId>
-							<version>2.0.15</version>
+							<version>${umldoclet.version}</version>
 						</docletArtifact>
 						<tags>
 							<tag>
@@ -269,7 +294,7 @@
 						<dependency>
 							<groupId>com.github.spotbugs</groupId>
 							<artifactId>spotbugs</artifactId>
-							<version>4.5.3</version>
+							<version>${spotbugs.version}</version>
 						</dependency>
 					</dependencies>
 				</plugin>
@@ -308,12 +333,6 @@
 					<failsOnError>false</failsOnError>
 					<linkXRef>false</linkXRef>
 				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>${version.plugin.maven.resources}</version>
 			</plugin>
 
 			<plugin>
@@ -367,6 +386,14 @@
 	</dependencyManagement>
 
 	<distributionManagement>
+		<repository>
+            <id>emirgitlab</id>
+            <url>https://gitlab.dlr.de/api/v4/projects/25659/packages/maven</url>
+        </repository>
+        <snapshotRepository>
+            <id>emirgitlab</id>
+            <url>https://gitlab.dlr.de/api/v4/projects/25659/packages/maven</url>
+        </snapshotRepository>
 		<site>
 			<id>emir.website</id>
 			<name>eMIR Website</name>

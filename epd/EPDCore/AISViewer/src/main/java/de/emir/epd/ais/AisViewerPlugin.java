@@ -6,11 +6,9 @@ import de.emir.epd.ais.cmd.impl.OpenShowRouteCommand;
 import de.emir.epd.ais.cmd.impl.ShowAllAisRoutesCommand;
 import de.emir.epd.ais.ids.AisBasics;
 import de.emir.epd.ais.manager.AisTargetManager;
-import de.emir.epd.ais.model.IAisReadAdapter;
 import de.emir.epd.mapview.ep.MapViewExtensionPoint;
 import de.emir.rcp.commands.ep.CommandExtensionPoint;
 import de.emir.rcp.commands.ep.ICommandDescriptor;
-import de.emir.rcp.menu.ep.IMenuItem;
 import de.emir.rcp.menu.ep.MenuExtensionPoint;
 import de.emir.rcp.settings.ep.SettingsPageExtensionPoint;
 import de.emir.rcp.views.ep.IViewGroup;
@@ -94,44 +92,5 @@ public class AisViewerPlugin extends AbstractUIPlugin {
 		spEP.page(AisBasics.AIS_VIEWER_SETTINGS_PAGE_ID, AisViewerSettingsPage.class)
 				.label("AIS")
 				.icon("icons/emiricons/32/settings_input_antenna.png", ResourceManager.get(getClass()));
-	}
-
-	@Override
-	public void preWindowOpen() {
-		try {
-//			ServiceManager.get(AisTargetManager.class).getModelReadAdapter()
-//					.subscribeChanged(new Consumer<Optional<Object>>() {
-//						@Override
-//						public void accept(Optional<Object> o) throws Exception {
-//							if (o.isPresent() == false) {
-//								return;
-//							}
-//
-//							Object obj = o.get();
-//							if (obj instanceof TargetSet) {
-//								TargetSet targetSet = (TargetSet) obj;
-//								IRouteManager.getDefaultRouteManager()
-//										.rebuildModel(Arrays.asList(targetSet.getAisTargets()));
-//							}
-//						}
-//					});
-			IAisReadAdapter mra = ServiceManager.get(AisTargetManager.class).getModelReadAdapter();
-
-			if (mra == null) {
-				return;
-			}
-
-			//TODO check if this works with all plugins, with map+nmea+aisview this works just fine
-//			mra.subscribeChanged(oo -> {
-//				Object obj = oo.get();
-//				if (obj instanceof Environment) {
-//					Environment targetSet = (Environment) obj;
-//					IRouteManager.getDefaultRouteManager()
-//							.rebuildModel(Arrays.asList(EPDModelUtils.getAisTargets(targetSet)));
-//				}
-//			});
-		} catch (NullPointerException e) {
-			LOG.error("No ModelReadAdapter available.", e);
-		}
 	}
 }

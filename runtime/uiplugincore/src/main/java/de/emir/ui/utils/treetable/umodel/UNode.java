@@ -6,30 +6,19 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.event.TreeExpansionEvent;
-import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
-import de.emir.tuml.ucore.runtime.IDelegateInterface;
-import de.emir.tuml.ucore.runtime.ITreeValueChangeListener;
 import de.emir.tuml.ucore.runtime.IValueChangeListener;
 import de.emir.tuml.ucore.runtime.Notification;
-import de.emir.tuml.ucore.runtime.UAnnotation;
-import de.emir.tuml.ucore.runtime.UAnnotationDetail;
-import de.emir.tuml.ucore.runtime.UAssociationType;
-import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.UClassifier;
-import de.emir.tuml.ucore.runtime.UMultiplicity;
 import de.emir.tuml.ucore.runtime.UObject;
-import de.emir.tuml.ucore.runtime.UOperation;
-import de.emir.tuml.ucore.runtime.UPackage;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
-import de.emir.tuml.ucore.runtime.UType;
 import de.emir.tuml.ucore.runtime.pointer.PointerOperations;
-import de.emir.tuml.ucore.runtime.prop.IProperty;
 import de.emir.tuml.ucore.runtime.utils.Pointer;
-import de.emir.tuml.ucore.runtime.utils.QualifiedName;
-import de.emir.tuml.ucore.runtime.utils.internal.TreeObserverUtil.TreeObserverOptions;
-import de.emir.ui.utils.treetable.DefaultMutableTreeTableNode;
+import javax.swing.tree.TreePath;
+import org.jdesktop.swingx.treetable.DefaultMutableTreeTableNode;
+import org.jdesktop.swingx.treetable.MutableTreeTableNode;
+import org.jdesktop.swingx.treetable.TreeTableNode;
 
 public class UNode extends DefaultMutableTreeTableNode implements IValueChangeListener{
 
@@ -93,7 +82,7 @@ public class UNode extends DefaultMutableTreeTableNode implements IValueChangeLi
 	}
 	
 	@Override
-	public TreeNode getChildAt(int index) {
+	public TreeTableNode getChildAt(int index) {
 		checkChildren();
 		return super.getChildAt(index);
 	}
@@ -152,7 +141,7 @@ public class UNode extends DefaultMutableTreeTableNode implements IValueChangeLi
 
 
 	@Override
-	public void insert(MutableTreeNode newChild, int childIndex) {
+	public void insert(MutableTreeTableNode newChild, int childIndex) {
 		mChildMap.put(((UNode)newChild).getUserObject(), ((UNode)newChild));
 		super.insert(newChild, childIndex);
 	}
@@ -163,7 +152,7 @@ public class UNode extends DefaultMutableTreeTableNode implements IValueChangeLi
 		super.remove(childIndex);
 	}
 	@Override
-	public void remove(MutableTreeNode aChild) {
+	public void remove(MutableTreeTableNode aChild) {
 		mChildMap.remove(((UNode)aChild).getUserObject());
 		super.remove(aChild);
 	}
@@ -207,6 +196,18 @@ public class UNode extends DefaultMutableTreeTableNode implements IValueChangeLi
 		return mPointer;
 	}
 	
-	
+    protected List<TreeTableNode> getParents(TreeTableNode item) {
+        List<TreeTableNode> result = new ArrayList<>();
+        if (item.getParent() != null) {
+            result.addAll(getParents(item.getParent()));
+        }
+        result.add(item);
+        return result;
+    }
+    
+	public TreePath getPath() {
+        TreePath result = new TreePath(getParents(parent).toArray(new TreeTableNode[0]));
+		return result;
+    }
 	
 }

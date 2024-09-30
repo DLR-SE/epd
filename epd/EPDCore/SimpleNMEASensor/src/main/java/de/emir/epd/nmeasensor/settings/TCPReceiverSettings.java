@@ -1,9 +1,11 @@
 package de.emir.epd.nmeasensor.settings;
 
-import de.emir.epd.nmeasensor.data.ReceiverProperty;
 import de.emir.epd.nmeasensor.ids.NMEASensorIds;
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
+import de.emir.rcp.ui.utils.properties.PropertyCheckboxWidget;
+import de.emir.rcp.ui.utils.properties.PropertySpinnerWidget;
+import de.emir.rcp.ui.utils.properties.PropertyTextWidget;
 
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
@@ -11,22 +13,18 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 
 public class TCPReceiverSettings extends AbstractReceiverSettings {
-	private JSpinner portSpinner;
-	private JTextField hostTextField;
+	private PropertySpinnerWidget portSpinner;
+	private PropertyTextWidget hostTextField;
 	private SpinnerModel model;
-	private JCheckBox chckbxAllowOutput;
-	private int initialPort;
-	private boolean initialServer;
-	private String initialHost;
+	private PropertyCheckboxWidget chckbxAllowOutput;
+	private int initialPort = 16100;
+	private boolean initialServer = false;
+	private String initialHost = "127.0.0.1";
 	
 	public TCPReceiverSettings(NMEASensorSettingsPage caller) {
 		this.caller = caller;
@@ -37,31 +35,22 @@ public class TCPReceiverSettings extends AbstractReceiverSettings {
 		hostLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 		hostLabel.setText("Host");
-		hostTextField = new JTextField(10);
-		hostTextField.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				readValues();
-			}
-		});
+		hostTextField = new PropertyTextWidget(NMEASensorIds.NMEA_SENSOR_PROP_CONTEXT,
+                caller.getNamePath() + "." + NMEASensorIds.NMEA_SENSOR_PROP_HOST,
+                "127.0.0.1"
+        );
 
 		JLabel lblPort = new JLabel("Port");
 
-		portSpinner = new JSpinner();
-		portSpinner.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				readValues();
-			}
-		});
+		portSpinner = new PropertySpinnerWidget(NMEASensorIds.NMEA_SENSOR_PROP_CONTEXT,
+                caller.getNamePath() + "." + NMEASensorIds.NMEA_SENSOR_PROP_PORT,
+                16100
+        );
 		
-		chckbxAllowOutput = new JCheckBox("Allow Output");
-		chckbxAllowOutput.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				readValues();
-			}
-		});
+		chckbxAllowOutput = new PropertyCheckboxWidget("Allow Output", NMEASensorIds.NMEA_SENSOR_PROP_CONTEXT,
+                caller.getNamePath() + "." + NMEASensorIds.NMEA_SENSOR_PROP_SERVER,
+                false
+        );
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -100,60 +89,47 @@ public class TCPReceiverSettings extends AbstractReceiverSettings {
 		setLayout(groupLayout);
 	}
 
+    @Override
 	public void readValues() {
-		receiverProperty.getAttributes().put(NMEASensorIds.NMEA_SENSOR_PROP_HOST, hostTextField.getText());
-		receiverProperty.getAttributes().put(NMEASensorIds.NMEA_SENSOR_PROP_PORT, (int) model.getValue());
-		receiverProperty.getAttributes().put(NMEASensorIds.NMEA_SENSOR_PROP_SERVER, chckbxAllowOutput.isSelected());
-		receiverProperty.setOutput(chckbxAllowOutput.isSelected());
-		dirtyFlag = (!initialHost.equals(hostTextField.getText()) || initialPort != (int) model.getValue()
+		dirtyFlag = (!initialHost.equals(hostTextField.getValue()) || initialPort != (int) model.getValue()
 				|| initialServer != chckbxAllowOutput.isSelected());
-		if (dirtyFlag) {
-        	caller.readValues();
-        }
 	}
+    
+    @Override
+    public boolean isDirty() {
+        readValues();
+        return dirtyFlag;
+    }
 	
-	public void init(ReceiverProperty receiverProperty) {
+    @Override
+	public void init() {
 		dirtyFlag = false;
-		if (receiverProperty == null) return;
-		this.receiverProperty = receiverProperty;
-		hostTextField.setText((String) receiverProperty.getAttributes().getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_HOST, "127.0.0.1"));
-		initialHost = hostTextField.getText();
-		hostTextField.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				readValues();
-			}
-		});
+		initialHost = hostTextField.getValue();
+        initialPort = (int) portSpinner.getProperty().getValue();
+        initialServer = chckbxAllowOutput.isSelected();
+		
 		JSpinner.NumberEditor editor = new JSpinner.NumberEditor(portSpinner, "#");
 		editor.getFormat().setGroupingUsed(false);
 		portSpinner.setEditor(editor);
-		model = new SpinnerNumberModel((int) receiverProperty.getAttributes().getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_PORT, 16100), 1, 65535, 1);
+		model = new SpinnerNumberModel(initialPort, 1, 65535, 1);
 		portSpinner.setModel(model);
-		portSpinner.setValue((int) receiverProperty.getAttributes().getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_PORT, 16100));
-		initialPort = (int) model.getValue();
 		model.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				readValues();
 			}
 		});
-		chckbxAllowOutput.setSelected((boolean) receiverProperty.getAttributes().getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_SERVER, false));
-		receiverProperty.setOutput(chckbxAllowOutput.isSelected());
-		initialServer = chckbxAllowOutput.isSelected();
 		chckbxAllowOutput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				readValues();
 			}
 		});
 	}
+
+    @Override
+    public void finish() {
+        hostTextField.finish();
+        portSpinner.finish();
+        chckbxAllowOutput.finish();
+    }
 }

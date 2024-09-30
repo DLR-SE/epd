@@ -2,11 +2,35 @@ package de.emir.service.codecs.nmea0183.encoding.sentence.aissentences.payload.t
 
 public enum ShipType {
 	NotAvailable(0),
+    ReservedForFutureUse1(1),
+    ReservedForFutureUse2(2),
+    ReservedForFutureUse3(3),
+    ReservedForFutureUse4(4),
+    ReservedForFutureUse5(5),
+    ReservedForFutureUse6(6),
+    ReservedForFutureUse7(7),
+    ReservedForFutureUse8(8),
+    ReservedForFutureUse9(9),
+    ReservedForFutureUse10(10),
+    ReservedForFutureUse11(11),
+    ReservedForFutureUse12(12),
+    ReservedForFutureUse13(13),
+    ReservedForFutureUse14(14),
+    ReservedForFutureUse15(15),
+    ReservedForFutureUse16(16),
+    ReservedForFutureUse17(17),
+    ReservedForFutureUse18(18),
+    ReservedForFutureUse19(19),
 	WingInGround(20),
 	WingInGroundHazardousA(21),
 	WingInGroundHazardousB(22),
 	WingInGroundHazardousC(23),
 	WingInGroundHazardousD(24),
+    WingInGroundFuture1(25),
+	WingInGroundFuture2(26),
+	WingInGroundFuture3(27),
+	WingInGroundFuture4(28),
+    WingInGroundFuture5(29),
 	Fishing(30),
 	Towing(31),
 	LargeTowing(32),
@@ -15,11 +39,18 @@ public enum ShipType {
 	MilitaryOps(35),
 	Sailing(36),
 	PleasureCraft(37),
+    Reserved1(38),
+    Reserved2(39),
 	HighSpeedCraft(40),
 	HighSpeedCraftHarzardousA(41),
 	HighSpeedCraftHarzardousB(42),
 	HighSpeedCraftHarzardousC(43),
 	HighSpeedCraftHarzardousD(44),
+    HighSpeedCraftFuture1(45),
+    HighSpeedCraftFuture2(46),
+    HighSpeedCraftFuture3(47),
+    HighSpeedCraftFuture4(48),
+    HighSpeedCraftNoAdditionalInfo(49),
 	PilotVessel(50),
 	SearchAndRescueVessel(51),
 	Tug(52),
@@ -87,6 +118,7 @@ public enum ShipType {
 
 	public static ShipType fromInteger(Integer integer) {
 		if (integer != null) {
+            if (integer > 99 || integer < 0) return ShipType.NotAvailable;
 			for (ShipType b : ShipType.values()) {
 				if (integer.equals(b.type)) {
 					return b;

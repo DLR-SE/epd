@@ -6,6 +6,7 @@ import de.emir.epd.model.EPDModelUtils;
 import de.emir.epd.nmeasensor.NMEAVesselManager;
 import de.emir.epd.ownship.ids.OwnshipBasics;
 import de.emir.epd.ownship.settings.OwnshipViewerSettingsPage;
+import de.emir.epd.ownship.settings.OwnshipViewerSettingsPage.OwnshipSource;
 import de.emir.model.domain.maritime.vessel.Vessel;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.properties.PropertyContext;
@@ -78,7 +79,15 @@ public class OwnshipViewerPlugin extends AbstractUIPlugin {
 	@Override
 	public void preWindowOpen() {
 		PropertyContext context = PropertyStore.getContext(OwnshipBasics.OWNSHIP_VIEWER_PROP_CONTEXT);
+		// If the ownship source settings or ownship MMSI was set to null by accident, revert to default values.
 		IProperty prop = context.getProperty(OwnshipBasics.OWNSHIP_VIEWER_PROP_AIS_TARGET, "211724970");
+		if(prop.getValue() == null) {
+			context.setValue(OwnshipBasics.OWNSHIP_VIEWER_PROP_AIS_TARGET, "211724970");
+		}
+		IProperty sourceProp = context.getProperty(OwnshipBasics.OWNSHIP_VIEWER_PROP_OWNSHIP_SOURCE, OwnshipSource.AISTARGET.name());
+		if(sourceProp.getValue() == null) {
+			context.setValue(OwnshipBasics.OWNSHIP_VIEWER_PROP_OWNSHIP_SOURCE, OwnshipSource.AISTARGET.name());
+		}
 		prop.addPropertyChangeListener(new PropListener());
 		Object providerModel = PlatformUtil.getModelManager().getModelProvider().getModel();
 		if(providerModel instanceof EPDModel){

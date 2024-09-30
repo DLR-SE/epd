@@ -12,7 +12,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
-import com.thoughtworks.xstream.converters.reflection.MissingFieldException;
 
 public class StringEditor extends AbstractPropertyEditor<String> implements PropertyChangeListener {
 

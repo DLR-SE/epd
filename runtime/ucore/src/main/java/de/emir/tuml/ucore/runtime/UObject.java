@@ -204,6 +204,8 @@ public interface UObject {
 
     <T extends IDelegateInterface> T getDelegate();
 
+    void addProperty(final IProperty property);
+    
     /**
      * Convinence method for addProperty(qualifiedPropertyName, description, true);
      * 

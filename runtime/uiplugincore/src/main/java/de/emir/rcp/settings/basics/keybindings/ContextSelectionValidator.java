@@ -1,7 +1,7 @@
 package de.emir.rcp.settings.basics.keybindings;
 
+import de.emir.model.universal.plugincore.var.AbstractKeyBinding;
 import de.emir.rcp.editors.ep.IEditor;
-import de.emir.rcp.keybindings.ep.AbstractKeyBinding;
 import de.emir.rcp.ui.widgets.ITreeSelectionValidator;
 import de.emir.rcp.views.ep.IViewDescriptor;
 

@@ -97,7 +97,7 @@ public class TrackImpl extends UObjectImpl implements Track
 	 */
 	public Time last()
 	{
-		if (getElements().isEmpty())
+		if (getElements().isEmpty() || getElements().get(getElements().size() -1) == null || getElements().get(getElements().size() -1).getTime() == null)
 			return null;
 		return new TimeImpl(getElements().get(getElements().size()-1).getTime());
 	}

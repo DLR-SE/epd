@@ -29,9 +29,10 @@
 hs_err_pid*
 
 nbactions.xml
+nbactions-*.xml
 nb-configuration.xml
 
 /target/
-/ucore/test.bin
-/ucore/test.xml
 **/.vscode/
+
+testproperties.data

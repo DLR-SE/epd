@@ -8,11 +8,12 @@ import de.emir.tuml.ucore.runtime.prop.IProperty;
 
 public class LockViewOnCurrentSelectionCommand extends AbstractCheckableCommand {
 
-	private IProperty property;
+	private IProperty<Boolean> property;
 
 	public LockViewOnCurrentSelectionCommand() {
 		PropertyContext ctx = PropertyStore.getContext(MVBasic.MAP_VIEW_PROP_CONTEXT);
-		property = ctx.getProperty(MVBasic.MAP_VIEW_PROP_LOCK_VIEW_ON_CURRENT_SELECTION, false);
+
+        property = ctx.getProperty(MVBasic.MAP_VIEW_PROP_LOCK_VIEW_ON_CURRENT_SELECTION, false);
 
 		property.addPropertyChangeListener(evt -> {
 			boolean isLocked = (boolean) property.getValue();

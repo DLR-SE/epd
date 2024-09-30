@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>de.dlr-se.emir.model.domain.maritime</groupId>
 		<artifactId>maritime</artifactId>
-		<version>4.0.0-SNAPSHOT</version>
+		<version>4.1.0</version>
 	</parent>
 	<artifactId>IEC61174</artifactId>
 
@@ -16,6 +16,24 @@
 		<dependency>
 			<groupId>de.dlr-se.emir.model.universal</groupId>
 			<artifactId>Spatial</artifactId>
+			<version>${model.version}</version>
+		</dependency>
+        
+        <dependency>
+			<groupId>de.dlr-se.emir.model.universal</groupId>
+			<artifactId>Spatial.Operations</artifactId>
+			<version>${model.version}</version>
+		</dependency>
+        
+        <dependency>
+			<groupId>de.dlr-se.emir.model.universal</groupId>
+			<artifactId>SimpleFeatures</artifactId>
+			<version>${model.version}</version>
+		</dependency>
+        
+        <dependency>
+			<groupId>de.dlr-se.emir.model.universal</groupId>
+			<artifactId>SimpleFeatures.Operations</artifactId>
 			<version>${model.version}</version>
 		</dependency>
 	</dependencies>

@@ -1,33 +1,21 @@
 package de.emir.epd.ownship.settings;
 
-import de.emir.epd.nmeasensor.NMEAVesselManager;
-import de.emir.model.domain.maritime.iec61174.*;
-import de.emir.model.domain.maritime.iec61174.impl.RouteScheduleImpl;
-import de.emir.model.domain.maritime.iec61174.impl.WayPointsImpl;
+import de.emir.epd.model.EPDModelUtils;
 import de.emir.model.domain.maritime.vessel.*;
 import de.emir.model.domain.maritime.vessel.impl.NavigationInformationImpl;
 import de.emir.model.domain.maritime.vessel.impl.VesselDimensionCharacteristicImpl;
-import de.emir.model.domain.maritime.vessel.impl.VoyageCharacteristicImpl;
 import de.emir.model.domain.maritime.vessel.impl.WatercraftHullImpl;
-import de.emir.model.universal.core.CorePackage;
-import de.emir.model.universal.core.RSIdentifier;
-import de.emir.model.universal.core.impl.RSIdentifierImpl;
 import de.emir.model.universal.units.Length;
-import de.emir.model.universal.units.Time;
 import de.emir.model.universal.units.impl.LengthImpl;
-import de.emir.model.universal.units.impl.TimeImpl;
 import de.emir.rcp.manager.PropertyManager;
-import de.emir.rcp.manager.util.PlatformUtil;
-import de.emir.rcp.model.transactions.CompoundTransaction;
-import de.emir.rcp.model.transactions.SetValueTransaction;
 import de.emir.rcp.properties.IPropertyEditor;
 import de.emir.rcp.settings.AbstractSettingsPage;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.prop.internal.GenericProperty;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.util.List;
 
 public class OwnshipAdapterSettingsPage extends AbstractSettingsPage {
     private JTextField imoTextField;
@@ -113,6 +101,8 @@ public class OwnshipAdapterSettingsPage extends AbstractSettingsPage {
         gbc_mmsiTextField.gridy = 1;
         panel_1.add(mmsiTextField, gbc_mmsiTextField);
         mmsiTextField.setColumns(10);
+        // Do not set the ownship MMSI. This is done by the Ownship viewer.
+        mmsiTextField.setEnabled(false);
 
         JLabel lblCallsign = new JLabel("Callsign");
         lblCallsign.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -233,7 +223,8 @@ public class OwnshipAdapterSettingsPage extends AbstractSettingsPage {
     }
 
     private void initValue() {
-        Vessel ownship = NMEAVesselManager.getOwnShip();
+        Vessel ownship = EPDModelUtils.retrieveOwnship();
+
         if (ownship != null) {
             //static data
             imo = ownship.getImo();
@@ -302,39 +293,40 @@ public class OwnshipAdapterSettingsPage extends AbstractSettingsPage {
 
     @Override
     public void finish() {
-        Vessel ownship = NMEAVesselManager.getOwnShip();
+        Vessel ownship = EPDModelUtils.retrieveOwnship();
         if (ownship != null) {
-            CompoundTransaction compoundTransaction = new CompoundTransaction();
+            if(isDirty()) {
+                ownship.setCallSign(callsignTextField.getText());
+                ownship.setImo(Long.parseLong(imoTextField.getText()));
+                ownship.setName(shipnameTextField.getText());
+                ownship.setType((VesselType)shiptypeComboBox.getSelectedItem());
+                NavigationInformation navigationInformation = ownship.getFirstCharacteristic(NavigationInformation.class);
+                if (navigationInformation == null) {
+                    navigationInformation = new NavigationInformationImpl();
+                    ownship.getCharacteristics().add(navigationInformation);
+                }
+                navigationInformation.setStatus((NavigationStatus)navstatusComboBox.getSelectedItem());
 
-            //static data
-            SetValueTransaction imoTransaction = new SetValueTransaction(ownship, VesselPackage.Literals.Vessel_imo, imo);
-            compoundTransaction.add(imoTransaction);
-            SetValueTransaction mmsiTransaction = new SetValueTransaction(ownship, VesselPackage.Literals.Vessel_mmsi, mmsi);
-            compoundTransaction.add(mmsiTransaction);
-            SetValueTransaction callsignTransaction = new SetValueTransaction(ownship, VesselPackage.Literals.Vessel_callSign, callsign);
-            compoundTransaction.add(callsignTransaction);
-            //TODO check if this is really the ship name
-            RSIdentifier identifier = new RSIdentifierImpl();
-            SetValueTransaction shipNameTransaction1 = new SetValueTransaction(identifier, CorePackage.Literals.RSIdentifier_codeSpace, shipName);
-            SetValueTransaction shipNameTransaction2 = new SetValueTransaction(ownship, CorePackage.Literals.NamedElement_name, identifier);
-            compoundTransaction.add(shipNameTransaction1);
-            compoundTransaction.add(shipNameTransaction2);
+                VesselDimensionCharacteristic dimensionCharacteristic = ownship.getFirstCharacteristic(VesselDimensionCharacteristic.class);
+                if (dimensionCharacteristic == null) {
+                    dimensionCharacteristic = new VesselDimensionCharacteristicImpl();
+                    ownship.getCharacteristics().add(dimensionCharacteristic);
+                }
 
-            SetValueTransaction vesselTypeTransaction = new SetValueTransaction(ownship, VesselPackage.Literals.Vessel_type, vesselType);
-            compoundTransaction.add(vesselTypeTransaction);
+                WatercraftHull hull = dimensionCharacteristic.getHull();
+                if (hull == null) {
+                    hull = new WatercraftHullImpl();
+                    dimensionCharacteristic.setHull(hull);
+                }
 
+                hull.setDraft(draughtProperty.getValue());
 
-            NavigationInformation navigationInformation = ownship.getFirstCharacteristic(NavigationInformation.class);
-            SetValueTransaction navStatusTransaction = new SetValueTransaction(navigationInformation, VesselPackage.Literals.NavigationInformation_status, navigationStatus);
-            compoundTransaction.add(navStatusTransaction);
-
-            //draught should be already set by draught property
-//            VesselDimensionCharacteristic dimensionCharacteristic = ownship.getFirstCharacteristic(VesselDimensionCharacteristic.class);
-//            WatercraftHull hull = dimensionCharacteristic.getHull();
-//            hull.setDraft(draught);
-
-            PlatformUtil.getModelManager().getModelProvider().getTransactionStack().run(compoundTransaction);
-
+                initValue();
+            } else {
+                ULog.info("Not updating ownship AIS information because no values were changed");
+            }
+        } else {
+            ULog.error("Could not set AIS information because there is no ownship");
         }
     }
 }

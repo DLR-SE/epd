@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project xmlns="http://maven.apache.org/DECORATION/1.8.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/DECORATION/1.8.0 https://maven.apache.org/xsd/decoration-1.8.0.xsd" name="Maven">
+<site xmlns="http://maven.apache.org/SITE/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SITE/2.0.0 https://maven.apache.org/xsd/site-2.0.0.xsd" name="EPD">
 	<skin>
 		<groupId>org.apache.maven.skins</groupId>
 		<artifactId>maven-fluido-skin</artifactId>
-		<version>1.10.0</version>
+		<version>2.0.0-M10</version>
 	</skin>
-	<bannerLeft>
-		<name>eMIR</name>
-		<src>images/eMIR-Individuell.png</src>
-		<href>https://www.emaritime.de</href>
+	<bannerLeft href="https://www.emaritime.de">
+		<image src="images/eMIR-Individuell.png"/>
 	</bannerLeft>
-	<bannerRight>
-		<name>DLR</name>
-		<src>images/DLRLogo_black.png</src>
-		<href>https://dlr.de/se</href>
+	<bannerRight href="https://dlr.de/se">
+		<image src="images/DLRLogo_black.png"/>
 	</bannerRight>
 	<body>	
 		<links>
 			<item name="eMIR" href="https://www.emaritime.de/"/>
 			<item name="DLR" href="https://dlr.de/se"/>
 		</links>
-		<menu name="eMIR">
-			<item name="Introduction" href="index.html"/>
-			<item name="Project" href="project.html"/>
-			<item name="User Manual" href="usermanual.html"/>
-			<item name="Developmen Guide" href="devguide.html"/>
+		<menu name="eMIR Prototype Display" inherit="top">
+			<item name="Introduction" href="README.html"/>
+			<item name="Getting Started" href="GettingStarted.html"/>
 		</menu>
+		<menu name="User Manual" inherit="top">
+			<item name="How To Display NMEA Data" href="HowToDisplayNMEAData.html"/>
+			<item name="How To Use Map" href="HowToUseMap.html"/>
+			<item name="How To Use The Plugin Manager" href="HowToUsePluginManager.html"/>
+			<item name="How To Use The Route Manager" href="HowToUseRouteManager.html"/>
+		</menu>
+		<menu name="Development Guide" inherit="top">
+			<item name="How To Build" href="HowToBuild.html"/>
+			<item name="Documentation Guide" href="DocumentionGuide.html"/>
+		</menu>
+		<menu ref="modules" inherit="top"/>
 		<menu ref="reports" inherit="bottom"/>
 		<menu ref="parent" inherit="bottom"/>
 	</body>
-</project>
+</site>

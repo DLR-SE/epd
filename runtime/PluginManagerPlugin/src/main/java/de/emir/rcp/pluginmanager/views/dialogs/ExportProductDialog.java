@@ -1,5 +1,6 @@
 package de.emir.rcp.pluginmanager.views.dialogs;
 
+import de.emir.model.universal.plugincore.var.impl.ConfigMapImpl;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -8,7 +9,6 @@ import java.awt.Insets;
 import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.regex.Matcher;
@@ -35,6 +35,8 @@ import de.emir.rcp.pluginmanager.views.PluginRenderUtil;
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
 import de.emir.tuml.runtime.epf.ProductFile;
+import de.emir.tuml.ucore.runtime.prop.IProperty;
+import javax.swing.UIManager;
 
 public class ExportProductDialog extends JDialog {
 
@@ -58,6 +60,7 @@ public class ExportProductDialog extends JDialog {
     private JCheckBox copyPropCB;
     private JCheckBox copyAllCB;
     private JCheckBox removeReposCB;
+    private JCheckBox removeCredentialsCB;
     private JCheckBox addDocumentationCB;
 
     private JLabel entryPointClassLabel;
@@ -65,6 +68,7 @@ public class ExportProductDialog extends JDialog {
     private JLabel pomErrorLabel;
     private JLabel outputErrorLabel;
     private JLabel removeReposInfo;
+    private JLabel removeCredentialsInfo;
     private JLabel doxygenErrorLabel;
     private JLabel plantUMLErrorLabel;
 
@@ -84,6 +88,7 @@ public class ExportProductDialog extends JDialog {
     private ProductFile productFile;
 
     private boolean ok = false;
+	private int fntSz = 11; // Have a default font size to scale from.
 
     /**
      * @param parent
@@ -95,12 +100,11 @@ public class ExportProductDialog extends JDialog {
         this.productFile = pf;
 
         setExportData();
-
+        setSize(600, 600); // Window needs a default size in order to place it somewhere near the middle of the screen.
         setModal(true);
 
         setTitle("Export Product...");
         setIconImage(PluginRenderUtil.EXPORT_ICON_IMAGE);
-        setMinimumSize(new Dimension(730, 850));
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         GridBagLayout gridBagLayout = new GridBagLayout();
 
@@ -168,7 +172,8 @@ public class ExportProductDialog extends JDialog {
         };
 
         JLabel lblApplication = new JLabel("Application");
-        lblApplication.setFont(new Font("Tahoma", Font.BOLD, 11));
+        fntSz = lblApplication.getFont().getSize(); // Pick the default font size
+        lblApplication.setFont(lblApplication.getFont().deriveFont(fntSz + 4f).deriveFont(Font.BOLD));
         GridBagConstraints gbc_lblApplication = new GridBagConstraints();
         gbc_lblApplication.anchor = GridBagConstraints.WEST;
         gbc_lblApplication.insets = new Insets(0, 0, 5, 5);
@@ -185,7 +190,6 @@ public class ExportProductDialog extends JDialog {
         panel_2.add(lblApplicationName, gbc_lblApplicationName);
 
         nameTF = new JTextField();
-        nameTF.setFont(new Font("Tahoma", Font.BOLD, 13));
         GridBagConstraints gbc_layoutTextFieldName = new GridBagConstraints();
         gbc_layoutTextFieldName.insets = new Insets(0, 0, 5, 5);
         gbc_layoutTextFieldName.fill = GridBagConstraints.BOTH;
@@ -195,6 +199,7 @@ public class ExportProductDialog extends JDialog {
         nameTF.setColumns(10);
         nameTF.setText(pf.getName());
         nameErrorLabel = new JLabel(" ");
+        nameErrorLabel.setFont(nameErrorLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
 
         GridBagConstraints gbc_lblNewLabel_1_1 = new GridBagConstraints();
         gbc_lblNewLabel_1_1.fill = GridBagConstraints.VERTICAL;
@@ -252,7 +257,7 @@ public class ExportProductDialog extends JDialog {
         gbc_btnOk.gridy = 0;
         panel.add(btnOk, gbc_btnOk);
 
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(parent);
 
         btnOk.addActionListener(e -> handleOk());
         btnExit.addActionListener(e -> handleExit());
@@ -260,7 +265,7 @@ public class ExportProductDialog extends JDialog {
         ButtonGroup group = new ButtonGroup();
 
         JLabel lblApplicationEntryPoint = new JLabel("Entry Point");
-        lblApplicationEntryPoint.setFont(new Font("Tahoma", Font.BOLD, 11));
+        lblApplicationEntryPoint.setFont(lblApplicationEntryPoint.getFont().deriveFont(fntSz + 4f).deriveFont(Font.BOLD));
         GridBagConstraints gbc_lblApplicationEntryPoint = new GridBagConstraints();
         gbc_lblApplicationEntryPoint.anchor = GridBagConstraints.WEST;
         gbc_lblApplicationEntryPoint.gridwidth = 2;
@@ -332,6 +337,7 @@ public class ExportProductDialog extends JDialog {
         btnBrowsePom.addActionListener(e -> handleBrowseEntryPointPOM());
 
         pomErrorLabel = new JLabel("");
+        pomErrorLabel.setFont(pomErrorLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
         GridBagConstraints gbc_pomErrorLabel = new GridBagConstraints();
         gbc_pomErrorLabel.anchor = GridBagConstraints.WEST;
         gbc_pomErrorLabel.insets = new Insets(0, 0, 5, 5);
@@ -350,7 +356,7 @@ public class ExportProductDialog extends JDialog {
         panel_2.add(separator_3, gbc_separator_3);
 
         JLabel lblApplicationSettings = new JLabel("Settings");
-        lblApplicationSettings.setFont(new Font("Tahoma", Font.BOLD, 11));
+        lblApplicationSettings.setFont(lblApplicationSettings.getFont().deriveFont(fntSz + 4f).deriveFont(Font.BOLD));
         GridBagConstraints gbc_lblApplicationSettings = new GridBagConstraints();
         gbc_lblApplicationSettings.anchor = GridBagConstraints.WEST;
         gbc_lblApplicationSettings.gridwidth = 2;
@@ -371,7 +377,7 @@ public class ExportProductDialog extends JDialog {
         copyLayoutCB.addActionListener(e -> data.setCopyLayout(copyLayoutCB.isSelected()));
 
         JLabel lblsettingsFilesAre = new JLabel(
-                "<html>Settings files are created in the home directory of the application (usually next to the Product.xml). They contain the layout and properties of the application. By copying, the settings made during development can be included in a release.</html>");
+                "<html>Settings files are created in the home directory of the application (usually next to the Product.xml). They contain the layout and properties of the application. <br> By copying, the settings made during development can be included in a release.</html>");
         GridBagConstraints gbc_lblsettingsFilesAre = new GridBagConstraints();
         gbc_lblsettingsFilesAre.anchor = GridBagConstraints.NORTH;
         gbc_lblsettingsFilesAre.gridwidth = 2;
@@ -381,7 +387,7 @@ public class ExportProductDialog extends JDialog {
         gbc_lblsettingsFilesAre.gridx = 1;
         gbc_lblsettingsFilesAre.gridy = 11;
         panel_2.add(lblsettingsFilesAre, gbc_lblsettingsFilesAre);
-        lblsettingsFilesAre.setFont(new Font("Tahoma", Font.ITALIC, 11));
+        lblsettingsFilesAre.setFont(lblsettingsFilesAre.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
 
         copyPropCB = new JCheckBox("Properties File");
         GridBagConstraints gbc_copyPropCB = new GridBagConstraints();
@@ -412,7 +418,7 @@ public class ExportProductDialog extends JDialog {
         gbc_lblcopiesAllFiles.gridx = 1;
         gbc_lblcopiesAllFiles.gridy = 13;
         panel_2.add(lblcopiesAllFiles, gbc_lblcopiesAllFiles);
-        lblcopiesAllFiles.setFont(new Font("Tahoma", Font.ITALIC, 11));
+        lblcopiesAllFiles.setFont(lblcopiesAllFiles.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
 
         JCheckBox chckbxCreateZipFile = new JCheckBox("Create Zip File");
         GridBagConstraints gbc_chckbxCreateZipFile = new GridBagConstraints();
@@ -425,7 +431,7 @@ public class ExportProductDialog extends JDialog {
         chckbxCreateZipFile.addActionListener(e -> data.setCreateZip(chckbxCreateZipFile.isSelected()));
 
         JLabel lblcreatesAZip = new JLabel("<html>Creates a Zip file of the complete release.</html>");
-        lblcreatesAZip.setFont(new Font("Tahoma", Font.ITALIC, 11));
+        lblcreatesAZip.setFont(lblcreatesAZip.getFont().deriveFont(Font.ITALIC).deriveFont(11F));
         GridBagConstraints gbc_lblcreatesAZip = new GridBagConstraints();
         gbc_lblcreatesAZip.fill = GridBagConstraints.HORIZONTAL;
         gbc_lblcreatesAZip.insets = new Insets(0, 0, 5, 5);
@@ -448,7 +454,7 @@ public class ExportProductDialog extends JDialog {
 
         JLabel lbldocumentationIsCreated = new JLabel(
                 "<html>Documentation is created for each project specified in the Product.xml (Workspace-Directories)</html>");
-        lbldocumentationIsCreated.setFont(new Font("Tahoma", Font.ITALIC, 11));
+        lbldocumentationIsCreated.setFont(lbldocumentationIsCreated.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
         GridBagConstraints gbc_lbldocumentationIsCreated = new GridBagConstraints();
         gbc_lbldocumentationIsCreated.fill = GridBagConstraints.HORIZONTAL;
         gbc_lbldocumentationIsCreated.gridwidth = 2;
@@ -503,6 +509,7 @@ public class ExportProductDialog extends JDialog {
         btnBrowseDoxygen.addActionListener(e -> handleBrowseDoxygen());
 
         doxygenErrorLabel = new JLabel(DEFAULT_TEXT_DOXYGEN);
+        doxygenErrorLabel.setFont(doxygenErrorLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
         GridBagConstraints gbc_doxygenErrorLabel = new GridBagConstraints();
         gbc_doxygenErrorLabel.anchor = GridBagConstraints.WEST;
         gbc_doxygenErrorLabel.gridwidth = 11;
@@ -540,6 +547,7 @@ public class ExportProductDialog extends JDialog {
         btnBrowsePlantuml.addActionListener(e -> handleBrowsePlantUML());
 
         plantUMLErrorLabel = new JLabel(DEFAULT_TEXT_PLANTUML);
+        plantUMLErrorLabel.setFont(plantUMLErrorLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
         GridBagConstraints gbc_plantUMLErrorLabel = new GridBagConstraints();
         gbc_plantUMLErrorLabel.anchor = GridBagConstraints.WEST;
         gbc_plantUMLErrorLabel.gridwidth = 11;
@@ -559,7 +567,7 @@ public class ExportProductDialog extends JDialog {
         panel_2.add(separator_4, gbc_separator_4);
 
         JLabel lblRelease = new JLabel("Build");
-        lblRelease.setFont(new Font("Tahoma", Font.BOLD, 11));
+        lblRelease.setFont(lblRelease.getFont().deriveFont(fntSz + 4f).deriveFont(Font.BOLD));
         GridBagConstraints gbc_lblRelease = new GridBagConstraints();
         gbc_lblRelease.anchor = GridBagConstraints.WEST;
         gbc_lblRelease.gridwidth = 2;
@@ -584,7 +592,7 @@ public class ExportProductDialog extends JDialog {
 
         JLabel lblInAnOnline = new JLabel(
                 "<html> In an online release dependencies are retrieved from the online repository (last stable version). </html>");
-        lblInAnOnline.setFont(new Font("Tahoma", Font.ITALIC, 11));
+        lblInAnOnline.setFont(lblInAnOnline.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
         GridBagConstraints gbc_lblInAnOnline = new GridBagConstraints();
         gbc_lblInAnOnline.fill = GridBagConstraints.HORIZONTAL;
         gbc_lblInAnOnline.gridwidth = 2;
@@ -617,7 +625,7 @@ public class ExportProductDialog extends JDialog {
         gbc_lblDsadsadsa.gridx = 1;
         gbc_lblDsadsadsa.gridy = 21;
         panel_2.add(lblDsadsadsa, gbc_lblDsadsadsa);
-        lblDsadsadsa.setFont(new Font("Tahoma", Font.ITALIC, 11));
+        lblDsadsadsa.setFont(lblDsadsadsa.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
 
         radioOffline = new JRadioButton("Offline Release");
         GridBagConstraints gbc_radioOffline = new GridBagConstraints();
@@ -635,7 +643,7 @@ public class ExportProductDialog extends JDialog {
 
         JLabel lblInAnOffline = new JLabel(
                 "<html> In an offline release, all dependencies are copied to the target directory.</html>");
-        lblInAnOffline.setFont(new Font("Tahoma", Font.ITALIC, 11));
+        lblInAnOffline.setFont(lblInAnOffline.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
         GridBagConstraints gbc_lblInAnOffline = new GridBagConstraints();
         gbc_lblInAnOffline.gridwidth = 2;
         gbc_lblInAnOffline.fill = GridBagConstraints.HORIZONTAL;
@@ -654,7 +662,7 @@ public class ExportProductDialog extends JDialog {
         panel_2.add(panel_5, gbc_panel_5);
         GridBagLayout gbl_panel_5 = new GridBagLayout();
         gbl_panel_5.columnWeights = new double[] { 0.0, 1.0 };
-        gbl_panel_5.rowWeights = new double[] { 0.0 };
+        gbl_panel_5.rowWeights = new double[] { 0.0, 0.0 };
         panel_5.setLayout(gbl_panel_5);
 
         removeReposCB = new JCheckBox("Remove Repositories");
@@ -668,8 +676,9 @@ public class ExportProductDialog extends JDialog {
         removeReposCB.addActionListener(e -> data.setRemoveAllRepositories(removeReposCB.isSelected()));
 
         removeReposInfo = new JLabel(
-                "<html>Removes the specified remote repositories and their authentication informations from the release.</html>");
-        removeReposInfo.setFont(new Font("Tahoma", Font.ITALIC, 11));
+                "<html>Removes the specified remote repositories and their authentication informations from the release. <br> When using dependencies in the version range format, use 'Remove Credentials' instead since" +
+                        " they will not be resolved without repository information.</html>");
+        removeReposInfo.setFont(removeReposInfo.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
         GridBagConstraints gbc_removeReposInfo = new GridBagConstraints();
         gbc_removeReposInfo.insets = new Insets(4, 0, 5, 0);
         gbc_removeReposInfo.anchor = GridBagConstraints.NORTH;
@@ -677,6 +686,29 @@ public class ExportProductDialog extends JDialog {
         gbc_removeReposInfo.gridx = 1;
         gbc_removeReposInfo.gridy = 0;
         panel_5.add(removeReposInfo, gbc_removeReposInfo);
+
+        removeCredentialsCB = new JCheckBox("Remove Credentials");
+        GridBagConstraints gbc_removeCredentialsCB = new GridBagConstraints();
+        gbc_removeCredentialsCB.insets = new Insets(0, 0, 5, 5);
+        gbc_removeCredentialsCB.anchor = GridBagConstraints.NORTHWEST;
+        gbc_removeCredentialsCB.gridx = 0;
+        gbc_removeCredentialsCB.gridy = 1;
+        panel_5.add(removeCredentialsCB, gbc_removeCredentialsCB);
+        removeCredentialsCB.setSelected(data.isRemoveCredentials());
+        removeCredentialsCB.addActionListener(e -> data.setRemoveCredentials(removeCredentialsCB.isSelected()));
+
+        removeCredentialsInfo = new JLabel(
+                "<html>Removes the specified remote repository authentication informations from the release. <br> Use this option if authentication should be removed and dependencies are" +
+                        " given in the version range format.</html>");
+        removeCredentialsInfo.setFont(removeCredentialsInfo.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
+        GridBagConstraints gbc_removeCredentialsInfo = new GridBagConstraints();
+        gbc_removeCredentialsInfo.insets = new Insets(4, 0, 5, 0);
+        gbc_removeCredentialsInfo.anchor = GridBagConstraints.NORTH;
+        gbc_removeCredentialsInfo.fill = GridBagConstraints.HORIZONTAL;
+        gbc_removeCredentialsInfo.gridx = 1;
+        gbc_removeCredentialsInfo.gridy = 1;
+        panel_5.add(removeCredentialsInfo, gbc_removeCredentialsInfo);
+
 
         JSeparator separator = new JSeparator();
         separator.setMinimumSize(new Dimension(5, 5));
@@ -751,6 +783,7 @@ public class ExportProductDialog extends JDialog {
         clearNameLabel();
         clearDoxygenLabel();
         clearPlantUMLLabel();
+        pack();
     }
 
     private void checkAddDocumentationState() {
@@ -767,12 +800,10 @@ public class ExportProductDialog extends JDialog {
     }
 
     private void setExportData() {
-
         PropertyContext ctx = PropertyStore.getContext(PMBasics.PM_PROP_CTX);
-        HashMap<String, ExportData> map = ctx.getValue(PMBasics.PM_PROP_LAST_EXPORT_SETTINGS_MAP,
-                new HashMap<String, ExportData>());
+        IProperty<ConfigMapImpl> map = ctx.getProperty(PMBasics.PM_PROP_LAST_EXPORT_SETTINGS_MAP, new ConfigMapImpl());
 
-        data = map.get(productFile.getFile().getAbsolutePath());
+        data = ExportData.fromConfigMap((ConfigMapImpl) map.getValue().get(productFile.getFile().getAbsolutePath()));
         if (data == null) {
             data = new ExportData();
         }
@@ -959,11 +990,13 @@ public class ExportProductDialog extends JDialog {
 
             if (mainClass == null) {
                 entryPointClassLabel.setIcon(PluginRenderUtil.ERROR_ICON);
+                entryPointClassLabel.setFont(entryPointClassLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
                 entryPointClassLabel.setText("Missing Main-Class Attribute in Manifest.MF");
                 return;
             }
 
             entryPointClassLabel.setText(mainClass);
+            entryPointClassLabel.setFont(entryPointClassLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
             entryPointClassLabel.setIcon(PluginRenderUtil.CLASS_ICON);
 
         } catch (IOException e1) {
@@ -978,31 +1011,37 @@ public class ExportProductDialog extends JDialog {
 
     private void clearNameLabel() {
         nameErrorLabel.setText(DEFAULT_TEXT_NAME);
+        nameErrorLabel.setFont(nameErrorLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
         nameErrorLabel.setIcon(PluginRenderUtil.INFO_ICON);
     }
 
     private void clearPomLabel() {
         pomErrorLabel.setText(DEFAULT_TEXT_POM);
+        pomErrorLabel.setFont(pomErrorLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
         pomErrorLabel.setIcon(PluginRenderUtil.INFO_ICON);
     }
 
     private void clearDoxygenLabel() {
         doxygenErrorLabel.setText(DEFAULT_TEXT_DOXYGEN);
+        doxygenErrorLabel.setFont(doxygenErrorLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
         doxygenErrorLabel.setIcon(PluginRenderUtil.INFO_ICON);
     }
 
     private void clearPlantUMLLabel() {
         plantUMLErrorLabel.setText(DEFAULT_TEXT_PLANTUML);
+        plantUMLErrorLabel.setFont(plantUMLErrorLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
         plantUMLErrorLabel.setIcon(PluginRenderUtil.INFO_ICON);
     }
 
     private void clearEntryPointClassLabel() {
         entryPointClassLabel.setText(DEFAULT_TEXT_ENTRY_POINT);
+        entryPointClassLabel.setFont(entryPointClassLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
         entryPointClassLabel.setIcon(PluginRenderUtil.INFO_ICON);
     }
 
     private void clearOutputLabel() {
         outputErrorLabel.setText(DEFAULT_TEXT_OUTPUT);
+        outputErrorLabel.setFont(outputErrorLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
         outputErrorLabel.setIcon(PluginRenderUtil.INFO_ICON);
     }
 
@@ -1013,6 +1052,7 @@ public class ExportProductDialog extends JDialog {
             targetValid = false;
 
             outputErrorLabel.setText("Can't be empty");
+            outputErrorLabel.setFont(outputErrorLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
             outputErrorLabel.setIcon(PluginRenderUtil.ERROR_ICON);
         } else {
 
@@ -1022,6 +1062,7 @@ public class ExportProductDialog extends JDialog {
                 targetValid = false;
 
                 outputErrorLabel.setText("Folder doesn't exist.");
+                outputErrorLabel.setFont(outputErrorLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
                 outputErrorLabel.setIcon(PluginRenderUtil.ERROR_ICON);
             }
 
@@ -1056,6 +1097,7 @@ public class ExportProductDialog extends JDialog {
         if (name == null || name.isEmpty()) {
             nameValid = false;
             nameErrorLabel.setIcon(PluginRenderUtil.ERROR_ICON);
+            nameErrorLabel.setFont(nameErrorLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
             nameErrorLabel.setText("Can't be empty");
         } else {
 
@@ -1063,6 +1105,7 @@ public class ExportProductDialog extends JDialog {
             if (m.find() == true) {
                 nameValid = false;
                 nameErrorLabel.setIcon(PluginRenderUtil.ERROR_ICON);
+                nameErrorLabel.setFont(nameErrorLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
                 nameErrorLabel.setText("Must match the OS rules of a folder name");
             } else {
                 clearNameLabel();
@@ -1074,6 +1117,7 @@ public class ExportProductDialog extends JDialog {
         if (epPom == null || epPom.isEmpty() || epPom.endsWith("pom.xml") == false) {
             pomValid = false;
             pomErrorLabel.setText("Has to be a valid pom.xml file");
+            pomErrorLabel.setFont(pomErrorLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
             pomErrorLabel.setIcon(PluginRenderUtil.ERROR_ICON);
         } else {
 
@@ -1082,6 +1126,7 @@ public class ExportProductDialog extends JDialog {
             if (epPomFile.exists() == false) {
                 pomValid = false;
                 pomErrorLabel.setText("File doesn't exist");
+                pomErrorLabel.setFont(pomErrorLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
                 pomErrorLabel.setIcon(PluginRenderUtil.ERROR_ICON);
             } else {
                 clearPomLabel();
@@ -1103,6 +1148,7 @@ public class ExportProductDialog extends JDialog {
             if (doxygen == null || doxygen.isEmpty()) {
                 doxygenValid = false;
                 doxygenErrorLabel.setText("Has to be a valid executable file");
+                doxygenErrorLabel.setFont(doxygenErrorLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
                 doxygenErrorLabel.setIcon(PluginRenderUtil.ERROR_ICON);
             } else {
                 File doxygenFile = new File(doxygen);
@@ -1110,6 +1156,7 @@ public class ExportProductDialog extends JDialog {
                 if (doxygenFile.exists() == false) {
                     doxygenValid = false;
                     doxygenErrorLabel.setText("File doesn't exist");
+                    doxygenErrorLabel.setFont(doxygenErrorLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
                     doxygenErrorLabel.setIcon(PluginRenderUtil.ERROR_ICON);
                 } else {
                     clearDoxygenLabel();
@@ -1126,6 +1173,7 @@ public class ExportProductDialog extends JDialog {
                     || plantuml.contains(" ")) {
                 plantumlValid = false;
                 plantUMLErrorLabel.setText("Has to be a valid jar file (without white spaces)");
+                plantUMLErrorLabel.setFont(plantUMLErrorLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
                 plantUMLErrorLabel.setIcon(PluginRenderUtil.ERROR_ICON);
             } else {
 
@@ -1134,6 +1182,7 @@ public class ExportProductDialog extends JDialog {
                 if (plantUMLFile.exists() == false) {
                     plantumlValid = false;
                     plantUMLErrorLabel.setText("File doesn't exist");
+                    plantUMLErrorLabel.setFont(plantUMLErrorLabel.getFont().deriveFont(fntSz - 1f).deriveFont(Font.ITALIC));
                     plantUMLErrorLabel.setIcon(PluginRenderUtil.ERROR_ICON);
                 } else {
                     clearPlantUMLLabel();
@@ -1178,10 +1227,10 @@ public class ExportProductDialog extends JDialog {
         }
 
         PropertyContext ctx = PropertyStore.getContext(PMBasics.PM_PROP_CTX);
-        HashMap<String, ExportData> map = ctx.getValue(PMBasics.PM_PROP_LAST_EXPORT_SETTINGS_MAP,
-                new HashMap<String, ExportData>());
-
-        map.put(productFile.getFile().getAbsolutePath(), data);
+        ConfigMapImpl map = new ConfigMapImpl();
+        map.put(productFile.getFile().getAbsolutePath(), data.toConfigMap());
+        IProperty<ConfigMapImpl> mapProp = ctx.getProperty(PMBasics.PM_PROP_LAST_EXPORT_SETTINGS_MAP, map);
+        
         productFile.setName(nameTF.getText());
         boolean canContinue = checkFolderExists(outputTF.getText(), productFile);
 

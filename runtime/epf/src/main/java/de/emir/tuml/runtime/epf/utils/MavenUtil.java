@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -15,15 +13,13 @@ import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Parent;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.codehaus.plexus.util.xml.PrettyPrintXMLWriter;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.collection.CollectRequest;
 import org.eclipse.aether.graph.DependencyFilter;
 import org.eclipse.aether.graph.DependencyNode;
-import org.eclipse.aether.resolution.ArtifactResolutionException;
-import org.eclipse.aether.resolution.ArtifactResult;
-import org.eclipse.aether.resolution.DependencyRequest;
-import org.eclipse.aether.resolution.DependencyResolutionException;
+import org.eclipse.aether.resolution.*;
 import org.eclipse.aether.util.artifact.JavaScopes;
 import org.eclipse.aether.util.filter.DependencyFilterUtils;
 
@@ -31,6 +27,9 @@ import de.emir.tuml.runtime.epf.ObservableRepository;
 import de.emir.tuml.runtime.epf.ProductFile;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 
+/**
+ * Utility for loading maven artifacts at the runtime based on the local repository and the dependencies of each plugin.
+ */
 public class MavenUtil {
 
     private CustomMavenAether mTA = new CustomMavenAether(
@@ -118,6 +117,20 @@ public class MavenUtil {
             return v;
         }
         return null;
+    }
+
+    /**
+     * Gets the latest version of a maven coordinate when the version is specified in the maven range format (i.e. [1.0,)).
+     * @param version Maven coordinate to use for retrieving latest version, i.e. groupId:artifactId:version.
+     * @return Latest version based on the coordinate if found, else 0.0.0.
+     */
+    public String getLatestVersion(String version) {
+        try {
+            return mTA.findNewestVersion(version);
+        } catch (VersionRangeResolutionException e) {
+            ULog.error(String.format("Trying to get the latest version for %s failed. The version format is unparsable.", version));
+            return "0.0.0";
+        }
     }
 
     public static String getGroupId(Model m) {

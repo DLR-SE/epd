@@ -85,7 +85,7 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated not
+	 * @generated_not
 	*/
 	@Override
 	public Angle getAzimuth(Coordinate self, final Coordinate other)
@@ -98,7 +98,7 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated not
+	 * @generated_not
 	 */
 	@Override
 	public Distance getDistance(Coordinate self, final Coordinate other) {
@@ -109,29 +109,28 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated_not
 	*/
 	public Vector2D toVector2D(Coordinate self)
 	{
-		//TODO: 
-		//  returns a 2D vector, skips the z value, if not NaN 
-		throw new UnsupportedOperationException("toVector2D not yet implemented");
+		return new Vector2DImpl(self.getX(), self.getY());
 	}
 
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated_not
 	*/
 	public Vector3D toVector3D(Coordinate self)
 	{
-		//TODO: 
-		//  returns a 3D vector, fills the z value with 0 if dimension() == 2 
-		throw new UnsupportedOperationException("toVector3D not yet implemented");
+		if (dimension(self) == 2) {
+            return new Vector3DImpl(self.getX(), self.getY(), 0);
+        }
+        return new Vector3DImpl(self.getX(), self.getY(), self.getZ());
 	}
 
 	/**
 	 * @inheritDoc
-	 * @generated not
+	 * @generated_not
 	 */
 	@Override
 	public int dimension(Coordinate self) {
@@ -143,7 +142,7 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated not
+	 * @generated_not
 	 */
 	@Override
 	public double getLatitude(Coordinate self) {
@@ -154,7 +153,7 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated not
+	 * @generated_not
 	*/
 	@Override
 	public void set(Coordinate self, final Coordinate value)
@@ -167,20 +166,19 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated_not
 	*/
 	public void set(Coordinate self, final double x, final double y, final double z, final CoordinateReferenceSystem crs)
 	{
-		//TODO: 
-		//  utility method to set all coordinate values and the crs 
-		//  * @note this method calls the corresponding setter and thus produces IValueChange events
-		//  
-		throw new UnsupportedOperationException("set not yet implemented");
+		self.setX(x);
+		self.setY(y);
+		self.setZ(z);
+		self.setCrs(crs);
 	}
 
 	/**
 	 * @inheritDoc
-	 * @generated not
+	 * @generated_not
 	 */
 	@Override
 	public double getLongitude(Coordinate self) {
@@ -191,7 +189,7 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated not
+	 * @generated_not
 	 */
 	@Override
 	public Coordinate get(Coordinate self, final CoordinateReferenceSystem dst) {
@@ -217,7 +215,7 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated not
+	 * @generated_not
 	 */
 	@Override
 	public void setLatLon(Coordinate self, final double lat, final double lon) {
@@ -226,7 +224,7 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated not
+	 * @generated_not
 	 */
 	@Override
 	public void setLatLonAlt(Coordinate self, final double lat, final double lon, final double alt) {
@@ -246,37 +244,37 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated_not
 	*/
 	public void setXY(Coordinate self, final double x, final double y)
 	{
-		//TODO: 
-		throw new UnsupportedOperationException("setXY not yet implemented");
+		self.setX(x);
+		self.setY(y);
 	}
 
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated_not
 	*/
 	public void setXYZ(Coordinate self, final double x, final double y, final double z)
 	{
-		//TODO: 
-		throw new UnsupportedOperationException("setXYZ not yet implemented");
+		self.setX(x);
+		self.setY(y);
+		self.setZ(z);
 	}
 
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated_not
 	*/
 	public Coordinate copy(Coordinate self)
 	{
-		//TODO: 
-		throw new UnsupportedOperationException("copy not yet implemented");
+		return new CoordinateImpl(self);
 	}
 
 	/**
 	 * @inheritDoc
-	 * @generated not 
+	 * @generated_not 
 	 */
 	@Override
 	public Vector toVector(Coordinate self) {
@@ -288,31 +286,36 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated_not
 	*/
 	public void fromVector(Coordinate self, final Vector value, final CoordinateReferenceSystem crs)
 	{
-		//TODO: 
-		throw new UnsupportedOperationException("fromVector not yet implemented");
+		fromVector(self, value);
+        self.setCrs(crs);
 	}
 
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated_not
 	*/
 	public void fromVector(Coordinate self, final Vector value)
 	{
-		//TODO: 
-		throw new UnsupportedOperationException("fromVector not yet implemented");
+		self.setX(value.get(0));
+        self.setY(value.get(1));
+        if (value.dimensions() == 3) {
+            self.setZ(value.get(2));
+        }
 	}
 
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated_not
 	*/
 	public String readableString(Coordinate self)
 	{
-		//TODO: 
-		throw new UnsupportedOperationException("readableString not yet implemented");
+		if (self.dimension() == 3) {
+            return String.format("%.6f %.6f %.6f", self.getX(), self.getY(), self.getZ());
+        }
+        return String.format("%.6f %.6f", self.getX(), self.getY());
 	}
 }

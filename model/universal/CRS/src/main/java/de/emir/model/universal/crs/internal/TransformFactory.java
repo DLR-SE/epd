@@ -4,19 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import de.emir.model.universal.crs.CoordinateReferenceSystem;
-import de.emir.model.universal.crs.internal.transform.Engineering2D_to_Engineering2D;
-import de.emir.model.universal.crs.internal.transform.Engineering2D_to_Engineering3D;
-import de.emir.model.universal.crs.internal.transform.Engineering2D_to_Polar2D;
-import de.emir.model.universal.crs.internal.transform.Engineering2D_to_WGS842D;
-import de.emir.model.universal.crs.internal.transform.Engineering2D_to_WGS843D;
-import de.emir.model.universal.crs.internal.transform.Engineering3D_to_Engineering3D;
-import de.emir.model.universal.crs.internal.transform.Engineering3D_to_WGS842D;
-import de.emir.model.universal.crs.internal.transform.Engineering3D_to_WGS843D;
-import de.emir.model.universal.crs.internal.transform.Polar2D_to_Engineering2D;
-import de.emir.model.universal.crs.internal.transform.Polar2D_to_WGS842D;
-import de.emir.model.universal.crs.internal.transform.WGS842D_to_Engineering2D;
-import de.emir.model.universal.crs.internal.transform.WGS842D_to_Engineering3D;
-import de.emir.model.universal.crs.internal.transform.WGS842D_to_Polar2D;
+import de.emir.model.universal.crs.internal.transform.*;
 
 public class TransformFactory {
 	
@@ -80,20 +68,22 @@ public class TransformFactory {
 		registerTransformation(new Polar2D_to_WGS842D());
 		registerTransformation(new WGS842D_to_Engineering2D());
 		registerTransformation(new WGS842D_to_Polar2D());
-		
+
 		//3d to 3d transformation
 		registerTransformation(new Engineering2D_to_WGS843D());
-		
+
 		//3d to 2d transformation
 		registerTransformation(new Engineering3D_to_WGS842D());
 		registerTransformation(new Engineering3D_to_WGS843D());
 		registerTransformation(new Engineering3D_to_Engineering3D());
+		registerTransformation(new WGS843D_to_WGS842D());
 		//wgs843D is also handled by WGS842D_to_Engineering3D
-		
+
 		//2d to 3d transformation
 		registerTransformation(new Engineering2D_to_WGS843D());
 		registerTransformation(new Engineering2D_to_Engineering3D());
 		registerTransformation(new WGS842D_to_Engineering3D());
+		registerTransformation(new WGS842D_to_WGS843D());
 	}
 	
 }

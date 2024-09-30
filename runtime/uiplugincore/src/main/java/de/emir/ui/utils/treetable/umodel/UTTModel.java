@@ -1,6 +1,5 @@
 package de.emir.ui.utils.treetable.umodel;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.event.TreeExpansionEvent;
@@ -9,21 +8,22 @@ import javax.swing.event.TreeWillExpandListener;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.ExpandVetoException;
-import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import bibliothek.gui.dock.station.split.Root;
 import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.tuml.ucore.runtime.pointer.PointerOperations;
 import de.emir.tuml.ucore.runtime.utils.Pointer;
 import de.emir.tuml.ucore.runtime.utils.QualifiedName;
 import de.emir.tuml.ucore.runtime.utils.impl.QualifiedNameImpl;
-import de.emir.ui.utils.treetable.AbstractTreeTableModel;
-import de.emir.ui.utils.treetable.DefaultTreeTableModel;
-import de.emir.ui.utils.treetable.TreeTable;
-import de.emir.ui.utils.treetable.TreeTableModel;
 import de.emir.ui.utils.treetable.umodel.UNode.UTTNodeOptions;
 import de.emir.ui.utils.treetable.umodel.impl.ModelTreeColumnProvider;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import org.jdesktop.swingx.JXTreeTable;
+import org.jdesktop.swingx.treetable.DefaultTreeTableModel;
+import org.jdesktop.swingx.treetable.MutableTreeTableNode;
+import org.jdesktop.swingx.treetable.TreeTableNode;
 
 public class UTTModel extends DefaultTreeTableModel implements TreeWillExpandListener, TreeExpansionListener {
 
@@ -32,10 +32,10 @@ public class UTTModel extends DefaultTreeTableModel implements TreeWillExpandLis
 			super(null, null, null, -1, new UNode.UTTNodeOptions());
 		}
 	}
-	private static String[] getColumnNames(IColumnProvider[] c) {
-		String[] n = new String[c.length+1];
-		n[0] = "Name";
-		for (int i = 0; i < c.length; i++) n[i+1] = c[i].getColumnName();
+	private static List<String> getColumnNames(IColumnProvider[] c) {
+		List<String> n = new ArrayList<>();//new String[c.length+1];
+		n.add("Name");
+		for (int i = 0; i < c.length; i++) n.add(c[i].getColumnName());
 		return n;
 	}
 
@@ -60,7 +60,7 @@ public class UTTModel extends DefaultTreeTableModel implements TreeWillExpandLis
 	
 	public void setInput(UObject... objects) {
 		while(mRoot.getChildCount() > 0)
-			removeNodeFromParent((MutableTreeNode) mRoot.getFirstChild());
+			removeNodeFromParent((MutableTreeTableNode) mRoot.getChildAt(0));
 		
 		if (objects == null) return ;
 		if (objects.length == 1) {
@@ -99,8 +99,8 @@ public class UTTModel extends DefaultTreeTableModel implements TreeWillExpandLis
 	
 	@Override
 	public boolean isCellEditable(Object node, int column) {
-		if (column == 0) return true;
 		if (node == mRoot) return false;
+        if (column == 0) return true;
 		return mColumnProvider[column].isEditable(node);
 	}
 
@@ -111,18 +111,22 @@ public class UTTModel extends DefaultTreeTableModel implements TreeWillExpandLis
 	//							Expansion 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public void install(TreeTable tt) {
+	public void install(JXTreeTable tt) {
 		tt.addTreeExpansionListener(this);
 		tt.addTreeWillExpandListener(this);
 	}
-	public void uninstall(TreeTable tt) {
+	public void uninstall(JXTreeTable tt) {
 		tt.removeTreeExpansionListener(this);
 		tt.removeTreeWillExpandListener(this);
 		//do not remove the model, otherwise the tree will be invalid
 	}
 	
+    @Override
 	public void treeExpanded(TreeExpansionEvent event) {
+
 	}
+    
+    @Override
 	public void treeCollapsed(TreeExpansionEvent event) {
 		Object lpc = event.getPath().getLastPathComponent();
 		if (lpc == null) return ;
@@ -132,6 +136,7 @@ public class UTTModel extends DefaultTreeTableModel implements TreeWillExpandLis
 			node.collapsed(event);
 	}	
 
+    @Override
 	public void treeWillExpand(TreeExpansionEvent event) throws ExpandVetoException {
 		Object lpc = event.getPath().getLastPathComponent();
 		if (lpc == null) return ;
@@ -141,7 +146,9 @@ public class UTTModel extends DefaultTreeTableModel implements TreeWillExpandLis
 			node.willExpand(event);
 	}
 
+    @Override
 	public void treeWillCollapse(TreeExpansionEvent event) throws ExpandVetoException {
+
 	}
 	
 	
@@ -151,12 +158,12 @@ public class UTTModel extends DefaultTreeTableModel implements TreeWillExpandLis
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-	@Override
+//	@Override
 	public TableCellEditor getCellEditor(Object node, int column) {
 		return mColumnProvider[column].getCellEditor(node);
 	}
 
-	@Override
+//	@Override
 	public TableCellRenderer getCellRenderer(Object node, int column) {
 		return mColumnProvider[column].getCellRenderer(node);
 	}
@@ -186,8 +193,11 @@ public class UTTModel extends DefaultTreeTableModel implements TreeWillExpandLis
 	}
 
 	private TreePath getTreePath(UNode parent, QualifiedName queryQN) {
-		if (queryQN.empty())
-			return new TreePath(parent.getPath());
+		if (queryQN.empty()) {
+            List<TreeTableNode> parents = getParents(parent);
+            TreePath result = new TreePath(parents.toArray(new TreeTableNode[0]));
+			return result;
+        }
 		String first = queryQN.firstSegment();
 		int nc = parent.getChildCount();
 		for (int i = 0; i < nc; i++) {
@@ -210,6 +220,28 @@ public class UTTModel extends DefaultTreeTableModel implements TreeWillExpandLis
 		if (lpc != null && lpc instanceof UNode)
 			return ((UNode)lpc).getPointer();
 		return null;
-	}	
+	}
+    
+    public List<TreeTableNode> getParents(TreeTableNode item) {
+        List<TreeTableNode> result = new ArrayList<>();
+        if (item.getParent() != null) {
+            result.addAll(getParents(item.getParent()));
+        }
+        result.add(item);
+        return result;
+    }
 
+    public TreePath find(UNode root, UObject uobj) {
+        if (uobj != null && uobj.equals(root.getUserObject())) {
+            return root.getPath();
+        }
+        if (root != null) {
+            for (Iterator it = root.children().asIterator(); it.hasNext(); ) {
+              UNode unode = (UNode) it.next();
+              TreePath tp = find(unode, uobj);
+              if (tp != null) return tp;
+            }
+        }
+        return null;
+    }
 }

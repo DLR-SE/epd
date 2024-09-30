@@ -1,12 +1,9 @@
 package de.emir.model.universal.spatial.ops;
 
-import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
-import de.emir.tuml.ucore.runtime.UClass;
+import org.geotools.api.referencing.FactoryException;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.CRS;
 import de.emir.model.universal.spatial.CoordinateSequence;
-import org.opengis.referencing.FactoryException;
-import org.opengis.referencing.NoSuchAuthorityCodeException;
 
 import org.locationtech.jts.geom.GeometryFactory;
 
@@ -27,7 +24,7 @@ public abstract class GeometryOperations  implements IGeometryDelegationInterfac
 	
 	
 	protected static GeometryFactory sGeometryFactory = new GeometryFactory();
-	private static org.opengis.referencing.crs.CoordinateReferenceSystem sNativeWGS;
+	private static org.geotools.api.referencing.crs.CoordinateReferenceSystem sNativeWGS;
 
 	/**
 	 * @inheritDoc
@@ -180,19 +177,17 @@ public abstract class GeometryOperations  implements IGeometryDelegationInterfac
 		return env;		
 	}
 
-	public static org.opengis.referencing.crs.CoordinateReferenceSystem getNativeWGS842D() {
+	public static org.geotools.api.referencing.crs.CoordinateReferenceSystem getNativeWGS842D() {
 		try {
 			if (sNativeWGS == null)
 				sNativeWGS = CRS.decode("urn:ogc:def:crs:EPSG:6.6:4326");
-		} catch (NoSuchAuthorityCodeException e) {
-			e.printStackTrace();
 		} catch (FactoryException e) {
 			e.printStackTrace();
 		}
 		return sNativeWGS;
 	}
 	
-	public static CoordinateReferenceSystem getCRS(org.opengis.referencing.crs.CoordinateReferenceSystem nat){
+	public static CoordinateReferenceSystem getCRS(org.geotools.api.referencing.crs.CoordinateReferenceSystem nat){
 		if (nat == getNativeWGS842D() || nat == null)
 			return CRSUtils.WGS84_2D;
 		NativeCRSImpl crs = new NativeCRSImpl();

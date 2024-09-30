@@ -123,7 +123,7 @@ public class TreeSelectionDialog extends JDialog {
 
         btnOk.setEnabled(false);
 
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(parent);
 
         addListeners();
 

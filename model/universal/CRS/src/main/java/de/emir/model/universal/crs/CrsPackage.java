@@ -400,7 +400,7 @@ public class CrsPackage
 					return new WGS842DImpl();
 				}
 			});
-			mWGS842D.setDocumentation(" Defines the default global coordinate reference system (WGS84) for eMIR with 2 dimensions.\r\n * The WGS842D CRS corresponds to the EPSG code: urn:ogc:def:crs:EPSG:6.6:4326 (defined by GeoTools)\r\n * @note since, the order of WGS84 coordinates differes between different applications (either lat/lon or lon/lat)\r\n * we define the lat/lon order to be the default order for WGS84 in eMIR (thats the reason to not use the EPSG:4326) \r\n * Thereby we follow the chartographic order instead of the informatics/mathematics point of view. \r\n ");
+			mWGS842D.setDocumentation(" Defines the default global coordinate reference system (WGS84) for eMIR with 2 dimensions.\r\n * The WGS842D CRS corresponds to the EPSG code: urn:ogc:def:crs:EPSG:6.6:4326 (defined by GeoTools)\r\n * @note since, the order of WGS84 coordinates differes between different applications (either lat/lon or lon/lat)\r\n * we define the lat/lon order to be the default order for WGS84 in eMIR (that's the reason to not use the EPSG:4326)\r\n * Thereby we follow the chartographic order instead of the informatics/mathematics point of view. \r\n ");
 		
 		mWGS843D = UMetaBuilder.manual().createClass("WGS843D", false, WGS843D.class, WGS843DImpl.class);
 			UMetaBuilder.manual().setInstanceCreator(mWGS843D, new IInstanceCreator() {
@@ -409,7 +409,7 @@ public class CrsPackage
 					return new WGS843DImpl();
 				}
 			});
-			mWGS843D.setDocumentation(" Defines the default global CRS to be used in eMIR, for 3 dimensions. \r\n * The WGS843D differes from its 2D version (WGS842D) that the z component of a coordinate is interpreted as altitude (in meters). \r\n ");
+			mWGS843D.setDocumentation(" Defines the default global CRS to be used in eMIR, for 3 dimensions.\r\n * The WGS843D differs fom its 2D counterpart (WGS842D) by adding the 3er dimension\r\n * altitude as the z component. The altitude is defined as the negative distance towards the\r\n * center of the ellipsoid defined by WGS84 from the sea level defined by WGS84 in meters.\r\n *\r\n * 2 dimensional objects (WGS842D) are defined as infinite lines from the center of the\r\n * ellipsoid towards its 2D coordinates (WGS842D) on sea level.\r\n ");
 		
 		mPolar2D = UMetaBuilder.manual().createClass("Polar2D", false, Polar2D.class, Polar2DImpl.class);
 			UMetaBuilder.manual().setInstanceCreator(mPolar2D, new IInstanceCreator() {

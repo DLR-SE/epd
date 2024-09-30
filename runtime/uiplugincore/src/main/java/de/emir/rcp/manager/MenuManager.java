@@ -53,7 +53,6 @@ import de.emir.rcp.menu.ep.RadioGroup;
 import de.emir.rcp.menu.ep.RadioGroupElement;
 import de.emir.rcp.menu.ep.Separator;
 import de.emir.rcp.menu.ep.util.PopupMenuSeparatorVisibilityHandler;
-import de.emir.rcp.views.AboutDialog;
 import de.emir.tuml.ucore.runtime.extension.IService;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.resources.ResourceManager;
@@ -166,7 +165,7 @@ public class MenuManager implements IService {
         mTopPanel.setLayout(new BorderLayout());
         mainWindow.add(mTopPanel, BorderLayout.NORTH);
         JLabel label = new JLabel();
-        ResourceManager resourceManager = ResourceManager.get(AboutDialog.class);
+        ResourceManager resourceManager = ResourceManager.get(MenuManager.class);
         ImageIcon icon = new ImageIcon(resourceManager.getImageIcon("branding/DLR-Programm_Icon.png").getImage().getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH));
         label.setIcon(icon);
         label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

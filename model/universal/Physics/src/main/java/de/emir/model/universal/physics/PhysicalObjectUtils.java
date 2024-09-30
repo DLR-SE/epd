@@ -1,7 +1,5 @@
 package de.emir.model.universal.physics;
 
-import java.util.Collection;
-
 import de.emir.model.universal.crs.CoordinateReferenceSystem;
 import de.emir.model.universal.crs.Engineering2D;
 import de.emir.model.universal.crs.EngineeringCRS;
@@ -18,33 +16,13 @@ import de.emir.model.universal.physics.impl.DynamicObjectCharacteristicImpl;
 import de.emir.model.universal.spatial.Coordinate;
 import de.emir.model.universal.spatial.Pose;
 import de.emir.model.universal.spatial.impl.CoordinateImpl;
-import de.emir.model.universal.units.Angle;
-import de.emir.model.universal.units.AngleUnit;
-import de.emir.model.universal.units.AngularSpeed;
-import de.emir.model.universal.units.AngularVelocity;
-import de.emir.model.universal.units.Distance;
-import de.emir.model.universal.units.Euler;
-import de.emir.model.universal.units.Length;
-import de.emir.model.universal.units.Quaternion;
-import de.emir.model.universal.units.Speed;
-import de.emir.model.universal.units.SpeedUnit;
-import de.emir.model.universal.units.Time;
-import de.emir.model.universal.units.TimeUnit;
-import de.emir.model.universal.units.Velocity;
+import de.emir.model.universal.units.*;
 import de.emir.model.universal.units.impl.AngleImpl;
 import de.emir.model.universal.units.impl.AngularVelocityImpl;
 import de.emir.model.universal.units.impl.EulerImpl;
 import de.emir.model.universal.units.impl.SpeedUnitImpl;
 import de.emir.model.universal.units.impl.TimeImpl;
 import de.emir.model.universal.units.impl.VelocityImpl;
-import de.emir.tuml.ucore.runtime.IDelegateInterface;
-import de.emir.tuml.ucore.runtime.ITreeValueChangeListener;
-import de.emir.tuml.ucore.runtime.IValueChangeListener;
-import de.emir.tuml.ucore.runtime.UAssociationType;
-import de.emir.tuml.ucore.runtime.UClass;
-import de.emir.tuml.ucore.runtime.UObject;
-import de.emir.tuml.ucore.runtime.UStructuralFeature;
-import de.emir.tuml.ucore.runtime.prop.IProperty;
 
 public class PhysicalObjectUtils {
 
@@ -188,7 +166,10 @@ public class PhysicalObjectUtils {
 	public static void setRateOfTurn(AngularSpeed speed, AngularVelocity av) {
 		if (av.getValue() == null)
 			av.setValue(new EulerImpl());
-		if (av.getUnit() == null)
+		// Null check always returns true since the unit is by default initialized with RADIANS and TimeUnit NANOSECONDS.
+		// Since radians per nanosecond is no valid measurement for AngularSpeedUnit, the unit will
+		// be converted to the actual unit when the default values are used.
+		if (av.getUnit() == null || (av.getUnit().getAngleUnit().equals(AngleUnit.RADIAN) && av.getUnit().getTimeUnit().equals(TimeUnit.NANOSECOND)))
 			av.setUnit(speed.getUnit());
 		if (av.getValue().getZ() == null)
 			av.getValue().setZ(new AngleImpl(speed.getAs(av.getUnit()), av.getUnit().getAngleUnit()));

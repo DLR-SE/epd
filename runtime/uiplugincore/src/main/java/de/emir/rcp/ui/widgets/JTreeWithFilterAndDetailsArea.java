@@ -119,7 +119,7 @@ public class JTreeWithFilterAndDetailsArea extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 
 		splitPane = new JSplitPane();
-		splitPane.setResizeWeight(0.25);
+		splitPane.setResizeWeight(0.20);
 		add(splitPane);
 
 		splitPane.setRightComponent(rightPanel);

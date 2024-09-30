@@ -1,8 +1,6 @@
 package de.emir.service.geometry.impl;
 
 import de.emir.model.universal.crs.CoordinateReferenceSystem;
-import de.emir.model.universal.crs.impl.Engineering2DImpl;
-import de.emir.model.universal.crs.util.CRSUtils;
 import de.emir.model.universal.math.Matrix2;
 import de.emir.model.universal.math.Matrix3;
 import de.emir.model.universal.math.Vector;

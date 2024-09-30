@@ -2,22 +2,21 @@ package de.emir.model.universal.spatial.crs;
 
 import java.util.HashMap;
 
-import org.geotools.geometry.DirectPosition2D;
-import org.geotools.geometry.DirectPosition3D;
-import org.geotools.referencing.CRS;
-import org.geotools.referencing.crs.DefaultGeographicCRS;
-import org.opengis.geometry.DirectPosition;
-import org.opengis.geometry.MismatchedDimensionException;
-import org.opengis.referencing.FactoryException;
-import org.opengis.referencing.NoSuchAuthorityCodeException;
-import org.opengis.referencing.operation.MathTransform;
-import org.opengis.referencing.operation.TransformException;
+
+import org.geotools.api.geometry.Position;
+import org.geotools.api.referencing.FactoryException;
+import org.geotools.api.referencing.operation.MathTransform;
+import org.geotools.api.referencing.operation.TransformException;
+import org.geotools.geometry.Position2D;
+import org.geotools.geometry.Position3D;
 
 import de.emir.model.universal.crs.CoordinateReferenceSystem;
 import de.emir.model.universal.crs.NativeCRS;
 import de.emir.model.universal.crs.internal.ICoordinateTransform;
 import de.emir.model.universal.crs.internal.TransformFactory;
 import de.emir.model.universal.crs.util.CRSUtils;
+import org.geotools.referencing.CRS;
+import org.geotools.referencing.crs.DefaultGeographicCRS;
 
 public class NativeCRSTransform implements ICoordinateTransform {
 
@@ -25,11 +24,8 @@ public class NativeCRSTransform implements ICoordinateTransform {
 	public static void init(){
 		TransformFactory.registerTransformation(new NativeCRSTransform());
 	}
-
 	
-	
-	private HashMap<String, org.opengis.referencing.crs.CoordinateReferenceSystem> 		mNativeCRSMap = new HashMap<>();//[WKT, CRS]
-
+	private HashMap<String, org.geotools.api.referencing.crs.CoordinateReferenceSystem> mNativeCRSMap = new HashMap<>();//[WKT, CRS]
 
 	static DefaultGeographicCRS _native_emir_wgs = null;
 	static DefaultGeographicCRS _native_wgs = null;
@@ -55,17 +51,15 @@ public class NativeCRSTransform implements ICoordinateTransform {
 	}
 		
 	
-	private org.opengis.referencing.crs.CoordinateReferenceSystem getCRSFromWKT(String wkt){
+	private org.geotools.api.referencing.crs.CoordinateReferenceSystem getCRSFromWKT(String wkt){
 		if (mNativeCRSMap.containsKey(wkt))
 			return mNativeCRSMap.get(wkt);
 		try {
-			org.opengis.referencing.crs.CoordinateReferenceSystem result = CRS.parseWKT(wkt);
+			org.geotools.api.referencing.crs.CoordinateReferenceSystem result = CRS.parseWKT(wkt);
 			if (result != null){
 				mNativeCRSMap.put(wkt, result);
 				return result;
 			}
-		} catch (NoSuchAuthorityCodeException e) {
-			e.printStackTrace();
 		} catch (FactoryException e) {
 			e.printStackTrace();
 		}
@@ -82,49 +76,43 @@ public class NativeCRSTransform implements ICoordinateTransform {
 	@Override
 	public double[] transform(double[] in, CoordinateReferenceSystem _src, CoordinateReferenceSystem _dst) {
 		if (_src instanceof NativeCRS){
-			org.opengis.referencing.crs.CoordinateReferenceSystem nativeCRS = getCRSFromWKT(((NativeCRS)_src).getWkt());
+			org.geotools.api.referencing.crs.CoordinateReferenceSystem nativeCRS = getCRSFromWKT(((NativeCRS)_src).getWkt());
 			//now transform into the WGS84 as used in emir (lat/lon)
 			if (nativeCRS == null)
 				return null;
 			try {
 				MathTransform transform = CRS.findMathTransform(nativeCRS, getDefaultEMIRWGS842D());
 				if (transform != null){
-					DirectPosition dp_src = in.length == 2 ? new DirectPosition2D(in[0], in[1]) : new DirectPosition3D(in[0], in[1], in[2]);
-					DirectPosition dp = transform.transform(dp_src, null);
+					Position dp_src = in.length == 2 ? new Position2D(in[0], in[1]) : new Position3D(in[0], in[1], in[2]);
+					Position dp = transform.transform(dp_src, null);
 					if (dp != null)
 						return CRSUtils.transform(dp.getCoordinate(), CRSUtils.WGS84_2D, _dst);
 				}
 			} catch (FactoryException e) {
 				e.printStackTrace();
-			} catch (MismatchedDimensionException e) {
-				e.printStackTrace();
 			} catch (TransformException e) {
-				e.printStackTrace();
-			}
-			return null;
+                throw new RuntimeException(e);
+            }
+            return null;
 		}
 		if (_dst instanceof NativeCRS){
 			double[] eMIRWGS = CRSUtils.transform(in, _src, CRSUtils.WGS84_2D);
 			if (eMIRWGS != null){
-				org.opengis.referencing.crs.CoordinateReferenceSystem nativeCRS = getCRSFromWKT(((NativeCRS)_dst).getWkt());
+				org.geotools.api.referencing.crs.CoordinateReferenceSystem nativeCRS = getCRSFromWKT(((NativeCRS)_dst).getWkt());
 				if (nativeCRS == null)
 					return null;
 				try {
 					MathTransform transform = CRS.findMathTransform(getDefaultEMIRWGS842D(), nativeCRS);
 					if (transform != null){
-						DirectPosition dp_src = eMIRWGS.length == 2 ? new DirectPosition2D(eMIRWGS[0], eMIRWGS[1]) : new DirectPosition3D(eMIRWGS[0], eMIRWGS[1], eMIRWGS[2]);
-						DirectPosition dp = transform.transform(dp_src, null);
+						Position dp_src = eMIRWGS.length == 2 ? new Position2D(eMIRWGS[0], eMIRWGS[1]) : new Position3D(eMIRWGS[0], eMIRWGS[1], eMIRWGS[2]);
+						Position dp = transform.transform(dp_src, null);
 						if (dp != null)
 							return dp.getCoordinate();
 					}
-				} catch (FactoryException e) {
-					e.printStackTrace();
-				} catch (MismatchedDimensionException e) {
-					e.printStackTrace();
-				} catch (TransformException e) {
+				} catch (FactoryException | TransformException e) {
 					e.printStackTrace();
 				}
-				return null;
+                return null;
 			}
 		}
 		return null;

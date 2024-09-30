@@ -99,4 +99,8 @@ public class PropertyCheckboxWidget extends JCheckBox implements IPropertyWidget
         return dirty;
     }
 
+    @Override
+    public IProperty getProperty() {
+        return property;
+    }
 }

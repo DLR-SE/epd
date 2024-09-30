@@ -1,5 +1,12 @@
 package de.emir.rcp.keybindings.ep;
 
+import de.emir.model.universal.plugincore.var.AbstractKeyBinding;
+import de.emir.model.universal.plugincore.var.EditorKeyBinding;
+import de.emir.model.universal.plugincore.var.GlobalKeyBinding;
+import de.emir.model.universal.plugincore.var.ViewKeyBinding;
+import de.emir.model.universal.plugincore.var.impl.EditorKeyBindingImpl;
+import de.emir.model.universal.plugincore.var.impl.GlobalKeyBindingImpl;
+import de.emir.model.universal.plugincore.var.impl.ViewKeyBindingImpl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +63,7 @@ public class KeyBindingExtensionPoint implements IExtensionPoint {
 
         ExtensionPointUtil.getCurrentlyLoadingPlugin();
 
-        ViewKeyBinding kb = new ViewKeyBinding();
+        ViewKeyBinding kb = new ViewKeyBindingImpl();
         kb.setViewID(viewID);
         kb.setCommandID(commandID);
         kb.setKey(key);
@@ -84,7 +91,7 @@ public class KeyBindingExtensionPoint implements IExtensionPoint {
 
         ExtensionPointUtil.getCurrentlyLoadingPlugin();
 
-        EditorKeyBinding kb = new EditorKeyBinding();
+        EditorKeyBinding kb = new EditorKeyBindingImpl();
         kb.setEditorID(editorID);
         kb.setCommandID(commandID);
         kb.setKey(key);
@@ -100,7 +107,7 @@ public class KeyBindingExtensionPoint implements IExtensionPoint {
 
         ExtensionPointUtil.getCurrentlyLoadingPlugin();
 
-        GlobalKeyBinding kb = new GlobalKeyBinding();
+        GlobalKeyBinding kb = new GlobalKeyBindingImpl();
         kb.setCommandID(commandID);
         kb.setKey(key);
         addBinding(kb);

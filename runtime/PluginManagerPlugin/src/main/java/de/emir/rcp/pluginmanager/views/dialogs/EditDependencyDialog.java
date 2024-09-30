@@ -181,7 +181,7 @@ public class EditDependencyDialog extends JDialog {
         gbc_btnOk.gridy = 0;
         panel.add(btnOk, gbc_btnOk);
 
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(parent);
 
         btnOk.addActionListener(e -> handleOk());
         btnExit.addActionListener(e -> handleExit());

@@ -1,5 +1,6 @@
 package de.emir.rcp.views;
 
+import de.emir.rcp.manager.util.PlatformUtil;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.io.FileReader;
@@ -42,7 +43,7 @@ public class LicenseDialog extends JDialog {
 		} catch (IOException e) {
 			LOG.error("Could not read LICENSE file.");
 		}
-		
+		setLocationRelativeTo(PlatformUtil.getWindowManager().getMainWindow());
 	}
 
 }

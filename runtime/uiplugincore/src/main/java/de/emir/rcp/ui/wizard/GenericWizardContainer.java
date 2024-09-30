@@ -25,8 +25,7 @@ import de.emir.rcp.properties.PropertyStore;
 import de.emir.rcp.ui.utils.JProgressBarProgressMonitor;
 
 /**
- * @auhtor Johannes Donath <johannesd@evil-co.com>
- * @copyright Copyright (C) 2014 Evil-Co <http://www.evil-co.org>
+ * @auhtor Johannes Donath
  */
 public class GenericWizardContainer extends JDialog {
 
@@ -102,6 +101,8 @@ public class GenericWizardContainer extends JDialog {
         super(parent, title);
 
         this.buildUI();
+        // center
+        this.setLocationRelativeTo(parent);
         this.hookEvents();
     }
 
@@ -111,9 +112,6 @@ public class GenericWizardContainer extends JDialog {
     protected void buildUI() {
         // set minimal size
         this.setMinimumSize(DEFAULT_MINIMUM_SIZE);
-
-        // center
-        this.setLocationRelativeTo(null);
 
         // set close operation
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

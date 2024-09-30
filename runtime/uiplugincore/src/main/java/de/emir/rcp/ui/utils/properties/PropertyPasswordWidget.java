@@ -81,5 +81,9 @@ public class PropertyPasswordWidget extends PropertyTextWidget implements IPrope
         setTextfieldValue();
 
     }
-
+    
+    @Override
+    public IProperty getProperty() {
+        return property;
+    }
 }

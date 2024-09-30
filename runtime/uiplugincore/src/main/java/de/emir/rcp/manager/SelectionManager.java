@@ -107,7 +107,11 @@ public class SelectionManager implements IService {
         PublishSubject<Optional<Object>> selection = getSelection(contextID);
 
         lastEmitted.put(contextID, value);
-        selection.onNext(Optional.ofNullable(value));
+        try {
+            selection.onNext(Optional.ofNullable(value));
+        } catch (Exception e) {
+            ULog.warn("Unhandeled error while selection.");
+        }
 
         if (GLOBAL.equals(contextID) == false) {
             setSelection(value);

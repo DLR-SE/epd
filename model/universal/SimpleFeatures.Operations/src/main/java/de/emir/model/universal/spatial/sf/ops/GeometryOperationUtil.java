@@ -1,6 +1,10 @@
 package de.emir.model.universal.spatial.sf.ops;
 
+import de.emir.model.universal.spatial.Coordinate;
+import de.emir.model.universal.spatial.CoordinateSequence;
 import de.emir.model.universal.spatial.Geometry;
+import de.emir.model.universal.spatial.ops.CoordinateOperations;
+import de.emir.model.universal.spatial.ops.CoordinateSequenceOperations;
 import de.emir.model.universal.spatial.sf.LineString;
 import de.emir.model.universal.spatial.sf.LinearRing;
 import de.emir.model.universal.spatial.sf.MultiLineString;
@@ -38,7 +42,13 @@ public class GeometryOperationUtil {
 		} else if (self instanceof WKTGeometry) {
 			WKTGeometryOperations geoOps = new WKTGeometryOperations();
 			return geoOps.getNativeGeometry(self);
-		}
+		} else if (self instanceof Coordinate) {
+            PointOperations geoOps = new PointOperations();
+            return geoOps.getNativeGeometry(self);
+        } else if (self instanceof CoordinateSequence) {
+            LineStringOperations geoOps = new LineStringOperations();
+            return geoOps.getNativeGeometry(self);
+        }
 			
 		return null;
 	}

@@ -20,22 +20,6 @@
           </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
         </entry>
         <entry>
-          <string>de.emir.epd.mapview.visibleLayers_AisLayer</string>
-          <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty serialization="custom">
-            <de.emir.tuml.ucore.runtime.prop.AbstractProperty>
-              <default/>
-            </de.emir.tuml.ucore.runtime.prop.AbstractProperty>
-            <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
-              <default>
-                <mEditable>true</mEditable>
-                <mDescription></mDescription>
-                <mName>de.emir.epd.mapview.visibleLayers_AisLayer</mName>
-                <mValue class="boolean">true</mValue>
-              </default>
-            </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
-          </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
-        </entry>
-        <entry>
           <string>de.emir.epd.mapview.property.TileSource</string>
           <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty serialization="custom">
             <de.emir.tuml.ucore.runtime.prop.AbstractProperty>
@@ -47,6 +31,22 @@
                 <mDescription></mDescription>
                 <mName>de.emir.epd.mapview.property.TileSource</mName>
                 <mValue class="string">de.emir.epd.mapview.tilesources.OSMTileSource</mValue>
+              </default>
+            </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+          </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+        </entry>
+        <entry>
+          <string>de.emir.epd.mapview.visibleLayers_AisLayer</string>
+          <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty serialization="custom">
+            <de.emir.tuml.ucore.runtime.prop.AbstractProperty>
+              <default/>
+            </de.emir.tuml.ucore.runtime.prop.AbstractProperty>
+            <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+              <default>
+                <mEditable>true</mEditable>
+                <mDescription></mDescription>
+                <mName>de.emir.epd.mapview.visibleLayers_AisLayer</mName>
+                <mValue class="boolean">true</mValue>
               </default>
             </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
           </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
@@ -78,23 +78,7 @@
                 <mEditable>true</mEditable>
                 <mDescription></mDescription>
                 <mName>de.emir.epd.mapview.positionLon</mName>
-                <mValue class="double">0.0</mValue>
-              </default>
-            </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
-          </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
-        </entry>
-        <entry>
-          <string>de.emir.epd.mapview.expandedLayers_AisLayer</string>
-          <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty serialization="custom">
-            <de.emir.tuml.ucore.runtime.prop.AbstractProperty>
-              <default/>
-            </de.emir.tuml.ucore.runtime.prop.AbstractProperty>
-            <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
-              <default>
-                <mEditable>true</mEditable>
-                <mDescription></mDescription>
-                <mName>de.emir.epd.mapview.expandedLayers_AisLayer</mName>
-                <mValue class="boolean">false</mValue>
+                <mValue class="double">4.1748046875</mValue>
               </default>
             </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
           </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
@@ -111,6 +95,22 @@
                 <mDescription></mDescription>
                 <mName>de.emir.epd.mapview.visibleLayers_OpenSeaMapLayer</mName>
                 <mValue class="boolean">true</mValue>
+              </default>
+            </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+          </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+        </entry>
+        <entry>
+          <string>de.emir.epd.mapview.expandedLayers_AisLayer</string>
+          <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty serialization="custom">
+            <de.emir.tuml.ucore.runtime.prop.AbstractProperty>
+              <default/>
+            </de.emir.tuml.ucore.runtime.prop.AbstractProperty>
+            <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+              <default>
+                <mEditable>true</mEditable>
+                <mDescription></mDescription>
+                <mName>de.emir.epd.mapview.expandedLayers_AisLayer</mName>
+                <mValue class="boolean">false</mValue>
               </default>
             </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
           </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
@@ -174,7 +174,7 @@
                 <mEditable>true</mEditable>
                 <mDescription></mDescription>
                 <mName>de.emir.epd.mapview.visibleLayers_de.emir.epd.example.map.ExampleLayer</mName>
-                <mValue class="boolean">true</mValue>
+                <mValue class="boolean">false</mValue>
               </default>
             </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
           </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
@@ -190,7 +190,7 @@
                 <mEditable>true</mEditable>
                 <mDescription></mDescription>
                 <mName>de.emir.epd.mapview.expandedLayers_de.emir.epd.example.map.ExampleLayer</mName>
-                <mValue class="boolean">false</mValue>
+                <mValue class="boolean">true</mValue>
               </default>
             </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
           </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
@@ -302,7 +302,7 @@
                 <mEditable>true</mEditable>
                 <mDescription></mDescription>
                 <mName>de.emir.epd.mapview.positionLat</mName>
-                <mValue class="double">0.0</mValue>
+                <mValue class="double">51.832383069996645</mValue>
               </default>
             </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
           </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
@@ -349,6 +349,62 @@
                 <mEditable>true</mEditable>
                 <mDescription></mDescription>
                 <mName>de.emir.rcp.dev.DevToolPropertiesContext</mName>
+                <mValue class="boolean">false</mValue>
+              </default>
+            </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+          </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+        </entry>
+      </properties>
+      <mListener/>
+    </de.emir.rcp.properties.PropertyContext>
+  </entry>
+  <entry>
+    <string>ExampleProperties</string>
+    <de.emir.rcp.properties.PropertyContext>
+      <properties>
+        <entry>
+          <string>ExampleSpinnerProperty</string>
+          <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty serialization="custom">
+            <de.emir.tuml.ucore.runtime.prop.AbstractProperty>
+              <default/>
+            </de.emir.tuml.ucore.runtime.prop.AbstractProperty>
+            <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+              <default>
+                <mEditable>true</mEditable>
+                <mDescription></mDescription>
+                <mName>ExampleSpinnerProperty</mName>
+                <mValue class="int">5</mValue>
+              </default>
+            </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+          </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+        </entry>
+        <entry>
+          <string>ExampleTextProperty</string>
+          <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty serialization="custom">
+            <de.emir.tuml.ucore.runtime.prop.AbstractProperty>
+              <default/>
+            </de.emir.tuml.ucore.runtime.prop.AbstractProperty>
+            <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+              <default>
+                <mEditable>true</mEditable>
+                <mDescription></mDescription>
+                <mName>ExampleTextProperty</mName>
+                <mValue class="string">Hello World</mValue>
+              </default>
+            </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+          </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+        </entry>
+        <entry>
+          <string>ExampleCheckBoxProperty</string>
+          <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty serialization="custom">
+            <de.emir.tuml.ucore.runtime.prop.AbstractProperty>
+              <default/>
+            </de.emir.tuml.ucore.runtime.prop.AbstractProperty>
+            <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+              <default>
+                <mEditable>true</mEditable>
+                <mDescription></mDescription>
+                <mName>ExampleCheckBoxProperty</mName>
                 <mValue class="boolean">false</mValue>
               </default>
             </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
@@ -422,22 +478,6 @@
                 <mDescription></mDescription>
                 <mName>aisPropertyTargetLosttime</mName>
                 <mValue class="int">30</mValue>
-              </default>
-            </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
-          </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
-        </entry>
-        <entry>
-          <string>aisPropertyShowWebImage</string>
-          <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty serialization="custom">
-            <de.emir.tuml.ucore.runtime.prop.AbstractProperty>
-              <default/>
-            </de.emir.tuml.ucore.runtime.prop.AbstractProperty>
-            <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
-              <default>
-                <mEditable>true</mEditable>
-                <mDescription></mDescription>
-                <mName>aisPropertyShowWebImage</mName>
-                <mValue class="boolean">false</mValue>
               </default>
             </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
           </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
@@ -597,11 +637,11 @@
                 <mEditable>true</mEditable>
                 <mDescription></mDescription>
                 <mName>MainFrameGeometry</mName>
-                <mValue class="java.awt.Rectangle">
-                  <x>880</x>
-                  <y>420</y>
-                  <width>800</width>
-                  <height>600</height>
+                <mValue class="de.emir.rcp.types.Rectangle">
+                  <x>-8</x>
+                  <y>-8</y>
+                  <width>2576</width>
+                  <height>1416</height>
                 </mValue>
               </default>
             </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
@@ -618,7 +658,7 @@
                 <mEditable>true</mEditable>
                 <mDescription></mDescription>
                 <mName>LayoutLockState</mName>
-                <mValue class="boolean">true</mValue>
+                <mValue class="boolean">false</mValue>
               </default>
             </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
           </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
@@ -650,7 +690,7 @@
                 <mEditable>true</mEditable>
                 <mDescription></mDescription>
                 <mName>Maximized</mName>
-                <mValue class="int">0</mValue>
+                <mValue class="int">6</mValue>
               </default>
             </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
           </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
@@ -714,9 +754,23 @@
                 <mEditable>true</mEditable>
                 <mDescription></mDescription>
                 <mName>de.emir.epd.nmeasensor.property.Sensor</mName>
-                <mValue class="de.emir.epd.nmeasensor.impl.NMEASensorSettingsImpl">
-                  <mRecProperties/>
-                </mValue>
+                <mValue class="list"/>
+              </default>
+            </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+          </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+        </entry>
+        <entry>
+          <string>de.emir.epd.nmeasensor.property.NMEASource</string>
+          <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty serialization="custom">
+            <de.emir.tuml.ucore.runtime.prop.AbstractProperty>
+              <default/>
+            </de.emir.tuml.ucore.runtime.prop.AbstractProperty>
+            <de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
+              <default>
+                <mEditable>true</mEditable>
+                <mDescription></mDescription>
+                <mName>de.emir.epd.nmeasensor.property.NMEASource</mName>
+                <mValue class="long">0</mValue>
               </default>
             </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
           </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>

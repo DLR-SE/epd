@@ -23,6 +23,7 @@ import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
 import de.emir.rcp.ui.utils.databinding.PropertyJCheckBox;
 import de.emir.tuml.ucore.runtime.extension.ServiceManager;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,6 +34,9 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Dimension;
 import javax.swing.JTextField;
 
+/**
+ * Settings panel component for the AIS layer.
+ */
 public class AisLayerSettingsPanel extends AbstractMapLayerSettingsPanel {
 	private JTextField textField;
 	private Environment targetSet;
@@ -42,13 +46,13 @@ public class AisLayerSettingsPanel extends AbstractMapLayerSettingsPanel {
 	 */
 	@Override
 	public Container createContent() {
-		IAisReadAdapter mra = ServiceManager.get(AisTargetManager.class).getModelReadAdapter();
 
-		if (mra != null) {
-			mra.subscribeChanged(oo -> {
-				targetSet = mra.getTargetSet();
-			});
-		}
+		// Subscribes to changes of the ais targets in the EPDModel.
+		EPDModelUtils.subscribeModelChange("aisTargetSet", event -> {
+			if(event.getNewValue() instanceof Environment) {
+				targetSet = (Environment) event.getNewValue();
+			}
+		});
 		
 		JPanel parent = new JPanel();
 		parent.setPreferredSize(new Dimension(172, 200));

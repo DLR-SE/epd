@@ -4,7 +4,12 @@ import de.emir.model.domain.maritime.iec61174.*;
 import de.emir.model.domain.maritime.iec61174.impl.*;
 import de.emir.model.universal.crs.util.CRSUtils;
 import de.emir.model.universal.spatial.Coordinate;
+import de.emir.model.universal.spatial.CoordinateSequence;
+import de.emir.model.universal.spatial.Envelope;
 import de.emir.model.universal.spatial.impl.CoordinateImpl;
+import de.emir.model.universal.spatial.impl.CoordinateSequenceImpl;
+import de.emir.model.universal.spatial.impl.EnvelopeImpl;
+import de.emir.model.universal.units.DistanceUnit;
 import de.emir.service.routeservices.impl.RouteExportImpl;
 import de.emir.service.routeservices.impl.RouteImportImpl;
 import org.slf4j.Logger;
@@ -129,6 +134,24 @@ public class RouteUtil {
         return routeCopy;
     }
 
+
+    /**
+     * Extracts and returns the file extension from the provided filename.
+     * If the filename is null, empty, or does not contain an extension, an empty string is returned.
+     *
+     * @param filename the name of the file from which to extract the extension
+     * @return the file extension as a String, or an empty string if no extension is found
+     */
+    public static String getFileExtension(String filename) {
+        if (filename != null) {
+            int dotIndex = filename.lastIndexOf('.');
+            if (dotIndex > 0 && dotIndex < filename.length() - 1) {
+                return filename.substring(dotIndex + 1);
+            }
+        }
+        return "";
+    }
+
     public static Route loadRouteFromFile(File file) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -141,7 +164,7 @@ public class RouteUtil {
                     sb.append(System.lineSeparator());
                     line = br.readLine();
                 }
-                Route route = RouteImportImpl.getRoute(sb.toString(), CRSUtils.WGS84_2D);
+                Route route = RouteImportImpl.getRoute(sb.toString(), CRSUtils.WGS84_2D, getFileExtension(file.getName()));
                 if (route != null) {
                     return route;
                 }
@@ -164,6 +187,4 @@ public class RouteUtil {
         }
         return RouteExportImpl.exportRoute(route, file);
     }
-
-
 }

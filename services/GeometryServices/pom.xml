@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>de.dlr-se.emir.services</groupId>
 		<artifactId>services</artifactId>
-		<version>4.0.0-SNAPSHOT</version>
+		<version>4.1.0</version>
 	</parent>
 	<dependencies>
 		<dependency>
@@ -56,5 +56,17 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        
+        <dependency>
+			<groupId>de.dlr-se.emir.model.universal</groupId>
+			<artifactId>Spatial.Operations</artifactId>
+			<version>${model.version}</version>
+		</dependency>
+        
+        <dependency>
+			<groupId>de.dlr-se.emir.model.universal</groupId>
+			<artifactId>CRS</artifactId>
+			<version>${model.version}</version>
+		</dependency>
 	</dependencies>
 </project>

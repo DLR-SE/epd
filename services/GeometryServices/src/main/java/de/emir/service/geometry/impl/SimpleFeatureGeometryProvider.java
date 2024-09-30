@@ -3,14 +3,13 @@ package de.emir.service.geometry.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geotools.geometry.DirectPosition2D;
+import org.geotools.api.geometry.Position;
+import org.geotools.api.referencing.FactoryException;
+import org.geotools.api.referencing.operation.MathTransform;
+import org.geotools.api.referencing.operation.TransformException;
+import org.geotools.geometry.Position2D;
 import org.geotools.referencing.CRS;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
-import org.opengis.geometry.DirectPosition;
-import org.opengis.geometry.MismatchedDimensionException;
-import org.opengis.referencing.FactoryException;
-import org.opengis.referencing.operation.MathTransform;
-import org.opengis.referencing.operation.TransformException;
 
 import org.locationtech.jts.geom.GeometryCollection;
 import org.locationtech.jts.geom.LineString;
@@ -159,13 +158,13 @@ public class SimpleFeatureGeometryProvider extends UObjectImpl implements ISimpl
 		}else{
 			//assume the default geotools wgs, so we have to do a transformation
 			try {
-				DirectPosition dp = getTransform().transform(new DirectPosition2D(p.x, p.y), null);
+				Position dp = getTransform().transform(new Position2D(p.x, p.y), null);
 				Coordinate nc = new CoordinateImpl(dp.getOrdinate(0), dp.getOrdinate(1), CRSUtils.WGS84_2D);
 				if (dst != null)
 					return nc.get(dst);
 				else
 					return nc;
-			} catch (MismatchedDimensionException | TransformException e) {
+			} catch (TransformException e) {
 				e.printStackTrace();
 			}
 		}
@@ -207,16 +206,16 @@ public class SimpleFeatureGeometryProvider extends UObjectImpl implements ISimpl
 			}else{
 				//assume the default geotools wgs, so we have to do a transformation
 				try {
-					DirectPosition dp = getTransform().transform(new DirectPosition2D(p.x, p.y), null);
+					Position dp = getTransform().transform(new Position2D(p.x, p.y), null);
 					Coordinate nc = new CoordinateImpl(dp.getOrdinate(0), dp.getOrdinate(1), CRSUtils.WGS84_2D);
 					if (dst != null)
 						out.add(nc.get(dst));
 					else
 						out.add(nc);
-				} catch (MismatchedDimensionException | TransformException e) {
-					e.printStackTrace();
-				}
-			}
+				} catch (TransformException e) {
+                    throw new RuntimeException(e);
+                }
+            }
 		}
 		return out;
 	}

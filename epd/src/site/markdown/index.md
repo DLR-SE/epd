@@ -169,7 +169,7 @@ shows a minimal `product.xml`.
 
 	<repositories>
 		<repository>
-			<id>MavenCentral</id>
+			<id>central</id>
 			<url>http://repo1.maven.org/maven2/</url>
 			<username></username>
 			<password></password>

@@ -16,7 +16,7 @@ public class ExampleBasic {
 
 
     //example map view integration
-    public static final String EXAMPLE_LAYER_ID = "de.emir.epd.example.map.ExampleLayer";
+    public static final String EXAMPLE_LAYER_ID = "ExampleLayer";
     public static final String EXAMPLE_TOOL_ID = "de.emir.epd.example.map.ExampleTool";
 
     // selection context

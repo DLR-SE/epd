@@ -51,7 +51,8 @@ here 1) `workspaces`, 2)`dependencies`, 3) `repositories`. The following code se
 
 	<repositories>
 		<repository>
-			<id>MavenCentral</id>
+          <!-- The id must match the ending of the maven-metadata.xml, i.e. central for maven-metadata-central.xml in the local repository folder -->
+			<id>central</id>
 			<url>http://repo1.maven.org/maven2/</url>
 			<username></username>
 			<password></password>

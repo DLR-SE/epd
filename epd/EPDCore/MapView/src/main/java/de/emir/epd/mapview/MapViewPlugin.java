@@ -123,7 +123,7 @@ public class MapViewPlugin extends AbstractUIPlugin {
 
         ICommandDescriptor cmdLockViewOnCurrentSelection = cmdEP.command(
                 MVBasic.LOCK_VIEW_ON_CURRENT_SELECTION_COMMAND,
-                "Lock Map View On Current Selection",
+                "Lock Map View On Own Ship or Current Selection",
                 new LockViewOnCurrentSelectionCommand()
         );
 

@@ -3,7 +3,6 @@ package de.emir.service.routeservices.impl;
 import de.emir.model.domain.maritime.iec61174.Route;
 import de.emir.model.domain.maritime.iec61174.WayPoints;
 import de.emir.model.domain.maritime.iec61174.Waypoint;
-import de.emir.service.routeservices.RouteservicesPackage;
 import de.emir.model.domain.maritime.iec61174.impl.RouteImpl;
 import de.emir.model.domain.maritime.iec61174.impl.WayPointsImpl;
 import de.emir.model.domain.maritime.iec61174.impl.WaypointImpl;
@@ -12,9 +11,11 @@ import de.emir.model.universal.crs.util.CRSUtils;
 import de.emir.model.universal.spatial.Coordinate;
 import de.emir.model.universal.spatial.impl.CoordinateImpl;
 import de.emir.service.routeservices.IGMLRouteImport;
-import de.emir.service.routeservices.impl.RouteImportImpl;
+import de.emir.service.routeservices.RouteservicesPackage;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
+
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 
 /**
@@ -89,5 +90,10 @@ public class GMLRouteImportImpl extends RouteImportImpl implements IGMLRouteImpo
 			return null;
 		}
 		return null;
+	}
+
+	@Override
+	public FileNameExtensionFilter getFileExtension() {
+		return new FileNameExtensionFilter("Geography Markup Language", "gml", "GML");
 	}
 }

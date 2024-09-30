@@ -1,190 +1,165 @@
 package de.emir.epd.nmeasensor.settings;
 
-import de.emir.epd.nmeasensor.data.ReceiverProperty;
 import de.emir.epd.nmeasensor.ids.NMEASensorIds;
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
+import de.emir.rcp.ui.utils.properties.PropertyCheckboxWidget;
+import de.emir.rcp.ui.utils.properties.PropertySpinnerWidget;
+import de.emir.rcp.ui.utils.properties.PropertyTextWidget;
 
 import javax.swing.*;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class UDPReceiverSettings extends AbstractReceiverSettings {
-	private JTextField interfaceTextField;
-	private JSpinner portSpinner;
-	private JSpinner packetsizeSpinner;
-	private SpinnerModel model;
-	private SpinnerModel model2;
-    private String initialHost;
-    private int initialPort;
-    private int initialPacketSize;
-	private boolean initialServer;
-	private JCheckBox chckbxAllowOutput;
 
-	public UDPReceiverSettings(NMEASensorSettingsPage caller) {
-		this.caller = caller;
-		setPreferredSize(new Dimension(180, 126));
-		PropertyContext context = PropertyStore.getContext(NMEASensorIds.NMEA_SENSOR_PROP_CONTEXT);
-		JLabel lblLocalInterface = new JLabel("Local Interface");
-		lblLocalInterface.setHorizontalAlignment(SwingConstants.TRAILING);
+    private PropertyTextWidget interfaceTextField;
+    private PropertySpinnerWidget portSpinner;
+    private PropertySpinnerWidget packetsizeSpinner;
+    private SpinnerModel model;
+    private SpinnerModel model2;
+    private String initialHost = "0.0.0.0";
+    private int initialPort = 7003;
+    private int initialPacketSize = 65507;
+    private boolean initialServer = false;
+    private PropertyCheckboxWidget chckbxAllowOutput;
 
-		interfaceTextField = new JTextField();
-		interfaceTextField.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				readValues();
-			}
-		});
-		interfaceTextField.setColumns(10);
+    public UDPReceiverSettings(NMEASensorSettingsPage caller) {
+        this.caller = caller;
+        setPreferredSize(new Dimension(220, 140));
+        PropertyContext context = PropertyStore.getContext(NMEASensorIds.NMEA_SENSOR_PROP_CONTEXT);
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        gridBagLayout.columnWidths = new int[]{87, 116, 0};
+        gridBagLayout.rowHeights = new int[]{30, 20, 20, 23, 0};
+        gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+        setLayout(gridBagLayout);
+        JLabel lblLocalInterface = new JLabel("Local Interface");
+        lblLocalInterface.setHorizontalAlignment(SwingConstants.TRAILING);
+        GridBagConstraints gbc_lblLocalInterface = new GridBagConstraints();
+        gbc_lblLocalInterface.anchor = GridBagConstraints.EAST;
+        gbc_lblLocalInterface.insets = new Insets(4, 4, 4, 4);
+        gbc_lblLocalInterface.gridx = 0;
+        gbc_lblLocalInterface.gridy = 0;
+        add(lblLocalInterface, gbc_lblLocalInterface);
 
-		JLabel lblPort = new JLabel("Port");
-		lblPort.setHorizontalAlignment(SwingConstants.TRAILING);
+        interfaceTextField = new PropertyTextWidget(NMEASensorIds.NMEA_SENSOR_PROP_CONTEXT,
+                caller.getNamePath() + "." + NMEASensorIds.NMEA_SENSOR_PROP_INTERFACE,
+                "0.0.0.0"
+        );
 
-		portSpinner = new JSpinner();
-		portSpinner.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				readValues();
-			}
-		});
-		
-		JLabel lblMaxPacketsize = new JLabel("Max. Packetsize");
-		lblMaxPacketsize.setHorizontalAlignment(SwingConstants.TRAILING);
+        GridBagConstraints gbc_interfaceTextField = new GridBagConstraints();
+        gbc_interfaceTextField.fill = GridBagConstraints.BOTH;
+        gbc_interfaceTextField.anchor = GridBagConstraints.WEST;
+        gbc_interfaceTextField.insets = new Insets(4, 4, 4, 4);
+        gbc_interfaceTextField.gridx = 1;
+        gbc_interfaceTextField.gridy = 0;
+        add(interfaceTextField, gbc_interfaceTextField);
 
-		packetsizeSpinner = new JSpinner();
-		packetsizeSpinner.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				readValues();
-			}
-		});
+        JLabel lblPort = new JLabel("Port");
+        lblPort.setHorizontalAlignment(SwingConstants.TRAILING);
+        GridBagConstraints gbc_lblPort = new GridBagConstraints();
+        gbc_lblPort.anchor = GridBagConstraints.EAST;
+        gbc_lblPort.insets = new Insets(4, 4, 4, 4);
+        gbc_lblPort.gridx = 0;
+        gbc_lblPort.gridy = 1;
+        add(lblPort, gbc_lblPort);
 
-		chckbxAllowOutput = new JCheckBox();
-		chckbxAllowOutput.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				readValues();
-			}
-		});
-		chckbxAllowOutput.setText("Server");
-		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout
-				.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup().addContainerGap().addGroup(groupLayout
-								.createParallelGroup(Alignment.LEADING).addGroup(groupLayout.createSequentialGroup()
-										.addComponent(lblMaxPacketsize).addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(packetsizeSpinner, GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
-								.addGroup(
-										groupLayout.createSequentialGroup()
-												.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-														.addComponent(lblLocalInterface, GroupLayout.PREFERRED_SIZE, 80,
-																GroupLayout.PREFERRED_SIZE)
-														.addComponent(lblPort))
-												.addGap(12)
-												.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-														.addComponent(portSpinner, GroupLayout.DEFAULT_SIZE, 80,
-																Short.MAX_VALUE)
-														.addComponent(interfaceTextField, GroupLayout.DEFAULT_SIZE, 80,
-																Short.MAX_VALUE))
-												.addGap(8))
-								.addGroup(groupLayout.createSequentialGroup()
-										.addComponent(chckbxAllowOutput, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-										.addGap(14)))));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup().addGap(5)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblLocalInterface)
-								.addComponent(interfaceTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addGap(6)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblPort)
-								.addComponent(portSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addGap(6)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblMaxPacketsize)
-								.addComponent(packetsizeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(chckbxAllowOutput)
-						.addContainerGap(11, Short.MAX_VALUE)));
-		setLayout(groupLayout);
-	}
-	
-	public void readValues() {
-		receiverProperty.getAttributes().put(NMEASensorIds.NMEA_SENSOR_PROP_HOST, interfaceTextField.getText());
-		receiverProperty.getAttributes().put(NMEASensorIds.NMEA_SENSOR_PROP_INTERFACE, interfaceTextField.getText());
-		receiverProperty.getAttributes().put(NMEASensorIds.NMEA_SENSOR_PROP_PORT, (int) model.getValue());
-		receiverProperty.getAttributes().put(NMEASensorIds.NMEA_SENSOR_PROP_PACKETSIZE, (int) model2.getValue());
-		receiverProperty.getAttributes().put(NMEASensorIds.NMEA_SENSOR_PROP_SERVER, chckbxAllowOutput.isSelected());
-        dirtyFlag = (!initialHost.equals(interfaceTextField.getText()) || initialPort != (int) model.getValue() ||
-                (initialPacketSize != (int) model2.getValue()) || initialServer != chckbxAllowOutput.isSelected());
-        if (dirtyFlag) {
-        	caller.readValues();
-        }
-	}
-	
-	public void init(ReceiverProperty receiverProperty) {
-		dirtyFlag = false;
-		if (receiverProperty == null) return;
-		this.receiverProperty = receiverProperty;
-		interfaceTextField.setText((String) receiverProperty.getAttributes().getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_INTERFACE, "0.0.0.0"));
-		initialHost = interfaceTextField.getText();
-		interfaceTextField.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void insertUpdate(DocumentEvent e) {
+        portSpinner = new PropertySpinnerWidget(NMEASensorIds.NMEA_SENSOR_PROP_CONTEXT,
+                caller.getNamePath() + "." + NMEASensorIds.NMEA_SENSOR_PROP_PORT,
+                7003
+        );
 
-			}
+        GridBagConstraints gbc_portSpinner = new GridBagConstraints();
+        gbc_portSpinner.anchor = GridBagConstraints.WEST;
+        gbc_portSpinner.fill = GridBagConstraints.BOTH;
+        gbc_portSpinner.insets = new Insets(4, 4, 4, 4);
+        gbc_portSpinner.gridx = 1;
+        gbc_portSpinner.gridy = 1;
+        add(portSpinner, gbc_portSpinner);
 
-			@Override
-			public void removeUpdate(DocumentEvent e) {
+        JLabel lblMaxPacketsize = new JLabel("Max. Packetsize");
+        lblMaxPacketsize.setHorizontalAlignment(SwingConstants.TRAILING);
+        GridBagConstraints gbc_lblMaxPacketsize = new GridBagConstraints();
+        gbc_lblMaxPacketsize.anchor = GridBagConstraints.EAST;
+        gbc_lblMaxPacketsize.insets = new Insets(4, 4, 4, 4);
+        gbc_lblMaxPacketsize.gridx = 0;
+        gbc_lblMaxPacketsize.gridy = 2;
+        add(lblMaxPacketsize, gbc_lblMaxPacketsize);
 
-			}
+        packetsizeSpinner = new PropertySpinnerWidget(NMEASensorIds.NMEA_SENSOR_PROP_CONTEXT,
+                caller.getNamePath() + "." + NMEASensorIds.NMEA_SENSOR_PROP_PACKETSIZE,
+                65507
+        );
 
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				readValues();
-			}
-		});
-		JSpinner.NumberEditor editor = new JSpinner.NumberEditor(portSpinner, "#");
-		editor.getFormat().setGroupingUsed(false);
-		portSpinner.setEditor(editor);
-		model = new SpinnerNumberModel((int) receiverProperty.getAttributes().getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_PORT, 7003), 1, 65507, 1);
-		initialPort = (int) model.getValue();
-		portSpinner.setModel(model);
-		portSpinner.setValue((int) receiverProperty.getAttributes().getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_PORT, 7003));
-		model.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				readValues();
-			}
-		});
-		JSpinner.NumberEditor editor2 = new JSpinner.NumberEditor(packetsizeSpinner, "#");
-		editor2.getFormat().setGroupingUsed(false);
-		packetsizeSpinner.setEditor(editor2);
-		model2 = new SpinnerNumberModel((int) receiverProperty.getAttributes().getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_PACKETSIZE, 65507), 1, 65507, 1);
-		initialPacketSize = (int) model2.getValue();
-		packetsizeSpinner.setModel(model2);
-		packetsizeSpinner.setValue((int) receiverProperty.getAttributes().getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_PACKETSIZE, 65507));
-		model2.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				readValues();
-			}
-		});
-		chckbxAllowOutput.setSelected((boolean) receiverProperty.getAttributes().getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_SERVER, false));
-		receiverProperty.setOutput(chckbxAllowOutput.isSelected());
-		initialServer = chckbxAllowOutput.isSelected();
-		chckbxAllowOutput.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				readValues();
-			}
-		});
-	}
+        GridBagConstraints gbc_packetsizeSpinner = new GridBagConstraints();
+        gbc_packetsizeSpinner.anchor = GridBagConstraints.WEST;
+        gbc_packetsizeSpinner.fill = GridBagConstraints.BOTH;
+        gbc_packetsizeSpinner.insets = new Insets(4, 4, 4, 4);
+        gbc_packetsizeSpinner.gridx = 1;
+        gbc_packetsizeSpinner.gridy = 2;
+        add(packetsizeSpinner, gbc_packetsizeSpinner);
+
+        chckbxAllowOutput = new PropertyCheckboxWidget("Server", NMEASensorIds.NMEA_SENSOR_PROP_CONTEXT,
+                caller.getNamePath() + "." + NMEASensorIds.NMEA_SENSOR_PROP_OUTPUT,
+                false
+        );
+
+        GridBagConstraints gbc_chckbxAllowOutput = new GridBagConstraints();
+        gbc_chckbxAllowOutput.insets = new Insets(4, 4, 4, 4);
+        gbc_chckbxAllowOutput.anchor = GridBagConstraints.NORTHWEST;
+        gbc_chckbxAllowOutput.fill = GridBagConstraints.BOTH;
+        gbc_chckbxAllowOutput.gridx = 1;
+        gbc_chckbxAllowOutput.gridy = 3;
+        add(chckbxAllowOutput, gbc_chckbxAllowOutput);
+    }
+    
+    @Override
+    public boolean isDirty() {
+        readValues();
+        return dirtyFlag;
+    }
+
+    @Override
+    public void readValues() {
+        dirtyFlag = (!initialHost.equals(interfaceTextField.getValue()) || initialPort != (int) model.getValue()
+                || (initialPacketSize != (int) model2.getValue()) || initialServer != chckbxAllowOutput.isSelected());
+    }
+
+    @Override
+    public void init() {
+        dirtyFlag = false;
+        initialHost = interfaceTextField.getValue();
+        initialPort = (int) portSpinner.getProperty().getValue();
+        initialPacketSize = (int) packetsizeSpinner.getProperty().getValue();
+        initialServer = chckbxAllowOutput.isSelected();
+
+        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(portSpinner, "#");
+        editor.getFormat().setGroupingUsed(false);
+        portSpinner.setEditor(editor);
+        model = new SpinnerNumberModel(initialPort, 1, 65507, 1);
+        portSpinner.setModel(model);
+
+        JSpinner.NumberEditor editor2 = new JSpinner.NumberEditor(packetsizeSpinner, "#");
+        editor2.getFormat().setGroupingUsed(false);
+        packetsizeSpinner.setEditor(editor2);
+        model2 = new SpinnerNumberModel(initialPacketSize, 1, 65507, 1);
+        packetsizeSpinner.setModel(model2);
+
+        initialServer = chckbxAllowOutput.isSelected();
+    }
+
+    @Override
+    public void finish() {
+        portSpinner.finish();
+        interfaceTextField.finish();
+        packetsizeSpinner.finish();
+        chckbxAllowOutput.finish();
+    }
 }

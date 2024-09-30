@@ -3,6 +3,7 @@
  */
 package de.emir.rcp.types;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 
 /**
@@ -66,10 +67,12 @@ public class Rectangle implements Serializable {
 		this.height = height;
 	}
 	
+    @JsonIgnore                 
 	public java.awt.Rectangle getAWTRectangle() {
 		return new java.awt.Rectangle(this.x, this.y, this.width, this.height);
 	}
 
+    @JsonIgnore   
 	public void setAWTRectangle(java.awt.Rectangle source) {
 		this.x = source.x;
 		this.y = source.y;
