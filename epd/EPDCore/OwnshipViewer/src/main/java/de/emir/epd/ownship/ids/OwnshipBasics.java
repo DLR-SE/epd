@@ -8,4 +8,6 @@ public class OwnshipBasics {
 	
 	public static final String OWNSHIP_VIEWER_PROP_OWNSHIP_SOURCE = "de.emir.epd.ownship.property.OwnshipSource";
 	public static final String OWNSHIP_VIEWER_PROP_AIS_TARGET = "de.emir.epd.ownship.property.AisTarget";
+
+	public static final String OWNSHIP_SELECTION_ID = "OwnshipSelectionID";
 }

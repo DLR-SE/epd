@@ -1,5 +1,6 @@
 package de.emir.rcp.settings.basics.keybindings;
 
+import de.emir.model.universal.plugincore.var.AbstractKeyBinding;
 import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.Window;
@@ -9,7 +10,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
-import de.emir.rcp.keybindings.ep.AbstractKeyBinding;
 import de.emir.rcp.manager.util.PlatformUtil;
 
 public class KeyBindingTableMouseListener extends MouseAdapter {

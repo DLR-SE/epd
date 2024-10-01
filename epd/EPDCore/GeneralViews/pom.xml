@@ -4,7 +4,7 @@
     <parent>
         <groupId>de.dlr-se.emir.epd</groupId>
         <artifactId>EPDCore</artifactId>
-        <version>4.0.0-SNAPSHOT</version>
+        <version>4.1.0</version>
     </parent>
     <artifactId>GeneralViews</artifactId>
     <description>
@@ -63,7 +63,7 @@
         <dependency>
             <groupId>com.fifesoft</groupId>
             <artifactId>autocomplete</artifactId>
-            <version>3.3.0</version>
+            <version>3.3.1</version>
         </dependency>
 
         <dependency>

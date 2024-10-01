@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.emir.rcp.commands.basics.ExternalBrowserCommand;
+import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.tuml.ucore.runtime.resources.ResourceManager;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -159,6 +160,7 @@ public class AboutDialog extends JDialog {
         gbc_btnNewButton.gridx = 3;
         gbc_btnNewButton.gridy = 7;
         panel.add(btnNewButton, gbc_btnNewButton);
+        setLocationRelativeTo(PlatformUtil.getWindowManager().getMainWindow());
     }
 
     protected String asURLReference(String url){

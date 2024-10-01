@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>de.dlr-se.emir.runtime</groupId>
 		<artifactId>runtime</artifactId>
-		<version>4.0.0-SNAPSHOT</version>
+		<version>4.1.0</version>
 	</parent>
 	<artifactId>uiplugincore</artifactId>
 	<name>UIPluginCore</name>
@@ -13,18 +13,6 @@
 	<properties>
 		<eMIR-Plugin-Class>de.emir.rcp.UICorePlugin</eMIR-Plugin-Class>
 	</properties>
-	
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<configuration>
-					<skip>true</skip>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 
 	<dependencies>
 		<dependency>
@@ -58,15 +46,15 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.thoughtworks.xstream</groupId>
-			<artifactId>xstream</artifactId>
-			<version>1.4.18</version>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+			<version>2.17.2</version>
 		</dependency>
 
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.11.0</version>
+			<version>2.16.1</version>
 		</dependency>
 
         <dependency>

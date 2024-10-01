@@ -11,7 +11,7 @@ import de.emir.tuml.ucore.runtime.Notification;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
-import de.emir.tuml.ucore.runtime.utils.Pointer;
+import java.util.ListIterator;
 
 public class TreeObserverUtil implements IValueChangeListener<Object> {
 
@@ -174,27 +174,41 @@ public class TreeObserverUtil implements IValueChangeListener<Object> {
 
     public void remove(UObject uobj) {
         int hash = uobj.hashCode();
-        if (mClosedList.contains(hash) == false)
+        if (mClosedList.contains(hash) == false) {
             return;
+        }
         uobj.removeListener(this);
         mClosedList.remove(hash);
 
         UClass cl = uobj.getUClassifier();
-        for (UStructuralFeature f : cl.getAllStructuralFeatures()) {
-            if (f.isReference()) {
-                Object f_value = f.get(uobj);
-                if (f_value != null) {
-                    if (f.isMany()) { // need to register in all list elements
-                        List list = (List) f_value;
-                        for (Object el : list) {
-                            if (el != null && el instanceof UObject) {
-                                UObject uel = (UObject) el;
-                                remove(uel);
+        if (cl == null || cl.getAllStructuralFeatures() == null) {
+            return;
+        }
+        synchronized (cl.getAllStructuralFeatures()) {
+            ListIterator<UStructuralFeature> iFeature = cl.getAllStructuralFeatures().listIterator();
+            while (iFeature.hasNext()) {
+                UStructuralFeature f = iFeature.next();
+                if (f.isReference()) {
+                    Object f_value = f.get(uobj);
+                    if (f_value != null) {
+                        if (f.isMany()) { // need to register in all list elements
+                            List list = (List) f_value;
+                            synchronized (list) {
+                                ListIterator<Object> iElement = list.listIterator();
+                                while (iElement.hasNext()) {
+                                    Object el = iElement.next();
+                                    if (el != null && el instanceof UObject) {
+                                        UObject uel = (UObject) el;
+                                        remove(uel);
+//                                        iElement.remove();
+                                    }
+                                }
+                            }
+                        } else {
+                            if (f_value instanceof UObject) {
+                                remove((UObject) f_value);
                             }
                         }
-                    } else {
-                        if (f_value instanceof UObject)
-                            remove((UObject) f_value);
                     }
                 }
             }

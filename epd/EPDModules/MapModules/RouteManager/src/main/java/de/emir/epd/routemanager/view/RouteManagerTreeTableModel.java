@@ -5,7 +5,6 @@ import de.emir.epd.routemanager.IRouteManager.IRouteAccessModel;
 import de.emir.epd.routemanager.view.treetable.DescriptionColumn;
 import de.emir.epd.routemanager.view.treetable.TargetColumn;
 import de.emir.epd.routemanager.view.treetable.VisibleColumn;
-import de.emir.ui.utils.treetable.AbstractTreeTableModel;
 import de.emir.ui.utils.treetable.umodel.IColumnProvider;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Consumer;
@@ -15,6 +14,7 @@ import javax.swing.table.TableCellRenderer;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 
 public class RouteManagerTreeTableModel extends AbstractTreeTableModel {
 
@@ -82,12 +82,10 @@ public class RouteManagerTreeTableModel extends AbstractTreeTableModel {
         return mColumnProvider[column].getColumnValue(node);
     }
 
-    @Override
     public TableCellEditor getCellEditor(Object node, int column) {
         return mColumnProvider[column].getCellEditor(node);
     }
 
-    @Override
     public TableCellRenderer getCellRenderer(Object node, int column) {
         return mColumnProvider[column].getCellRenderer(node);
     }
@@ -132,6 +130,20 @@ public class RouteManagerTreeTableModel extends AbstractTreeTableModel {
     public void setValueAt(Object aValue, Object node, int column) {
         if (node != null && column != 0)
             mColumnProvider[column].setValue(node, aValue);
+    }
+
+    @Override
+    public int getIndexOfChild(Object parent, Object child) {
+        if (parent == mRoot)
+            return mRoot.indexOf(child);
+        if (parent instanceof IRouteAccessModel) {
+            IRouteAccessModel ram = (IRouteAccessModel) parent;
+            if (ram.getChildren() != null)
+                return ram.getChildren().indexOf(child);
+            else
+                return ram.getOwnedRoutes().indexOf(child);
+        }
+        return -1;
     }
 
 

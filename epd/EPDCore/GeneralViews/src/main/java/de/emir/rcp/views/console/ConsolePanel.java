@@ -1,5 +1,6 @@
 package de.emir.rcp.views.console;
 
+import de.emir.model.universal.plugincore.var.impl.ConfigColorImpl;
 import java.awt.BorderLayout;
 import java.awt.Component;
 
@@ -75,26 +76,26 @@ public class ConsolePanel extends JPanel {
 	private JList<LoggingEvent> 					mList;
 	private DefaultListModel<LoggingEvent> 			mListModel;
 	private IProperty<Integer>						mMaximumMessages;
-	private IProperty<Color>						mColorDebugFG;
-	private Color									_mColorDebugFG; //using shadow variables since getting the value from the property on each message is more expensive as we first thought
-	private IProperty<Color>						mColorDebugBG;
-	private Color									_mColorDebugBG;
-	private IProperty<Color>						mColorInfoFG;
-	private Color									_mColorInfoFG;
-	private IProperty<Color>						mColorInfoBG;
-	private Color									_mColorInfoBG;
-	private IProperty<Color>						mColorWarnFG;
-	private Color									_mColorWarnFG;
-	private IProperty<Color>						mColorWarnBG;
-	private Color									_mColorWarnBG;
-	private IProperty<Color>						mColorErrorFG;
-	private Color									_mColorErrorFG;
-	private IProperty<Color>						mColorErrorBG;
-	private Color									_mColorErrorBG;
-	private IProperty<Color>						mColorTraceFG;
-	private Color									_mColorTraceFG;
-	private IProperty<Color>						mColorTraceBG;
-	private Color									_mColorTraceBG;
+	private IProperty<ConfigColorImpl>						mColorDebugFG;
+	private ConfigColorImpl									_mColorDebugFG; //using shadow variables since getting the value from the property on each message is more expensive as we first thought
+	private IProperty<ConfigColorImpl>						mColorDebugBG;
+	private ConfigColorImpl									_mColorDebugBG;
+	private IProperty<ConfigColorImpl>						mColorInfoFG;
+	private ConfigColorImpl									_mColorInfoFG;
+	private IProperty<ConfigColorImpl>						mColorInfoBG;
+	private ConfigColorImpl									_mColorInfoBG;
+	private IProperty<ConfigColorImpl>						mColorWarnFG;
+	private ConfigColorImpl									_mColorWarnFG;
+	private IProperty<ConfigColorImpl>						mColorWarnBG;
+	private ConfigColorImpl									_mColorWarnBG;
+	private IProperty<ConfigColorImpl>						mColorErrorFG;
+	private ConfigColorImpl									_mColorErrorFG;
+	private IProperty<ConfigColorImpl>						mColorErrorBG;
+	private ConfigColorImpl									_mColorErrorBG;
+	private IProperty<ConfigColorImpl>						mColorTraceFG;
+	private ConfigColorImpl									_mColorTraceFG;
+	private IProperty<ConfigColorImpl>						mColorTraceBG;
+	private ConfigColorImpl									_mColorTraceBG;
 	
 	
 	private boolean mTailing = true;
@@ -121,40 +122,40 @@ public class ConsolePanel extends JPanel {
 		mMaximumMessages.addPropertyChangeListener(pcl -> _mMaximumMessages = mMaximumMessages.getValue());
 		_mMaximumMessages = mMaximumMessages.getValue();
 		
-		mColorDebugFG = context.getProperty(PROP_COLOR_DEBUG_FG, new Color(java.awt.Color.LIGHT_GRAY));
+		mColorDebugFG = context.getProperty(PROP_COLOR_DEBUG_FG, new ConfigColorImpl(java.awt.Color.LIGHT_GRAY));
 		_mColorDebugFG = mColorDebugFG.getValue(); //initialize shadow variable
-		mColorDebugFG.addPropertyChangeListener(pcl -> _mColorDebugFG = (Color) pcl.getNewValue() ); //change shaddow variable if property change
-		mColorDebugBG = context.getProperty(PROP_COLOR_DEBUG_BG, new Color(UIManager.getColor("List.background")));
+		mColorDebugFG.addPropertyChangeListener(pcl -> _mColorDebugFG = (ConfigColorImpl) pcl.getNewValue() ); //change shaddow variable if property change
+		mColorDebugBG = context.getProperty(PROP_COLOR_DEBUG_BG, new ConfigColorImpl(UIManager.getColor("List.background")));
 		_mColorDebugBG = mColorDebugBG.getValue();
-		mColorDebugBG.addPropertyChangeListener(pcl -> _mColorDebugBG = (Color) pcl.getNewValue() );
+		mColorDebugBG.addPropertyChangeListener(pcl -> _mColorDebugBG = (ConfigColorImpl) pcl.getNewValue() );
 		
-		mColorInfoFG = context.getProperty(PROP_COLOR_INFO_FG, new Color(java.awt.Color.LIGHT_GRAY));
+		mColorInfoFG = context.getProperty(PROP_COLOR_INFO_FG, new ConfigColorImpl(java.awt.Color.LIGHT_GRAY));
 		_mColorInfoFG = mColorInfoFG.getValue();
-		mColorInfoFG.addPropertyChangeListener(pcl -> _mColorInfoFG = (Color) pcl.getNewValue() );		
-		mColorInfoBG = context.getProperty(PROP_COLOR_INFO_BG, new Color(java.awt.Color.DARK_GRAY));
+		mColorInfoFG.addPropertyChangeListener(pcl -> _mColorInfoFG = (ConfigColorImpl) pcl.getNewValue() );		
+		mColorInfoBG = context.getProperty(PROP_COLOR_INFO_BG, new ConfigColorImpl(java.awt.Color.DARK_GRAY));
 		_mColorInfoBG = mColorInfoBG.getValue();
-		mColorInfoBG.addPropertyChangeListener(pcl -> _mColorInfoBG = (Color) pcl.getNewValue() );
+		mColorInfoBG.addPropertyChangeListener(pcl -> _mColorInfoBG = (ConfigColorImpl) pcl.getNewValue() );
 		
-		mColorWarnFG = context.getProperty(PROP_COLOR_WARN_FG, new Color(java.awt.Color.BLACK));
+		mColorWarnFG = context.getProperty(PROP_COLOR_WARN_FG, new ConfigColorImpl(java.awt.Color.BLACK));
 		_mColorWarnFG = mColorWarnFG.getValue();
-		mColorWarnFG.addPropertyChangeListener(pcl -> _mColorWarnFG = (Color) pcl.getNewValue() );
-		mColorWarnBG = context.getProperty(PROP_COLOR_WARN_BG, new Color(java.awt.Color.ORANGE));
+		mColorWarnFG.addPropertyChangeListener(pcl -> _mColorWarnFG = (ConfigColorImpl) pcl.getNewValue() );
+		mColorWarnBG = context.getProperty(PROP_COLOR_WARN_BG, new ConfigColorImpl(java.awt.Color.ORANGE));
 		_mColorWarnBG = mColorWarnBG.getValue();
-		mColorWarnBG.addPropertyChangeListener(pcl -> _mColorWarnBG = (Color) pcl.getNewValue() );
+		mColorWarnBG.addPropertyChangeListener(pcl -> _mColorWarnBG = (ConfigColorImpl) pcl.getNewValue() );
 		
-		mColorErrorFG = context.getProperty(PROP_COLOR_ERROR_FG, new Color(java.awt.Color.BLACK));
+		mColorErrorFG = context.getProperty(PROP_COLOR_ERROR_FG, new ConfigColorImpl(java.awt.Color.BLACK));
 		_mColorErrorFG = mColorErrorFG.getValue();
-		mColorErrorFG.addPropertyChangeListener(pcl -> _mColorErrorFG = (Color) pcl.getNewValue() );
-		mColorErrorBG = context.getProperty(PROP_COLOR_ERROR_BG, new Color(java.awt.Color.RED));
+		mColorErrorFG.addPropertyChangeListener(pcl -> _mColorErrorFG = (ConfigColorImpl) pcl.getNewValue() );
+		mColorErrorBG = context.getProperty(PROP_COLOR_ERROR_BG, new ConfigColorImpl(java.awt.Color.RED));
 		_mColorErrorBG = mColorErrorBG.getValue();
-		mColorErrorBG.addPropertyChangeListener(pcl -> _mColorErrorBG = (Color) pcl.getNewValue() );
+		mColorErrorBG.addPropertyChangeListener(pcl -> _mColorErrorBG = (ConfigColorImpl) pcl.getNewValue() );
 		
-		mColorTraceFG = context.getProperty(PROP_COLOR_TRACE_FG, new Color(java.awt.Color.GRAY));
+		mColorTraceFG = context.getProperty(PROP_COLOR_TRACE_FG, new ConfigColorImpl(java.awt.Color.GRAY));
 		_mColorTraceFG = mColorTraceFG.getValue();
-		mColorTraceFG.addPropertyChangeListener(pcl -> _mColorTraceFG = (Color) pcl.getNewValue() );
-		mColorTraceBG = context.getProperty(PROP_COLOR_TRACE_BG, new Color(java.awt.Color.BLACK));
+		mColorTraceFG.addPropertyChangeListener(pcl -> _mColorTraceFG = (ConfigColorImpl) pcl.getNewValue() );
+		mColorTraceBG = context.getProperty(PROP_COLOR_TRACE_BG, new ConfigColorImpl(java.awt.Color.BLACK));
 		_mColorTraceBG = mColorTraceBG.getValue();
-		mColorTraceBG.addPropertyChangeListener(pcl -> _mColorTraceBG = (Color) pcl.getNewValue() );
+		mColorTraceBG.addPropertyChangeListener(pcl -> _mColorTraceBG = (ConfigColorImpl) pcl.getNewValue() );
 	}
 
 	

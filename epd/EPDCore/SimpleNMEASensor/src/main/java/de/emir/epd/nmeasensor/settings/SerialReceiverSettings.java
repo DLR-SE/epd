@@ -1,34 +1,37 @@
 package de.emir.epd.nmeasensor.settings;
 
-import de.emir.epd.nmeasensor.data.ReceiverProperty;
 import de.emir.epd.nmeasensor.ids.NMEASensorIds;
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
+import de.emir.rcp.ui.utils.properties.PropertyCheckboxWidget;
+import de.emir.rcp.ui.utils.properties.PropertySpinnerWidget;
+import de.emir.rcp.ui.utils.properties.PropertyTextWidget;
+import java.awt.Dimension;
 
-import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import javax.swing.GroupLayout;
+import javax.swing.JLabel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 
 public class SerialReceiverSettings extends AbstractReceiverSettings {
-	private JTextField serialportTextField;
-	private JSpinner baudrateSpinner;
-	private JSpinner packetsizeSpinner;
+	private PropertyTextWidget serialportTextField;
+	private PropertySpinnerWidget baudrateSpinner;
+	private PropertySpinnerWidget packetsizeSpinner;
 	private SpinnerModel model;
 	private SpinnerModel model2;
-	private Object initialSerialPort;
-	private int initialBaudrate;
-	private int initialPacketSize;
-	private boolean initialServer;
-	private JCheckBox chckbxAllowOutput;
+	private String initialSerialPort = "COM1";
+	private int initialBaudrate = 9600;
+	private int initialPacketSize = 65535;
+	private boolean initialServer = false;
+	private PropertyCheckboxWidget chckbxAllowOutput;
 
 	public SerialReceiverSettings(NMEASensorSettingsPage caller) {
 		this.caller = caller;
@@ -38,44 +41,34 @@ public class SerialReceiverSettings extends AbstractReceiverSettings {
 		JLabel lblLocalInterface = new JLabel("Serial Port");
 		lblLocalInterface.setHorizontalAlignment(SwingConstants.TRAILING);
 
-		serialportTextField = new JTextField();
-		serialportTextField.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				readValues();
-			}
-		});
-		serialportTextField.setColumns(10);
+		serialportTextField = new PropertyTextWidget(NMEASensorIds.NMEA_SENSOR_PROP_CONTEXT,
+                caller.getNamePath() + "." + NMEASensorIds.NMEA_SENSOR_PROP_SERIALPORT,
+                "COM1"
+        );
 
-		packetsizeSpinner = new JSpinner();
-		packetsizeSpinner.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				readValues();
-			}
-		});
+		packetsizeSpinner = new PropertySpinnerWidget(NMEASensorIds.NMEA_SENSOR_PROP_CONTEXT, 
+                caller.getNamePath() + "." + NMEASensorIds.NMEA_SENSOR_PROP_PACKETSIZE,
+                65535
+        );
+        initialPacketSize = (int) packetsizeSpinner.getValue();
 
 		JLabel lblPort = new JLabel("Baudrate");
 		lblPort.setHorizontalAlignment(SwingConstants.TRAILING);
 
-		baudrateSpinner = new JSpinner();
-		baudrateSpinner.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				readValues();
-			}
-		});
+		baudrateSpinner = new PropertySpinnerWidget(NMEASensorIds.NMEA_SENSOR_PROP_CONTEXT, 
+                caller.getNamePath() + "." + NMEASensorIds.NMEA_SENSOR_PROP_BAUDRATE,
+                9600
+        );
+        initialBaudrate = (int) baudrateSpinner.getValue();
 
 		JLabel lblMaxPacketsize = new JLabel("Max. Packetsize");
 		lblMaxPacketsize.setHorizontalAlignment(SwingConstants.TRAILING);
 		
-		chckbxAllowOutput = new JCheckBox("Allow Output");
-		chckbxAllowOutput.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				readValues();
-			}
-		});
+		chckbxAllowOutput = new PropertyCheckboxWidget("Allow Output", NMEASensorIds.NMEA_SENSOR_PROP_CONTEXT, 
+                caller.getNamePath() + "." + NMEASensorIds.NMEA_SENSOR_PROP_OUTPUT,
+                false
+        );
+        initialServer = chckbxAllowOutput.isSelected();
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -117,53 +110,30 @@ public class SerialReceiverSettings extends AbstractReceiverSettings {
 		setLayout(groupLayout);
 	}
 
+    @Override
 	public void readValues() {
-		receiverProperty.getAttributes().put(NMEASensorIds.NMEA_SENSOR_PROP_SERIALPORT, serialportTextField.getText());
-		receiverProperty.getAttributes().put(NMEASensorIds.NMEA_SENSOR_PROP_BAUDRATE, (int) model.getValue());
-		receiverProperty.getAttributes().put(NMEASensorIds.NMEA_SENSOR_PROP_PACKETSIZE, (int) model2.getValue());
-		receiverProperty.getAttributes().put(NMEASensorIds.NMEA_SENSOR_PROP_SERVER, chckbxAllowOutput.isSelected());
-		dirtyFlag = (!initialSerialPort.equals(serialportTextField.getText())
+		dirtyFlag = (!initialSerialPort.equals(serialportTextField.getValue())
 				|| initialBaudrate != (int) model.getValue() || initialPacketSize != (int) model2.getValue()
 				|| initialServer != chckbxAllowOutput.isSelected());
-		if (dirtyFlag) {
-			caller.readValues();
-		}
 	}
+    
+    @Override
+    public boolean isDirty() {
+        readValues();
+        return dirtyFlag;
+    }
 
-	public void init(ReceiverProperty receiverProperty) {
+    @Override
+	public void init() {
 		dirtyFlag = false;
-		if (receiverProperty == null)
-			return;
-		this.receiverProperty = receiverProperty;
-		serialportTextField.setText(
-				(String) receiverProperty.getAttributes().getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_SERIALPORT, "COM1"));
-		initialSerialPort = serialportTextField.getText();
-		serialportTextField.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				readValues();
-			}
-		});
+		initialSerialPort = serialportTextField.getValue();
 		JSpinner.NumberEditor editor = new JSpinner.NumberEditor(baudrateSpinner, "#");
 		editor.getFormat().setGroupingUsed(false);
 		baudrateSpinner.setEditor(editor);
 		model = new SpinnerNumberModel(
-				(int) receiverProperty.getAttributes().getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_BAUDRATE, 9600), 1,
+				initialBaudrate, 1,
 				256000, 1);
 		baudrateSpinner.setModel(model);
-		baudrateSpinner.setValue(
-				(int) receiverProperty.getAttributes().getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_BAUDRATE, 9600));
-		initialBaudrate = (int) model.getValue();
 		model.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
@@ -174,11 +144,9 @@ public class SerialReceiverSettings extends AbstractReceiverSettings {
 		editor2.getFormat().setGroupingUsed(false);
 		packetsizeSpinner.setEditor(editor2);
 		model2 = new SpinnerNumberModel(
-				(int) receiverProperty.getAttributes().getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_PACKETSIZE, 65535),
+				initialPacketSize,
 				1, 65535, 1);
 		packetsizeSpinner.setModel(model2);
-		packetsizeSpinner.setValue(
-				(int) receiverProperty.getAttributes().getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_PACKETSIZE, 65535));
 		initialPacketSize = (int) model2.getValue();
 		model2.addChangeListener(new ChangeListener() {
 			@Override
@@ -186,12 +154,18 @@ public class SerialReceiverSettings extends AbstractReceiverSettings {
 				readValues();
 			}
 		});
-		chckbxAllowOutput.setSelected((boolean) receiverProperty.getAttributes().getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_SERVER, false));
-		initialServer = chckbxAllowOutput.isSelected();
 		chckbxAllowOutput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				readValues();
 			}
 		});
 	}
+
+    @Override
+    public void finish() {
+        serialportTextField.finish();
+        packetsizeSpinner.finish();
+        baudrateSpinner.finish();
+        chckbxAllowOutput.finish();
+    }
 }

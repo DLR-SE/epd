@@ -327,8 +327,22 @@ public class ProductFile {
         }
     }
 
+    /**
+     * Clears all repository configuration from the product file.
+     */
     public void clearRepositories() {
         mRepositories.clear();
+        repositoriesSubject.onNext(mRepositories);
+    }
+
+    /**
+     * Clears authentication information from the repository section of the product file.
+     */
+    public void clearCredentials() {
+        for(ObservableRepository repository : mRepositories) {
+            repository.setUsername("");
+            repository.setPassword("");
+        }
         repositoriesSubject.onNext(mRepositories);
     }
 

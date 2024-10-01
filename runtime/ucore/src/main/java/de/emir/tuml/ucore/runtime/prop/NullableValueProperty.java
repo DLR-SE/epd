@@ -25,9 +25,9 @@ public class NullableValueProperty<T extends Object>  extends GenericProperty<T>
 	
 	@Override
 	public Class<?> getType() {
-		if (mValue == null)
+		if (value == null)
 			return mClass;
-		return mValue.getClass();
+		return value.getClass();
 	}
 	
 	

@@ -1,0 +1,118 @@
+#import "classpath:/model/UCore.tuml"
+
+using UCore.de.*;
+/** 
+* insert documentation for the model 
+*  
+*/    
+Model PluginCore {      
+	package de { 
+		package emir { 
+			package model {
+				package universal {  
+					package plugincore {
+						/**
+						 * An ConfigVariable can be used to store somewhat complex types which are often needed.
+						 * The variable's name and documentation are to be taken from the UNamedElement
+						 */
+						abstract class ConfigVariable extends UNamedElement {
+
+						}
+						
+						package var {
+							class ConfigColor extends ConfigVariable {
+								int red = 0;
+								int green = 0;
+								int blue = 0;
+								int alpha = 255;
+							}
+							
+							class ConfigRectangle extends ConfigVariable {
+								int x = 0;
+								int y = 0;
+								int width = 0;
+								int height = 0;
+							}
+							
+							class ConfigObject extends ConfigVariable {
+								String value;
+								
+								String getValue();
+								int getAsInteger();
+								double getAsDouble();
+								float getAsFloat();
+								long getAsLong();
+								boolean getAsBoolean();
+							}
+							
+							class ConfigPairSimple extends ConfigVariable {
+								String key;
+								ConfigObject value;
+							}
+							
+							class ConfigPair extends ConfigVariable {
+								String key;
+								ConfigVariable value;
+							}
+							
+							class ConfigArray extends ConfigVariable {
+								ConfigObject[*] array;
+							}
+							
+							class ConfigMap extends ConfigVariable {
+								ConfigPair[*] map;
+								ConfigPairSimple[*] mapSimple;
+								
+								void put(String key, Object value);
+								void put(ConfigPair pair);
+								void put(ConfigPairSimple pair);
+								Object get(String key);
+								void remove(String key);
+							}
+							
+							abstract class AbstractKeyBinding extends ConfigVariable {
+								String commandID;
+								String key;
+								
+								boolean equals(Object obj);
+								AbstractKeyBinding copy();
+							}
+							
+							class EditorKeyBinding extends AbstractKeyBinding {
+								String editorID;
+							}
+							
+							class GlobalKeyBinding extends AbstractKeyBinding {
+							}
+							
+							class ViewKeyBinding extends AbstractKeyBinding {
+								String viewID;
+							}
+							
+							interface IUserDefinedDelta {
+								void apply(AbstractKeyBinding[*] bindings);
+							} 
+							
+							class UserDefinedDeltaAddKeyBinding implements IUserDefinedDelta {
+								AbstractKeyBinding newBinding;
+							}
+							
+							class UserDefinedDeltaDeleteKeyBinding implements IUserDefinedDelta {
+								AbstractKeyBinding oldBinding;
+							}
+							
+							class UserDefinedDeltaChangeKeyBinding implements IUserDefinedDelta {
+								UserDefinedDeltaDeleteKeyBinding remove;
+								UserDefinedDeltaAddKeyBinding add;
+							}
+							
+							class KeyBindings extends ConfigVariable {
+								IUserDefinedDelta[*] deltas;
+							}
+						}
+					}
+				}
+			}
+		}		
+	}
+}	

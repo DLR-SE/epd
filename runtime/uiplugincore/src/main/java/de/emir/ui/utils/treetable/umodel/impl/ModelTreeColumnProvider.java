@@ -1,11 +1,10 @@
 package de.emir.ui.utils.treetable.umodel.impl;
 
-import javax.swing.tree.DefaultMutableTreeNode;
 
-import de.emir.ui.utils.treetable.TreeTableModel;
 import de.emir.ui.utils.treetable.umodel.AbstractColumnProvider;
 import de.emir.ui.utils.treetable.umodel.IColumnProvider;
-import de.emir.ui.utils.treetable.umodel.UNode;
+import org.jdesktop.swingx.treetable.DefaultMutableTreeTableNode;
+import org.jdesktop.swingx.treetable.TreeTableModel;
 
 public class ModelTreeColumnProvider extends AbstractColumnProvider implements IColumnProvider {
 
@@ -13,7 +12,8 @@ public class ModelTreeColumnProvider extends AbstractColumnProvider implements I
         super("Model", TreeTableModel.class, false);
     }
 
+    @Override
     public Object getColumnValue(Object value) {
-        return ((DefaultMutableTreeNode) value).getUserObject();
+        return ((DefaultMutableTreeTableNode) value).getUserObject();
     }
 }

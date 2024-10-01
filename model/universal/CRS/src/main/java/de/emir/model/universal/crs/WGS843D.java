@@ -5,7 +5,8 @@ import de.emir.tuml.ucore.runtime.annotations.UMLClass;
 
 /**
  Defines the default global CRS to be used in eMIR, for 3 dimensions. 
- * The WGS843D differes from its 2D version (WGS842D) that the z component of a coordinate is interpreted as altitude (in meters). 
+ * The WGS843D differes from its 2D version (WGS842D) that the z component of a coordinate is interpreted as altitude (in meters).
+ * A Coordinate is defined as lat,lon,depth to maintain a right-hand coordinate system
  * @generated 
  */
 @UMLClass(name = "WGS843D", parent = WGS84CRS.class)	

@@ -124,4 +124,9 @@ public class PropertySpinnerWidget extends JSpinner implements IPropertyWidget {
     public boolean isDirty() {
         return dirty;
     }
+    
+    @Override
+    public IProperty getProperty() {
+        return property;
+    }
 }

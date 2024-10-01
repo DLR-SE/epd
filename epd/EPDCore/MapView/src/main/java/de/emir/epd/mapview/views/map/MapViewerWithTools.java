@@ -762,30 +762,50 @@ public class MapViewerWithTools implements Painter<JXMapViewer>, MouseListener, 
 
 	@Override
 	public void drawInfobox(BufferingGraphics2D g, String text, int x, int y, int hAlign, int vAlign) {
+		String[] stringParts = text.split("\n");
 
-		int width = g.getFontMetrics().stringWidth(text);
-		int height = g.getFontMetrics().getHeight();
+		if(stringParts.length <= 1) {
+			int width = g.getFontMetrics().stringWidth(text);
+			int height = g.getFontMetrics().getHeight();
 
-		int offX = 0;
-		int offY = 0;
+			int offX = 0;
+			int offY = 0;
 
-		if (hAlign == SwingConstants.CENTER) {
-			offX = -width / 2;
-		} else if (hAlign == SwingConstants.RIGHT) {
-			offX = -width;
+			if (hAlign == SwingConstants.CENTER) {
+				offX = -width / 2;
+			} else if (hAlign == SwingConstants.RIGHT) {
+				offX = -width;
+			}
+
+			if (vAlign == SwingConstants.CENTER) {
+				offY = -height / 2;
+			} else if (vAlign == SwingConstants.BOTTOM) {
+				offY = -height;
+			}
+
+			g.setColor(infoBoxBG);
+			g.fillRoundRect(x + offX, y - height + offY, width + 4, height + 4, 5, 5);
+
+			g.setColor(infoBoxFG);
+			g.drawString(text, x + 2 + offX, y - 2 + offY);
+		} else {
+			int height = g.getFontMetrics().getHeight()*stringParts.length;
+			int width = 0;
+			for(String string : stringParts) {
+				int maxWidth = g.getFontMetrics().stringWidth(string);
+				if(maxWidth > width) {
+					width = maxWidth;
+				}
+			}
+			g.setColor(infoBoxBG);
+			g.fillRoundRect(x-2, y-g.getFontMetrics().getHeight(), width+4, height+g.getFontMetrics().getHeight()-4, 5, 5);
+
+			g.setColor(infoBoxFG);
+			for(int i=0;i<stringParts.length;i++) {
+				g.drawString(stringParts[i], x, y + g.getFontMetrics().getHeight()*i);
+			}
 		}
 
-		if (vAlign == SwingConstants.CENTER) {
-			offY = -height / 2;
-		} else if (vAlign == SwingConstants.BOTTOM) {
-			offY = -height;
-		}
-
-		g.setColor(infoBoxBG);
-		g.fillRoundRect(x + offX, y - height + offY, width + 4, height + 4, 5, 5);
-
-		g.setColor(infoBoxFG);
-		g.drawString(text, x + 2 + offX, y - 2 + offY);
 
 	}
 

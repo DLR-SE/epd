@@ -488,7 +488,7 @@ abstract public class UObjectImpl implements UObject {
         if (_mClassifierListener == null) {
             _mClassifierListener = new DisposableList();
         }
-//        synchronized (_mClassifierListener) {
+        synchronized (_mClassifierListener) {
             // first adding into a copy of the set and later replace the set. This way we want to avoid concurrent
             // modification exceptions
 //            try {
@@ -501,7 +501,7 @@ abstract public class UObjectImpl implements UObject {
 //            } catch (NullPointerException npe) {
 //                ULog.error("mClassifierListener is NULL");
 //            }
-        //}
+        }
 //        return null;
     }
 
@@ -527,26 +527,26 @@ abstract public class UObjectImpl implements UObject {
         return d;
     }
 
-    public void removeTreeListener(final ITreeValueChangeListener listener) {
+    public synchronized void removeTreeListener(final ITreeValueChangeListener listener) {
         if (listener == null)
             return;
 
         if (_mClassifierListener == null)
             return;
 
-        //synchronized (_mClassifierListener){
-        List<UObjectDisposable> list = new ArrayList<>(_mClassifierListener);
-        for (UObjectDisposable l : list) {
-            if (l.getListener() instanceof TreeObserverUtil) {
-                TreeObserverUtil tou = (TreeObserverUtil) l.getListener();
-                if (tou.getDelegate() == listener) {
-                    tou.remove(this);
-                    // TODO I don't know why but sometimes a listener is registered multiple times!
-                    //break;
+        synchronized (_mClassifierListener) {
+            List<UObjectDisposable> list = new ArrayList<>(_mClassifierListener);
+            ListIterator<UObjectDisposable> iter = list.listIterator();
+            while (iter.hasNext()) {
+                UObjectDisposable item = iter.next();
+                if (item.getListener() instanceof TreeObserverUtil) {
+                    TreeObserverUtil tou = (TreeObserverUtil) item.getListener();
+                    if (tou.getDelegate() == listener) {
+                        tou.remove(this);
+                    }
                 }
             }
         }
-        //}
 
         if (_mTreeListener != null){
             UObjectDisposable disp = _mTreeListener.get(listener);
@@ -651,7 +651,7 @@ abstract public class UObjectImpl implements UObject {
      */
     @Override
     public void removeListener(final UStructuralFeature _feature, final IValueChangeListener _listener) {
-
+        
         if (_feature == null || _listener == null || _mFeatureListener == null)
             return;
 
@@ -905,7 +905,7 @@ abstract public class UObjectImpl implements UObject {
         }
         // in the second pass notify those listener, that shall be notified about each feature
         if (_mClassifierListener != null) {
-            // synchronized (mClassifierListener) {
+          synchronized (_mClassifierListener) {
             ArrayList<UObjectDisposable> list = new ArrayList<>(_mClassifierListener);
             for (UObjectDisposable l : list) {
                 try {
@@ -916,6 +916,7 @@ abstract public class UObjectImpl implements UObject {
             }
         }
     }
+}
 
     @Override
     public synchronized Iterable<UObject> getContentIterator() {
@@ -1032,6 +1033,16 @@ abstract public class UObjectImpl implements UObject {
     @Override
     public boolean hasProperty(String qualifiedPropertyName) {
         return getProperty(qualifiedPropertyName) != null;
+    }
+    
+    @Override
+    public void addProperty(IProperty property) {
+        if (property == null || property.getName() == null || property.getName().isEmpty())
+            throw new UnsupportedOperationException("require a valid property name");
+        if (mProperties == null) {
+            mProperties = new HashMap<>();
+        }
+        mProperties.put(property.getName(), property);
     }
 
     @Override

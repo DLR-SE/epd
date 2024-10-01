@@ -1,5 +1,6 @@
 package de.emir.rcp.settings.basics.keybindings;
 
+import de.emir.model.universal.plugincore.var.AbstractKeyBinding;
 import java.awt.DefaultKeyboardFocusManager;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -17,7 +18,6 @@ import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
 
 import de.emir.rcp.commands.ep.CommandDescriptor;
-import de.emir.rcp.keybindings.ep.AbstractKeyBinding;
 import de.emir.rcp.manager.CommandManager;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.tuml.ucore.runtime.extension.ServiceManager;

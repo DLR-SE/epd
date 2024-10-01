@@ -140,6 +140,9 @@ public class ExtendedClassBEquipmentPositionReport extends DecodedAISPayload {
 	}
 	
 	public ExtendedClassBEquipmentPositionReport(ExtendedClassBEquipmentPositionReport copy) {
+        this.messageType = AISMessageType.ExtendedClassBEquipmentPositionReport;
+        this.repeatIndicator = copy.repeatIndicator;
+        this.sourceMmsi = new MMSI(copy.sourceMmsi);
 		this.regionalReserved1 = copy.regionalReserved1;
 		this.speedOverGround = copy.speedOverGround;
 		this.positionAccurate = copy.positionAccurate;

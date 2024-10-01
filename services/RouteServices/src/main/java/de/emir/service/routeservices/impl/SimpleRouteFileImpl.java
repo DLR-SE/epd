@@ -1,12 +1,6 @@
 package de.emir.service.routeservices.impl;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
-import de.emir.service.routeservices.RouteservicesPackage;
-
 import de.emir.model.domain.maritime.iec61174.Route;
-import de.emir.tuml.ucore.runtime.Notification;
 import de.emir.model.domain.maritime.iec61174.WayPoints;
 import de.emir.model.domain.maritime.iec61174.Waypoint;
 import de.emir.model.domain.maritime.iec61174.impl.RouteImpl;
@@ -15,11 +9,16 @@ import de.emir.model.domain.maritime.iec61174.impl.WaypointImpl;
 import de.emir.model.universal.crs.CoordinateReferenceSystem;
 import de.emir.model.universal.spatial.impl.CoordinateImpl;
 import de.emir.service.routeservices.ISimpleRouteFile;
-import de.emir.service.routeservices.impl.RouteImportImpl;
+import de.emir.service.routeservices.RouteservicesPackage;
 import de.emir.tuml.ucore.runtime.NotificationType;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
 import de.emir.tuml.ucore.runtime.logging.ULog;
+
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 
 
 /**
@@ -308,4 +307,10 @@ public class SimpleRouteFileImpl extends RouteImportImpl implements ISimpleRoute
 	        }
 	        return lon;
 	    }
+
+	@Override
+	public FileNameExtensionFilter getFileExtension() {
+		return new FileNameExtensionFilter("Simple route text format", "txt", "TXT");
+
+	}
 }

@@ -5,10 +5,10 @@ import de.emir.tuml.ucore.runtime.UClass;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geotools.api.referencing.FactoryException;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.geometry.jts.ReferencedEnvelope3D;
 import org.geotools.referencing.CRS;
-import org.opengis.referencing.FactoryException;
 
 import de.emir.model.universal.crs.CoordinateReferenceSystem;
 import de.emir.model.universal.crs.util.CRSUtils;
@@ -37,7 +37,7 @@ public class EnvelopeOperations implements IEnvelopeDelegationInterface {
 		CoordinateReferenceSystem crs = self.getMaxPoint().getCrs();
 		if (crs == null)
 			crs = self.getMinPoint().getCrs();
-		org.opengis.referencing.crs.CoordinateReferenceSystem ncrs = null;
+		org.geotools.api.referencing.crs.CoordinateReferenceSystem ncrs = null;
 		try {
 			ncrs = crs != null ? CRS.parseWKT(crs.toWKT()) : null;
 		} catch (FactoryException e) {

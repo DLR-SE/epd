@@ -48,12 +48,14 @@ public class BinaryBroadcastMessage extends DecodedAISPayload {
 	
 	// copy constructor
 	public BinaryBroadcastMessage(BinaryBroadcastMessage copy) {
+        this.messageType = AISMessageType.BinaryBroadcastMessage;
 		if (copy == null) {
 			this.sourceMmsi = null;
 			this.designatedAreaCode = null;
 			this.functionalId = null;
 			this.binaryData = null;
 		} else {
+            this.repeatIndicator = copy.repeatIndicator;
 			this.sourceMmsi = copy.sourceMmsi;
 			this.designatedAreaCode = copy.designatedAreaCode;
 			this.functionalId = copy.functionalId;

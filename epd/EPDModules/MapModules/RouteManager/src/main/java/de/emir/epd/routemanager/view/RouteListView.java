@@ -9,8 +9,6 @@ import de.emir.rcp.manager.CommandManager;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.views.AbstractView;
 import de.emir.tuml.ucore.runtime.extension.ServiceManager;
-import de.emir.ui.utils.treetable.TreeTable;
-import de.emir.ui.utils.treetable.TreeTableModel;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -21,9 +19,11 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
+import org.jdesktop.swingx.JXTreeTable;
+import org.jdesktop.swingx.treetable.TreeTableModel;
 
 public class RouteListView extends AbstractView {
-    private TreeTable					mTreeTable;
+    private JXTreeTable					mTreeTable;
     private TreeTableModel				routeTableModel;
 
     private boolean 					selectionListenerDisabled;
@@ -104,7 +104,7 @@ public class RouteListView extends AbstractView {
 
         
         mTreeTableModel = new RouteManagerTreeTableModel(mRouteManager);
-        mTreeTable = new TreeTable(mTreeTableModel);
+        mTreeTable = new JXTreeTable(mTreeTableModel);
         mTreeTable.setTreeCellRenderer(new DefaultTreeCellRenderer() {
         	@Override
         	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded,
@@ -215,7 +215,7 @@ public class RouteListView extends AbstractView {
     public List<Route> getRoutes(int[] selectedRows) {
 		ArrayList<Route> out = new ArrayList<>();
 		for (int row : selectedRows) {
-			Object obj = mTreeTable.getNodeForRow(row);
+            Object obj = mTreeTable.getPathForRow(row).getLastPathComponent();
 			if (obj instanceof Route)
 				out.add((Route)obj);
 		}

@@ -16,93 +16,82 @@ import java.util.List;
 public class CoordinateSequenceOperations  implements ICoordinateSequenceDelegationInterface{
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated_not
 	*/
 	public Coordinate getCoordinate(CoordinateSequence self, final int idx)
 	{
-		//TODO: 
-		throw new UnsupportedOperationException("getCoordinate not yet implemented");
+		return self.getCoordinate(idx);
 	}
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated_not
 	*/
 	public void setCoordinate(CoordinateSequence self, final int idx, final Coordinate value)
 	{
-		//TODO: 
-		throw new UnsupportedOperationException("setCoordinate not yet implemented");
+		self.setCoordinate(idx, value);
 	}
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated_not
 	*/
 	public int dimension(CoordinateSequence self)
 	{
-		//TODO: 
-		throw new UnsupportedOperationException("dimension not yet implemented");
+		return self.dimension();
 	}
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated_not
 	*/
 	public int numCoordinates(CoordinateSequence self)
 	{
-		//TODO: 
-		throw new UnsupportedOperationException("numCoordinates not yet implemented");
+		return self.numCoordinates();
 	}
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated_not
 	*/
 	public void addCoordinate(CoordinateSequence self, final Coordinate value)
 	{
-		//TODO: 
-		throw new UnsupportedOperationException("addCoordinate not yet implemented");
+		self.addCoordinate(value);
 	}
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated_not
 	*/
 	public void addCoordinate(CoordinateSequence self, final int idx, final Coordinate value)
 	{
-		//TODO: 
-		throw new UnsupportedOperationException("addCoordinate not yet implemented");
+        self.addCoordinate(idx, value);
 	}
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated_not
 	*/
 	public void removeCoordinate(CoordinateSequence self, final int idx)
 	{
-		//TODO: 
-		throw new UnsupportedOperationException("removeCoordinate not yet implemented");
+		self.removeCoordinate(idx);
 	}
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated_not
 	*/
 	public Envelope getEnvelope(CoordinateSequence self)
 	{
-		//TODO: 
-		//  returns the boundingbox containing all coordinates within this sequence 
-		throw new UnsupportedOperationException("getEnvelope not yet implemented");
+		return self.getEnvelope();
 	}
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated_not
 	*/
 	public void removeCoordinate(CoordinateSequence self, final Coordinate coord)
 	{
-		//TODO: 
-		throw new UnsupportedOperationException("removeCoordinate not yet implemented");
+        self.removeCoordinate(coord);
 	}
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated_not
 	*/
 	public int getIndexOf(CoordinateSequence self, final Coordinate coord)
 	{
-		//TODO: 
-		throw new UnsupportedOperationException("getIndexOf not yet implemented");
+		return self.getIndexOf(coord);
 	}
 }

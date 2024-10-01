@@ -2,8 +2,6 @@ package de.emir.epd.nmeasensor.settings;
 
 import javax.swing.JPanel;
 
-import de.emir.epd.nmeasensor.data.ReceiverProperty;
-
 /**
  * This abstract class hold common attributes and methods for the different receiver settings.
  * 
@@ -16,11 +14,8 @@ public abstract class AbstractReceiverSettings extends JPanel {
 	
 	/** Set this flag to true after changes have been made. */
 	protected boolean dirtyFlag;
-	
-	/** Every reference to the settings property. */
-	protected ReceiverProperty receiverProperty;
-	
-	/**
+
+    /**
 	 * The dirty flag is true after changes have been made. 
 	 * 
 	 * @return <code>true</code> if the settings have changed.
@@ -28,4 +23,10 @@ public abstract class AbstractReceiverSettings extends JPanel {
 	public boolean isDirty() {
 		return dirtyFlag ;
 	}
+    
+    abstract public void readValues();
+    
+    abstract public void finish();
+
+    abstract void init();
 }

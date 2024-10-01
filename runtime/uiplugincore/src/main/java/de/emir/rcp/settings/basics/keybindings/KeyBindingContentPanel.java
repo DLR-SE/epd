@@ -1,5 +1,6 @@
 package de.emir.rcp.settings.basics.keybindings;
 
+import de.emir.model.universal.plugincore.var.AbstractKeyBinding;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -24,7 +25,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
 import de.emir.rcp.commands.ep.CommandDescriptor;
-import de.emir.rcp.keybindings.ep.AbstractKeyBinding;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.settings.basics.keybindings.KeyBindingSettingsPage.KeyBindingData;
 import de.emir.rcp.ui.widgets.AbstractDetailsContentPanel;
@@ -160,6 +160,8 @@ public class KeyBindingContentPanel extends AbstractDetailsContentPanel<KeyBindi
         }
 
         kb.setKey(newKeys);
+        
+        kb.setName(kb.getCommandID()+kb.getKey()); // We need any name to store the keybinding.
 
         getObject().addBinding(kb);
         int rows = table.getRowCount();

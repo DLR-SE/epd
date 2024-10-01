@@ -11,7 +11,6 @@ public class VincentCalculator implements IGeodeticCalculator {
 
 	@Override
 	public double getDistance(double lat1, double lon1, double lat2, double lon2) {
-		if (lat1 == lat2 && lon1 == lon2) return 0; //vincentyFormula throws an exception in this case
 		return vincentyFormula(lat1, lon1, lat2, lon2, VincentyCalculationType.DISTANCE)[0];
 	}
 
@@ -20,18 +19,16 @@ public class VincentCalculator implements IGeodeticCalculator {
 		return vincentyFormula(lat1, lon1, lat2, lon2, VincentyCalculationType.DISTANCE_BEARING);
 	}
 	
-	
-	
+	private static final double VINCENTY_A = 6378137.0;
+    private static final double VINCENTY_F = 1.0 / 298.257223563; // WGS-84 ellipsoid
+	private static final double VINCENTY_B = VINCENTY_A * (1-VINCENTY_F); // Calculate as defined
 	static double[] vincentyFormula(double latitude1, double longitude1, double latitude2, double longitude2,
             VincentyCalculationType type) {
 		if (latitude1 == latitude2 && longitude1 == longitude2)
 			return new double[]{0,0};
-        double a = 6378137.0;
-        double b = 6356752.3142;
-        double f = 1.0 / 298.257223563; // WGS-84 ellipsiod
         double L = Math.toRadians(longitude2 - longitude1);
-        double U1 = FastMath.atan((1 - f) * Math.tan(Math.toRadians(latitude1)));
-        double U2 = FastMath.atan((1 - f) * Math.tan(Math.toRadians(latitude2)));
+        double U1 = FastMath.atan((1 - VINCENTY_F) * Math.tan(Math.toRadians(latitude1)));
+        double U2 = FastMath.atan((1 - VINCENTY_F) * Math.tan(Math.toRadians(latitude2)));
         double sinU1 = FastMath.sin(U1), cosU1 = FastMath.cos(U1);
         double sinU2 = FastMath.sin(U2), cosU2 = FastMath.cos(U2);
 
@@ -63,9 +60,9 @@ public class VincentCalculator implements IGeodeticCalculator {
             if (Double.isNaN(cos2SigmaM)) {
                 cos2SigmaM = 0; // equatorial line
             }
-            C = f / 16 * cosSqAlpha * (4 + f * (4 - 3 * cosSqAlpha));
+            C = VINCENTY_F / 16 * cosSqAlpha * (4 + VINCENTY_F * (4 - 3 * cosSqAlpha));
             lambdaP = lambda;
-            lambda = L + (1 - C) * f * sinAlpha
+            lambda = L + (1 - C) * VINCENTY_F * sinAlpha
                     * (sigma + C * sinSigma * (cos2SigmaM + C * cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM)));
         }
         if (iterLimit == 0) {
@@ -74,7 +71,7 @@ public class VincentCalculator implements IGeodeticCalculator {
 
         double distance = Double.NaN;
         if (type == VincentyCalculationType.DISTANCE || type == VincentyCalculationType.DISTANCE_BEARING) {
-        	double uSq = cosSqAlpha * (a * a - b * b) / (b * b);
+        	double uSq = cosSqAlpha * (VINCENTY_A * VINCENTY_A - VINCENTY_B * VINCENTY_B) / (VINCENTY_B * VINCENTY_B);
             double A = 1 + uSq / 16384 * (4096 + uSq * (-768 + uSq * (320 - 175 * uSq)));
             double B = uSq / 1024 * (256 + uSq * (-128 + uSq * (74 - 47 * uSq)));
         	double deltaSigma = B
@@ -83,7 +80,7 @@ public class VincentCalculator implements IGeodeticCalculator {
                             / 4
                             * (cosSigma * (-1 + 2 * cos2SigmaM * cos2SigmaM) - B / 6 * cos2SigmaM
                                     * (-3 + 4 * sinSigma * sinSigma) * (-3 + 4 * cos2SigmaM * cos2SigmaM)));
-        	distance = b * A * (sigma - deltaSigma);
+        	distance = VINCENTY_B * A * (sigma - deltaSigma);
         	if (type == VincentyCalculationType.DISTANCE)
         		return new double[]{distance};
         }
@@ -99,7 +96,7 @@ public class VincentCalculator implements IGeodeticCalculator {
         return new double[]{distance, bearing};
     }
 
-    static enum VincentyCalculationType {
+    public enum VincentyCalculationType {
         DISTANCE,
         FINAL_BEARING,
         INITIAL_BEARING,

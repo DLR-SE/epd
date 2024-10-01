@@ -5,6 +5,8 @@ import de.emir.model.universal.crs.CoordinateReferenceSystem;
 import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.tuml.ucore.runtime.annotations.UMLClass;
 
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  Imports a route from an external route definition 
  * @generated 
@@ -22,5 +24,13 @@ public interface IRouteImport extends UObject
 	 * @generated 
 	 */
 	Route importRoute(final Object definition, final CoordinateReferenceSystem crs);
+
+	/**
+	 * Retrieves the file extension filter used for selecting files of specific types.
+	 *
+	 * @return a {@link FileNameExtensionFilter} representing the file extension filter.
+	 * @generated_not
+	 */
+	FileNameExtensionFilter getFileExtension();
 	
 }

@@ -71,7 +71,9 @@ public class MultiContextClassLoader extends ClassLoader {
 	            if (url != null) {
 	                return url;
 	            }
-        	}catch(Exception e) {
+        	} catch (ClassNotFoundException e) {
+                ULog.error(String.format("Could not find caller class for resource %s.", name));
+            }catch (Exception e) {
         		e.printStackTrace();
         	}
         }

@@ -80,6 +80,24 @@
 										<placeholders>
 											<version>0</version>
 											<format>dock.PlaceholderList</format>
+											<entry>
+												<key shared="false">
+													<placeholder>dock.single.de\.emir\.epd\.mapview\.views\.LayerView</placeholder>
+												</key>
+												<item key="convert" type="b">true</item>
+												<item key="convert-keys" type="a">
+													<item type="s">size</item>
+													<item type="s">index</item>
+													<item type="s">id</item>
+													<item type="s">placeholder</item>
+													<item type="s">hold</item>
+												</item>
+												<item key="dock.size" type="i">400</item>
+												<item key="dock.index" type="i">0</item>
+												<item key="dock.id" type="i">0</item>
+												<item key="dock.placeholder" type="s">dock.single.de\.emir\.epd\.mapview\.views\.LayerView</item>
+												<item key="dock.hold" type="b">false</item>
+											</entry>
 										</placeholders>
 									</content>
 								</delegate>
@@ -89,7 +107,18 @@
 									<type>dock.CContentArea.minimize</type>
 								</layout>
 							</adjacent>
-							<children ignore="false"/>
+							<children ignore="false">
+								<child>
+									<layout factory="predefined" placeholder="dock.single.de\.emir\.epd\.mapview\.views\.LayerView">
+										<replacement id="dockablesingle de.emir.epd.mapview.views.LayerView"/>
+										<delegate id="delegate_ccontrol backup factory id">
+											<id>de.emir.epd.mapview.views.LayerView</id>
+											<area/>
+										</delegate>
+									</layout>
+									<children ignore="false"/>
+								</child>
+							</children>
 						</root>
 						<root name="ccontrol center">
 							<layout factory="predefined" placeholder="dock.single.ccontrol\ center">
@@ -99,66 +128,55 @@
 									<root>true</root>
 									<content delegate="SplitDockStationFactory">
 										<fullscreen-action>false</fullscreen-action>
-										<node nodeId="1675845462832" orientation="VERTICAL" divider="0.5">
-											<leaf id="-1" nodeId="1675845462830">
+										<node nodeId="1716815515862" orientation="VERTICAL" divider="0.5">
+											<leaf id="-1" nodeId="1716815515860">
 												<placeholders>
-													<placeholder>dock.single.de\.emir\.epd\.example\.view\.ExampleView</placeholder>
+													<placeholder>dock.single.de\.emir\.epd\.mapview\.views\.LayerView</placeholder>
 												</placeholders>
 											</leaf>
-											<node nodeId="1518613942264" orientation="HORIZONTAL" divider="0.7177215189873418">
-												<node nodeId="1675845481929" orientation="VERTICAL" divider="0.716338880484115">
-													<leaf id="4" nodeId="1518613931522">
-														<placeholders>
-															<placeholder>dock.single.de\.emir\.epd\.mapview\.views\.MapView</placeholder>
-														</placeholders>
-													</leaf>
-													<leaf id="0" nodeId="1675845472199">
-														<placeholders>
-															<placeholder>dock.single.RouteListView2</placeholder>
-														</placeholders>
-													</leaf>
-												</node>
-												<node nodeId="1518613944821" orientation="HORIZONTAL" divider="0.9969650986342944">
-													<node nodeId="1518613948715" orientation="VERTICAL" divider="0.4990403071017274">
-														<leaf id="1" nodeId="1518613931571">
+											<node nodeId="1716815506890" orientation="VERTICAL" divider="0.9964726631393298">
+												<node nodeId="1716815542782" orientation="HORIZONTAL" divider="0.7987371744277821">
+													<node nodeId="1716816212596" orientation="VERTICAL" divider="0.5797872340425532">
+														<leaf id="3" nodeId="1716815506889">
 															<placeholders>
-																<placeholder>dock.single.de\.emir\.epd\.mapview\.views\.LayerView</placeholder>
+																<placeholder>dock.single.de\.emir\.epd\.mapview\.views\.MapView</placeholder>
 															</placeholders>
 														</leaf>
-														<leaf id="3" nodeId="1518613931451">
+														<leaf id="1" nodeId="1716816109338">
 															<placeholders>
-																<placeholder>dock.single.aisTargetView</placeholder>
+																<placeholder>dock.single.RouteListView2</placeholder>
 															</placeholders>
-															<placeholder-map>
-																<version>0</version>
-																<format>dock.PlaceholderList</format>
-																<entry>
-																	<key shared="false">
-																		<placeholder>dock.single.aisTargetView</placeholder>
-																	</key>
-																	<item key="convert" type="b">true</item>
-																	<item key="convert-keys" type="a"/>
-																</entry>
-																<entry>
-																	<key shared="false">
-																		<placeholder>dock.single.ownshipView</placeholder>
-																	</key>
-																	<item key="convert" type="b">true</item>
-																	<item key="convert-keys" type="a"/>
-																</entry>
-															</placeholder-map>
 														</leaf>
 													</node>
-													<leaf id="2" nodeId="1518613931161">
-														<placeholders>
-															<placeholder>dock.single.EditorArea</placeholder>
-														</placeholders>
-														<placeholder-map>
-															<version>0</version>
-															<format>dock.SplitDockStation</format>
-														</placeholder-map>
-													</leaf>
+													<node nodeId="1716816210499" orientation="VERTICAL" divider="0.6339858631035993">
+														<node nodeId="1716816329639" orientation="VERTICAL" divider="0.5575916230366492">
+															<leaf id="5" nodeId="1716816313464">
+																<placeholders>
+																	<placeholder>dock.single.clockView</placeholder>
+																</placeholders>
+															</leaf>
+															<leaf id="2" nodeId="1716815525409">
+																<placeholders>
+																	<placeholder>dock.single.aisTargetView</placeholder>
+																</placeholders>
+															</leaf>
+														</node>
+														<leaf id="4" nodeId="1716816205101">
+															<placeholders>
+																<placeholder>dock.single.ownshipView</placeholder>
+															</placeholders>
+														</leaf>
+													</node>
 												</node>
+												<leaf id="0" nodeId="1716815491090">
+													<placeholders>
+														<placeholder>dock.single.EditorArea</placeholder>
+													</placeholders>
+													<placeholder-map>
+														<version>0</version>
+														<format>dock.SplitDockStation</format>
+													</placeholder-map>
+												</leaf>
 											</node>
 										</node>
 									</content>
@@ -170,26 +188,6 @@
 								</layout>
 							</adjacent>
 							<children ignore="false">
-								<child>
-									<layout factory="predefined" placeholder="dock.single.RouteListView2">
-										<replacement id="dockablesingle RouteListView2"/>
-										<delegate id="delegate_ccontrol backup factory id">
-											<id>RouteListView2</id>
-											<area/>
-										</delegate>
-									</layout>
-									<children ignore="false"/>
-								</child>
-								<child>
-									<layout factory="predefined" placeholder="dock.single.de\.emir\.epd\.mapview\.views\.LayerView">
-										<replacement id="dockablesingle de.emir.epd.mapview.views.LayerView"/>
-										<delegate id="delegate_ccontrol backup factory id">
-											<id>de.emir.epd.mapview.views.LayerView</id>
-											<area/>
-										</delegate>
-									</layout>
-									<children ignore="false"/>
-								</child>
 								<child>
 									<layout factory="predefined" placeholder="dock.single.EditorArea">
 										<replacement id="dockablesingle EditorArea"/>
@@ -209,69 +207,50 @@
 									<children ignore="false"/>
 								</child>
 								<child>
-									<layout factory="delegate_StackDockStationFactory">
-										<selected>1</selected>
-										<placeholders>
-											<version>0</version>
-											<format>dock.PlaceholderList</format>
-											<entry>
-												<key shared="false">
-													<placeholder>dock.single.aisTargetView</placeholder>
-												</key>
-												<item key="convert" type="b">true</item>
-												<item key="convert-keys" type="a">
-													<item type="s">index</item>
-													<item type="s">id</item>
-													<item type="s">placeholder</item>
-												</item>
-												<item key="dock.index" type="i">0</item>
-												<item key="dock.id" type="i">0</item>
-												<item key="dock.placeholder" type="s">dock.single.aisTargetView</item>
-											</entry>
-											<entry>
-												<key shared="false">
-													<placeholder>dock.single.ownshipView</placeholder>
-												</key>
-												<item key="convert" type="b">true</item>
-												<item key="convert-keys" type="a">
-													<item type="s">index</item>
-													<item type="s">id</item>
-													<item type="s">placeholder</item>
-												</item>
-												<item key="dock.index" type="i">1</item>
-												<item key="dock.id" type="i">1</item>
-												<item key="dock.placeholder" type="s">dock.single.ownshipView</item>
-											</entry>
-										</placeholders>
+									<layout factory="predefined" placeholder="dock.single.RouteListView2">
+										<replacement id="dockablesingle RouteListView2"/>
+										<delegate id="delegate_ccontrol backup factory id">
+											<id>RouteListView2</id>
+											<area/>
+										</delegate>
 									</layout>
-									<children ignore="false">
-										<child>
-											<layout factory="predefined" placeholder="dock.single.aisTargetView">
-												<replacement id="dockablesingle aisTargetView"/>
-												<delegate id="delegate_ccontrol backup factory id">
-													<id>aisTargetView</id>
-													<area/>
-												</delegate>
-											</layout>
-											<children ignore="false"/>
-										</child>
-										<child>
-											<layout factory="predefined" placeholder="dock.single.ownshipView">
-												<replacement id="dockablesingle ownshipView"/>
-												<delegate id="delegate_ccontrol backup factory id">
-													<id>ownshipView</id>
-													<area/>
-												</delegate>
-											</layout>
-											<children ignore="false"/>
-										</child>
-									</children>
+									<children ignore="false"/>
+								</child>
+								<child>
+									<layout factory="predefined" placeholder="dock.single.aisTargetView">
+										<replacement id="dockablesingle aisTargetView"/>
+										<delegate id="delegate_ccontrol backup factory id">
+											<id>aisTargetView</id>
+											<area/>
+										</delegate>
+									</layout>
+									<children ignore="false"/>
 								</child>
 								<child>
 									<layout factory="predefined" placeholder="dock.single.de\.emir\.epd\.mapview\.views\.MapView">
 										<replacement id="dockablesingle de.emir.epd.mapview.views.MapView"/>
 										<delegate id="delegate_ccontrol backup factory id">
 											<id>de.emir.epd.mapview.views.MapView</id>
+											<area/>
+										</delegate>
+									</layout>
+									<children ignore="false"/>
+								</child>
+								<child>
+									<layout factory="predefined" placeholder="dock.single.ownshipView">
+										<replacement id="dockablesingle ownshipView"/>
+										<delegate id="delegate_ccontrol backup factory id">
+											<id>ownshipView</id>
+											<area/>
+										</delegate>
+									</layout>
+									<children ignore="false"/>
+								</child>
+								<child>
+									<layout factory="predefined" placeholder="dock.single.clockView">
+										<replacement id="dockablesingle clockView"/>
+										<delegate id="delegate_ccontrol backup factory id">
+											<id>clockView</id>
 											<area/>
 										</delegate>
 									</layout>
@@ -301,23 +280,11 @@
 							<children ignore="false"/>
 						</root>
 					</roots>
-					<children>
-						<child key="single de.emir.epd.example.view.ExampleView" root="ccontrol center" location="true">
-							<location>
-								<property factory="SplitDockPlaceholderProperty">
-									<placeholder>dock.single.de\.emir\.epd\.example\.view\.ExampleView</placeholder>
-									<backup-path>
-										<node location="TOP" size="0.5" id="1675845462832"/>
-										<leaf id="1675845462830"/>
-									</backup-path>
-								</property>
-							</location>
-						</child>
-					</children>
+					<children/>
 				</base>
 				<modes>
 					<dockables>
-						<entry id="single de.emir.epd.example.view.ExampleView">
+						<entry id="single clockView" current="dock.mode.normal">
 							<history>
 								<mode>dock.mode.normal</mode>
 							</history>
@@ -328,31 +295,14 @@
 									<applicationDefined>false</applicationDefined>
 									<location>
 										<property factory="SplitDockPlaceholderProperty">
-											<placeholder>dock.single.de\.emir\.epd\.example\.view\.ExampleView</placeholder>
+											<placeholder>dock.single.clockView</placeholder>
 											<backup-path>
-												<node location="TOP" size="0.5" id="1675845462832"/>
-												<leaf id="1675845462830"/>
-											</backup-path>
-										</property>
-									</location>
-								</property>
-							</properties>
-						</entry>
-						<entry id="single aisTargetView" current="dock.mode.normal">
-							<history>
-								<mode>dock.mode.normal</mode>
-							</history>
-							<properties>
-								<property id="dock.mode.normal">
-									<mode>dock.mode.normal</mode>
-									<root>ccontrol center</root>
-									<applicationDefined>false</applicationDefined>
-									<location>
-										<property factory="SplitDockPlaceholderProperty">
-											<placeholder>dock.single.aisTargetView</placeholder>
-											<backup-path>
-												<node location="TOP" size="0.5" id="1518613931573"/>
-												<leaf id="1518613931451"/>
+												<node location="BOTTOM" size="0.5" id="1716815515862"/>
+												<node location="TOP" size="0.9964726631393298" id="1716815506890"/>
+												<node location="RIGHT" size="0.3014861995753715" id="1716815542782"/>
+												<node location="BOTTOM" size="0.4896551724137931" id="1716816210499"/>
+												<node location="BOTTOM" size="0.5819672131147541" id="1716816326199"/>
+												<leaf id="1716816313464"/>
 											</backup-path>
 										</property>
 									</location>
@@ -372,10 +322,29 @@
 										<property factory="SplitDockPlaceholderProperty">
 											<placeholder>dock.single.de\.emir\.epd\.mapview\.views\.MapView</placeholder>
 											<backup-path>
-												<node location="BOTTOM" size="0.5" id="1675845462832"/>
-												<node location="LEFT" size="0.7177215189873418" id="1518613942264"/>
-												<node location="TOP" size="0.716338880484115" id="1675845481929"/>
-												<leaf id="1518613931522"/>
+												<node location="TOP" size="0.5" id="1716815506890"/>
+												<leaf id="1716815506889"/>
+											</backup-path>
+										</property>
+									</location>
+								</property>
+							</properties>
+						</entry>
+						<entry id="single aisTargetView" current="dock.mode.normal">
+							<history>
+								<mode>dock.mode.normal</mode>
+							</history>
+							<properties>
+								<property id="dock.mode.normal">
+									<mode>dock.mode.normal</mode>
+									<root>ccontrol center</root>
+									<applicationDefined>false</applicationDefined>
+									<location>
+										<property factory="SplitDockPlaceholderProperty">
+											<placeholder>dock.single.aisTargetView</placeholder>
+											<backup-path>
+												<node location="TOP" size="0.5" id="1716815525411"/>
+												<leaf id="1716815525409"/>
 											</backup-path>
 										</property>
 									</location>
@@ -395,8 +364,8 @@
 										<property factory="SplitDockPlaceholderProperty">
 											<placeholder>dock.single.ownshipView</placeholder>
 											<backup-path>
-												<node location="TOP" size="0.5" id="1675845504664"/>
-												<leaf id="1675845504662"/>
+												<node location="TOP" size="0.5" id="1716816205102"/>
+												<leaf id="1716816205101"/>
 											</backup-path>
 										</property>
 									</location>
@@ -416,18 +385,32 @@
 										<property factory="SplitDockPlaceholderProperty">
 											<placeholder>dock.single.EditorArea</placeholder>
 											<backup-path>
-												<leaf id="1518613931161"/>
+												<leaf id="1716815491090"/>
 											</backup-path>
 										</property>
 									</location>
 								</property>
 							</properties>
 						</entry>
-						<entry id="single de.emir.epd.mapview.views.LayerView" current="dock.mode.normal">
+						<entry id="single de.emir.epd.mapview.views.LayerView" current="dock.mode.minimized">
 							<history>
 								<mode>dock.mode.normal</mode>
+								<mode>dock.mode.minimized</mode>
 							</history>
 							<properties>
+								<property id="dock.mode.minimized">
+									<mode>dock.mode.minimized</mode>
+									<root>ccontrol east</root>
+									<applicationDefined>false</applicationDefined>
+									<location>
+										<property factory="flap dock">
+											<index>0</index>
+											<holding>false</holding>
+											<size>400</size>
+											<placeholder>dock.single.de\.emir\.epd\.mapview\.views\.LayerView</placeholder>
+										</property>
+									</location>
+								</property>
 								<property id="dock.mode.normal">
 									<mode>dock.mode.normal</mode>
 									<root>ccontrol center</root>
@@ -436,9 +419,8 @@
 										<property factory="SplitDockPlaceholderProperty">
 											<placeholder>dock.single.de\.emir\.epd\.mapview\.views\.LayerView</placeholder>
 											<backup-path>
-												<node location="TOP" size="0.5" id="1518613931573"/>
-												<node location="LEFT" size="0.8042488619119879" id="1518613939774"/>
-												<leaf id="1518613931571"/>
+												<node location="TOP" size="0.5" id="1716816305558"/>
+												<leaf id="1716816305557"/>
 											</backup-path>
 										</property>
 									</location>
@@ -447,9 +429,18 @@
 						</entry>
 						<entry id="single RouteListView2" current="dock.mode.normal">
 							<history>
+								<mode>dock.mode.maximized</mode>
 								<mode>dock.mode.normal</mode>
 							</history>
 							<properties>
+								<property id="dock.mode.maximized">
+									<mode>dock.mode.maximized</mode>
+									<root>ccontrol center</root>
+									<applicationDefined>false</applicationDefined>
+									<location>
+										<property factory="SplitDockFullScreenPropertyFactory"/>
+									</location>
+								</property>
 								<property id="dock.mode.normal">
 									<mode>dock.mode.normal</mode>
 									<root>ccontrol center</root>
@@ -458,8 +449,10 @@
 										<property factory="SplitDockPlaceholderProperty">
 											<placeholder>dock.single.RouteListView2</placeholder>
 											<backup-path>
-												<node location="TOP" size="0.5" id="1675845472201"/>
-												<leaf id="1675845472199"/>
+												<node location="BOTTOM" size="0.5" id="1716815515862"/>
+												<node location="BOTTOM" size="0.003527336860670194" id="1716815506890"/>
+												<node location="BOTTOM" size="0.5006605019815059" id="1716816152340"/>
+												<leaf id="1716816109338"/>
 											</backup-path>
 										</property>
 									</location>

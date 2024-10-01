@@ -19,11 +19,33 @@ public interface IDrawContext {
 
 	void drawFocusArc(Graphics g, GeoPosition gp);
 
+	/**
+	 * Converts latitude and longitude values to pixel coordinates	
+	 * @param longitude Longitude of point to convert
+	 * @param latitude Latitude of point to convert
+	 * @return 2D point on map
+	 */
 	Point2D convert(double longitude, double latitude);
 
+	/**
+	 * Converts a Coordinate object to pixel coordinates	
+	 * @param longitude Coordinate of point to convert
+	 * @return 2D point on map
+	 */
 	Point2D convert(Coordinate coordinate);
 
+	/**
+	 * Converts a GeoPosition object to pixel coordinates
+	 * @param gp GeoPosition of point to convert
+	 * @return 2D point on map
+	 */
 	Point2D convert(GeoPosition gp);
+
+	/**
+	 * Converts pixel coordinates to a GeoPosition object
+	 * @param pixel Point2D to convert
+	 * @return GeoPosition of object
+	 */
 	GeoPosition convert(Point2D pixel);
 	
 	Dimension getSize();

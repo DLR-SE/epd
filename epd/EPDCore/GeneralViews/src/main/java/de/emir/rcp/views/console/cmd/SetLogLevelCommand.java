@@ -17,9 +17,9 @@ public class SetLogLevelCommand extends AbstractRadioGroupCommand<Level> {
 	public SetLogLevelCommand() {
 		
 		PropertyContext propContext = PropertyStore.getContext(ConsoleView.PROPERTY_CONTEXT_ID);
-		IProperty<Level> property = propContext.getProperty(ConsoleView.LOG_LEVEL_PROPERTY, Level.INFO);
+		IProperty<String> property = propContext.getProperty(ConsoleView.LOG_LEVEL_PROPERTY, "INFO");
 		
-		setValue(property.getValue());
+		setValue(Level.toLevel(property.getValue()));
 		
 		property.addPropertyChangeListener(new PropertyChangeListener() {
 			
@@ -40,7 +40,7 @@ public class SetLogLevelCommand extends AbstractRadioGroupCommand<Level> {
 		ULog.getInstance().changeLogLevel(ULog.getInstance().getAppender("CONSOLE"), userObject);
 		
 		PropertyContext propContext = PropertyStore.getContext(ConsoleView.PROPERTY_CONTEXT_ID);
-		propContext.setValue(ConsoleView.LOG_LEVEL_PROPERTY, userObject);
+		propContext.setValue(ConsoleView.LOG_LEVEL_PROPERTY, userObject.toString());
 		
 	}
 

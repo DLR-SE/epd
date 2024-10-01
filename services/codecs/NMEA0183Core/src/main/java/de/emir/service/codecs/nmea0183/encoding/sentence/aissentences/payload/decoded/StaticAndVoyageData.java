@@ -125,6 +125,9 @@ public class StaticAndVoyageData extends DecodedAISPayload {
 	
 	//copy constructor
 	public StaticAndVoyageData(StaticAndVoyageData copy){
+        this.messageType = AISMessageType.StaticAndVoyageRelatedData;
+        this.repeatIndicator = copy.repeatIndicator;
+        this.sourceMmsi = new MMSI(copy.sourceMmsi);
 		this.imo = new IMO(copy.imo);
 		this.callsign = copy.callsign;
 		this.shipName = copy.shipName;

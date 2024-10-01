@@ -1,14 +1,19 @@
 package de.emir.rcp.pluginmanager.model;
 
-public class ExportData {
+import de.emir.model.universal.plugincore.var.impl.ConfigMapImpl;
+import de.emir.model.universal.plugincore.var.impl.ConfigObjectImpl;
 
-    private String entryPointPath;
-    private String entryPointPomPath;
-    private String layoutFilePath;
-    private String propertiesFilePath;
-    private String outputPath;
-    private String plantUMLPath;
-    private String doxygenPath;
+/**
+ * Configuration which is used for the product export.
+ */
+public class ExportData {
+    private String entryPointPath = ""; // make sure all attributes are initialised otherwise toConfigMap breaks
+    private String entryPointPomPath = "";
+    private String layoutFilePath = "";
+    private String propertiesFilePath = "";
+    private String outputPath = "";
+    private String plantUMLPath = "";
+    private String doxygenPath = "";
 
     private boolean copyLayout = true;
     private boolean copyProperties = true;
@@ -16,7 +21,8 @@ public class ExportData {
     private boolean addDocumentation = false;
 
     private boolean resolveLocally = true;
-    private boolean removeAllRepositories = true;
+    private boolean removeAllRepositories = false;
+    private boolean removeCredentials = true;
 
     private boolean leanRelease = true;
     private boolean onlineRelease = false;
@@ -103,6 +109,10 @@ public class ExportData {
         return removeAllRepositories;
     }
 
+    public boolean isRemoveCredentials() {
+        return removeCredentials;
+    }
+
     public boolean isResolveLocally() {
         return resolveLocally;
     }
@@ -117,6 +127,10 @@ public class ExportData {
 
     public void setRemoveAllRepositories(boolean removeAllRepositories) {
         this.removeAllRepositories = removeAllRepositories;
+    }
+
+    public void setRemoveCredentials(boolean removeCredentials) {
+        this.removeCredentials = removeCredentials;
     }
 
     public String getPlantUMLPath() {
@@ -165,5 +179,52 @@ public class ExportData {
 
     public void setCreateZip(boolean createZip) {
         this.createZip = createZip;
+    }
+    
+    public static ExportData fromConfigMap(ConfigMapImpl map) {
+        ExportData result = new ExportData();
+        if (map == null || (map.getMap().isEmpty() && map.getMapSimple().isEmpty())) {
+            return result;
+        }
+        result.setAddDocumentation(((ConfigObjectImpl) map.get("addDocumentation")).getAsBoolean());
+        result.setCopyAll(((ConfigObjectImpl) map.get("copyAll")).getAsBoolean());
+        result.setCopyLayout(((ConfigObjectImpl) map.get("copyLayout")).getAsBoolean());
+        result.setCopyProperties(((ConfigObjectImpl) map.get("copyProperties")).getAsBoolean());
+        result.setCreateZip(((ConfigObjectImpl) map.get("createZip")).getAsBoolean());
+        result.setDoxygenPath(((ConfigObjectImpl) map.get("doxygenPath")).getValue());
+        result.setEntryPointPath(((ConfigObjectImpl) map.get("entryPointPath")).getValue());
+        result.setEntryPointPomPath(((ConfigObjectImpl) map.get("entryPointPomPath")).getValue());
+        result.setLayoutFilePath(((ConfigObjectImpl) map.get("layoutFilePath")).getValue());
+        result.setLeanRelease(((ConfigObjectImpl) map.get("leanRelease")).getAsBoolean());
+        result.setOnlineRelease(((ConfigObjectImpl) map.get("onlineRelease")).getAsBoolean());
+        result.setOutputPath(((ConfigObjectImpl) map.get("outputPath")).getValue());
+        result.setPropertiesFilePath(((ConfigObjectImpl) map.get("propertiesFilePath")).getValue());
+        result.setPlantUMLPath(((ConfigObjectImpl) map.get("plantUMLPath")).getValue());
+        result.setRemoveAllRepositories(((ConfigObjectImpl) map.get("removeAllRepositories")).getAsBoolean());
+        result.setRemoveCredentials(((ConfigObjectImpl) map.get("removeCredentials")).getAsBoolean());
+        result.setResolveLocally(((ConfigObjectImpl) map.get("resolveLocally")).getAsBoolean());
+        return result;
+    }
+    
+    public ConfigMapImpl toConfigMap() {
+        ConfigMapImpl result = new ConfigMapImpl();
+        result.put("addDocumentation", addDocumentation);
+        result.put("copyAll", copyAll);
+        result.put("copyLayout", copyLayout);
+        result.put("copyProperties", copyProperties);
+        result.put("createZip", createZip);
+        result.put("doxygenPath", doxygenPath);
+        result.put("entryPointPath", entryPointPath);
+        result.put("entryPointPomPath", entryPointPomPath);
+        result.put("layoutFilePath", layoutFilePath);
+        result.put("leanRelease", leanRelease);
+        result.put("onlineRelease", onlineRelease);
+        result.put("outputPath", outputPath);
+        result.put("plantUMLPath", plantUMLPath);
+        result.put("propertiesFilePath", propertiesFilePath);
+        result.put("removeAllRepositories", removeAllRepositories);
+        result.put("removeCredentials", removeCredentials);
+        result.put("resolveLocally", resolveLocally);
+        return result;
     }
 }

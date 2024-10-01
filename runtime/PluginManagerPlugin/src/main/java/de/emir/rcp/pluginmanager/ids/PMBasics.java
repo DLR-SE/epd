@@ -21,7 +21,7 @@ public class PMBasics {
     public static final String PM_PROP_CTX = ID_PREFIX + "prop.Context";
     public static final String PM_PROP_LAST_PRODUCT_PATH = ID_PREFIX + "prop.LastProductPath";
     public static final String PM_PROP_LAST_FILE_FOLDER = ID_PREFIX + "prop.LastSelectedFileFolder";
-    public static final String PM_PROP_LAST_EXPORT_SETTINGS_MAP = ID_PREFIX + "prop.LastExportSettingsMap";
+    public static final String PM_PROP_LAST_EXPORT_SETTINGS_MAP = "LastExportSettingsMap"; //ID_PREFIX + "prop.LastExportSettingsMap";
     public static final String CHANGE_PRODUCT_DEF_CMD_ID = ID_PREFIX + "cmd.chooseProductDefCommand";
     public static final String REMOVE_ELEMENT_CMD_ID = ID_PREFIX + "cmd.removePluginCommand";
     public static final String CLEAR_PLUGINS_CMD_ID = ID_PREFIX + "cmd.clearPluginCommand";

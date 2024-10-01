@@ -13,9 +13,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.imageio.ImageIO;
 
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.apache.commons.io.FileUtils;
-
-import com.thoughtworks.xstream.XStream;
 
 import de.emir.epd.mapview.ids.MVBasic;
 import de.emir.rcp.properties.PropertyContext;
@@ -25,13 +24,8 @@ import de.emir.tuml.ucore.runtime.resources.ResourceManager;
 
 public class CacheFolder {
 
-	private static XStream xs = new XStream();
+	private static XmlMapper mapper = new XmlMapper();
 	private static PropertyContext ctx = PropertyStore.getContext(MVBasic.MAP_VIEW_PROP_CONTEXT);
-
-	static {
-        xs.allowTypes(new Class[] {de.emir.epd.mapview.views.map.cache.UriImageFileData.class});
-		xs.setClassLoader(CacheFolder.class.getClassLoader());
-	}
 	
 	public static int fileCount = 0;
 
@@ -83,7 +77,7 @@ public class CacheFolder {
 			ImageIO.write(img, "png", out.toFile());
 
 			FileOutputStream os = new FileOutputStream(outInfo.toFile());
-			xs.toXML(new UriImageFileData(uri, getImageName(hashedURI)), os);
+			mapper.writeValue(os, new UriImageFileData(uri, getImageName(hashedURI)));
 			os.close();
 			fileCount++;
 
@@ -136,7 +130,12 @@ public class CacheFolder {
 	}
 	
 	public static UriImageFileData loadInfoWithoutCounting(Path infoPath) {
-		return (UriImageFileData) xs.fromXML(infoPath.toFile());
+        try {
+            return mapper.readValue(infoPath.toFile(), UriImageFileData.class);
+        } catch (IOException e) {
+			e.printStackTrace();
+			return null;
+        }
 	}
 
 	public static void clearTileCache(IProgressMonitor monitor) {

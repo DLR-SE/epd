@@ -6,8 +6,7 @@ package de.emir.epd.nmeasensor;
 import com.google.common.collect.EvictingQueue;
 import de.emir.epd.model.EPDModel;
 import de.emir.epd.model.EPDModelUtils;
-import de.emir.epd.nmeasensor.data.ReceiverProperty;
-import de.emir.epd.nmeasensor.data.ReceiverProperty.ReceiverType;
+import de.emir.epd.nmeasensor.data.ReceiverType;
 import de.emir.epd.nmeasensor.data.SentenceType;
 import de.emir.epd.nmeasensor.ids.NMEASensorIds;
 import de.emir.epd.nmeasensor.receiver.*;
@@ -29,6 +28,8 @@ import de.emir.model.universal.spatial.impl.CoordinateImpl;
 import de.emir.model.universal.units.SpeedUnit;
 import de.emir.model.universal.units.impl.SpeedImpl;
 import de.emir.rcp.manager.util.PlatformUtil;
+import de.emir.rcp.properties.PropertyContext;
+import de.emir.rcp.properties.PropertyStore;
 import de.emir.service.codecs.nmea0183.encoding.sentence.*;
 import de.emir.service.codecs.nmea0183.encoding.sentence.aissentences.AISSentenceHandler;
 import de.emir.service.codecs.nmea0183.encoding.sentence.aissentences.payload.decoded.*;
@@ -45,8 +46,10 @@ import org.slf4j.Logger;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -58,7 +61,6 @@ public class NMEASensor implements ReceiverListener {
 	private static Logger LOG = ULog.getLogger(NMEASensor.class);
 	private volatile IConnection nmeaReceiver;
 	private IProperty<?> nmeaSensor;
-	private ReceiverProperty receiverProperty;
 	/** AIS Sentence Handler. */
 	private AISSentenceHandler aisHandler;
 	/** Last unhandeled AIS Sentence. */
@@ -70,11 +72,13 @@ public class NMEASensor implements ReceiverListener {
 	private String tempMsg = "";
 	private StringBuffer buffer = new StringBuffer();
     private String[] tempSAV;
+    private List<SentenceType> allowList = new ArrayList<>();
+    private PropertyContext ctx = PropertyStore.getContext(NMEASensorIds.NMEA_SENSOR_PROP_CONTEXT);
 	
 	/**
 	 * This contains the NMEA sensor with receiver and parser.
 	 */
-	public NMEASensor(ReceiverProperty property, IProperty<?> sourceProperty) {
+	public NMEASensor(IProperty<?> sourceProperty) {
 		Object o = PlatformUtil.getModelManager().getModelProvider().getModel();
 
 		if (o instanceof EPDModel){
@@ -86,25 +90,52 @@ public class NMEASensor implements ReceiverListener {
 		}
 
 		this.nmeaSensor = sourceProperty;
-		this.receiverProperty = (ReceiverProperty) property;
 		this.propListener = new PropListener();
 		this.nmeaSensor.addPropertyChangeListener(propListener);
 
 		receive();
 	}
+    
+    public String getNamePath() {
+        return NMEASensorIds.NMEA_SENSOR_PROP + "." + nmeaSensor.getName();
+    }
+    
+    public ReceiverType getType() {
+        IProperty<String> typeProp = ctx.getProperty(
+                getNamePath() + "." + NMEASensorIds.NMEA_SENSOR_PROP_TYPE, ReceiverType.UDP.name());
+        return ReceiverType.valueOf(typeProp.getValue());
+    }
+    
+    public boolean isActive() {
+        IProperty<Boolean> activeProp = ctx.getProperty(
+                getNamePath() + "." + NMEASensorIds.NMEA_SENSOR_PROP_ACTIVE, false);
+        return activeProp.getValue();
+    }
+    
+    public Object getAttribute(String attributeName) {
+        IProperty prop = ctx.getProperty(getNamePath() + "." + attributeName, null);
+        return prop.getValue();
+    }
+    
+    public Object getAttributeOrDefault(String attributeName, Object def) {
+        IProperty prop = ctx.getProperty(getNamePath() + "." + attributeName, def);
+        return prop.getValue();
+    }
 
 	class PropListener implements PropertyChangeListener {
 		@Override
 		public synchronized void propertyChange(PropertyChangeEvent evt) {
-			LOG.error("property " + evt);
-			if (evt.getNewValue() instanceof ReceiverProperty) {
-				LOG.info("Stop receiver");
-				nmeaReceiver.stopReceiving();
-				receiverProperty = (ReceiverProperty) evt.getNewValue();
-				// TODO: only restart receiver when the connection details have changed
-				LOG.info("Start receiver");
-				receive();
-			}
+            // Only inform about active receivers and stop them for changes
+            if (nmeaReceiver != null && nmeaReceiver.getState() == true) {
+                LOG.info("Changes in Receiver {} {}:{}", getNamePath(), evt.getPropertyName(), evt.getNewValue());
+                try {
+                    LOG.info("Stop receiver");
+                    nmeaReceiver.stopReceiving();
+                } catch (Exception e) {
+                    LOG.error("Could not stop receiver " + getNamePath(), e);
+                }
+            }
+			receive();
 		}
 	}
 	
@@ -113,49 +144,59 @@ public class NMEASensor implements ReceiverListener {
 			EPDModelUtils.clear(this.aisTargets);
 			this.aisHandler = new AISSentenceHandler();
             this.tempSAV = new String[2];
-			if (receiverProperty == null || receiverProperty.getReceiverType() == null || !receiverProperty.isActive())
-				return;
-			switch (receiverProperty.getReceiverType()) {
+			
+			switch (getType()) {
 			case UDP:
-				String localAdr = (String) receiverProperty.getAttributes()
-						.getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_INTERFACE, "0.0.0.0");
-				int udpport = (int) receiverProperty.getAttributes().get(NMEASensorIds.NMEA_SENSOR_PROP_PORT);
-				int packetsize = (int) receiverProperty.getAttributes().getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_PACKETSIZE, 65535);
+				String localAdr = (String) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_INTERFACE, "0.0.0.0");
+				int udpport = (int) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_PORT, 7003);
+				int packetsize = (int) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_PACKETSIZE, 65535);
 				nmeaReceiver = new UdpReceiverHandle(this, udpport, packetsize, localAdr);
 				LOG.info("UDP Receiver {}:{} {}", localAdr, udpport, packetsize);
 				break;
 			case TCP:
-				String hostName = (String) receiverProperty.getAttributes().get(NMEASensorIds.NMEA_SENSOR_PROP_HOST);
-				int tcpport = (int) receiverProperty.getAttributes().get(NMEASensorIds.NMEA_SENSOR_PROP_PORT);
+				String hostName = (String) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_HOST, "127.0.0.1");
+				int tcpport = (int) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_PORT, 16100);
 				nmeaReceiver = new TcpReceiverHandle(this, hostName, tcpport, Constants.PACKETSIZE);
 				LOG.info("TCP Receiver {}:{}", hostName, tcpport);
 				break;
 			case Serial:
-				String serialPort = (String) receiverProperty.getAttributes()
-						.get(NMEASensorIds.NMEA_SENSOR_PROP_SERIALPORT);
-				int baudrate = (int) receiverProperty.getAttributes().get(NMEASensorIds.NMEA_SENSOR_PROP_BAUDRATE);
-				int maxPacketsize = (int) receiverProperty.getAttributes()
-						.getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_PACKETSIZE, 65535);
+				String serialPort = (String) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_SERIALPORT, "COM1");
+				int baudrate = (int) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_BAUDRATE, 9600);
+				int maxPacketsize = (int) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_PACKETSIZE, 65535);
 				nmeaReceiver = new SerialReceiverHandle(this, serialPort, baudrate, maxPacketsize);
 				LOG.info("Serial Receiver {} {} {}", serialPort, baudrate, maxPacketsize);
 				break;
 			case File:
-				String filename = (String) receiverProperty.getAttributes()
-						.get(NMEASensorIds.NMEA_SENSOR_PROP_FILENAME);
-				int delay = (int) receiverProperty.getAttributes().get(NMEASensorIds.NMEA_SENSOR_PROP_DELAY);
-				int repeat = (int) receiverProperty.getAttributes()
-						.getOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_REPEAT, -1);
+				String filename = (String) getAttributeOrDefault(
+                        NMEASensorIds.NMEA_SENSOR_PROP_FILENAME, "nmea.txt");
+				int delay = (int) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_DELAY, 1000);
+				int repeat = (int) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_REPEAT, -1);
 				nmeaReceiver = new FileReceiverHandle(this, filename, delay, repeat);
 				LOG.info("File Receiver {} {} {}", filename, delay, repeat);
 				break;
 			}
-			if (receiverProperty.isActive()) {
-				if (!(receiverProperty.getReceiverType().equals(ReceiverType.UDP) && receiverProperty.isOutput())) {
+            
+            String[] sentences = ((String) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_SENTENCES, "")).split(",");
+            for (String sentence : sentences) {
+                if (sentence.isEmpty() || sentence.isBlank()) continue;
+                try {
+                    allowList.add(SentenceType.valueOf(sentence));
+                } catch (IllegalArgumentException e) {
+                    LOG.warn("No SenenceType for name \"" + sentence + "\", ignoring entry.");
+                    continue;
+                }
+            }
+            
+			if (isActive()) {
+                // UDP can only send or recieve
+				if (!(getType().equals(ReceiverType.UDP) && (boolean) getAttributeOrDefault(
+                        NMEASensorIds.NMEA_SENSOR_PROP_OUTPUT, false))) {
+                    LOG.info("Start receiver {}", getNamePath());
 					nmeaReceiver.receive();
 				}
 			}
 		} catch (Exception e) {
-			LOG.error("Could not start NMEA receiver {}.", receiverProperty.getLabel());
+			LOG.error("Could not start NMEA receiver {}.", getNamePath());
 		}
 	}
 	
@@ -167,7 +208,7 @@ public class NMEASensor implements ReceiverListener {
 	private boolean allow(Object element) {
 		boolean result = false;
 		String clazz = element.getClass().getCanonicalName();
-		for (SentenceType t : receiverProperty.getNmeaSentences()) {
+		for (SentenceType t : allowList) {
 			result = t.getType().getCanonicalName().equals(clazz);
 			if (result) break;
 		}
@@ -207,7 +248,8 @@ public class NMEASensor implements ReceiverListener {
 			try {
 				RouteMessageBroadcast payload = new RouteMessageBroadcast(pr.getBinaryData());
 				if (payload != null && payload.getLatitude() != null && payload.getLongitude() != null) {
-					Vessel target = EPDModelUtils.retrieveById(aisTargets, Long.toString(pr.getSourceMmsi().getMMSI()));
+					Vessel target = EPDModelUtils.retrieveById(aisTargets, Long.toString(
+                            pr.getSourceMmsi().getMMSI()));
 					addIntendedRoute(payload, target);
 					notify(payload);
 				}
@@ -391,15 +433,15 @@ public class NMEASensor implements ReceiverListener {
 		return nmeaReceiver;
 	}
 
-	public void update(ReceiverProperty rp) {
-		LOG.info("Stop receiver");
-		if (this.nmeaReceiver != null) {
-			getNmeaReceiver().stopReceiving();
-		}
-		this.receiverProperty = rp;
-		// TODO: only restart receiver when the connection details have changed
-		LOG.info("Start receiver");
-		receive();
-	}
+//	public void update(ReceiverProperty rp) {
+//		LOG.info("Stop receiver");
+//		if (this.nmeaReceiver != null) {
+//			getNmeaReceiver().stopReceiving();
+//		}
+//		this.receiverProperty = rp;
+//		// TODO: only restart receiver when the connection details have changed
+//		LOG.info("Start receiver");
+//		receive();
+//	}
 
 }

@@ -15,6 +15,7 @@
  */
 package de.emir.tuml.ucore.runtime.prop;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
@@ -31,17 +32,17 @@ public abstract class AbstractProperty<T> implements IProperty<T> {
     // PropertyChangeListeners are not serialized.
     private transient PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 
-    private IProperty 						mParentProperty = null;
-    private List<IProperty<?>> 				mChildProperties = null;
+    private IProperty 						parentProperty = null;
+    private List<IProperty<?>> 				childProperties = null;
 
     public AbstractProperty() {
     }
 
     public AbstractProperty(AbstractProperty<T> _copy) {
-        if (_copy.mChildProperties != null) {
-            mChildProperties = new ArrayList<>();
-            for (IProperty _p : _copy.mChildProperties)
-                mChildProperties.add(_p.copy());
+        if (_copy.childProperties != null) {
+            childProperties = new ArrayList<>();
+            for (IProperty _p : _copy.childProperties)
+                childProperties.add(_p.copy());
         }
     }
 
@@ -79,16 +80,18 @@ public abstract class AbstractProperty<T> implements IProperty<T> {
     }
 
     @Override
+    @JsonIgnore
     public IProperty getParentProperty() {
-        return mParentProperty;
+        return parentProperty;
     }
 
+    @JsonIgnore
     public void setParentProperty(IProperty prop) {
-        if (mParentProperty != null && mParentProperty != prop)
-            ((AbstractProperty) mParentProperty)._removeChild(this);
-        mParentProperty = prop;
-        if (mParentProperty != null && mParentProperty instanceof AbstractProperty)
-            ((AbstractProperty) mParentProperty)._addChild(this);
+        if (parentProperty != null && parentProperty != prop)
+            ((AbstractProperty) parentProperty)._removeChild(this);
+        parentProperty = prop;
+        if (parentProperty != null && parentProperty instanceof AbstractProperty)
+            ((AbstractProperty) parentProperty)._addChild(this);
     }
 
     public void addChild(IProperty prop) {
@@ -96,12 +99,12 @@ public abstract class AbstractProperty<T> implements IProperty<T> {
             ((AbstractProperty) prop).setParentProperty(this);
             _addChild((AbstractProperty) prop);
         } else
-            mChildProperties.add(prop);
+            childProperties.add(prop);
     }
 
     public void removeChild(IProperty obj) {
-        if (mChildProperties != null)
-            mChildProperties.remove(obj);
+        if (childProperties != null)
+            childProperties.remove(obj);
     }
 
     /**
@@ -111,8 +114,8 @@ public abstract class AbstractProperty<T> implements IProperty<T> {
      * @param child
      */
     private void _removeChild(AbstractProperty child) {
-        if (mChildProperties != null)
-            mChildProperties.remove(child);
+        if (childProperties != null)
+            childProperties.remove(child);
     }
 
     /**
@@ -123,18 +126,19 @@ public abstract class AbstractProperty<T> implements IProperty<T> {
      * @param child
      */
     private void _addChild(AbstractProperty child) {
-        if (mChildProperties == null)
-            mChildProperties = new ArrayList<>();
-        if (!mChildProperties.contains(child))
-            mChildProperties.add(child);
+        if (childProperties == null)
+            childProperties = new ArrayList<>();
+        if (!childProperties.contains(child))
+            childProperties.add(child);
     }
 
     @Override
     public List<IProperty<?>> getSubProperties() {
-        return mChildProperties;
+        return childProperties;
     }
 
     @Override
+    @JsonIgnore
     public boolean isDisposed() {
     	return listeners == null || listeners.getPropertyChangeListeners().length == 0;
     }

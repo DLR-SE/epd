@@ -292,7 +292,7 @@ public class CoordinateImpl extends UObjectImpl implements Coordinate {
 		if (dim == 2)
 			angle = crs.getDistanceAndAzimuth(toVector2D(), o.toVector2D()).get(1); //0 is always the distance
 		else if (dim == 3)
-			angle = crs.getDistanceAndAzimuth(toVector3D(), toVector3D()).get(1);
+			angle = crs.getDistanceAndAzimuth(toVector3D(), o.toVector3D()).get(1);
 		else
 			return null;
 		return new AngleImpl(angle, AngleUnit.RADIAN);

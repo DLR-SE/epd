@@ -164,4 +164,8 @@ public class PropertyFolderChooserWidget extends JPanel implements IPropertyWidg
         return dirty;
     }
 
+    @Override
+    public IProperty getProperty() {
+        return property;
+    }
 }

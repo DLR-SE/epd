@@ -3,7 +3,7 @@
   <parent>
     <groupId>de.dlr-se.emir.runtime</groupId>
     <artifactId>runtime</artifactId>
-    <version>4.0.0-SNAPSHOT</version>
+    <version>4.1.0</version>
   </parent>
   <artifactId>productcore</artifactId>
   <name>ProductCore</name>

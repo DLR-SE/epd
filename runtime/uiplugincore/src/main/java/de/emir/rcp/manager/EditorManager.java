@@ -15,6 +15,8 @@ import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 
 import bibliothek.gui.dock.common.MultipleCDockableFactory;
+import de.emir.model.universal.plugincore.var.ConfigObject;
+import de.emir.model.universal.plugincore.var.impl.ConfigMapImpl;
 import de.emir.rcp.editors.AbstractEditor;
 import de.emir.rcp.editors.BasicEditorLayout;
 import de.emir.rcp.editors.ep.Editor;
@@ -42,8 +44,8 @@ public class EditorManager implements IService{
 
 	public static final String PROPERTY_CONTEXT = "EditorsProperties";
 
-	public static final String EDITOR_ID_FILE_EXTENSION_PROPERTY = "Editors.FileExtMap";
-	public static final String OPEN_FILES_EDITOR_MAP_PROPERTY = "Editors.OpenFilesEditorMap";
+	public static final String EDITOR_ID_FILE_EXTENSION_PROPERTY = "FileExtMap";
+	public static final String OPEN_FILES_EDITOR_MAP_PROPERTY = "OpenFilesEditorMap";
 
 	private static Logger log = ULog.getLogger(EditorManager.class);
 
@@ -55,9 +57,9 @@ public class EditorManager implements IService{
 
 	private HashMap<String, AbstractEditor> openEditors = new HashMap<String, AbstractEditor>();
 
-	private HashMap<String, String> editorFileExtMap;
+	private ConfigMapImpl editorFileExtMap;
 
-	private HashMap<String, String> openFilesEditorIdMap;
+	private ConfigMapImpl openFilesEditorIdMap;
 	
 	private PublishSubject<Optional<AbstractEditor>> activeEditorSubject = PublishSubject.create();
 
@@ -76,7 +78,7 @@ public class EditorManager implements IService{
 	public Editor getEditor(File file) {
 
 		// First we check if this file is already opened with a specific editor
-		String idOfOpenEditorForFile = openFilesEditorIdMap.get(file.getAbsolutePath());
+		String idOfOpenEditorForFile = openFilesEditorIdMap.get(file.getAbsolutePath()) == null ? null : ((ConfigObject) openFilesEditorIdMap.get(file.getAbsolutePath())).getValue();
 
 		Map<String, Editor> editors = eEP.getEditors();
 
@@ -88,7 +90,7 @@ public class EditorManager implements IService{
 		// Now we check if there is an editor type manually set for the files
 		// extension
 		String extension = FilenameUtils.getExtension(file.getName());
-		String manualSetEditorID = editorFileExtMap.get(extension);
+		String manualSetEditorID = editorFileExtMap.get(extension) == null ? null : ((ConfigObject) editorFileExtMap.get(extension)).getValue();
 
 		if (manualSetEditorID != null) {
 			Editor editor = editors.get(manualSetEditorID);
@@ -151,11 +153,11 @@ public class EditorManager implements IService{
 				fileEditorFactory);
 
 		PropertyContext context = PropertyStore.getContext(PROPERTY_CONTEXT);
-		IProperty<?> prop = context.getProperty(EDITOR_ID_FILE_EXTENSION_PROPERTY, new HashMap<String, String>());
-		editorFileExtMap = (HashMap<String, String>) prop.getValue();
+		IProperty<ConfigMapImpl> prop = context.getProperty(EDITOR_ID_FILE_EXTENSION_PROPERTY, new ConfigMapImpl());
+		editorFileExtMap = prop.getValue();
 
-		IProperty<?> prop2 = context.getProperty(OPEN_FILES_EDITOR_MAP_PROPERTY, new HashMap<String, String>());
-		openFilesEditorIdMap = (HashMap<String, String>) prop2.getValue();
+		IProperty<ConfigMapImpl> prop2 = context.getProperty(OPEN_FILES_EDITOR_MAP_PROPERTY, new ConfigMapImpl());
+		openFilesEditorIdMap = prop2.getValue();
 
 	}
 

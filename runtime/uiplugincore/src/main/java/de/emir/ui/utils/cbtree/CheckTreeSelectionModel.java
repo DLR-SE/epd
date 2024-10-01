@@ -81,6 +81,7 @@ public class CheckTreeSelectionModel extends DefaultTreeSelectionModel {
         // recursively
         // otherwize just select that path.
         for (int i = 0; i < paths.length; i++) {
+            if (paths[i] == null) continue;
             TreePath path = paths[i];
             TreePath temp = null;
             while (areSiblingsSelected(path)) {

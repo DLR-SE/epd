@@ -15,6 +15,8 @@
  */
 package de.emir.tuml.ucore.runtime.prop;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.List;
@@ -34,7 +36,7 @@ public interface IProperty<T> extends Serializable, Cloneable, IDisposable {
     public String getDescription();
 
     public Class<?> getType();
-
+    
     public T getValue();
 
     public void setValue(T value);

@@ -4,7 +4,7 @@
     <parent>
         <groupId>de.dlr-se.emir.epd</groupId>
         <artifactId>EPDCore</artifactId>
-        <version>4.0.0-SNAPSHOT</version>
+        <version>4.1.0</version>
     </parent>
     <artifactId>EPDModel</artifactId>
     <description>Adds a model provider which returns the EPD model. This can be used to access EPD-Model objects during

@@ -9,8 +9,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geotools.api.referencing.operation.TransformException;
 import org.geotools.referencing.GeodeticCalculator;
-import org.opengis.referencing.operation.TransformException;
 
 import com.google.common.io.Files;
 

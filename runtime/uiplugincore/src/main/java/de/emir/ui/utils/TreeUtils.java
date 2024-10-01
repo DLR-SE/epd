@@ -1,9 +1,12 @@
 package de.emir.ui.utils;
 
+import de.emir.tuml.ucore.runtime.utils.Pointer;
+import de.emir.ui.utils.treetable.umodel.UNode;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.util.*;
+import org.jdesktop.swingx.JXTreeTable;
 
 public class TreeUtils {
 
@@ -97,4 +100,21 @@ public class TreeUtils {
         return node;
 
     }
+    
+    /**
+	 * returns the pointer at a given position. Searching for nearest element is currently not possible with the 
+     * JXTreeTable implementationand.
+	 * @param x mouse position
+	 * @param y mouse position
+	 * @param tt the JXTreeTable tto search in
+	 * @return a pointer to the element at the given position or null if no tree element could be found
+	 */
+	public static Pointer getPointerForLocation(JXTreeTable tt, int x, int y) {
+        TreePath tp = tt.getPathForLocation(x, y);
+		if (tp == null) return null;
+		Object lpc = tp.getLastPathComponent();
+		if (lpc instanceof UNode)
+			return ((UNode)lpc).getPointer();
+		return null;
+	}
 }

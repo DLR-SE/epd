@@ -30,40 +30,6 @@ public class NMEASensorPlugin extends AbstractUIPlugin {
 	@Override
 	public void postWindowOpen() {
 		SENSORS = new NMEASensors();
-
-		//yes this looks really bad, but the current time needs to be final/effectively final :D
-		Long[] currentTime = {System.currentTimeMillis()};
-
-		//this thread just checks if ais messages are received in the last 10 seconds
-		//if no ais messages are received, set the error alert state
-		Thread thread = new Thread(() -> {
-			while (true){
-				synchronized (currentTime){
-				    long t = System.currentTimeMillis();
-					if (t - currentTime[0] > 10000){
-						SwingUtilities.invokeLater(() -> AlertManager.setState(NMEASensorIds.NMEA_SENSOR_AIS_ALERT_ID, AlertState.ERROR));
-					}else {
-						SwingUtilities.invokeLater(() -> AlertManager.setState(NMEASensorIds.NMEA_SENSOR_AIS_ALERT_ID, AlertState.OK));
-					}
-				}
-
-				try {
-					Thread.sleep(5000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-
-			}
-		});
-		thread.setName("AisAlertManagerThread");
-		thread.start();
-
-		//TODO filter out ownship ais messages
-		NMEAOutput.subscribeSentences(nmeaSensorSentencePair -> {
-			synchronized (currentTime){
-				currentTime[0] = System.currentTimeMillis();
-			}
-		});
 	}
 	
 	public static NMEASensors getNMEASensors() {

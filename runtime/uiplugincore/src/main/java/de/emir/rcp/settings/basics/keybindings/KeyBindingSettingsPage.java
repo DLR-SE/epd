@@ -1,5 +1,11 @@
 package de.emir.rcp.settings.basics.keybindings;
 
+import de.emir.model.universal.plugincore.var.AbstractKeyBinding;
+import de.emir.model.universal.plugincore.var.IUserDefinedDelta;
+import de.emir.model.universal.plugincore.var.UserDefinedDeltaChangeKeyBinding;
+import de.emir.model.universal.plugincore.var.impl.UserDefinedDeltaAddKeyBindingImpl;
+import de.emir.model.universal.plugincore.var.impl.UserDefinedDeltaChangeKeyBindingImpl;
+import de.emir.model.universal.plugincore.var.impl.UserDefinedDeltaDeleteKeyBindingImpl;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -16,11 +22,6 @@ import javax.swing.JPanel;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import de.emir.rcp.commands.ep.CommandDescriptor;
-import de.emir.rcp.keybindings.delta.IUserDefinedDelta;
-import de.emir.rcp.keybindings.delta.UserDefinedDeltaAddKeyBinding;
-import de.emir.rcp.keybindings.delta.UserDefinedDeltaChangeKeyBinding;
-import de.emir.rcp.keybindings.delta.UserDefinedDeltaDeleteKeyBinding;
-import de.emir.rcp.keybindings.ep.AbstractKeyBinding;
 import de.emir.rcp.manager.CommandManager;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.settings.AbstractSettingsPage;
@@ -152,7 +153,7 @@ public class KeyBindingSettingsPage extends AbstractSettingsPage {
         public void addBinding(AbstractKeyBinding b) {
             bindings.add(b);
 
-            deltas.add(new UserDefinedDeltaAddKeyBinding(b));
+            deltas.add(new UserDefinedDeltaAddKeyBindingImpl(b));
 
             dirty = true;
         }
@@ -160,7 +161,7 @@ public class KeyBindingSettingsPage extends AbstractSettingsPage {
         public void removeBinding(AbstractKeyBinding b) {
             bindings.remove(b);
 
-            deltas.add(new UserDefinedDeltaDeleteKeyBinding(b));
+            deltas.add(new UserDefinedDeltaDeleteKeyBindingImpl(b));
 
             dirty = true;
         }
@@ -170,7 +171,7 @@ public class KeyBindingSettingsPage extends AbstractSettingsPage {
             bindings.remove(oldIndex);
             bindings.add(oldIndex, newB);
 
-            deltas.add(new UserDefinedDeltaChangeKeyBinding(oldB, newB));
+            deltas.add(new UserDefinedDeltaChangeKeyBindingImpl(oldB, newB));
 
             dirty = true;
         }
@@ -181,7 +182,7 @@ public class KeyBindingSettingsPage extends AbstractSettingsPage {
             b.setKey(key);
             AbstractKeyBinding newBinding = b.copy();
 
-            deltas.add(new UserDefinedDeltaChangeKeyBinding(oldBinding, newBinding));
+            deltas.add(new UserDefinedDeltaChangeKeyBindingImpl(oldBinding, newBinding));
 
             dirty = true;
         }

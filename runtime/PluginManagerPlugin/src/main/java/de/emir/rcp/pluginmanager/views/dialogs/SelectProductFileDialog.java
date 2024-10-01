@@ -96,7 +96,7 @@ public class SelectProductFileDialog extends JDialog {
         btnOk.setEnabled(false);
         panelButtons.add(btnOk);
 
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(parent);
 
         btnOk.addActionListener(e -> handleOk());
         btnExit.addActionListener(e -> handleExit());

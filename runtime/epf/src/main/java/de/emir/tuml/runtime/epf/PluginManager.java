@@ -446,6 +446,7 @@ public class PluginManager {
 
             closedList.add(coord);
 
+
             if (entry.getOption("classifier") != null) {
 
                 coord = entry.getName() + ":jar:" + entry.getOption("classifier") + ":" + entry.getVersion();
@@ -637,6 +638,14 @@ public class PluginManager {
         return mMavenUtil;
     }
 
+    /**
+     * Creates a maven coordinate (groupId:artifactId:version) from the id and version found in the pom.xml
+     * of a plugin. If the version is in the range notation (i.e. [1.0,)), the latest available version found
+     * in the local maven repository based on the range is used.
+     * @param depId ID of the maven artifact (groupId:artifactId).
+     * @param depV Version of the maven artifact.
+     * @return Maven coordinate for the given parameters with the latest matching version.
+     */
     public CoordinateElement createCoordinate(String depId, String depV) {
         for (ClassPathDescriptor<?> desc : getDescriptors()) {
             if (desc.getName().equals(depId)) {
@@ -648,6 +657,15 @@ public class PluginManager {
                 }
             }
         }
+        if(depV != null) {
+            if(depV.contains("[") || depV.contains("]") || depV.contains("(") || depV.contains(")")) {
+                String versionRange = depV;
+                depV = mMavenUtil.getLatestVersion(String.format("%s:%s", depId, depV));
+                ULog.info(String.format("Coordinate %s:%s is in a version range format. Found %s as the latest " +
+                        "matching version", depId, versionRange, depV));
+            }
+        }
+
         return new CoordinateElement<>(depId, null, depV);
     }
 

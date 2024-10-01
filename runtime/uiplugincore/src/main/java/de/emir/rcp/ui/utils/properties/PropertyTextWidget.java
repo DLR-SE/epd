@@ -142,4 +142,8 @@ public class PropertyTextWidget extends JPanel implements IPropertyWidget {
     	return textField.getText();
     }
 
+    @Override
+    public IProperty getProperty() {
+        return property;
+    }
 }

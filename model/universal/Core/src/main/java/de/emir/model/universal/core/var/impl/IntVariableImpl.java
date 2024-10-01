@@ -95,7 +95,10 @@ public class IntVariableImpl extends VariableImpl implements IntVariable
 
 	@Override
 	public void setObjectValue(Object value) {
-		setValue((Integer)value);
+        if (value == null) return;
+        if (value instanceof Number) {
+            setValue(((Number) value).intValue());
+        }
 	}
 
 	@Override

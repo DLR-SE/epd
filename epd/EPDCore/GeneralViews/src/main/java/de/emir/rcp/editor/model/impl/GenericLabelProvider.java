@@ -14,12 +14,15 @@ import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.tuml.ucore.runtime.UPrimitiveType;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
 import de.emir.tuml.ucore.runtime.UType;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.pointer.PointerOperations;
+import static de.emir.tuml.ucore.runtime.pointer.PointerOperations.convertToPointerFromRoot;
 import de.emir.tuml.ucore.runtime.utils.Pointer;
 import de.emir.tuml.ucore.runtime.utils.QualifiedName;
 import de.emir.tuml.ucore.runtime.utils.QualifiedNameProvider;
 import de.emir.tuml.ucore.runtime.utils.impl.FeaturePointerImpl;
 import de.emir.tuml.ucore.runtime.utils.impl.QualifiedNameProviderImpl;
+import javax.swing.UIManager;
 
 /**
  * Abstract label provider, that provides default implementation for all methods in ILabelProvider
@@ -45,7 +48,9 @@ public class GenericLabelProvider implements ILabelProvider {
 	protected boolean 					mAddTypeToName = true;
 	protected boolean					mAddFeatureToName = true;
 	
-	 
+	public static final String HTML_COLOR_INACTIVE = "#" + Integer.toHexString(UIManager.getColor("textInactiveText").getRGB()).substring(2);
+    public static final String HTML_COLOR_TEXT = "#" + Integer.toHexString(UIManager.getColor("Tree.textForeground").getRGB()).substring(2);
+    public static final String HTML_COLOR_HIGHLIGHT = "#" + Integer.toHexString(UIManager.getColor("controlText").getRGB()).substring(2);
 	
 	
 	public QualifiedNameProvider getNameProvider() {
@@ -140,12 +145,19 @@ public class GenericLabelProvider implements ILabelProvider {
 		
 	private String buildString(String value, UType cl, UStructuralFeature feature) {
 		String name = value;
+        StringBuilder result = new StringBuilder("<nobr>");
+        if (mAddFeatureToName && feature != null)
+			result.append("<font color=\"").append(HTML_COLOR_TEXT).append("\">").append(feature.getName()).append("</font> ");
 		if (mAddTypeToName || value == null || value.isEmpty())
-			name = "<i>[" + cl.getName() + "] </i><b>" + name + "</b>";
-		if (mAddFeatureToName && feature != null)
-			name = feature.getName() + " <b>" + name + "</b>";
-		
-		return name;
+			result.append("<font color=\"").append(HTML_COLOR_INACTIVE).append("\">").append("<i>[" + cl.getName() + "]</i>").append("</font> ");
+        if (name != null && !name.isEmpty()) {
+            result.append("<font color=\"").append(HTML_COLOR_HIGHLIGHT).append("\">").append("<b>" + name + "</b>").append("</font>");
+        }
+        if (feature == null && (value == null || value.isEmpty())) {
+            ULog.trace("Name and feature are null"); // this is fine.
+        }
+		result.append("</nobr>");
+		return result.toString();
 	}
 	
 	String changeableLabelProperty(UObject uobj, UClassifier cl, UStructuralFeature feature){
@@ -183,9 +195,15 @@ public class GenericLabelProvider implements ILabelProvider {
 		
 		UStructuralFeature feature = pointer.getPointedFeature();		
 		if (type instanceof UPrimitiveType || type instanceof UEnum) {
-			if (feature != null)
-				return "<html>" + feature.getName() + " <i>[" + type.getName() + "]</i></html>";
-			return PointerOperations.toPointerString(pointer);
+			if (feature != null) {
+//				return "<html>" + feature.getName() + " <i>[" + type.getName() + "]</i></html>";
+                StringBuilder result = new StringBuilder("<html><nobr>");
+                result.append("<font color=\"").append(HTML_COLOR_TEXT).append("\">").append(feature.getName()).append("</font> ");
+                result.append("<font color=\"").append(HTML_COLOR_INACTIVE).append("\">").append("<i>[" + type.getName() + "]</i>").append("</font>");
+                result.append("</nobr></html>");
+                return result.toString();
+            }
+			return "<font color=\"" + HTML_COLOR_TEXT + "\">" + PointerOperations.toPointerString(pointer) + "</font>";
 		}
 
 		UClassifier cl = (UClassifier)type;
@@ -197,7 +215,12 @@ public class GenericLabelProvider implements ILabelProvider {
 		}
 		String fn = feature != null ? feature.getName() : "";
 		String cn = cl != null ? cl.getName() : "";
-		return "<html>" + fn + " <i>[" + cn + "]</i></html>";
+//		return "<html>" + fn + " <i>[" + cn + "]</i></html>";
+        StringBuilder result = new StringBuilder("<html><nobr>");
+        result.append("<font color=\"").append(HTML_COLOR_TEXT).append("\">").append(fn).append("</font> ");
+        result.append("<font color=\"").append(HTML_COLOR_INACTIVE).append("\">").append("<i>[" + cn + "]</i>").append("</font>");
+        result.append("</nobr></html>");
+        return result.toString();
 	}
 	
 	@Override
@@ -209,7 +232,7 @@ public class GenericLabelProvider implements ILabelProvider {
 		UObject uobj = (UObject)obj;
 		UClass cl = uobj.getUClassifier();
 		UStructuralFeature feature = uobj.getUContainingFeature();
-		String result = cl.getName();
+		String clName = cl.getName();
 		String changeable = changeableLabelProperty(uobj, cl, feature); 
 		if (changeable != null)
 			return changeable;
@@ -221,17 +244,23 @@ public class GenericLabelProvider implements ILabelProvider {
 			else
 				name = qn.lastSegment();
 		}
-		if (name != null){
-			name = "<b>" + name + "</b>";
-			if (mAddTypeToName)
-				result = "[" + result + "] " + name;
-			else
-				result = name;
-		}
-		if (result != null && mAddFeatureToName && feature != null)
-		result = feature.getName() + " " + result + "";
-		result = "<html>" + result + "</html>";
-		return result;
+		StringBuilder result = new StringBuilder("<nobr>");
+        if (mAddFeatureToName && feature != null)
+			result.append("<font color=\"").append(HTML_COLOR_TEXT).append("\">").append(feature.getName()).append("</font> ");
+		if (mAddTypeToName || clName == null || clName.isEmpty())
+			result.append("<font color=\"").append(HTML_COLOR_INACTIVE).append("\">").append("<i>[" + cl.getName() + "]</i>").append("</font> ");
+        if (name != null && !name.isEmpty()) {
+            result.append("<font color=\"").append(HTML_COLOR_HIGHLIGHT).append("\">").append("<b>" + name + "</b>").append("</font>");
+        }
+        if (feature == null && (name == null || name.isEmpty())) {
+            // TODO: find out what to do when there is seemingly no container to reference to
+            result.append("<font color=\"").append(HTML_COLOR_TEXT).append("\"><small>").append(PointerOperations.toPointerString(PointerOperations.createPointerToObject(uobj))).append("</small></font>");
+//            ULog.warn("Name and feature are null " + cl.getName() + " " + PointerOperations.toPointerString(convertToPointerFromRoot(PointerOperations.c(uobj))));
+//            UObject ucon = uobj.getUContainer();
+//            ULog.warn(ucon != null ? "ucon " + ucon.toString(): "ucon is null");
+        }
+        result.append("</nobr>");
+		return result.toString();
 	}
 
 	@Override

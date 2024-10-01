@@ -24,7 +24,12 @@ public class ExitCommand extends AbstractCommand {
     public static final String EXIT_COMMAND_ShowDialog_Context = "System";
     public static final String EXIT_COMMAND_ShowDialog_Property = "ShowExitDialog";
 
-    private void doExecute(){
+    /**
+     * Initiates the close sequence to close the EPD. If the user does not confirm the shutdown, the application
+     * will not be closed.
+     * @param exitCode Exit code with which to exit the application.
+     */
+    private void doExecute(int exitCode){
         MainWindow mw = PlatformUtil.getWindowManager().getMainWindow();
 
         EditorManager em = PlatformUtil.getEditorManager();
@@ -99,21 +104,22 @@ public class ExitCommand extends AbstractCommand {
         PropertyStore.save();
 
         mw.notifyClosed();
+        System.exit(exitCode);
     }
 
+    /**
+     * Executes the shutdown sequence. If the user does not confirm the shutdown, the shutdown will be aborted.
+     */
     @Override
     public void execute() {
         int exitCode = 0;
-
         try {
-            doExecute();
+            doExecute(exitCode);
         } catch (Exception e){
             ULog.error(e);
             exitCode = 1;
+            System.exit(exitCode);
         }
-
-        System.exit(exitCode);
-
     }
 
 }

@@ -95,7 +95,12 @@ public class AisTarget {
 		}
 
 		tp.setTime(new TimeImpl((double) System.currentTimeMillis(), TimeUnit.MILLISECOND));
-		tps.add(tp);
+		try {
+			tps.add(tp);
+		} catch (IndexOutOfBoundsException e) {
+			ULog.error("Adding trackpoint to list failed.");
+		}
+
 
 		return updatedVessel;
 	}
@@ -123,6 +128,11 @@ public class AisTarget {
 		return obj.getPose().getCoordinate();
 	}
 
+	/**
+	 * Gets the last recorded timestamp for an AIS target
+	 * @param obj PhysicalObject to get timestamp for
+	 * @return Timestamp as milliseconds if a previous trackpoint exists, else null
+	 */
 	public static Long getTimestamp(PhysicalObject obj) {
 		if (!(obj instanceof Vessel)) return null;
 		Vessel v = (Vessel) obj;
@@ -132,13 +142,15 @@ public class AisTarget {
 			return null;
 		}
 
+		// Create new track for the AISTarget if none exists
 		Track tr = tc.getTrack();
 		if (tr == null) {
 			tr = new TrackImpl();
 			tc.setTrack(tr);
 		}
 
-		if (tr.getElements() != null && tr.getElements().size() > 0) {
+		// Check if a previous trackpoint exists. If not return null, else return the last timestamp as milliseconds
+		if (tr.getElements() != null && tr.getElements().size() > 0 && tr.last() != null) {
 //			return (long) tr.getElements().get(tr.getElements().size() - 1).getTime().getAs(TimeUnit.MILLISECOND);
 			return (long) tr.last().getAs(TimeUnit.MILLISECOND);
 		}

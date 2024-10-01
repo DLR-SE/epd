@@ -225,7 +225,16 @@ public class GeometryPanel extends AbstractGeometryPanel {
 
         int geometrySize = getGeometry().numCoordinates();
         Point2D lastPoint = null;
-
+        
+        if (geometrySize < 1) return;
+        if (geometrySize == 1) {
+            Point2D p = coordinateToPoint(0);
+            if (p != null) {
+                graphics2D.drawOval((int) p.getX(), (int) p.getY(), 2, 2);
+            }
+            return;
+        }
+        
         for (int i = 0; i < geometrySize; i++) {
             if (i == geometrySize - 1) {
                 Point2D first = coordinateToPoint(0);
@@ -257,14 +266,15 @@ public class GeometryPanel extends AbstractGeometryPanel {
     }
 
     protected void drawMouseCoordinates(Graphics2D graphics2D) {
-        if (getMousePosition() == null) {
+        Point mousePosition = getMousePosition();
+        if (mousePosition == null) {
             return;
         }
 
         Point2D point = null;
 
         try {
-            point = getZoomAndPanListener().transformPoint(getMousePosition());
+            point = getZoomAndPanListener().transformPoint(mousePosition);
         } catch (NoninvertibleTransformException e) {
             e.printStackTrace();
             return;
@@ -279,7 +289,7 @@ public class GeometryPanel extends AbstractGeometryPanel {
         Font rotatedFont = font.deriveFont(affineTransform);
         graphics2D.setFont(rotatedFont);
 
-        Coordinate coordinate = mouseToCoordinate(getMousePosition());
+        Coordinate coordinate = mouseToCoordinate(mousePosition);
 
         if (coordinate == null) return;
 

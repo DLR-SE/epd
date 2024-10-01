@@ -1,5 +1,11 @@
 package de.emir.rcp.manager;
 
+import de.emir.model.universal.plugincore.var.AbstractKeyBinding;
+import de.emir.model.universal.plugincore.var.EditorKeyBinding;
+import de.emir.model.universal.plugincore.var.GlobalKeyBinding;
+import de.emir.model.universal.plugincore.var.IUserDefinedDelta;
+import de.emir.model.universal.plugincore.var.ViewKeyBinding;
+import de.emir.model.universal.plugincore.var.impl.KeyBindingsImpl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -19,13 +25,8 @@ import org.slf4j.Logger;
 import de.emir.rcp.commands.ep.CommandDescriptor;
 import de.emir.rcp.editors.AbstractEditor;
 import de.emir.rcp.ids.Basic;
-import de.emir.rcp.keybindings.delta.IUserDefinedDelta;
-import de.emir.rcp.keybindings.ep.AbstractKeyBinding;
 import de.emir.rcp.keybindings.ep.CommandActionAdapter;
-import de.emir.rcp.keybindings.ep.EditorKeyBinding;
-import de.emir.rcp.keybindings.ep.GlobalKeyBinding;
 import de.emir.rcp.keybindings.ep.KeyBindingExtensionPoint;
-import de.emir.rcp.keybindings.ep.ViewKeyBinding;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
@@ -33,6 +34,7 @@ import de.emir.rcp.views.AbstractView;
 import de.emir.tuml.ucore.runtime.extension.IService;
 import de.emir.tuml.ucore.runtime.extension.ServiceManager;
 import de.emir.tuml.ucore.runtime.logging.ULog;
+import de.emir.tuml.ucore.runtime.prop.IProperty;
 
 /**
  * Manages the key bindings
@@ -48,11 +50,10 @@ public class KeyBindingManager implements IService {
 
     private PropertyContext ctx = PropertyStore.getContext(Basic.KEY_BINDING_PROP_CTX);
 
-    private List<IUserDefinedDelta> deltas;
+    private IProperty<KeyBindingsImpl> deltas;
 
     public void fillBindings() {
-
-        deltas = ctx.getValue(Basic.KEY_BINDING_PROP, new ArrayList<>());
+        deltas = ctx.getProperty(Basic.KEY_BINDING_PROP, new KeyBindingsImpl());
         applyDeltas(deltas);
 
     }
@@ -78,8 +79,8 @@ public class KeyBindingManager implements IService {
         }
 
     }
-
-    public List<IUserDefinedDelta> getDeltas() {
+    
+    public IProperty<KeyBindingsImpl> getDeltas() {
         return deltas;
     }
 
@@ -238,13 +239,18 @@ public class KeyBindingManager implements IService {
     }
 
     public void addDeltas(List<IUserDefinedDelta> deltasToAdd) {
-        deltas.addAll(deltasToAdd);
-        applyDeltas(deltasToAdd);
+        for (IUserDefinedDelta d : deltasToAdd) {
+            if (deltas == null || deltas.getValue() == null) {
+                deltas = ctx.getProperty(Basic.KEY_BINDING_PROP, new KeyBindingsImpl());
+            }
+            deltas.getValue().getDeltas().add(d);
+        }
+        applyDeltas(deltas);
     }
 
-    private void applyDeltas(List<IUserDefinedDelta> deltasToApply) {
-
-        for (IUserDefinedDelta d : deltasToApply) {
+    private void applyDeltas(IProperty<KeyBindingsImpl> deltasToApply) {
+        for (Object o : deltasToApply.getValue().getDeltas()) {
+            IUserDefinedDelta d = (IUserDefinedDelta) o; 
             d.apply(kbEP.getBindings());
         }
 

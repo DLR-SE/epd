@@ -70,6 +70,7 @@ public class AddPluginDialog extends JDialog {
 		setTitle("Import Plugins");
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setMinimumSize(new Dimension(600, 400));
+        setLocationRelativeTo(PlatformUtil.getWindowManager().getMainWindow());
 
 		JPanel choosePanel = new JPanel();
 		choosePanel.setBorder(

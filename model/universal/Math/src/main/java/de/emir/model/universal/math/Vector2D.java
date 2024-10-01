@@ -1,6 +1,5 @@
 package de.emir.model.universal.math;
 
-import de.emir.model.universal.math.Vector;
 import de.emir.tuml.ucore.runtime.annotations.UMLClass;
 import de.emir.tuml.ucore.runtime.annotations.UMLProperty;
 import de.emir.tuml.ucore.runtime.annotations.UMLProperty.AssociationType;
@@ -31,7 +30,6 @@ public interface Vector2D extends Vector
 	 */
 	@UMLProperty(name = "y", associationType = AssociationType.PROPERTY)
 	public double getY();
-
 	
 	//////////////////////////////////////////////////////////////////
 	//						Owned Operations						//
@@ -62,6 +60,7 @@ public interface Vector2D extends Vector
 	Vector2D mult(final Vector2D other);
 	
 	/**
+	 * Value wise multiplication of vectors: x_new = x_a * x_b
 	 *	@generated 
 	 */
 	void multLocal(final Vector2D other);
@@ -132,11 +131,15 @@ public interface Vector2D extends Vector
 	 */
 	double cross(final Vector2D other);
 	/**
+	 * Copy this vector and normalize the new vector resulting in a vector of length 1.
+	 * If this vector has a length of 0 the direction after the normalization is arbitrary (x=0, y=1).
 	 *	@generated 
 	 */
 	Vector2D normalize();
 	/**
-	 *	@generated 
+	 * Normalize this vector resulting in a vector of length 1.
+	 * If this vector has a length of 0 the direction after the normalization is arbitrary (x=0, y=1).
+	 *	@generated
 	 */
 	void normalizeLocal();
 	

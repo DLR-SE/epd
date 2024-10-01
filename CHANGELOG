@@ -1,0 +1,29 @@
+# Changelog
+
+## [4.1.0] - 2024-09-30
+
+### Added
+
+- Handling of AIS Class B messages for ownhip information updates.
+- Added handling of depth information with WGS843D CRS.
+- Locking on ownship in the MapView if no target is selected.
+- Added internal calculations for bounding boxes of route segments.
+
+### Fixed
+
+- Switching between AIS targets has been fixed.
+- Configuration of ownship details no longer freezes the UI.
+- User configured keyboard shortcuts are now stored and loaded correctly.
+- Icons for "Save" and "New" are only displayed when they are required by a plugin.
+- Fixed vector calculations in math model.
+
+### Changed
+
+- Bumped up the required Java version to 21 in order to satisfy the requirements from dependency libraries.
+- Replaced the XStream based storage of user configuration. This breaks compatibility with configurations from 4.0.0.
+- Replaced implementation of treetables in UI components with org.swinglabs.swingx.
+- Changed AIS target representation to match INO SN.1/Circ.243/Rev.2.
+
+### Removed
+
+- Removed vessel panel from ownship settings.

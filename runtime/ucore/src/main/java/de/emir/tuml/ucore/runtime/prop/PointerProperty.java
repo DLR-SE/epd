@@ -6,12 +6,15 @@ import java.util.HashMap;
 import de.emir.tuml.ucore.runtime.IDisposable;
 import de.emir.tuml.ucore.runtime.IValueChangeListener;
 import de.emir.tuml.ucore.runtime.Notification;
+import de.emir.tuml.ucore.runtime.UModelElement;
+import de.emir.tuml.ucore.runtime.UNamedElement;
 import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
 import de.emir.tuml.ucore.runtime.UType;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.pointer.PointerOperations;
 import de.emir.tuml.ucore.runtime.utils.Pointer;
+import de.emir.tuml.ucore.runtime.utils.impl.ObjectPointerImpl;
 
 public class PointerProperty extends AbstractProperty<Object> implements IDisposable {
 
@@ -35,12 +38,24 @@ public class PointerProperty extends AbstractProperty<Object> implements IDispos
 
 	@Override
 	public String getName() {
+        if (mPointer instanceof ObjectPointerImpl) {
+            if (mPointer.getUObject() instanceof UNamedElement) {
+                return ((UNamedElement) mPointer.getUObject()).getName();
+            }
+            else return mPointer.getUObject().getUClassifier().getName();
+        }
 		return mPointer.getPointedFeature().getName();
 	}
 
 
 	@Override
 	public String getDescription() {
+        if (mPointer instanceof ObjectPointerImpl) {
+            if (mPointer.getUObject() instanceof UModelElement) {
+                return ((UModelElement) mPointer.getUObject()).getDocumentation();
+            }
+            else return mPointer.getUObject().getUClassifier().getDocumentation();
+        }
 		return mPointer.getPointedFeature().getDocumentation();
 	}
 	
@@ -65,11 +80,21 @@ public class PointerProperty extends AbstractProperty<Object> implements IDispos
 
 	@Override
 	public boolean isEditable() {
+        if (mPointer instanceof ObjectPointerImpl) {
+            if (mPointer.getUObject() instanceof UModelElement) {
+                return ((UModelElement) mPointer.getUObject()).isFrozen();
+            }
+        }
 		return mPointer.getPointedFeature().isReadOnly() == false;
 	}
 
 	@Override
 	public String getCategory() {
+        if (mPointer instanceof ObjectPointerImpl) {
+            if (mPointer.getUObject() instanceof UModelElement) {
+                return ((UModelElement) mPointer.getUObject()).getPackage().getName();
+            }
+        }
 		return mPointer.getPointedFeature().getOwner().getName();
 	}
 

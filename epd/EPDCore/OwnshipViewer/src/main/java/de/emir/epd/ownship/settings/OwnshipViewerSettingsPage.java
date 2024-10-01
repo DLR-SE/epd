@@ -14,17 +14,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import de.emir.epd.model.EPDModel;
 import de.emir.epd.model.EPDModelUtils;
-import de.emir.epd.nmeasensor.NMEAVesselManager;
 import de.emir.epd.ownship.ids.OwnshipBasics;
 import de.emir.model.domain.maritime.vessel.Vessel;
-import de.emir.rcp.manager.util.PlatformUtil;
+import de.emir.model.universal.physics.ObjectSurfaceInformation;
+import de.emir.model.universal.physics.impl.ObjectSurfaceInformationImpl;
+import de.emir.model.universal.spatial.Geometry;
+import de.emir.rcp.model.transactions.CompoundTransaction;
+import de.emir.rcp.parts.vesseleditor.utils.PredefinedGeometryItem;
 import de.emir.rcp.parts.vesseleditor.view.parts.VesselEditorPart;
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
 import de.emir.rcp.settings.AbstractSettingsPage;
 import de.emir.rcp.ui.utils.properties.PropertyTextWidget;
+import de.emir.service.geometry.impl.WKTUtil;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -37,11 +41,12 @@ public class OwnshipViewerSettingsPage extends AbstractSettingsPage {
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JRadioButton rdbtnAisTargetBy;
 	private JRadioButton rdbtnOwnshipNmeaSentences;
-	private EPDModel model;
+	private JRadioButton rdbtnNoProcessing;
 	private Vessel ownship;
 	private JPanel vePanel = new JPanel();
+	private String oldMMSI = "211724970";
 
-	public enum OwnshipSource {AISTARGET, INTERNAL}
+	public enum OwnshipSource {NO_PROCESSING, AISTARGET, INTERNAL}
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -54,10 +59,10 @@ public class OwnshipViewerSettingsPage extends AbstractSettingsPage {
 		JPanel p = new JPanel();
 	
 		GridBagLayout gbl_p = new GridBagLayout();
-		gbl_p.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_p.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
 
 		gbl_p.columnWeights = new double[] { 1.0 };
-		gbl_p.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0 };
+		gbl_p.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
 		p.setLayout(gbl_p);
 
 		JLabel lblOwnshipSource = new JLabel("Ownship Source");
@@ -102,11 +107,19 @@ public class OwnshipViewerSettingsPage extends AbstractSettingsPage {
 		gbc_lblSourceSettings.gridx = 0;
 		gbc_lblSourceSettings.gridy = 0;
 		sourcePanel.add(lblSourceSettings, gbc_lblSourceSettings);
+
+		JLabel lblTargetMMSI = new JLabel("Ownship MMSI");
+		GridBagConstraints gbc_lblTargetMMSI = new GridBagConstraints();
+		gbc_lblTargetMMSI.anchor = GridBagConstraints.WEST;
+		gbc_lblTargetMMSI.insets = new Insets(0, 0, 5, 0);
+		gbc_lblTargetMMSI.gridx = 0;
+		gbc_lblTargetMMSI.gridy = 1;
+		sourcePanel.add(lblTargetMMSI, gbc_lblTargetMMSI);
 		
-		rdbtnAisTargetBy = new JRadioButton("AIS Target by MMSI");
+		rdbtnAisTargetBy = new JRadioButton("Use AIS messages as ownship reference");
 		rdbtnAisTargetBy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ownship = initOwnShip();
+				ownship = EPDModelUtils.retrieveOwnship();
 			}
 		});
 		buttonGroup.add(rdbtnAisTargetBy);
@@ -114,31 +127,31 @@ public class OwnshipViewerSettingsPage extends AbstractSettingsPage {
 		gbc_rdbtnAisTargetBy.anchor = GridBagConstraints.WEST;
 		gbc_rdbtnAisTargetBy.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnAisTargetBy.gridx = 0;
-		gbc_rdbtnAisTargetBy.gridy = 1;
+		gbc_rdbtnAisTargetBy.gridy = 2;
 		sourcePanel.add(rdbtnAisTargetBy, gbc_rdbtnAisTargetBy);
 
 		aisTargetMMSI = new PropertyTextWidget(OwnshipBasics.OWNSHIP_VIEWER_PROP_CONTEXT, OwnshipBasics.OWNSHIP_VIEWER_PROP_AIS_TARGET, "211724970");
 
-		rdbtnAisTargetBy.addItemListener(e -> aisTargetMMSI.setEnabled(rdbtnAisTargetBy.isSelected()));
+		oldMMSI = aisTargetMMSI.getValue();
 
 		GridBagConstraints gbc_aisTargetMMSI = new GridBagConstraints();
-		gbc_aisTargetMMSI.fill = GridBagConstraints.HORIZONTAL;
-		gbc_aisTargetMMSI.insets = new Insets(0, 0, 5, 0);
+		gbc_aisTargetMMSI.anchor = GridBagConstraints.WEST;
+		gbc_aisTargetMMSI.insets = new Insets(0, 0, 5, 5);
 		gbc_aisTargetMMSI.gridx = 1;
 		gbc_aisTargetMMSI.gridy = 1;
 		sourcePanel.add(aisTargetMMSI, gbc_aisTargetMMSI);
 		
-		rdbtnOwnshipNmeaSentences = new JRadioButton("Ownship NMEA Sentences");
+		rdbtnOwnshipNmeaSentences = new JRadioButton("Use NMEA sentences as ownship reference");
 		rdbtnOwnshipNmeaSentences.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ownship = initOwnShip();
+				ownship = EPDModelUtils.retrieveOwnship();
 				if(ownship != null){
 		            vePanel = new VesselEditorPart(ownship);
 		            vePanel.setSize(new Dimension(100,100));
 		            vePanel.setPreferredSize(new Dimension(100, 100));
 		        } else {
 		            vePanel.setLayout(new BorderLayout(0, 0));
-		            JLabel infoLabel = new JLabel("Ups there's no Ownship");
+		            JLabel infoLabel = new JLabel("No Ownship found");
 		            infoLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		            vePanel.add(infoLabel, BorderLayout.CENTER);
 		        }
@@ -146,22 +159,56 @@ public class OwnshipViewerSettingsPage extends AbstractSettingsPage {
 		});
 		buttonGroup.add(rdbtnOwnshipNmeaSentences);
 		GridBagConstraints gbc_rdbtnOwnshipNmeaSentences = new GridBagConstraints();
-		gbc_rdbtnOwnshipNmeaSentences.insets = new Insets(0, 0, 0, 5);
+		gbc_rdbtnOwnshipNmeaSentences.anchor = GridBagConstraints.WEST;
+		gbc_rdbtnOwnshipNmeaSentences.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnOwnshipNmeaSentences.gridx = 0;
-		gbc_rdbtnOwnshipNmeaSentences.gridy = 2;
+		gbc_rdbtnOwnshipNmeaSentences.gridy = 3;
 		sourcePanel.add(rdbtnOwnshipNmeaSentences, gbc_rdbtnOwnshipNmeaSentences);
+
+		rdbtnNoProcessing = new JRadioButton("Do not filter ownship sources");
+		rdbtnNoProcessing.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ownship = EPDModelUtils.retrieveOwnship();
+				if(ownship != null){
+		            vePanel = new VesselEditorPart(ownship);
+		            vePanel.setSize(new Dimension(100,100));
+		            vePanel.setPreferredSize(new Dimension(100, 100));
+		        } else {
+		            vePanel.setLayout(new BorderLayout(0, 0));
+		            JLabel infoLabel = new JLabel("No Ownship found");
+		            infoLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		            vePanel.add(infoLabel, BorderLayout.CENTER);
+		        }
+			}
+		});
+		buttonGroup.add(rdbtnNoProcessing);
+		GridBagConstraints gbc_rdbtnNoProcessing = new GridBagConstraints();
+		gbc_rdbtnNoProcessing.anchor = GridBagConstraints.WEST;
+		gbc_rdbtnNoProcessing.insets = new Insets(0, 0, 0, 5);
+		gbc_rdbtnNoProcessing.gridx = 0;
+		gbc_rdbtnNoProcessing.gridy = 4;
+		sourcePanel.add(rdbtnNoProcessing, gbc_rdbtnNoProcessing);
 		
 		CollapsiblePanel vesselEditorPanel = new CollapsiblePanel("VesselEditor");
 		
-		ownship = initOwnShip();
+		ownship = EPDModelUtils.retrieveOwnship();
 		
 		if(ownship != null){
+            ObjectSurfaceInformation osi = ownship.getFirstCharacteristic(ObjectSurfaceInformation.class, true);
+            if (osi == null) {
+                PredefinedGeometryItem geometryItem = (PredefinedGeometryItem) PredefinedGeometryItem.getPredefinedGeometryItems().get("Simple");
+                WKTUtil wktUtil = new WKTUtil();
+                Geometry topGeometry = wktUtil.loadWKT(geometryItem.wktTop);
+                //topGeometry.recursiveSetCRS(editor.getPhysicalObject().getOwnedCoordinateSystem());
+                osi = new ObjectSurfaceInformationImpl(topGeometry);
+                ownship.getCharacteristics().add(osi);
+            }
             vePanel = new VesselEditorPart(ownship);
             vePanel.setSize(new Dimension(100,100));
             vePanel.setPreferredSize(new Dimension(100, 100));
         } else {
             vePanel.setLayout(new BorderLayout(0, 0));
-            JLabel infoLabel = new JLabel("Ups there's no Ownship");
+            JLabel infoLabel = new JLabel("No Ownship found");
             infoLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
             vePanel.add(infoLabel, BorderLayout.CENTER);
         }
@@ -172,7 +219,7 @@ public class OwnshipViewerSettingsPage extends AbstractSettingsPage {
 		GridBagConstraints gbc_vesselEditorPanel = new GridBagConstraints();
 		gbc_vesselEditorPanel.fill = GridBagConstraints.BOTH;
 		gbc_vesselEditorPanel.gridx = 0;
-		gbc_vesselEditorPanel.gridy = 3;
+		gbc_vesselEditorPanel.gridy = 5;
 		p.add(vesselEditorPanel, gbc_vesselEditorPanel);
 		
 		handleSettings();
@@ -180,38 +227,38 @@ public class OwnshipViewerSettingsPage extends AbstractSettingsPage {
 		
 		return p;
 	}
-	
-	private Vessel initOwnShip() {
-		Object o = PlatformUtil.getModelManager().getModelProvider().getModel();
-		if (o instanceof Vessel) {
-			return (Vessel) o;
-		} else {
-			if (o instanceof EPDModel == false) {
-				return null;
-			}
-			model = (EPDModel) o;
 
-			return EPDModelUtils.getOwnship(model.getEnvironment());
-		}
-	}
 	
 	private void handleSettings() {
 		rdbtnAisTargetBy.setSelected(ownshipSourceProp.getValue().equals(OwnshipSource.AISTARGET.name()));
 		rdbtnOwnshipNmeaSentences.setSelected(ownshipSourceProp.getValue().equals(OwnshipSource.INTERNAL.name()));
-		
-		aisTargetMMSI.setEnabled(rdbtnAisTargetBy.isSelected());
+		rdbtnNoProcessing.setSelected(ownshipSourceProp.getValue().equals(OwnshipSource.NO_PROCESSING.name()));
 	}
 
 	@Override
 	public boolean isDirty() {
-		return !(buttonGroup.getSelection().equals(initialSource)) || aisTargetMMSI.isDirty();
+		return !(buttonGroup.getSelection() == null || buttonGroup.getSelection().equals(initialSource)) || aisTargetMMSI.isDirty();
 	}
 
 	@Override
 	public void finish() {
-		ownshipSourceProp.setValue(rdbtnAisTargetBy.isSelected() ? OwnshipSource.AISTARGET.name() : OwnshipSource.INTERNAL.name());
-		EPDModelUtils.setOwnship(model.getEnvironment(), EPDModelUtils.retrieveById(model.getEnvironment(), aisTargetMMSI.getValue()));
-		aisTargetMMSI.finish();
+		// Map switches to setting the ownship source property
+		if(rdbtnAisTargetBy.isSelected()) {
+			ownshipSourceProp.setValue(OwnshipSource.AISTARGET.name());
+		} else if (rdbtnOwnshipNmeaSentences.isSelected()) {
+			ownshipSourceProp.setValue(OwnshipSource.INTERNAL.name());
+		} else {
+			ownshipSourceProp.setValue(OwnshipSource.NO_PROCESSING.name());
+		}
+		// If MMSI is castable (is valid MMSI), set the ownship mmsi to the new value, else revert to the old one.
+		try {
+			Long.valueOf(aisTargetMMSI.getValue());
+			EPDModelUtils.retrieveOwnship(aisTargetMMSI.getValue());
+			aisTargetMMSI.finish();
+		} catch (ClassCastException e) {
+			ULog.error("No valid MMSI specified. Reverting to old one.");
+			EPDModelUtils.setOwnship(EPDModelUtils.retrieveById(oldMMSI));
+		}
 	}
 
 }

@@ -64,7 +64,6 @@ public class GeneralViewsPlugin extends AbstractUIPlugin {
 
 	@Override
 	public void addExtensions() {
-
 		ResourceManager rmgr = ResourceManager.get(getClass()); //used to load icons
 		
 		ViewExtensionPoint viewEP = ExtensionPointManager.getExtensionPoint(ViewExtensionPoint.class);
@@ -175,12 +174,6 @@ public class GeneralViewsPlugin extends AbstractUIPlugin {
 				.inCategory(ucoreCat);
 
 		// Menu: Files & Editors
-		menuEP.menuContribution(Basic.MENU_MAIN_TOOLBAR).menuItem("saveMenuItem", Basic.CMD_SAVE)
-				.icon("icons/emiricons/32/sdcard_save_as.png");
-
-		menuEP.menuContribution(Basic.MENU_MAIN_TOOLBAR).menuItem("newModelMenuItem", cmdOpenNewFileWizard)
-				.icon("icons/emiricons/32/note_add.png", rmgr);
-
 		menuEP.menuContribution(ConsoleView.TOOLBAR_ID).menuItem("lockunlocktailing", cmd)
 				.icon("icons/emiricons/32/lock.png", rmgr);
 		menuEP.menuContribution(ConsoleView.TOOLBAR_ID).menuItem("clearconsole", cmdClear)
@@ -258,7 +251,7 @@ public class GeneralViewsPlugin extends AbstractUIPlugin {
 		kbEP.inEditor(textEditor, "CTRL+Z", Basic.CMD_UNDO);
 		kbEP.inEditor(textEditor, "CTRL+Y", Basic.CMD_REDO);
 
-		kbEP.global("CTRL+N", GVBasic.CMD_NEW_FILE_WIZ_OPEN);
+//		kbEP.global("CTRL+N", GVBasic.CMD_NEW_FILE_WIZ_OPEN);
 
 		// Settings Pages
 		SettingsPageExtensionPoint settingsEP = ExtensionPointManager

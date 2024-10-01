@@ -274,7 +274,14 @@ public class MapView extends AbstractView {
 
 			geoPositions.add(new GeoPosition(vertex.getLatitude(), vertex.getLongitude()));
 		}
-		mapViewer.getJXMapViewer().zoomToBestFit(geoPositions, 0.95);
+        if (geoPositions.size() > 1) {
+            mapViewer.getJXMapViewer().zoomToBestFit(geoPositions, 0.95);
+        } else {
+            if (geoPositions.iterator().hasNext()) {
+                mapViewer.getJXMapViewer().setCenterPosition(geoPositions.iterator().next());
+                mapViewer.getJXMapViewer().setZoom(10);
+            }
+        }
 	}
 
 	public void centerOnCoordinate(Coordinate coordinate) {

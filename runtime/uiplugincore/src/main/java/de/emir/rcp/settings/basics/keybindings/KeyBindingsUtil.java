@@ -1,5 +1,12 @@
 package de.emir.rcp.settings.basics.keybindings;
 
+import de.emir.model.universal.plugincore.var.AbstractKeyBinding;
+import de.emir.model.universal.plugincore.var.EditorKeyBinding;
+import de.emir.model.universal.plugincore.var.GlobalKeyBinding;
+import de.emir.model.universal.plugincore.var.ViewKeyBinding;
+import de.emir.model.universal.plugincore.var.impl.EditorKeyBindingImpl;
+import de.emir.model.universal.plugincore.var.impl.GlobalKeyBindingImpl;
+import de.emir.model.universal.plugincore.var.impl.ViewKeyBindingImpl;
 import java.awt.Window;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,10 +19,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import de.emir.rcp.commands.ep.CommandDescriptor;
 import de.emir.rcp.editors.ep.Editor;
-import de.emir.rcp.keybindings.ep.AbstractKeyBinding;
-import de.emir.rcp.keybindings.ep.EditorKeyBinding;
-import de.emir.rcp.keybindings.ep.GlobalKeyBinding;
-import de.emir.rcp.keybindings.ep.ViewKeyBinding;
 import de.emir.rcp.manager.CommandManager;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.settings.basics.keybindings.KeyBindingSettingsPage.KeyBindingData;
@@ -117,12 +120,12 @@ public class KeyBindingsUtil {
         AbstractKeyBinding kb = null;
 
         if (selection instanceof ViewDescriptor) {
-            ViewKeyBinding vkb = new ViewKeyBinding();
+            ViewKeyBinding vkb = new ViewKeyBindingImpl();
 
             vkb.setViewID(((ViewDescriptor) selection).getId());
             kb = vkb;
         } else if (selection instanceof Editor) {
-            EditorKeyBinding ekb = new EditorKeyBinding();
+            EditorKeyBinding ekb = new EditorKeyBindingImpl();
 
             ekb.setEditorID(((Editor) selection).getId());
             kb = ekb;
@@ -155,7 +158,7 @@ public class KeyBindingsUtil {
             editorRoot.add(new DefaultMutableTreeNode(entry.getValue()));
         }
 
-        root.add(new DefaultMutableTreeNode(new GlobalKeyBinding()));
+        root.add(new DefaultMutableTreeNode(new GlobalKeyBindingImpl()));
         root.add(viewRoot);
         root.add(editorRoot);
 

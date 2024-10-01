@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -26,8 +27,10 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import com.thoughtworks.xstream.XStream;
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.type.MapType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import de.emir.model.domain.maritime.iec61174.Route;
 import de.emir.model.domain.maritime.iec61174.WayPoints;
 import de.emir.model.domain.maritime.iec61174.Waypoint;
@@ -54,6 +57,7 @@ import de.emir.model.universal.units.impl.DistanceImpl;
 import de.emir.model.universal.units.impl.SpeedImpl;
 import de.emir.rcp.manager.PropertyManager;
 import de.emir.rcp.manager.util.PlatformUtil;
+import de.emir.rcp.properties.PropertyContext;
 import de.emir.service.routeservices.IRouteExport;
 import de.emir.service.routeservices.impl.RTZRouteExportImpl;
 import de.emir.service.routeservices.impl.RouteExportImpl;
@@ -450,23 +454,30 @@ public class MultiManeuverbordBearingToolPanel extends JPanel {
 
 
 	protected List<FixData> load() {
-		XStream xs = new XStream();
+		XmlMapper mapper = new XmlMapper();
 		Thread.currentThread().setContextClassLoader(UCoreExtensionManager.getExtension("MultiContextClassLoader", ClassLoader.class));
-		xs.alias("de.emir.rcp.tools.FixData", FixData.class);
-		Object obj = xs.fromXML(ResourceManager.get(MultiManeuverbordBearingToolPanel.class).resolveFile("ManeuverBoard.xml"));
-		if (obj != null)
-			return (List<FixData>)obj;
-		return null;
+
+		TypeFactory factory = mapper.getTypeFactory();
+		MapType mapType = factory.constructMapType(HashMap.class, String.class, PropertyContext.class);
+        List<FixData> obj = null;
+        try {
+            obj = mapper.readValue(ResourceManager.get(MultiManeuverbordBearingToolPanel.class).resolveFile("ManeuverBoard.xml"), new TypeReference<List<FixData>>() {
+            });
+        } catch (IOException e) {
+			e.printStackTrace();
+            return null;
+        }
+		return obj;
 	}
 
 
 
 	protected void save(ArrayList<FixData> fixes) {
-		XStream xs = new XStream();
+		XmlMapper mapper = new XmlMapper();
 		try {
 			File f = new File(ResourceManager.get(MultiManeuverbordBearingToolPanel.class).getHomePath().toFile().getAbsolutePath() + "/ManeuverBoard.xml");
-			xs.toXML(fixes, new FileOutputStream(f));
-		} catch (FileNotFoundException e) {
+			mapper.writeValue(new FileOutputStream(f), fixes);
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

@@ -1,5 +1,6 @@
 package de.emir.rcp.pluginmanager.views.dialogs;
 
+import de.emir.rcp.manager.util.PlatformUtil;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -31,6 +32,7 @@ public class ResolvedDependenciesDialog extends JDialog {
         resolvedList = new JList<>(getResolvedAsDependency(model));
         resolvedList.setCellRenderer(new ListRenderer());
         getContentPane().add(resolvedList, BorderLayout.CENTER);
+        setLocationRelativeTo(PlatformUtil.getWindowManager().getMainWindow());
     }
 
     private DependencyWrapper[] getResolvedAsDependency(Model model){

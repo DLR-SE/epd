@@ -1,5 +1,6 @@
 package de.emir.rcp.types;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 
 /**
@@ -70,10 +71,12 @@ public class Color implements Serializable {
 		this.alpha = alpha;
 	}
 
+    @JsonIgnore
 	public java.awt.Color getAWTColor() {
 		return new java.awt.Color(this.red, this.green, this.blue, this.alpha);
 	}
 	
+    @JsonIgnore
 	public void setAWTColor(java.awt.Color source) {
 		this.red = source.getRed();
 		this.green = source.getGreen();

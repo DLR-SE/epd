@@ -1,5 +1,6 @@
 package de.emir.rcp;
 
+import de.emir.model.universal.plugincore.var.impl.ConfigRectangleImpl;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.nio.file.Path;
@@ -169,7 +170,7 @@ public class UICorePlugin extends AbstractUIPlugin {
 
         EventManager.UI.post(new ExtensionsLoadedEvent());
 
-        Rectangle rect = PropertyStore.getContext("System").getValue("MainFrameGeometry", null);
+        ConfigRectangleImpl rect = PropertyStore.getContext("System").getValue("MainFrameGeometry", null);
         if (rect != null) {
             PlatformUtil.getWindowManager().getMainWindow().setBounds(rect.getAWTRectangle());
         }
@@ -226,10 +227,11 @@ public class UICorePlugin extends AbstractUIPlugin {
     public void preApplicationClose() {
         // remember geometry
         PropertyStore.getContext("System").setValue("MainFrameGeometry",
-                new Rectangle(PlatformUtil.getWindowManager().getMainWindow().getBounds()));
+                new ConfigRectangleImpl(PlatformUtil.getWindowManager().getMainWindow().getBounds()));
         PropertyStore.getContext("System").setValue("Maximized",
                 PlatformUtil.getWindowManager().getMainWindow().getExtendedState());
-
+        PropertyStore.getContext(Basic.KEY_BINDING_PROP_CTX).setValue(Basic.KEY_BINDING_PROP, 
+                PlatformUtil.getKeyBindingManager().getDeltas().getValue());
         PlatformUtil.getViewManager().runOnViewShutdown();
     }
 }
