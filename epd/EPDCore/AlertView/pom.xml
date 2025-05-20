@@ -6,7 +6,7 @@
     <parent>
         <artifactId>EPDCore</artifactId>
         <groupId>de.dlr-se.emir.epd</groupId>
-        <version>4.2.0-SNAPSHOT</version>
+        <version>4.2.0</version>
     </parent>
     <artifactId>AlertView</artifactId>
     <name>Alert View</name>

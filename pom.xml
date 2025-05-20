@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<version>4.2.0-SNAPSHOT</version>
+	<version>4.2.0</version>
 	<groupId>de.dlr-se.emir</groupId>
 	<artifactId>emir</artifactId>
 	<name>eMIR-OpenSource</name>
@@ -56,11 +56,11 @@
 	</modules>
 	
 	<properties>
-		<runtime.version>4.2.0-SNAPSHOT</runtime.version>
-		<model.version>4.2.0-SNAPSHOT</model.version>
-		<services.version>4.2.0-SNAPSHOT</services.version>
-		<haggis.version>4.2.0-SNAPSHOT</haggis.version>
-		<epd.version>4.2.0-SNAPSHOT</epd.version>
+		<runtime.version>4.2.0</runtime.version>
+		<model.version>4.2.0</model.version>
+		<services.version>4.2.0</services.version>
+		<haggis.version>4.2.0</haggis.version>
+		<epd.version>4.2.0</epd.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>21</maven.compiler.source>
 		<maven.compiler.target>21</maven.compiler.target>
