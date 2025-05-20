@@ -45,7 +45,7 @@ here 1) `workspaces`, 2)`dependencies`, 3) `repositories`. The following code se
 		<dependency>
 			<groupId>de.emir.epd</groupId>
 			<artifactId>MapView</artifactId>
-			<version>4.0.0-SNAPSHOT</version>
+			<version>4.2.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

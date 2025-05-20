@@ -56,6 +56,6 @@ The following section provides step-by-step instructions to build an executable 
 ### Other Java Versions
 
 This section contains java version specific instructions for other Java Versions as Java 21. 
-Currently no other Java versions have been tested with the EPD version 4.1.0.
+Currently no other Java versions have been tested with the EPD version 4.2.0.
 
 
