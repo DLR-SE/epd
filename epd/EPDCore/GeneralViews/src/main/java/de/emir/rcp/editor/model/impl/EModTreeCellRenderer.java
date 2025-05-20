@@ -12,17 +12,14 @@ import de.emir.rcp.editor.model.ILabelProvider;
 import de.emir.tuml.ucore.runtime.resources.IconManager;
 import de.emir.tuml.ucore.runtime.utils.Pointer;
 import de.emir.ui.utils.treetable.umodel.UNode;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EModTreeCellRenderer extends DefaultTreeCellRenderer implements TreeCellRenderer {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4654323920505890844L;
-	
-	
 	protected ILabelProvider mLabelProvider;
-	
+	private static final Logger LOG = LogManager.getLogger(EModTreeCellRenderer.class);
+    
 	public EModTreeCellRenderer(ILabelProvider lp) {
 		mLabelProvider = lp;
 	}
@@ -47,8 +44,8 @@ public class EModTreeCellRenderer extends DefaultTreeCellRenderer implements Tre
 				String toolTip = mLabelProvider.getTooltip(node.getPointer());
 				if (toolTip != null)
 					setToolTipText(toolTip);
-			}else {
-				System.out.println("Null Value");
+			} else {
+				LOG.debug("Pointer in UNode " + node.getPath().toString() + " points to NULL.");
 			}
 		}
 		return c;

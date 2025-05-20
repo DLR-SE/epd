@@ -5,28 +5,59 @@ import java.awt.Component;
 import java.awt.Insets;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serializable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.spi.LoggingEvent;
-
 import de.emir.rcp.ids.Basic;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
 import de.emir.rcp.views.AbstractView;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
 import io.reactivex.rxjava3.subjects.PublishSubject;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.*;
+import org.apache.logging.log4j.core.appender.*;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.Property;
+import org.apache.logging.log4j.core.config.plugins.Plugin;
 
 public class ConsoleView extends AbstractView {
-	
-	
+
+	@Plugin(name="TextAreaAppender", category = Core.CATEGORY_NAME, elementType = Appender.ELEMENT_TYPE)
+	public class TextAreaAppender extends AbstractAppender{
+		protected TextAreaAppender(String name, Filter filter, Layout<? extends Serializable> layout, boolean ignoreExceptions, Property[] properties) {
+			super(name, filter, layout, ignoreExceptions, properties);
+			start();
+		}
+
+		@Override
+		public void append(LogEvent event) {
+			LogEvent logEvent = event.toImmutable();
+			if (logEvent == null || logEvent.getLevel() == null) {
+				return;
+			}
+			if (logEvent.getLevel().isInRange(Level.FATAL, Level.toLevel(mLogLevel.getValue()))) {
+				SwingUtilities.invokeLater(() -> {
+					if(mPanel != null) {
+						mPanel.addMessage(logEvent);
+					}
+
+				});
+			}
+		}
+	}
+
+	private PublishSubject<LogEvent> publisher;
+
 	public static final String UNIQUE_ID = "ConsoleView";
 
 	public static final String PROPERTY_CONTEXT_ID = "ConsoleViewProperties";
@@ -50,29 +81,13 @@ public class ConsoleView extends AbstractView {
 
 	@Override
 	public void onOpen() {
-		final PublishSubject<LoggingEvent> publisher = PublishSubject.create(); // used
-																				// to
-		LogManager.getRootLogger().addAppender(new ConsoleAppender() {
-			@Override
-			public synchronized void doAppend(LoggingEvent event) {
-				if (event == null || event.getLevel() == null)
-					return;
-				if (event.getLevel().isGreaterOrEqual(Level.toLevel(mLogLevel.getValue())))
-					publisher.onNext(event);
-			}
-		});
-
-		publisher.buffer(100, TimeUnit.MILLISECONDS).subscribe(e -> {
-			if (e.isEmpty() == false) {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						for (LoggingEvent evt : e)
-							mPanel.addMessage(evt);
-					}
-				});
-			}
-		});
+		publisher = PublishSubject.create();
+		LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+		Configuration config = ctx.getConfiguration();
+		TextAreaAppender appender = new TextAreaAppender("ConsoleViewAppender", null, config.getAppenders().values().stream().findFirst().get().getLayout(), false, null);
+		config.addAppender(appender);
+		ctx.getRootLogger().addAppender(appender);
+		ctx.updateLoggers();
 
 		pContext.getProperty(TAILING_PROPERTY).addPropertyChangeListener(new PropertyChangeListener() {
 			@Override

@@ -24,7 +24,7 @@ public class PhysicsModel implements UCorePlugin {
 		if (initialized)
 			return ;
 		initialized = true;
-		ULog.debug("initialize model Physics ... ", 1);
+		ULog.debug("initialize model Physics ... ");
 		//initialize referenced models
 		UnitsModel.init();
 		SpatialModel.init();
@@ -32,7 +32,7 @@ public class PhysicsModel implements UCorePlugin {
 		
 		//initialize sub packages
 		PhysicsPackage.theInstance.init();
-		ULog.debug(-1, "... model Physics initialized");
+		ULog.debug("... model Physics initialized");
 	}
 
 	/**

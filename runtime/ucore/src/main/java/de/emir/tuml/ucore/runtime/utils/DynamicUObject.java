@@ -1,20 +1,11 @@
 package de.emir.tuml.ucore.runtime.utils;
 
+import de.emir.tuml.ucore.runtime.*;
+import de.emir.tuml.ucore.runtime.prop.IProperty;
+import de.emir.tuml.ucore.runtime.utils.internal.TreeObserverUtil;
+
 import java.beans.PropertyChangeListener;
 import java.util.Collection;
-
-import de.emir.tuml.ucore.runtime.IDelegateInterface;
-import de.emir.tuml.ucore.runtime.IDisposable;
-import de.emir.tuml.ucore.runtime.ITreeValueChangeListener;
-import de.emir.tuml.ucore.runtime.IValueChangeListener;
-import de.emir.tuml.ucore.runtime.UAssociationType;
-import de.emir.tuml.ucore.runtime.UClass;
-import de.emir.tuml.ucore.runtime.UObject;
-import de.emir.tuml.ucore.runtime.UOperation;
-import de.emir.tuml.ucore.runtime.UStructuralFeature;
-import de.emir.tuml.ucore.runtime.prop.IProperty;
-import de.emir.tuml.ucore.runtime.utils.internal.TreeObserverUtil.ITreeObserverOptions;
-import de.emir.tuml.ucore.runtime.utils.internal.TreeObserverUtil.TreeObserverOptions;
 
 public class DynamicUObject implements UObject {
 
@@ -222,7 +213,7 @@ public class DynamicUObject implements UObject {
     }
 
     @Override
-    public IDisposable registerTreeListener(ITreeValueChangeListener listener, ITreeObserverOptions options) {
+    public IDisposable registerTreeListener(ITreeValueChangeListener listener, TreeObserverUtil.ITreeObserverOptions options) {
         //TODO
         return null;
     }

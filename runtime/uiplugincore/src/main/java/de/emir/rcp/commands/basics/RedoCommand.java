@@ -3,7 +3,7 @@ package de.emir.rcp.commands.basics;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.emir.rcp.commands.AbstractCommand;
 import de.emir.rcp.manager.util.PlatformUtil;

@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>de.dlr-se.emir.model.domain</groupId>
 		<artifactId>domain</artifactId>
-		<version>4.1.0</version>
+		<version>4.2.0-SNAPSHOT</version>
 	</parent>
 	<groupId>de.dlr-se.emir.model.domain.maritime</groupId>
 	<artifactId>maritime</artifactId>

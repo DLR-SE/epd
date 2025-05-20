@@ -1,76 +1,59 @@
 package de.emir.tuml.ucore.runtime.logging;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.Configurator;
+
 import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Enumeration;
-
-import org.apache.log4j.Appender;
-import org.apache.log4j.AppenderSkeleton;
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.PatternLayout;
-import org.apache.log4j.xml.DOMConfigurator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Logging Interface for UCore Projects
- * 
- * Logging within UCore Projects havily depends on the ULog class, as it will be used to initialize the logging for the
+ * Logging within UCore Projects depends on the ULog class, as it will be used to initialize the logging for the
  * whole system.
- * 
- * There are two ways of logging within UCore. 1) Using the ULog's static methods for easy logging, without need to
- * create a logger for each class. Thereby the ULog automatically detects the calling class 2) Use the ULog method to
- * create a static logger for a specific classifier.
- * 
- * The second method should be used if heavily logging is required and performance is required, since the static methods
- * of ULog do need to detect the Loggers name at every method invoktion.
- * 
- * @author sschweigert
+ * There are two ways of logging within UCore. 1) Using the ULog's static methods for easy logging. ULog automatically
+ * retrieves the caller class name and creates a logger for each class. 2) Use the ULog method to create a
+ * logger for a specific classifier. This is synonymous to calling LogManager.getLogger().
  *
  */
 public class ULog {
 
-    public static interface ULogFactory {
-        public void initialize(final URL url);
+    private static ULog instance;
+    // Reference table for loggers automatically created in the static methods. Since the logging methods
+    // are wrapped in ULog, the ExtendedLogger interface is used which makes use of the fully qualified class name of ULog
+    // to enable displaying correct line numbers when calling via static methods.
+    private static Map<String, ExtendedLogger> loggers = new ConcurrentHashMap<>();
 
-        public Logger createLogger(final String qualifiedName);
+    /**
+     * Creates a ULog instance. Private because of singleton. Use getInstance() instead.
+     */
+    private ULog() {
     }
 
-    private static class DefaultSLF4JLogFactory implements ULogFactory {
-        @Override
-        public void initialize(URL url) {
-            if (url != null) {
-                DOMConfigurator.configure(url);
-            } else {
-                System.err.println("No valid Log configuration provided, using default configuration");
-                BasicConfigurator.configure();
-            }
+    /**
+     * Gets the ULog singleton instance or creates one if it does not exist.
+     * @return ULog singleton instance.
+     */
+    public static synchronized ULog getInstance() {
+        if(instance == null) {
+            instance = new ULog();
         }
-
-        @Override
-        public Logger createLogger(String qualifiedName) {
-            return LoggerFactory.getLogger(qualifiedName);
-        }
-    }
-
-    private static ULog theInstance = new ULog();
-    private ULogFactory mLoggerFactory = new DefaultSLF4JLogFactory();
-
-    public static ULog getInstance() {
-        return theInstance;
+        return instance;
     }
 
     private boolean mInitialized = false;
 
-    private int mIntendation = 0;
-    private String mIntendationStr = "";
-
-    private ULog() {
-    }
-
+    /**
+     * Configures the logger based on a Log2J 2.0 XML configuration file.
+     * @param logFile Log4J 2.0 configuration file.
+     */
     public void initialize(final File logFile) {
         URL url = null;
         if (logFile != null && logFile.exists()) {
@@ -84,225 +67,195 @@ public class ULog {
         initialize(url);
     }
 
+    /**
+     * Configures the logger based on a Log2J 2.0 XML configuration file path.
+     * @param url Log4J 2.0 configuration file url.
+     */
     public void initialize(URL url) {
+        if (url != null) {
+            try {
+                Configurator.reconfigure(url.toURI());
+                return;
+            } catch (URISyntaxException e) {
+                System.err.printf("Could not parse URL: %s.", e.getMessage());
+            }
+        }
+        System.err.println("No valid Log configuration provided, using default configuration");
+        //Configurator.initialize(new DefaultConfiguration());
         mInitialized = true;
-        if (mLoggerFactory != null)
-            mLoggerFactory.initialize(url);
-    }
-
-    public static String getCallerClassName() {
-        // using reflections should be quite fast, but unfortunately oracle removed (not only deprecated!) this method
-        // return sun.reflect.Reflection.getCallerClass(callStackDepth).getName();
-        StackTraceElement[] st = Thread.currentThread().getStackTrace();
-
-        if (st[3].getClassName().equals("de.emir.tuml.ucore.runtime.logging.ULog") && st.length > 3)
-            return st[4].getClassName(); // called by one of the methods, with intendation
-        return st[3].getClassName();
-    }
-
-    public static int getIntendation() {
-        if (theInstance == null)
-            return -1;
-        return theInstance.mIntendation;// mFormatter.getIntendation();
-    }
-
-    public static void setIntendation(final int intendation) {
-        if (theInstance == null)
-            return;
-
-        int oldInt = theInstance.mIntendation;
-        theInstance.mIntendation = intendation;
-        if (theInstance.mIntendation < 0)
-            theInstance.mIntendation = 0;
-        theInstance.mIntendationStr = "";
-        for (int i = 0; i < theInstance.mIntendation; i++)
-            theInstance.mIntendationStr += "\t";
-
-        Logger l = getLogger(Logger.ROOT_LOGGER_NAME);
-        Enumeration app = org.apache.log4j.Logger.getRootLogger().getAllAppenders();
-        while (app.hasMoreElements()) {
-            Object obj = app.nextElement();
-            if (obj instanceof Appender) {
-                Appender a = (Appender) obj;
-                if (a.getLayout() instanceof PatternLayout) {
-                    PatternLayout pl = (PatternLayout) a.getLayout();
-                    String pattern = pl.getConversionPattern();
-                    int idx = pattern.indexOf("%m");
-                    String pre = pattern.substring(0, idx - oldInt);
-                    String pos = pattern.substring(idx);
-                    pattern = pre + theInstance.mIntendationStr + pos;
-                    pl.setConversionPattern(pattern);
-                }
-            }
-        }
-    }
-
-    public Appender getAppender(String name) {
-        Logger l = getLogger(Logger.ROOT_LOGGER_NAME);
-        Enumeration app = org.apache.log4j.Logger.getRootLogger().getAllAppenders();
-        while (app.hasMoreElements()) {
-            Object obj = app.nextElement();
-            if (obj instanceof Appender) {
-                Appender a = (Appender) obj;
-                if (a.getName().equals(name))
-                    return a;
-            }
-        }
-        return null;
-    }
-
-    public void changeLogLevel(Appender appender, Level newLevel) {
-        if (appender instanceof AppenderSkeleton) {
-            LogManager.getRootLogger().setLevel(newLevel);
-            ((AppenderSkeleton) appender).setThreshold(newLevel);
-        } else {
-            ULog.error("Failed to change appender threshold");
-        }
-    }
-
-    public static void error(final int intendationDelta, final String message) {
-        if (theInstance != null)
-            addIndentation(intendationDelta);
-        error(message);
-    }
-
-    public static void error(final String message, final int intendationDelta) {
-        error(message);
-        if (theInstance != null)
-            addIndentation(intendationDelta);
-    }
-
-    public static void error(final Exception exception) {
-        error(exception.getMessage());
-    }
-
-    public static void error(final String message) {
-        try {
-            final Logger l = getLogger(getCallerClassName());
-            if (l != null && l.isWarnEnabled())
-                l.error(message);
-        } catch (final Exception e) {
-            System.err.println("Failed to Log message: " + message);
-        }
-    }
-
-    public static void warn(final int intendationDelta, final String message) {
-        if (theInstance != null)
-            addIndentation(intendationDelta);
-        warn(message);
-    }
-
-    public static void warn(final String message, final int intendationDelta) {
-        warn(message);
-        if (theInstance != null)
-            addIndentation(intendationDelta);
-    }
-
-    public static void warn(final String message) {
-        try {
-            final Logger l = getLogger(getCallerClassName());
-            if (l != null & l.isWarnEnabled())
-                l.warn(message);
-        } catch (final Exception e) {
-            System.err.println("Failed to Log message: " + message);
-        }
-    }
-
-    public static void info(final int intendationDelta, final String message) {
-        if (theInstance != null)
-            addIndentation(intendationDelta);
-        info(message);
-    }
-
-    public static void info(final String message, final int intendationDelta) {
-        info(message);
-        if (theInstance != null)
-            addIndentation(intendationDelta);
-    }
-
-    public static void info(final String message) {
-        try {
-            final Logger l = getLogger(getCallerClassName());
-            if (l != null && l.isInfoEnabled())
-                l.info(message);
-        } catch (final Exception e) {
-            System.out.println("Failed to Log message: " + message);
-        }
-    }
-
-    public static void debug(final int intendationDelta, final String message) {
-        if (theInstance != null)
-            addIndentation(intendationDelta);
-        debug(message);
-    }
-
-    public static void debug(final String message, final int intendationDelta) {
-        debug(message);
-        if (theInstance != null)
-            addIndentation(intendationDelta);
-    }
-
-    public static void debug(final String message) {
-        try {
-            final Logger l = getLogger(getCallerClassName());
-            if (l != null && l.isDebugEnabled())
-                l.debug(message);
-        } catch (final Exception e) {
-            System.out.println("Failed to Log message: " + message);
-        }
-    }
-
-    public static void trace(final int intendationDelta, final String message) {
-        if (theInstance != null)
-            addIndentation(intendationDelta);
-        trace(message);
-    }
-
-    public static void trace(final String message, final int intendationDelta) {
-        trace(message);
-        if (theInstance != null)
-            addIndentation(intendationDelta);
-    }
-
-    public static void addIndentation(int intendationDelta) {
-        setIntendation(getIntendation() + intendationDelta);
-    }
-
-    public static void trace(final String message) {
-        try {
-            final Logger l = getLogger(getCallerClassName());
-            if (l != null && l.isTraceEnabled())
-                l.trace(message);
-        } catch (final Exception e) {
-            System.out.println("Failed to Log message: " + message);
-        }
     }
 
     /**
-     * get or create a logger with a qualified name
-     * 
-     * @note if the ULog has not been initialized this method will initialize the currently used ULog instance with
-     *       default values
-     * @param fqcn
-     * @return logger
+     * Changes the log level of all loggers currently registered.
+     * @param newLevel New level of the loggers currently registered.
      */
-    public static Logger getLogger(String fqcn) {
+    public void changeAllLogLevel(Level newLevel) {
+        LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+        ctx.getRootLogger().setLevel(newLevel);
+        Configurator.setLevel(ctx.getRootLogger(), newLevel);
+        Collection<org.apache.logging.log4j.core.Logger> loggers = ctx.getLoggers();
+        for(org.apache.logging.log4j.core.Logger logger : loggers) {
+            logger.setLevel(newLevel);
+            Configurator.setLevel(logger, newLevel);
+        }
+        ctx.updateLoggers();
+    }
+
+    /**
+     * Retrieves the static logger for the given name and logs an event.
+     * @implNote This method is used by all static logging methods in ulog. The Logger name should equal the fully
+     * qualified class name of the caller class and is automatically retrieved from the stack trace when using
+     * ULogs static logging methods.
+     * @param loggerName Name of the logger to retrieve.
+     * @param level Level to log.
+     * @param message Message to log.
+     */
+    private static void log(String loggerName, Level level, String message) {
+        getStaticLogger(loggerName).log(ULog.class.getName(), level, message);
+    }
+
+    /**
+     * Static logging method which retrieves the logger name from the caller class.
+     * @param level Level to log.
+     * @param message Message to log.
+     */
+    public static void log(Level level, String message) {
+        log(StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
+                .getCallerClass().getName(), level, message);
+    }
+
+    /**
+     * Logs an exception with the level fatal.
+     * @param exception Exception to log.
+     */
+    public static void fatal(final Exception exception) {
+        log(StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
+                .getCallerClass().getName(), Level.FATAL, exception.getMessage());
+    }
+
+    /**
+     * Logs a fatal message.
+     * @param message Message to log.
+     */
+    public static void fatal(final String message) {
+        log(StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
+                .getCallerClass().getName(), Level.FATAL, message);
+    }
+
+    /**
+     * Logs an exception with the level error.
+     * @param exception Exception to log.
+     */
+    public static void error(final Exception exception) {
+        log(StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
+                .getCallerClass().getName(), Level.ERROR, exception.getMessage());
+    }
+
+    /**
+     * Logs an error message.
+     * @param message Message to log.
+     */
+    public static void error(final String message) {
+        log(StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
+                .getCallerClass().getName(), Level.ERROR, message);
+    }
+
+    /**
+     * Logs a warn message.
+     * @param message Message to log.
+     */
+    public static void warn(final String message) {
+        log(StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
+                .getCallerClass().getName(), Level.WARN, message);
+    }
+
+    /**
+     * Logs an info message.
+     * @param message Message to log.
+     */
+    public static void info(final String message) {
+        log(StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
+                .getCallerClass().getName(), Level.INFO, message);
+    }
+
+    /**
+     * Logs a debug message.
+     * @param message Message to log.
+     */
+    public static void debug(final String message) {
+        log(StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
+                .getCallerClass().getName(), Level.DEBUG, message);
+    }
+
+    /**
+     * Logs a debug message. This overloaded method exists to handle legacy code. Indentation argument is ignored.
+     * @param message Message to log.
+     * @param indentation is ignored.
+     */
+    public static void debug(final String message, int indentation) {
+        log(StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
+                .getCallerClass().getName(), Level.DEBUG, message);
+    }
+
+    /**
+     * Logs a debug message. This overloaded method exists to handle legacy code. Indentation argument is ignored.
+     * @param message Message to log.
+     * @param indentation is ignored.
+     */
+    public static void debug(int indentation, final String message) {
+        log(StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
+                .getCallerClass().getName(), Level.DEBUG, message);
+    }
+
+    /**
+     * Logs a trace message.
+     * @param message Message to log.
+     */
+    public static void trace(final String message) {
+        log(StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
+                .getCallerClass().getName(), Level.TRACE, message);
+    }
+
+    /**
+     * Gets or creates a logger with a qualified name.
+     *
+     * @param fqcn Name of the logger.
+     * @return logger.
+     */
+    public static org.apache.logging.log4j.Logger getLogger(String fqcn) {
         try {
-            if (theInstance != null && theInstance.mInitialized == false)
-                theInstance.initialize();
-            if (theInstance != null && theInstance.mLoggerFactory != null)
-                return theInstance.mLoggerFactory.createLogger(fqcn);
-            return LoggerFactory.getLogger(fqcn);
+            return LogManager.getLogger(fqcn);
         } catch (Exception | Error err) {
             err.printStackTrace();
             return null;
         }
     }
 
+    /**
+     * Gets or creates a logger by passing the caller class.
+     *
+     * @param clazz Class of the caller which requests the logger.
+     * @return logger.
+     */
     public static Logger getLogger(Class<?> clazz) {
         return getLogger(clazz.getName());
     }
 
+    /**
+     * Gets or creates a logger for each class which accesses the ULog static logging methods.
+     * @param loggerName Name of the logger to retrieve. Should be the fully qualified class name of the caller class.
+     * @return Extended logger based on the caller class.
+     */
+    private static ExtendedLogger getStaticLogger(String loggerName) {
+        if(!loggers.containsKey(loggerName)) {
+            loggers.put(loggerName, ExtendedLogger.create(loggerName));
+        }
+        return loggers.get(loggerName);
+    }
+
+    /**
+     * Loads the log4j config to configure the loggers.
+     */
     public void initialize() {
         if (mInitialized)
             return;
@@ -310,46 +263,4 @@ public class ULog {
         // we try to use a standard configuration file, e.g. <ProjectDir>/log/log4j.xml or use the default configuration
         initialize(new File("log/log4j.xml"));
     }
-
-    /**
-     * Allows to register a custumized ULogFactory to create a new Logger
-     * 
-     * @warn this method should not be used unless you are sure that you need it, also it will be applied system wide,
-     *       e.g. changes the logging of the whole system.
-     * @param fac
-     */
-    public void registerLogFactory(ULogFactory fac) {
-        mLoggerFactory = fac;
-    }
-
-    /**
-     * Utility to use a log level, depending on the variable
-     * 
-     * @param logger
-     * @param level
-     * @param message
-     */
-    public static void log(Logger logger, Level level, String message) {
-        if (level == Level.ERROR)
-            logger.error(message);
-        else if (level == Level.WARN)
-            logger.warn(message);
-        else if (level == Level.INFO)
-            logger.info(message);
-        else if (level == Level.DEBUG)
-            logger.debug(message);
-        else if (level == Level.TRACE)
-            logger.trace(message);
-    }
-
-    public static void log(Logger logger, Level level, String message, int indentationIncrement) {
-        log(logger, level, message);
-        setIntendation(getIntendation() + indentationIncrement);
-    }
-
-    public static void log(int indentationIncrement, Logger logger, Level level, String message) {
-        setIntendation(getIntendation() + indentationIncrement);
-        log(logger, level, message);
-    }
-
 }

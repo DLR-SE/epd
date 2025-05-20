@@ -1,33 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
-
-<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
-
-	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
-		<param name="Target" value="System.out" />
-		<param name="Threshold" value="INFO" />
-		<layout class="org.apache.log4j.PatternLayout">
-<!-- 			<param name="ConversionPattern" value="%d{ISO8601} %-5p [%t] %-5p [%c] %m%n" /> -->
-				<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %c.%M(%F:%L) %-5p - %m%n"/>
-		</layout>
-	</appender>
-
-	<appender name="LOGFILE" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="${RCPProductWithUI.home}/log/log.log" />
-		<param name="Append" value="true" />
-		<param name="MaxFileSize" value="10240KB" />
-		<param name="MaxBackupIndex" value="3" />
-		<param name="Threshold" value="INFO" />
-		<layout class="org.apache.log4j.PatternLayout">
-<!-- 			<param name="ConversionPattern" value="%d{ISO8601} %-5p [%t] %-5p [%c] %m%n" /> -->
-				<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %c.%M(%F:%L) %-5p - %m%n"/>
-		</layout>
-	</appender>
-
-	<root>
-		<appender-ref ref="CONSOLE" />
-		<appender-ref ref="LOGFILE" />
-	</root>
-
-</log4j:configuration>
-  
+<Configuration xmlns="https://logging.apache.org/xml/ns"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="
+                   https://logging.apache.org/xml/ns
+                   https://logging.apache.org/xml/ns/log4j-config-2.xsd">
+  <Appenders>
+    <Console name="CONSOLE"> 
+      <PatternLayout pattern="%d{ABSOLUTE} %c.%M(%F:%L) %-5p - %m%n"/>
+    </Console>
+    <RollingFile name="MAIN" fileName="log/log.log" filePattern="logs/log-%d{yyyy-MM-dd}-%i.log"> 
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %c.%M(%F:%L) %-5p - %m%n"/>
+	  <Policies>
+        <SizeBasedTriggeringPolicy size="10MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="10"/>
+    </RollingFile>
+  </Appenders>
+  <Loggers>
+    <Root level="INFO"> 
+      <AppenderRef ref="CONSOLE" level="WARN"/>
+      <AppenderRef ref="MAIN"/>
+    </Root>
+  </Loggers>
+</Configuration>

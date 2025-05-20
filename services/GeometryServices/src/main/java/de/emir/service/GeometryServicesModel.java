@@ -24,7 +24,7 @@ public class GeometryServicesModel implements UCorePlugin {
 		if (initialized)
 			return ;
 		initialized = true;
-		ULog.debug("initialize model GeometryServices ... ", 1);
+		ULog.debug("initialize model GeometryServices ... ");
 		//initialize referenced models
 		CRSModel.init();
 		CoreModel.init();
@@ -34,7 +34,7 @@ public class GeometryServicesModel implements UCorePlugin {
 		
 		//initialize sub packages
 		GeometryPackage.init();
-		ULog.debug(-1, "... model GeometryServices initialized");
+		ULog.debug("... model GeometryServices initialized");
 	}
 
 	/**

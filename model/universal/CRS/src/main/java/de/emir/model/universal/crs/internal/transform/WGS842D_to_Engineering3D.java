@@ -10,6 +10,7 @@ import de.emir.model.universal.crs.WGS84CRS;
 import de.emir.model.universal.crs.internal.ICoordinateTransform;
 import de.emir.model.universal.crs.internal.calc.IGeodeticCalculator;
 import de.emir.model.universal.crs.internal.calc.VincentCalculator;
+import de.emir.model.universal.math.Vector;
 import de.emir.model.universal.math.Vector2D;
 import de.emir.model.universal.math.Vector3D;
 
@@ -25,24 +26,36 @@ public class WGS842D_to_Engineering3D implements ICoordinateTransform {
 		mCalculator = gc;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public boolean canTransform(CoordinateReferenceSystem src, CoordinateReferenceSystem dst) {
 		return src instanceof WGS84CRS && dst instanceof Engineering3D;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public double[] transform(double[] in, CoordinateReferenceSystem _src, CoordinateReferenceSystem _dst) {
-		WGS84CRS src = (WGS84CRS)_src;
-		Engineering3D dst = (Engineering3D)_dst;
+		assert _src instanceof WGS84CRS;
+		assert _dst instanceof Engineering3D;
+		Engineering3D dst = (Engineering3D) _dst;
 		// assume the center of src to be expressed in WGS84 == lat / lon
-		Vector3D center = (Vector3D)dst.getOrigin();
-		double[] da = mCalculator.getDistanceAndAzimuth(center.getX(), center.getY(), in[0], in[1]);
-		
-		double offset = dst.getOrientationOffset().get(0); //consider the orientation of the destination (source has no orientation)
+		Vector center = dst.getOrigin();
+		// calculate direction and bearing from center of destination crs and point in source crs
+		double[] da = mCalculator.getDistanceAndAzimuth(center.get(0), center.get(1), in[0], in[1]);
+		double offset = dst.getOrientationOffset().getFirst(); //consider the orientation of the destination (source has no orientation)
+		// transform bearing to direction
 		Vector3D dir = (Vector3D)dst.bearingToDirection(-(da[1] - offset), 0);
+		// Calculate point in destination crs by multiplying the direction vector of length 1 with the distance between the center of destination crs and point in source crs
 		return new double[]{dir.getX() * da[0], dir.getY() * da[0], dir.getZ() * da[0]};
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public double[] transformDirection(double[] in, CoordinateReferenceSystem _src, CoordinateReferenceSystem _dst) {
 		WGS84CRS src = (WGS84CRS)_src;

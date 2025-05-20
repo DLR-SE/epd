@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration xmlns="https://logging.apache.org/xml/ns"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="
+                   https://logging.apache.org/xml/ns
+                   https://logging.apache.org/xml/ns/log4j-config-2.xsd">
+  <Appenders>
+    <Console name="CONSOLE"> 
+      <PatternLayout pattern="%d{ABSOLUTE} %c.%M(%F:%L) %-5p - %m%n"/>
+    </Console>
+    <RollingFile name="MAIN" fileName="log/log.log" filePattern="logs/log-%d{yyyy-MM-dd}.log"> 
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %c.%M(%F:%L) %-5p - %m%n"/>
+	  <Policies>
+        <SizeBasedTriggeringPolicy size="10MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="10"/>
+    </RollingFile>
+  </Appenders>
+  <Loggers>
+    <Root level="INFO"> 
+      <AppenderRef ref="CONSOLE" level="WARN"/>
+      <AppenderRef ref="MAIN"/>
+    </Root>
+  </Loggers>
+</Configuration>

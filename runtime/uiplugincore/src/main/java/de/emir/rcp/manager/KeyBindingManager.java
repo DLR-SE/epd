@@ -20,7 +20,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.emir.rcp.commands.ep.CommandDescriptor;
 import de.emir.rcp.editors.AbstractEditor;

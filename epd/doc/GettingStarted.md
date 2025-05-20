@@ -29,7 +29,7 @@ the Main class (package name + class name). This results in the following basic 
         <!--Contains rcp core, every plugin has this dependency-->
         <groupId>de.dlr-se.emir.runtime</groupId>
         <artifactId>uiplugincore</artifactId>
-        <version>4.1.0-SNAPSHOT</version>
+        <version>4.2.0-SNAPSHOT</version>
     </dependency>
 </dependencies>
 ```
@@ -156,7 +156,7 @@ necessary steps to load your plugin are shown, for more information take a look 
 		<dependency>
 			<groupId>de.dlr-se.emir.epd</groupId>
 			<artifactId>MapView</artifactId>
-			<version>4.1.0-SNAPSHOT</version>
+			<version>4.2.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
     ...

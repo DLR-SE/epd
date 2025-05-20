@@ -1,5 +1,6 @@
 package de.emir.epd.model;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -106,7 +107,7 @@ public final class EPDModelUtils {
 		if (objectLayer == null) {
 			objectLayer = new ObjectLayerImpl();
 			environment.getLayer().add(objectLayer);
-			support.firePropertyChange("objectLayer", null, objectLayer);
+			forcePropertyChange("objectLayer", null, objectLayer);
 		}
 		return objectLayer;
 	}
@@ -172,9 +173,9 @@ public final class EPDModelUtils {
 			Environment oldTargetSet = environment;
 			setOwnship(environment, retrieveById(environment, id));
 			result = getOwnship(environment);
-			support.firePropertyChange("ownship", oldResult, result);
-			support.firePropertyChange("aisTargets", oldTargets, getAisTargets(environment));
-			support.firePropertyChange("aisTargetSet", oldTargetSet, environment);
+			forcePropertyChange("ownship", oldResult, result);
+			forcePropertyChange("aisTargets", oldTargets, getAisTargets(environment));
+			forcePropertyChange("aisTargetSet", oldTargetSet, environment);
 		}
 		return result;
 	}
@@ -244,8 +245,8 @@ public final class EPDModelUtils {
 			result.setMmsi(Long.parseLong(id));
 			add(environment, result);
 			support.firePropertyChange("aisTarget", null, result);
-			support.firePropertyChange("aisTargets", oldTargets, getAisTargets(environment));
-			support.firePropertyChange("aisTargetSet", oldTargetSet, environment);
+			forcePropertyChange("aisTargets", oldTargets, getAisTargets(environment));
+			forcePropertyChange("aisTargetSet", oldTargetSet, environment);
 		}
 		return result;
 	}
@@ -284,9 +285,9 @@ public final class EPDModelUtils {
 		Environment oldEnvironment = environment;
 		Vessel oldOwnship = getOwnship(environment);
 		boolean removeStatus = retrieveObjectLayer(environment).getObjects().remove(o);
-		support.firePropertyChange("aisTargets", oldTargets, getAisTargets(environment));
-		support.firePropertyChange("aisTargetSet", oldEnvironment, environment);
-		support.firePropertyChange("ownship", oldOwnship, getOwnship(environment));
+		forcePropertyChange("aisTargets", oldTargets, getAisTargets(environment));
+		forcePropertyChange("aisTargetSet", oldEnvironment, environment);
+		forcePropertyChange("ownship", oldOwnship, getOwnship(environment));
 		return removeStatus;
 	}
 
@@ -299,9 +300,9 @@ public final class EPDModelUtils {
 		Vessel oldOwnship = getOwnship(environment);
 		Environment oldEnvironment = environment;
 		retrieveObjectLayer(environment).getObjects().clear();
-		support.firePropertyChange("aisTargets", oldTargets, getAisTargets(environment));
-		support.firePropertyChange("aisTargetSet", oldEnvironment, environment);
-		support.firePropertyChange("ownship", oldOwnship, getOwnship(environment));
+		forcePropertyChange("aisTargets", oldTargets, getAisTargets(environment));
+		forcePropertyChange("aisTargetSet", oldEnvironment, environment);
+		forcePropertyChange("ownship", oldOwnship, getOwnship(environment));
 	}
 
 	/**
@@ -310,7 +311,22 @@ public final class EPDModelUtils {
 	 * @return Array of current ais targets.
 	 */
 	public static Vessel[] getAisTargets(Environment environment) {
-		return retrieveObjectLayer(environment).getObjects().stream().filter(p -> p instanceof Vessel)
+        return retrieveObjectLayer(environment).getObjects().stream().filter(p -> p instanceof Vessel)
 				.map(Vessel.class::cast).toArray(Vessel[]::new);
+	}
+
+	/**
+	 * Fires the property change to all registered listeners regardless of the old and new value. This is to prevent
+	 * events that are not sent when the old and new value are the same.
+	 * @param topic Topic on which to publish message.
+	 * @param oldValue Old value of message.
+	 * @param newValue New value of message.
+	 */
+	private static void forcePropertyChange(String topic, Object oldValue, Object newValue) {
+		PropertyChangeEvent event = new PropertyChangeEvent(EPDModelUtils.class, topic, oldValue, newValue);
+
+		for(PropertyChangeListener listener : support.getPropertyChangeListeners(topic)) {
+			listener.propertyChange(event);
+		}
 	}
 }

@@ -72,6 +72,7 @@ public class BufferingGraphics2D {
 	
 	public void setPaint(Paint p) {
 		calls.add(new SetPaint(p));
+        graphic.setPaint(p);
 	}
 
 	public void rotate(double theta) {
@@ -125,6 +126,10 @@ public class BufferingGraphics2D {
 
 	public Color getColor() {
 		return graphic.getColor();
+	}
+    
+    public Paint getPaint() {
+		return graphic.getPaint();
 	}
 
 	public void setFont(Font font) {

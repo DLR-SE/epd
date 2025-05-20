@@ -2,7 +2,7 @@ package de.emir.rcp.manager;
 
 import javax.swing.ImageIcon;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.emir.rcp.views.AboutDialog;
 import de.emir.tuml.ucore.runtime.extension.IService;

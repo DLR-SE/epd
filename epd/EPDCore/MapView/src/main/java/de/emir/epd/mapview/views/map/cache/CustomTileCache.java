@@ -8,15 +8,16 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
-
-import org.jxmapviewer.viewer.TileCache;
-import org.slf4j.Logger;
-
 import de.emir.tuml.ucore.runtime.logging.ULog;
 
+import javax.imageio.ImageIO;
+
+import org.apache.logging.log4j.Logger;
+import org.jxmapviewer.viewer.TileCache;
+
 public class CustomTileCache extends TileCache {
-	private static final Logger log = ULog.getLogger(CustomTileCache.class);
+	private final Logger log = ULog.getLogger(CustomTileCache.class);
+
 
 	protected Map<URI, BufferedImage> imgmap = new HashMap<URI, BufferedImage>();
 	private LinkedList<URI> imgmapAccessQueue = new LinkedList<URI>();

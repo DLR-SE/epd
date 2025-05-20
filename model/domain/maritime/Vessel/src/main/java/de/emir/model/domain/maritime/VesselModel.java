@@ -24,14 +24,14 @@ public class VesselModel implements UCorePlugin {
 		if (initialized)
 			return ;
 		initialized = true;
-		ULog.debug("initialize model Vessel ... ", 1);
+		ULog.debug("initialize model Vessel ... ");
 		//initialize referenced models
 		VehicleModel.init();
 		IEC61174Model.init();
 		
 		//initialize sub packages
 		VesselPackage.theInstance.init();
-		ULog.debug(-1, "... model Vessel initialized");
+		ULog.debug("... model Vessel initialized");
 	}
 
 	/**

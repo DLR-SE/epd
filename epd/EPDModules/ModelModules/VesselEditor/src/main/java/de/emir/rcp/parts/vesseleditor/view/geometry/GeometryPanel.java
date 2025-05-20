@@ -13,6 +13,7 @@ import de.emir.rcp.parts.vesseleditor.view.helper.DragProperties;
 import de.emir.rcp.parts.vesseleditor.view.helper.DragWrapper;
 import de.emir.rcp.parts.vesseleditor.view.helper.LineWrapper;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,17 +24,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GeometryPanel extends AbstractGeometryPanel {
-    private static final Color POINT_MARKED = Color.RED;
-    private static final Color POINT_NORMAL = Color.GRAY.darker().darker();
-    private static final Color LINE_NORMAL = Color.GRAY.darker();
-    private static final Color BACKGROUND_COLOR = Color.GRAY;
-    private static final Color GRID_COLOR = Color.GRAY.brighter();
-    private static final Color MOUSE_COORDINATE_COLOR = Color.WHITE;
+    private static final Color POINT_MARKED = UIManager.getColor("EditorPane.selectionBackground");
+    private static final Color POINT_NORMAL = UIManager.getColor("EditorPane.foreground");
+    private static final Color LINE_NORMAL = UIManager.getColor("EditorPane.foreground");
+    private static final Color BACKGROUND_COLOR = UIManager.getColor("EditorPane.background");
+    private static final Color GRID_COLOR = UIManager.getColor("EditorPane.inactiveForeground"); //UIManager.getColor("EditorPane.background").darker().darker();
+    private static final Color MOUSE_COORDINATE_COLOR = UIManager.getColor("EditorPane.caretForeground");
 
     protected boolean init = true;
 
-    protected double EDIT_POINT_SIZE = 10;
-    protected double LINE_WIDTH = 10;
+    protected double EDIT_POINT_SIZE = 4;
+    protected double LINE_WIDTH = 2;
     protected double MOUSE_COORDINATE_SIZE = 10;
 
     protected List<Coordinate> markedPoints;
@@ -42,6 +43,8 @@ public class GeometryPanel extends AbstractGeometryPanel {
 
     protected UStructuralFeature horizontalFeature;
     protected UStructuralFeature verticalFeature;
+    private double zoomFactor;
+    private int zoomLevel;
 
     public GeometryPanel(Geometry geometry, View view) {
         super(geometry, view);
@@ -93,6 +96,7 @@ public class GeometryPanel extends AbstractGeometryPanel {
     public void paint(Graphics g1) {
         super.paint(g1);
         Graphics2D g = (Graphics2D) g1;
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         if (init) {
             // Initialize the viewport by moving the origin to the center of the window,
             // and inverting the y-axis to point upwards.
@@ -110,6 +114,11 @@ public class GeometryPanel extends AbstractGeometryPanel {
             g.setTransform(getZoomAndPanListener().getCoordTransform());
         }
 
+        zoomFactor = (getZoomAndPanListener().getZoomMultiplicationFactor() * getZoomAndPanListener().getZoomLevel());
+        zoomLevel = (getZoomAndPanListener().DEFAULT_MAX_ZOOM_LEVEL - getZoomAndPanListener().getZoomLevel());
+        zoomLevel = zoomLevel == 0 ? 1 : zoomLevel;
+        zoomFactor = (zoomFactor / 10);
+        
         if (isShowGridLines()) {
             drawGrid(g);
         }
@@ -127,14 +136,10 @@ public class GeometryPanel extends AbstractGeometryPanel {
         draggableElements.clear();
         lineWrappers.clear();
 
-        double zoomFactor = (getZoomAndPanListener().getZoomMultiplicationFactor() * getZoomAndPanListener().getZoomLevel());
-        zoomFactor = (zoomFactor / 10);
+        EDIT_POINT_SIZE = (8 / ((zoomLevel +1) / 2.0f));//Math.abs(zoomFactor));
+        LINE_WIDTH = (5 / ((zoomLevel +1) / 2.0f)); //Math.abs(zoomFactor));
 
-        EDIT_POINT_SIZE = (8 - Math.abs(zoomFactor));
-        LINE_WIDTH = (5 - Math.abs(zoomFactor));
-
-        double zoomLevel = getZoomAndPanListener().DEFAULT_MAX_ZOOM_LEVEL - getZoomAndPanListener().getZoomLevel();
-        MOUSE_COORDINATE_SIZE = (20 - Math.abs(zoomLevel - 2));
+        MOUSE_COORDINATE_SIZE = (20 / ((zoomLevel +1) / 2.0f));//Math.abs(zoomLevel - 2));
         if (MOUSE_COORDINATE_SIZE < 2) {
             MOUSE_COORDINATE_SIZE = 2;
         }
@@ -147,17 +152,22 @@ public class GeometryPanel extends AbstractGeometryPanel {
 
     protected void drawGrid(Graphics2D g) {
         g.setColor(GRID_COLOR);
+        g.setStroke(new BasicStroke((1.0f / ((zoomLevel +1) / 2.0f)), BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {2}, 0));
 
         int rows = 50;
         int columns = 50;
 
-        int htOfRow = getHeight() / rows;
-        for (int k = 0; k <= rows; k++) {
+        //int htOfRow = getHeight() / rows;
+        int htOfRow = (int) getZoomAndPanListener().getZoomMultiplicationFactor() * 10;
+        if (htOfRow < 1) htOfRow = 10;
+        for (int k = 0; k <= (int) getHeight() / htOfRow /*rows*/; k++) {
             g.drawLine(0, k * htOfRow, getWidth(), k * htOfRow);
         }
 
-        int wdOfRow = getWidth() / columns;
-        for (int k = 0; k <= columns; k++) {
+        //int wdOfRow = getWidth() / columns;
+        int wdOfRow = (int) getZoomAndPanListener().getZoomMultiplicationFactor() * 10;
+        if (wdOfRow < 1) wdOfRow = 10;
+        for (int k = 0; k <= (int) getWidth() / wdOfRow/*columns*/; k++) {
             g.drawLine(k * wdOfRow, 0, k * wdOfRow, getHeight());
         }
 

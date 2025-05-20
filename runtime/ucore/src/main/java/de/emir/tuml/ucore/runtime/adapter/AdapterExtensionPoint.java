@@ -5,10 +5,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.slf4j.Logger;
-
 import de.emir.tuml.ucore.runtime.extension.IExtensionPoint;
 import de.emir.tuml.ucore.runtime.logging.ULog;
+import org.apache.logging.log4j.Logger;
 
 /**
  * A specialization of the general IExtensionPoint interface. Use this class to define model adapter extension points.

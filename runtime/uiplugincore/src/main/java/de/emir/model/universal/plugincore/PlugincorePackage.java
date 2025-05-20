@@ -73,7 +73,7 @@ public class PlugincorePackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package PlugincorePackage ...", 1);
+		ULog.debug("initialize package PlugincorePackage ...");
 		theInstance = new PlugincorePackage();
 		//initialize referenced models
 		UCoreModel.init();
@@ -88,7 +88,7 @@ public class PlugincorePackage
 		
 		
 		
-		ULog.debug(-1, "... package PlugincorePackage initialized");
+		ULog.debug("... package PlugincorePackage initialized");
 		
 		return theInstance;
 	}

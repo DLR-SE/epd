@@ -22,7 +22,7 @@ import de.emir.model.universal.units.Orientation;
 import de.emir.model.universal.units.TimeUnit;
 import de.emir.model.universal.units.impl.TimeImpl;
 import de.emir.tuml.ucore.runtime.logging.ULog;
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 

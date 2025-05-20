@@ -5,8 +5,8 @@ package de.emir.service.connection.receiver;
 
 import de.emir.service.connection.interfaces.Receiver;
 import de.emir.service.connection.interfaces.ReceiverListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,7 +44,7 @@ public class TcpServerReceiver implements Receiver {
 	/** Reader for TCP stream. */
 	private BufferedReader reader;
 	/** Log handler. */
-	static final Logger LOG = LoggerFactory.getLogger(TcpServerReceiver.class);
+	static final Logger LOG = LogManager.getLogger(TcpServerReceiver.class);
 	/** Local address. */
 	private String local = System.getProperty("net.host", "0.0.0.0");
 	

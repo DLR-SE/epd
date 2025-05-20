@@ -24,7 +24,7 @@ public class SimpleFeatureModel implements UCorePlugin {
 		if (initialized)
 			return ;
 		initialized = true;
-		ULog.debug("initialize model SimpleFeature ... ", 1);
+		ULog.debug("initialize model SimpleFeature ... ");
 		//initialize referenced models
 		SpatialModel.init();
 		CoreModel.init();
@@ -37,7 +37,7 @@ public class SimpleFeatureModel implements UCorePlugin {
 		ExtensionPointManager.getExtensionPoint(XMLCompatibilityManager.class).registerCompatiblityHandler(new GeometryXMLCompatibilityHandler());
 		
 		
-		ULog.debug(-1, "... model SimpleFeature initialized");
+		ULog.debug("... model SimpleFeature initialized");
 	}
 
 	/**

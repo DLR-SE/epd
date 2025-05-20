@@ -50,7 +50,7 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 	protected Polygon polyActiveAisTarget = new Polygon(new int[] { -6, 0, 6, -6 }, new int[] { 6, -12, 6, 6 }, 4);
 
 	// Current AIS targets.
-	protected Environment targetSet;
+	protected Vessel[] targets;
 	protected BasicStroke polyActiveAisTargetStroke = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
 	protected BasicStroke trueHeadingStroke = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
 	protected BasicStroke trackStroke = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
@@ -229,13 +229,15 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 	 */
 	@Override
 	public void paint(BufferingGraphics2D g, IDrawContext c) {
-		if (targetSet == null || EPDModelUtils.getAisTargets(targetSet) == null)
+		if (targets == null) {
 			return;
+		}
+
 
 		ArrayList<ShapeAISTarget> shapes = new ArrayList<>();
 		Rectangle bounds = c.getBounds();
 
-		for (Vessel v : EPDModelUtils.getAisTargets(targetSet)) {
+		for (Vessel v : targets) {
 			if (v == null || v.getPose() == null || v.getPose().getCoordinate() == null)
 				continue;
 
@@ -528,15 +530,8 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 	 */
 	@Override
 	public void modelChanged() {
-
-		EPDModelUtils.subscribeModelChange("aisTargetSet", event -> {
-			if (event.getNewValue() instanceof Environment) {
-				targetSet = (Environment) event.getNewValue();
-				setDirty(true);
-			}
-		});
-		EPDModelUtils.subscribeModelChange("ownship", event -> {
-			targetSet = EPDModelUtils.getDefaultEnvironment();
+		EPDModelUtils.subscribeModelChange("aisTargets", event -> {
+			targets = (Vessel[]) event.getNewValue();
 		});
 	}
 

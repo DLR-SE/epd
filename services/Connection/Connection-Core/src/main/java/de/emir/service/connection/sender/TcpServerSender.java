@@ -15,8 +15,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import de.emir.service.connection.Util;
 import de.emir.service.connection.interfaces.Sender;
@@ -30,7 +30,7 @@ import de.emir.service.connection.interfaces.SenderListener;
  */
 public class TcpServerSender implements Sender {
 	/** Log handler. */
-	static final Logger LOG = LoggerFactory.getLogger(TcpServerSender.class);
+	static final Logger LOG = LogManager.getLogger(TcpServerSender.class);
 	private static final int MAX_RETRIES = 5;
 	/** Sender listener. */
 	private SenderListener listener;

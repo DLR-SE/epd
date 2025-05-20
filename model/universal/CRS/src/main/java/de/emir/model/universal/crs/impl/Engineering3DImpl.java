@@ -1,21 +1,20 @@
 package de.emir.model.universal.crs.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.emir.model.universal.core.MemberObserver;
 import de.emir.model.universal.core.RSIdentifier;
 import de.emir.model.universal.crs.CoordinateReferenceSystem;
 import de.emir.model.universal.crs.CoordinateSystem;
 import de.emir.model.universal.crs.CrsPackage;
 import de.emir.model.universal.crs.Engineering3D;
-import de.emir.model.universal.crs.impl.EngineeringCRSImpl;
 import de.emir.model.universal.math.Vector;
-import de.emir.model.universal.math.Vector3D;
+import de.emir.model.universal.math.impl.Vector2DImpl;
 import de.emir.model.universal.math.impl.Vector3DImpl;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
 import net.jafama.FastMath;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -74,16 +73,25 @@ public class Engineering3DImpl extends EngineeringCRSImpl implements Engineering
 		"}";
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public int dimension() {
 		return 3;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public Vector getDirectionToNorth() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public List<Double> directionToBearing(double dx, double dy, double dz) {
 		double lsq = dx * dx + dy * dy + dz*dz;
@@ -110,6 +118,9 @@ public class Engineering3DImpl extends EngineeringCRSImpl implements Engineering
 		return out;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public Vector bearingToDirection(double yaw, double pitch) {
 		//actually this is the rotation of the vector 0,1,0 (north) with a quaternion build from yaw and pitch
@@ -155,16 +166,39 @@ public class Engineering3DImpl extends EngineeringCRSImpl implements Engineering
 		return new Engineering3DImpl(this);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public double getDistance(Vector loc1, Vector loc2) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		double deltaX = loc2.get(0) - loc1.get(0);
+		double deltaY = loc2.get(1) - loc1.get(1);
+		double deltaZ = loc2.get(2) - loc1.get(2);
+
+		return Math.sqrt(deltaX*deltaX + deltaY*deltaY + deltaZ*deltaZ);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public Vector getDistanceAndAzimuth(Vector loc1, Vector loc2) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		double deltaX = loc2.get(0) - loc1.get(0);
+		double deltaY = loc2.get(1) - loc1.get(1);
+		double deltaZ = loc2.get(2) - loc1.get(2);
+
+		double distance = Math.sqrt(deltaX*deltaX + deltaY*deltaY + deltaZ*deltaZ);
+		double azimuth = Math.atan2(deltaX, deltaY); // note that x and y are inverted to atan2 javadoc because azimuth starts at Y-Axis towards the X-Axis
+		if (azimuth < 0) {
+			azimuth = 2*Math.PI + azimuth;
+		}
+
+		return new Vector2DImpl(distance, azimuth);
 	}
-	
+
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public int getHash() {
 		double[] o = getOrigin().toArray();

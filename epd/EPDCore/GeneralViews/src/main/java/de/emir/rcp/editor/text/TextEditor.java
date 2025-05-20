@@ -50,7 +50,7 @@ public class TextEditor extends AbstractEditor {
 		parent.setLayout(new BorderLayout());
 
 		JPanel p = new JPanel();
-		p.setBackground(new Color(255, 255, 255));
+//		p.setBackground(new Color(255, 255, 255));
 
 		parent.add(p, BorderLayout.CENTER);
 
@@ -69,8 +69,8 @@ public class TextEditor extends AbstractEditor {
 			errorLabel.setIcon(icon);
 			errorLabel.setVerticalAlignment(SwingConstants.TOP);
 			errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			errorLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			errorLabel.setForeground(Color.BLACK);
+//			errorLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+//			errorLabel.setForeground(Color.BLACK);
 			GridBagConstraints gbc_errorLabel = new GridBagConstraints();
 			gbc_errorLabel.fill = GridBagConstraints.BOTH;
 			gbc_errorLabel.insets = new Insets(20, 20, 20, 20);
@@ -94,8 +94,8 @@ public class TextEditor extends AbstractEditor {
 			errorLabel.setIcon(icon);
 			errorLabel.setVerticalAlignment(SwingConstants.TOP);
 			errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			errorLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			errorLabel.setForeground(Color.BLACK);
+//			errorLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+//			errorLabel.setForeground(Color.BLACK);
 			GridBagConstraints gbc_errorLabel = new GridBagConstraints();
 			gbc_errorLabel.fill = GridBagConstraints.BOTH;
 			gbc_errorLabel.insets = new Insets(20, 20, 20, 20);

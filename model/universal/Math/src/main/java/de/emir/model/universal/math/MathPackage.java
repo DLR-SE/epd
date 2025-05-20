@@ -605,7 +605,7 @@ public class MathPackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package MathPackage ...", 1);
+		ULog.debug("initialize package MathPackage ...");
 		theInstance = new MathPackage();
 		//initialize referenced models
 		CoreModel.init();
@@ -633,7 +633,7 @@ public class MathPackage
 		
 		
 		
-		ULog.debug(-1, "... package MathPackage initialized");
+		ULog.debug("... package MathPackage initialized");
 		
 		return theInstance;
 	}

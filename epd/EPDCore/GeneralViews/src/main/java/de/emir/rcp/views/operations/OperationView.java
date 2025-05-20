@@ -83,7 +83,6 @@ public class OperationView extends AbstractView {
 				}
 			});
 		}
-		System.out.println();
 		// TODO HiWi: Ensure that we do not get to busy by getting updates / change with
 		// high frequency
 //		final List<IProperty> sortedProperties = new ArrayList<>();

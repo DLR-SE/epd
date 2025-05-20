@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>de.dlr-se.emir.runtime</groupId>
 		<artifactId>runtime</artifactId>
-		<version>4.1.0</version>
+		<version>4.2.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>ucore</artifactId>
 	<name>UCore</name>
@@ -18,11 +18,6 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>${guava.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
 		</dependency>
 
 		<dependency>

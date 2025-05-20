@@ -7,8 +7,8 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import de.emir.service.connection.Util;
 import de.emir.service.connection.interfaces.Sender;
@@ -22,7 +22,7 @@ import de.emir.service.connection.interfaces.SenderListener;
  */
 public class UdpSender implements Sender {
 	/** Log handler. */
-	static final Logger LOG = LoggerFactory.getLogger(UdpSender.class);
+	static final Logger LOG = LogManager.getLogger(UdpSender.class);
 	/** Sender listener. */
 	private SenderListener listener;
 	/** DatagramSocket. */

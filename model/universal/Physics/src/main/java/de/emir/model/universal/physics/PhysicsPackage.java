@@ -550,7 +550,7 @@ public class PhysicsPackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package PhysicsPackage ...", 1);
+		ULog.debug("initialize package PhysicsPackage ...");
 		theInstance = new PhysicsPackage();
 		//initialize referenced models
 		UnitsModel.init();
@@ -587,7 +587,7 @@ public class PhysicsPackage
 		
 		
 		
-		ULog.debug(-1, "... package PhysicsPackage initialized");
+		ULog.debug("... package PhysicsPackage initialized");
 		
 		return theInstance;
 	}

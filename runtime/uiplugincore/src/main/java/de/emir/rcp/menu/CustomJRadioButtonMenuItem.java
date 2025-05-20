@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JToolTip;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.emir.rcp.commands.AbstractCommand;
 import de.emir.rcp.commands.AbstractRadioGroupCommand;

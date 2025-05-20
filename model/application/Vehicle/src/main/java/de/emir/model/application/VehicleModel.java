@@ -21,13 +21,13 @@ public class VehicleModel implements UCorePlugin {
 		if (initialized)
 			return ;
 		initialized = true;
-		ULog.debug("initialize model Vehicle ... ", 1);
+		ULog.debug("initialize model Vehicle ... ");
 		//initialize referenced models
 		PhysicsModel.init();
 		
 		//initialize sub packages
 		VehiclePackage.theInstance.init();
-		ULog.debug(-1, "... model Vehicle initialized");
+		ULog.debug("... model Vehicle initialized");
 	}
 
 	/**

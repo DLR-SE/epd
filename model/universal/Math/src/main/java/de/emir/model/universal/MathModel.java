@@ -24,13 +24,13 @@ public class MathModel implements UCorePlugin {
 		if (initialized)
 			return ;
 		initialized = true;
-		ULog.debug("initialize model Math ... ", 1);
+		ULog.debug("initialize model Math ... ");
 		//initialize referenced models
 		CoreModel.init();
 		
 		//initialize sub packages
 		MathPackage.theInstance.init();
-		ULog.debug(-1, "... model Math initialized");
+		ULog.debug("... model Math initialized");
 	}
 
 	/**

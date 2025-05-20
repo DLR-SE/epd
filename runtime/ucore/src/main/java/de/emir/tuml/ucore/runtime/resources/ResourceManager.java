@@ -19,9 +19,6 @@ import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Predicate;
 import com.google.common.io.Resources;
 import com.google.common.reflect.ClassPath;
@@ -31,6 +28,8 @@ import com.google.common.reflect.ClassPath.ResourceInfo;
 import de.emir.tuml.ucore.runtime.UCoreExtensionManager;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.utils.FileOperations;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Utility class used to fetch resource URL's and image icons (more to come).
@@ -43,7 +42,7 @@ import de.emir.tuml.ucore.runtime.utils.FileOperations;
  */
 public final class ResourceManager {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ResourceManager.class);
+    private static final Logger LOG = LogManager.getLogger(ResourceManager.class, null);
 
     private static Map<CacheKey, Object> cache = new ConcurrentHashMap<>();
 
@@ -305,7 +304,7 @@ public final class ResourceManager {
     /**
      * Method chaining style of setting the loader-class
      * 
-     * @param loaderClass
+     * @param folder
      *            the loader class
      */
     public ResourceManager folder(String folder) {
@@ -399,7 +398,7 @@ public final class ResourceManager {
          * Constructor
          * 
          * @param loaderClass
-         * @param url
+         * @param fullPath
          */
         public CacheKey(Class<?> loaderClass, String fullPath) {
             Objects.requireNonNull(loaderClass);
@@ -429,8 +428,6 @@ public final class ResourceManager {
 
     /**
      * resolves the named resource and tries to open an input stream
-     * 
-     * @see resolveResource
      * 
      * @param resourceName
      * @return

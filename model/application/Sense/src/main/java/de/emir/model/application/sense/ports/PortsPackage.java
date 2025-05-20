@@ -244,7 +244,7 @@ public class PortsPackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package PortsPackage ...", 1);
+		ULog.debug("initialize package PortsPackage ...");
 		theInstance = new PortsPackage();
 		//initialize referenced models
 		PhysicsModel.init();
@@ -267,7 +267,7 @@ public class PortsPackage
 		
 		
 		
-		ULog.debug(-1, "... package PortsPackage initialized");
+		ULog.debug("... package PortsPackage initialized");
 		
 		return theInstance;
 	}

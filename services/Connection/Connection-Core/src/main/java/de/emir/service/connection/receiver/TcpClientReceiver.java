@@ -8,8 +8,8 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import de.emir.service.connection.interfaces.Receiver;
 import de.emir.service.connection.interfaces.ReceiverListener;
@@ -20,7 +20,7 @@ import de.emir.service.connection.interfaces.ReceiverListener;
 public class TcpClientReceiver implements Receiver {
 
 	/** Logger. */
-	private static Logger LOG = LoggerFactory.getLogger(TcpClientReceiver.class);
+	private static Logger LOG = LogManager.getLogger(TcpClientReceiver.class);
 
     private static final int TCP_READ_TIMEOUT = 60000; // 1 min
 

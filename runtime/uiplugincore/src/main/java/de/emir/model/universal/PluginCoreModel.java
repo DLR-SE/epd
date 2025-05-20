@@ -26,14 +26,14 @@ public class PluginCoreModel implements UCorePlugin {
 		if (initialized)
 			return ;
 		initialized = true;
-		ULog.debug("initialize model PluginCore ... ", 1);
+		ULog.debug("initialize model PluginCore ... ");
 		//initialize referenced models
 		UCoreModel.init();
 		
 		//initialize sub packages
 		PlugincorePackage.theInstance.init();
 		VarPackage.theInstance.init();
-		ULog.debug(-1, "... model PluginCore initialized");
+		ULog.debug("... model PluginCore initialized");
 	}
 	
 	/**

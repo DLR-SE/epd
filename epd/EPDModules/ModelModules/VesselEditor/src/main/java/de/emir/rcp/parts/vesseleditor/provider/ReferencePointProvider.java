@@ -5,6 +5,7 @@ import de.emir.model.universal.physics.PhysicalObject;
 import de.emir.model.universal.spatial.Coordinate;
 import de.emir.model.universal.spatial.Geometry;
 import de.emir.model.universal.units.impl.EulerImpl;
+import de.emir.rcp.UICorePlugin;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.parts.VesselEditorBasic;
 import de.emir.rcp.parts.vesseleditor.cmds.transactions.TranslateGeometryTransaction;
@@ -22,7 +23,7 @@ public class ReferencePointProvider implements ITransferableProvider {
 
     @Override
     public URL getIconURL() {
-        return ResourceManager.get(getClass()).getResource("/icons/emiricons/32/location_on.png");
+        return ResourceManager.get(UICorePlugin.class).getResource("/icons/emiricons/32/location_on.png");//ResourceManager.get(getClass()).getResource("/icons/emiricons/32/location_on.png");
     }
 
     @Override

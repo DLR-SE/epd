@@ -7,8 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.vlkan.rfos.RotatingFileOutputStream;
 import com.vlkan.rfos.RotationConfig;
@@ -25,7 +25,7 @@ import de.emir.service.connection.interfaces.SenderListener;
  */
 public class FileRotationSender implements Sender {
 	/** Log handler. */
-	static final Logger LOG = LoggerFactory.getLogger(FileRotationSender.class);
+	static final Logger LOG = LogManager.getLogger(FileRotationSender.class);
 	private SenderListener listener;
 	private String destination;
 	private RotatingFileOutputStream stream;

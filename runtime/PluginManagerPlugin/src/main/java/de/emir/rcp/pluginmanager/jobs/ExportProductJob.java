@@ -164,9 +164,9 @@ public class ExportProductJob implements IJob {
 
             try {
                 Date currentDate = new Date();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
                 String formattedDate = formatter.format(currentDate);
-                String target = targetRoot.getParent() + File.separator + productFile.getName() + "-" + formattedDate
+                String target = targetRoot.getParent() + File.separator + formattedDate + "-" + productFile.getName()
                         + ".zip";
                 Zip.compressZip(targetRoot.getAbsolutePath(), target, true);
             } catch (ZipFileException e) {

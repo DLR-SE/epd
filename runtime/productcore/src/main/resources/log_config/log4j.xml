@@ -1,33 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<Configuration status="WARN">
 
-<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+	<Appenders>
+		<!-- Console Appender -->
+		<Console name="CONSOLE" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-6.6p %c (%F:%L) - %m %n"/>
+			<ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>
+		</Console>
 
-	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
-		<param name="Target" value="System.out" />
-		<param name="Threshold" value="INFO" />
-		<layout class="org.apache.log4j.PatternLayout">
-<!-- 			<param name="ConversionPattern" value="%d{ISO8601} %-5p [%t] %-5p [%c] %m%n" /> -->
-				<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %c.%M(%F:%L) %-5p - %m%n"/>
-		</layout>
-	</appender>
+		<!-- Rolling File Appender -->
+		<RollingFile name="LOGFILE" fileName="${RCPProductWithUI.home}/log/log.log"
+					 filePattern="${RCPProductWithUI.home}/log/log-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-6.6p %c (%F:%L) - %m %n"/>
+			<Policies>
+				<SizeBasedTriggeringPolicy size="10MB"/>
+			</Policies>
+			<DefaultRolloverStrategy max="3"/>
+			<ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>
+		</RollingFile>
+	</Appenders>
 
-	<appender name="LOGFILE" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="${RCPProductWithUI.home}/log/log.log" />
-		<param name="Append" value="true" />
-		<param name="MaxFileSize" value="10240KB" />
-		<param name="MaxBackupIndex" value="3" />
-		<param name="Threshold" value="INFO" />
-		<layout class="org.apache.log4j.PatternLayout">
-<!-- 			<param name="ConversionPattern" value="%d{ISO8601} %-5p [%t] %-5p [%c] %m%n" /> -->
-				<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %c.%M(%F:%L) %-5p - %m%n"/>
-		</layout>
-	</appender>
+	<Loggers>
+		<Root level="info">
+			<AppenderRef ref="CONSOLE"/>
+			<AppenderRef ref="LOGFILE"/>
+		</Root>
+	</Loggers>
 
-	<root>
-		<appender-ref ref="CONSOLE" />
-		<appender-ref ref="LOGFILE" />
-	</root>
-
-</log4j:configuration>
-  
+</Configuration>

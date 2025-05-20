@@ -4,42 +4,41 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Path;
 
-import de.emir.rcp.UICorePlugin;
 import de.emir.rcp.commands.AbstractCommand;
 import de.emir.rcp.product.AbstractUIProduct;
-import de.emir.runtime.plugin.AbstractUIPlugin;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.resources.ResourceManager;
 
+/**
+ * This Command allows the eMIR Product to launch a PluginManager and load the Product.xml in order to change the used
+ * plugins or to export the product as package.
+ */
 public class ShowPluginDialogCommand extends AbstractCommand{
-
-
 	public static final String ID = "cmd.ShowPluginDialogCmd";
 	public static final String LABEL = "Configure Plugins";
 
 	@Override
 	public void execute() {
-
-		Runtime rt = Runtime.getRuntime();
 		try {
-			String javaExecutablePath = ProcessHandle.current()
-				    .info()
-				    .command()
-				    .orElseThrow();
+			// Get the Java executable.
+			String javaExecutablePath = ProcessHandle.current().info().command().orElseThrow();
 			
-			Path pluginFilePath = ResourceManager.get(getClass()).getHomePath().resolve("Product.xml");
-			File pf = pluginFilePath.toFile();
+			// Find the Product.xml.
+			Path productFilePath = ResourceManager.get(getClass()).getHomePath().resolve("Product.xml");
+			File pf = productFilePath.toFile();
 			
-//			File baseFile = ResourceManager.get(getClass()).getHomePath().resolve("PluginManager").toFile();
-			File f = AbstractUIProduct.getPluginManagerJarFile(); //new File(baseFile.getAbsolutePath() + File.separator + "PluginManagerProduct-0.9.0-SNAPSHOT.jar");
+			// Get the PluginManager.
+			File f = AbstractUIProduct.getPluginManagerJarFile();
+			
+			// Create and start the process with parameters.
+			ProcessBuilder pb = new ProcessBuilder(javaExecutablePath, "-jar", f.getAbsolutePath(), "-lock", "-edit",
+					pf.getAbsolutePath());
+			pb.directory(f.getParentFile());
+			Process pr = pb.start();	
 
-			
-			Process pr = rt.exec(javaExecutablePath + " -jar " + f.getAbsolutePath() + " -lock -edit " + pf.getAbsolutePath(), null, f.getParentFile());
-
+			// Forwards the PluginManagers stdout to the log.
 			final Thread ioThread = new Thread() {
 				@Override
 				public void run() {
@@ -47,7 +46,7 @@ public class ShowPluginDialogCommand extends AbstractCommand{
 						final BufferedReader reader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
 						String line = null;
 						while ((line = reader.readLine()) != null) {
-							System.out.println(line);
+							ULog.info(line);
 						}
 						reader.close();
 					} catch (final Exception e) {
@@ -57,6 +56,7 @@ public class ShowPluginDialogCommand extends AbstractCommand{
 			};
 			ioThread.start();
 
+			// Forwards the PluginManagers stderr to the log as error.
 			final Thread ioThread2 = new Thread() {
 				@Override
 				public void run() {
@@ -64,7 +64,7 @@ public class ShowPluginDialogCommand extends AbstractCommand{
 						final BufferedReader reader = new BufferedReader(new InputStreamReader(pr.getErrorStream()));
 						String line = null;
 						while ((line = reader.readLine()) != null) {
-							System.err.println(line);
+							ULog.error(line);
 						}
 						reader.close();
 					} catch (final Exception e) {

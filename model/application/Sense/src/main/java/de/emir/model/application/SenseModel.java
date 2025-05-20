@@ -41,7 +41,7 @@ public class SenseModel implements UCorePlugin {
 		if (initialized)
 			return ;
 		initialized = true;
-		ULog.debug("initialize model Sense ... ", 1);
+		ULog.debug("initialize model Sense ... ");
 		//initialize referenced models
 		PhysicsModel.init();
 		CoreModel.init();
@@ -50,7 +50,7 @@ public class SenseModel implements UCorePlugin {
 		SensePackage.theInstance.init();
 		PortsPackage.theInstance.init();
 		MeasurementsPackage.theInstance.init();
-		ULog.debug(-1, "... model Sense initialized");
+		ULog.debug("... model Sense initialized");
 	}
 
 	/**

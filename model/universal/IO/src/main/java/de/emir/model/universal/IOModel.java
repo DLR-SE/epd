@@ -20,13 +20,13 @@ public class IOModel implements UCorePlugin {
 		if (initialized)
 			return ;
 		initialized = true;
-		ULog.debug("initialize model IO ... ", 1);
+		ULog.debug("initialize model IO ... ");
 		//initialize referenced models
 		CoreModel.init();
 		
 		//initialize sub packages
 		IoPackage.theInstance.init();
-		ULog.debug(-1, "... model IO initialized");
+		ULog.debug("... model IO initialized");
 	}
 
 	/**

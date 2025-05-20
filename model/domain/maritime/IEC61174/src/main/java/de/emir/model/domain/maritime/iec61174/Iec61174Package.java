@@ -463,7 +463,7 @@ public class Iec61174Package
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package Iec61174Package ...", 1);
+		ULog.debug("initialize package Iec61174Package ...");
 		theInstance = new Iec61174Package();
 		//initialize referenced models
 		SpatialModel.init();
@@ -486,7 +486,7 @@ public class Iec61174Package
 		
 		
 		
-		ULog.debug(-1, "... package Iec61174Package initialized");
+		ULog.debug("... package Iec61174Package initialized");
 		
 		return theInstance;
 	}

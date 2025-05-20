@@ -5,10 +5,10 @@
 	<parent>
 		<groupId>de.dlr-se.emir.services</groupId>
 		<artifactId>connection</artifactId>
-		<version>4.1.0</version>
+		<version>4.2.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>connection-serial</artifactId>
-	<version>4.1.0</version>
+	<version>4.2.0-SNAPSHOT</version>
 	<name>Connection Serial</name>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>de.dlr-se.emir.services</groupId>
 			<artifactId>connection-core</artifactId>
-			<version>4.1.0</version>
+			<version>4.2.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.scream3r</groupId>
@@ -55,6 +55,22 @@
 			<artifactId>testng</artifactId>
 			<version>7.10.2</version>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j2-impl</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
 	</dependencies>
 	<properties>

@@ -8,11 +8,12 @@ import de.emir.tuml.runtime.epf.ProductFile;
 import de.emir.tuml.ucore.runtime.extension.ExtensionPointManager;
 import de.emir.tuml.ucore.runtime.progress.IProgressMonitor;
 import de.emir.tuml.ucore.runtime.progress.NullProgressMonitor;
-import org.apache.log4j.Logger;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Parent;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -22,7 +23,7 @@ import java.util.List;
 
 public class Doxygen {
 
-    private static final Logger logger = Logger.getLogger(Doxygen.class);
+    private static final Logger logger = LogManager.getLogger(Doxygen.class);
 
     private static final String CMD_PROJECT_OVERVIEW = "PROJECT_OVERVIEW";
     private static final String CMD_COMMON_REFERENCES = "COMMON_REFERENCES";
@@ -118,7 +119,7 @@ public class Doxygen {
             // return the process
             return pb.start();
         } catch (IOException ioException) {
-            logger.error(ioException);
+            logger.error(ioException.getMessage());
             return null;
         }
     }

@@ -149,7 +149,7 @@ public class GeometryPackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package GeometryPackage ...", 1);
+		ULog.debug("initialize package GeometryPackage ...");
 		theInstance = new GeometryPackage();
 		//initialize referenced models
 		CRSModel.init();
@@ -176,7 +176,7 @@ public class GeometryPackage
 		
 		GeometryPackage.initAnnotations();
 		
-		ULog.debug(-1, "... package GeometryPackage initialized");
+		ULog.debug("... package GeometryPackage initialized");
 		
 		return theInstance;
 	}

@@ -384,7 +384,7 @@ public class CorePackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package CorePackage ...", 1);
+		ULog.debug("initialize package CorePackage ...");
 		theInstance = new CorePackage();
 		//initialize referenced models
 		UCoreModel.init();
@@ -413,7 +413,7 @@ public class CorePackage
 		
 		
 		
-		ULog.debug(-1, "... package CorePackage initialized");
+		ULog.debug("... package CorePackage initialized");
 		
 		return theInstance;
 	}

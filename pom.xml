@@ -2,12 +2,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<version>4.1.0</version>
+	<version>4.2.0-SNAPSHOT</version>
 	<groupId>de.dlr-se.emir</groupId>
 	<artifactId>emir</artifactId>
 	<name>eMIR-OpenSource</name>
 	<packaging>pom</packaging>
 	<description>This is the eMIR OpenSource project. This parent pom references all modules initially published to create the eMIR Prototype Display (EPD).</description>
+	<url>https://github.com/DLR-SE/epd/</url>
 	
 	<developers>
 		<developer>
@@ -55,11 +56,11 @@
 	</modules>
 	
 	<properties>
-		<runtime.version>4.1.0</runtime.version>
-		<model.version>4.1.0</model.version>
-		<services.version>4.1.0</services.version>
-		<haggis.version>4.1.0</haggis.version>
-		<epd.version>4.1.0</epd.version>
+		<runtime.version>4.2.0-SNAPSHOT</runtime.version>
+		<model.version>4.2.0-SNAPSHOT</model.version>
+		<services.version>4.2.0-SNAPSHOT</services.version>
+		<haggis.version>4.2.0-SNAPSHOT</haggis.version>
+		<epd.version>4.2.0-SNAPSHOT</epd.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>21</maven.compiler.source>
 		<maven.compiler.target>21</maven.compiler.target>
@@ -69,7 +70,7 @@
 		<version.plugin.maven.install>3.1.3</version.plugin.maven.install>
 		<version.plugin.maven.compiler>3.13.0</version.plugin.maven.compiler>
 		<version.plugin.maven.source>3.0.1</version.plugin.maven.source>
-		<version.plugin.maven.site>3.20.0</version.plugin.maven.site>
+		<version.plugin.maven.site>3.21.0</version.plugin.maven.site>
 		<version.plugin.maven.checkstyle>3.5.0</version.plugin.maven.checkstyle>
 		<version.plugin.maven.resources>3.3.1</version.plugin.maven.resources>
 		<version.plugin.maven.surefire>3.5.0</version.plugin.maven.surefire>
@@ -77,16 +78,17 @@
 		<version.plugin.maven.deploy>3.1.3</version.plugin.maven.deploy>
 		<version.plugin.maven.shade>3.2.1</version.plugin.maven.shade>
 		<version.plugin.maven.assembly>3.7.1</version.plugin.maven.assembly>
-		<version.plugin.maven.javadoc>3.10.0</version.plugin.maven.javadoc>
+		<version.plugin.maven.javadoc>3.11.2</version.plugin.maven.javadoc>
 		<version.plugin.maven.project-info-reports>3.7.0</version.plugin.maven.project-info-reports>
 		<version.plugin.maven.spotbugs>4.8.6.2</version.plugin.maven.spotbugs>
 		<version.plugin.maven.failsafe>3.5.0</version.plugin.maven.failsafe>
 		<version.plugin.maven.license>2.4.0</version.plugin.maven.license>
 		<junit.version>4.13.2</junit.version>
-		<slf4j.version>1.7.25</slf4j.version>
 		<guava.version>33.3.0-jre</guava.version>
 		<rxjava.version>3.1.9</rxjava.version>
-		<geotools.version>31.3</geotools.version>
+		<log4j.version>2.24.1</log4j.version>
+		<slf4j.version>2.0.16</slf4j.version>
+		<geotools.version>32.1</geotools.version>
 		<opengis.version>3.0.2</opengis.version>
 		<okhttp-version>3.14.9</okhttp-version>
 		<jts.version>1.18.2</jts.version>
@@ -221,7 +223,7 @@
 						<dependency>
 							<groupId>org.apache.maven.doxia</groupId>
 							<artifactId>doxia-module-markdown</artifactId>
-							<version>2.0.0-M12</version>
+							<version>2.0.0</version>
 						</dependency>
 					</dependencies>
 				</plugin>
@@ -375,15 +377,21 @@
 				<version>${junit.version}</version>
 				<scope>test</scope>
 			</dependency>
-
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-
 		</dependencies>
 	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+	</dependencies>
 
 	<distributionManagement>
 		<repository>

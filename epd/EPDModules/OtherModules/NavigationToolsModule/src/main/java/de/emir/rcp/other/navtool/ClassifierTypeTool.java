@@ -38,17 +38,17 @@ public class ClassifierTypeTool extends JPanel {
 					}
 				}
 				
-				ULog.info("------------------------Enumerations (Start)------------------", 1);
+				ULog.info("------------------------Enumerations (Start)------------------");
 				for (UEnum u : enums) { ULog.info(u.getName()); }
-				ULog.info(-1, "------------------------Enumerations (End)------------------");
+				ULog.info("------------------------Enumerations (End)------------------");
 				
-				ULog.info("------------------------Structs (Start)------------------", 1);
+				ULog.info("------------------------Structs (Start)------------------");
 				for (UClassifier u : structs) { ULog.info(u.getName()); }
-				ULog.info(-1, "------------------------Structs (End)------------------");
+				ULog.info("------------------------Structs (End)------------------");
 				
-				ULog.info("------------------------Classifier (Start)------------------", 1);
+				ULog.info("------------------------Classifier (Start)------------------");
 				for (UClassifier u : classifiers) { ULog.info(u.getName()); }
-				ULog.info(-1, "------------------------Classifier (End)------------------");
+				ULog.info("------------------------Classifier (End)------------------");
 			}
 		};
 	}

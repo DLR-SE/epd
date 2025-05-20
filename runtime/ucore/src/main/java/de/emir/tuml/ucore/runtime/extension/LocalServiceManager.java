@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.slf4j.Logger;
 
 import de.emir.tuml.ucore.runtime.IDisposable;
 import de.emir.tuml.ucore.runtime.logging.ULog;
+import org.apache.logging.log4j.Logger;
 
 public class LocalServiceManager {
 	

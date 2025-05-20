@@ -18,6 +18,7 @@ import de.emir.rcp.pluginmanager.cmds.ExportProductCommand;
 import de.emir.rcp.pluginmanager.cmds.RemoveElementCommand;
 import de.emir.rcp.pluginmanager.cmds.ResolveDependencyInformationsCommand;
 import de.emir.rcp.pluginmanager.cmds.SaveAndExitCommand;
+import de.emir.rcp.pluginmanager.cmds.UpdateDependenciesCommand;
 import de.emir.rcp.pluginmanager.doxygen.DoxygenExtensionPoint;
 import de.emir.rcp.pluginmanager.doxygen.extensions.*;
 import de.emir.rcp.pluginmanager.ids.PMBasics;
@@ -35,7 +36,8 @@ import de.emir.tuml.ucore.runtime.extension.ExtensionPointManager;
 import de.emir.tuml.ucore.runtime.extension.ServiceManager;
 import de.emir.tuml.ucore.runtime.resources.ResourceManager;
 import org.apache.commons.cli.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -50,11 +52,11 @@ public class PluginManagerPlugin extends AbstractUIPlugin {
 	private static final String BUILD_LEAN = "LEAN";
 	private static final String BUILD_OFFLINE = "OFFLINE";
 
-	private static Logger logger = Logger.getLogger(PluginManagerPlugin.class);
+	private static Logger logger = LogManager.getLogger(PluginManagerPlugin.class);
 
 	public static void main(String... args){
 
-		logger.debug("Start application");
+		logger.info("Start application");
 
         PlatformUtil.initBasicManagers();
 
@@ -238,6 +240,9 @@ public class PluginManagerPlugin extends AbstractUIPlugin {
 		
 		ICommandDescriptor exportProductCMD = cmdEP.command(PMBasics.EXPORT_PRODUCT_CMD_ID, "Export Product",
 				new ExportProductCommand());
+		
+		ICommandDescriptor updateVersionsCMD = cmdEP.command(PMBasics.UPDATE_VERSIONS_CMD_ID,
+				"Update Dependency Versions", new UpdateDependenciesCommand());
 
 		MenuExtensionPoint mEP = ExtensionPointManager.getExtensionPoint(MenuExtensionPoint.class);
 		
@@ -254,7 +259,7 @@ public class PluginManagerPlugin extends AbstractUIPlugin {
 		
 		ptb.menuItem("editSelection", editCMD).icon("icons/emiricons/32/edit.png").iconSize(32);
 		ptb.menuItem("removePlugins", removeCMD).icon("icons/emiricons/32/delete.png").iconSize(32);
-		
+		ptb.menuItem("updateDependencies", updateVersionsCMD).icon("icons/emiricons/32/next_plan.png").iconSize(32);
 		ptb.separator("afterRemoveSep");
 		
 		ptb.menuItem("gatherInfos", gatherInfosCMD).icon("icons/emiricons/32/cloud_sync.png").iconSize(32);

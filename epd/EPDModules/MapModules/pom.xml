@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>de.dlr-se.emir.epd</groupId>
 		<artifactId>EPDModules</artifactId>
-		<version>4.1.0</version>
+		<version>4.2.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>MapModules</artifactId>
 	<description>Contains modules which provide map extensions</description>

@@ -3,7 +3,7 @@ package de.emir.rcp.views.ep;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.emir.rcp.views.AbstractView;
 import de.emir.runtime.plugin.AbstractUIPlugin;

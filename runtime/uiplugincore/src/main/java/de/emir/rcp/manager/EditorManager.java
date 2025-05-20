@@ -12,7 +12,7 @@ import java.util.Optional;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.io.FilenameUtils;
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import bibliothek.gui.dock.common.MultipleCDockableFactory;
 import de.emir.model.universal.plugincore.var.ConfigObject;

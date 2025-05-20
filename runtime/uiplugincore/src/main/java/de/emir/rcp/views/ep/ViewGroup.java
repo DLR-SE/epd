@@ -7,7 +7,7 @@ import de.emir.tuml.ucore.runtime.extension.ServiceManager;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.resources.IconManager;
 import de.emir.tuml.ucore.runtime.resources.ResourceManager;
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.net.URL;

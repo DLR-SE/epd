@@ -30,6 +30,7 @@ import de.emir.rcp.views.ep.ViewExtensionPoint;
 import de.emir.runtime.plugin.AbstractUIPlugin;
 import de.emir.tuml.ucore.runtime.extension.ExtensionPointManager;
 import de.emir.tuml.ucore.runtime.extension.ServiceManager;
+import de.emir.tuml.ucore.runtime.resources.IconManager;
 import de.emir.tuml.ucore.runtime.resources.ResourceManager;
 
 public class MapViewPlugin extends AbstractUIPlugin {
@@ -133,23 +134,28 @@ public class MapViewPlugin extends AbstractUIPlugin {
 
         IMenuContribution layerViewToolbar = menuEP.menuContribution(MVBasic.LAYER_VIEW_TOOLBAR_ID);
         layerViewToolbar.menuItem(MVBasic.SHOW_ALL_LAYERS_MENU_ID, cmdShowAllLayers)
-                .icon("icons/emiricons/32/visibility.png", rmgr);
+            .icon("icons/emiricons/32/visibility.png", rmgr);
         layerViewToolbar.menuItem(MVBasic.HIDE_ALL_LAYERS_MENU_ID, cmdHideAllLayers)
-                .icon("icons/emiricons/32/visibility_off.png", rmgr);
+            .icon("icons/emiricons/32/visibility_off.png", rmgr);
 
         IMenuContribution mapViewToolbar = menuEP.menuContribution(MVBasic.MAP_VIEW_TOOLBAR_ID);
         mapViewToolbar.menuItem("basicSelectionTool", cmdBasicSelectionTool)
-                .icon("icons/emiricons/32/cursor2.png", rmgr)
-                .tooltip("Cursor Tool");
+            .icon("icons/emiricons/32/cursor2.png", rmgr)
+            .tooltip("Cursor Tool");
 
         mapViewToolbar.menuItem("lockViewOnCurrentSelection", cmdLockViewOnCurrentSelection)
-                .icon("icons/emiricons/32/lock.png");
-        mapViewToolbar.separator("undoRedoSeparator");
-        mapViewToolbar.menuItem("undo", Basic.CMD_UNDO)
+        	.after("basicSelectionTool")
+        	.icon("icons/emiricons/32/lock.png");
+        
+        IMenuContribution mainToolbar = menuEP.menuContribution(Basic.MENU_MAIN_TOOLBAR);
+        mainToolbar.separator("undoRedoSeparator")/*.after("saveMenuItem")*/;
+        mainToolbar.menuItem("undo", Basic.CMD_UNDO)
                 .icon("icons/emiricons/32/undo.png")
+                .iconSize(IconManager.preferedBigIconSize())
                 .after("undoRedoSeparator");
-        mapViewToolbar.menuItem("redo", Basic.CMD_REDO)
+        mainToolbar.menuItem("redo", Basic.CMD_REDO)
                 .icon("icons/emiricons/32/redo.png")
+                .iconSize(IconManager.preferedBigIconSize())
                 .after("undoRedoSeparator");
 
         // Key Bindings

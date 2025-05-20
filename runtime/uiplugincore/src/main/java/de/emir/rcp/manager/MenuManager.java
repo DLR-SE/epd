@@ -1,6 +1,7 @@
 package de.emir.rcp.manager;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
@@ -26,8 +27,9 @@ import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
+import bibliothek.gui.dock.station.stack.tab.MenuLineLayoutOrder.Item;
 import de.emir.rcp.commands.basics.ExternalBrowserCommand;
 import de.emir.rcp.ids.Basic;
 import de.emir.rcp.menu.CustomJButton;
@@ -165,6 +167,7 @@ public class MenuManager implements IService {
         mTopPanel.setLayout(new BorderLayout());
         mainWindow.add(mTopPanel, BorderLayout.NORTH);
         JLabel label = new JLabel();
+        JPanel panel = new JPanel(); // Just a spacer for the layout
         ResourceManager resourceManager = ResourceManager.get(MenuManager.class);
         ImageIcon icon = new ImageIcon(resourceManager.getImageIcon("branding/DLR-Programm_Icon.png").getImage().getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH));
         label.setIcon(icon);
@@ -181,7 +184,8 @@ public class MenuManager implements IService {
             }
         });
         mTopPanel.add(label, BorderLayout.EAST);
-        mTopPanel.add(mToolBar, BorderLayout.CENTER);
+        mTopPanel.add(panel, BorderLayout.CENTER);
+        mTopPanel.add(mToolBar, BorderLayout.WEST);
         mToolBar.setFloatable(false);
 
     }
@@ -359,31 +363,34 @@ public class MenuManager implements IService {
 
         if (menu instanceof JToolBar) {
             // Root
-
             JComponent c = null;
-
             if (entry instanceof Menu) {
-
                 c = createButtonMenu(entry, path);
-
             } else if (entry instanceof Separator) {
-
                 int orientation = ((JToolBar) menu).getOrientation();
                 int oo = CustomMenuUtil.getOppositeOrientation(orientation);
-                c = new CustomJToolbarSeparator(oo, path, entry.getPlugin());
+				c = new CustomJToolbarSeparator(oo, path, entry.getPlugin());
+				if (items.isEmpty()
+						|| (items.values().size() == 1 && items.values().iterator().next() instanceof JToolBar)) {
+					// Must be first element in this toolbar. Do not show lonely separators.
+					c.setVisible(false);
+				}
             } else if (entry instanceof MenuItem) {
-
                 c = createButtonMenuItem(entry, path);
-
             }
 
             if (c != null) {
-
+            	if (((JToolBar) menu).getComponents() != null && ((JToolBar) menu).getComponentCount() > 0) {
+					JComponent lc = (JComponent) ((JToolBar) menu)
+							.getComponentAtIndex(((JToolBar) menu).getComponentCount() - 1);
+            		if (lc != null && lc instanceof JSeparator && c instanceof JSeparator) {
+            			// Don't allow two neighboring separators 
+            			c.setVisible(false);
+            		}
+            	}
                 ((JToolBar) menu).add(c);
                 items.put(path, c);
-
             }
-
         } else if (menu instanceof CustomJButtonMenu) {
             // Roots children
             JComponent c = null;
@@ -393,20 +400,14 @@ public class MenuManager implements IService {
             } else if (entry instanceof Separator) {
                 c = new JSeparator();
             } else if (entry instanceof MenuItem) {
-
                 c = createMenuItem(entry, path);
-
             }
 
             if (c != null) {
-
                 ((CustomJButtonMenu) menu).addToPopup(c);
                 items.put(path, c);
-
             }
-
         } else if (menu instanceof JMenu) {
-
             JComponent c = null;
 
             if (entry instanceof Menu) {
@@ -414,23 +415,17 @@ public class MenuManager implements IService {
             } else if (entry instanceof Separator) {
                 c = new JSeparator();
             } else if (entry instanceof MenuItem) {
-
                 c = createMenuItem(entry, path);
-
             }
-
+            
             if (c != null) {
-
                 ((JMenu) menu).add(c);
                 items.put(path, c);
-
             }
-
         } else {
             LOG.error("Can't create menu entry. Parent has to be a valid container");
             return;
         }
-
     }
 
     private void createRadioGroup(RadioGroup<?> entry, Object menu, String path) {

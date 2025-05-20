@@ -111,7 +111,7 @@ public class ProductFile {
      * @param reader
      */
     private void readIdentity(final XMLReader reader) {
-        ULog.debug("read identity...", 1);
+        ULog.debug("read identity...");
         Node doc = reader.getRootNode();
         String groupId = reader.getValue(reader.getChild(doc, "groupId", false));
         String version = reader.getValue(reader.getChild(doc, "version", false));
@@ -120,7 +120,7 @@ public class ProductFile {
     }
 
     private void readRepositories(XMLReader reader) {
-        ULog.debug("read repositories...", 1);
+        ULog.debug("read repositories...");
         Node reps_node = reader.findNode(reader.getRootNode(), "repositories");
         if (reps_node != null) {
 
@@ -145,11 +145,11 @@ public class ProductFile {
             }
 
         }
-        ULog.debug(-1, "... repositories read");
+        ULog.debug("... repositories read");
     }
 
     private void readDependencies(XMLReader reader) {
-        ULog.debug("read dependencies...", 1);
+        ULog.debug("read dependencies...");
         Node deps_node = reader.findNode(reader.getRootNode(), "dependencies");
         if (deps_node != null) {
             for (Node dep : reader.getChildNodes(deps_node, "dependency")) {
@@ -167,11 +167,11 @@ public class ProductFile {
                 mDependencies.add(dependency);
             }
         }
-        ULog.debug(-1, "... dependencies read");
+        ULog.debug("... dependencies read");
     }
 
     private void readWorkspaces(XMLReader reader) {
-        ULog.debug("read workspaces...", 1);
+        ULog.debug("read workspaces...");
         Node ws_node = reader.findNode(reader.getRootNode(), "workspaces");
         if (ws_node != null) {
             for (Node wsdir : reader.getAllNodes(ws_node, "workspace")) {
@@ -185,7 +185,7 @@ public class ProductFile {
                 }
             }
         }
-        ULog.debug(-1, "... workspaces read");
+        ULog.debug("... workspaces read");
     }
 
     public String getLocalRepository() {

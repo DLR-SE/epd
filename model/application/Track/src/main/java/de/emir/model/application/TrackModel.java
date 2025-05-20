@@ -25,13 +25,13 @@ public class TrackModel implements UCorePlugin {
 		if (initialized)
 			return ;
 		initialized = true;
-		ULog.debug("initialize model Track ... ", 1);
+		ULog.debug("initialize model Track ... ");
 		//initialize referenced models
 		PhysicsModel.init();
 		
 		//initialize sub packages
 		TrackPackage.theInstance.init();
-		ULog.debug(-1, "... model Track initialized");
+		ULog.debug("... model Track initialized");
 	}
 	
 	/**

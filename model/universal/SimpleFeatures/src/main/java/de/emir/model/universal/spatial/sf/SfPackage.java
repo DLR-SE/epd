@@ -216,7 +216,7 @@ public class SfPackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package SfPackage ...", 1);
+		ULog.debug("initialize package SfPackage ...");
 		theInstance = new SfPackage();
 		//initialize referenced models
 		SpatialModel.init();
@@ -239,7 +239,7 @@ public class SfPackage
 		
 		
 		
-		ULog.debug(-1, "... package SfPackage initialized");
+		ULog.debug("... package SfPackage initialized");
 		
 		return theInstance;
 	}

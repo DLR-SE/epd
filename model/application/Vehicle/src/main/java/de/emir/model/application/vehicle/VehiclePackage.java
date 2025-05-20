@@ -180,7 +180,7 @@ public class VehiclePackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package VehiclePackage ...", 1);
+		ULog.debug("initialize package VehiclePackage ...");
 		theInstance = new VehiclePackage();
 		//initialize referenced models
 		PhysicsModel.init();
@@ -199,7 +199,7 @@ public class VehiclePackage
 		
 		
 		
-		ULog.debug(-1, "... package VehiclePackage initialized");
+		ULog.debug("... package VehiclePackage initialized");
 		
 		return theInstance;
 	}

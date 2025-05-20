@@ -31,7 +31,7 @@ import de.emir.tuml.ucore.runtime.IValueChangeListener;
 import de.emir.tuml.ucore.runtime.Notification;
 import de.emir.tuml.ucore.runtime.extension.ServiceManager;
 import de.emir.tuml.ucore.runtime.logging.ULog;
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 import java.awt.event.MouseEvent;
 
 import java.awt.*;

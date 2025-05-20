@@ -4,7 +4,7 @@
     <parent>
         <groupId>de.dlr-se.emir.epd</groupId>
         <artifactId>EPDCore</artifactId>
-        <version>4.1.0</version>
+        <version>4.2.0-SNAPSHOT</version>
     </parent>
     <artifactId>GeneralViews</artifactId>
     <description>
@@ -26,9 +26,9 @@
 
         <!-- https://mvnrepository.com/artifact/de.rototor.jeuclid/jeuclid-core -->
         <dependency>
-            <groupId>de.rototor.jeuclid</groupId>
-            <artifactId>jeuclid-core</artifactId>
-            <version>3.1.14</version>
+            <groupId>com.github.sbehrensen</groupId>
+            <artifactId>jeuclid</artifactId>
+            <version>3.1.15.3</version>
 			<exclusions>
 				<exclusion>
 					<groupId>xml-apis</groupId>
@@ -76,6 +76,12 @@
 	    	<groupId>com.github.kdekooter</groupId>
 	    	<artifactId>xml-text-editor</artifactId>
 	    	<version>c0f600076e</version>
+		</dependency>
+		
+		<dependency>
+    		<groupId>com.github.rjeschke</groupId>
+    		<artifactId>txtmark</artifactId>
+    		<version>0.13</version>
 		</dependency>
 
         <dependency>

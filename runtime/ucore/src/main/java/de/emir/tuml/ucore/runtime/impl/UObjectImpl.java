@@ -1,22 +1,6 @@
 package de.emir.tuml.ucore.runtime.impl;
 
-import java.beans.PropertyChangeListener;
-import java.util.*;
-
-import de.emir.tuml.ucore.runtime.DelegateFactory;
-import de.emir.tuml.ucore.runtime.IDelegateInterface;
-import de.emir.tuml.ucore.runtime.IDisposable;
-import de.emir.tuml.ucore.runtime.ITreeValueChangeListener;
-import de.emir.tuml.ucore.runtime.IValueChangeListener;
-import de.emir.tuml.ucore.runtime.Notification;
-import de.emir.tuml.ucore.runtime.NotificationType;
-import de.emir.tuml.ucore.runtime.RuntimePackage;
-import de.emir.tuml.ucore.runtime.UAssociationType;
-import de.emir.tuml.ucore.runtime.UClass;
-import de.emir.tuml.ucore.runtime.UObject;
-import de.emir.tuml.ucore.runtime.UOperation;
-import de.emir.tuml.ucore.runtime.UStructuralFeature;
-import de.emir.tuml.ucore.runtime.UType;
+import de.emir.tuml.ucore.runtime.*;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
 import de.emir.tuml.ucore.runtime.impl.internal.InternalUObject;
 import de.emir.tuml.ucore.runtime.lists.FeatureIterator;
@@ -29,8 +13,9 @@ import de.emir.tuml.ucore.runtime.utils.QualifiedName;
 import de.emir.tuml.ucore.runtime.utils.UCoreMetaRepository;
 import de.emir.tuml.ucore.runtime.utils.impl.QualifiedNameImpl;
 import de.emir.tuml.ucore.runtime.utils.internal.TreeObserverUtil;
-import de.emir.tuml.ucore.runtime.utils.internal.TreeObserverUtil.ITreeObserverOptions;
-import de.emir.tuml.ucore.runtime.utils.internal.TreeObserverUtil.TreeObserverOptions;
+
+import java.beans.PropertyChangeListener;
+import java.util.*;
 
 /**
  * @generated
@@ -489,40 +474,28 @@ abstract public class UObjectImpl implements UObject {
             _mClassifierListener = new DisposableList();
         }
         synchronized (_mClassifierListener) {
-            // first adding into a copy of the set and later replace the set. This way we want to avoid concurrent
-            // modification exceptions
-//            try {
-//            	if (_mClassifierListener.contains(_listener))
-//            		return _mClassifierListener.get(_listener);
             	ClassifierDisposable disp = new ClassifierDisposable(this, _listener);
                 _mClassifierListener.add(disp);
                 checkNeedsNotification();
                 return disp;
-//            } catch (NullPointerException npe) {
-//                ULog.error("mClassifierListener is NULL");
-//            }
         }
-//        return null;
     }
 
     public IDisposable registerTreeListener(final ITreeValueChangeListener listener) {
-        return registerTreeListener(listener, TreeObserverUtil.OPTIONS_ALL);
+        return registerTreeListener(listener, TreeObserverUtil.OPTIONS_ALLOW_ALL);
     }
 
-    public IDisposable registerTreeListener(final ITreeValueChangeListener listener, ITreeObserverOptions options) {
+    public IDisposable registerTreeListener(final ITreeValueChangeListener listener, TreeObserverUtil.ITreeObserverOptions options) {
         if (listener == null)
             return null;
         if (_mTreeListener == null) 
         	_mTreeListener = new DisposableList();
-//        UObjectDisposable d = _mTreeListener.get(listener);
-//        if (d != null) 
-//        	return d;
         UObjectDisposable d = new TreeListenerDisposable(this, listener);
 
         _mTreeListener.add(d);
 
-        TreeObserverUtil tou = new TreeObserverUtil(listener);
-        tou.register(this, options); //this will also register ClassifierListener
+        TreeObserverUtil tou = new TreeObserverUtil(listener, options);
+        tou.register(this); //this will also register ClassifierListener
         checkNeedsNotification();
         return d;
     }
@@ -531,18 +504,35 @@ abstract public class UObjectImpl implements UObject {
         if (listener == null)
             return;
 
-        if (_mClassifierListener == null)
-            return;
-
-        synchronized (_mClassifierListener) {
-            List<UObjectDisposable> list = new ArrayList<>(_mClassifierListener);
-            ListIterator<UObjectDisposable> iter = list.listIterator();
-            while (iter.hasNext()) {
-                UObjectDisposable item = iter.next();
-                if (item.getListener() instanceof TreeObserverUtil) {
-                    TreeObserverUtil tou = (TreeObserverUtil) item.getListener();
-                    if (tou.getDelegate() == listener) {
-                        tou.remove(this);
+        if (_mClassifierListener != null) {
+            synchronized (_mClassifierListener) {
+                List<UObjectDisposable> list = new ArrayList<>(_mClassifierListener);
+                ListIterator<UObjectDisposable> iter = list.listIterator();
+                while (iter.hasNext()) {
+                    UObjectDisposable item = iter.next();
+                    if (item.getListener() instanceof TreeObserverUtil) {
+                        TreeObserverUtil tou = (TreeObserverUtil) item.getListener();
+                        if (tou.getDelegate() == listener) {
+                            tou.remove(this);
+                        }
+                    }
+                }
+            }
+        }
+        if (_mFeatureListener != null) {
+            synchronized (_mFeatureListener) {
+                List<UObjectDisposable> list = new ArrayList<>();
+                for (UStructuralFeature feature : _mFeatureListener.keySet()) {
+                    list.addAll(_mFeatureListener.get(feature));
+                }
+                ListIterator<UObjectDisposable> iter = list.listIterator();
+                while (iter.hasNext()) {
+                    UObjectDisposable item = iter.next();
+                    if (item.getListener() instanceof TreeObserverUtil) {
+                        TreeObserverUtil tou = (TreeObserverUtil) item.getListener();
+                        if (tou.getDelegate() == listener) {
+                            tou.remove(this);
+                        }
                     }
                 }
             }

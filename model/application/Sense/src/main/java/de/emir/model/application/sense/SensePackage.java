@@ -253,7 +253,7 @@ public class SensePackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package SensePackage ...", 1);
+		ULog.debug("initialize package SensePackage ...");
 		theInstance = new SensePackage();
 		//initialize referenced models
 		PhysicsModel.init();
@@ -274,7 +274,7 @@ public class SensePackage
 		
 		
 		
-		ULog.debug(-1, "... package SensePackage initialized");
+		ULog.debug("... package SensePackage initialized");
 		
 		return theInstance;
 	}

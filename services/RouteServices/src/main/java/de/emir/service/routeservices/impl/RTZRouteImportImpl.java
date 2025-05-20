@@ -18,8 +18,8 @@ import de.emir.service.routeservices.RouteservicesPackage;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
 import de.emir.tuml.ucore.runtime.utils.XMLReaderIgnoreCase;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
@@ -49,7 +49,7 @@ import java.util.Collection;
 @UMLImplementation(classifier = IRTZRouteImport.class)
 public class RTZRouteImportImpl extends RouteImportImpl implements IRTZRouteImport  
 {
-	private static final Logger LOG = LoggerFactory.getLogger(RTZRouteImportImpl.class);
+	private static final Logger LOG = LogManager.getLogger(RTZRouteImportImpl.class);
 	
 			
 	/**

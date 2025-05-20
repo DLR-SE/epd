@@ -11,12 +11,11 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.slf4j.Logger;
-
 import de.emir.tuml.runtime.epf.ClasspathEntry;
 import de.emir.tuml.runtime.epf.PluginManager;
 import de.emir.tuml.runtime.epf.descriptors.ClassPathDescriptor;
 import de.emir.tuml.ucore.runtime.logging.ULog;
+import org.apache.logging.log4j.Logger;
 
 public class EClassLoader extends URLClassLoader {
 

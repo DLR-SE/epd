@@ -158,5 +158,17 @@ public interface Leg extends UObject
 	 */
 	@UMLProperty(name = "draughtAft", associationType = AssociationType.PROPERTY)
 	public void setDraughtAft(Distance _draughtAft);
+
+    /**
+     * @generated_not
+     * @return The cross track distance on the starboard side or distance 0 meter if XTD is not set.
+     */
+    public Distance getStarboardXTDNotNull();
+    
+    /**
+     * @generated_not
+     * @return The cross track distance on the port side or distance 0 meter if XTD is not set.
+     */
+    public Distance getPortsideXTDNotNull();
 	
 }

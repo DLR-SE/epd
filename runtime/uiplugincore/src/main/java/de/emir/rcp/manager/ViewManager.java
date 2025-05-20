@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import de.emir.rcp.views.ep.*;
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import bibliothek.gui.dock.common.SingleCDockable;
 import bibliothek.gui.dock.common.SingleCDockableFactory;

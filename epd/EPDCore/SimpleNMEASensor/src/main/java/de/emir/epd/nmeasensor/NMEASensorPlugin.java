@@ -19,6 +19,7 @@ import javax.swing.*;
  *
  */
 public class NMEASensorPlugin extends AbstractUIPlugin {
+	/** Static reference to the managed sensors. **/
 	private static NMEASensors SENSORS;
 
 	@Override
@@ -42,7 +43,6 @@ public class NMEASensorPlugin extends AbstractUIPlugin {
 
 	@Override
 	public void addExtensions() {
-		
 		ResourceManager rmgr = ResourceManager.get(getClass());
 		
 		// Settings EP
@@ -61,7 +61,6 @@ public class NMEASensorPlugin extends AbstractUIPlugin {
 
 		AlertManager.setVisible(NMEASensorIds.NMEA_SENSOR_OWNSHIP_ALERT_ID, true);
 		AlertManager.setVisible(NMEASensorIds.NMEA_SENSOR_AIS_ALERT_ID, true);
-
 	}
 
 }

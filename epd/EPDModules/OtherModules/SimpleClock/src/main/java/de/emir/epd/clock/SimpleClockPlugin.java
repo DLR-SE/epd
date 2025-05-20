@@ -8,7 +8,7 @@ import de.emir.rcp.views.ep.ViewExtensionPoint;
 import de.emir.runtime.plugin.AbstractUIPlugin;
 import de.emir.tuml.ucore.runtime.extension.ExtensionPointManager;
 import de.emir.tuml.ucore.runtime.logging.ULog;
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 public class SimpleClockPlugin extends AbstractUIPlugin {
     private static Logger LOG = ULog.getLogger(SimpleClockPlugin.class);

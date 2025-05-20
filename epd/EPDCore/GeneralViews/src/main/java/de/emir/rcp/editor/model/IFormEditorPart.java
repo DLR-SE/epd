@@ -1,9 +1,11 @@
 package de.emir.rcp.editor.model;
 
 
+import de.emir.tuml.ucore.runtime.resources.IconManager;
 import java.awt.Component;
 
 import de.emir.tuml.ucore.runtime.utils.Pointer;
+import javax.swing.Icon;
 
 /**
  * Provides an editor for a given type of UClassifier. 
@@ -40,4 +42,17 @@ public interface IFormEditorPart {
 	 * @return
 	 */
 	default boolean supports(Pointer pointer) { return true; }
+    
+    /**
+     * Return this FormEditorParts name. Override this method to set an own name for you editor.
+     * @return the default name "Unnamed Editor"
+     */
+    default String getName() { return "Unnamed Editor"; }
+    
+    /**
+     * Return this FormEditorParts icon. Override this method to set an own icon for you editor.
+     * @return the default icon resembling a pen
+     */
+    default Icon getIcon() { return IconManager.getIcon(IconManager.class,
+                "icons/emiricons/32/edit.png", IconManager.preferedSmallIconSize()); }
 }

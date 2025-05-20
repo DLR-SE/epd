@@ -3,8 +3,8 @@
  */
 package de.emir.service.connection.receiver;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import de.emir.service.connection.interfaces.Receiver;
 import de.emir.service.connection.interfaces.ReceiverListener;
@@ -32,7 +32,7 @@ public class SerialReceiver implements Receiver {
     /** Is close expected? */
     private boolean isCloseExpected = false;
     /** Log handler. */
-	static final Logger LOG = LoggerFactory.getLogger(SerialReceiver.class);
+	static final Logger LOG = LogManager.getLogger(SerialReceiver.class);
 	/** Local address. */
 	private String address = "COM1";
     /** Selected serial port. */

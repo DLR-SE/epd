@@ -315,7 +315,7 @@ public class CrsPackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package CrsPackage ...", 1);
+		ULog.debug("initialize package CrsPackage ...");
 		theInstance = new CrsPackage();
 		//initialize referenced models
 		CoreModel.init();
@@ -345,7 +345,7 @@ public class CrsPackage
 		
 		
 		
-		ULog.debug(-1, "... package CrsPackage initialized");
+		ULog.debug("... package CrsPackage initialized");
 		
 		return theInstance;
 	}

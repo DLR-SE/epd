@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.emir.runtime.plugin.windows.MainWindow;
 import de.emir.tuml.ucore.runtime.extension.IService;

@@ -15,6 +15,7 @@ public class MVBasic {
 	public static final String MAP_VIEW_PROP_TILE_SOURCE = "de.emir.epd.mapview.property.TileSource";
 	public static final String MAP_VIEW_PROP_WMS_URL = "de.emir.epd.mapview.property.WMSURL";
 	public static final String MAP_VIEW_PROP_WMS_LAYER = "de.emir.epd.mapview.property.WMSLayer";
+	public static final String MAP_VIEW_PROP_WMS_ATTRIBUTION = "de.emir.epd.mapview.property.WMSAttribution";
 	public static final String MAP_VIEW_PROP_CACHE_TILES_ON_HARD_DRIVE = "de.emir.epd.mapview.property.CacheTilesOnHardDrive";
 	public static final String MAP_VIEW_PROP_MAX_HARD_DRIVE_CACHED_TILES = "de.emir.epd.mapview.property.MaxHardDriveCachedTiles";
 	
@@ -61,14 +62,5 @@ public class MVBasic {
 	public static final String ACTIVATE_BASIC_SELECTION_TOOL_CMD = "de.emir.epd.mapview.activateBasicSelectionToolCommand";
 
 	// Tools
-	public static final String TOOLS_BASIC_SELECTION = "de.emir.epd.mapview.basicSelectionTool";
-
-
-
-
-
-
-
-
-	
+	public static final String TOOLS_BASIC_SELECTION = "de.emir.epd.mapview.basicSelectionTool";	
 }

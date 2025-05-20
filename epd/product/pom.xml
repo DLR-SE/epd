@@ -6,7 +6,7 @@
 	<parent>
         <groupId>de.dlr-se.emir.epd</groupId>
         <artifactId>epd</artifactId>
-        <version>4.1.0</version>
+        <version>4.2.0-SNAPSHOT</version>
     </parent>
 	<artifactId>epdcommunity</artifactId>
 	
@@ -144,7 +144,7 @@
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>2.7</version>
 				<configuration>
-					<skip>true</skip>
+					<skip>false</skip>
 				</configuration>
 			</plugin>
 			
@@ -175,9 +175,9 @@
 										<Manifest-Version>1.0</Manifest-Version>
 										<Specification-Title>eMIR Prototype Display</Specification-Title>
 										<Specification-Vendor>DLR</Specification-Vendor>
-										<Specification-Version>4.1.0</Specification-Version>
+										<Specification-Version>4.2.0-SNAPSHOT</Specification-Version>
 										<Implementation-Vendor>DLR</Implementation-Vendor>
-										<Implementation-Version>4.1.0</Implementation-Version>
+										<Implementation-Version>4.2.0-SNAPSHOT</Implementation-Version>
 										<Implementation-Title>eMIR Prototype Display</Implementation-Title>
 										<Extension-Name>Extension</Extension-Name>
 										<Main-Class>de.emaritime.epd.product.EPDCommunity</Main-Class>
@@ -233,9 +233,9 @@
 										<requires64Bit>true</requires64Bit>
 									</jre>
 									<versionInfo>
-										<fileVersion>4.1.0.0</fileVersion>
-										<txtFileVersion>4.1.0</txtFileVersion>
-										<productVersion>4.1.0.0</productVersion>
+										<fileVersion>4.2.0.0</fileVersion>
+										<txtFileVersion>4.2.0-SNAPSHOT</txtFileVersion>
+										<productVersion>4.2.0.0</productVersion>
 										<productName>eMIR Prototype Display</productName>
 										<internalName>epd</internalName>
 										<originalFilename>EPDCommunity.exe</originalFilename>
@@ -311,13 +311,6 @@
 				<version>${junit.version}</version>
 				<scope>test</scope>
 			</dependency>
-
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-
 		</dependencies>
 	</dependencyManagement>
 

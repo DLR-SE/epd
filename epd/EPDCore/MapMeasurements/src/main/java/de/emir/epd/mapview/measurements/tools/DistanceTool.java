@@ -113,6 +113,7 @@ public class DistanceTool extends AbstractMapViewTool {
 		if (pxStart != null && pxEnd != null) {
 
 			g.setColor(Color.DARK_GRAY);
+            g.setStroke(new BasicStroke(2));
 			g.draw(new Line2D.Double(pxStart, pxEnd));
 
 			double vx = (pxEnd.getX() - pxStart.getX());

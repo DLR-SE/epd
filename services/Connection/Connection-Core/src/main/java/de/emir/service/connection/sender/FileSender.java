@@ -8,8 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import de.emir.service.connection.interfaces.Listener;
 import de.emir.service.connection.interfaces.Sender;
@@ -17,7 +17,7 @@ import de.emir.service.connection.interfaces.SenderListener;
 
 public class FileSender implements Sender {
 	/** Log handler. */
-	static final Logger LOG = LoggerFactory.getLogger(FileSender.class);
+	static final Logger LOG = LogManager.getLogger(FileSender.class);
 	private SenderListener listener;
 	private String destination;
 	private PrintWriter printWriter;

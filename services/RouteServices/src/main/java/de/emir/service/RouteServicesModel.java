@@ -26,14 +26,14 @@ public class RouteServicesModel implements UCorePlugin {
 		if (initialized)
 			return ;
 		initialized = true;
-		ULog.debug("initialize model RouteServices ... ", 1);
+		ULog.debug("initialize model RouteServices ... ");
 		//initialize referenced models
 		IEC61174Model.init();
 		IOModel.init();
 		
 		//initialize sub packages
 		RouteservicesPackage.theInstance.init();
-		ULog.debug(-1, "... model RouteServices initialized");
+		ULog.debug("... model RouteServices initialized");
 	}
 
 	/**

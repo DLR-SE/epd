@@ -42,7 +42,7 @@ public class RouteCorridorGraphic extends Path2D.Double implements IGraphic<Rout
         for (int i = 0; i < wps.size(); i++) {
             Waypoint wp = wps.get(i);
             Coordinate pos = wp.getPosition();
-
+            if (wp.getLeg() == null) continue;
             if (last == null){
                 Waypoint next = wps.get(i + 1);
                 Angle a = pos.getAzimuth(next.getPosition());

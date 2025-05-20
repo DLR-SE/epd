@@ -1156,7 +1156,7 @@ public class VesselPackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package VesselPackage ...", 1);
+		ULog.debug("initialize package VesselPackage ...");
 		theInstance = new VesselPackage();
 		//initialize referenced models
 		VehicleModel.init();
@@ -1203,7 +1203,7 @@ public class VesselPackage
 		
 		
 		
-		ULog.debug(-1, "... package VesselPackage initialized");
+		ULog.debug("... package VesselPackage initialized");
 		
 		return theInstance;
 	}

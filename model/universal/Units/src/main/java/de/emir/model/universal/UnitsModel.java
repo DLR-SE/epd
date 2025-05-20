@@ -21,14 +21,14 @@ public class UnitsModel implements UCorePlugin {
 		if (initialized)
 			return ;
 		initialized = true;
-		ULog.debug("initialize model Units ... ", 1);
+		ULog.debug("initialize model Units ... ");
 		//initialize referenced models
 		CRSModel.init();
 		CoreModel.init();
 		
 		//initialize sub packages
 		UnitsPackage.theInstance.init();
-		ULog.debug(-1, "... model Units initialized");
+		ULog.debug("... model Units initialized");
 	}
 
 	/**

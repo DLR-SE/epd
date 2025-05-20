@@ -15,12 +15,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.emir.rcp.commands.basics.ExternalBrowserCommand;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.tuml.ucore.runtime.resources.ResourceManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
@@ -29,7 +29,7 @@ public class AboutDialog extends JDialog {
     private static final String URL_DLR = "https://www.dlr.de/se";
     private static final String URL_EMARITIME = "https://emaritime.de";
     private static final String URL_DIGITAL_INCUBATOR = "https://digitalincubator.maritimeconnectivity.net/";
-    static final Logger LOG = LoggerFactory.getLogger(AboutDialog.class);
+    static final Logger LOG = LogManager.getLogger(AboutDialog.class);
 
     public AboutDialog() {
         init();

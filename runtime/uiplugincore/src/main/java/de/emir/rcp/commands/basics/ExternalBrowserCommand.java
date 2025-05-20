@@ -3,15 +3,14 @@ package de.emir.rcp.commands.basics;
 import java.io.IOException;
 import java.net.URI;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.emir.rcp.commands.AbstractCommand;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ExternalBrowserCommand extends AbstractCommand {
 	String target;
 	String browserExecutable;
-	static final Logger LOG = LoggerFactory.getLogger(ExternalBrowserCommand.class);
+	static final Logger LOG = LogManager.getLogger(ExternalBrowserCommand.class);
 	
 	/**
 	 * Create a command that can open the given URL in the system default browser.

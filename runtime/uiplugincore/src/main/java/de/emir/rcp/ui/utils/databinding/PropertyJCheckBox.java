@@ -7,7 +7,8 @@ import javax.swing.JCheckBox;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
@@ -23,7 +24,7 @@ public class PropertyJCheckBox extends JCheckBox {
     private IProperty property;
     private PropertyChangeListener propertyChangeListener;
 
-    private Logger log = ULog.getLogger(PropertyJCheckBox.class);
+    private Logger log = LogManager.getLogger(PropertyJCheckBox.class);
 
     public PropertyJCheckBox(String label, String propertyContext, String propertyName, boolean defaultValue) {
         super(label);

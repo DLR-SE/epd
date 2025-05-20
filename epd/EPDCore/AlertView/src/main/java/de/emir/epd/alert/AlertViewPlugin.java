@@ -9,7 +9,7 @@ import de.emir.rcp.statusbar.ep.StatusBarExtensionPoint;
 import de.emir.runtime.plugin.AbstractUIPlugin;
 import de.emir.tuml.ucore.runtime.extension.ExtensionPointManager;
 import de.emir.tuml.ucore.runtime.logging.ULog;
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 public class AlertViewPlugin extends AbstractUIPlugin {
     private static Logger LOG = ULog.getLogger(AlertViewPlugin.class);

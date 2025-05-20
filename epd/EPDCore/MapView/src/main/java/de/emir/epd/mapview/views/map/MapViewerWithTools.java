@@ -291,6 +291,7 @@ public class MapViewerWithTools implements Painter<JXMapViewer>, MouseListener, 
 		Color color = g.getColor();
 		Color bg = g.getBackground();
 		Font font = g.getFont();
+        Paint paint = g.getPaint();
 
 		for (LayerController lc : layerControllers) {
 
@@ -301,6 +302,7 @@ public class MapViewerWithTools implements Painter<JXMapViewer>, MouseListener, 
 			g.setTransform(transform);
 			g.setColor(color);
 			g.setBackground(bg);
+            g.setPaint(paint);
 			g.setFont(font);
 
 			lc.paint(g);
@@ -311,6 +313,7 @@ public class MapViewerWithTools implements Painter<JXMapViewer>, MouseListener, 
 			g.setTransform(transform);
 			g.setColor(color);
 			g.setBackground(bg);
+            g.setPaint(paint);
 			g.setFont(font);
 
 			activeToolLayerController.paint(g);

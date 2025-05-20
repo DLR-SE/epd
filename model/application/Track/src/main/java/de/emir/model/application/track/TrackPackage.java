@@ -185,7 +185,7 @@ public class TrackPackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package TrackPackage ...", 1);
+		ULog.debug("initialize package TrackPackage ...");
 		theInstance = new TrackPackage();
 		//initialize referenced models
 		PhysicsModel.init();
@@ -202,7 +202,7 @@ public class TrackPackage
 		
 		
 		
-		ULog.debug(-1, "... package TrackPackage initialized");
+		ULog.debug("... package TrackPackage initialized");
 		
 		return theInstance;
 	}

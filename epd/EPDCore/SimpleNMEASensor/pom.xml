@@ -4,7 +4,7 @@
     <parent>
         <groupId>de.dlr-se.emir.epd</groupId>
         <artifactId>EPDCore</artifactId>
-        <version>4.1.0</version>
+        <version>4.2.0-SNAPSHOT</version>
     </parent>
     <artifactId>SimpleNMEASensor</artifactId>
     <name>Simple NMEA Sensor</name>
@@ -39,12 +39,6 @@
             <artifactId>SimpleFeatures.Operations</artifactId>
             <version>${model.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>de.dlr-se.emir.services.codecs</groupId>
-            <artifactId>NMEA0183Core</artifactId>
-            <version>${services.version}</version>
-        </dependency>
         
         <dependency>
             <groupId>de.dlr-se.emir.services</groupId>
@@ -75,6 +69,12 @@
             <version>${model.version}</version>
             <artifactId>AISSensor</artifactId>
         </dependency>
+        
+        <dependency>
+    		<groupId>net.sf.marineapi</groupId>
+    		<artifactId>marineapi</artifactId>
+    		<version>0.12.0</version>
+		</dependency>
 
         <dependency>
             <groupId>de.dlr-se.emir.epd</groupId>
@@ -87,6 +87,24 @@
             <artifactId>testng</artifactId>
             <version>7.10.2</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
     </dependencies>
 </project>

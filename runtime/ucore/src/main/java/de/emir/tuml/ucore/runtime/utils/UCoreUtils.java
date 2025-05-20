@@ -1,19 +1,10 @@
 package de.emir.tuml.ucore.runtime.utils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import de.emir.tuml.ucore.runtime.UAssociationType;
-import de.emir.tuml.ucore.runtime.UClass;
-import de.emir.tuml.ucore.runtime.UClassifier;
-import de.emir.tuml.ucore.runtime.UObject;
-import de.emir.tuml.ucore.runtime.UStructuralFeature;
-import de.emir.tuml.ucore.runtime.UType;
+import de.emir.tuml.ucore.runtime.*;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.utils.visitor.ReferenceVisitor;
+
+import java.util.*;
 
 public class UCoreUtils {
 
@@ -72,30 +63,6 @@ public class UCoreUtils {
 		return collectTypedChildren(root, pointer.getExpectedType());
 	}
 
-	/**
-	 * Collect all instances of the given type, that could be found in the subtree, defined by the root element
-	 * @param root root of the subtree to search in
-	 * @param type expected types
-	 * @return a collection with all instances, that inherit from type
-	 */
-	public static <T extends UObject> Collection<T> collectTypedChildren(UObject root, final UType type) {
-		final HashSet<T> result = new HashSet<>();
-		UVisitorUtil.visit(root, new ReferenceVisitor() {
-			@Override
-			public boolean beginObject(UObject obj, UClass cl) {
-				if (super.beginObject(obj, cl)){
-					if (obj.getUClassifier().inherits(type))
-						result.add((T)obj);
-					return true; //forward result from super.beginObject()
-				}
-				return false; //forward result from super
-			}
-			@Override
-			public void visit(UObject parent, UStructuralFeature feature, int list_index, Object value) {	} //we are only interested in the object itself
-			
-		});
-		return result;
-	}
 
 	/**
 	 * returns the topmost UObject of the tree this, value is assigned to 
@@ -152,44 +119,88 @@ public class UCoreUtils {
 	}
 
 	/**
-	 * Finds the first instance, that inherits the given class, within the subtree defined by the instance 
-	 * @param instance
-	 * @param clazz
+	 * Finds the first instance, that inherits the given class, within the subtree defined by the instance
+	 * @param instance root instance of tree where instance of clazz may exist
+	 * @param clazz class zu search for
 	 * @param includeInherited if set to true, this method also returns instances, who's class differs from the given clazz, but inherit from clazz
 	 * @return
 	 */
 	public static <T extends UObject> T firstInstance(UObject instance, Class<T> clazz, boolean includeInherited) {
-		return _firstInstance(instance, clazz, includeInherited, new HashSet<>());
-	}
-	
-	private static <T extends UObject> T _firstInstance(UObject instance, Class<T> clazz, boolean includeInherited, Set<UObject> visited) {
+		Deque<UObject> candidates = new ArrayDeque<>();
+		Set<UObject> visited = new HashSet<>(); // exists to handle circular trees
 		if (instance == null)
 			return null;
-		if (instance.getClass() == clazz)
-			return (T)instance;
-		if (visited.contains(instance))
-			return null;
-		visited.add(instance);
+		candidates.add(instance);
 
-		if (includeInherited && TypeUtils.inherits(instance.getClass(), clazz))
-			return (T)instance;
-
-		//TODO: remove recursive call
-		Iterable<UObject> iter = instance.getContentIterator();
-		for (UObject c : iter){
-			T v = _firstInstance(c, clazz, includeInherited, visited);
-			if (v != null)
-				return v;
+		while (!candidates.isEmpty()) {
+			UObject candidate = candidates.pop();
+			// avoid loops due to circular structure
+			if (visited.contains(candidate)) {
+				continue;
+			} else {
+				visited.add(candidate);
+			}
+			// check condition
+			if (includeInherited) {
+				if (TypeUtils.inherits(candidate.getClass(), clazz)) {
+					return (T) candidate;
+				}
+			} else {
+				if (candidate.getClass() == clazz) {
+					return (T) candidate;
+				}
+			}
+			// add next layer to deque
+			for (UObject newCandidate : candidate.getContentIterator()) {
+				candidates.add(newCandidate);
+			}
 		}
-		return null;
+		return null; // no matching object has been found
 	}
 
+	/**
+	 * Collect all instances of the given type, that could be found in the subtree, defined by the root element
+	 * @param root root of the subtree to search in
+	 * @param type expected types
+	 * @return a collection with all instances, that inherit from type
+	 */
+	public static <T extends UObject> Collection<T> collectTypedChildren(UObject root, final UType type) {
+		final HashSet<T> result = new HashSet<>();
+		UVisitorUtil.visit(root, new ReferenceVisitor() {
+			@Override
+			public boolean beginObject(UObject obj, UClass cl) {
+				if (super.beginObject(obj, cl)){
+					if (obj.getUClassifier().inherits(type))
+						result.add((T)obj);
+					return true; //forward result from super.beginObject()
+				}
+				return false; //forward result from super
+			}
+			@Override
+			public void visit(UObject parent, UStructuralFeature feature, int list_index, Object value) {	} //we are only interested in the object itself
+
+		});
+		return result;
+	}
+
+	/**
+	 * Collect all instances of the given type, that could be found in the subtree, defined by the root element
+	 * @param obj root of the subtree to search in
+	 * @param clazz expected types
+	 * @return a collection with all instances, that inherit from type
+	 */
 	public static <T extends UObject, U extends T> Collection<T> collectTypedChildren(UObject obj, Class<U> clazz) {
 		UClassifier cl = UCoreMetaRepository.findClassifier(clazz);
 		if (cl == null || obj == null) return null;
 		return collectTypedChildren(obj, cl);
 	}
 
+	/**
+	 * Collect all instances of the given type, that could be found in the subtree, defined by the root element
+	 * @param obj root of the subtree to search in
+	 * @param class1 expected types
+	 * @return a list with all instances, that inherit from type
+	 */
 	public static <T extends UObject, U extends T> List<T> collectTypedChildrenList(UObject obj, Class<U> class1) {
 		Collection<T> coll = collectTypedChildren(obj, class1);
 		if (coll != null && coll.isEmpty() == false){

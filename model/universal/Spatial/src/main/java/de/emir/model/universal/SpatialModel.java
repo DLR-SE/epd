@@ -23,7 +23,7 @@ public class SpatialModel implements UCorePlugin {
 		if (initialized)
 			return ;
 		initialized = true;
-		ULog.debug("initialize model Spatial ... ", 1);
+		ULog.debug("initialize model Spatial ... ");
 		//initialize referenced models
 		MathModel.init();
 		UnitsModel.init();
@@ -31,7 +31,7 @@ public class SpatialModel implements UCorePlugin {
 		
 		//initialize sub packages
 		SpatialPackage.theInstance.init();
-		ULog.debug(-1, "... model Spatial initialized");
+		ULog.debug("... model Spatial initialized");
 	}
 
 	/**

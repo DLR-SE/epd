@@ -4,7 +4,7 @@
     <parent>
         <groupId>de.dlr-se.emir</groupId>
         <artifactId>emir</artifactId>
-        <version>4.1.0</version>
+        <version>4.2.0-SNAPSHOT</version>
     </parent>
     <artifactId>epd</artifactId>
 	<groupId>de.dlr-se.emir.epd</groupId>
@@ -27,4 +27,12 @@
 		<module>EPDModules</module>
 		<module>product</module>
 	</modules>
+	
+	<distributionManagement>
+		<site>
+			<id>emir.website</id>
+			<name>eMIR Website</name>
+			<url>https://emaritime.de/epd/</url>
+		</site>
+	</distributionManagement>
 </project>

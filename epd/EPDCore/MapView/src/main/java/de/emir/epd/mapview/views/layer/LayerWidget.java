@@ -27,6 +27,7 @@ import de.emir.epd.mapview.ep.MapLayer;
 import de.emir.epd.mapview.ep.MapLayerSettingsPanel;
 import de.emir.epd.mapview.ids.MVBasic;
 import de.emir.epd.mapview.views.map.AbstractMapLayerSettingsPanel;
+import de.emir.rcp.UICorePlugin;
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
 import de.emir.tuml.ucore.runtime.logging.ULog;
@@ -46,11 +47,11 @@ public class LayerWidget extends JPanel {
 
 	private JCheckBox chckbxVisible;
 
-	private ImageIcon expandIcon = IconManager.getIcon(this, "icons/emiricons/32/arrow-right.png",
+	private ImageIcon expandIcon = IconManager.getIcon(UICorePlugin.class, "icons/emiricons/32/arrow-right.png",
 			IconManager.preferedSmallIconSize());
-	private ImageIcon collapseIcon = IconManager.getIcon(this, "icons/emiricons/32/arrow_drop_down.png",
+	private ImageIcon collapseIcon = IconManager.getIcon(UICorePlugin.class, "icons/emiricons/32/arrow_drop_down.png",
 			IconManager.preferedSmallIconSize());
-	private ImageIcon disabledExpandIcon = IconManager.getIcon(this, "icons/emiricons/32/arrow_right_disabled.png",
+	private ImageIcon disabledExpandIcon = IconManager.getIcon(UICorePlugin.class, "icons/emiricons/32/arrow_right_disabled.png",
 			IconManager.preferedSmallIconSize());
 	private JLabel expandButton;
 	private JPanel expandablePanel;
@@ -162,26 +163,6 @@ public class LayerWidget extends JPanel {
 		gbc_panel.gridy = 1;
 		add(expandablePanel, gbc_panel);
 		this.expandablePanel.setLayout(new BorderLayout(0, 0));
-
-//		panel_2 = new JPanel();
-//		panel_2.setBackground(UIManager.getColor("windowBorder"));
-//		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-//		gbc_panel_2.insets = new Insets(5, 5, 5, 5);
-//		gbc_panel_2.fill = GridBagConstraints.BOTH;
-//		gbc_panel_2.gridx = 0;
-//		gbc_panel_2.gridy = 0;
-//		expandablePanel.add(panel_2, gbc_panel_2);
-//		
-//		panel_2.setLayout(new BorderLayout());
-
-		// JSeparator separator = new JSeparator();
-		// GridBagConstraints gbc_separator = new GridBagConstraints();
-		// gbc_separator.insets = new Insets(0, 0, 5, 0);
-		// gbc_separator.gridwidth = 3;
-		// gbc_separator.fill = GridBagConstraints.HORIZONTAL;
-		// gbc_separator.gridx = 0;
-		// gbc_separator.gridy = 1;
-		// add(separator, gbc_separator);
 
 		MapLayerSettingsPanel sp = layer.getSettingsPanel();
 

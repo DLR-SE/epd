@@ -98,7 +98,7 @@ public class IoPackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package IoPackage ...", 1);
+		ULog.debug("initialize package IoPackage ...");
 		theInstance = new IoPackage();
 		//initialize referenced models
 		CoreModel.init();
@@ -115,7 +115,7 @@ public class IoPackage
 		
 		
 		
-		ULog.debug(-1, "... package IoPackage initialized");
+		ULog.debug("... package IoPackage initialized");
 		
 		return theInstance;
 	}

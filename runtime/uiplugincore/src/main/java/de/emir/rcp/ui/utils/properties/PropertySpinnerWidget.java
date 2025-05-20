@@ -13,7 +13,7 @@ import javax.swing.SpinnerModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
@@ -24,7 +24,7 @@ import de.emir.tuml.ucore.runtime.prop.IProperty;
  * @author Stefan Behrensen <stefan.behrensen@dlr.de>
  *
  */
-public class PropertySpinnerWidget extends JSpinner implements IPropertyWidget {
+public class PropertySpinnerWidget<T extends Number> extends JSpinner implements IPropertyWidget {
     private static final long serialVersionUID = -1784073412977777732L;
     private IProperty property;
     private Logger log = ULog.getLogger(PropertySpinnerWidget.class);
@@ -35,7 +35,7 @@ public class PropertySpinnerWidget extends JSpinner implements IPropertyWidget {
      * 
      * @param property
      */
-    public PropertySpinnerWidget(IProperty<?> property) {
+    public PropertySpinnerWidget(IProperty<T> property) {
         this.property = property;
         init();
     }
@@ -46,7 +46,7 @@ public class PropertySpinnerWidget extends JSpinner implements IPropertyWidget {
      * @param propertyName
      * @param defaultValue
      */
-    public PropertySpinnerWidget(String propertyContext, String propertyName, Integer defaultValue) {
+    public PropertySpinnerWidget(String propertyContext, String propertyName, T defaultValue) {
         PropertyContext context = PropertyStore.getContext(propertyContext);
         property = context.getProperty(propertyName, defaultValue);
         init();
@@ -57,7 +57,7 @@ public class PropertySpinnerWidget extends JSpinner implements IPropertyWidget {
      * @param property
      * @param model
      */
-    public PropertySpinnerWidget(IProperty property, SpinnerModel model) {
+    public PropertySpinnerWidget(IProperty<T> property, SpinnerModel model) {
         super(model);
         this.property = property;
         init();
@@ -70,7 +70,7 @@ public class PropertySpinnerWidget extends JSpinner implements IPropertyWidget {
      * @param defaultValue
      * @param model
      */
-    public PropertySpinnerWidget(String propertyContext, String propertyName, Integer defaultValue,
+    public PropertySpinnerWidget(String propertyContext, String propertyName, T defaultValue,
             SpinnerModel model) {
         super(model);
         PropertyContext context = PropertyStore.getContext(propertyContext);
@@ -103,11 +103,7 @@ public class PropertySpinnerWidget extends JSpinner implements IPropertyWidget {
 
     private void setValueFromProperty() {
         Object value = property.getValue();
-        if (value instanceof Integer == false) {
-            log.error("Property is not of type integer");
-            return;
-        }
-        this.setValue(value);
+        this.setValue((T) value);
         dirty = false;
     }
 
@@ -126,7 +122,7 @@ public class PropertySpinnerWidget extends JSpinner implements IPropertyWidget {
     }
     
     @Override
-    public IProperty getProperty() {
+    public IProperty<T> getProperty() {
         return property;
     }
 }

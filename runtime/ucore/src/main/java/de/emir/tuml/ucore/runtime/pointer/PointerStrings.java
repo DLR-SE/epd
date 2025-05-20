@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.slf4j.Logger;
-
 import de.emir.tuml.ucore.runtime.IStructuralElement;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.UClassifier;
@@ -22,10 +20,7 @@ import de.emir.tuml.ucore.runtime.utils.TypePointer;
 import de.emir.tuml.ucore.runtime.utils.UCoreMetaRepository;
 import de.emir.tuml.ucore.runtime.utils.impl.ObjectPointerImpl;
 import de.emir.tuml.ucore.runtime.utils.impl.TypePointerImpl;
-
-
-
-
+import org.apache.logging.log4j.Logger;
 
 
 /**
@@ -39,7 +34,7 @@ import de.emir.tuml.ucore.runtime.utils.impl.TypePointerImpl;
  */
 public class PointerStrings {
 	
-	private static final Logger						logger = ULog.getLogger(PointerStrings.class);
+	private static final Logger logger = ULog.getLogger(PointerStrings.class);
 	
 	private static final Pattern 					mAccessorPattern = Pattern.compile("(?:->)?(\\w*)(?:<(\\w*)>)?(\\(\\))?(?::(\\d*))?");
 	

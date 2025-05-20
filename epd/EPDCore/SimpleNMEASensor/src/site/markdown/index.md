@@ -1,0 +1,2 @@
+# SimpleNMEASensor
+This is the simple NMEA senor plugin for the EPD community edition. It uses the open-source [marine-api](https://github.com/ktuukkan/marine-api) to parse and decode NMEA0183 and AIS data.

@@ -706,7 +706,7 @@ public class RuntimePackage {
         if (theInstance != null)
             return theInstance;
 
-        ULog.debug("initialize package RuntimePackage ...", 1);
+        ULog.debug("initialize package RuntimePackage ...");
         theInstance = new RuntimePackage();
 
         theInstance.createClassifier();
@@ -742,7 +742,7 @@ public class RuntimePackage {
         p.getContent().add(theInstance.mUAssociationType);
         p.freeze();
 
-        ULog.debug(-1, "... package RuntimePackage initialized");
+        ULog.debug("... package RuntimePackage initialized");
 
         return theInstance;
     }

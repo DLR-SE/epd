@@ -3,7 +3,7 @@
  */
 package de.emir.epd.nmeasensor.receiver;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.emir.model.universal.io.IInputStream;
 import de.emir.model.universal.io.IOutputStream;

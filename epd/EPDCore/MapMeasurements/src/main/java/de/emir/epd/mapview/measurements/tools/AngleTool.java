@@ -19,6 +19,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
+import javax.swing.SwingConstants;
 
 public class AngleTool extends AbstractMapViewTool {
 
@@ -33,9 +34,6 @@ public class AngleTool extends AbstractMapViewTool {
 	private Cursor pinCursor;
 
 	private Dimension pinOnMapSize = new Dimension(32, 32);
-	private double distance;
-
-	private DecimalFormat df = new DecimalFormat("0");
 
 	public AngleTool() {
 		pinImage = IconManager.getImage(this, "icons/emiricons/32/location_on.png");
@@ -76,42 +74,31 @@ public class AngleTool extends AbstractMapViewTool {
 
 	@Override
 	public void paint(BufferingGraphics2D g, IDrawContext c) {
-
 		Point2D pxStart = null;
 		Point2D pxCenter = null;
 		Point2D pxEnd = null;
 
 		if (center != null) {
 			pxCenter = viewer.convert(center);
-
 			if (start != null) {
 				pxStart = viewer.convert(start);
-
 			} else {
 				pxStart = c.getMousePosition();
-
 			}
 		}
 
 		if (start != null) {
-
 			if (end != null) {
-
 				pxEnd = viewer.convert(end);
-
 			} else {
-
 				pxEnd = c.getMousePosition();
-
 			}
-
 		}
 
 		if (pxStart != null && pxCenter != null) {
-			
 			g.setColor(Color.DARK_GRAY);
+            g.setStroke(new BasicStroke(2));
 			g.draw(new Line2D.Double(pxStart, pxCenter));
-
 		}
 
 		if (pxCenter != null && pxEnd != null) {
@@ -119,20 +106,12 @@ public class AngleTool extends AbstractMapViewTool {
 		}
 		
 		if(pxStart != null && pxCenter != null && pxEnd != null && center != null && start != null) {
-			
 			GeoPosition tmpEnd = end;
-			
+	
 			if(tmpEnd == null) {
 				// Use mouse pos if end not set
 				tmpEnd = c.convert(pxEnd);
-			}
-			
-//			
-//			double angle = getAngle(start.getLatitude(), start.getLongitude(), center.getLatitude(),
-//					center.getLongitude(), tmpEnd.getLatitude(), tmpEnd.getLongitude());
-			
-//			System.out.println(angle);
-			
+			}		
 			
 			int width = 70;
 			int height = 70;
@@ -144,10 +123,23 @@ public class AngleTool extends AbstractMapViewTool {
 			Coordinate te = new CoordinateImpl(tmpEnd.getLatitude(), tmpEnd.getLongitude(), CRSUtils.WGS84_2D);
 			double angle1 = cs.getAzimuth(cc).getAs(AngleUnit.DEGREE);
 			double angle2 = te.getAzimuth(cc).getAs(AngleUnit.DEGREE);
-			g.fill(new Arc2D.Double(pxCenter.getX() - width/2.0, pxCenter.getY() - height/2.0, width, height, -angle1 + 90, -(angle2 - angle1), Arc2D.OPEN));
-			
+//			g.fill(new Arc2D.Double(pxCenter.getX() - width/2.0, pxCenter.getY() - height/2.0, width, height, angle1, -(angle2 - angle1), Arc2D.OPEN));
+            String angleFormated = "";
+            if (angle2 < angle1) {
+                g.draw(new Arc2D.Double(pxCenter.getX() - width/2.0, pxCenter.getY() - height/2.0, width, height, -90 - angle1, (angle1 - angle2), Arc2D.PIE));
+                angleFormated = getAngleString(angle1 - angle2);
+            } else {
+                g.draw(new Arc2D.Double(pxCenter.getX() - width/2.0, pxCenter.getY() - height/2.0, width, height, -90 - angle2, (angle2 - angle1), Arc2D.PIE));
+                angleFormated = getAngleString(angle2 - angle1);
+            }
+    
+            double infoPosX = pxStart.getX() - (pxStart.getX() - pxEnd.getX()) / 2;
+			double infoPosY = pxStart.getY() - (pxStart.getY() - pxEnd.getY()) / 2;			
+
+            // only for debugging:
+//            angleFormated = angleFormated + "\na1: " + String.format("%.2f", angle1) + "\na2: " + String.format("%.2f", angle2);
+			c.drawInfobox(g, angleFormated, (int)infoPosX, (int)infoPosY, SwingConstants.CENTER, SwingConstants.TOP);
 		}
-		
 
 		drawPoint(g, pxStart);
 		drawPoint(g, pxCenter);
@@ -155,22 +147,9 @@ public class AngleTool extends AbstractMapViewTool {
 
 	}
 
-	private String getAngleString() {
-
-		String unit = "m";
-
-		double d = distance;
-
-		if (distance > 1000) {
-
-			unit = "km";
-			d = d / 1000;
-		}
-
-		String distFormated = df.format(d);
-
-		return distFormated + " " + unit;
-
+	private String getAngleString(double angle) {
+		String unit = "°";
+		return String.format("%.2f", angle) + unit;
 	}
 
 	private void drawPoint(BufferingGraphics2D g, Point2D pos) {

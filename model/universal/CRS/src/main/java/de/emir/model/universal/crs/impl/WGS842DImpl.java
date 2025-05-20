@@ -109,18 +109,24 @@ public class WGS842DImpl extends WGS84CRSImpl implements WGS842D
 		return new WGS842DImpl(this);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	@Override
-	public double getDistance(Vector _loc1, Vector _loc2) {
-		Vector2D loc1 = (Vector2D)_loc1; //cast is faster, this way we do not have to use the delegate operations
-		Vector2D loc2 = (Vector2D)_loc2;
-		return getCalculator().getDistance(loc1.getX(), loc1.getY(), loc2.getX(), loc2.getY());
+	public double getDistance(Vector loc1, Vector loc2) {
+		assert loc1.dimensions() >= 2;
+		assert loc2.dimensions() >= 2;
+		return getCalculator().getDistance(loc1.get(0), loc1.get(1), loc2.get(0), loc2.get(1));
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	@Override
-	public Vector getDistanceAndAzimuth(Vector _loc1, Vector _loc2) {
-		Vector2D loc1 = (Vector2D)_loc1; //cast is faster, this way we do not have to use the delegate operations
-		Vector2D loc2 = (Vector2D)_loc2;
-		double[] r = getCalculator().getDistanceAndAzimuth(loc1.getX(), loc1.getY(), loc2.getX(), loc2.getY());
+	public Vector getDistanceAndAzimuth(Vector loc1, Vector loc2) {
+		assert loc1.dimensions() >= 2;
+		assert loc2.dimensions() >= 2;
+		double[] r = getCalculator().getDistanceAndAzimuth(loc1.get(0), loc1.get(1), loc2.get(0), loc2.get(1));
 		return new Vector2DImpl(r);
 	}
 	

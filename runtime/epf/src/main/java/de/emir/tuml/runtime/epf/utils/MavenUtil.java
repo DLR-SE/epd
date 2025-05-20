@@ -240,8 +240,9 @@ public class MavenUtil {
             return null;
 
         Artifact artifact = null;
-        if (mCoordinateToArtifact.containsKey(coordinate))
+        if (mCoordinateToArtifact.containsKey(coordinate)) {
             artifact = mCoordinateToArtifact.get(coordinate);
+        }
         try {
             ArtifactResult ar = mTA.resolveArtifact(coordinate);
             if (ar != null)
@@ -268,10 +269,15 @@ public class MavenUtil {
                     }
                 }
             }
-            ULog.error(e);
+            if (artifact != null && artifact.getArtifactId() != null) {
+                ULog.error(e);
+            } else {
+            	ULog.info("Root artifact.");
+            }
         }
-        if (artifact != null)
+        if (artifact != null) {
             mCoordinateToArtifact.put(coordinate, artifact);
+        }
         return artifact;
     }
 

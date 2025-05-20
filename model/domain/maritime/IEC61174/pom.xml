@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>de.dlr-se.emir.model.domain.maritime</groupId>
 		<artifactId>maritime</artifactId>
-		<version>4.1.0</version>
+		<version>4.2.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>IEC61174</artifactId>
 

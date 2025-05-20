@@ -24,13 +24,13 @@ public class AISSensorModel implements UCorePlugin {
 		if (initialized)
 			return ;
 		initialized = true;
-		ULog.debug("initialize model AISSensor ... ", 1);
+		ULog.debug("initialize model AISSensor ... ");
 		//initialize referenced models
 		SenseModel.init();
 		
 		//initialize sub packages
 		AisPackage.theInstance.init();
-		ULog.debug(-1, "... model AISSensor initialized");
+		ULog.debug("... model AISSensor initialized");
 	}
 
 	/**

@@ -3,7 +3,6 @@ package de.emir.service.connection.sender;
 import com.vlkan.rfos.Clock;
 import com.vlkan.rfos.policy.TimeBasedRotationPolicy;
 
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
@@ -13,8 +12,6 @@ import java.time.temporal.ChronoUnit;
  * Policy for triggering a rotation at every hour.
  */
 public class HourlyRotationPolicy extends TimeBasedRotationPolicy {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(HourlyRotationPolicy.class);
 
     private static final HourlyRotationPolicy INSTANCE = new HourlyRotationPolicy();
 
@@ -38,8 +35,8 @@ public class HourlyRotationPolicy extends TimeBasedRotationPolicy {
     }
 
     @Override
-    protected Logger getLogger() {
-        return LOGGER;
+    protected org.slf4j.Logger getLogger() {
+        return LoggerFactory.getLogger(HourlyRotationPolicy.class);
     }
 
     @Override

@@ -1,20 +1,9 @@
 package de.emir.tuml.ucore.runtime.impl;
 
-import java.util.List;
-
-import de.emir.tuml.ucore.runtime.Notification;
-import de.emir.tuml.ucore.runtime.RuntimePackage;
-import de.emir.tuml.ucore.runtime.NotificationType;
-import de.emir.tuml.ucore.runtime.UAnnotation;
-import de.emir.tuml.ucore.runtime.UClass;
-import de.emir.tuml.ucore.runtime.UEnum;
-import de.emir.tuml.ucore.runtime.UMultiplicity;
-import de.emir.tuml.ucore.runtime.UPackage;
-import de.emir.tuml.ucore.runtime.UPrimitiveType;
-import de.emir.tuml.ucore.runtime.impl.UNamedElementImpl;
-import de.emir.tuml.ucore.runtime.UType;
-import de.emir.tuml.ucore.runtime.UTypedElement;
+import de.emir.tuml.ucore.runtime.*;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
+
+import java.util.List;
 
 /**
  * @generated

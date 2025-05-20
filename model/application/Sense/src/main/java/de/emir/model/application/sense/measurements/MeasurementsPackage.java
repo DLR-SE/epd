@@ -250,7 +250,7 @@ public class MeasurementsPackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package MeasurementsPackage ...", 1);
+		ULog.debug("initialize package MeasurementsPackage ...");
 		theInstance = new MeasurementsPackage();
 		//initialize referenced models
 		PhysicsModel.init();
@@ -273,7 +273,7 @@ public class MeasurementsPackage
 		
 		
 		
-		ULog.debug(-1, "... package MeasurementsPackage initialized");
+		ULog.debug("... package MeasurementsPackage initialized");
 		
 		return theInstance;
 	}

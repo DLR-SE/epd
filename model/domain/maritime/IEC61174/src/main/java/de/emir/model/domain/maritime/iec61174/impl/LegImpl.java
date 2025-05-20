@@ -4,7 +4,9 @@ import de.emir.model.domain.maritime.iec61174.Iec61174Package;
 import de.emir.model.domain.maritime.iec61174.Leg;
 import de.emir.model.domain.maritime.iec61174.LegGeometryType;
 import de.emir.model.universal.units.Distance;
+import de.emir.model.universal.units.DistanceUnit;
 import de.emir.model.universal.units.Speed;
+import de.emir.model.universal.units.impl.DistanceImpl;
 import de.emir.tuml.ucore.runtime.Notification;
 import de.emir.tuml.ucore.runtime.NotificationType;
 import de.emir.tuml.ucore.runtime.UClass;
@@ -202,6 +204,13 @@ public class LegImpl extends UObjectImpl implements Leg
 	public Distance getStarboardXTD() {
 		return mStarboardXTD;
 	}
+    
+    /**
+	 *	@generated_not
+	 */
+	public Distance getStarboardXTDNotNull() {
+		return mStarboardXTD != null ? mStarboardXTD : new DistanceImpl(0, DistanceUnit.METER);
+	}
 
 	/**
 	 *	@generated 
@@ -226,6 +235,13 @@ public class LegImpl extends UObjectImpl implements Leg
 	 */
 	public Distance getPortsideXTD() {
 		return mPortsideXTD;
+	}
+    
+    /**
+	 *	@generated 
+	 */
+	public Distance getPortsideXTDNotNull() {
+		return mPortsideXTD != null ? mPortsideXTD : new DistanceImpl(0, DistanceUnit.METER);
 	}
 
 	/**

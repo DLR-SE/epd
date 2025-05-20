@@ -7,8 +7,8 @@ import jssc.SerialPort;
 import jssc.SerialPortException;
 import jssc.SerialPortList;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import de.emir.service.connection.interfaces.Sender;
 import de.emir.service.connection.interfaces.SenderListener;
@@ -21,7 +21,7 @@ import de.emir.service.connection.interfaces.SenderListener;
  */
 public class SerialSender implements Sender {
 	/** Log handler. */
-	static final Logger LOG = LoggerFactory.getLogger(SerialSender.class);
+	static final Logger LOG = LogManager.getLogger(SerialSender.class);
 	/** Sender listener. */
 	private SenderListener listener;
 	/** Selected serial port. */

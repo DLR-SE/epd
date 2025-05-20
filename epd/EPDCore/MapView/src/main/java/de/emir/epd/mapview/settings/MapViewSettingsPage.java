@@ -38,8 +38,8 @@ public class MapViewSettingsPage extends AbstractSettingsPage {
 	private TileSource initialTileSource = null;
 
 	private PropertyTextWidget wmsUrlText;
-
 	private PropertyTextWidget wmsLayerText;
+	private PropertyTextWidget wmsAttributionText;
 	private JPanel wmsPanel;
 
 	private PropertyCheckboxWidget chckbxCacheTilesLocally;
@@ -176,7 +176,7 @@ public class MapViewSettingsPage extends AbstractSettingsPage {
 		GridBagLayout gbl_wmsPanel = new GridBagLayout();
 
 		gbl_wmsPanel.columnWeights = new double[] { 0.0, 1.0 };
-		gbl_wmsPanel.rowWeights = new double[] { 0.0, 0.0, 0.0 };
+		gbl_wmsPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0 };
 		wmsPanel.setLayout(gbl_wmsPanel);
 
 		JLabel lblWmsSettings = new JLabel("WMS Settings");
@@ -184,14 +184,14 @@ public class MapViewSettingsPage extends AbstractSettingsPage {
 		GridBagConstraints gbc_lblWmsSettings = new GridBagConstraints();
 		gbc_lblWmsSettings.anchor = GridBagConstraints.WEST;
 		gbc_lblWmsSettings.gridwidth = 2;
-		gbc_lblWmsSettings.insets = new Insets(0, 0, 5, 5);
+		gbc_lblWmsSettings.insets = new Insets(0, 0, 5, 0);
 		gbc_lblWmsSettings.gridx = 0;
 		gbc_lblWmsSettings.gridy = 0;
 		wmsPanel.add(lblWmsSettings, gbc_lblWmsSettings);
 
 		JLabel lblNewLabel_1 = new JLabel("URL: ");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1.gridx = 0;
 		gbc_lblNewLabel_1.gridy = 1;
@@ -208,65 +208,73 @@ public class MapViewSettingsPage extends AbstractSettingsPage {
 
 		JLabel lblNewLabel_2 = new JLabel("Layer:");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2.gridx = 0;
 		gbc_lblNewLabel_2.gridy = 2;
 		wmsPanel.add(lblNewLabel_2, gbc_lblNewLabel_2);
 		wmsLayerText = new PropertyTextWidget(MVBasic.MAP_VIEW_PROP_CONTEXT, MVBasic.MAP_VIEW_PROP_WMS_LAYER, "");
 		GridBagConstraints gbc_wmsLayerText = new GridBagConstraints();
+		gbc_wmsLayerText.insets = new Insets(0, 0, 5, 0);
 		gbc_wmsLayerText.fill = GridBagConstraints.HORIZONTAL;
 		gbc_wmsLayerText.gridx = 1;
 		gbc_wmsLayerText.gridy = 2;
 		wmsPanel.add(wmsLayerText, gbc_wmsLayerText);
+		
+		JLabel lblNewLabel_3 = new JLabel("Attribution:");
+		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
+		gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_3.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNewLabel_3.gridx = 0;
+		gbc_lblNewLabel_3.gridy = 3;
+		wmsPanel.add(lblNewLabel_3, gbc_lblNewLabel_3);
+		
+		wmsAttributionText = new PropertyTextWidget("de.emir.epd.mapview.propertiesContext.MapViewPropertiesContext", "de.emir.epd.mapview.property.WMSAttribution", "");
+		GridBagLayout gbl_wmsAttributionText = (GridBagLayout) wmsAttributionText.getLayout();
+		gbl_wmsAttributionText.rowWeights = new double[]{0.0};
+		gbl_wmsAttributionText.rowHeights = new int[]{0};
+		gbl_wmsAttributionText.columnWeights = new double[]{1.0};
+		gbl_wmsAttributionText.columnWidths = new int[]{0};
+		GridBagConstraints gbc_wmsAttributionText = new GridBagConstraints();
+		gbc_wmsAttributionText.fill = GridBagConstraints.BOTH;
+		gbc_wmsAttributionText.gridx = 1;
+		gbc_wmsAttributionText.gridy = 3;
+		wmsPanel.add(wmsAttributionText, gbc_wmsAttributionText);
 
 		list.setSelectedValue(initialTileSource, true);
 
 		list.addListSelectionListener(new ListSelectionListener() {
-
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-
                 selectedTileSource = list.getSelectedValue();
 				handleWMSPanel();
-
 			}
 		});
-
 		handleWMSPanel();
-		
 		return p;	
 	}
 
 	private void handleWMSPanel() {
-
 		if (selectedTileSource == null) {
-
 			wmsPanel.setVisible(false);
-
 			return;
 		}
-
 		String id = selectedTileSource.getId();
-
 		if (id == null) {
 			wmsPanel.setVisible(false);
-
 			return;
 		}
-
 		wmsPanel.setVisible(id.equals(MVBasic.WMS_TILE_SOURCE_ID));
-
 	}
 
 	@Override
 	public boolean isDirty() {
 		return selectedTileSource != initialTileSource || wmsUrlText.isDirty() || wmsLayerText.isDirty()
-				|| chckbxCacheTilesLocally.isDirty() || maxCachedTiles.isDirty();
+				|| chckbxCacheTilesLocally.isDirty() || maxCachedTiles.isDirty() || wmsAttributionText.isDirty();
 	}
 
 	@Override
 	public void finish() {
-
 		if (selectedTileSource == null) {
 			return;
 		}
@@ -278,7 +286,6 @@ public class MapViewSettingsPage extends AbstractSettingsPage {
 		wmsUrlText.finish();
 		wmsLayerText.finish();
 		maxCachedTiles.finish();
-
+		wmsAttributionText.finish();
 	}
-
 }

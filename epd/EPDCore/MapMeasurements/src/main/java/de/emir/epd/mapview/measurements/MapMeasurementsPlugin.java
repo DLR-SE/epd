@@ -45,11 +45,16 @@ public class MapMeasurementsPlugin extends AbstractUIPlugin {
 		// Menu Entries
 		MenuExtensionPoint mEP = ExtensionPointManager.getExtensionPoint(MenuExtensionPoint.class);
 		mEP.menuContribution(MVBasic.MAP_VIEW_TOOLBAR_ID)
-				.separator("measureToolsSeparator");
+				.separator("measureToolsSeparator")
+				.after("lockViewOnCurrentSelection");
 		mEP.menuContribution(MVBasic.MAP_VIEW_TOOLBAR_ID)
-				.menuItem("measureDistanceToolItem", mdtc).icon("icons/emiricons/32/straighten.png");
-		mEP.menuContribution(MVBasic.MAP_VIEW_TOOLBAR_ID).
-				menuItem("measureAngleToolItem", matc).icon("icons/emiricons/32/square_foot.png");
+				.menuItem("measureDistanceToolItem", mdtc)
+				.after("measureToolsSeparator")
+				.icon("icons/emiricons/32/straighten.png");
+		mEP.menuContribution(MVBasic.MAP_VIEW_TOOLBAR_ID)
+				.menuItem("measureAngleToolItem", matc)
+				.after("measureToolsSeparator")
+				.icon("icons/emiricons/32/square_foot.png");
 	}
 	
 	

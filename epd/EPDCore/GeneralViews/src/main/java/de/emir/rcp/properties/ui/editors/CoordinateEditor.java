@@ -30,6 +30,7 @@ public class CoordinateEditor extends AbstractPropertyEditor<Coordinate>{
 	private IPropertyEditor mPeY;
 	private IPropertyEditor mPeZ;
 	private IPropertyEditor mPeCRS;
+    private boolean hasCRS = true;
 	
 	public void setHorizontalOrientation(){ mHorizontal = true;}
 	public void setVerticalOrientation() { mHorizontal = false;}
@@ -115,7 +116,7 @@ public class CoordinateEditor extends AbstractPropertyEditor<Coordinate>{
 		mEditor.add(mLblX, gbc); gbc.gridy++;
 		mEditor.add(mLblY, gbc); gbc.gridy++;
 		mEditor.add(mLblZ, gbc); gbc.gridy++;
-		mEditor.add(mLblCRS, gbc); gbc.gridy++;
+		if (hasCRS) { mEditor.add(mLblCRS, gbc); gbc.gridy++; }
 		
 		gbc.gridx = 1;
 		gbc.gridy = 0;
@@ -127,7 +128,7 @@ public class CoordinateEditor extends AbstractPropertyEditor<Coordinate>{
 		mEditor.add(mPeY.getEditor(), gbc); gbc.gridy++;
 		mEditor.add(mPeZ.getEditor(), gbc); gbc.gridy++;
 		gbc.fill = GridBagConstraints.NONE;
-		mEditor.add(mPeCRS.getEditor(), gbc); gbc.gridy++;
+        if (hasCRS) { mEditor.add(mPeCRS.getEditor(), gbc); gbc.gridy++; }
 	}
 
 	private void layoutHorizontal() {
@@ -141,7 +142,7 @@ public class CoordinateEditor extends AbstractPropertyEditor<Coordinate>{
 		mEditor.add(mLblX, gbc); gbc.gridx++;
 		mEditor.add(mLblY, gbc); gbc.gridx++;
 		mEditor.add(mLblZ, gbc); gbc.gridx++;
-		mEditor.add(mLblCRS, gbc); gbc.gridx++;
+		if (hasCRS) { mEditor.add(mLblCRS, gbc); gbc.gridx++; }
 		
 		gbc.gridx = 0;
 		gbc.gridy = 1;
@@ -153,7 +154,7 @@ public class CoordinateEditor extends AbstractPropertyEditor<Coordinate>{
 		mEditor.add(mPeZ.getEditor(), gbc); gbc.gridx++;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.weightx = 0;
-		mEditor.add(mPeCRS.getEditor(), gbc); gbc.gridx++;
+		if (hasCRS) { mEditor.add(mPeCRS.getEditor(), gbc); gbc.gridx++; }
 		
 	}
 
@@ -164,4 +165,8 @@ public class CoordinateEditor extends AbstractPropertyEditor<Coordinate>{
 		
 	}
 
+    public Component getEditor(boolean hasCRS) {
+        this.hasCRS = hasCRS;
+        return super.getEditor();
+    }
 }

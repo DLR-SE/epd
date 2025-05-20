@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import de.emir.ui.utils.TreeUtils;
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.settings.AbstractSettingsPage;

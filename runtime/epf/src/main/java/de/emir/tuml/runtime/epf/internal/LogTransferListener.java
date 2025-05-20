@@ -6,15 +6,16 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.aether.transfer.AbstractTransferListener;
 import org.eclipse.aether.transfer.TransferEvent;
 import org.eclipse.aether.transfer.TransferResource;
-import org.slf4j.Logger;
 
 import de.emir.tuml.ucore.runtime.logging.ULog;
 
 public class LogTransferListener extends AbstractTransferListener {
-    Logger LOG = ULog.getLogger(LogTransferListener.class.getName());
+    Logger LOG = LogManager.getLogger(LogTransferListener.class);
 
     private Map<TransferResource, Long> downloads = new ConcurrentHashMap<TransferResource, Long>();
 

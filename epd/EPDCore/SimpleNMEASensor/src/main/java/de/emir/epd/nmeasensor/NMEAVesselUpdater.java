@@ -1,5 +1,10 @@
 package de.emir.epd.nmeasensor;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.logging.log4j.Logger;
+
 import de.emir.epd.alert.manager.AlertManager;
 import de.emir.epd.alert.manager.AlertState;
 import de.emir.epd.model.EPDModel;
@@ -34,26 +39,36 @@ import de.emir.model.universal.spatial.sf.LinearRing;
 import de.emir.model.universal.spatial.sf.Polygon;
 import de.emir.model.universal.spatial.sf.impl.LinearRingImpl;
 import de.emir.model.universal.spatial.sf.impl.PolygonImpl;
-import de.emir.model.universal.units.*;
-import de.emir.model.universal.units.impl.*;
+import de.emir.model.universal.units.AngleUnit;
+import de.emir.model.universal.units.AngularSpeedUnit;
+import de.emir.model.universal.units.DistanceUnit;
+import de.emir.model.universal.units.Length;
+import de.emir.model.universal.units.SpeedUnit;
+import de.emir.model.universal.units.impl.AngleImpl;
+import de.emir.model.universal.units.impl.AngularSpeedImpl;
+import de.emir.model.universal.units.impl.EulerImpl;
+import de.emir.model.universal.units.impl.LengthImpl;
+import de.emir.model.universal.units.impl.SpeedImpl;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
-import de.emir.service.codecs.nmea0183.encoding.sentence.Sentence;
-import de.emir.service.codecs.nmea0183.encoding.sentence.aissentences.encryption.AISPayloadEncryptionUtil;
-import de.emir.service.codecs.nmea0183.encoding.sentence.aissentences.payload.decoded.DecodedAISPayload;
-import de.emir.service.codecs.nmea0183.encoding.sentence.aissentences.payload.types.*;
-//import de.emir.service.geometry.impl.GeometryTransform;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
-
-import org.slf4j.Logger;
-
-import java.awt.TrayIcon.MessageType;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import net.sf.marineapi.ais.message.AISMessage;
+import net.sf.marineapi.ais.message.AISMessage05;
+import net.sf.marineapi.ais.message.AISMessage19;
+import net.sf.marineapi.ais.message.AISMessage24;
+import net.sf.marineapi.ais.message.AISPositionInfo;
+import net.sf.marineapi.ais.message.AISPositionReport;
+import net.sf.marineapi.ais.message.AISPositionReportB;
+import net.sf.marineapi.nmea.parser.DataNotAvailableException;
+import net.sf.marineapi.nmea.sentence.HeadingSentence;
+import net.sf.marineapi.nmea.sentence.PositionSentence;
+import net.sf.marineapi.nmea.sentence.RMCSentence;
+import net.sf.marineapi.nmea.sentence.ROTSentence;
+import net.sf.marineapi.nmea.sentence.Sentence;
+import net.sf.marineapi.nmea.sentence.TimeSentence;
+import net.sf.marineapi.nmea.sentence.VTGSentence;
 
 /**
  * Component which maps incoming NMEA and AIS messages to vessels of the
@@ -83,6 +98,9 @@ public class NMEAVesselUpdater {
     private static Vessel ownship;
     private static OwnshipSource ownshipFilter = OwnshipSource.NO_PROCESSING;
 
+    private static Double lastHDG = null;
+    private static Double lastCOG = null;
+    private static Double lastSOG = null;
     /**
      * Initiates the VesselUpdater.
      */
@@ -120,268 +138,262 @@ public class NMEAVesselUpdater {
             }
         });
 
-        // Starts treads which control the status indicator of Ownship and AIS on the
-        // UI.
+        // Starts treads which control the status indicator of Ownship and AIS on the UI.
         initAlertThreads();
 
-        NMEAOutput.subscribeSentences(entry -> {
-            Sentence sentence = entry.getValue();
-            if (sentence instanceof DecodedAISPayload) {
-                lastAISUpdate = System.currentTimeMillis();
-                DecodedAISPayload payload = (DecodedAISPayload) sentence;
-                if (payload.getSourceMmsi() != null) {
-                    try {
-                        // If ownship source was set to internal, get the ownship and check if the AIS
-                        // message MMSI matches the ownship. IF it does, filter
-                        // out all dynamic AIS messages to prevent mixing of ownship NMEA sentences and
-                        // ownship AIS messages ownship coordinates.
-                        if (ownshipFilter == OwnshipSource.INTERNAL) {
-                            if (ownship != null) {
-                                if (Long.compare(payload.getSourceMmsi().getMMSI(), ownship.getMmsi()) == 0) {
-                                    // Do not process dynamic AIS attributes if ownship source is internal and the
-                                    // ais message MMSI matches the ownship.
-                                    Map<String, Object> properties = payload.toMap();
-                                    properties.remove(NMEAFieldIds.NMEA_RATE_OF_TURN);
-                                    properties.remove(NMEAFieldIds.NMEA_TRUE_HEADING);
-                                    properties.remove(NMEAFieldIds.NMEA_HEADING);
-                                    properties.remove(NMEAFieldIds.NMEA_COURSE_OVER_GROUND);
-                                    properties.remove(NMEAFieldIds.NMEA_SPEED_OVER_GROUND);
-                                    properties.remove(NMEAFieldIds.NMEA_LATITUDE);
-                                    properties.remove(NMEAFieldIds.NMEA_LONGITUDE);
+		NMEAOutput.subscribeAISMessages(entry -> {
+			AISMessage sentence = entry.getValue();
+			if (sentence instanceof AISMessage) {
+				lastAISUpdate = System.currentTimeMillis();
+				// If ownship source was set to internal, get the ownship and check if the AIS
+				// message MMSI matches the ownship. IF it does, filter
+				// out all dynamic AIS messages to prevent mixing of ownship NMEA sentences and
+				// ownship AIS messages ownship coordinates.
+				if (ownshipFilter == OwnshipSource.INTERNAL) {
+					if (ownship != null) {
+						if (Long.compare(sentence.getMMSI(), ownship.getMmsi()) == 0) {
+							// Do not process dynamic AIS attributes if ownship source is internal and the
+							// ais message MMSI matches the ownship.
+							AisTarget.updateVessel(msgToVessel(sentence, ownship, true));
+							return;
+						}
+					} else {
+						// In case no ownship mmsi is found something went wrong. Try processing as
+						// normal ais messages.
+						LOG.error("Could not filter for ownship ais messages because there is no ownship MMSI. "
+								+ "Defaulting to not processing ownship source.");
+					}
+				}
 
-                                    AisTarget.updateVessel(mapToVessel(properties, ownship));
-                                    return;
-                                }
-                            } else {
-                                // In case no ownship mmsi is found something went wrong. Try processing as
-                                // normal ais messages.
-                                ULog.error(
-                                        "Could not filter for ownship ais messages because there is no ownship MMSI. Defaulting to not processing ownship source.");
-                            }
-                        }
+				// Default procedure when ownship source is set to AIS, none or there was
+				// nothing to filter.
+				Vessel target = EPDModelUtils.retrieveById(aisTargets, Long.toString(sentence.getMMSI()));
 
-                        // Default procedure when ownship source is set to AIS, none or there was
-                        // nothing to filter.
-                        Vessel target = EPDModelUtils.retrieveById(aisTargets,
-                                Long.toString(payload.getSourceMmsi().getMMSI()));
+				if (ownshipFilter == OwnshipSource.AISTARGET && target.getAllias().contains("Ownship")) {
+					// If the ownship source is set to AIS and the retrieved target is marked as
+					// ownship, update the alertstate for the ownship.
+					lastNMEAUpdate = System.currentTimeMillis();
+				}
 
-                        if (ownshipFilter == OwnshipSource.AISTARGET && target.getAllias().contains("Ownship")) {
-                            // If the ownship source is set to AIS and the retrieved target is marked as
-                            // ownship, update the alertstate for the ownship.
-                            lastNMEAUpdate = System.currentTimeMillis();
-                        }
+				AisTarget.updateVessel(msgToVessel(sentence, target, false));
+			} else {
+				if (ownshipFilter == OwnshipSource.NO_PROCESSING || ownshipFilter == OwnshipSource.INTERNAL) {
+					// Only process NMEA messages if no source filter is active or the source filter
+					// is set to internal.
+					lastNMEAUpdate = System.currentTimeMillis();
+					Vessel ownship = EPDModelUtils.retrieveOwnship();
+					if (ownship != null) {
+						try {
+//							msgToVessel(sentence, ownship, true);
+							AisTarget.updateVessel(ownship);
+						} catch (Exception e) {
+							LOG.error("Could not update Ownship from AIS data.", e);
+						}
+					}
+				}
+			}
+		});
+		NMEAOutput.subscribeSentences(entry -> {
+			if (ownshipFilter == OwnshipSource.AISTARGET) {
+				return;
+			}
+			try {
+				Sentence sentence = entry.getValue();
+				Vessel ownship = EPDModelUtils.retrieveOwnship();
+				lastNMEAUpdate = System.currentTimeMillis();
+				if (sentence instanceof PositionSentence pos) {
+					try {
+						Coordinate coordinate = new CoordinateImpl(pos.getPosition().getLatitude(),
+								pos.getPosition().getLongitude(), CRSUtils.WGS84_2D);
+						AisTarget.setCoordinate(ownship, coordinate);
+					} catch (DataNotAvailableException e2) {
+						LOG.trace("No position in PositionSentence. Check your data source.");
+					}
+				}
 
-                        AisTarget.updateVessel(mapToVessel(payload.toMap(), target));
-                    } catch (Exception e) {
-                        // FIXME: This causes ConcurrentModificationException
-                        e.printStackTrace();
-                    }
+				if (sentence instanceof HeadingSentence hs) {
+					try {
+						ownship.getPose().setOrientation(new EulerImpl(.0d, .0d, hs.getHeading(), AngleUnit.DEGREE));
+						lastHDG = hs.getHeading();
+					} catch (DataNotAvailableException e2) {
+						LOG.trace("No heading in HeadingSentence. Check your data source.");
+					}
+				}
 
-                }
-            } else {
-                if (ownshipFilter == OwnshipSource.NO_PROCESSING || ownshipFilter == OwnshipSource.INTERNAL) {
-                    // Only process NMEA messages if no source filter is active or the source filter
-                    // is set to internal.
-                    lastNMEAUpdate = System.currentTimeMillis();
-                    Vessel ownship = EPDModelUtils.retrieveOwnship();
-                    if (ownship != null) {
-                        try {
-                            mapToVessel(sentence.toMap(), ownship);
-                            AisTarget.updateVessel(ownship);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        });
-    }
+				// The parser breaks down on every single message, when timing is not set. 
+				if (sentence instanceof TimeSentence ts) {
+					try {
+						if (ts.getTime() != null) {
+							AisTarget.setTimestamp(ownship, ts.getTime().getMilliseconds());
+						}
+					} catch (DataNotAvailableException e2) {
+						LOG.trace("No position in PositionSentence. Check your data source.");
+					}
+				}
 
-    /**
-     * Maps NMEA sentences to vessels.
-     * 
-     * @param sentence Sentence to map to a vessel.
-     * @param vessel   Vessel to which to map the sentence.
-     * @return Vessel with new values mapped to it.
-     */
-    public static Vessel mapToVessel(Sentence sentence, Vessel vessel) {
-        if (sentence == null || vessel == null) {
+				if (sentence instanceof ROTSentence rot) {
+					try {
+						PhysicalObjectUtils.setRateOfTurn(
+							new AngularSpeedImpl(rot.getRateOfTurn(), AngularSpeedUnit.DEGREES_PER_MINUTE), ownship);
+					} catch (DataNotAvailableException e2) {
+						LOG.trace("No rate of turn in ROTSentence. Check your data source.");
+					}
+				}
+
+				if (sentence instanceof VTGSentence vtg) {
+					try {
+						PhysicalObjectUtils.setSOG(ownship, (new SpeedImpl(vtg.getSpeedKnots(), SpeedUnit.KNOTS)));
+						lastSOG = vtg.getSpeedKnots();
+					} catch (DataNotAvailableException e2) {
+						LOG.trace("No speed in VTGSentence. Check your data source.");
+					}
+					try {
+						PhysicalObjectUtils.setCOG(ownship, new AngleImpl(vtg.getMagneticCourse(), AngleUnit.DEGREE));
+						lastCOG = vtg.getMagneticCourse();
+					} catch (DataNotAvailableException e2) {
+						LOG.trace("No magnetic course in VTGSentence. Check your data source.");
+						// Course was not available but speed was already set. Use 360 as course (unknwon). This
+						// is just an emergency workaround to avoid broken course/speed vectors in vessels.
+						if (lastSOG != null && lastCOG == null) {
+							PhysicalObjectUtils.setCOG(ownship,	new AngleImpl(360.0f, AngleUnit.DEGREE));
+						}
+					}
+					try {
+						PhysicalObjectUtils.setCOG(ownship, new AngleImpl(vtg.getTrueCourse(), AngleUnit.DEGREE));
+						lastCOG = vtg.getTrueCourse();
+					} catch (DataNotAvailableException e2) {
+						LOG.trace("No true course in VTGSentence. Check your data source.");
+						// Course was not available but speed was already set. Use 360 as course (unknwon). This
+						// is just an emergency workaround to avoid broken course/speed vectors in vessels.
+						if (lastSOG != null && lastCOG == null) {
+							PhysicalObjectUtils.setCOG(ownship,	new AngleImpl(360.0f, AngleUnit.DEGREE));
+						}
+					}
+				}
+
+				if (sentence instanceof RMCSentence rmc) {
+					try {
+						PhysicalObjectUtils.setSOG(ownship, (new SpeedImpl(rmc.getSpeed(), SpeedUnit.KNOTS)));
+						lastSOG = rmc.getSpeed();
+					} catch (DataNotAvailableException e2) {
+						LOG.trace("No speed in RMCSentence. Check your data source.");
+					}
+					try {
+						PhysicalObjectUtils.setCOG(ownship, new AngleImpl(rmc.getCourse(), AngleUnit.DEGREE));
+						lastCOG = rmc.getCourse();
+						if (rmc.getPosition() != null) {
+							PhysicalObjectUtils.setCOG(ownship,
+									new AngleImpl(rmc.getCorrectedCourse(), AngleUnit.DEGREE));
+							lastCOG = rmc.getCorrectedCourse();
+						}
+					} catch (DataNotAvailableException e2) {
+						LOG.debug("No course in RMCSentence. Check your data source.");
+						// Course was not available but speed was already set. Use 360 as course (unknwon). This
+						// is just an emergency workaround to avoid broken course/speed vectors in vessels.
+						if (lastSOG != null && lastHDG != null && lastCOG == null) {
+							PhysicalObjectUtils.setCOG(ownship,	new AngleImpl(360.0f, AngleUnit.DEGREE));
+						}
+					}
+				}
+				AisTarget.updateVessel(ownship);
+			} catch (Exception e) {
+				LOG.error("Error while parsing NMEA data.", e);
+			}
+		});
+	}
+
+    public static Vessel msgToVessel(AISMessage msg, Vessel vessel, boolean staticOnly) {
+        if (msg == null || vessel == null) {
             return null;
         }
-        return mapToVessel(sentence.toMap(), vessel);
-    }
+        
+		if (!staticOnly) {
+			if (msg instanceof AISPositionInfo posInfo) {
+				Coordinate coordinate = new CoordinateImpl(posInfo.getLatitudeInDegrees(),
+						posInfo.getLongitudeInDegrees(), CRSUtils.WGS84_2D);
 
-    /**
-     * Removes all null values of a map.
-     * 
-     * @param map Map to remove nulls from.
-     * @return Map with removed nulls.
-     */
-    private static Map<String, Object> removeAllNulls(Map<String, Object> map) {
-        Map<String, Object> newMap = new HashMap<>();
-        for (String key : map.keySet()) {
-            Object value = map.get(key);
-            if (value != null) {
-                newMap.put(key, value);
-            }
-        }
-        return newMap;
-    }
+				if (!debugFilterPosition(coordinate))
+					return null;
 
-    /**
-     * Puts all relevant AIS values into the given targets vessel. This is static to
-     * ensure the updateTarget method is used.
-     * <p>
-     * Ignores values if they are already set, ensures that
-     * {@link de.emir.tuml.ucore.runtime.ITreeValueChangeListener}
-     * isn't fired
-     *
-     * @param map    The map of AIS information
-     * @param vessel The target to fill with data, preferably acquired by calling
-     *               retrieveById on the TargetSet
-     * @return The filled AisTarget
-     */
-    public static Vessel mapToVessel(Map<String, Object> map, Vessel vessel) {
-        if (map == null || vessel == null) {
-            return null;
-        }
+				if (!(sameD(coordinate.getLatitude(), 0.0d) && sameD(coordinate.getLongitude(), 0.0d))
+						&& !(sameD(coordinate.getLatitude(), 18.366885)
+								&& sameD(coordinate.getLongitude(), -25.39764))) {
+					AisTarget.setCoordinate(vessel, coordinate);
+					// AisTarget.setTimestamp(vessel, System.currentTimeMillis());
+				} else {
+					LOG.warn("Received weird coordinate, skipping {} {}", coordinate.getLatitude(),
+							coordinate.getLongitude());
+				}
+			}
 
-        map = removeAllNulls(map);
+			if (msg instanceof AISPositionReportB prb) {
+				if (prb.hasCourseOverGround()) {
+					PhysicalObjectUtils.setCOG(vessel, new AngleImpl(prb.getCourseOverGround(), AngleUnit.DEGREE));
+				}
+				if (prb.hasTrueHeading()) {
+					vessel.getPose().setOrientation(new EulerImpl(.0d, .0d, prb.getTrueHeading(), AngleUnit.DEGREE));
+				}
+				if (prb.hasSpeedOverGround()) {
+					PhysicalObjectUtils.setSOG(vessel, (new SpeedImpl(prb.getSpeedOverGround(), SpeedUnit.KNOTS)));
+				}
+				if (prb.hasTimeStamp()) {
+					vessel.setPropertyValue(NMEAFieldIds.NMEA_SECOND, prb.getTimeStamp());
+				}
+			}
 
-        if (map.containsKey(NMEAFieldIds.NMEA_LATITUDE) && map.containsKey(NMEAFieldIds.NMEA_LONGITUDE)) {
-            Coordinate coordinate = new CoordinateImpl(
-                    ((Number) map.get(NMEAFieldIds.NMEA_LATITUDE)).doubleValue(),
-                    ((Number) map.get(NMEAFieldIds.NMEA_LONGITUDE)).doubleValue(),
-                    CRSUtils.WGS84_2D);
+			if (msg instanceof AISPositionReport pr) {
+				vessel.setPropertyValue(NMEAFieldIds.NMEA_NAVIGATION_STATUS, pr.getNavigationalStatus());
+				vessel.setPropertyValue(NMEAFieldIds.NMEA_MANEUVER_INDICATOR, pr.getManouverIndicator());
+				if (pr.hasCourseOverGround()) {
+					PhysicalObjectUtils.setCOG(vessel, new AngleImpl(pr.getCourseOverGround(), AngleUnit.DEGREE));
+				}
+				if (pr.hasTrueHeading()) {
+					vessel.getPose().setOrientation(new EulerImpl(.0d, .0d, pr.getTrueHeading(), AngleUnit.DEGREE));
+				}
+				if (pr.hasSpeedOverGround()) {
+					PhysicalObjectUtils.setSOG(vessel, (new SpeedImpl(pr.getSpeedOverGround(), SpeedUnit.KNOTS)));
+				}
+				if (pr.hasTimeStamp()) {
+					vessel.setPropertyValue(NMEAFieldIds.NMEA_SECOND, pr.getTimeStamp());
+				}
+				if (pr.hasRateOfTurn()) {
+					PhysicalObjectUtils.setRateOfTurn(
+							new AngularSpeedImpl(pr.getRateOfTurn(), AngularSpeedUnit.DEGREES_PER_MINUTE), vessel);
+				}
+			}
+		}
 
-            if (!debugFilterPosition(coordinate))
-                return null;
-
-            if (!(sameD(coordinate.getLatitude(), 0.0d) && sameD(coordinate.getLongitude(), 0.0d))
-                    && !(sameD(coordinate.getLatitude(), 18.366885) && sameD(coordinate.getLongitude(), -25.39764))) {
-                AisTarget.setCoordinate(vessel, coordinate);
-                // AisTarget.setTimestamp(vessel, System.currentTimeMillis());
-            } else {
-                LOG.warn("Received weird coordinate, skipping {} {}", coordinate.getLatitude(),
-                        coordinate.getLongitude());
-            }
+        if (msg instanceof AISMessage05 ais5) {
+            vessel.setCallSign(ais5.getCallSign());
+            vessel.setImo(ais5.getIMONumber());
+            vessel.setName(ais5.getName());
+//            vessel.setType(VesselType.get(ais5.getTypeOfShipAndCargoType()));
+            vessel.setType(AisS100VesselTypeDictionary.map().get(ais5.getTypeOfShipAndCargoType()));
+            setDimensions(vessel, ais5.getPort(), ais5.getStarboard(), ais5.getBow(), ais5.getStern());
+            vessel.setPropertyValue(NMEAFieldIds.NMEA_POSITION_FIXING_DEVICE, ais5.getTypeOfEPFD());
+            vessel.setPropertyValue(NMEAFieldIds.NMEA_DESTINATION, ais5.getDestination());
+            vessel.setPropertyValue(NMEAFieldIds.NMEA_ETA, String.format("%2d%2d%2d%2d", ais5.getETAMonth(),
+            		ais5.getETADay(), ais5.getETAHour(), ais5.getETAMinute()));
+            setDraught(vessel, (float) ais5.getMaximumDraught());
+            vessel.setPropertyValue(NMEAFieldIds.NMEA_DATA_TERMINAL_READY, ais5.isDteReady());
         }
-        /*
-         * if (map.containsKey("sourceMmsi")) { vessel.setMmsi((long)
-         * map.get("sourceMmsi")); }
-         */
-        if (map.containsKey(NMEAFieldIds.NMEA_RATE_OF_TURN)) {
-            Double rotv = AISPayloadEncryptionUtil
-                    .getROTValue(Integer.parseInt(map.get(NMEAFieldIds.NMEA_RATE_OF_TURN).toString()));
-            if (rotv != null) {
-                PhysicalObjectUtils.setRateOfTurn(new AngularSpeedImpl(rotv, AngularSpeedUnit.DEGREES_PER_MINUTE),
-                        vessel);
-            }
+        
+        if (msg instanceof AISMessage19 ais19) {
+            vessel.setName(ais19.getName());
+//            vessel.setType(VesselType.get(ais19.getTypeOfShipAndCargoType()));
+            vessel.setType(AisS100VesselTypeDictionary.map().get(ais19.getTypeOfShipAndCargoType()));
+            setDimensions(vessel, ais19.getPort(), ais19.getStarboard(), ais19.getBow(), ais19.getStern());
+            vessel.setPropertyValue(NMEAFieldIds.NMEA_POSITION_FIXING_DEVICE, ais19.getTypeOfEPFD());
         }
-        if (map.containsKey(NMEAFieldIds.NMEA_NAVIGATION_STATUS)) {
-            vessel.setPropertyValue(NMEAFieldIds.NMEA_NAVIGATION_STATUS,
-                    ((NavigationStatus) map.get(NMEAFieldIds.NMEA_NAVIGATION_STATUS)).name());
+        
+        if (msg instanceof AISMessage24 ais24) {
+        	vessel.setCallSign(ais24.getCallSign());
+            vessel.setName(ais24.getName());
+//            vessel.setType(VesselType.get(ais24.getTypeOfShipAndCargoType()));
+            vessel.setType(AisS100VesselTypeDictionary.map().get(ais24.getTypeOfShipAndCargoType()));
+            setDimensions(vessel, ais24.getPort(), ais24.getStarboard(), ais24.getBow(), ais24.getStern());
         }
-        if (map.containsKey(NMEAFieldIds.NMEA_MANEUVER_INDICATOR)) {
-            vessel.setPropertyValue(NMEAFieldIds.NMEA_MANEUVER_INDICATOR,
-                    ((ManeuverIndicator) map.get(NMEAFieldIds.NMEA_MANEUVER_INDICATOR)).name());
-        }
-        if (map.containsKey(NMEAFieldIds.NMEA_TRUE_HEADING)) {
-            vessel.getPose().setOrientation(new EulerImpl(.0d, .0d,
-                    ((Number) map.get(NMEAFieldIds.NMEA_TRUE_HEADING)).intValue(), AngleUnit.DEGREE));
-        }
-        if (map.containsKey(NMEAFieldIds.NMEA_HEADING)) {
-            Number head = (Number) map.get(NMEAFieldIds.NMEA_HEADING);
-            vessel.getPose().setOrientation(new EulerImpl(.0d, .0d, head.intValue(), AngleUnit.DEGREE));
-        }
-        if (map.containsKey("degrees")) {
-            vessel.getPose().setOrientation(
-                    new EulerImpl(.0d, .0d, ((Number) map.get("degrees")).doubleValue(), AngleUnit.DEGREE));
-        }
-        if (map.containsKey("rot")) {
-            PhysicalObjectUtils.setRateOfTurn(
-                    new AngularSpeedImpl(((Number) map.get("rot")).doubleValue(), AngularSpeedUnit.DEGREES_PER_MINUTE),
-                    vessel);
-        }
-        if (map.containsKey(NMEAFieldIds.NMEA_COURSE_OVER_GROUND)
-                && map.containsKey(NMEAFieldIds.NMEA_SPEED_OVER_GROUND)) {
-            PhysicalObjectUtils.setCOGAndSOG(vessel,
-                    new AngleImpl(((Number) map.get(NMEAFieldIds.NMEA_COURSE_OVER_GROUND)).floatValue(),
-                            AngleUnit.DEGREE),
-                    new SpeedImpl(((Number) map.get(NMEAFieldIds.NMEA_SPEED_OVER_GROUND)).floatValue(),
-                            SpeedUnit.KNOTS));
-        }
-        if (map.containsKey("headingMagnetic") && map.containsKey("speedKnots")) {
-            PhysicalObjectUtils.setCOGAndSOG(vessel,
-                    new AngleImpl(((Number) map.get("headingMagnetic")).doubleValue(), AngleUnit.DEGREE),
-                    new SpeedImpl(((Number) map.get("speedKnots")).doubleValue(), SpeedUnit.KNOTS));
-        }
-        if (map.containsKey(NMEAFieldIds.NMEA_COURSE_OVER_GROUND)
-                && !map.containsKey(NMEAFieldIds.NMEA_SPEED_OVER_GROUND)) {
-            // TODO: fix setting of COG without SOG
-            Number number = (Number) map.get(NMEAFieldIds.NMEA_COURSE_OVER_GROUND);
-            PhysicalObjectUtils.setCOG(vessel, new AngleImpl(number.floatValue(), AngleUnit.DEGREE));
-        }
-        if (map.containsKey(NMEAFieldIds.NMEA_SPEED_OVER_GROUND)
-                && !map.containsKey(NMEAFieldIds.NMEA_COURSE_OVER_GROUND)) {
-            // TODO: fix setting of SOG without COG
-            Number number = (Number) map.get(NMEAFieldIds.NMEA_SPEED_OVER_GROUND);
-            PhysicalObjectUtils.setSOG(vessel, (new SpeedImpl(number.floatValue(), SpeedUnit.KNOTS)));
-        }
-        if (map.containsKey(NMEAFieldIds.NMEA_SECOND)) {
-            vessel.setPropertyValue(NMEAFieldIds.NMEA_SECOND, ((Number) map.get(NMEAFieldIds.NMEA_SECOND)).intValue());
-        }
-        if (map.containsKey(NMEAFieldIds.NMEA_CALLSIGN)) {
-            vessel.setCallSign((String) map.get(NMEAFieldIds.NMEA_CALLSIGN));
-        }
-        if (map.containsKey(NMEAFieldIds.NMEA_IMO)) {
-            vessel.setImo(((IMO) map.get(NMEAFieldIds.NMEA_IMO)).getIMO());
-        }
-        if (map.containsKey(NMEAFieldIds.NMEA_SHIPNAME)) {
-            vessel.setName((String) map.get(NMEAFieldIds.NMEA_SHIPNAME)); // TODO: check, if setName is correct
-        }
-
-        if (map.containsKey(NMEAFieldIds.NMEA_TO_BOW) &&
-                map.containsKey(NMEAFieldIds.NMEA_TO_STERN) &&
-                map.containsKey(NMEAFieldIds.NMEA_TO_PORT) &&
-                map.containsKey(NMEAFieldIds.NMEA_TO_STARBOARD)) {
-
-            Number bow = (Number) map.get(NMEAFieldIds.NMEA_TO_BOW);
-            Number stern = (Number) map.get(NMEAFieldIds.NMEA_TO_STERN);
-            Number port = (Number) map.get(NMEAFieldIds.NMEA_TO_PORT);
-            Number starboard = (Number) map.get(NMEAFieldIds.NMEA_TO_STARBOARD);
-
-            setDimensions(vessel,
-                    port.intValue(),
-                    starboard.intValue(),
-                    bow.intValue(),
-                    stern.intValue());
-        }
-
-        if (map.containsKey(NMEAFieldIds.NMEA_POSITION_FIXING_DEVICE)) {
-            vessel.setPropertyValue(NMEAFieldIds.NMEA_POSITION_FIXING_DEVICE,
-                    ((PositionFixingDevice) map.get(NMEAFieldIds.NMEA_POSITION_FIXING_DEVICE)).name());
-        }
-        if (map.containsKey(NMEAFieldIds.NMEA_DRAUGHT)) {
-            Number draught = (Number) map.get(NMEAFieldIds.NMEA_DRAUGHT);
-            setDraught(vessel, draught.floatValue());
-        }
-        if (map.containsKey(NMEAFieldIds.NMEA_ETA)) {
-            vessel.setPropertyValue(NMEAFieldIds.NMEA_ETA, (String) map.get(NMEAFieldIds.NMEA_ETA));
-        }
-        if (map.containsKey(NMEAFieldIds.NMEA_DESTINATION)) {
-            vessel.setPropertyValue(NMEAFieldIds.NMEA_DESTINATION, (String) map.get(NMEAFieldIds.NMEA_DESTINATION));
-        }
-        if (map.containsKey(NMEAFieldIds.NMEA_DATA_TERMINAL_READY)) {
-            vessel.setPropertyValue(NMEAFieldIds.NMEA_DATA_TERMINAL_READY,
-                    (boolean) map.get(NMEAFieldIds.NMEA_DATA_TERMINAL_READY));
-        }
-        if (map.containsKey(NMEAFieldIds.NMEA_SHIPTYPE)) {
-            // vessel.setType(VesselType.get(((ShipType) map.get("shipType")).name())); //
-            // TODO: translate between NMEA0183 and S100 type names
-            vessel.setType(AisS100VesselTypeDictionary.map().get((ShipType) map.get(NMEAFieldIds.NMEA_SHIPTYPE)));
-        }
-
+        
         try {
             VesselVerifier.verify(vessel);
         } catch (Exception ignored) {

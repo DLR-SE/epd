@@ -22,6 +22,7 @@ import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+import javax.swing.border.BevelBorder;
 
 
 public abstract class AbstractGeometryPanel extends JPanel {
@@ -32,9 +33,11 @@ public abstract class AbstractGeometryPanel extends JPanel {
     private ZoomAndPanListener zoomAndPanListener;
 
     public AbstractGeometryPanel(Geometry geometry, View view) {
+    	setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
         context = PropertyStore.getContext(VesselEditorBasic.PROP_VESSEL_EDITOR);
         setAutoscrolls(true);
-
+        setDoubleBuffered(true);
+        setOpaque(true);
         initListeners();
         changeGeometry(geometry, view);
     }
@@ -50,11 +53,9 @@ public abstract class AbstractGeometryPanel extends JPanel {
 
         if (this.geometry != geometry) {
             this.geometry = geometry;
-
+            updateTransform();
+            refresh();
         }
-        updateTransform();
-
-        refresh();
     }
 
     /**

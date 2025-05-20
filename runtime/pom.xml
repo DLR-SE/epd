@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>de.dlr-se.emir</groupId>
 		<artifactId>emir</artifactId>
-		<version>4.1.0</version>
+		<version>4.2.0-SNAPSHOT</version>
 	</parent>
 	<packaging>pom</packaging>
 	<artifactId>runtime</artifactId>
@@ -173,12 +173,6 @@
 				<artifactId>junit</artifactId>
 				<version>${junit.version}</version>
 				<scope>test</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-				<version>${slf4j.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

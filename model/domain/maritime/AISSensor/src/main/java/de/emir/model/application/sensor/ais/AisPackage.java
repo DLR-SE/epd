@@ -177,7 +177,7 @@ public class AisPackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package AisPackage ...", 1);
+		ULog.debug("initialize package AisPackage ...");
 		theInstance = new AisPackage();
 		//initialize referenced models
 		SenseModel.init();
@@ -196,7 +196,7 @@ public class AisPackage
 		
 		
 		
-		ULog.debug(-1, "... package AisPackage initialized");
+		ULog.debug("... package AisPackage initialized");
 		
 		return theInstance;
 	}

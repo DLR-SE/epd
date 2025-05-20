@@ -3,7 +3,8 @@ package de.emir.rcp.menu.ep;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import de.emir.rcp.commands.ep.CommandDescriptor;
 import de.emir.rcp.commands.ep.ICommandDescriptor;
@@ -15,7 +16,7 @@ import de.emir.tuml.ucore.runtime.logging.ULog;
 
 public class MenuContribution implements IMenuContribution {
 
-    private Logger log = ULog.getLogger(MenuContribution.class.getName());
+    private Logger log = LogManager.getLogger(MenuContribution.class);
 
     private Map<String, MenuEntry> entries = new HashMap<>();
 

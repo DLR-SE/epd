@@ -1,7 +1,9 @@
 package de.emir.rcp.parts;
 
+import de.emir.rcp.UICorePlugin;
 import de.emir.rcp.commands.ep.CommandExtensionPoint;
 import de.emir.rcp.commands.ep.ICommandDescriptor;
+import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.menu.ep.IMenuContribution;
 import de.emir.rcp.menu.ep.MenuExtensionPoint;
 import de.emir.rcp.parts.vesseleditor.cmds.CenterShapeCommand;
@@ -36,7 +38,8 @@ public class VesselEditorPlugin extends AbstractUIPlugin {
         ICommandDescriptor showGridLinesCMD = cmdEP.command(VesselEditorBasic.SHOW_GRID_LINES, "Show Grid", new ShowGridLinesCommand());
         ICommandDescriptor showAxisLinesCMD = cmdEP.command(VesselEditorBasic.SHOW_AXIS_LINES, "Show Axis", new ShowAxisLinesCommand());
 
-        ResourceManager resourceManager = ResourceManager.get(VesselEditorPlugin.class);
+        ResourceManager localResourceManager = ResourceManager.get(VesselEditorPlugin.class);
+        ResourceManager globalResourceManager = ResourceManager.get(UICorePlugin.class);
 
         MenuExtensionPoint menuEP = ExtensionPointManager.getExtensionPoint(MenuExtensionPoint.class);
         IMenuContribution toolbarEP = menuEP.menuContribution(VesselEditorBasic.TOOLBAR_ID);
@@ -55,22 +58,22 @@ public class VesselEditorPlugin extends AbstractUIPlugin {
         toolbarEP.menuItem("toggle shape edit", toggleShapeEDIT)
                 .label("Edit Shape")
                 .after("vesselEditorToolsSeparator")
-                .icon("/icons/emiricons/32/edit.png", resourceManager);
+                .icon("/icons/emiricons/32/edit.png", globalResourceManager);
 
         toolbarEP.menuItem("center shape", centerShapeEDIT)
                 .label("Center Shape")
                 .after("vesselEditorToolsSeparator")
-                .icon("/icons/emiricons/32/filter_center_focus.png", resourceManager);
+                .icon("/icons/emiricons/32/filter_center_focus.png", globalResourceManager);
 
         toolbarEP.menuItem("show grid", showGridLinesCMD)
                 .label("Show Grid")
                 .after("vesselEditorToolsSeparator")
-                .icon("/icons/emiricons/32/grid.png", resourceManager);
+                .icon("/icons/emiricons/32/grid.png", globalResourceManager);
 
         toolbarEP.menuItem("show axis", showAxisLinesCMD)
                 .label("Show Axis")
                 .after("vesselEditorToolsSeparator")
-                .icon("/icons/emiricons/32/augmented_reality.png", resourceManager);
+                .icon("/icons/emiricons/32/augmented_reality.png", globalResourceManager);
 
         EquipmentProviderExtensionPoint epep = ExtensionPointManager.getExtensionPoint(EquipmentProviderExtensionPoint.class);
         epep.registerEquipmentProvider(VesselEditorBasic.EQUIPMENT_DYNAMIC_GROUP, new EngineEQProvider());

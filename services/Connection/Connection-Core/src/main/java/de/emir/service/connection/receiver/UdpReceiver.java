@@ -9,8 +9,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import de.emir.service.connection.interfaces.Receiver;
 import de.emir.service.connection.interfaces.ReceiverListener;
@@ -37,7 +37,7 @@ public class UdpReceiver implements Receiver {
     /** Is close expected? */
     private boolean isCloseExpected = false;
 	/** Log handler. */
-	static final Logger LOG = LoggerFactory.getLogger(UdpReceiver.class);
+	static final Logger LOG = LogManager.getLogger(UdpReceiver.class);
 	/** Local address. */
 	private String local = System.getProperty("net.host", "0.0.0.0");
 	

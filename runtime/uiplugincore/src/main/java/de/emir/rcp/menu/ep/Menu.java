@@ -6,7 +6,7 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.emir.rcp.commands.ep.CommandDescriptor;
 import de.emir.rcp.commands.ep.ICommandDescriptor;

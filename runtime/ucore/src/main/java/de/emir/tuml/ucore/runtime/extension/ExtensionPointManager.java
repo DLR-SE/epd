@@ -3,10 +3,9 @@ package de.emir.tuml.ucore.runtime.extension;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.utils.TypeUtils;
+import org.apache.logging.log4j.Logger;
 
 public class ExtensionPointManager {
     private static Map<String, IExtensionPoint> extensionPoints = new HashMap<String, IExtensionPoint>();

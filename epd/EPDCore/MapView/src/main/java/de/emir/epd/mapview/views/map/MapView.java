@@ -54,6 +54,7 @@ public class MapView extends AbstractView {
 	private PropertyContext context = PropertyStore.getContext(MVBasic.MAP_VIEW_PROP_CONTEXT);
 	private IProperty<String> tileSourceProperty = context.getProperty(MVBasic.MAP_VIEW_PROP_TILE_SOURCE,
 			MVBasic.OPEN_STREET_MAP_TILE_SOURCE_ID);
+	private IProperty<String> attributionProperty = context.getProperty(MVBasic.MAP_VIEW_PROP_WMS_ATTRIBUTION, "");
 	private String attribution;
 	private MapViewerWithTools mapView;
 	private JXMapViewer mv = new JXMapViewer();
@@ -119,8 +120,10 @@ public class MapView extends AbstractView {
 		attributionPanel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		attributionPanel.setOpaque(false);
 		attributionPanel.add(dtrpnMapAttribution);
-		dtrpnMapAttribution.setText(mv.getTileFactory().getInfo().getAttribution());
-		dtrpnMapAttribution.setToolTipText(mv.getTileFactory().getInfo().getAttribution());
+		attribution = mv.getTileFactory().getInfo().getAttribution();
+		attribution = (attribution == null || attribution.isEmpty()) ? attributionProperty.getValue() : attribution; 
+		dtrpnMapAttribution.setText(attribution);
+		dtrpnMapAttribution.setToolTipText(attribution);
 		overlayPanel.add(attributionPanel, BorderLayout.SOUTH);
 		toolBar.setOpaque(false);
 		toolBar.setOrientation(SwingConstants.VERTICAL);
@@ -178,21 +181,37 @@ public class MapView extends AbstractView {
 	}
 
 	private void addListeners() {
-
 		tileSourceProperty.addPropertyChangeListener(new PropertyChangeListener() {
-
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-
 				PlatformUtil.getJobManager().schedule(new DeleteTileCacheJob(), cb -> updateTileSource());
-
 			}
 		});
 
+		context.getProperty(MVBasic.MAP_VIEW_PROP_WMS_ATTRIBUTION)
+				.addPropertyChangeListener(new PropertyChangeListener() {
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						updateTileSource();
+					}
+		});
+		
+		context.getProperty(MVBasic.MAP_VIEW_PROP_WMS_URL).addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				PlatformUtil.getJobManager().schedule(new DeleteTileCacheJob(), cb -> updateTileSource());
+			}
+		});
+
+		context.getProperty(MVBasic.MAP_VIEW_PROP_WMS_LAYER).addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				PlatformUtil.getJobManager().schedule(new DeleteTileCacheJob(), cb -> updateTileSource());
+			}
+		});
 	}
 
 	private void updateTileSource() {
-
 		Object propValue = tileSourceProperty.getValue();
 
 		if (propValue instanceof String == false) {
@@ -208,6 +227,7 @@ public class MapView extends AbstractView {
 
 		mapViewer.setTileSource(ts);
 		attribution = ts.getAttribution();
+		attribution = (attribution == null || attribution.isEmpty()) ? attributionProperty.getValue() : attribution; 
 		dtrpnMapAttribution.setText(attribution);
 		dtrpnMapAttribution.setToolTipText(attribution);
 	}

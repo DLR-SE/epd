@@ -47,7 +47,7 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 {
 	public static final String 	XMI_NS = "http://www.omg.org/XMI";
 	public static final String 	XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
-	
+	private static final org.apache.logging.log4j.Logger LOG = org.apache.logging.log4j.LogManager.getLogger(XMLSerializer.class);
 	public interface IXMLReadListener {
 		public void onObjectRead(UObject object, final Node xmlNode, XMLReader reader, XMLReaderImpl serializer);
 
@@ -286,11 +286,16 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 		}
 		public UObject read(Node rootNode) throws ClassNotFoundException, InstantiationException {
 			String str = rootNode.getNodeName();
+            if (str.contains(":")) {
+                str = str.substring(str.indexOf(":") + 1);
+            }
 			UClass cl = UCoreMetaRepository.findClassBySimpleName(str);
 			if (cl == null){
+                StringBuilder sb = new StringBuilder();
 				for (UClassifier _c : UCoreMetaRepository.getAllClassifier()){
-					System.out.println(_c.getName());
+					sb.append(_c.getName()).append("\n");
 				}
+                LOG.debug("List of available UClssifiers: \n" + sb.toString());
 				throw new NullPointerException("Could not find Classifier for: " + str);
 			}
 			return read(rootNode, cl);

@@ -237,11 +237,12 @@ Model CRS {
 						 */
 						class WGS842D extends WGS84CRS {}
 						/** Defines the default global CRS to be used in eMIR, for 3 dimensions.
-						 * The WGS843D differs fom its 2D counterpart (WGS842D) by adding the 3er dimension
-						 * altitude as the z component. The altitude is defined as the negative distance towards the
-						 * center of the ellipsoid defined by WGS84 from the sea level defined by WGS84 in meters.
+						 * The WGS843D differs fom its 2D counterpart (WGS842D) by adding the 3rd dimension
+						 * altitude as the z component. The altitude is defined as the distance away from the
+						 * center of the ellipsoid defined by WGS84 from the sea level in meters.
+						 * A Coordinate is defined as lat,lon,altitude in a left-hand Coordinate System.
 						 *
-						 * 2 dimensional objects (WGS842D) are defined as infinite lines from the center of the
+						 * 2-dimensional objects (WGS842D) are defined as infinite lines from the center of the
 						 * ellipsoid towards its 2D coordinates (WGS842D) on sea level.
 						 */
 						class WGS843D extends WGS84CRS {}

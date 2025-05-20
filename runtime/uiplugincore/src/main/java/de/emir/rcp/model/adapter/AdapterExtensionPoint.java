@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.emir.tuml.ucore.runtime.extension.IExtensionPoint;
 import de.emir.tuml.ucore.runtime.logging.ULog;

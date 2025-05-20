@@ -8,14 +8,11 @@ import de.emir.model.universal.core.RSIdentifier;
 import de.emir.model.universal.crs.CoordinateReferenceSystem;
 import de.emir.model.universal.crs.CoordinateSystem;
 import de.emir.model.universal.crs.CrsPackage;
-import de.emir.model.universal.crs.impl.EngineeringCRSImpl;
 import de.emir.model.universal.crs.Engineering2D;
 import de.emir.model.universal.math.Vector;
-import de.emir.model.universal.math.Vector2D;
 import de.emir.model.universal.math.impl.Vector2DImpl;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
-import net.jafama.FastMath;
 
 
 /**
@@ -79,83 +76,94 @@ public class Engineering2DImpl extends EngineeringCRSImpl implements Engineering
 		"}";
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public int dimension() {
 		return 2;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public Vector getDirectionToNorth() {
 		return new Vector2DImpl(0, 1);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public List<Double> directionToBearing(double dx, double dy, double dz) {
-		double lsq = dx * dx + dy * dy;
-		double l = StrictMath.sqrt(lsq);
-		// Divide by zero check
-        if(l < 1e-6f)
-            l = 1e-6f;
-        double f = dy / l; //dot product with 0,1
-        if (f < -1) f = -1; if (f > 1) f = 1; //clamp(f, -1, 1);
-        double angle = FastMath.acos(f);
-        
-		double cross = -1 * dx; //crossproduct with 0,1
-		if (cross>0)          
-			angle = (Math.PI*2.0)- angle;
-		ArrayList<Double> out = new ArrayList<>();
-		out.add(angle);
-		return out;
+		double result = getAzimuth(0, 0, dx, dy);
+		List<Double> outList = new ArrayList<>(1);
+		outList.add(result);
+		return outList;
 	}
 
+	/**
+	 * @inheritDoc
+	 * @implNote pitch has no influence in 2 dimensions
+	 */
 	@Override
 	public Vector bearingToDirection(double yaw, double pitch) {
-		double c = Math.cos(yaw);
 		double s = Math.sin(yaw);
-		if (c != c || s != s || Double.isInfinite(c) || Double.isInfinite(s)){
-			//TODO: FIXME: This is just a workaround, need to find out where the true error is - how this could be called with Infinity or NaN
-			return new Vector2DImpl();
-		}
+		double c = Math.cos(yaw);
+
 		return new Vector2DImpl(s, c);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public CoordinateReferenceSystem copy() {
 		return new Engineering2DImpl(this);
 	}
 
-
+	/**
+	 * @inheritDoc
+	 */
 	@Override
-	public double getDistance(Vector _loc1, Vector _loc2) {
-		double dx = _loc1.get(0) - _loc2.get(0);
-		double dy = _loc1.get(1) - _loc2.get(1);
-		double dz = 0;
-		int dim = Math.min(_loc1.dimensions(), _loc2.dimensions());
-		if (dim == 3)
-			dz = _loc1.get(2) - _loc2.get(2);
-		return Math.sqrt(dx*dx+dy*dy+dz*dz);
+	public double getDistance(Vector fromLocation, Vector toLocation) {
+		double deltaX = fromLocation.get(0) - toLocation.get(0);
+		double deltaY = fromLocation.get(1) - toLocation.get(1);
+
+		return Math.sqrt(deltaX*deltaX+deltaY*deltaY);
 	}
 
-	public double getAzimuth(double x, double y, double z, double x2, double y2, double z2) {
-		double dx = x2 - x;
-		double dy = y2 - y;
-		return directionToBearing(dx, dy, 0).get(0); //z is ignored in 2D
-	}
-	
-	@Override
-	public Vector getDistanceAndAzimuth(Vector _loc1, Vector _loc2) {
-		int dim = Math.min(_loc1.dimensions(), _loc2.dimensions());
-		if (dim == 2){
-			double d = getDistance(_loc1, _loc2);
-			Vector2D loc1 = (Vector2D)_loc1; //cast is faster, this way we do not have to use the delegate operatins
-			Vector2D loc2 = (Vector2D)_loc2;
-			double a = getAzimuth(loc1.getX(), loc1.getY(), Double.NaN, loc2.getX(), loc2.getY(), Double.NaN);
-			return new Vector2DImpl(d, a);
+	/**
+	 * calculate azimuth
+	 * @return azimuth in rad
+	 */
+	private double getAzimuth(double xFrom, double yFrom, double xTo, double yTo) {
+		double deltaX = xTo - xFrom;
+		double deltaY = yTo - yFrom;
+
+		//z is ignored in 2D
+		double azimuth = Math.atan2(deltaX, deltaY); // note that xFrom and yFrom are inverted to atan2 javadoc because azimuth starts at Y-Axis towards the X-Axis
+		if (azimuth < 0) {
+			azimuth = 2*Math.PI + azimuth;
 		}
-		return null;
+		return azimuth;
 	}
 
-	
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public Vector getDistanceAndAzimuth(Vector fromLocation, Vector toLocation) {
+		double distance = getDistance(fromLocation, toLocation);
+		double azimuth = getAzimuth(fromLocation.get(0), fromLocation.get(1), toLocation.get(0), toLocation.get(1));
+
+		return new Vector2DImpl(distance, azimuth);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	@Override
 	public int getHash() {
 		double[] o = getOrigin().toArray();

@@ -233,7 +233,7 @@ public class UtilsPackage {
         if (theInstance != null)
             return theInstance;
 
-        ULog.debug("initialize package UtilsPackage ...", 1);
+        ULog.debug("initialize package UtilsPackage ...");
         theInstance = new UtilsPackage();
 
         theInstance.createClassifier();
@@ -251,7 +251,7 @@ public class UtilsPackage {
         p.getContent().add(theInstance.mTypePointer);
         p.freeze();
 
-        ULog.debug(-1, "... package UtilsPackage initialized");
+        ULog.debug("... package UtilsPackage initialized");
 
         return theInstance;
     }

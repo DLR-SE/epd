@@ -13,8 +13,8 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Calendar;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import de.emir.service.connection.Util;
 import de.emir.service.connection.interfaces.Listener;
@@ -32,7 +32,7 @@ import de.emir.service.connection.receiver.TcpServerReceiverWB;
  */
 public class TcpClientSenderR implements Sender, Receiver {
 	/** Log handler. */
-	static final Logger LOG = LoggerFactory.getLogger(TcpClientSenderR.class);
+	static final Logger LOG = LogManager.getLogger(TcpClientSenderR.class);
 	private static final int MAX_RETRIES = 5;
 	/** Sender listener. */
 	private SenderListener listener;

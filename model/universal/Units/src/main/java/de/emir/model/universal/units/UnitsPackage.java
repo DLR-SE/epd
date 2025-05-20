@@ -828,7 +828,7 @@ public class UnitsPackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package UnitsPackage ...", 1);
+		ULog.debug("initialize package UnitsPackage ...");
 		theInstance = new UnitsPackage();
 		//initialize referenced models
 		CRSModel.init();
@@ -878,7 +878,7 @@ public class UnitsPackage
 		
 		
 		
-		ULog.debug(-1, "... package UnitsPackage initialized");
+		ULog.debug("... package UnitsPackage initialized");
 		
 		return theInstance;
 	}

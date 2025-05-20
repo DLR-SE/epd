@@ -9,8 +9,8 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.commons.io.FilenameUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import de.emir.epd.routemanager.IRouteManager;
 import de.emir.epd.routemanager.ids.RouteManagerBasic;
@@ -25,7 +25,7 @@ import de.emir.tuml.ucore.runtime.ITreeValueChangeListener;
 import de.emir.tuml.ucore.runtime.resources.ResourceManager;
 
 public class ExportAllRouteCommand extends AbstractCommand {
-    private static Logger logger = LoggerFactory.getLogger(ExportRouteCommand.class);
+    private static Logger logger = LogManager.getLogger(ExportRouteCommand.class);
     private File lastPath = null;
 
     private VoyageCharacteristic currentVC;

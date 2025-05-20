@@ -25,6 +25,7 @@ import de.emir.tuml.ucore.runtime.pointer.PointerOperations;
 import de.emir.tuml.ucore.runtime.resources.IconManager;
 import de.emir.tuml.ucore.runtime.utils.Pointer;
 import de.emir.tuml.ucore.runtime.utils.UCoreUtils;
+import de.emir.ui.utils.TreeUtils;
 import de.emir.ui.utils.treetable.umodel.UNode;
 import de.emir.ui.utils.treetable.umodel.UTTModel;
 import java.awt.ComponentOrientation;
@@ -232,7 +233,16 @@ public class ReferenceEditor extends AbstractPropertyEditor<UObject> {
                             "icons/emiricons/32/arrow_drop_down.png", IconManager.preferedSmallIconSize()));
                     btnExpandAll.setToolTipText("Expand all");
                     btnExpandAll.addActionListener((ActionEvent evt) -> {
-                        treeTable.expandAll();
+                    	if (treeTable.getTreeSelectionModel().isSelectionEmpty()) {	
+                            treeTable.expandAll();
+                        } else {
+                            TreePath[] selectedPaths = treeTable.getTreeSelectionModel().getSelectionPaths();
+                            for (TreePath selectedPath : selectedPaths) {
+                                for (TreePath tp : TreeUtils.getAllPathes((UNode) selectedPath.getLastPathComponent())) {
+                                    treeTable.expandPath(tp);
+                                }
+                            }
+                        }
                     });
 
                     toolBar.add(btnExpandAll);
@@ -243,7 +253,15 @@ public class ReferenceEditor extends AbstractPropertyEditor<UObject> {
                             "icons/emiricons/32/arrow_drop_up.png", IconManager.preferedSmallIconSize()));
                     btnCollapseAll.setToolTipText("Collapse all");
                     btnCollapseAll.addActionListener((ActionEvent evt) -> {
-                        treeTable.collapseAll();
+                    	if (treeTable.getTreeSelectionModel().isSelectionEmpty()
+                                || treeTable.getTreeSelectionModel().isRowSelected(0)) {	
+                            treeTable.collapseAll();
+                        } else {
+                            TreePath[] selectedPaths = treeTable.getTreeSelectionModel().getSelectionPaths();
+                            for (TreePath selectedPath : selectedPaths) {
+                                treeTable.collapsePath(selectedPath);
+                            }
+                        }
                         treeTable.expandRow(0);
                     });
 

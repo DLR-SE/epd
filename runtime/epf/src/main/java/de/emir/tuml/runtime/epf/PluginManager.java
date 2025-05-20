@@ -18,8 +18,8 @@ import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import org.apache.maven.model.Model;
 import org.eclipse.aether.artifact.Artifact;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -28,7 +28,7 @@ import java.util.*;
 
 public class PluginManager {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PluginManager.class);
+    private final Logger LOG = LogManager.getLogger(PluginManager.class);
 
     private boolean mOfflineMode = true;
 
@@ -153,7 +153,7 @@ public class PluginManager {
     public void registerRootApplication(File pomFile, String identity, final ClassLoader _classLoader) {
         monitor.setProgress(5);
         monitor.setMessage("Loading Root Application");
-        ULog.info("register root application...", 1);
+        ULog.info("register root application...");
 
         rootApplicationClassLoader = new RootApplicationClassLoader(_classLoader);
 
@@ -189,7 +189,7 @@ public class PluginManager {
             ((ClasspathEntry<?>) ce)._setClassloader(rootApplicationClassLoader);
         }
 
-        ULog.info(-1, "... root application registered");
+        ULog.info("... root application registered");
         monitor.setProgress(20);
     }
 
@@ -200,28 +200,28 @@ public class PluginManager {
      * @note this method overwrites the maven settings if already been initialized
      */
     public void load() {
-        ULog.info("Loading ProductFile: " + mProductFile.getName(), 1);
+        ULog.info("Loading ProductFile: " + mProductFile.getName());
         ULog.debug("Configure Maven");
 
-        ULog.debug("Loading workspaces...", 1);
+        ULog.debug("Loading workspaces...");
         for (File file : mProductFile.getWorkspaces()) {
 
             if (file != null && file.exists()) {
                 loadWorkspace(file);
             }
         }
-        ULog.debug(-1, "...workspaces loaded");
-        ULog.debug("Loading dependencies", 1);
+        ULog.debug("...workspaces loaded");
+        ULog.debug("Loading dependencies");
         for (ObservableDependency dep : mProductFile.getDependencies()) {
             loadDescriptor(dep.getCoordinate());
         }
-        ULog.debug(-1, "...dependencies loaded");
+        ULog.debug("...dependencies loaded");
         ULog.debug("Loaded: " + mDescriptors.size() + " descriptors got: " + mUnresolvedCoordinates.size()
                 + " unresolved dependencies");
 
         loadUnresolvedDescriptors();
 
-        ULog.info(-1, "... PluginFile: " + mProductFile.getName() + " loaded");
+        ULog.info("... PluginFile: " + mProductFile.getName() + " loaded");
         ULog.debug("Loaded: " + mDescriptors.size() + " descriptors got: " + mUnresolvedCoordinates.size()
                 + " unresolved dependencies");
 //        ULog.info("Loaded:", 1);
@@ -253,7 +253,9 @@ public class PluginManager {
         Artifact artifact = mMavenUtil.resolveArtifact(coordinate);
 
         if (artifact == null || artifact.getFile() == null) {
-            ULog.warn("Could not resolve Coordinate: " + coordinate);
+        	if (!coordinate.startsWith("null:null")) {
+        		ULog.warn("Could not resolve Coordinate: " + coordinate);
+        	}
             return null;
         }
         if (artifact.getFile().exists() == false) {
@@ -429,7 +431,7 @@ public class PluginManager {
         monitor.setProgress(25);
         monitor.setMessage("Resolving Dependencies");
 
-        ULog.info("Resolving Dependencies...", 1);
+        ULog.info("Resolving Dependencies...");
         HashSet<String> closedList = new HashSet<>(); // list of coordinates we already tried to resolve; for the case
                                                       // we are not able to resolve one of the deps
         while (mUnresolvedCoordinates.isEmpty() == false) {
@@ -460,18 +462,18 @@ public class PluginManager {
             }
             monitor.setProgress((int) (25 + s / 2.0f));
         }
-        ULog.info(-1, "... dependencies resolved");
+        ULog.info("... dependencies resolved");
     }
 
     public Collection<ClasspathEntry<?>> build() {
         monitor.setProgress(75);
         monitor.setMessage("Building entries");
-        ULog.info("build ClasspathEntries", 1);
+        ULog.info("build ClasspathEntries");
         for (ClassPathDescriptor<?> descriptor : mDescriptors.values()) {
             loadEntry(descriptor);
         }
         monitor.setProgress(80);
-        ULog.info(-1, "... ClasspathEntries build");
+        ULog.info("... ClasspathEntries build");
         return null;
     }
 
@@ -531,7 +533,7 @@ public class PluginManager {
         int n = mPluginEntries.size();
         float f = 20.0f / n;
         int idx = 0;
-        ULog.info("Start all plugins...", 1);
+        ULog.info("Start all plugins...");
         for (String coord : mPluginEntries.keySet()) {
 
             monitor.setProgress((int) (80 + idx++ * f));
@@ -539,7 +541,7 @@ public class PluginManager {
             startPlugin(coord);
         }
 
-        ULog.info(-1, "... all plugins started");
+        ULog.info("... all plugins started");
         monitor.setProgress(100);
         monitor.setMessage("Done...");
     }
@@ -556,7 +558,7 @@ public class PluginManager {
         }
         ULog.debug("start plugin: " + coord);
         if (entry.getPluginDependencies().isEmpty() == false) {
-            ULog.debug("start plugin dependencies...", 1);
+            ULog.debug("start plugin dependencies...");
             // first start all of its dependencies (if they are plugins as well)
             for (Object dep_obj : entry.getPluginDependencies()) {
                 ClasspathEntry<?> dep = (ClasspathEntry<?>) dep_obj; // don't know why
@@ -568,7 +570,7 @@ public class PluginManager {
                     startPlugin(dep.getCoordinate());
                 }
             }
-            ULog.debug(-1, "... plugin dependencies started");
+            ULog.debug("... plugin dependencies started");
         }
 
         try { // do the actual starting by calling the pluginClassName class as

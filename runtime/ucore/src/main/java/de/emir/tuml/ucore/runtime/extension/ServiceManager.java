@@ -3,14 +3,14 @@ package de.emir.tuml.ucore.runtime.extension;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-
 import de.emir.tuml.ucore.runtime.logging.ULog;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ServiceManager {
     private static Map<String, IService> extensionPoints = new HashMap<String, IService>();
     private static Map<Class<? extends IService>, IService> extensionPointsByClass = new HashMap<Class<? extends IService>, IService>();
-    private static Logger log = ULog.getLogger(ServiceManager.class.getName());
+    private static Logger log = LogManager.getLogger(ServiceManager.class);
 
     public static void register(IService ep) {
         register(ep.getClass().getName(), ep);

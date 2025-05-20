@@ -431,7 +431,7 @@ public class SpatialPackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package SpatialPackage ...", 1);
+		ULog.debug("initialize package SpatialPackage ...");
 		theInstance = new SpatialPackage();
 		//initialize referenced models
 		MathModel.init();
@@ -459,7 +459,7 @@ public class SpatialPackage
 		
 		
 		
-		ULog.debug(-1, "... package SpatialPackage initialized");
+		ULog.debug("... package SpatialPackage initialized");
 		
 		return theInstance;
 	}

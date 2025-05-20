@@ -1,8 +1,29 @@
 # UCore
 TODO: Add general explanation of what UCore/TUML is, and what it does.
 
-This pages gives a short overview of common concepts that are related to the UCore-Module.
+This pages provides an overview of common concepts that are related to the UCore-Module.
 
+## Table of Contents
+<!-- TOC -->
+* [UCore](#ucore)
+  * [Table of Contents](#table-of-contents)
+* [Runtime Properties](#runtime-properties)
+  * [Property API](#property-api)
+  * [UCore-Properties and eMIR-S-100](#ucore-properties-and-emir-s-100)
+* [Pointer](#pointer)
+* [Pointer Strings](#pointer-strings-)
+  * [Backus - Naur Form](#backus---naur-form-)
+    * [Description](#description)
+    * [Examples](#examples)
+  * [User Interface](#user-interface-)
+* [Extensions](#extensions)
+  * [UCore Extensions](#ucore-extensions)
+* [Observer / Listener](#observer--listener)
+  * [TreeObserver](#treeobserver)
+    * [TreeObserverOptions](#treeobserveroptions)
+    * [TreeObserverWhiteListOptions](#treeobserverwhitelistoptions)
+    * [TargetTypeTreeObserverOptions](#targettypetreeobserveroptions)
+<!-- TOC -->
 # Runtime Properties
 
 Sometimes it is required to store additional information to an DataModel instance, that is not directly related to any DataModel.
@@ -237,3 +258,37 @@ The following Extensions are used by the UCore Project:
 - ClassPathProvider:
 The de.emir.tuml.ucore.runtime.resources.ClassPathProvider is used by de.emir.tuml.ucore.runtime.resources.ResourceManager to search resources inside the classpath
  
+# Observer / Listener
+To every ```UObject``` a listener can be registered. This can be used to react to changes within a model.  
+There are two kinds of listeners:
+1) Feature Listener are called whenever the value of the feature of the UObject is changed.
+2) Classifier listener are called whenever <b> any </b> value of <b> any </b> feature is changed.
+
+The method ```registerListener(final IValueChangeListener _listener)``` will register a classifier listener to the
+```UObject``` while ```registerListener(final UStructuralFeature _feature, final IValueChangeListener _listener)``` will
+register a feature listener to the ```UObject``` that only listens to changes of in the feature of that ```UObject```.
+The listener need to implement ```IValueChangeListener``` especially the method ```onValueChange(final Notification<T> notification)```.
+Though an anonymous lambda expression can be used as well.
+## TreeObserver
+In order to listen to a whole tree, tree listeners may be employed. These will add listeners to the to UObjects of the tree
+and register and remove listeners when the tree is changing. A tree listener is added by registering it to the root ````UObject````
+of the tree with ````registerTreeListener(final ITreeValueChangeListener listener)````.
+
+Since a tree listener is, by default, called on any change in the tree, options may be added. These options are used to 
+decide whether a classifier listener or a feature listener shall be added to a given UObject. Thus, it is used to ignore certain UObject in the 
+tree with regard to the listener. Options are added by using the method ````registerTreeListener(final ITreeValueChangeListener listener, TreeObserverUtil.ITreeObserverOptions options)````.
+Any subtree of a disregarded feature or object is disregarded as well.
+### TreeObserverOptions
+The TreeObserverOptions default implementation can filter the tree by the association type (e.g. composite) and may have an 
+ignore list of features to disregard.
+### TreeObserverWhiteListOptions
+This Observer options has a whitelist of ````UStructuralFeatures```` any feature not contained within that whitelist is disregarded.
+This may be employed if it is clear what exactly shall be registered to and has a lean implementation in contrast to more complex ObserverOptions.
+### TargetTypeTreeObserverOptions
+If listening to a certain class or defined classes is of interest, and it is unclear this observer options may be employed.
+It allows registration to elements in the tree of the target classes as well as any feature that <b> can </b> own a subtree containing any instance of the target class.
+This ObserverOptions uses reflections to evaluate features and is therefore computationally more expensive. Though it stores previous findings.
+Therefore, this ObserverOption should be reused as often as possible and not be newly created if possible.
+
+An exemplary use of this option would be to identify any UObject of type Vessel in a model. Listeners will be dynamically registered
+to anything that may own a vessel and removal, addition and replacement of vessels can be tracked using this ObserverOption. 

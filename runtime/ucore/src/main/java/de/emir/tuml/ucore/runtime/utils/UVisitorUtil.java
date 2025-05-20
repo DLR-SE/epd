@@ -1,131 +1,81 @@
 package de.emir.tuml.ucore.runtime.utils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
 
+import java.util.*;
+
 public class UVisitorUtil {
 
+    /**
+     * Visit an UObject and its entire tree of UStructuralFeatures using a Visitor.
+     * @param root root object to visit.
+     * @param visitor visitor to use.
+     */
     public static void visit(UObject root, UVisitor visitor) {
-        visit(root, visitor, new HashSet<UObject>());
-        // //don't check for null objects, they will throw an nullpointer anyway...
-        // UClass cl = root.getUClassifier();
-        // if (visitor.beginObject(root, cl)){
-        // for (UStructuralFeature feature : cl.getAllStructuralFeatures()){
-        // if (visitor.shouldVisit(root, feature)){
-        // Object value = feature.get(root);
-        // if (value != null){
-        // if (feature.isMany() == false){
-        // visitor.visit(root, feature, -1, value);
-        // if (feature.isReference() && value instanceof UObject)
-        // visit((UObject)value, visitor); //recursive visit the complex object
-        // }else{
-        // List list_value = (List)value;
-        // visitor.beginList(root, feature);
-        // for (int i = 0; i < list_value.size(); i++){
-        // Object lv = list_value.get(i);
-        // visitor.visit(root, feature, i, lv);
-        // if (lv instanceof UObject){ //recursive visit this object
-        // visit((UObject)lv, visitor);
-        // }
-        // }
-        // visitor.endList(root, feature);
-        // }
-        // }
-        // }
-        //
-        // }
-        // visitor.endObject(root, cl);
-        // }
+        visit(root, visitor, new HashSet<>());
     }
 
-    public static void visit(UObject root, UVisitor visitor, HashSet<UObject> visited) {
-        _visit(root, visitor, visited);
-    }
+    /**
+     * Visit an UObject and its entire tree of UStructuralFeatures using a Visitor. Skip Objects in visited and add visited UObjects to visitedUObjects.
+     * @param root object to visit.
+     * @param visitor to use.
+     * @param visitedUObjects is the Collection for already visited UObjects.
+     */
+    public static void visit(UObject root, UVisitor visitor, Collection<UObject> visitedUObjects) {
+        if (root == null) { // nothing to visit
+            return;
+        }
 
-    private static void _visit(UObject root, UVisitor visitor, HashSet<UObject> visited) {
-        // check if we have already visited this node
-        // don't check for null objects, they will throw an nullpointer anyway...
+        Deque<UObject> toVisit = new ArrayDeque<>();
+        toVisit.add(root);
 
-        ArrayList<UObject> openList = new ArrayList<>();
+        while (!toVisit.isEmpty()) {
+            root = toVisit.pop();
 
-        openList.add(root);
-
-        while (openList.isEmpty() == false) {
-            root = openList.remove(0);
-            if (!visited.add(root))
-                continue;
+            // check if root has already been visited
+            if (!visitedUObjects.add(root)) {
+                continue; // already visited
+            }
 
             UClass cl = root.getUClassifier();
             if (visitor.beginObject(root, cl)) {
                 for (UStructuralFeature feature : cl.getAllStructuralFeatures()) {
-                    if (visitor.shouldVisit(root, feature)) {
-                        Object value;
-                        try{
-                        	value = feature.get(root);
-                        }catch(Exception e) {
-                        	e.printStackTrace();
-                        	continue;
+                    if (!visitor.shouldVisit(root, feature)) {
+                        continue;
+                    }
+
+                    Object valueOfFeature = feature.get(root);
+                    if (valueOfFeature == null) {
+                        continue;
+                    }
+
+                    if (feature.isMany()) {
+                        if (!(valueOfFeature instanceof List<?>)) {
+                            throw new UnsupportedOperationException("isMany feature must implement List");
                         }
-                        if (value != null) {
-                            if (feature.isMany() == false) {
-                                visitor.visit(root, feature, -1, value);
-                                if (feature.isReference() && value instanceof UObject) {
-                                    if (!visited.contains(value))
-                                        openList.add((UObject) value);
-                                }
-                            } else {
-                                List list_value = (List) value;
-                                visitor.beginList(root, feature);
-                                for (int i = 0; i < list_value.size(); i++) {
-                                    Object lv = list_value.get(i);
-                                    visitor.visit(root, feature, i, lv);
-                                    if (lv instanceof UObject) { // recursive visit this object
-                                        if (!visited.contains(lv)) {
-                                            openList.add((UObject) lv);
-                                        }
-                                    }
-                                }
-                                visitor.endList(root, feature);
+
+                        List<Object> listOfValues = (List<Object>) valueOfFeature;
+                        visitor.beginList(root, feature);
+                        for (int idx = 0; idx < listOfValues.size(); idx++) {
+                            Object listValue = listOfValues.get(idx);
+                            visitor.visit(root, feature, idx, listValue);
+                            if (listValue instanceof UObject uValue) {
+                                toVisit.add(uValue);
                             }
+                        }
+                        visitor.endList(root, feature);
+
+                    } else {
+                        visitor.visit(root, feature, -1, valueOfFeature);
+                        if (feature.isReference() && valueOfFeature instanceof UObject toVisitObject) {
+                            toVisit.add(toVisitObject);
                         }
                     }
                 }
                 visitor.endObject(root, cl);
             }
         }
-
-        // UClass cl = root.getUClassifier();
-        // if (visitor.beginObject(root, cl)){
-        // for (UStructuralFeature feature : cl.getAllStructuralFeatures()){
-        // if (visitor.shouldVisit(root, feature)){
-        // Object value = feature.get(root);
-        // if (value != null){
-        // if (feature.isMany() == false){
-        // visitor.visit(root, feature, -1, value);
-        // if (feature.isReference() && value instanceof UObject)
-        // visit((UObject)value, visitor, visited); //recursive visit the complex object
-        // }else{
-        // List list_value = (List)value;
-        // visitor.beginList(root, feature);
-        // for (int i = 0; i < list_value.size(); i++){
-        // Object lv = list_value.get(i);
-        // visitor.visit(root, feature, i, lv);
-        // if (lv instanceof UObject){ //recursive visit this object
-        // visit((UObject)lv, visitor, visited);
-        // }
-        // }
-        // visitor.endList(root, feature);
-        // }
-        // }
-        // }
-        //
-        // }
-        // visitor.endObject(root, cl);
-        // }
     }
 }

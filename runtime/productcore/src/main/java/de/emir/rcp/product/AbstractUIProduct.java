@@ -11,6 +11,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 
 import javax.swing.JOptionPane;
 import javax.swing.LookAndFeel;
@@ -51,6 +52,11 @@ public abstract class AbstractUIProduct extends AbstractProduct implements IClos
 		// needs to be done before we call the init method with the progress monitor, for the case that
 		// the progress monitor (for example a splash screen) needs access to resources
 		String appName = getApplicationName();
+
+		// Disabling garbage free logging configuration. This creates warnings by log4j because each logger is then
+		// initialized with the ReusableMessageFactory and requested again with the ParameterizedMessageFactory.
+		Properties props = System.getProperties();
+		props.setProperty("log4j2.enableThreadlocals", "false");
 
 		// set only if not null, otherwise we may get some strange errors with
 		// the ResourceManager

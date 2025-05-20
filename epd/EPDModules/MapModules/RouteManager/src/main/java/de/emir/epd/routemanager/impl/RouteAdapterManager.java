@@ -7,9 +7,11 @@ import java.util.List;
 import de.emir.epd.routemanager.IRouteAdapterManager;
 import de.emir.epd.routemanager.IRouteManager.IRouteAdapter;
 import de.emir.tuml.ucore.runtime.logging.ULog;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class RouteAdapterManager implements IRouteAdapterManager {
-
+    private static final Logger LOG = LogManager.getLogger(RouteAdapterManager.class);
 	private List<IRouteAdapter> 		mAdapters = new ArrayList<IRouteAdapter>();
 	@Override
 	public void registerRouteAdapter(IRouteAdapter adapter) {
@@ -22,7 +24,7 @@ public class RouteAdapterManager implements IRouteAdapterManager {
 	@Override
 	public void removeRouteAdapter(IRouteAdapter adpater) {
 		if (mAdapters.remove(adpater)) {
-			ULog.info("Removed RouteAdapter: " + adpater.getClass().getName());
+			LOG.info("Removed RouteAdapter: " + adpater.getClass().getName());
 		}
 	}
 

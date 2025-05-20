@@ -12,8 +12,8 @@ import de.emir.model.universal.spatial.impl.EnvelopeImpl;
 import de.emir.model.universal.units.DistanceUnit;
 import de.emir.service.routeservices.impl.RouteExportImpl;
 import de.emir.service.routeservices.impl.RouteImportImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,7 +24,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class RouteUtil {
-    private static final Logger logger = LoggerFactory.getLogger(RouteUtil.class);
+    private static final Logger logger = LogManager.getLogger(RouteUtil.class);
 
     /**
      * Performs a deep reverse of a route.

@@ -2,10 +2,13 @@ package de.emir.rcp.views.console.cmd;
 
 import de.emir.rcp.commands.AbstractCommand;
 import de.emir.rcp.manager.util.PlatformUtil;
-import org.apache.log4j.Category;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import de.emir.tuml.ucore.runtime.logging.ULog;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.LogManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -15,9 +18,14 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Enumeration;
+import java.util.Collection;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 
 public class SetClassLogLevelCommand extends AbstractCommand {
+
+    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(SetClassLogLevelCommand.class);
 
     @Override
     public void execute() {
@@ -30,19 +38,9 @@ public class SetClassLogLevelCommand extends AbstractCommand {
 
         public LogLevelDialog(Frame owner) {
             super(owner);
+
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             setLayout(new BorderLayout());
-
-            JScrollPane scrollPane = new JScrollPane();
-
-            JTable table = new JTable();
-            table.setModel(new CustomTableModel());
-            TableColumn tableColumn = table.getColumnModel().getColumn(1);
-            tableColumn.setCellEditor(new CustomComboBoxEditor());
-            TableRowSorter<TableModel> sorter = new TableRowSorter<>(table.getModel());
-            table.setRowSorter(sorter);
-            scrollPane.setViewportView(table);
-
 
             Level[] levels = {
                     Level.OFF,
@@ -55,41 +53,47 @@ public class SetClassLogLevelCommand extends AbstractCommand {
                     Level.ALL
             };
 
+            JComboBox<String> rootLogLevels = new JComboBox<>();
+            JComboBox<String> cellLogLevels = new JComboBox<>();
+
+            for (Level level : levels) {
+                rootLogLevels.addItem(level.toString());
+                cellLogLevels.addItem(level.toString());
+            }
+
+            JScrollPane scrollPane = new JScrollPane();
+
+            JTable table = new JTable();
+            table.setModel(new CustomTableModel());
+            TableColumn logLevelColumn = table.getColumnModel().getColumn(1);
+            logLevelColumn.setCellEditor(new DefaultCellEditor(cellLogLevels));
+            TableRowSorter<TableModel> sorter = new TableRowSorter<>(table.getModel());
+            table.setRowSorter(sorter);
+            scrollPane.setViewportView(table);
+
             JPanel panel = new JPanel();
             panel.setLayout(new FlowLayout());
             panel.add(new JLabel("Set all to: "));
-            JComboBox<String> comboBox = new JComboBox<>();
-            panel.add(comboBox);
-            for (Level level : levels) {
-                comboBox.addItem(level.toString());
-            }
+            panel.add(rootLogLevels);
 
-            comboBox.addActionListener(new ActionListener() {
+            rootLogLevels.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Level level = Level.toLevel((String) comboBox.getSelectedItem());
-                    changeAllLogLevel(level);
+                    Level level = Level.toLevel((String) rootLogLevels.getSelectedItem());
+                    changeAllLogLevel(level, table.getModel());
                     repaint();
                 }
             });
-
-
             add(panel, BorderLayout.NORTH);
             add(scrollPane, BorderLayout.CENTER);
         }
 
-        private void changeAllLogLevel(Level level) {
-            if (level != null) {
-                Enumeration enumeration = LogManager.getCurrentLoggers();
-
-                while (enumeration.hasMoreElements()) {
-                    Object obj = enumeration.nextElement();
-                    if (obj instanceof Category) {
-                        Category logger = (Category) obj;
-                        logger.setLevel(level);
-                    }
-
-                }
+        private void changeAllLogLevel(Level level, TableModel model) {
+            LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+            ctx.getRootLogger().setLevel(level);
+            ctx.updateLoggers();
+            for(int i=0; i<model.getRowCount(); i++) {
+                model.setValueAt(level.toString(), i, 1);
             }
         }
     }
@@ -98,14 +102,9 @@ public class SetClassLogLevelCommand extends AbstractCommand {
 
         @Override
         public int getRowCount() {
-            Enumeration enumeration = LogManager.getCurrentLoggers();
-            int counter = 0;
-            while (enumeration.hasMoreElements()) {
-                enumeration.nextElement();
-                counter++;
-            }
-
-            return counter;
+            LoggerContext logContext = (LoggerContext) LogManager
+                    .getContext(false);
+            return logContext.getLoggers().size();
         }
 
         @Override
@@ -143,87 +142,36 @@ public class SetClassLogLevelCommand extends AbstractCommand {
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
-            Enumeration enumeration = LogManager.getCurrentLoggers();
-            int counter = 0;
-            while (enumeration.hasMoreElements()) {
-                Object obj = enumeration.nextElement();
-
-                if (counter == rowIndex) {
-                    Logger logger = (Logger) obj;
-                    if (columnIndex == 0) {
-                        return logger.getName();
-                    } else if (columnIndex == 1) {
-                        Level level = resolveLevel(logger);
-                        return level.toString();
-                    }
+            LoggerContext logContext = (LoggerContext) LogManager
+                    .getContext(false);
+            Collection<Logger> config = logContext
+                    .getLoggers();
+            if(rowIndex <= config.size()) {
+                Logger conf = (Logger) config.toArray()[rowIndex];
+                if(columnIndex == 0) {
+                    return conf.getName();
+                } else if (columnIndex == 1) {
+                    return conf.getLevel().toString();
                 }
-
-                counter++;
             }
-
-
             return null;
         }
 
         @Override
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-            Enumeration enumeration = LogManager.getCurrentLoggers();
-            int counter = 0;
-            while (enumeration.hasMoreElements()) {
-                Object obj = enumeration.nextElement();
-
-                if (counter == rowIndex) {
-                    Logger logger = (Logger) obj;
-                    if (columnIndex == 1) {
-                        String level = (String) aValue;
-                        logger.setLevel(Level.toLevel(level, Level.INFO));
+            LoggerContext logContext = (LoggerContext) LogManager
+                    .getContext(false);
+            Collection<Logger> config = logContext.getLoggers();
+            if(rowIndex <= config.size()) {
+                if (columnIndex == 1) {
+                    String loggerName = getValueAt(rowIndex, 0).toString();
+                    Logger conf = config.stream().filter(logger -> logger.getName().equals(loggerName)).findFirst().orElse(null);
+                    if(conf != null) {
+                        Configurator.setLevel(conf, Level.toLevel(aValue.toString()));
+                        logContext.updateLoggers();
                     }
-                    break;
                 }
-
-                counter++;
             }
-        }
-
-        private Level resolveLevel(Category logger) {
-            if (logger == null) return null;
-            Level level = logger.getLevel();
-            if (level == null) {
-                return resolveLevel(logger.getParent());
-            }
-
-            return level;
-        }
-    }
-
-    /**
-     * Custom class for adding elements in the JComboBox.
-     */
-    public class CustomComboBoxEditor extends DefaultCellEditor {
-
-        // Declare a model that is used for adding the elements to the `Combo box`
-        private DefaultComboBoxModel model;
-
-        public CustomComboBoxEditor() {
-            super(new JComboBox());
-            this.model = (DefaultComboBoxModel) ((JComboBox) getComponent()).getModel();
-            model.addElement(Level.OFF.toString());
-            model.addElement(Level.TRACE.toString());
-            model.addElement(Level.DEBUG.toString());
-            model.addElement(Level.INFO.toString());
-            model.addElement(Level.WARN.toString());
-            model.addElement(Level.ERROR.toString());
-            model.addElement(Level.FATAL.toString());
-            model.addElement(Level.ALL.toString());
-        }
-
-        @Override
-        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-            // Add the elements which you want to the model.
-            // Here I am adding elements from the orderList(say) which you can pass via constructor to this class.
-
-            //finally return the component.
-            return super.getTableCellEditorComponent(table, value, isSelected, row, column);
         }
     }
 }

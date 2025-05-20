@@ -5,8 +5,8 @@ package de.emir.service.connection.receiver;
 
 import com.google.common.collect.EvictingQueue;
 import de.emir.service.connection.interfaces.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -50,7 +50,7 @@ public class TcpServerRequest implements Receiver, Sender {
 	/** Writer for TCP stream. */
 	private BufferedWriter writer;
 	/** Log handler. */
-	static final Logger LOG = LoggerFactory.getLogger(TcpServerRequest.class);
+	static final Logger LOG = LogManager.getLogger(TcpServerRequest.class);
 	/** Queue of messages to send. */
 	private volatile EvictingQueue<String> sendingMessages;
 	private String local;

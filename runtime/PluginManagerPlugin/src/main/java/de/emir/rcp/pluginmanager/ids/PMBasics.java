@@ -33,6 +33,7 @@ public class PMBasics {
     public static final String ADD_DEP_CMD_ID = ID_PREFIX + "cmd.AddDependencyCommand";
     public static final String RESOLVE_DEPENDENCIES_CMD_ID = ID_PREFIX + "cmd.ResolvedependenciesCommand";
     public static final String EXPORT_PRODUCT_CMD_ID = ID_PREFIX + "cmd.ExportProductCommand";
+    public static final String UPDATE_VERSIONS_CMD_ID = ID_PREFIX + "cmd.UpdateVersionsCommand";
 
     public static final String PLUGINS_TOOLBAR_ID = Basic.TOOLBAR_IDENTIFIER + "pluginsToolbar";
     public static final String PLUGINS_TOOLBAR_RIGHT_ID = Basic.TOOLBAR_IDENTIFIER + "pluginsToolbarRight";

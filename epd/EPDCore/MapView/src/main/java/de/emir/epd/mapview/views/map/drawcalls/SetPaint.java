@@ -7,7 +7,7 @@ public class SetPaint implements IDrawCall {
 
 	private Paint p;
 
-	public SetPaint(Paint s) {
+	public SetPaint(Paint p) {
 		this.p = p;
 	}
 	

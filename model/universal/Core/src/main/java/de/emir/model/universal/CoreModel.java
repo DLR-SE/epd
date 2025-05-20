@@ -21,14 +21,14 @@ public class CoreModel implements UCorePlugin {
 		if (initialized)
 			return ;
 		initialized = true;
-		ULog.debug("initialize model Core ... ", 1);
+		ULog.debug("initialize model Core ... ");
 		//initialize referenced models
 		UCoreModel.init();
 		
 		//initialize sub packages
 		CorePackage.theInstance.init();
 		VarPackage.theInstance.init();
-		ULog.debug(-1, "... model Core initialized");
+		ULog.debug("... model Core initialized");
 	}
 
 	/**

@@ -31,7 +31,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.emir.epd.nmeasensor.data.ReceiverType;
 import static de.emir.epd.nmeasensor.data.ReceiverType.TCP;
@@ -320,7 +320,6 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
 		cLayout.show(receiverDetailPanel, selected);
 //        activeReceiverSettings.readValues();
 		printProperty(nmeaSources);
-		
 		receiverList.repaint();
 	}
 
@@ -399,18 +398,15 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
 		nmeaFilterList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-                StringBuilder sentences = new StringBuilder();
-				for (int i = 0; i < nmeaFilterList.getModel().getSize(); i++) {
-					JCheckBox cb = nmeaFilterList.getModel().getElementAt(i);
-					if (cb.isSelected()) {
-						if(activeProperty != null) {
-                            if (!sentences.isEmpty()) sentences.append(",");
-							sentences.append(SentenceType.valueOf(cb.getText()));
-                            IProperty<String> sentencesProp = context.getProperty(getNamePath() + '.' + NMEASensorIds.NMEA_SENSOR_PROP_SENTENCES, "");
-                            sentencesProp.setValue(sentences.toString());
-						}
-					}
-				}
+//				StringBuilder sbSentenceFilter = new StringBuilder();
+//				for (int i = 0; i < nmeaFilterList.getModel().getSize(); i++) {
+//					JCheckBox cbItem = nmeaFilterList.getModel().getElementAt(i);
+//					if (cbItem.isSelected()) {
+//						sbSentenceFilter.append(cbItem.getText()).append(",");
+//					}
+//				}
+//				IProperty<String> prop = context.getProperty(getNamePath() + "." + NMEASensorIds.NMEA_SENSOR_PROP_SENTENCES, "");
+//				prop.setValue(sbSentenceFilter.toString().substring(0, sbSentenceFilter.lastIndexOf(",")));
 				dirtyFlag = true;
 				readValues();
 			}
@@ -567,7 +563,20 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
 	public void finish() {
         if (activeReceiverSettings != null) activeReceiverSettings.finish();
 		readValues();
+		readSentenceFilter();
         printProperty(nmeaSources);
+	}
+	
+	private void readSentenceFilter() {
+		StringBuilder sbSentenceFilter = new StringBuilder();
+		for (int i = 0; i < nmeaFilterList.getModel().getSize(); i++) {
+			JCheckBox cbItem = nmeaFilterList.getModel().getElementAt(i);
+			if (cbItem.isSelected()) {
+				sbSentenceFilter.append(cbItem.getText()).append(",");
+			}
+		}
+		IProperty<String> prop = context.getProperty(getNamePath() + "." + NMEASensorIds.NMEA_SENSOR_PROP_SENTENCES, "");
+		prop.setValue(sbSentenceFilter.toString().substring(0, sbSentenceFilter.lastIndexOf(",")));
 	}
 
 	public static void printProperty(IProperty<?> property) {

@@ -1,6 +1,6 @@
 package de.emir.rcp.manager;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.emir.rcp.model.AbstractModelProvider;
 import de.emir.tuml.ucore.runtime.extension.IService;

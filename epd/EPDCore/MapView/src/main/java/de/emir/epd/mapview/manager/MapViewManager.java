@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.jxmapviewer.viewer.GeoPosition;
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.emir.epd.mapview.ep.MapTool;
 import de.emir.epd.mapview.ep.MapViewExtensionPoint;

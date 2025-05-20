@@ -175,7 +175,7 @@ public class RouteservicesPackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package RouteservicesPackage ...", 1);
+		ULog.debug("initialize package RouteservicesPackage ...");
 		theInstance = new RouteservicesPackage();
 		//initialize referenced models
 		IEC61174Model.init();
@@ -198,7 +198,7 @@ public class RouteservicesPackage
 		
 		
 		
-		ULog.debug(-1, "... package RouteservicesPackage initialized");
+		ULog.debug("... package RouteservicesPackage initialized");
 		
 		return theInstance;
 	}

@@ -47,7 +47,7 @@ import java.util.List;
 import java.util.Map;
 
 public class VesselEditorPanel extends GeometryPanel {
-    private double EQUIPMENT_SIZE = EDIT_POINT_SIZE * 2;
+    private double EQUIPMENT_SIZE = 32; //EDIT_POINT_SIZE * 2;
     private ActionListener equipmentListener;
 
     private Map<String, Coordinate> featureMap;
@@ -74,7 +74,7 @@ public class VesselEditorPanel extends GeometryPanel {
     public void paint(Graphics g1) {
         super.paint(g1);
 
-        EQUIPMENT_SIZE = EDIT_POINT_SIZE * 3;
+        //EQUIPMENT_SIZE = EDIT_POINT_SIZE * 3;
 
         Graphics2D graphics2D = (Graphics2D) g1;
 

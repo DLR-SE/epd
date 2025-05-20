@@ -28,7 +28,6 @@ import de.emir.model.domain.maritime.iec61174.Route;
 import de.emir.model.domain.maritime.iec61174.Waypoint;
 import de.emir.model.domain.maritime.iec61174.impl.LegImpl;
 import de.emir.model.domain.maritime.iec61174.impl.RouteScheduleImpl;
-import de.emir.model.universal.units.DistanceUnit;
 import de.emir.model.universal.units.SpeedUnit;
 import de.emir.model.universal.units.impl.SpeedImpl;
 import de.emir.rcp.manager.CommandManager;
@@ -41,6 +40,8 @@ import de.emir.tuml.ucore.runtime.extension.ServiceManager;
 import de.emir.tuml.ucore.runtime.pointer.PointerOperations;
 import io.reactivex.rxjava3.disposables.Disposable;
 import net.miginfocom.swing.MigLayout;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class RoutePropertiesDialog extends JPanel {
 
@@ -65,8 +66,8 @@ public class RoutePropertiesDialog extends JPanel {
     private Disposable routeVisibilityListener;
     private Route current;
     private JLabel routeLengthLabel;
-
-
+    private static final Logger LOG = LogManager.getLogger(RoutePropertiesDialog.class);
+    
     private RoutePropertiesDialog(Route route) {
         current = route;
         init();
@@ -237,7 +238,7 @@ public class RoutePropertiesDialog extends JPanel {
     private void zoomToRoute() {
         PlatformUtil.getSelectionManager().setSelection(RouteManagerBasic.CTX_ROUTE_SELECTION, current);
         CommandManager cm = ServiceManager.get(CommandManager.class);
-        System.out.println(IRouteManager.getDefaultRouteManager());
+        LOG.debug(IRouteManager.getDefaultRouteManager());
         cm.executeCommand(new ZoomToRouteCommand(IRouteManager.getDefaultRouteManager()));
     }
 

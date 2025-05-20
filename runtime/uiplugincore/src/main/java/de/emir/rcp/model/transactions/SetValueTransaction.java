@@ -1,6 +1,6 @@
 package de.emir.rcp.model.transactions;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.emir.rcp.model.AbstractModelTransaction;
 import de.emir.tuml.ucore.runtime.UObject;

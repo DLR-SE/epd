@@ -1,36 +1,42 @@
 package de.emir.tuml.ucore.runtime.utils.visitor;
 
-import java.util.HashSet;
-
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
 import de.emir.tuml.ucore.runtime.utils.UVisitor;
 
 /**
- * Abstract visitor class, that chaches the already visited objects (inside beginObject) and visit each object only
- * once.
- * 
- * @author sschweigert
+ * Abstract visitor class, with stub implementation.
  *
  */
 public abstract class AbstractVisitor implements UVisitor {
-    private HashSet<UObject> mVisited = new HashSet<UObject>();
-
+    /**
+     * @inheritDoc
+     */
     @Override
     public boolean beginObject(UObject obj, UClass cl) {
-        return mVisited.add(obj);
+        return true;
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void endObject(UObject obj, UClass cl) {
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void beginList(UObject root, UStructuralFeature feature) {
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void endList(UObject root, UStructuralFeature feature) {
     }
+
 }

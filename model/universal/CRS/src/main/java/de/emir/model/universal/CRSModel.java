@@ -24,14 +24,14 @@ public class CRSModel implements UCorePlugin {
 		if (initialized)
 			return ;
 		initialized = true;
-		ULog.debug("initialize model CRS ... ", 1);
+		ULog.debug("initialize model CRS ... ");
 		//initialize referenced models
 		CoreModel.init();
 		MathModel.init();
 		
 		//initialize sub packages
 		CrsPackage.theInstance.init();
-		ULog.debug(-1, "... model CRS initialized");
+		ULog.debug("... model CRS initialized");
 	}
 
 	/**

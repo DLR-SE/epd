@@ -237,7 +237,7 @@ public class VarPackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package VarPackage ...", 1);
+		ULog.debug("initialize package VarPackage ...");
 		theInstance = new VarPackage();
 		//initialize referenced models
 		UCoreModel.init();
@@ -259,7 +259,7 @@ public class VarPackage
 		
 		
 		
-		ULog.debug(-1, "... package VarPackage initialized");
+		ULog.debug("... package VarPackage initialized");
 		
 		return theInstance;
 	}

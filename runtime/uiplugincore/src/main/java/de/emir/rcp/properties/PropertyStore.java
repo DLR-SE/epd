@@ -9,6 +9,7 @@ import de.emir.tuml.ucore.runtime.impl.UPackageImpl;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
 import de.emir.tuml.ucore.runtime.resources.ResourceManager;
+import org.apache.logging.log4j.Level;
 import de.emir.tuml.ucore.runtime.serialization.AbstractSerializer;
 import de.emir.tuml.ucore.runtime.serialization.xml.XMLSerializer;
 
@@ -38,7 +39,7 @@ public class PropertyStore {
     }
 
     @SuppressWarnings("unchecked")
-    public static void load(File propertyFile) {  
+    public static void load(File propertyFile) {
         PluginCoreModel.init();
         VarPackage.init();
         AbstractSerializer ser = AbstractSerializer.createSerializerForFile(propertyFile);
@@ -57,7 +58,7 @@ public class PropertyStore {
                         PropertyContext ctx = getContext(ctxPackage.getName());
                         contexts.put(ctxPackage.getName(), ctx);
                         if (ctxPackage.getContent() != null) {
-                            // subpackage has further subsubpackages, each one contains a complex UObject based type 
+                            // subpackage has further subsubpackages, each one contains a complex UObject based type
                             for (UObject subsubPackage : ctxPackage.getContent()) {
                                 if (subsubPackage instanceof UPackage) {
                                     UPackageImpl objectPackage = (UPackageImpl) subsubPackage;
@@ -89,7 +90,7 @@ public class PropertyStore {
         if (propertyFile.getAbsoluteFile().getParentFile().exists() == false) {
             propertyFile.getAbsoluteFile().getParentFile().mkdirs();
         }
-        
+
         UPackageImpl pkg = new UPackageImpl() {
             @Override
             public void build() {

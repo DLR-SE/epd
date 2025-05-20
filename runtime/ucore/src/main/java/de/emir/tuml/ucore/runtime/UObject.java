@@ -1,20 +1,14 @@
 package de.emir.tuml.ucore.runtime;
 
-import de.emir.tuml.ucore.runtime.IValueChangeListener;
-import de.emir.tuml.ucore.runtime.UClass;
-import de.emir.tuml.ucore.runtime.UOperation;
-import de.emir.tuml.ucore.runtime.UStructuralFeature;
-
-import java.beans.PropertyChangeListener;
-import java.util.Collection;
-
 import de.emir.tuml.ucore.runtime.annotations.UMLClass;
 import de.emir.tuml.ucore.runtime.annotations.UMLProperty;
 import de.emir.tuml.ucore.runtime.annotations.UMLProperty.AssociationType;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
 import de.emir.tuml.ucore.runtime.utils.UCoreMetaRepository;
-import de.emir.tuml.ucore.runtime.utils.internal.TreeObserverUtil.ITreeObserverOptions;
-import de.emir.tuml.ucore.runtime.utils.internal.TreeObserverUtil.TreeObserverOptions;
+import de.emir.tuml.ucore.runtime.utils.internal.TreeObserverUtil;
+
+import java.beans.PropertyChangeListener;
+import java.util.Collection;
 
 /**
  * @generated
@@ -68,7 +62,7 @@ public interface UObject {
      */
     IDisposable registerTreeListener(final ITreeValueChangeListener listener);
 
-    IDisposable registerTreeListener(final ITreeValueChangeListener listener, ITreeObserverOptions options);
+    IDisposable registerTreeListener(final ITreeValueChangeListener listener, TreeObserverUtil.ITreeObserverOptions options);
 
     /**
      * 
@@ -162,7 +156,7 @@ public interface UObject {
      * 
      * @param operation
      *            the operation to be called on this instance
-     * @param the
+     * @param value
      *            parameter value(s) or null
      * @return the return value of the function or null if the operation is "void" operation
      * @generated

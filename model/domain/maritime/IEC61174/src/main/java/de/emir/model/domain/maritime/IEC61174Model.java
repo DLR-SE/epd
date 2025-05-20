@@ -22,13 +22,13 @@ public class IEC61174Model implements UCorePlugin {
 		if (initialized)
 			return ;
 		initialized = true;
-		ULog.debug("initialize model IEC61174 ... ", 1);
+		ULog.debug("initialize model IEC61174 ... ");
 		//initialize referenced models
 		SpatialModel.init();
 		
 		//initialize sub packages
 		Iec61174Package.theInstance.init();
-		ULog.debug(-1, "... model IEC61174 initialized");
+		ULog.debug("... model IEC61174 initialized");
 	}
 
 	/**

@@ -1,7 +1,11 @@
 package de.emir.rcp;
 
+import de.emir.model.universal.spatial.CoordinateSequence;
+import de.emir.model.universal.spatial.SpatialPackage;
 import de.emir.rcp.commands.ep.CommandExtensionPoint;
 import de.emir.rcp.commands.ep.ICommandDescriptor;
+import de.emir.rcp.editor.model.FormEditorPartManager;
+import de.emir.rcp.editor.model.IFormEditorPart;
 import de.emir.rcp.editor.text.TextEditor;
 import de.emir.rcp.editors.ep.EditorExtensionPoint;
 import de.emir.rcp.editors.ep.IEditor;
@@ -23,6 +27,7 @@ import de.emir.rcp.properties.provider.editor.ReferenceEditorProvider;
 import de.emir.rcp.properties.provider.editor.UnitEditorProvider;
 import de.emir.rcp.properties.provider.property.NamedElementPropertyProvider;
 import de.emir.rcp.properties.provider.property.UStructuralFeaturePropertyProvider;
+import de.emir.rcp.properties.ui.editors.CoordinateSequenceEditor;
 import de.emir.rcp.settings.ConsoleSettingsPage;
 import de.emir.rcp.settings.SystemSettingsPage;
 import de.emir.rcp.settings.WorkspaceSettingsPage;
@@ -47,21 +52,61 @@ import de.emir.rcp.wizards.types.ucore.NewFileWizardUCoreModelInformation;
 import de.emir.runtime.plugin.AbstractUIPlugin;
 import de.emir.tuml.ucore.runtime.extension.ExtensionPointManager;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
+import de.emir.tuml.ucore.runtime.prop.internal.GenericProperty;
 import de.emir.tuml.ucore.runtime.resources.IconManager;
 import de.emir.tuml.ucore.runtime.resources.ResourceManager;
-import org.apache.log4j.Level;
+import de.emir.tuml.ucore.runtime.utils.Pointer;
+import java.awt.Component;
+import org.apache.logging.log4j.Level;
 
 import java.io.File;
+import javax.swing.Icon;
 
 public class GeneralViewsPlugin extends AbstractUIPlugin {
-
+	private static final org.apache.logging.log4j.Logger LOG = org.apache.logging.log4j.LogManager
+			.getLogger(GeneralViewsPlugin.class);
+	
 	@Override
 	public void registerExtensionPoints() {
-		ExtensionPointManager.registerExtensionPoint(GVBasic.EXT_POINT_NEW_FILE_WIZ, NewFileWizardManager.getNewFileWizardExtensionPoint());
+		ExtensionPointManager.registerExtensionPoint(GVBasic.EXT_POINT_NEW_FILE_WIZ,
+				NewFileWizardManager.getNewFileWizardExtensionPoint());
 		ExtensionPointManager.registerExtensionPoint(GVBasic.EXT_POINT_PROPERTY_MANAGER, PropertyManager.getInstance());
 		ExtensionPointManager.registerExtensionPoint(GVBasic.EXT_POINT_OPERATION_MANAGER, new OperationManager());
+		try {
+			ExtensionPointManager.registerExtensionPoint(FormEditorPartManager.FORM_PROVIDER_EXTENSIONPOINT_ID,
+				new FormEditorPartManager());
+		} catch (IllegalAccessException e) {
+			LOG.error(e);
+		}
 	}
 
+        public static IFormEditorPart createCoordinateSequenceEditorPartProvider() {
+        return new IFormEditorPart() {
+            @Override
+            public Component createComposite(Pointer pointer) {
+                Object value = pointer.getValue();
+                if (value instanceof CoordinateSequence cs) {
+                    CoordinateSequenceEditor cse = new CoordinateSequenceEditor();
+                    IProperty<CoordinateSequence> prop = new GenericProperty<>("CoordinateSequence", "", true, cs);
+                    cse.setProperty(prop);
+                    return cse.getEditor();
+                }
+                return null;
+            }
+
+            @Override
+            public Icon getIcon() {
+                return IconManager.getIcon(IconManager.class, "icons/emiricons/32/edit_coseq.png", IconManager.preferedSmallIconSize()); 
+            }
+
+            @Override
+            public String getName() {
+                return "CoSeq Editor";
+            }
+        };
+    }
+
+    
 	@Override
 	public void addExtensions() {
 		ResourceManager rmgr = ResourceManager.get(getClass()); //used to load icons
@@ -91,7 +136,7 @@ public class GeneralViewsPlugin extends AbstractUIPlugin {
 				.editor("de.emir.rcp.swingrcp.editors.TextEditor", TextEditor.class, "Text Editor")
 				.fileExtension("xml")
 				.icon("icons/emiricons/32/insert_drive_file.png", rmgr);
-
+        
 		CommandExtensionPoint cmdEP = ExtensionPointManager.getExtensionPoint(CommandExtensionPoint.class);
 
 		// Console Commands
@@ -283,6 +328,9 @@ public class GeneralViewsPlugin extends AbstractUIPlugin {
   		PropertyManager.getInstance().register(new ComplexTypeEditorProvider());
         PropertyManager.getInstance().register(new ListEditorProvider());
 		PropertyManager.getInstance().register(999, new ReferenceEditorProvider());
+        
+        FormEditorPartManager fepm = (FormEditorPartManager) ExtensionPointManager.getExtensionPoint(FormEditorPartManager.FORM_PROVIDER_EXTENSIONPOINT_ID);
+        fepm.registerEditorPart(SpatialPackage.Literals.CoordinateSequence, createCoordinateSequenceEditorPartProvider());  
 	}
 
 	

@@ -195,11 +195,17 @@ public class CoordinateSequenceImpl extends UObjectImpl implements CoordinateSeq
 	//////////////////////////////////////////////////////////////////
 	//							 Operations							//
 	//////////////////////////////////////////////////////////////////
-	
+
+	/**
+	 * Coordinate who's X,Y and Z values are connected to a CoordinateSequence
+	 */
 	class LinkedCoordinate extends CoordinateImpl {
 		int mIdx = -1;
 		public LinkedCoordinate(int idx) {
 			mIdx = idx;
+			mX = getX();
+			mY = getY();
+			mZ = getZ();
 		}
 		@Override
 		public void setX(double _x) {
@@ -214,7 +220,7 @@ public class CoordinateSequenceImpl extends UObjectImpl implements CoordinateSeq
 		@Override
 		public void setZ(double _z) {
 			super.setZ(_z);
-			if (getZCoordinates().isEmpty() == false)
+			if (!getZCoordinates().isEmpty())
 				getZCoordinates().set(mIdx, _z);
 		}
 		@Override
@@ -270,14 +276,19 @@ public class CoordinateSequenceImpl extends UObjectImpl implements CoordinateSeq
 	}
 
 	/**
-	 * @inheritDoc
+	 * Add Coordinate to Coordinate Sequence.
+	 * @implNote when original coordinate is changed. Changes will not translate to Coordinate in CoordinateSequence
 	 * @generated not
 	 */
 	public void addCoordinate(final Coordinate value)
 	{
 		addCoordinate(numCoordinates(), value);
 	}
-	
+
+	/**
+	 * Add Coordinate to Coordinate Sequence into position given.
+	 * @implNote when original coordinate is changed. Changes will not translate to Coordinate in CoordinateSequence
+	 */
 	@Override
 	public void addCoordinate(int idx, Coordinate value) {
 		CoordinateReferenceSystem crs = getCrs(); 
@@ -298,7 +309,7 @@ public class CoordinateSequenceImpl extends UObjectImpl implements CoordinateSeq
 			if (d == -1) { //first entry
 				if (!Double.isNaN(z)) //not nan
 					getZCoordinates().add(z);
-			}else if (d == 3) {
+			}else if (d == 3 && !Double.isNaN(z)) {
 				getZCoordinates().add(z);
 			}
 			getXCoordinates().add(x);
@@ -317,6 +328,11 @@ public class CoordinateSequenceImpl extends UObjectImpl implements CoordinateSeq
 		mDirty = true;
 	}
 
+	/**
+	 * Remove first instance of coordinate with same x,y and z values. Do nothing if Coordinate does not exist in CoordinateSequence
+	 * @implNote CRS is not considered
+	 * @param coord coordinate to remove
+	 */
 	@Override
 	public void removeCoordinate(Coordinate coord) {
 		int idx = getIndexOf(coord);
@@ -324,6 +340,12 @@ public class CoordinateSequenceImpl extends UObjectImpl implements CoordinateSeq
 			removeCoordinate(idx);
 	}
 
+	/**
+	 * Return index of first instance of coordinate with same x,y and z values.
+	 * @implNote CRS is not considered
+	 * @param coord coordinate to remove
+	 * @return index of coordinate. -1 if coordinate does not exist in CoordinateSequence
+	 */
 	@Override
 	public int getIndexOf(Coordinate coord) {
 		double xx = coord.getX(), yy = coord.getY(), zz = coord.getZ();
@@ -414,17 +436,21 @@ public class CoordinateSequenceImpl extends UObjectImpl implements CoordinateSeq
 		return getXCoordinates().size();
 	}
 
+	/**
+	 * Get dimension of CoordinateSequence. When using mixed Coordinates the behavior of the CoordinateSequence is non-trivial and dimensions should be observed.
+	 * @return 2 for 2D, 3 for 3D or -1 if sequence contains no coordinates
+	 */
 	@Override
 	public int dimension() {
-		if (mCrs != null) {
-			return mCrs.dimension();
-		}
-		if (getXCoordinates().isEmpty())
+		if (getXCoordinates().isEmpty()) {
+            // No Coordinates found, try to determine dimension by CRS
+            if(mCrs != null) return mCrs.dimension();
 			return -1;
+        }
 		if (getZCoordinates().isEmpty())
 			return 2;
 		double z0 = getZCoordinates().get(0);
-		if (z0 != z0) //is NaN ?
+		if (Double.isNaN(z0))
 			return 2;
 		return 3;
 	}

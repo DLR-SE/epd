@@ -16,14 +16,12 @@ import org.eclipse.aether.repository.RemoteRepository;
 import org.eclipse.aether.resolution.VersionRangeRequest;
 import org.eclipse.aether.resolution.VersionRangeResolutionException;
 import org.eclipse.aether.resolution.VersionRangeResult;
-import org.slf4j.Logger;
 
 /**
  * Custom tesla Aether implementation which extends the Aether implementation by providing a offline mode
  * toggle and utility methods.
  */
 public class CustomMavenAether extends DefaultTeslaAether {
-    private Logger log = ULog.getLogger(CustomMavenAether.class);
 
     /**
      * Creates a new CustomMavenAether instance.

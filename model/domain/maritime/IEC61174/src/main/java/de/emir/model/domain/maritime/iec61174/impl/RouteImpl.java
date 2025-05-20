@@ -20,6 +20,7 @@ import de.emir.tuml.ucore.runtime.Notification;
 import de.emir.tuml.ucore.runtime.NotificationType;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 
 
 /**
@@ -179,6 +180,7 @@ public class RouteImpl extends IECElementWithExtensionImpl implements Route
 		List<Waypoint> list = self.getWaypoints().getWaypoints();
 		Length length = new LengthImpl();
 		for (int i = start; i < end-1; i++){
+            ULog.debug(" " + i);
 			length.addLocal(list.get(i).getPosition().getDistance(list.get(i+1).getPosition()));			
 		}
 		return length;

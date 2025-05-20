@@ -154,7 +154,7 @@ public class RouteManagerPlugin extends AbstractUIPlugin {
 
         mEP.menuContribution(MVBasic.MAP_VIEW_TOOLBAR_ID)
                 .separator("routeToolsSeparator")
-                .after("redo");
+                .after("lockViewOnCurrentSelection");
         mEP.menuContribution(MVBasic.MAP_VIEW_TOOLBAR_ID)
                 .menuItem("newRouteToolItem", newRouteCommand)
                 .after("routeToolsSeparator")

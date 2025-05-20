@@ -29,25 +29,25 @@ import de.emir.tuml.ucore.runtime.impl.UObjectImpl;
  */
 @UMLImplementation(classifier = Coordinate.class)
 public class CoordinateImpl extends UObjectImpl implements Coordinate {
-
+    private static final org.apache.logging.log4j.Logger LOG = org.apache.logging.log4j.LogManager.getLogger(CoordinateImpl.class);
 	/**
-	 *	@generated 
+	 *	@generated_not
 	 */
-	private double mX = 0.0;
+	protected double mX = 0.0;
 	/**
-	 *	@generated 
+	 *	@generated_not
 	 */
-	private double mY = 0.0;
+	protected double mY = 0.0;
 	/**
-	 * @generated not
+	 * @generated_not
 	 */
-	private double mZ = Double.NaN;
+	protected double mZ = Double.NaN;
 	/**
 	 references the current coordinate system, and therefore how x,y,z has to be read
 	 * if this value is set to null, a cartesian coordinate system (EngineeringCRS - default) is assumed
 	 * @generated 
 	 */
-	private CoordinateReferenceSystem mCrs = null;
+	protected CoordinateReferenceSystem mCrs = null;
 
 	//Shadow variables for fast access
 	private double mLatitude = Double.NaN;
@@ -143,7 +143,7 @@ public class CoordinateImpl extends UObjectImpl implements Coordinate {
 	@Override
 	public void setX(double _x) {
 		if (_x != _x)
-			System.out.println();
+			LOG.warn("Parameter is not a number or infite. _x = ", _x);
 		if (_x != mX){
 			mLatitude = Double.NaN;//invalidate helper variables
 			mLongitude = Double.NaN;
@@ -564,7 +564,7 @@ public class CoordinateImpl extends UObjectImpl implements Coordinate {
 	@Override
 	public void set(double x2, double y2, double z2, CoordinateReferenceSystem _crs) {
 		if (x2 != x2)
-			System.out.println();
+			LOG.warn("Parameter is not a number or infite. x2 = ", x2);
  		setX(x2); setY(y2); setZ(z2); //need to use the setter to invalidate cartX/Y and lat/lon values
 		setCrs(_crs);
 	}

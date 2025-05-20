@@ -53,6 +53,11 @@ public class EditRouteTool extends AbstractMapViewTool {
         reset();
     }
 
+    /**
+     * Selects a waypoint to be dragged.
+     *
+     * @param e the mouse event to be processed
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
@@ -68,24 +73,24 @@ public class EditRouteTool extends AbstractMapViewTool {
             }
         }
     }
-    
-    
+
+    /**
+     * Creates a new waypoint on the position of the route (not a waypoint!) where a double click
+     * was made on.
+     *
+     * @param e the mouse event to be processed
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if(e.getClickCount() == 2){
             Object object = PlatformUtil.getSelectionManager().getSelectedObject(RouteManagerBasic.CTX_LINE_SELECTION);
-           
             if (object instanceof Waypoint) {
                 Waypoint waypoint = (Waypoint) object;
-                
                 GeoPosition geoPosition = viewer.convert(e.getPoint());
                 Waypoint nextWP = new WaypointImpl();
                 Coordinate coordinate = new CoordinateImpl(geoPosition.getLatitude(), geoPosition.getLongitude(), new WGS842DImpl());
                 nextWP.setPosition(coordinate);
-                
-                
                 Route route = (Route) waypoint.getUContainer().getUContainer();
-                                
                 PlatformUtil.getModelManager().getModelProvider().getTransactionStack().run(new AppendWaypointTransaction(route, waypoint, nextWP));
                 viewer.redrawLayers();
             }

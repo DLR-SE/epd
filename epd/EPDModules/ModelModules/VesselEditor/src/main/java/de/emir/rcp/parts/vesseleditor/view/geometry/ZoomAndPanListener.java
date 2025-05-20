@@ -97,7 +97,7 @@ public class ZoomAndPanListener implements MouseListener, MouseMotionListener, M
             }
         }
     }
-
+    
     private void zoomCamera(MouseWheelEvent e) {
         try {
             int wheelRotation = e.getWheelRotation();

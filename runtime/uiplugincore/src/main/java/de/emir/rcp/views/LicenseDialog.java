@@ -11,11 +11,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class LicenseDialog extends JDialog {
-	static final Logger LOG = LoggerFactory.getLogger(LicenseDialog.class);
+	static final Logger LOG = LogManager.getLogger(LicenseDialog.class);
 
 	/**
 	 * Create the license dialog.

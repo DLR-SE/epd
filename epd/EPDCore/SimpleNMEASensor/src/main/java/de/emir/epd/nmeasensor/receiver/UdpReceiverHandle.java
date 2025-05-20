@@ -10,7 +10,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import de.emir.service.connection.interfaces.ReceiverListener;
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import de.emir.tuml.ucore.runtime.logging.ULog;
 
