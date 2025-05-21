@@ -1,5 +1,42 @@
 # Changelog
 
+## [4.2.0] - 2025-05-21
+
+### Added
+
+- Translation between WGS842D and WGS843D CRSs.
+- New icons for internal editors.
+- Implemented getDistance and getAzimuth methods for WGS843D.
+- Added CoordinateSequenceEditor.
+- Added dependency version updater to PluginManager.
+- Advanced implementations for internal TreeListeners.
+
+### Fixed
+
+- Starting the PluginManager from the EPD with spaces in the filename has been fixed.
+- Changing the NMEA sentence filter in the NMEA receiver settings is now applied on finish.
+- Fixed calculation of dimension in internal coordinate sequences.
+- Fixed issue that AIS targets were not displayed when starting the EPD.
+- Prevented possible stack overflow in LinkedCoordinate.
+- Grid spacing and draw scaling for the VesselEditor have been improved.
+- Improved icon loading times by referencing the correct ResourceManagers.
+- Fixed the displayed angle in the angle measurement tool.
+- Implemented missing methods in MapView drawing stack.
+- Fixed route editing, enabling undo and redo operations and included a waypoint renaming after new waypoints are added.
+
+### Changed
+
+- Switched the logging framework to log4j2.
+- Introduced the MarineAPI NMEA parser.
+- Updated GeoTools version to 32.1.
+- Cleaned up and reordered ToolBars, avoid neighboring separators.
+- Allow setting of attribution for WMS tile source in MapView.
+- Register FormEditorPartManager in GeneralViews instead of EModEditor.
+
+### Removed
+
+- Removed the obsolete services/codecs plugins.
+
 ## [4.1.0] - 2024-09-30
 
 ### Added
