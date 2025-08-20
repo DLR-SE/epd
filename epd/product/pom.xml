@@ -75,11 +75,6 @@
 
 	<repositories>
 		<repository>
-			<id>emirgitlab</id>
-			<url>https://gitlab.dlr.de/api/v4/projects/25659/packages/maven</url>
-		</repository>
-		
-		<repository>
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
 		</repository>
@@ -315,14 +310,6 @@
 	</dependencyManagement>
 
 	<distributionManagement>
-		<repository>
-			<id>emirgitlab</id>
-			<url>https://gitlab.dlr.de/api/v4/projects/25659/packages/maven</url>
-		</repository>
-		<snapshotRepository>
-			<id>emirgitlab</id>
-			<url>https://gitlab.dlr.de/api/v4/projects/25659/packages/maven</url>
-		</snapshotRepository>
 		<site>
 			<id>emir.website</id>
 			<name>eMIR Website</name>
