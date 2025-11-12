@@ -1,16 +1,18 @@
 package de.emir.rcp.commands.basics.perspective;
 
-import de.emir.rcp.commands.AbstractCommand;
-import de.emir.rcp.manager.util.PlatformUtil;
-import de.emir.runtime.plugin.windows.MainWindow;
-import de.emir.tuml.ucore.runtime.resources.ResourceManager;
-
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.swing.JOptionPane;
+
+import de.emir.rcp.UICorePlugin;
+import de.emir.rcp.commands.AbstractCommand;
+import de.emir.rcp.manager.util.PlatformUtil;
+import de.emir.runtime.plugin.windows.MainWindow;
+import de.emir.tuml.ucore.runtime.resources.ResourceManager;
 
 public class LoadLayoutCommand extends AbstractCommand {
     @Override
@@ -57,7 +59,8 @@ public class LoadLayoutCommand extends AbstractCommand {
         try {
             window.loadLayout(loadFile);
         } catch (IOException e) {
-            JOptionPane.showConfirmDialog(null, "Couldn't load layout file!");
+			JOptionPane.showMessageDialog(null, e, "Couldn't load layout file!", JOptionPane.ERROR_MESSAGE,
+					ResourceManager.get(UICorePlugin.class).getImageIcon("icons/emiricons/32/dangerous.png"));
         }
 
     }

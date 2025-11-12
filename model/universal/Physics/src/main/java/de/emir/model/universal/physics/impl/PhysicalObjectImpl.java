@@ -124,7 +124,8 @@ public class PhysicalObjectImpl extends LocatableObjectImpl implements PhysicalO
 	@Override
 	public ICharacteristic getFirstCharacteristic(final UClassifier type, final boolean includeSubTypes)
 	{
-		for (ICharacteristic c : getCharacteristics()) {
+		List<ICharacteristic> copy = new ArrayList<>(getCharacteristics());
+		for (ICharacteristic c : copy) {
 			if (c == null)
 				continue;
 			if (c.getClass() == type.getRepresentingClass())

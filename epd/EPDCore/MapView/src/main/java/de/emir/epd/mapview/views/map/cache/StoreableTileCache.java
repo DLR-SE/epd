@@ -5,6 +5,7 @@ import de.emir.rcp.jobs.IJob;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.progress.NullProgressMonitor;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
 import org.apache.commons.io.IOUtils;
@@ -52,7 +53,7 @@ public class StoreableTileCache extends CustomTileCache {
 						IJob job = saveJobQueue.take();
 						job.run(new NullProgressMonitor());
 					} catch (InterruptedException e) {
-
+						ULog.info("Job interrupted. " + e.getMessage());
 					}
 
 				}

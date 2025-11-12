@@ -72,7 +72,7 @@ public class CustomDevTooltip extends JToolTip {
         m_panel.add(separator, gbc_separator);
 
         lblDevTools = new JLabel("Dev Tools");
-        lblDevTools.setFont(new Font("Tahoma", Font.BOLD, 11));
+        lblDevTools.setFont(lblDevTools.getFont().deriveFont(Font.BOLD, 11));
         GridBagConstraints gbc_lblDevTools = new GridBagConstraints();
         gbc_lblDevTools.fill = GridBagConstraints.HORIZONTAL;
         gbc_lblDevTools.insets = new Insets(0, 5, 5, 5);

@@ -3,6 +3,8 @@ package de.emir.epd.ais;
 import com.google.common.collect.Lists;
 import de.emir.epd.ais.ids.AisBasics;
 import de.emir.epd.ais.ids.OwnshipIds;
+import de.emir.epd.ais.manager.AisTargetManager;
+import de.emir.epd.ais.model.IAisReadAdapter;
 import de.emir.epd.mapview.basics.utils.SetLayerDirtyPropertyChangeListener;
 import de.emir.epd.mapview.ids.MVBasic;
 import de.emir.epd.mapview.views.map.AbstractMapLayer;
@@ -14,7 +16,6 @@ import de.emir.model.application.track.Track;
 import de.emir.model.application.track.TrackPoint;
 import de.emir.model.domain.maritime.vessel.Vessel;
 import de.emir.model.universal.crs.util.CRSUtils;
-import de.emir.model.universal.physics.Environment;
 import de.emir.model.universal.physics.PhysicalObjectUtils;
 import de.emir.model.universal.units.*;
 import de.emir.model.universal.units.impl.DistanceImpl;
@@ -23,6 +24,7 @@ import de.emir.rcp.manager.SelectionManager;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
+import de.emir.tuml.ucore.runtime.extension.ServiceManager;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
 import org.jxmapviewer.viewer.GeoPosition;
@@ -33,11 +35,14 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * Map layer component for displaying AIS targets on the MapViewer.
@@ -57,12 +62,9 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 	protected BasicStroke cogSogStroke = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1,
 			new float[] { 5, 3 }, 0);
 
-	protected BasicStroke selectionStroke = new BasicStroke(10);
-	protected Color selectionColor = new Color(0, 100, 0, 50);
 	protected Color trackColor = new Color(78, 78, 78, 96);
-	protected Color focusColor = new Color(0, 114, 9);
+	protected Color focusColor = new Color(0, 0, 0, 255);
 
-	protected long lastDrawTime = -1;
 	protected Long ownshipMMSI;
 
 	protected ArrayList<ShapeAISTarget> currentShapes = new ArrayList<>();
@@ -77,6 +79,9 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 	protected IProperty<Long> propTrackCleartime;
 	protected IProperty<Integer> propTargetLosttime;
 	protected IProperty<Integer> propLookahead;
+	protected IProperty<Boolean> propLayerFixedUpdate;
+	protected IProperty<Integer> propLayerUpdateRate;
+	protected ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
 	protected JPopupMenu popupMenu;
 
@@ -84,12 +89,9 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 	 * Creates the AISLayer.
 	 */
 	public AisLayer() {
-		lastDrawTime = System.currentTimeMillis();
 
 		modelChanged();
 		addListeners();
-		// We need a thread that sets the layer dirty 30 sec. after last draw
-		startTimeoutCheckerThread();
 
 		popupMenu = new JPopupMenu();
 		MenuManager mm = PlatformUtil.getMenuManager();
@@ -134,13 +136,21 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 			}
 		});
 
+		IAisReadAdapter mra = ServiceManager.get(AisTargetManager.class).getModelReadAdapter();
+
+		if (mra != null) {
+			mra.subscribeChanged(obj -> {
+				setDirty(true);
+			});
+		}
+
 		PropertyContext ownshipContext = PropertyStore.getContext(OwnshipIds.OWNSHIP_VIEWER_PROP_CONTEXT);
-		IProperty<String> ownshipMMSIProp = ownshipContext.getProperty(OwnshipIds.OWNSHIP_VIEWER_PROP_AIS_TARGET);
+		IProperty<String> ownshipMMSIProp = ownshipContext.getProperty(OwnshipIds.OWNSHIP_VIEWER_PROP_AIS_TARGET, "211876480");
 
 		if (ownshipMMSIProp.getValue() != null) {
 			try {
 				ownshipMMSI = Long.valueOf(
-						(String) ownshipContext.getProperty(OwnshipIds.OWNSHIP_VIEWER_PROP_AIS_TARGET).getValue());
+						(String) ownshipContext.getProperty(OwnshipIds.OWNSHIP_VIEWER_PROP_AIS_TARGET, "211876480").getValue());
 			} catch (ClassCastException e) {
 				ULog.error("Could not cast ownship MMSI. Disabling filtering ");
 			}
@@ -165,6 +175,8 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 		propTrackCleartime = ctx.getProperty(AisBasics.AIS_VIEWER_PROP_TRACK_CLEARTIME, 0L);
 		propTargetLosttime = ctx.getProperty(AisBasics.AIS_VIEWER_PROP_TARGET_LOSTTIME, 30);
 		propLookahead = ctx.getProperty(AisBasics.AIS_VIEWER_PROP_LOOKAHEAD, 6);
+		propLayerFixedUpdate = ctx.getProperty(AisBasics.AIS_VIEWER_PROP_LAYER_FIXED_UPDATE, true);
+		propLayerUpdateRate = ctx.getProperty(AisBasics.AIS_VIEWER_PROP_LAYER_UPDATE_RATE, 10);
 
 		propNames.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
 		propShowTimedOut.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
@@ -174,37 +186,16 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 		propTrackCleartime.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
 		propTargetLosttime.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
 		propLookahead.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
+		propLayerFixedUpdate.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
+		propLayerUpdateRate.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
 		ownshipMMSIProp.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
-	}
 
-	/**
-	 * Starts the map layer timeout thread which checks for the last time AIS
-	 * targets were drawn on the map.
-	 */
-	private void startTimeoutCheckerThread() {
-
-		Thread timeOutThread = new Thread(() -> {
-
-			long sleepTimeMS = 29_000;
-
-			while (true) {
+		// Updater which updates the layer at a fixed rate if no other changes in the model were made.
+		scheduler.scheduleAtFixedRate(() -> {
+			if(propLayerFixedUpdate.getValue()) {
 				setDirty(true);
-				long sleep = sleepTimeMS - (System.currentTimeMillis() - lastDrawTime);
-
-				if (sleep > 0) {
-					try {
-						Thread.sleep(sleep);
-					} catch (InterruptedException e) {
-						ULog.error(e);
-					}
-				}
 			}
-		});
-
-		timeOutThread.setName("AisLayerTimeoutThread");
-
-		timeOutThread.start();
-
+		}, 0, propLayerUpdateRate.getValue(), java.util.concurrent.TimeUnit.SECONDS);
 	}
 
 	/**
@@ -421,6 +412,7 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 			double headingRad = 0;
 			Angle trueHeading = PhysicalObjectUtils.getHeading(v);
 
+
 			if (trueHeading != null && lostTarget == false && showCogSogHeading == true) {
 				float heading = (float) trueHeading.getAs(AngleUnit.DEGREE);
 
@@ -503,19 +495,15 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 			g.rotate(-shipRotation);
 
 			if (lastSelectedTarget == v) {
-				g.setColor(selectionColor);
-				g.setStroke(selectionStroke);
-				g.drawArc(
-						-20, -20,
-						40, 40,
-						0, 360);
+				g.setColor(Color.BLACK);
+				g.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+				g.draw(getSelectedBox());
 			}
 
 			g.setTransform(transform);
 
 		}
 
-		lastDrawTime = System.currentTimeMillis();
 		currentShapes = shapes;
 	}
 
@@ -538,7 +526,6 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		setDirty(true);
-
 	}
 
 	public class ShapeAISTarget {
@@ -572,7 +559,6 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
 		if (e.getButton() == MouseEvent.BUTTON3) {
 			for (ShapeAISTarget sat : currentShapes) {
 				if (sat.shape.intersects(e.getX(), e.getY(), 3, 3)) {
@@ -580,11 +566,9 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 					popupMenu.show(e.getComponent(), e.getX(), e.getY());
 					return;
 				}
-
 			}
 		} else {
 			for (ShapeAISTarget sat : currentShapes) {
-
 				if (sat.shape.intersects(e.getX(), e.getY(), 3, 3)) {
 					setSelectedTarget(sat.vessel);
 					e.consume();
@@ -619,6 +603,23 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 			cursorAdapter.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		}
 
+	}
+
+	/**
+	 * Draws a SN.1/Circ.243 compliant selection box for signaling the selection of the ownship object.
+	 * @return Selection box.
+	 */
+	protected Path2D getSelectedBox() {
+		Path2D selectedTargetSymbol = new Path2D.Double();
+		selectedTargetSymbol.append(new Line2D.Double(-15, 15, -5, 15), false);
+		selectedTargetSymbol.append(new Line2D.Double(-15, 15, -15, 5), false);
+		selectedTargetSymbol.append(new Line2D.Double(15, 15, 5, 15), false);
+		selectedTargetSymbol.append(new Line2D.Double(15, 15, 15, 5), false);
+		selectedTargetSymbol.append(new Line2D.Double(-15, -15, -15, -5), false);
+		selectedTargetSymbol.append(new Line2D.Double(-15, -15, -5, -15), false);
+		selectedTargetSymbol.append(new Line2D.Double(15, -15, 5, -15), false);
+		selectedTargetSymbol.append(new Line2D.Double(15, -15, 15, -5), false);
+		return selectedTargetSymbol;
 	}
 
 	@Override

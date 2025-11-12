@@ -2,14 +2,11 @@ package de.emir.rcp.manager;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-
-import javax.swing.SwingUtilities;
 
 import de.emir.rcp.jobs.DelegateProgressMonitor;
 import de.emir.rcp.jobs.IJob;
@@ -37,8 +34,25 @@ public class JobManager implements IService {
 
     private PublishSubject<JobData> addRunningJobSubject = PublishSubject.create();
     private PublishSubject<JobData> removeRunningJobSubject = PublishSubject.create();
+    private Thread.UncaughtExceptionHandler exceptionHandler;
 
     public JobManager() {
+        exceptionHandler = new Thread.UncaughtExceptionHandler() {
+
+            /**
+             * Method invoked when the given thread terminates due to the
+             * given uncaught exception.
+             * <p>Any exception thrown by this method will be ignored by the
+             * Java Virtual Machine.
+             *
+             * @param t the thread
+             * @param e the exception
+             */
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                ULog.error(String.format("Exception in Thread %s: %s", t.getName(), e.getMessage()));
+            }
+        };
         initJobThread();
     }
 
@@ -65,6 +79,7 @@ public class JobManager implements IService {
                     } else {
 
                         Thread t2 = new Thread(() -> runJob(entry));
+                        t2.setUncaughtExceptionHandler(exceptionHandler);
                         t2.start();
                     }
 
@@ -74,6 +89,7 @@ public class JobManager implements IService {
 
             }
         });
+        t.setUncaughtExceptionHandler(exceptionHandler);
         t.setDaemon(true);
         t.start();
 
@@ -116,15 +132,12 @@ public class JobManager implements IService {
     }
 
     private void runJob(JobData jd) {
-
         IJob job = jd.job;
 
         addRunningJob(jd);
 
-        if (job.isBlocking() == true || job.isBackground() == false) {
-
+        if (job.isBlocking() || !job.isBackground()) {
             showDialogForRunningJob(jd);
-
         }
 
         try {
@@ -142,41 +155,27 @@ public class JobManager implements IService {
         }
 
         removeRunningJob(jd);
-
     }
 
     public void showDialogForRunningJob(JobData rjd) {
-
         ProgressDialog dialog = new ProgressDialog(PlatformUtil.getWindowManager().getMainWindow(), rjd);
-
+        IJobFinishedHandler finishHandler = j -> {
+        	dialog.close();
+        };
+        dialog.open();
         dialog.setCancelListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 rjd.requestCancel();
-
             }
         });
-
-        IJobFinishedHandler finishHandler = j -> {
-
-            try {
-                SwingUtilities.invokeAndWait(dialog::close);
-            } catch (InvocationTargetException | InterruptedException e1) {
-                ULog.error(e1);
-            }
-
-        };
-
+        
         // Remove the finish handler closing the dialog if it is manually closed
         dialog.setCloseListener(e -> rjd.removeHandler(finishHandler));
 
         rjd.monitor.addDelegate(dialog);
 
         rjd.addHandler(finishHandler);
-
-        SwingUtilities.invokeLater(dialog::open);
-
     }
 
     private void addRunningJob(JobData rjd) {
@@ -234,8 +233,6 @@ public class JobManager implements IService {
                 cancelRequestSubject.onNext(true);
                 job.cancel();
             }
-
         }
-
     }
 }

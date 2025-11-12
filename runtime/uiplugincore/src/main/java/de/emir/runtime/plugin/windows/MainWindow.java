@@ -2,10 +2,16 @@ package de.emir.runtime.plugin.windows;
 
 import bibliothek.gui.dock.common.CControl;
 import bibliothek.gui.dock.common.CWorkingArea;
+import bibliothek.gui.dock.common.intern.CDockable;
+import de.emir.rcp.manager.util.PlatformUtil;
+import de.emir.rcp.views.AbstractViewFactory;
 import de.emir.runtime.plugin.windows.layout.BorderModifierDockableFrames;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.resources.IconManager;
 import de.emir.tuml.ucore.runtime.resources.ResourceManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -26,7 +32,12 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
 
+/**
+ * Main window UI component. Handles the management of Dockables and main layout of the application.
+ */
 public class MainWindow extends JFrame {
+
+    private static final Logger log = LogManager.getLogger(MainWindow.class);
 
     public static interface ICloseListener {
         void aboutToClose();
@@ -34,11 +45,8 @@ public class MainWindow extends JFrame {
         void closed();
     }
 
-    public static final String LAYOUT_FILE = "layout.xml";
+    public static final String LAYOUT_FILE = "application-layout.xml";
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -5182981258360273853L;
 
     private static final int BASIC_WIDTH = 800;
@@ -56,6 +64,12 @@ public class MainWindow extends JFrame {
 
     private JPanel statusBar;
 
+    /**
+     * Creates a new MainWindow.
+     * @param mainFrameTitle Title of the window.
+     * @param hasWorkingArea Sets the working area flag. This signals to DockingFrames that a working area is available.
+     * @param hasStatusBar Sets the status bar flag. Appends a status bar if set to true.
+     */
     public MainWindow(String mainFrameTitle, boolean hasWorkingArea, boolean hasStatusBar) {
         this.hasEditorArea = hasWorkingArea;
 
@@ -69,7 +83,6 @@ public class MainWindow extends JFrame {
         mainControl.setIgnoreWorkingForEntry(false);
 
         BorderModifierDockableFrames.main(mainControl);
-//        mainControl.setTheme(new FlatTheme());
         getContentPane().add(mainControl.getContentArea());
 
         if (hasStatusBar) {
@@ -79,6 +92,9 @@ public class MainWindow extends JFrame {
         setBasicLayout();
     }
 
+    /**
+     * Creates and appends a status bar to the window.
+     */
     private void createStatusBar() {
 
         JPanel panelUp = new JPanel();
@@ -135,24 +151,42 @@ public class MainWindow extends JFrame {
 
     }
 
+    /**
+     * Gets the status bar component.
+     * @return Status bar component.
+     */
     public JPanel getStatusBar() {
         return statusBar;
     }
 
+    /**
+     * Gets the EditorArea. This is an unmodifiable area of the docking frames layout.
+     * @return EditorArea component.
+     */
     public CWorkingArea getWorkingArea() {
         return workingArea;
     }
 
+    /**
+     * Gets the layout lock state. This signals if the layout is movable and editable.
+     * @return Current lock state of the layout.
+     */
     public LayoutLockState getLayoutLockState() {
         return layoutLockState;
     }
 
+    /**
+     * Sets the close listener of the main window.
+     * @param cl Close listener to set for the main window.
+     */
     public void setCloseListener(ICloseListener cl) {
         mCloseListener = cl;
     }
 
+    /**
+     * Sets the basic layout of the view at initial startup.
+     */
     private void setBasicLayout() {
-
         mainControl.getController().getIcons().setIconClient("locationmanager.maximize",
                 IconManager.getIcon(this, "icons/emiricons/windowcontrols/16/fullscreen.png", IconManager.preferedSmallIconSize()));
         mainControl.getController().getIcons().setIconClient("locationmanager.minimize",
@@ -190,6 +224,9 @@ public class MainWindow extends JFrame {
 
     }
 
+    /**
+     * Calculates the current viewbounds from the current screen size.
+     */
     private void setBounds() {
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -201,16 +238,24 @@ public class MainWindow extends JFrame {
 
     }
 
+    /**
+     * Opens the main window.
+     */
     public void openMainFrame() {
-
         setVisible(true);
-
     }
 
+    /**
+     * Gets the main CControl element. This is used for managing the layout of CDockables (i.e. AbstractViews).
+     * @return Main CControl instance.
+     */
     public CControl getMainControl() {
         return mainControl;
     }
 
+    /**
+     * Saves the layout to an xml file called application-layout.xml.
+     */
     public void saveLayout() {
         File file = ResourceManager.get(getClass()).resolveFile(LAYOUT_FILE);
         if (file == null) {
@@ -222,10 +267,15 @@ public class MainWindow extends JFrame {
         try {
             saveLayout(file);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Error while saving layout file: {}.", e.getMessage());
         }
     }
 
+    /**
+     * Saves the current layout to a custom file.
+     * @param file Custom file to store layout in.
+     * @throws IOException
+     */
     public void saveLayout(File file) throws IOException {
         mainControl.writeXML(file);
     }
@@ -233,18 +283,31 @@ public class MainWindow extends JFrame {
     public void loadLayout() {
         try {
             File file = ResourceManager.get(getClass()).resolveFile(LAYOUT_FILE); // note: this will first look in the
-                                                                                  // applications root and later in
-                                                                                  // the applications home directory
+                                                                                  // applications root and later im
+            // the applications home directory
             if (file != null) {
                 loadLayout(file);
+            } else {
+                File oldFile = ResourceManager.get(getClass()).resolveFile("layout.xml");
+                if (oldFile != null) {
+                    log.error("Did not find layout file but detected old non-compatible layout.xml configuration. The layout needs to be reconfigured.");
+                }
             }
         } catch (IOException e) {
-            // File does not exist, do nothing
+            File oldFile = ResourceManager.get(getClass()).resolveFile("layout.xml");
+            if (oldFile != null) {
+                log.error("Did not find layout file but detected old non-compatible layout.xml configuration. The layout needs to be reconfigured.");
+            } else {
+                log.error("Error while accessing layout configuration: {}.", e.getMessage());
+            }
         }
     }
 
     public void loadLayout(File file) throws IOException {
+        PlatformUtil.getViewManager().setLoadComplete(false);
         mainControl.readXML(file);
+        PlatformUtil.getViewManager().makeViewsVisible();
+        PlatformUtil.getViewManager().setLoadComplete(true);
     }
 
     public boolean hasEditorArea() {
@@ -260,7 +323,6 @@ public class MainWindow extends JFrame {
             try {
                 mCloseListener.aboutToClose();
             } catch (Exception e) {
-                e.printStackTrace();
                 ULog.error("Failed to notify about to close");
             }
         }
@@ -271,7 +333,6 @@ public class MainWindow extends JFrame {
             try {
                 mCloseListener.closed();
             } catch (Exception e) {
-                e.printStackTrace();
                 ULog.error("Failed to notify about to close");
             }
         }

@@ -1,8 +1,24 @@
 package de.emir.epd.nmeasensor;
 
+import java.awt.geom.Point2D;
+import java.time.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
+import de.emir.epd.nmeasensor.utils.TargetFilterUtil;
+import de.emir.model.universal.detection.ITrack;
+import de.emir.model.universal.detection.ITrackPoint;
+import de.emir.model.universal.detection.ITrackedTarget;
+import de.emir.model.universal.detection.impl.TrackImpl;
+import de.emir.model.universal.detection.impl.TrackPointImpl;
+import de.emir.model.universal.spatial.Pose;
+import de.emir.model.universal.spatial.impl.PoseImpl;
+import de.emir.model.universal.units.*;
+import de.emir.model.universal.units.impl.*;
+import net.sf.marineapi.nmea.sentence.*;
+import net.sf.marineapi.nmea.util.Units;
 import org.apache.logging.log4j.Logger;
 
 import de.emir.epd.alert.manager.AlertManager;
@@ -39,16 +55,6 @@ import de.emir.model.universal.spatial.sf.LinearRing;
 import de.emir.model.universal.spatial.sf.Polygon;
 import de.emir.model.universal.spatial.sf.impl.LinearRingImpl;
 import de.emir.model.universal.spatial.sf.impl.PolygonImpl;
-import de.emir.model.universal.units.AngleUnit;
-import de.emir.model.universal.units.AngularSpeedUnit;
-import de.emir.model.universal.units.DistanceUnit;
-import de.emir.model.universal.units.Length;
-import de.emir.model.universal.units.SpeedUnit;
-import de.emir.model.universal.units.impl.AngleImpl;
-import de.emir.model.universal.units.impl.AngularSpeedImpl;
-import de.emir.model.universal.units.impl.EulerImpl;
-import de.emir.model.universal.units.impl.LengthImpl;
-import de.emir.model.universal.units.impl.SpeedImpl;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
@@ -62,13 +68,8 @@ import net.sf.marineapi.ais.message.AISPositionInfo;
 import net.sf.marineapi.ais.message.AISPositionReport;
 import net.sf.marineapi.ais.message.AISPositionReportB;
 import net.sf.marineapi.nmea.parser.DataNotAvailableException;
-import net.sf.marineapi.nmea.sentence.HeadingSentence;
-import net.sf.marineapi.nmea.sentence.PositionSentence;
-import net.sf.marineapi.nmea.sentence.RMCSentence;
-import net.sf.marineapi.nmea.sentence.ROTSentence;
-import net.sf.marineapi.nmea.sentence.Sentence;
-import net.sf.marineapi.nmea.sentence.TimeSentence;
-import net.sf.marineapi.nmea.sentence.VTGSentence;
+import org.geotools.referencing.GeodeticCalculator;
+import org.geotools.referencing.crs.DefaultGeographicCRS;
 
 /**
  * Component which maps incoming NMEA and AIS messages to vessels of the
@@ -86,6 +87,7 @@ import net.sf.marineapi.nmea.sentence.VTGSentence;
  */
 public class NMEAVesselUpdater {
     private static final Logger LOG = ULog.getLogger(NMEAVesselUpdater.class);
+    private static TargetFilterUtil targetFilter;
 
     private enum OwnshipSource {
         NO_PROCESSING, AISTARGET, INTERNAL
@@ -116,6 +118,7 @@ public class NMEAVesselUpdater {
                 OwnshipSource.AISTARGET.name());
 
         ownship = EPDModelUtils.retrieveOwnship();
+        targetFilter = new TargetFilterUtil();
 
         // Subcribes to changes of the ownship.
         EPDModelUtils.subscribeModelChange("ownship", evt -> {
@@ -143,6 +146,9 @@ public class NMEAVesselUpdater {
 
 		NMEAOutput.subscribeAISMessages(entry -> {
 			AISMessage sentence = entry.getValue();
+            if(LOG.isTraceEnabled()) {
+                LOG.trace(sentence.toString());
+            }
 			if (sentence instanceof AISMessage) {
 				lastAISUpdate = System.currentTimeMillis();
 				// If ownship source was set to internal, get the ownship and check if the AIS
@@ -151,7 +157,7 @@ public class NMEAVesselUpdater {
 				// ownship AIS messages ownship coordinates.
 				if (ownshipFilter == OwnshipSource.INTERNAL) {
 					if (ownship != null) {
-						if (Long.compare(sentence.getMMSI(), ownship.getMmsi()) == 0) {
+						if (Long.compare(Long.parseLong(String.valueOf(sentence.getMMSI())), ownship.getMmsi()) == 0) {
 							// Do not process dynamic AIS attributes if ownship source is internal and the
 							// ais message MMSI matches the ownship.
 							AisTarget.updateVessel(msgToVessel(sentence, ownship, true));
@@ -194,14 +200,265 @@ public class NMEAVesselUpdater {
 			}
 		});
 		NMEAOutput.subscribeSentences(entry -> {
-			if (ownshipFilter == OwnshipSource.AISTARGET) {
-				return;
-			}
+            String[] tokens = entry.getKey().getNamePath().split("\\.");
+            String sensorName = tokens[tokens.length - 1];
 			try {
+                if (ownshipFilter == OwnshipSource.AISTARGET && !(entry.getValue() instanceof TTMSentence || entry.getValue() instanceof TLLSentence)) {
+                    return;
+                }
 				Sentence sentence = entry.getValue();
 				Vessel ownship = EPDModelUtils.retrieveOwnship();
 				lastNMEAUpdate = System.currentTimeMillis();
-				if (sentence instanceof PositionSentence pos) {
+                if(LOG.isTraceEnabled()) {
+                    LOG.trace(sentence.toSentence());
+                }
+                if (sentence instanceof TTMSentence tm) {
+                    boolean isReference = false;
+                    try {
+                        isReference = tm.getReference();
+                    } catch (DataNotAvailableException e) {
+                        LOG.trace("No target reference in TTMSentence. Check your data source.");
+                    }
+
+                    Pose referencePose;
+
+                    TargetFilterUtil.TargetFilter filter = targetFilter.getTargetFilter(sensorName);
+                    if(filter != null) {
+                        switch (filter.getMode()) {
+                            case FIXED, REFERENCE -> {
+                                referencePose = new PoseImpl();
+                                referencePose.setOrientation(new EulerImpl(.0d, .0d, 0, AngleUnit.DEGREE));
+                                if(filter.getReference() != null) {
+                                    referencePose.setCoordinate(filter.getReference());
+                                } else {
+                                    referencePose.setCoordinate(new CoordinateImpl());
+                                }
+                            }
+                            default -> {
+                                referencePose = ownship.getPose();
+                            }
+                        }
+                    } else {
+                        referencePose = ownship.getPose();
+                    }
+
+                    ULog.trace(tm.toSentence());
+                    ITrackedTarget target;
+                    try {
+                        target = EPDModelUtils.retrieveByTrackedTargetId(EPDModelUtils.getDefaultEnvironment(), String.valueOf(tm.getNumber()));
+                    } catch (DataNotAvailableException e2) {
+                        LOG.trace("No target number in TTMSentence. Check your data source.");
+                        return;
+                    }
+                    try {
+                        target.setName(tm.getName());
+                    } catch (DataNotAvailableException e2) {
+                        LOG.trace("No target name in TTMSentence. Check your data source.");
+                    }
+
+                    if(target.getTrack() == null) {
+                        ITrack track = new TrackImpl();
+                        track.setId(UUID.randomUUID().toString());
+                        target.setTrack(track);
+                        track.setReference(target);
+                    }
+                    if(target.getPose() == null) {
+                        target.setPose(new PoseImpl());
+                    }
+                    try {
+                        Coordinate targetCoordinate = calculateTargetPosition(referencePose, tm.getBearing(), tm.isTrueBearing(), tm.getDistance(), tm.getUnits());
+                        if(targetCoordinate != null) {
+                            target.getPose().setCoordinate(targetCoordinate);
+                            ITrackPoint trackPoint = new TrackPointImpl();
+                            trackPoint.setId(UUID.randomUUID().toString());
+                            trackPoint.setReference(target.getTrack());
+                            trackPoint.setPropertyValue("lastReceiveTimestamp", System.currentTimeMillis());
+                            trackPoint.setPose(new PoseImpl());
+                            trackPoint.getPose().setCoordinate(targetCoordinate);
+                            try {
+                                if(tm.getTime() != null) {
+                                    Date date = Date.from(Instant.now());
+                                    trackPoint.setTimestamp(new TimeImpl(tm.getTime().toDate(date).getTime(), TimeUnit.MILLISECOND));
+                                    target.getTrack().setLastUpdate(new TimeImpl(tm.getTime().toDate(date).getTime(), TimeUnit.MILLISECOND));
+                                } else {
+                                    trackPoint.setTimestamp(new TimeImpl(System.currentTimeMillis(), TimeUnit.MILLISECOND));
+                                    target.getTrack().setLastUpdate(new TimeImpl(System.currentTimeMillis(), TimeUnit.MILLISECOND));
+                                }
+                            } catch (StringIndexOutOfBoundsException | NumberFormatException e) {
+                                LOG.trace("No timestamp data in TTMSentence. Check your data source.");
+                                trackPoint.setTimestamp(new TimeImpl(System.currentTimeMillis(), TimeUnit.MILLISECOND));
+                                target.getTrack().setLastUpdate(new TimeImpl(System.currentTimeMillis(), TimeUnit.MILLISECOND));
+                            }
+                            target.getTrack().getTrackPoints().add(trackPoint);
+                        }
+
+                    } catch (DataNotAvailableException e2) {
+                        LOG.trace("No sufficient location data in TTMSentence to create Position. Check your data source.");
+                    }
+                    try {
+                        Angle trueCourse = calculateTargetCOG(ownship.getPose(), tm.getCourse(), tm.isTrueCourse());
+                        ITrackPoint lastTrackPoint = target.getTrack().getTrackPoints().stream().toList().getLast();
+                        if(lastTrackPoint != null) {
+                            if(lastTrackPoint.getPose() == null) {
+                                lastTrackPoint.setPose(new PoseImpl());
+                            }
+                            lastTrackPoint.setPropertyValue("cog", trueCourse.getAs(AngleUnit.DEGREE));
+                        }
+                        if(target.getPose() == null) {
+                            target.setPose(new PoseImpl());
+                        }
+                        PhysicalObjectUtils.setCOG(target, trueCourse);
+                    } catch (DataNotAvailableException e2) {
+                        LOG.trace("No target course in TTMSentence. Check your data source.");
+                    }
+
+                    try {
+                        SpeedUnit unit = SpeedUnit.KNOTS;
+                        double speed = tm.getSpeed();
+                        switch (tm.getUnits()) {
+                            case KILOMETERS -> unit = SpeedUnit.KMH;
+                            case STATUTE_MILES -> {
+                                speed = speed*1.609;
+                                unit = SpeedUnit.KMH;
+                            }
+                        }
+                        PhysicalObjectUtils.setSOG(target, new SpeedImpl(speed, unit));
+                    } catch (DataNotAvailableException e2) {
+                        LOG.trace("No target speed in TTMSentence. Check your data source.");
+                    }
+                    try {
+                        target.setPropertyValue("status", tm.getStatus().name());
+                    } catch (DataNotAvailableException e2) {
+                        target.setPropertyValue("status", "TRACKING");
+                        LOG.trace("No target status in TTMSentence. Check your data source.");
+                    }
+                    try {
+                        target.setPropertyValue("acquisitionType", tm.getAcquisitionType().name());
+                    } catch (DataNotAvailableException | IndexOutOfBoundsException e2) {
+                        LOG.trace("No target acquisition type in TTMSentence. Check your data source.");
+                    }
+                    try {
+                        target.setPropertyValue("referenceTarget", tm.getReference());
+                    } catch (DataNotAvailableException e2) {
+                        LOG.trace("No target reference flag in TTMSentence. Check your data source.");
+                    }
+                    try {
+                        target.setPropertyValue("tcpa", tm.getTimeToCPA());
+                    } catch (DataNotAvailableException e2) {
+                        LOG.trace("No target TCPA flag in TTMSentence. Check your data source.");
+                    }
+                    try {
+                        target.setPropertyValue("dcpa", tm.getDistanceOfCPA());
+                    } catch (DataNotAvailableException e2) {
+                        LOG.trace("No target DCPA flag in TTMSentence. Check your data source.");
+                    }
+                    target.setPropertyValue("lastReceiveTimestamp", System.currentTimeMillis());
+
+                    if(isReference) {
+                        targetFilter.setReference(sensorName, target);
+                    }
+                }
+
+                if (sentence instanceof TLLSentence tl) {
+                    ULog.trace(tl.toSentence());
+                    ITrackedTarget target;
+                    try {
+                        target = EPDModelUtils.retrieveByTrackedTargetId(EPDModelUtils.getDefaultEnvironment(), String.valueOf(tl.getNumber()));
+                    } catch (DataNotAvailableException e2) {
+                        LOG.trace("No target number in TLLSentence. Check your data source.");
+                        return;
+                    }
+                    boolean isReference = false;
+                    try {
+                        isReference = tl.getReference();
+                    } catch (DataNotAvailableException e) {
+                        LOG.trace("No target reference in TLLSentence. Check your data source.");
+                    }
+                    try {
+                        target.setName(tl.getName());
+                    } catch (DataNotAvailableException e2) {
+                        LOG.trace("No target name in TLLSentence. Check your data source.");
+                    }
+                    try {
+                        target.setPropertyValue("status", tl.getStatus().name());
+                    } catch (DataNotAvailableException e2) {
+                        LOG.trace("No target status in TLLSentence. Check your data source.");
+                    }
+
+                    if(target.getTrack() == null) {
+                        ITrack track = new TrackImpl();
+                        track.setId(UUID.randomUUID().toString());
+                        target.setTrack(track);
+                        track.setReference(target);
+                    }
+                    if(target.getPose() == null) {
+                        target.setPose(new PoseImpl());
+                    }
+                    try {
+                        target.getPose().setCoordinate(new CoordinateImpl(tl.getPosition().getLatitude(),
+                                tl.getPosition().getLongitude(), CRSUtils.WGS84_2D));
+                    } catch (DataNotAvailableException e2) {
+                        LOG.trace("No target position in TLLSentence. Check your data source.");
+                    }
+
+                    ITrackPoint trackPoint = null;
+                    try {
+                        double lat = tl.getPosition().getLatitude();
+                        double lon = tl.getPosition().getLongitude();
+                        trackPoint = new TrackPointImpl();
+                        trackPoint.setId(UUID.randomUUID().toString());
+                        trackPoint.setReference(target.getTrack());
+                        trackPoint.setPose(new PoseImpl());
+                        trackPoint.setPropertyValue("lastReceiveTimestamp", System.currentTimeMillis());
+                        trackPoint.getPose().setCoordinate(new CoordinateImpl(lat,
+                                lon, CRSUtils.WGS84_2D));
+                        target.getTrack().getTrackPoints().add(trackPoint);
+                    } catch (DataNotAvailableException e2) {
+                        LOG.trace("No target position in TLLSentence. Check your data source.");
+                    }
+
+                    try {
+                        if(tl.getTime() != null && trackPoint != null) {
+                            Date date = Date.from(Instant.now());
+                            trackPoint.setTimestamp(new TimeImpl(tl.getTime().toDate(date).getTime(), TimeUnit.MILLISECOND));
+                            target.getTrack().setLastUpdate(new TimeImpl(tl.getTime().toDate(date).getTime(), TimeUnit.MILLISECOND));
+                        } else {
+                            if(trackPoint != null) {
+                                trackPoint.setTimestamp(new TimeImpl(System.currentTimeMillis(), TimeUnit.MILLISECOND));
+                                target.getTrack().setLastUpdate(new TimeImpl(System.currentTimeMillis(), TimeUnit.MILLISECOND));
+                            }
+                        }
+                    } catch (DataNotAvailableException | StringIndexOutOfBoundsException e2) {
+                        LOG.trace("No timestamp in TLLSentence. Check your data source.");
+                        if(trackPoint != null) {
+                            trackPoint.setTimestamp(new TimeImpl(System.currentTimeMillis(), TimeUnit.MILLISECOND));
+                        }
+                    }
+                    try {
+                        Date date = Date.from(Instant.now());
+                        target.getTrack().setLastUpdate(new TimeImpl(tl.getTime().toDate(date).getTime(), TimeUnit.MILLISECOND));
+                    } catch (DataNotAvailableException e2) {
+                        LOG.trace("No timestamp in TLLSentence. Check your data source.");
+                        target.getTrack().setLastUpdate(new TimeImpl(System.currentTimeMillis(), TimeUnit.MILLISECOND));
+                    }
+
+                    try {
+                        target.setPropertyValue("status", tl.getStatus().name());
+                    } catch (DataNotAvailableException e2) {
+                        LOG.trace("No target status in TLLSentence. Check your data source.");
+                    }
+                    try {
+                        target.setPropertyValue("referenceTarget", tl.getReference());
+                    } catch (DataNotAvailableException e2) {
+                        LOG.trace("No target reference flag in TLLSentence. Check your data source.");
+                    }
+                    target.setPropertyValue("lastReceiveTimestamp", System.currentTimeMillis());
+                    if(isReference) {
+                        targetFilter.setReference(sensorName, target);
+                    }
+                }
+                // Catch TTM and TLL sentences since these are PositionSentence and should not be applied to the ownship.
+				if (sentence instanceof PositionSentence pos && !(sentence instanceof TTMSentence || sentence instanceof TLLSentence)) {
 					try {
 						Coordinate coordinate = new CoordinateImpl(pos.getPosition().getLatitude(),
 								pos.getPosition().getLongitude(), CRSUtils.WGS84_2D);
@@ -220,8 +477,9 @@ public class NMEAVesselUpdater {
 					}
 				}
 
-				// The parser breaks down on every single message, when timing is not set. 
-				if (sentence instanceof TimeSentence ts) {
+				// The parser breaks down on every single message, when timing is not set.
+                // Catch TTM and TLL sentences since these are TimeSentence and should not be applied to the ownship.
+				if (sentence instanceof TimeSentence ts && !(sentence instanceof TTMSentence || sentence instanceof TLLSentence)) {
 					try {
 						if (ts.getTime() != null) {
 							AisTarget.setTimestamp(ownship, ts.getTime().getMilliseconds());
@@ -302,6 +560,14 @@ public class NMEAVesselUpdater {
 		});
 	}
 
+    /**
+     * Maps a AISMessage to a Vessel object.
+     * @param msg Message to map.
+     * @param vessel Vessel to map message on.
+     * @param staticOnly Only process static AIS messages if set to true. This could be for example when position etc.
+     *                   should be gathered from ownship NMEA input.
+     * @return Vessel with mapped fields.
+     */
     public static Vessel msgToVessel(AISMessage msg, Vessel vessel, boolean staticOnly) {
         if (msg == null || vessel == null) {
             return null;
@@ -329,13 +595,19 @@ public class NMEAVesselUpdater {
 			if (msg instanceof AISPositionReportB prb) {
 				if (prb.hasCourseOverGround()) {
 					PhysicalObjectUtils.setCOG(vessel, new AngleImpl(prb.getCourseOverGround(), AngleUnit.DEGREE));
-				}
+				} else {
+                    PhysicalObjectUtils.setCOG(vessel, new AngleImpl(360, AngleUnit.DEGREE));
+                }
 				if (prb.hasTrueHeading()) {
 					vessel.getPose().setOrientation(new EulerImpl(.0d, .0d, prb.getTrueHeading(), AngleUnit.DEGREE));
-				}
+				} else {
+                    vessel.getPose().setOrientation(new EulerImpl(.0d, .0d, 511, AngleUnit.DEGREE));
+                }
 				if (prb.hasSpeedOverGround()) {
 					PhysicalObjectUtils.setSOG(vessel, (new SpeedImpl(prb.getSpeedOverGround(), SpeedUnit.KNOTS)));
-				}
+				} else {
+                    PhysicalObjectUtils.setSOG(vessel, (new SpeedImpl(102.3f, SpeedUnit.KNOTS)));
+                }
 				if (prb.hasTimeStamp()) {
 					vessel.setPropertyValue(NMEAFieldIds.NMEA_SECOND, prb.getTimeStamp());
 				}
@@ -346,20 +618,29 @@ public class NMEAVesselUpdater {
 				vessel.setPropertyValue(NMEAFieldIds.NMEA_MANEUVER_INDICATOR, pr.getManouverIndicator());
 				if (pr.hasCourseOverGround()) {
 					PhysicalObjectUtils.setCOG(vessel, new AngleImpl(pr.getCourseOverGround(), AngleUnit.DEGREE));
-				}
+				} else {
+                    PhysicalObjectUtils.setCOG(vessel, new AngleImpl(360, AngleUnit.DEGREE));
+                }
 				if (pr.hasTrueHeading()) {
 					vessel.getPose().setOrientation(new EulerImpl(.0d, .0d, pr.getTrueHeading(), AngleUnit.DEGREE));
-				}
+				} else {
+                    vessel.getPose().setOrientation(new EulerImpl(.0d, .0d, 511, AngleUnit.DEGREE));
+                }
 				if (pr.hasSpeedOverGround()) {
 					PhysicalObjectUtils.setSOG(vessel, (new SpeedImpl(pr.getSpeedOverGround(), SpeedUnit.KNOTS)));
-				}
+				} else {
+                    PhysicalObjectUtils.setSOG(vessel, (new SpeedImpl(102.3f, SpeedUnit.KNOTS)));
+                }
 				if (pr.hasTimeStamp()) {
 					vessel.setPropertyValue(NMEAFieldIds.NMEA_SECOND, pr.getTimeStamp());
 				}
 				if (pr.hasRateOfTurn()) {
 					PhysicalObjectUtils.setRateOfTurn(
 							new AngularSpeedImpl(pr.getRateOfTurn(), AngularSpeedUnit.DEGREES_PER_MINUTE), vessel);
-				}
+				} else {
+                    PhysicalObjectUtils.setRateOfTurn(
+                            new AngularSpeedImpl(128, AngularSpeedUnit.DEGREES_PER_MINUTE), vessel);
+                }
 			}
 		}
 
@@ -508,6 +789,55 @@ public class NMEAVesselUpdater {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Calculates the target georeferenced position based on the current ownship position.
+     * @param referencePose Ownship pose to calculate the georeferenced position for.
+     * @param bearing Bearing of the target to the ownship as degrees.
+     * @param isTrueBearing True if true bearing is used. else relative bearing.
+     * @param distance Distance of the target to the ownship. Distance unit is specified by speedDistanceUnit.
+     * @param speedDistanceUnit Unit of distance for the target.
+     * @return Georeferenced coordinate of the target based on the ownship pose.
+     */
+    public static Coordinate calculateTargetPosition(Pose referencePose,
+                                                     double bearing, boolean isTrueBearing,  double distance, Units speedDistanceUnit) {
+        if(referencePose != null) {
+            if(referencePose.getOrientation() != null && !isTrueBearing) {
+                bearing = (PhysicalObjectUtils.getHeading(referencePose).getAs(AngleUnit.DEGREE) + bearing) % 360;
+            }
+            Distance distanceImpl = null;
+
+            switch (speedDistanceUnit) {
+                case NAUTICAL_MILES -> distanceImpl = new DistanceImpl(distance, DistanceUnit.NAUTICAL_MILES);
+                case STATUTE_MILES -> distanceImpl = new DistanceImpl(distance*1.609, DistanceUnit.KILOMETER);
+                case KILOMETERS -> distanceImpl = new DistanceImpl(distance, DistanceUnit.KILOMETER);
+            }
+            if(distanceImpl != null) {
+                GeodeticCalculator calc = new GeodeticCalculator(DefaultGeographicCRS.WGS84);
+                calc.setStartingGeographicPoint(referencePose.getCoordinate().getLongitude(), referencePose.getCoordinate().getLatitude());
+                calc.setDirection(bearing, distanceImpl.getAs(DistanceUnit.METER));
+                Point2D point2d = calc.getDestinationGeographicPoint();
+                return new CoordinateImpl(point2d.getY(), point2d.getX(), CRSUtils.WGS84_2D);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Calculates the course of a target based on the ownship position.
+     * @param ownshipPose Pose of the ownship as reference.
+     * @param cog COG of the target.
+     * @param isTrueCOG True if COG is true to north. If so, the COG value is returned. Else it is calculated based on the ownship pose.
+     * @return Angle of the target.
+     */
+    public static Angle calculateTargetCOG(Pose ownshipPose, double cog, boolean isTrueCOG) {
+        if(ownshipPose != null && ownshipPose.getOrientation() != null) {
+            if(!isTrueCOG) {
+                cog = (PhysicalObjectUtils.getHeading(ownshipPose).getAs(AngleUnit.DEGREE) + cog) % 360;
+            }
+        }
+        return new AngleImpl(cog, AngleUnit.DEGREE);
     }
 
     /**

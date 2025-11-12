@@ -82,7 +82,7 @@ public abstract class AbstractUIProduct extends AbstractProduct implements IClos
 		
 		try {
 			rmgr.unpackFileToHome("log_config/log4j.xml");
-			rmgr.unpackFileToHome("layout.xml");
+			rmgr.unpackFileToHome("application-layout.xml");
 			rmgr.unpackFileToHome("properties.data");
 			rmgr.unpackFileToHome("UserConfiguration.xml");
 			rmgr.unpackFileToHome("Splash.png");

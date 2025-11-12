@@ -97,7 +97,7 @@ public class JTreeWithFilterAndDetailsArea extends JPanel {
 		panel_1.setLayout(gbl_panel_1);
 
 		detailsLabel = new JLabel("");
-		detailsLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		detailsLabel.setFont(detailsLabel.getFont().deriveFont(Font.BOLD, 11));
 		detailsLabel.setIcon(defaultIcon);
 
 		GridBagConstraints gbc_lblDetailsLabel = new GridBagConstraints();

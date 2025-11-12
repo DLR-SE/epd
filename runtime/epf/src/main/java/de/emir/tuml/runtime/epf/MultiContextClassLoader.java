@@ -31,7 +31,8 @@ public class MultiContextClassLoader extends ClassLoader {
     public static Class getCallerClass(int level) throws ClassNotFoundException {
         StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
         String rawFQN = stElements[level+1].toString().split("\\(")[0];
-        return Class.forName(rawFQN.substring(0, rawFQN.lastIndexOf('.')));
+        String className = rawFQN.substring(rawFQN.lastIndexOf("/") + 1, rawFQN.lastIndexOf('.')).split("\\$")[0];
+        return Class.forName(className);
     }
     @Override
     public URL getResource(String name) {
@@ -78,7 +79,7 @@ public class MultiContextClassLoader extends ClassLoader {
         	}
         }
 
-        ULog.warn("Search for Resource in whole classpath: " + name);
+        ULog.debug("Search for Resource in whole classpath: " + name);
         for (ClasspathEntry<?> entry : pm.getEntries()) {
             if (entry.getClassLoader() == this) {
                 continue;
@@ -116,7 +117,7 @@ public class MultiContextClassLoader extends ClassLoader {
             }
         } catch (Exception e) {
         }
-        ULog.warn("Search for Class in MultiContextLoader: " + name);
+        ULog.debug("Search for Class in MultiContextLoader: " + name);
         for (ClasspathEntry<?> entry : pm.getEntries()) {
             if (entry.getClassLoader() == this) {
                 continue;

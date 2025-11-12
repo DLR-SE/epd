@@ -53,7 +53,7 @@ public class KeyBindingSettingsPage extends AbstractSettingsPage {
 
         JLabel lblCommands = new JLabel(
                 "<html>Choose a command to assign shortcuts to it. This assignment can be global or referring to a view/editor.</html>");
-        lblCommands.setFont(new Font("Tahoma", Font.PLAIN, 11));
+        lblCommands.setFont(lblCommands.getFont().deriveFont(Font.PLAIN, 11));
         GridBagConstraints gbc_lblCommands = new GridBagConstraints();
         gbc_lblCommands.fill = GridBagConstraints.HORIZONTAL;
         gbc_lblCommands.insets = new Insets(0, 5, 5, 0);

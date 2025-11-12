@@ -99,7 +99,7 @@ public class ManeuverbordBearingToolPanel extends JPanel {
 		setLayout(gridBagLayout);
 		
 		JLabel lblOwnCourse = new JLabel("Own Course");
-		lblOwnCourse.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblOwnCourse.setFont(lblOwnCourse.getFont().deriveFont(Font.BOLD, 12));
 		GridBagConstraints gbc_lblOwnCourse = new GridBagConstraints();
 		gbc_lblOwnCourse.anchor = GridBagConstraints.EAST;
 		gbc_lblOwnCourse.insets = new Insets(0, 0, 5, 5);
@@ -117,7 +117,7 @@ public class ManeuverbordBearingToolPanel extends JPanel {
 		add(mTxtOwnCourse, gbc_mTxtOwnCourse);
 		
 		JLabel lblOwnSpeed = new JLabel("Own Speed");
-		lblOwnSpeed.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblOwnSpeed.setFont(lblOwnSpeed.getFont().deriveFont(Font.BOLD, 12));
 		GridBagConstraints gbc_lblOwnSpeed = new GridBagConstraints();
 		gbc_lblOwnSpeed.anchor = GridBagConstraints.EAST;
 		gbc_lblOwnSpeed.insets = new Insets(0, 0, 5, 5);
@@ -135,7 +135,7 @@ public class ManeuverbordBearingToolPanel extends JPanel {
 		add(mTxtOwnSpeed, gbc_mTxtOwnSpeed);
 		
 		JLabel lblFix = new JLabel("Fix 1");
-		lblFix.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblFix.setFont(lblFix.getFont().deriveFont(Font.BOLD, 13));
 		GridBagConstraints gbc_lblFix = new GridBagConstraints();
 		gbc_lblFix.insets = new Insets(0, 0, 5, 5);
 		gbc_lblFix.gridx = 1;
@@ -143,7 +143,7 @@ public class ManeuverbordBearingToolPanel extends JPanel {
 		add(lblFix, gbc_lblFix);
 		
 		JLabel lblFix_1 = new JLabel("Fix2");
-		lblFix_1.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblFix_1.setFont(lblFix_1.getFont().deriveFont(Font.BOLD, 13));
 		GridBagConstraints gbc_lblFix_1 = new GridBagConstraints();
 		gbc_lblFix_1.insets = new Insets(0, 0, 5, 0);
 		gbc_lblFix_1.gridx = 2;
@@ -151,7 +151,7 @@ public class ManeuverbordBearingToolPanel extends JPanel {
 		add(lblFix_1, gbc_lblFix_1);
 		
 		JLabel lblTime = new JLabel("Time");
-		lblTime.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblTime.setFont(lblTime.getFont().deriveFont(Font.BOLD, 12));
 		GridBagConstraints gbc_lblTime = new GridBagConstraints();
 		gbc_lblTime.anchor = GridBagConstraints.EAST;
 		gbc_lblTime.insets = new Insets(0, 0, 5, 5);
@@ -176,7 +176,7 @@ public class ManeuverbordBearingToolPanel extends JPanel {
 		add(mTxtTime2, gbc_mTxtTime2);
 		
 		JLabel lblRange = new JLabel("Range");
-		lblRange.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblRange.setFont(lblRange.getFont().deriveFont(Font.BOLD, 12));
 		GridBagConstraints gbc_lblRange = new GridBagConstraints();
 		gbc_lblRange.anchor = GridBagConstraints.EAST;
 		gbc_lblRange.insets = new Insets(0, 0, 5, 5);
@@ -201,7 +201,7 @@ public class ManeuverbordBearingToolPanel extends JPanel {
 		add(mTxtRange2, gbc_mTxtRange2);
 		
 		JLabel lblAbsoluteBearing = new JLabel("Absolute Bearing");
-		lblAbsoluteBearing.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblAbsoluteBearing.setFont(lblAbsoluteBearing.getFont().deriveFont(Font.BOLD, 12));
 		GridBagConstraints gbc_lblAbsoluteBearing = new GridBagConstraints();
 		gbc_lblAbsoluteBearing.anchor = GridBagConstraints.EAST;
 		gbc_lblAbsoluteBearing.insets = new Insets(0, 0, 5, 5);
@@ -240,7 +240,7 @@ public class ManeuverbordBearingToolPanel extends JPanel {
 		add(btnCalculate, gbc_btnCalculate);
 		
 		JLabel lblCpa = new JLabel("CPA");
-		lblCpa.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCpa.setFont(lblCpa.getFont().deriveFont(Font.BOLD, 12));
 		GridBagConstraints gbc_lblCpa = new GridBagConstraints();
 		gbc_lblCpa.anchor = GridBagConstraints.EAST;
 		gbc_lblCpa.insets = new Insets(0, 0, 5, 5);
@@ -249,7 +249,7 @@ public class ManeuverbordBearingToolPanel extends JPanel {
 		add(lblCpa, gbc_lblCpa);
 		
 		mTxtCPA = new JTextField();
-		mTxtCPA.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
+		mTxtCPA.setFont(mTxtCPA.getFont().deriveFont(Font.BOLD | Font.ITALIC, 11));
 		mTxtCPA.setEditable(false);
 		GridBagConstraints gbc_mTxtCPA = new GridBagConstraints();
 		gbc_mTxtCPA.gridwidth = 2;
@@ -260,7 +260,7 @@ public class ManeuverbordBearingToolPanel extends JPanel {
 		add(mTxtCPA, gbc_mTxtCPA);
 		
 		JLabel lblTcpa = new JLabel("TCPA");
-		lblTcpa.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblTcpa.setFont(lblTcpa.getFont().deriveFont(Font.BOLD, 12));
 		GridBagConstraints gbc_lblTcpa = new GridBagConstraints();
 		gbc_lblTcpa.anchor = GridBagConstraints.EAST;
 		gbc_lblTcpa.insets = new Insets(0, 0, 5, 5);
@@ -269,7 +269,7 @@ public class ManeuverbordBearingToolPanel extends JPanel {
 		add(lblTcpa, gbc_lblTcpa);
 		
 		mTxtTCPA = new JTextField();
-		mTxtTCPA.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
+		mTxtTCPA.setFont(mTxtTCPA.getFont().deriveFont(Font.BOLD | Font.ITALIC, 11));
 		mTxtTCPA.setEditable(false);
 		GridBagConstraints gbc_mTxtTCPA = new GridBagConstraints();
 		gbc_mTxtTCPA.gridwidth = 2;
@@ -280,7 +280,7 @@ public class ManeuverbordBearingToolPanel extends JPanel {
 		add(mTxtTCPA, gbc_mTxtTCPA);
 		
 		JLabel lblTargetCourse = new JLabel("Target Course");
-		lblTargetCourse.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblTargetCourse.setFont(lblTargetCourse.getFont().deriveFont(Font.BOLD, 12));
 		GridBagConstraints gbc_lblTargetCourse = new GridBagConstraints();
 		gbc_lblTargetCourse.anchor = GridBagConstraints.EAST;
 		gbc_lblTargetCourse.insets = new Insets(0, 0, 5, 5);
@@ -289,7 +289,7 @@ public class ManeuverbordBearingToolPanel extends JPanel {
 		add(lblTargetCourse, gbc_lblTargetCourse);
 		
 		mTxtTargetCourse = new JTextField();
-		mTxtTargetCourse.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
+		mTxtTargetCourse.setFont(mTxtTargetCourse.getFont().deriveFont(Font.BOLD | Font.ITALIC, 11));
 		mTxtTargetCourse.setEditable(false);
 		GridBagConstraints gbc_mTxtTargetCourse = new GridBagConstraints();
 		gbc_mTxtTargetCourse.gridwidth = 2;
@@ -300,7 +300,7 @@ public class ManeuverbordBearingToolPanel extends JPanel {
 		add(mTxtTargetCourse, gbc_mTxtTargetCourse);
 		
 		JLabel lblTargetSpeed = new JLabel("Target Speed");
-		lblTargetSpeed.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblTargetSpeed.setFont(lblTargetSpeed.getFont().deriveFont(Font.BOLD, 12));
 		GridBagConstraints gbc_lblTargetSpeed = new GridBagConstraints();
 		gbc_lblTargetSpeed.anchor = GridBagConstraints.EAST;
 		gbc_lblTargetSpeed.insets = new Insets(0, 0, 0, 5);
@@ -309,7 +309,7 @@ public class ManeuverbordBearingToolPanel extends JPanel {
 		add(lblTargetSpeed, gbc_lblTargetSpeed);
 		
 		mTxtTargetSpeed = new JTextField();
-		mTxtTargetSpeed.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
+		mTxtTargetSpeed.setFont(mTxtTargetSpeed.getFont().deriveFont(Font.BOLD | Font.ITALIC, 11));
 		mTxtTargetSpeed.setEditable(false);
 		GridBagConstraints gbc_mTxtTargetSpeed = new GridBagConstraints();
 		gbc_mTxtTargetSpeed.gridwidth = 2;

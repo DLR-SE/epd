@@ -72,7 +72,7 @@ public class EditRepositoryDialog extends JDialog {
         getContentPane().setLayout(gridBagLayout);
 
         JLabel lblGeneral = new JLabel("General");
-        lblGeneral.setFont(new Font("Tahoma", Font.BOLD, 11));
+        lblGeneral.setFont(lblGeneral.getFont().deriveFont(Font.BOLD, 11));
         GridBagConstraints gbc_lblGeneral = new GridBagConstraints();
         gbc_lblGeneral.anchor = GridBagConstraints.WEST;
         gbc_lblGeneral.gridwidth = 2;
@@ -116,7 +116,7 @@ public class EditRepositoryDialog extends JDialog {
         urlText.setColumns(10);
         urlText.getDocument().addDocumentListener(inputListener);
         JLabel lblAuthentication = new JLabel("Authentication");
-        lblAuthentication.setFont(new Font("Tahoma", Font.BOLD, 11));
+        lblAuthentication.setFont(lblAuthentication.getFont().deriveFont(Font.BOLD, 11));
         GridBagConstraints gbc_lblAuthentication = new GridBagConstraints();
         gbc_lblAuthentication.gridwidth = 2;
         gbc_lblAuthentication.anchor = GridBagConstraints.WEST;

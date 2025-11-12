@@ -29,6 +29,9 @@ import io.tesla.aether.Repository;
  * @author sschweigert
  */
 public class ProductFile {
+	private static final org.apache.logging.log4j.Logger LOG = org.apache.logging.log4j.LogManager
+			.getLogger(ProductFile.class);
+	
     /** The constant dependency separator. */
     public static final String DEPENDENCY_SEPARATOR = ":";
 
@@ -75,27 +78,31 @@ public class ProductFile {
         mName = reader.getValue(reader.findNode(reader.getDocument().getDocumentElement(), "name"));
         mDescription = reader.getValue(reader.findNode(reader.getDocument().getDocumentElement(), "description"));
         mVersion = reader.getValue(reader.findNode(reader.getDocument().getDocumentElement(), "version"));
-        String localRepos = reader.getValue(reader.findNode(reader.getRootNode(), "localRepos"));
-        String defaultRepo = System.getProperty("user.home") + File.separator + ".m2" + File.separator + "repository";
-        if (localRepos != null && localRepos.isEmpty() == false) {
-            File f = new File(localRepos);
-            if (f.getParentFile() == null) {
-            	f = new File(mFile.getParentFile(), localRepos);
-            }
-            if (f.exists() == false) {
-                if (f.getParentFile().exists()) {
-                    ULog.trace("Create Local Repository: " + f.getAbsolutePath());
-                    f.mkdirs();
-                } else {
-                    ULog.error("Local Repository points to an invalid directory use standard directory instead: "
-                            + defaultRepo);
-                    f = null;
-                }
-            }
-            if (f != null)
-                defaultRepo = localRepos;
-        }
-        mLocalRepository = defaultRepo;
+        
+		if (mLocalRepository == null || mLocalRepository.isEmpty()) {
+			String localRepos = reader.getValue(reader.findNode(reader.getRootNode(), "localRepos"));
+			String defaultRepo = System.getProperty("user.home") + File.separator + ".m2" + File.separator
+					+ "repository";
+			if (localRepos != null && !localRepos.isEmpty()) {
+				File f = new File(localRepos);
+				if (f.getParentFile() == null) {
+					f = new File(mFile.getParentFile(), localRepos);
+				}
+				if (!f.exists()) {
+					if (f.getParentFile().exists()) {
+						LOG.info("Create Local Repository: " + f.getAbsolutePath());
+						f.mkdirs();
+					} else {
+						LOG.warn("Local Repository points to an invalid directory use standard directory instead: "
+								+ defaultRepo);
+						f = null;
+					}
+				}
+				if (f != null)
+					defaultRepo = localRepos;
+			}
+			mLocalRepository = defaultRepo;
+		}
 
         readIdentity(reader);
         readWorkspaces(reader);

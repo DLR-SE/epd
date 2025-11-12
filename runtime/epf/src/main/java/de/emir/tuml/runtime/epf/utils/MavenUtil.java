@@ -362,8 +362,7 @@ public class MavenUtil {
             return mTA.resolveArtifacts(resolveResult);
 
         } catch (DependencyResolutionException e) {
-
-            e.printStackTrace();
+            ULog.error(String.format("Error resolving artifact for %s: %s", resolveResult.getArtifactId(), e.getMessage()));
         }
 
         return null;

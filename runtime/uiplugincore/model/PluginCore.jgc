@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ASCII"?>
+<jgc:UMLGenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jgc="http://www.sos.de/de/sos/uml/UMLGenJava2">
+  <model href="platform:/resource/uiplugincore/model/PluginCore.tuml#//@model"/>
+  <projects xsi:type="jgc:DataModelProject" rootDirectory=".">
+    <project xsi:type="jgc:ProjectModule" artifactID="runtime" version="4.2.0-SNAPSHOT" groupID="de.dlr-se.emir.runtime" generatePOM="false"/>
+    <extensionModules xsi:type="jgc:DataModelTestModule"/>
+    <interfaceModule xsi:type="jgc:DataModelInterfaceModule" prefix="" declareOperations="true"/>
+    <implementationModule xsi:type="jgc:DataModelImplementationModule" operationMode="STUB"/>
+    <metaModule xsi:type="jgc:DataModelMetaModule"/>
+  </projects>
+</jgc:UMLGenModel>

@@ -4,7 +4,22 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import de.emir.model.universal.crs.CoordinateReferenceSystem;
-import de.emir.model.universal.crs.internal.transform.*;
+import de.emir.model.universal.crs.internal.transform.Engineering2D_to_Engineering2D;
+import de.emir.model.universal.crs.internal.transform.Engineering2D_to_Engineering3D;
+import de.emir.model.universal.crs.internal.transform.Engineering2D_to_Polar2D;
+import de.emir.model.universal.crs.internal.transform.Engineering2D_to_WGS842D;
+import de.emir.model.universal.crs.internal.transform.Engineering2D_to_WGS843D;
+import de.emir.model.universal.crs.internal.transform.Engineering3D_to_Engineering3D;
+import de.emir.model.universal.crs.internal.transform.Engineering3D_to_WGS842D;
+import de.emir.model.universal.crs.internal.transform.Engineering3D_to_WGS843D;
+import de.emir.model.universal.crs.internal.transform.Polar2D_to_Engineering2D;
+import de.emir.model.universal.crs.internal.transform.Polar2D_to_WGS842D;
+import de.emir.model.universal.crs.internal.transform.WGS842D_to_Engineering2D;
+import de.emir.model.universal.crs.internal.transform.WGS842D_to_Engineering3D;
+import de.emir.model.universal.crs.internal.transform.WGS842D_to_Polar2D;
+import de.emir.model.universal.crs.internal.transform.WGS842D_to_WGS843D;
+import de.emir.model.universal.crs.internal.transform.WGS843D_to_Engineering2D;
+import de.emir.model.universal.crs.internal.transform.WGS843D_to_WGS842D;
 
 public class TransformFactory {
 	
@@ -77,7 +92,7 @@ public class TransformFactory {
 		registerTransformation(new Engineering3D_to_WGS843D());
 		registerTransformation(new Engineering3D_to_Engineering3D());
 		registerTransformation(new WGS843D_to_WGS842D());
-		//wgs843D is also handled by WGS842D_to_Engineering3D
+		registerTransformation(new WGS843D_to_Engineering2D());
 
 		//2d to 3d transformation
 		registerTransformation(new Engineering2D_to_WGS843D());

@@ -19,6 +19,8 @@ public class AisBasics {
     public static final String AIS_VIEWER_PROP_LOOKAHEAD = "aisPropertyLookahead";
     public static final String AIS_VIEWER_PROP_TARGET_LOSTTIME = "aisPropertyTargetLosttime";
     public static final String AIS_VIEWER_PROP_SHOW_WEBIMAGE = "aisPropertyShowWebImage";
+	public static final String AIS_VIEWER_PROP_LAYER_FIXED_UPDATE = "aisPropertyLayerFixedUpdate";
+	public static final String AIS_VIEWER_PROP_LAYER_UPDATE_RATE = "aisPropertyLayerUpdateRate";
 
 	public static final String AIS_VIEWER_POPUP_ID = Basic.POPUP_IDENTIFIER + "AisPopUpMenu";
 	public static final String AIS_SELECTION_ID = "AISSelectionID";

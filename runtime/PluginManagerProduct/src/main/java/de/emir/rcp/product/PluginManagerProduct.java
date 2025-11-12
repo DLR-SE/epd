@@ -36,7 +36,6 @@ public class PluginManagerProduct extends AbstractUIProduct {
 
     @Override
     public AbstractModelProvider getModelProvider() {
-
         if (mp == null) {
             mp = new PmModelProvider();
         }
@@ -45,7 +44,6 @@ public class PluginManagerProduct extends AbstractUIProduct {
 
     @Override
     public void initProduct() {
-
     }
 
     @Override

@@ -613,7 +613,7 @@
                 <mEditable>true</mEditable>
                 <mDescription></mDescription>
                 <mName>de.emir.epd.ownship.property.AisTarget</mName>
-                <mValue class="string">211724970</mValue>
+                <mValue class="string">211876480</mValue>
               </default>
             </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>
           </de.emir.tuml.ucore.runtime.prop.internal.GenericProperty>

@@ -68,8 +68,11 @@ public class MapViewerWithTools implements Painter<JXMapViewer>, MouseListener, 
 
 	private StoreableTileCache tileCache;
 
-	public MapViewerWithTools() {
+	/** Reference to the MapView containing this MapViewerWithTools. */
+	private MapView mapView;
 
+	public MapViewerWithTools(MapView mapView) {
+		this.mapView = mapView;
 		viewer = new CustomJXMapViewer();
 
 		cursorAdapter = new MapViewerCursorAdapter(viewer);
@@ -867,6 +870,10 @@ public class MapViewerWithTools implements Painter<JXMapViewer>, MouseListener, 
 	@Override
 	public int getMaximumZoomLevel() {
 		return viewer.getTileFactory().getInfo().getMaximumZoomLevel();
+	}
+	
+	public MapView getMapView() {
+		return this.mapView;
 	}
 
 }

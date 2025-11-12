@@ -113,10 +113,16 @@ public abstract class AbstractProduct {
                     if (part != null) {
                         int idx = part.lastIndexOf('.');
                         if (idx > 0) {
-                            mApplicationName = part.substring(idx + 1);
+                        	String firstTry = part.substring(idx + 1);
+                        	if (firstTry.toLowerCase().equals("jar")) {
+                        		// Command was just the name of the .jar file, use the first part of the filename.
+                        		mApplicationName = part.substring(0, idx);
+                        	} else {
+                        		// Command was the fully class qualified class name, use only the last part.
+                        		mApplicationName = firstTry;
+                        	}
                         }
                     }
-
                 }
             }
         }

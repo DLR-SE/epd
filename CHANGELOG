@@ -1,5 +1,41 @@
 # Changelog
 
+## [4.3.0] - 2025-11-11
+
+### Added
+
+- Added list of loaded extensions to about dialog.
+- Added options to move items in ListEditor up abd down.
+- New Icons for Editors.
+- Added internal model to track general targets.
+- Implemented TargetLayer.
+- Added capability to instantiate multiple views from the same viewdescriptor.
+- Added parameter to PluginManager to overwrite the local repository.
+- Added CODEOWNERS file
+
+### Fixed
+
+- Prevent log console from overflowing.
+- Fixed the handling of ApplicationName in AbstractProduct.
+- Fixed wrong type for default value creation in VelocityEditor.
+- Fixing dead ProgressDialog on map cache deletion.
+- Allow workspace to open system explorer for selected file on linux.
+- Fixes in the AISEmitter model.
+- Fixed URL for OpenStreetMap to use https.
+
+### Changed
+
+- Improved performance for console output.
+- Removed usage of hardcoded font UI.
+- Order files in the workspace view by directory, extension, filename.
+- Allow filtering for classes in SetClassLogLevelCommand.
+- Reimplemented CSV route importer.
+- Bumped up JXMapViewer2 version to 2.9.1 to fix Logging dependency problems.
+
+### Removed
+
+- Removed profiles from maven settings
+
 ## [4.2.0] - 2025-05-21
 
 ### Added

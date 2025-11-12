@@ -61,7 +61,7 @@ public class MapViewPlugin extends AbstractUIPlugin {
                 .icon("icons/emiricons/32/map.png", rmgr);
 
         group.view(MVBasic.MAP_VIEW_ID, MapView.class).label("Map")
-                .icon("icons/emiricons/32/map.png");
+                .icon("icons/emiricons/32/map.png").reopenable(true);
         group.view(MVBasic.MAP_VIEW_LAYER_VIEW_ID, LayerView.class)
                 .label("Map Layers")
                 .icon("icons/emiricons/32/layers.png");

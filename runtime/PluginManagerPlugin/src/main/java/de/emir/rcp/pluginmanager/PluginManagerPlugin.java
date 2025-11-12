@@ -1,10 +1,27 @@
 package de.emir.rcp.pluginmanager;
 
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.xml.sax.SAXException;
+
 import de.emir.rcp.UICorePlugin;
 import de.emir.rcp.commands.ep.CommandExtensionPoint;
 import de.emir.rcp.commands.ep.ICommandDescriptor;
 import de.emir.rcp.ids.Basic;
+import de.emir.rcp.jobs.DelegateProgressMonitor;
 import de.emir.rcp.keybindings.ep.KeyBindingExtensionPoint;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.menu.ep.IMenuContribution;
@@ -20,7 +37,16 @@ import de.emir.rcp.pluginmanager.cmds.ResolveDependencyInformationsCommand;
 import de.emir.rcp.pluginmanager.cmds.SaveAndExitCommand;
 import de.emir.rcp.pluginmanager.cmds.UpdateDependenciesCommand;
 import de.emir.rcp.pluginmanager.doxygen.DoxygenExtensionPoint;
-import de.emir.rcp.pluginmanager.doxygen.extensions.*;
+import de.emir.rcp.pluginmanager.doxygen.extensions.ExcludeFoldersExtension;
+import de.emir.rcp.pluginmanager.doxygen.extensions.ImagePathExtension;
+import de.emir.rcp.pluginmanager.doxygen.extensions.InputFoldersExtension;
+import de.emir.rcp.pluginmanager.doxygen.extensions.MainPageExtension;
+import de.emir.rcp.pluginmanager.doxygen.extensions.OutputDirectoryExtension;
+import de.emir.rcp.pluginmanager.doxygen.extensions.PlantUMLDirExtension;
+import de.emir.rcp.pluginmanager.doxygen.extensions.PlantUMLExtension;
+import de.emir.rcp.pluginmanager.doxygen.extensions.ProjectDescriptionExtension;
+import de.emir.rcp.pluginmanager.doxygen.extensions.ProjectLogoExtension;
+import de.emir.rcp.pluginmanager.doxygen.extensions.ProjectNameExtension;
 import de.emir.rcp.pluginmanager.ids.PMBasics;
 import de.emir.rcp.pluginmanager.jobs.ExportProductJob;
 import de.emir.rcp.pluginmanager.manager.PmManager;
@@ -35,14 +61,6 @@ import de.emir.tuml.runtime.epf.ProductFile;
 import de.emir.tuml.ucore.runtime.extension.ExtensionPointManager;
 import de.emir.tuml.ucore.runtime.extension.ServiceManager;
 import de.emir.tuml.ucore.runtime.resources.ResourceManager;
-import org.apache.commons.cli.*;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
 
 public class PluginManagerPlugin extends AbstractUIPlugin {
 
@@ -183,30 +201,30 @@ public class PluginManagerPlugin extends AbstractUIPlugin {
 		    String output = cmd.getOptionValue("o");
 		    exportData.setOutputPath(output);
         }
-
+        
+        if (cmd.hasOption("lr")) {
+        	String localRepository = cmd.getOptionValue("lr");
+        	productFile.setLocalRepository(localRepository);
+        }
 
         ExportProductJob job = new ExportProductJob(productFile, exportData);
-
-        PlatformUtil.getJobManager().schedule(job, job1 -> System.exit(0));
-
-
+//        PlatformUtil.getJobManager().schedule(job, job1 -> System.exit(0));
+        job.run(new DelegateProgressMonitor());
 	}
 
 	@Override
 	public void initializePlugin() {
-
 		ServiceManager.register(new PmManager());
-
 		ExtensionPointManager.registerExtensionPoint(PMBasics.EXTENSION_POINT_DOXYGEN, new DoxygenExtensionPoint());
 	}
 
 	@Override
 	public void addExtensions() {
-
+		ResourceManager rmgr = ResourceManager.get(UICorePlugin.class);
 		ViewExtensionPoint viewEP = ExtensionPointManager.getExtensionPoint(ViewExtensionPoint.class);
 
 		IViewDescriptor pView = viewEP.view(PMBasics.PLUGINS_VIEW_ID, PluginsView.class).label("Plugins")
-				.icon("icons/emiricons/32/sbe_extensions.png");
+				.icon("icons/emiricons/32/sbe_extensions.png", rmgr);
 
 		
 		StatusBarExtensionPoint sbEP = ExtensionPointManager.getExtensionPoint(StatusBarExtensionPoint.class);
@@ -248,32 +266,32 @@ public class PluginManagerPlugin extends AbstractUIPlugin {
 		
 		IMenuContribution ptb = mEP.menuContribution(PMBasics.PLUGINS_TOOLBAR_ID);
 
-		ptb.menuItem("addBugged", addbuggedCMD).icon("icons/emiricons/32/library_add.png", ResourceManager.get(UICorePlugin.class)).iconSize(32);
-		ptb.menuItem("addDep", addDependencyCMD).icon("icons/emiricons/32/playlist_add.png").iconSize(32);
-		ptb.menuItem("addRepo", addRepoCMD).icon("icons/emiricons/32/post_add.png").iconSize(32);
+		ptb.menuItem("addBugged", addbuggedCMD).icon("icons/emiricons/32/library_add.png", rmgr).iconSize(32);
+		ptb.menuItem("addDep", addDependencyCMD).icon("icons/emiricons/32/playlist_add.png", rmgr).iconSize(32);
+		ptb.menuItem("addRepo", addRepoCMD).icon("icons/emiricons/32/post_add.png", rmgr).iconSize(32);
 		ptb.separator("afterAddSep");
-		ptb.menuItem("undo", Basic.CMD_UNDO).icon("icons/emiricons/32/undo.png", ResourceManager.get(UICorePlugin.class)).iconSize(32);
-		ptb.menuItem("redo", Basic.CMD_REDO).icon("icons/emiricons/32/redo.png", ResourceManager.get(UICorePlugin.class)).iconSize(32);
+		ptb.menuItem("undo", Basic.CMD_UNDO).icon("icons/emiricons/32/undo.png", rmgr).iconSize(32);
+		ptb.menuItem("redo", Basic.CMD_REDO).icon("icons/emiricons/32/redo.png", rmgr).iconSize(32);
 		ptb.separator("afterRedoSep");
 		
 		
-		ptb.menuItem("editSelection", editCMD).icon("icons/emiricons/32/edit.png").iconSize(32);
-		ptb.menuItem("removePlugins", removeCMD).icon("icons/emiricons/32/delete.png").iconSize(32);
-		ptb.menuItem("updateDependencies", updateVersionsCMD).icon("icons/emiricons/32/next_plan.png").iconSize(32);
+		ptb.menuItem("editSelection", editCMD).icon("icons/emiricons/32/edit.png", rmgr).iconSize(32);
+		ptb.menuItem("removePlugins", removeCMD).icon("icons/emiricons/32/delete.png", rmgr).iconSize(32);
+		ptb.menuItem("updateDependencies", updateVersionsCMD).icon("icons/emiricons/32/next_plan.png", rmgr).iconSize(32);
 		ptb.separator("afterRemoveSep");
 		
-		ptb.menuItem("gatherInfos", gatherInfosCMD).icon("icons/emiricons/32/cloud_sync.png").iconSize(32);
+		ptb.menuItem("gatherInfos", gatherInfosCMD).icon("icons/emiricons/32/cloud_sync.png", rmgr).iconSize(32);
 		
 		IMenuContribution main = mEP.menuContribution(Basic.MENU_MAIN_MENU + ".file");
 		main.menuItem("chooseProductFile", changeCmd).label("Open...").before("settings");
-		main.menuItem("save", Basic.CMD_SAVE).label("Save").icon("icons/emiricons/32/sd_card.png", ResourceManager.get(UICorePlugin.class)).before("settings");
+		main.menuItem("save", Basic.CMD_SAVE).label("Save").icon("icons/emiricons/32/sd_card.png", rmgr).before("settings");
 		main.separator("afterSaveSep").before("settings");
 
 		IMenuContribution sbtb = mEP.menuContribution(PMBasics.STATUS_BAR_TOOLBAR_ID);
-		sbtb.menuItem("saveProduct", saveAndExitCMD).icon("icons/emiricons/32/sd_card.png", ResourceManager.get(UICorePlugin.class)).label("Apply & Exit");
+		sbtb.menuItem("saveProduct", saveAndExitCMD).icon("icons/emiricons/32/sd_card.png", rmgr).label("Apply & Exit");
 		
 		IMenuContribution tbr = mEP.menuContribution(PMBasics.PLUGINS_TOOLBAR_RIGHT_ID);
-		tbr.menuItem("exportMenu", exportProductCMD).icon("icons/emiricons/32/archive.png").label("Export...").iconSize(32);
+		tbr.menuItem("exportMenu", exportProductCMD).icon("icons/emiricons/32/archive.png", rmgr).label("Export...").iconSize(32);
 		
 		KeyBindingExtensionPoint kbEP = ExtensionPointManager.getExtensionPoint(KeyBindingExtensionPoint.class);
 		
@@ -375,7 +393,10 @@ public class PluginManagerPlugin extends AbstractUIPlugin {
 		Option output = new Option("o", "output", true, "The directory into which the application is deployed (without white spaces)");
 		output.setRequired(true);
 		options.addOption(output);
-
+		
+		Option localReposOption = new Option("lr", "localrepository", true, "Override the local repository for plugins and dependencies.");
+		localReposOption.setRequired(false);
+		options.addOption(localReposOption);
 
 		return options;
 	}

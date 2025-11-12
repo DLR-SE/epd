@@ -3,12 +3,12 @@
 	<parent>
 		<groupId>de.dlr-se.emir.model</groupId>
 		<artifactId>model</artifactId>
-		<version>4.2.0</version>
+		<version>4.3.0</version>
 	</parent>
 	<artifactId>domain</artifactId>
 	<packaging>pom</packaging>
 	<groupId>de.dlr-se.emir.model.domain</groupId>
 	<modules>
 		<module>maritime</module>
-	</modules>
+    </modules>
 </project>

@@ -43,7 +43,7 @@ public class WorkspaceDescriptionContentPanel extends AbstractDetailsContentPane
 
         JLabel lblNewLabel = new JLabel(
                 "<html>Workspaces are Maven projects discovered via a file path. <br> For example, plugins currently in development can be added.</html>");
-        lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 11));
+        lblNewLabel.setFont(lblNewLabel.getFont().deriveFont(Font.ITALIC, 11));
         GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
         gbc_lblNewLabel.insets = new Insets(20, 0, 0, 0);
         gbc_lblNewLabel.anchor = GridBagConstraints.NORTH;

@@ -42,7 +42,9 @@ public class DistanceTool extends AbstractMapViewTool {
 	private Distance distance;
 
 	private DecimalFormat df = new DecimalFormat("0.00");
-
+	/** Remember the instance id of this tools view. */
+	protected String viewId = null;
+	
 	public DistanceTool() {
 		pinImage = IconManager.getImage(this, "icons/emiricons/32/location_on.png");
 		piSize = new Dimension(pinImage.getWidth(), pinImage.getHeight());
@@ -62,7 +64,6 @@ public class DistanceTool extends AbstractMapViewTool {
 	@Override
 	public void init(MapViewerWithTools viewer) {
 		this.viewer = viewer;
-
 	}
 
 	@Override
@@ -87,7 +88,9 @@ public class DistanceTool extends AbstractMapViewTool {
 
 	@Override
 	public void paint(BufferingGraphics2D g, IDrawContext c) {
-
+		if (!((MapViewerWithTools) c).getMapView().getUniqueId().equals(viewId)) {
+			return;
+		}
 		Point2D pxStart = null;
 		Point2D pxEnd = null;
 
@@ -193,18 +196,19 @@ public class DistanceTool extends AbstractMapViewTool {
 	public void mouseClicked(MouseEvent e) {
 
 		if (start == null || end != null) {
-
+			viewId = viewer.getMapView().getUniqueId();
 			end = null;
 			start = viewer.convert(new Point2D.Double(e.getX(), e.getY()));
 			setDirty(true);
 			return;
 		}
 
-		end = viewer.convert(new Point2D.Double(e.getX(), e.getY()));
-
-		// Calculate distance
-		distance = new CoordinateImpl(start.getLatitude(), start.getLongitude(), CRSUtils.WGS84_2D).getDistance(new CoordinateImpl(end.getLatitude(), end.getLongitude(), CRSUtils.WGS84_2D));
-
+		// Only allow the selection of an end point if the viewId matches. 
+		if (viewer.getMapView().getUniqueId().equals(viewId)) {
+			end = viewer.convert(new Point2D.Double(e.getX(), e.getY()));
+			// Calculate distance
+			distance = new CoordinateImpl(start.getLatitude(), start.getLongitude(), CRSUtils.WGS84_2D).getDistance(new CoordinateImpl(end.getLatitude(), end.getLongitude(), CRSUtils.WGS84_2D));
+		}
 	}
 
 
@@ -221,11 +225,11 @@ public class DistanceTool extends AbstractMapViewTool {
 
 	@Override
 	public boolean isDirty() {
-		if (start != null) {
+		if (start != null && viewer.getMapView().getUniqueId().equals(viewId)) {
 			return true;
 		}
 
-		return super.isDirty();
+		return (super.isDirty() && viewer.getMapView().getUniqueId().equals(viewId));
 	}
 
 }

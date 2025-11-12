@@ -14,7 +14,7 @@ public class DeleteTileCacheJob implements IJob {
 
 	@Override
 	public boolean isBlocking() {
-		return true;
+		return false;
 	}
 
 	@Override

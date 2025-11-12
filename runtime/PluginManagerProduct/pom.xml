@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>de.dlr-se.emir.runtime</groupId>
 		<artifactId>runtime</artifactId>
-		<version>4.2.0</version>
+		<version>4.3.0</version>
 	</parent>
 	<artifactId>PluginManagerProduct</artifactId>
 	<name>PluginManager Product</name>
@@ -42,7 +42,7 @@
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>${version.plugin.maven.deploy}</version>
 				<configuration>
-					<skip>true</skip>
+					<skip>false</skip>
 				</configuration>
 			</plugin>
 

@@ -275,7 +275,7 @@ public abstract class AbstractEditor extends DefaultMultipleCDockable implements
 			errorLabel.setIcon(icon);
 			errorLabel.setVerticalAlignment(SwingConstants.TOP);
 			errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			errorLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			errorLabel.setFont(errorLabel.getFont().deriveFont(Font.PLAIN, 12));
 			errorLabel.setForeground(UIManager.getColor("EditorPane.foreground"));
 			GridBagConstraints gbc_errorLabel = new GridBagConstraints();
 			gbc_errorLabel.fill = GridBagConstraints.BOTH;
@@ -307,7 +307,7 @@ public abstract class AbstractEditor extends DefaultMultipleCDockable implements
 			errorLabel.setIcon(icon);
 			errorLabel.setVerticalAlignment(SwingConstants.TOP);
 			errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			errorLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			errorLabel.setFont(errorLabel.getFont().deriveFont(Font.PLAIN, 12));
 			errorLabel.setForeground(UIManager.getColor("EditorPane.foreground"));
 			GridBagConstraints gbc_errorLabel = new GridBagConstraints();
 			gbc_errorLabel.fill = GridBagConstraints.BOTH;

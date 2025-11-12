@@ -62,7 +62,7 @@ public class ExportProductJob implements IJob {
         targetRoot = targetPath.toFile();
 
         propFilePath = productFileFolder.toPath().resolve("properties.data");
-        layoutFilePath = productFileFolder.toPath().resolve("layout.xml");
+        layoutFilePath = productFileFolder.toPath().resolve("application-layout.xml");
 
         skipOnCopy = new Path[] { pf.getFile().toPath(), propFilePath, layoutFilePath };
 
@@ -297,9 +297,11 @@ public class ExportProductJob implements IJob {
         try {
 
             String name = productFile.getName();
+            String localRepos = productFile.getLocalRepository();
 
             productFile = new ProductFile(productFile.getFile());
             productFile.setName(name);
+            productFile.setLocalRepository(localRepos);
 
             List<File> workspaces = productFile.getWorkspaces();
 
@@ -475,13 +477,18 @@ public class ExportProductJob implements IJob {
     }
 
     private void copyFile(Path filePath, Path sourceRepo, Path targetRepo) {
-
+    	if (!sourceRepo.isAbsolute()) {
+    		sourceRepo = Path.of(this.productFile.getLocalRepository());
+    		//Path absoluteSrc = Path.of(this.productFileFolder.toString(), sourceRepo.toString());
+    		//sourceRepo = absoluteSrc;
+    	}
         Path relativeToSource = sourceRepo.relativize(filePath);
         Path targetFullPath = targetRepo.resolve(relativeToSource);
         Path targetFolder = targetFullPath.getParent();
 
         try {
             Files.createDirectories(targetFolder);
+//            System.out.println("copy " + filePath.toString() + " " + targetFullPath.toString());
             Files.copy(filePath, targetFullPath);
         } catch (FileAlreadyExistsException e) {
 

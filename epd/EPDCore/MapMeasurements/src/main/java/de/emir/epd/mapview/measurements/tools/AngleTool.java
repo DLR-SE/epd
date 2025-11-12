@@ -1,5 +1,22 @@
 package de.emir.epd.mapview.measurements.tools;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+
+import javax.swing.SwingConstants;
+
+import org.jxmapviewer.viewer.GeoPosition;
+
 import de.emir.epd.mapview.views.map.BufferingGraphics2D;
 import de.emir.epd.mapview.views.map.IDrawContext;
 import de.emir.epd.mapview.views.map.MapViewerWithTools;
@@ -9,20 +26,8 @@ import de.emir.model.universal.spatial.Coordinate;
 import de.emir.model.universal.spatial.impl.CoordinateImpl;
 import de.emir.model.universal.units.AngleUnit;
 import de.emir.tuml.ucore.runtime.resources.IconManager;
-import org.jxmapviewer.viewer.GeoPosition;
-
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-import java.text.DecimalFormat;
-import javax.swing.SwingConstants;
 
 public class AngleTool extends AbstractMapViewTool {
-
 	private BufferedImage pinImage;
 	private Dimension piSize;
 
@@ -34,6 +39,8 @@ public class AngleTool extends AbstractMapViewTool {
 	private Cursor pinCursor;
 
 	private Dimension pinOnMapSize = new Dimension(32, 32);
+	/** Remember the instance id of this tools view. */
+	protected String viewId = null;
 
 	public AngleTool() {
 		pinImage = IconManager.getImage(this, "icons/emiricons/32/location_on.png");
@@ -48,7 +55,6 @@ public class AngleTool extends AbstractMapViewTool {
 	@Override
 	public void init(MapViewerWithTools viewer) {
 		this.viewer = viewer;
-
 	}
 
 	@Override
@@ -74,6 +80,9 @@ public class AngleTool extends AbstractMapViewTool {
 
 	@Override
 	public void paint(BufferingGraphics2D g, IDrawContext c) {
+		if (!((MapViewerWithTools) c).getMapView().getUniqueId().equals(viewId)) {
+			return;
+		}
 		Point2D pxStart = null;
 		Point2D pxCenter = null;
 		Point2D pxEnd = null;
@@ -165,70 +174,26 @@ public class AngleTool extends AbstractMapViewTool {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
-		if(center == null || end != null) {
-			
+		if (center == null || end != null) {
+			viewId = viewer.getMapView().getUniqueId();
 			end = null;
 			start = null;
 			center = viewer.convert(new Point2D.Double(e.getX(), e.getY()));
 			setDirty(true);
 			return;
-			
 		}
 		
-		if(center != null && start == null) {
-			
-			start = viewer.convert(new Point2D.Double(e.getX(), e.getY()));
-			setDirty(true);
-			return;
-		}	
+		// Only allow the selection of an end point if the viewId matches. 
+		if (viewer.getMapView().getUniqueId().equals(viewId)) {
+			if (center != null && start == null) {
+				start = viewer.convert(new Point2D.Double(e.getX(), e.getY()));
+				setDirty(true);
+				return;
+			}	
 
-		end = viewer.convert(new Point2D.Double(e.getX(), e.getY()));
-		
-		// Calculate angle
-
-		// try {
-		// CoordinateReferenceSystem crs = CRS.decode("EPSG:4326");
-		//
-		// GeodeticCalculator gc = new GeodeticCalculator(crs);
-		//
-		// Coordinate cS = new Coordinate(start.getLatitude(), start.getLongitude());
-		// Coordinate cE = new Coordinate(end.getLatitude(), end.getLongitude());
-		//
-		//
-		// gc.setStartingPosition(JTS.toDirectPosition(cS, crs));
-		// gc.setDestinationPosition(JTS.toDirectPosition(cE, crs));
-		//
-		// distance = gc.getOrthodromicDistance();
-		//
-		// int totalmeters = (int) distance;
-		// int km = totalmeters / 1000;
-		// int meters = totalmeters - (km * 1000);
-		// float remaining_cm = (float) (distance - totalmeters) * 10000;
-		// remaining_cm = Math.round(remaining_cm);
-		// float cm = remaining_cm / 100;
-		//
-		//
-		// } catch (FactoryException | TransformException e1) {
-		// e1.printStackTrace();
-		// }
-
+			end = viewer.convert(new Point2D.Double(e.getX(), e.getY()));
+		}
 	}
-
-//	private double getAngle(double lat1, double lon1, double lat2, double lon2, double lat3, double lon3) {
-//
-//		double result = Double.MAX_VALUE;
-//		
-//		Coordinate c1 = new Coordinate
-//		double angle1 = getGlobalAngle(lat2, lon2, lat1, lon1);
-//		double angle2 = getGlobalAngle(lat2, lon2, lat3, lon3);
-//
-//		result = angle1 - angle2;
-//		
-//		return result;
-//	}
-	
-	
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
@@ -242,11 +207,11 @@ public class AngleTool extends AbstractMapViewTool {
 
 	@Override
 	public boolean isDirty() {
-		if (center != null) {
+		if (center != null && viewer.getMapView().getUniqueId().equals(viewId)) {
 			return true;
 		}
 
-		return super.isDirty();
+		return (super.isDirty() && viewer.getMapView().getUniqueId().equals(viewId));
 	}
 	
 	@Override
@@ -256,8 +221,6 @@ public class AngleTool extends AbstractMapViewTool {
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
-
 		e.consume();
 	}
-
 }

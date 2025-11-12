@@ -190,13 +190,17 @@ public class GenericLabelProvider implements ILabelProvider {
 			return ptr;
 		}
 		UType type = pointer.getType();
-		if (type == null) type = pointer.getExpectedType();
-		if (type == null) return PointerOperations.toPointerString(pointer);
+		if (type == null) {
+			type = pointer.getExpectedType();
+		}
+		// type is still null
+		if (type == null) {
+			return PointerOperations.toPointerString(pointer);
+		}
 		
 		UStructuralFeature feature = pointer.getPointedFeature();		
 		if (type instanceof UPrimitiveType || type instanceof UEnum) {
 			if (feature != null) {
-//				return "<html>" + feature.getName() + " <i>[" + type.getName() + "]</i></html>";
                 StringBuilder result = new StringBuilder("<html><nobr>");
                 result.append("<font color=\"").append(HTML_COLOR_TEXT).append("\">").append(feature.getName()).append("</font> ");
                 result.append("<font color=\"").append(HTML_COLOR_INACTIVE).append("\">").append("<i>[" + type.getName() + "]</i>").append("</font>");
@@ -215,7 +219,6 @@ public class GenericLabelProvider implements ILabelProvider {
 		}
 		String fn = feature != null ? feature.getName() : "";
 		String cn = cl != null ? cl.getName() : "";
-//		return "<html>" + fn + " <i>[" + cn + "]</i></html>";
         StringBuilder result = new StringBuilder("<html><nobr>");
         result.append("<font color=\"").append(HTML_COLOR_TEXT).append("\">").append(fn).append("</font> ");
         result.append("<font color=\"").append(HTML_COLOR_INACTIVE).append("\">").append("<i>[" + cn + "]</i>").append("</font>");
@@ -225,39 +228,41 @@ public class GenericLabelProvider implements ILabelProvider {
 	
 	@Override
 	public String getLabel(Object obj) {
-		if (obj == null )
+		if (obj == null ) {
 			return null;
-		if (obj instanceof UObject == false)
+		}
+		if (!(obj instanceof UObject)) {
 			return obj.getClass() + ":" + obj.toString();
-		UObject uobj = (UObject)obj;
+		}
+		UObject uobj = (UObject) obj;
 		UClass cl = uobj.getUClassifier();
 		UStructuralFeature feature = uobj.getUContainingFeature();
 		String clName = cl.getName();
 		String changeable = changeableLabelProperty(uobj, cl, feature); 
-		if (changeable != null)
+		if (changeable != null) {
 			return changeable;
+		}
 		QualifiedName qn = mNameProvider.get((UObject)obj);
 		String name = null;
-		if (qn != null){
-			if (mUseQualifiedName)
+		if (qn != null) {
+			if (mUseQualifiedName) {
 				name = qn.toString(mQualifiedNameSeperator);
-			else
+			} else {
 				name = qn.lastSegment();
+			}
 		}
 		StringBuilder result = new StringBuilder("<nobr>");
-        if (mAddFeatureToName && feature != null)
+        if (mAddFeatureToName && feature != null) {
 			result.append("<font color=\"").append(HTML_COLOR_TEXT).append("\">").append(feature.getName()).append("</font> ");
-		if (mAddTypeToName || clName == null || clName.isEmpty())
+        }
+		if (mAddTypeToName || clName == null || clName.isEmpty()) {
 			result.append("<font color=\"").append(HTML_COLOR_INACTIVE).append("\">").append("<i>[" + cl.getName() + "]</i>").append("</font> ");
+		}
         if (name != null && !name.isEmpty()) {
             result.append("<font color=\"").append(HTML_COLOR_HIGHLIGHT).append("\">").append("<b>" + name + "</b>").append("</font>");
         }
         if (feature == null && (name == null || name.isEmpty())) {
-            // TODO: find out what to do when there is seemingly no container to reference to
             result.append("<font color=\"").append(HTML_COLOR_TEXT).append("\"><small>").append(PointerOperations.toPointerString(PointerOperations.createPointerToObject(uobj))).append("</small></font>");
-//            ULog.warn("Name and feature are null " + cl.getName() + " " + PointerOperations.toPointerString(convertToPointerFromRoot(PointerOperations.c(uobj))));
-//            UObject ucon = uobj.getUContainer();
-//            ULog.warn(ucon != null ? "ucon " + ucon.toString(): "ucon is null");
         }
         result.append("</nobr>");
 		return result.toString();
@@ -265,12 +270,13 @@ public class GenericLabelProvider implements ILabelProvider {
 
 	@Override
 	public String getTooltip(Object obj) {
-		if (obj == null )
+		if (obj == null ) {
 			return null;
-		if (obj instanceof Pointer == false)
+		}
+		if (obj instanceof Pointer == false) {
 			return null; 
-		
-		Pointer ptr = (Pointer)obj;
+		}
+		Pointer ptr = (Pointer) obj;
 		String toolTip = "<html>\n";
 		toolTip += "<b>Position</b>: " + PointerOperations.toPointerString(ptr) + "<br>\n";
 		UStructuralFeature f = ptr.getPointedFeature();
@@ -291,9 +297,7 @@ public class GenericLabelProvider implements ILabelProvider {
 
 	@Override
 	public URL getIcon(Object pointer) {
-		// TODO
+		// Override this to use own icons. If not default or no icon will be shown.
 		return null;
 	}
-
-
 }

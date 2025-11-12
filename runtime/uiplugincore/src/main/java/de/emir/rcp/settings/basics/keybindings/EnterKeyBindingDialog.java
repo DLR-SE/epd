@@ -58,11 +58,11 @@ public class EnterKeyBindingDialog extends JDialog {
         CommandDescriptor desc = cm.getCommandData(cmdID);
 
         messageLbl = new JLabel("Press Key(s) to set Shortcut for command: " + desc.getLabel());
-        messageLbl.setFont(new Font("Tahoma", Font.PLAIN, 13));
+        messageLbl.setFont(messageLbl.getFont().deriveFont(Font.PLAIN, 13));
 
         gridBagLayout.columnWeights = new double[] { 0.0 };
         gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0 };
-        cancelBtn.setFont(new Font("Tahoma", Font.PLAIN, 13));
+        cancelBtn.setFont(cancelBtn.getFont().deriveFont(Font.PLAIN, 13));
 
         cancelBtn.addActionListener(a -> setVisible(false));
 
@@ -75,7 +75,7 @@ public class EnterKeyBindingDialog extends JDialog {
         getContentPane().add(messageLbl, gbc_messageLbl);
 
         keyLabel = new JLabel(" ");
-        keyLabel.setFont(new Font("Tahoma", Font.BOLD, 32));
+        keyLabel.setFont(keyLabel.getFont().deriveFont(Font.BOLD, 32));
         GridBagConstraints gbc_label = new GridBagConstraints();
         gbc_label.insets = new Insets(50, 50, 50, 50);
         gbc_label.gridx = 0;

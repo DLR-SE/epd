@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>de.dlr-se.emir</groupId>
 		<artifactId>emir</artifactId>
-		<version>4.2.0</version>
+		<version>4.3.0</version>
 	</parent>
 	<packaging>pom</packaging>
 	<artifactId>runtime</artifactId>
@@ -158,12 +158,6 @@
 			<id>emirgitlab</id>
 			<url>https://gitlab.dlr.de/api/v4/projects/25659/packages/maven</url>
 		</snapshotRepository>
-		
-		<site>
-			<id>emir.website</id>
-			<name>eMIR Website</name>
-			<url>https://emaritime.de/</url>
-		</site>
 	</distributionManagement>
 
 	<dependencyManagement>

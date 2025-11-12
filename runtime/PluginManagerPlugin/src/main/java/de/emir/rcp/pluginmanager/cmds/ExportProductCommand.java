@@ -23,7 +23,7 @@ public class ExportProductCommand extends AbstractCommand {
         PmManager pm = ServiceManager.get(PmManager.class);
         if (pm == null || pm.getModelProvider() == null){
         	setCanExecute(false);
-        }else {
+        } else {
 	        pm.getModelProvider().subscribeProductFile(opt -> setCanExecute(opt.isPresent()));
 	
 	        setCanExecute(pm.getModelProvider().getProductFile() != null);
@@ -32,7 +32,6 @@ public class ExportProductCommand extends AbstractCommand {
 
     @Override
     public void execute() {
-
         MainWindow mw = PlatformUtil.getWindowManager().getMainWindow();
 
         PmManager pm = ServiceManager.get(PmManager.class);
@@ -43,25 +42,22 @@ public class ExportProductCommand extends AbstractCommand {
 
         ModelTransactionStack ts = mp.getTransactionStack();
 
-        if (ts.isDirty() == true) {
-
+        if (ts.isDirty()) {
             String modelName = mp.getModelIdentifier();
-            int rc = JOptionPane.showConfirmDialog(mw, "'" + modelName + "' has been modified. Save changes?", "Save",
-                    JOptionPane.YES_NO_OPTION);
+            int rc = JOptionPane.showConfirmDialog(mw, "'" + modelName + "' has been modified. Save changes?", "Save", JOptionPane.YES_NO_OPTION);
 
             if (rc == JOptionPane.YES_OPTION) {
                 ts.save();
             } else {
                 return;
             }
-
         }
 
         ExportProductDialog dialog = new ExportProductDialog(mw, pf);
 
         dialog.setVisible(true);
 
-        if (dialog.isOk() == false) {
+        if (!dialog.isOk()) {
             return;
         }
 
@@ -70,7 +66,6 @@ public class ExportProductCommand extends AbstractCommand {
         ExportProductJob job = new ExportProductJob(pf, data);
 
         PlatformUtil.getJobManager().schedule(job, e -> handleJobFinished(job, data, pf));
-
     }
 
     private void handleJobFinished(ExportProductJob job, ExportData data, ProductFile pf) {

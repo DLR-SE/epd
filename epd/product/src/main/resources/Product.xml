@@ -4,7 +4,7 @@
 
 	<name>EPDCommunity</name>
 	<description>eMaritime Prototype Display Community Edition</description>
-	<version>4.2.0</version>
+	<version>4.3.0</version>
 <!--	<localRepos>%USER_PROFILE%\.m2\repository</localRepos>-->
 
 	<workspaces>
@@ -14,87 +14,92 @@
 		<dependency>
 			<groupId>de.dlr-se.emir.epd</groupId>
 			<artifactId>MapView</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.dlr-se.emir.epd</groupId>
 			<artifactId>SimpleNMEASensor</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.dlr-se.emir.epd</groupId>
 			<artifactId>MapMeasurements</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.dlr-se.emir.epd</groupId>
 			<artifactId>NavigationToolsModule</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.dlr-se.emir.epd</groupId>
 			<artifactId>OpenSeaMapPlugin</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.dlr-se.emir.epd</groupId>
 			<artifactId>RouteManager</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.dlr-se.emir.epd</groupId>
 			<artifactId>AISViewer</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>de.dlr-se.emir.epd</groupId>
+			<artifactId>TargetViewer</artifactId>
+			<version>4.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.dlr-se.emir.epd</groupId>
 			<artifactId>OwnShipAdapter</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.dlr-se.emir.epd</groupId>
 			<artifactId>OwnshipViewer</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.dlr-se.emir.epd</groupId>
 			<artifactId>GeneralViews</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.dlr-se.emir.epd</groupId>
 			<artifactId>EPDModel</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.dlr-se.emir.epd</groupId>
 			<artifactId>EPDAisModelAdapter</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.dlr-se.emir.epd</groupId>
 			<artifactId>VesselEditor</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.dlr-se.emir.epd</groupId>
 			<artifactId>DevelopementToolsPlugin</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.dlr-se.emir.epd</groupId>
 			<artifactId>ExampleProject</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.dlr-se.emir.epd</groupId>
 			<artifactId>AlertView</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.dlr-se.emir.epd</groupId>
 			<artifactId>SimpleClock</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
 		</dependency>
 	</dependencies>
 

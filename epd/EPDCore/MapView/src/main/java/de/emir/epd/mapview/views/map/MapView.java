@@ -1,18 +1,29 @@
 package de.emir.epd.mapview.views.map;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.FlowLayout;
 import java.awt.Insets;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.viewer.GeoPosition;
@@ -29,23 +40,6 @@ import de.emir.rcp.properties.PropertyStore;
 import de.emir.rcp.views.AbstractView;
 import de.emir.tuml.ucore.runtime.extension.ServiceManager;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
-import java.awt.BorderLayout;
-import javax.swing.JEditorPane;
-import javax.swing.JLabel;
-
-import java.awt.FlowLayout;
-import java.awt.Dimension;
-import java.awt.ComponentOrientation;
-import java.awt.SystemColor;
-import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
-import javax.swing.border.CompoundBorder;
-import java.awt.Color;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.ImageIcon;
 
 public class MapView extends AbstractView {
 
@@ -71,7 +65,7 @@ public class MapView extends AbstractView {
 	public MapView(String id) {
 		super(id);
 
-		mapViewer = new MapViewerWithTools();
+		mapViewer = new MapViewerWithTools(this);
 		mv = mapViewer.getJXMapViewer();
 	}
 
@@ -85,6 +79,17 @@ public class MapView extends AbstractView {
 	public void onClose() {
 		mapViewer.stopDrawThread();
 
+	}
+
+	@Override
+	public void onFocusGained() {
+		ServiceManager.get(MapViewManager.class).fillToolsList();
+
+		Map<String, AbstractMapViewTool> tools =  ServiceManager.get(MapViewManager.class).getTools();
+
+		for (AbstractMapViewTool tool : tools.values()) {
+			tool.init(mapViewer);
+		}
 	}
 
 	/**
@@ -243,8 +248,8 @@ public class MapView extends AbstractView {
 		int zoom = viewer.getZoom();
 		GeoPosition position = viewer.getCenterPosition();
 
-		IProperty positionLatProperty = context.getProperty(MVBasic.MAP_VIEW_POSITION_PROP_LAT);
-		IProperty positionLonProperty = context.getProperty(MVBasic.MAP_VIEW_POSITION_PROP_LON);
+		IProperty<Double> positionLatProperty = context.getProperty(MVBasic.MAP_VIEW_POSITION_PROP_LAT + getViewId());
+		IProperty<Double> positionLonProperty = context.getProperty(MVBasic.MAP_VIEW_POSITION_PROP_LON + getViewId());
 
 		double lat = position.getLatitude();
 		double lon = position.getLongitude();
@@ -252,22 +257,22 @@ public class MapView extends AbstractView {
 		positionLatProperty.setValue(lat);
 		positionLonProperty.setValue(lon);
 
-		IProperty zoomProperty = context.getProperty(MVBasic.MAP_VIEW_ZOOM_PROP);
+		IProperty<Integer> zoomProperty = context.getProperty(MVBasic.MAP_VIEW_ZOOM_PROP + getViewId());
 		zoomProperty.setValue(zoom);
 	}
 
 	private void loadCurrentPosition() {
 		JXMapViewer viewer = mapViewer.getJXMapViewer();
 
-		IProperty positionLatProperty = context.getProperty(MVBasic.MAP_VIEW_POSITION_PROP_LAT, 0d);
-		IProperty positionLonProperty = context.getProperty(MVBasic.MAP_VIEW_POSITION_PROP_LON, 0d);
+		IProperty<Double> positionLatProperty = context.getProperty(MVBasic.MAP_VIEW_POSITION_PROP_LAT + getViewId(), 0d);
+		IProperty<Double> positionLonProperty = context.getProperty(MVBasic.MAP_VIEW_POSITION_PROP_LON + getViewId(), 0d);
 
 		double lat = (double) positionLatProperty.getValue();
 		double lon = (double) positionLonProperty.getValue();
 
 		GeoPosition position = new GeoPosition(lat, lon);
 
-		IProperty zoomProperty = context.getProperty(MVBasic.MAP_VIEW_ZOOM_PROP);
+		IProperty<Integer> zoomProperty = context.getProperty(MVBasic.MAP_VIEW_ZOOM_PROP + getViewId());
 
 		Object zoomObj = zoomProperty.getValue();
 
@@ -320,4 +325,16 @@ public class MapView extends AbstractView {
 		return mapViewer;
 	}
 
+	/**
+	 * Get the MapViews instance index recovered from the uniqueId.
+	 * 
+	 * @return The MapViews instance index as String
+	 */
+	public String getViewId() {
+		String[] parts = getUniqueId().split("_Instance");
+		if (parts.length == 2) {
+			return parts[1];
+		}
+		return "";
+	}
 }

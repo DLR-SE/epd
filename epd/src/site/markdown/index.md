@@ -29,7 +29,7 @@ the Main class (package name + class name). This results in the following basic 
         <!--Contains rcp core, every plugin has this dependency-->
         <groupId>de.emir.runtime</groupId>
         <artifactId>uiplugincore</artifactId>
-        <version>4.0.0-SNAPSHOT</version>
+        <version>4.3.0-SNAPSHOT</version>
     </dependency>
 </dependencies>
 ```
@@ -163,7 +163,7 @@ shows a minimal `product.xml`.
 		<dependency>
 			<groupId>de.emir.epd</groupId>
 			<artifactId>MapView</artifactId>
-			<version>4.0.0-SNAPSHOT</version>
+			<version>4.3.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

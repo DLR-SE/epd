@@ -63,7 +63,7 @@ public class JobProgressWidget extends JPanel implements IProgressMonitor {
         add(content, gbc_content);
 
         lblJobtitle = new JLabel();
-        lblJobtitle.setFont(new Font("Tahoma", Font.BOLD, 11));
+        lblJobtitle.setFont(lblJobtitle.getFont().deriveFont(Font.BOLD, 11));
         GridBagConstraints gbc_lblJobtitle = new GridBagConstraints();
         gbc_lblJobtitle.anchor = GridBagConstraints.WEST;
         gbc_lblJobtitle.insets = new Insets(5, 5, 5, 0);

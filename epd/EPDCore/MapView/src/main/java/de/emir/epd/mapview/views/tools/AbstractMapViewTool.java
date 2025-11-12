@@ -22,8 +22,6 @@ public abstract class AbstractMapViewTool implements MouseWheelListener, KeyList
 	
 	private boolean useable = true;
 	private PublishSubject<Boolean> useableSubject = PublishSubject.create();
-	
-	
 	public Disposable subscribeUseable(Consumer<Boolean> c) {
 		return useableSubject.subscribe(c);
 	}

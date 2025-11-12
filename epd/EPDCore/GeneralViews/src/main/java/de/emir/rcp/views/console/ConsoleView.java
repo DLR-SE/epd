@@ -6,29 +6,32 @@ import java.awt.Insets;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.Iterator;
 
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.Core;
+import org.apache.logging.log4j.core.Filter;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.AbstractAppender;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.Property;
+import org.apache.logging.log4j.core.config.plugins.Plugin;
 
 import de.emir.rcp.ids.Basic;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
 import de.emir.rcp.views.AbstractView;
-import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
 import io.reactivex.rxjava3.subjects.PublishSubject;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.*;
-import org.apache.logging.log4j.core.appender.*;
-import org.apache.logging.log4j.core.config.Configuration;
-import org.apache.logging.log4j.core.config.Property;
-import org.apache.logging.log4j.core.config.plugins.Plugin;
 
 public class ConsoleView extends AbstractView {
 
@@ -41,18 +44,20 @@ public class ConsoleView extends AbstractView {
 
 		@Override
 		public void append(LogEvent event) {
+//			Thread thread = Thread.ofVirtual().start(() -> {
 			LogEvent logEvent = event.toImmutable();
 			if (logEvent == null || logEvent.getLevel() == null) {
 				return;
 			}
 			if (logEvent.getLevel().isInRange(Level.FATAL, Level.toLevel(mLogLevel.getValue()))) {
 				SwingUtilities.invokeLater(() -> {
-					if(mPanel != null) {
+					if (mPanel != null) {
 						mPanel.addMessage(logEvent);
 					}
 
 				});
 			}
+//			});
 		}
 	}
 
@@ -84,11 +89,13 @@ public class ConsoleView extends AbstractView {
 		publisher = PublishSubject.create();
 		LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
 		Configuration config = ctx.getConfiguration();
-		TextAreaAppender appender = new TextAreaAppender("ConsoleViewAppender", null, config.getAppenders().values().stream().findFirst().get().getLayout(), false, null);
+		TextAreaAppender appender = new TextAreaAppender("ConsoleViewAppender", null,
+				config.getAppenders().values().stream().findFirst().get().getLayout(), false, null);
 		config.addAppender(appender);
 		ctx.getRootLogger().addAppender(appender);
 		ctx.updateLoggers();
-
+		
+		mPanel.enableTailing(pContext.getProperty(TAILING_PROPERTY, true).getValue());
 		pContext.getProperty(TAILING_PROPERTY).addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -110,7 +117,20 @@ public class ConsoleView extends AbstractView {
 	public void onClose() {
 
 	}
+	
+	public String getLog() {
+		if (mPanel == null) return null;
+		StringBuilder sb = new StringBuilder();
+		Iterator<LogEvent> it = mPanel.getModel().elements().asIterator(); 
+		while (it.hasNext()) {
+			sb.append(it.next().getMessage().getFormattedMessage()).append(System.lineSeparator());
+		}
+		return sb.toString();
+	}
 
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	@Override
 	public Component createContent() {
 

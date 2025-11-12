@@ -1,0 +1,4 @@
+name; latitude; longitude; speedMin; speedMax; portsideXTD
+WP01;54.0;8.0;0.0;1.0;0.1;0.2
+WP02;54.1;8.1
+WP02;54.2;8.2;;;;

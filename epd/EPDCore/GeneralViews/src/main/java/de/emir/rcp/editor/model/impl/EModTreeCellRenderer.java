@@ -8,12 +8,13 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import de.emir.rcp.editor.model.ILabelProvider;
 import de.emir.tuml.ucore.runtime.resources.IconManager;
 import de.emir.tuml.ucore.runtime.utils.Pointer;
 import de.emir.ui.utils.treetable.umodel.UNode;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class EModTreeCellRenderer extends DefaultTreeCellRenderer implements TreeCellRenderer {
 	private static final long serialVersionUID = -4654323920505890844L;
@@ -27,28 +28,28 @@ public class EModTreeCellRenderer extends DefaultTreeCellRenderer implements Tre
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
 		Component c = super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
-		if (mLabelProvider != null && value instanceof UNode) {
-			UNode node = (UNode)value;
+		if (mLabelProvider != null && value instanceof UNode node) {
 			Pointer ptr = node.getPointer();
 			if (ptr != null) {
 				String labelP = mLabelProvider.getLabel(ptr);
-				if (labelP != null)
+				if (labelP != null) {
 					setText(labelP);
-				Object obj = ptr.getValue();
-				URL url = mLabelProvider.getIcon(obj);
+				}
+				URL url = mLabelProvider.getIcon(ptr);
 				if (url != null) {
-					ImageIcon icon = IconManager.getIcon(url, IconManager.preferedSmallIconSize());
-					if (icon != null)
+					ImageIcon icon = IconManager.getIcon(url, IconManager.preferedMidIconSize() - 2);
+					if (icon != null) {
 						setIcon(icon);
+					}
 				}
 				String toolTip = mLabelProvider.getTooltip(node.getPointer());
-				if (toolTip != null)
+				if (toolTip != null) {
 					setToolTipText(toolTip);
+				}
 			} else {
 				LOG.debug("Pointer in UNode " + node.getPath().toString() + " points to NULL.");
 			}
 		}
 		return c;
 	}
-
 }

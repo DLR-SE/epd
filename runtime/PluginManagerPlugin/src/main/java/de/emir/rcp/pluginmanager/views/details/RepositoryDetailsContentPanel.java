@@ -59,7 +59,7 @@ public class RepositoryDetailsContentPanel extends AbstractDetailsContentPanel<O
         p.setLayout(gbl_p);
 
         JLabel lblGeneral = new JLabel("General");
-        lblGeneral.setFont(new Font("Tahoma", Font.BOLD, 11));
+        lblGeneral.setFont(lblGeneral.getFont().deriveFont(Font.BOLD, 11));
         GridBagConstraints gbc_lblGeneral = new GridBagConstraints();
         gbc_lblGeneral.gridwidth = 2;
         gbc_lblGeneral.anchor = GridBagConstraints.WEST;
@@ -105,7 +105,7 @@ public class RepositoryDetailsContentPanel extends AbstractDetailsContentPanel<O
         urlText.setColumns(10);
 
         JLabel lblAuthentication = new JLabel("Authentication");
-        lblAuthentication.setFont(new Font("Tahoma", Font.BOLD, 11));
+        lblAuthentication.setFont(lblAuthentication.getFont().deriveFont(Font.BOLD, 11));
         GridBagConstraints gbc_lblAuthentication = new GridBagConstraints();
         gbc_lblAuthentication.gridwidth = 2;
         gbc_lblAuthentication.anchor = GridBagConstraints.WEST;

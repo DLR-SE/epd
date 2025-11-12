@@ -2,22 +2,16 @@ package de.emir.epd.ownship;
 
 import com.google.common.collect.Lists;
 
-import de.emir.epd.ais.AisLayer.ShapeAISTarget;
-import de.emir.epd.ais.ids.AisBasics;
-import de.emir.epd.ais.manager.AisTargetManager;
-import de.emir.epd.ais.model.IAisReadAdapter;
-import de.emir.epd.mapview.basics.utils.SetLayerDirtyPropertyChangeListener;
+import de.emir.epd.ais.AisLayer;
 import de.emir.epd.mapview.ids.MVBasic;
 import de.emir.epd.mapview.views.map.AbstractMapLayer;
 import de.emir.epd.mapview.views.map.BufferingGraphics2D;
 import de.emir.epd.mapview.views.map.IDrawContext;
 import de.emir.epd.model.EPDModelUtils;
 import de.emir.epd.model.ais.AisTarget;
-import de.emir.epd.ownship.ids.OwnshipBasics;
 import de.emir.model.application.track.Track;
 import de.emir.model.application.track.TrackPoint;
 import de.emir.model.domain.maritime.vessel.Vessel;
-import de.emir.model.universal.physics.Environment;
 import de.emir.model.universal.physics.PhysicalObjectUtils;
 import de.emir.model.universal.spatial.Coordinate;
 import de.emir.model.universal.spatial.Pose;
@@ -25,20 +19,16 @@ import de.emir.model.universal.units.*;
 import de.emir.rcp.manager.ModelManager;
 import de.emir.rcp.manager.SelectionManager;
 import de.emir.rcp.manager.util.PlatformUtil;
-import de.emir.rcp.properties.PropertyContext;
-import de.emir.rcp.properties.PropertyStore;
 import de.emir.tuml.ucore.runtime.IValueChangeListener;
 import de.emir.tuml.ucore.runtime.Notification;
-import de.emir.tuml.ucore.runtime.extension.ServiceManager;
+import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import org.apache.logging.log4j.Logger;
 import java.awt.event.MouseEvent;
 
 import java.awt.*;
 import java.awt.Color;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
+import java.awt.geom.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -59,12 +49,6 @@ public class OwnshipLayer extends AbstractMapLayer implements Observer, IValueCh
 
 	private Color shipColor = new Color(78, 78, 78);
 	private Color trackColor = new Color(78, 78, 78, 96);
-	private Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 11);
-
-	private Polygon polyActiveAisTarget = new Polygon(new int[] { -6, 0, 6, -6 }, new int[] { 6, -12, 6, 6 }, 4);
-	private Polygon polyCOG = new Polygon(new int[] { -6, 0, 6, -6 }, new int[] { 6, -12, 6, 6 }, 4);
-
-	private ArrayList<Vessel> vessels = new ArrayList<>();
 	private Vessel ownship;
 	private BasicStroke normalStroke = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
 	private BasicStroke cogStroke = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1,
@@ -78,8 +62,10 @@ public class OwnshipLayer extends AbstractMapLayer implements Observer, IValueCh
 	 * the current selected vessel will switch to the ownship to enable focusing of
 	 * the ownship marker in the MapViewer.
 	 */
-	protected Vessel lastSelectedTarget;
+	protected UObject lastSelectedTarget;
 	protected Vessel lastFocusedTarget;
+	protected Shape outline;
+	protected boolean manualSelect;
 
 	private long lastDrawTime = -1;
 
@@ -222,12 +208,15 @@ public class OwnshipLayer extends AbstractMapLayer implements Observer, IValueCh
 		g.setColor(shipColor);
 		g.setStroke(normalStroke);
 
-		g.drawOval(-9, -9, 18, 18);
+		Ellipse2D outerRing = new Ellipse2D.Double(-9, -9, 18, 18);
+		g.draw(outerRing);
+		outline = g.getTransform().createTransformedShape(outerRing);
 		g.drawOval(-4, -4, 8, 8);
 
 		// Gets the timestamp of the last position. If the last sent position was over
 		// 30 seconds ago, set the target to lost
-		long ts = AisTarget.getTimestamp(v) != null ? AisTarget.getTimestamp(v) : 0L;
+		Long timestamp = AisTarget.getTimestamp(v);
+		long ts = timestamp != null ? timestamp : 0L;
 
 		boolean lostTarget = System.currentTimeMillis() - ts >= 30000;
 
@@ -286,6 +275,11 @@ public class OwnshipLayer extends AbstractMapLayer implements Observer, IValueCh
 
 		// Sets the selected target to the ownship if currently no target (i.e. AIS
 		// target) is selected on the MapViewer
+		if(manualSelect && lastSelectedTarget == ownship) {
+			g.setColor(Color.BLACK);
+			g.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+			g.draw(getSelectedBox());
+		}
 		setSelectedTargetIfNoneSelected(ownship);
 
 		g.setTransform(transform);
@@ -334,6 +328,52 @@ public class OwnshipLayer extends AbstractMapLayer implements Observer, IValueCh
 	}
 
 	/**
+	 * Selects the ownship if a mouse click event was executed on the ownship symbol.
+	 * @param e the event to be processed
+	 */
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(outline != null) {
+			if(outline.intersects(e.getX(), e.getY(), 3, 3)) {
+				if(e.getButton() == MouseEvent.BUTTON1) {
+					manualSelect = true;
+					if(ownship != lastSelectedTarget) {
+						PlatformUtil.getSelectionManager().setSelection(MVBasic.MAP_SELECTION_CTX, ownship);
+					}
+					e.consume();
+				}
+				if(e.getButton() == MouseEvent.BUTTON3) {
+					manualSelect = false;
+					PlatformUtil.getSelectionManager().setSelection(MVBasic.MAP_SELECTION_CTX, null);
+					e.consume();
+				}
+			} else {
+				manualSelect = false;
+			}
+		}
+	}
+
+	/**
+	 * Focuses the ownship if a mouse move event was executed on the ownship symbol.
+	 * @param e the event to be processed
+	 */
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		if(outline != null) {
+			if (outline.intersects(e.getX(), e.getY(), 3, 3)) {
+				if (ownship == lastFocusedTarget) {
+					return;
+				}
+				PlatformUtil.getSelectionManager().setSelection(MVBasic.MAP_FOCUS_CTX, ownship);
+				if (ownship != null) {
+					cursorAdapter.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				}
+				e.consume();
+			}
+		}
+	}
+
+	/**
 	 * Registers the OwnshipLayer as a listener for changes in the ownship model
 	 */
 	private void registerOwnshipListener() {
@@ -361,7 +401,6 @@ public class OwnshipLayer extends AbstractMapLayer implements Observer, IValueCh
 	@Override
 	public void update(Observable o, Object arg) {
 		setDirty(true);
-
 	}
 
 	@Override
@@ -376,7 +415,7 @@ public class OwnshipLayer extends AbstractMapLayer implements Observer, IValueCh
 	 * @param t Target to set if no target is currently selected
 	 */
 	private void setSelectedTargetIfNoneSelected(Vessel t) {
-		if (lastSelectedTarget == null) {
+		if (lastSelectedTarget == null && !manualSelect) {
 			PlatformUtil.getSelectionManager().setSelection(MVBasic.MAP_SELECTION_CTX, t);
 		}
 	}
@@ -398,15 +437,12 @@ public class OwnshipLayer extends AbstractMapLayer implements Observer, IValueCh
 	private void addListeners() {
 
 		SelectionManager sm = PlatformUtil.getSelectionManager();
-
 		// Listen for selecton change events of the MapViewer and get the currently
 		// selected Vessel.
 		sm.subscribe(MVBasic.MAP_SELECTION_CTX, oo -> {
-
-			Vessel old = lastSelectedTarget;
-
-			if (oo.isPresent() && oo.get() instanceof Vessel) {
-				lastSelectedTarget = (Vessel) oo.get();
+			UObject old = lastSelectedTarget;
+			if (oo.isPresent() && oo.get() instanceof UObject) {
+				lastSelectedTarget = (UObject) oo.get();
 			} else {
 				lastSelectedTarget = null;
 			}
@@ -414,9 +450,25 @@ public class OwnshipLayer extends AbstractMapLayer implements Observer, IValueCh
 			if (old != lastSelectedTarget) {
 				setDirty(true);
 			}
-
 		});
 
+	}
+
+	/**
+	 * Draws a SN.1/Circ.243 compliant selection box for signaling the selection of the ownship object.
+	 * @return Selection box.
+	 */
+	private Path2D getSelectedBox() {
+		Path2D selectedTargetSymbol = new Path2D.Double();
+		selectedTargetSymbol.append(new Line2D.Double(-15, 15, -5, 15), false);
+		selectedTargetSymbol.append(new Line2D.Double(-15, 15, -15, 5), false);
+		selectedTargetSymbol.append(new Line2D.Double(15, 15, 5, 15), false);
+		selectedTargetSymbol.append(new Line2D.Double(15, 15, 15, 5), false);
+		selectedTargetSymbol.append(new Line2D.Double(-15, -15, -15, -5), false);
+		selectedTargetSymbol.append(new Line2D.Double(-15, -15, -5, -15), false);
+		selectedTargetSymbol.append(new Line2D.Double(15, -15, 5, -15), false);
+		selectedTargetSymbol.append(new Line2D.Double(15, -15, 15, -5), false);
+		return selectedTargetSymbol;
 	}
 
 }

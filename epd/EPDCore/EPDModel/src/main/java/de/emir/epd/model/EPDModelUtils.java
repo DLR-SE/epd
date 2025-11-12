@@ -3,24 +3,32 @@ package de.emir.epd.model;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.emir.epd.model.ids.OwnshipIds;
 import de.emir.model.domain.maritime.vessel.Vessel;
 import de.emir.model.domain.maritime.vessel.impl.VesselImpl;
+import de.emir.model.universal.detection.ITarget;
+import de.emir.model.universal.detection.ITrackedTarget;
+import de.emir.model.universal.detection.impl.TargetImpl;
+import de.emir.model.universal.detection.impl.TrackedTargetImpl;
 import de.emir.model.universal.physics.Environment;
+import de.emir.model.universal.physics.EnvironmentLayer;
+import de.emir.model.universal.physics.LocatableObject;
 import de.emir.model.universal.physics.ObjectLayer;
 import de.emir.model.universal.physics.impl.ObjectLayerImpl;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.properties.PropertyStore;
-import de.emir.tuml.ucore.runtime.logging.ULog;
 
 /**
  * Util class for accessing vessels stored in the EPD model.
  * @apiNote This class has listener endpoints used for detecting changes to the model. Listening is
  * possible by using the subscribeModelChange() method. Currently 3 types of events will be fired.
- * "ownship" -> Returns the current ownship as a Vessel object if the ownship was changed
- * "aisTargets" -> Returns an Vessel array of the current AIS targets if the targets were changed
- * "aisTargetSet" -> Returns the updated default environment if targets or the ownship was changed
+ * "ownship" -> Returns the current ownship as a Vessel object if the ownship was changed.
+ * "aisTargets" -> Returns an Vessel array of the current AIS targets if the targets were changed.
+ * "aisTargetSet" -> Returns the updated default environment if targets or the ownship was changed.
+ * "targets" -> Returns a target array of the current targets ifthe targets were changed.
  */
 public final class EPDModelUtils {
 
@@ -74,8 +82,8 @@ public final class EPDModelUtils {
 		if (environment == null || environment.getLayer() == null || environment.getLayer().stream() == null) {
 			return null;
 		}
-		return (ObjectLayer) environment
-				.getLayer()
+		List<EnvironmentLayer> copy = new ArrayList<>(environment.getLayer());
+		return (ObjectLayer) copy
 				.stream()
 				.filter(p -> p instanceof ObjectLayer)
 				.findFirst()
@@ -125,10 +133,8 @@ public final class EPDModelUtils {
 			// is better than calling to string on a trillion vessels.
 			long mmsi = Long.parseLong(id);
 
-			ObjectLayer objectLayer = retrieveObjectLayer(environment);
-
-			return (Vessel) objectLayer
-					.getObjects()
+			List<LocatableObject> copy = new ArrayList<>(retrieveObjectLayer(environment).getObjects());
+			return (Vessel) copy
 					.stream()
 					.filter(p -> p instanceof Vessel)
 					.filter(p -> Long.compare(((Vessel) p).getMmsi(), mmsi) == 0)
@@ -139,6 +145,36 @@ public final class EPDModelUtils {
 
 		return null;
 	}
+
+	/**
+	 * Gets a Target by its id.
+	 * @param environment Environment to retrieve Target from.
+	 * @param id ID of the Target to get.
+	 * @return Target if found, else null.
+	 */
+	public static ITarget getTargetById(Environment environment, String id) {
+		List<LocatableObject> copy = new ArrayList<>(retrieveObjectLayer(environment).getObjects());
+		return (ITarget) copy
+				.stream()
+				.filter(p -> p instanceof ITarget)
+				.filter(p -> ((ITarget) p).getId().equals(id))
+				.findFirst().orElse(null);
+	}
+
+	/**
+	 * Gets a TrackedTarget by its id.
+	 * @param environment Environment to retrieve TrackedTarget from.
+	 * @param id ID of the TrackedTarget to get.
+	 * @return TrackedTarget if found, else null.
+	 */
+	public static ITrackedTarget getTrackedTargetById(Environment environment, String id) {
+		List<LocatableObject> copy = new ArrayList<>(retrieveObjectLayer(environment).getObjects());
+		return (ITrackedTarget) copy
+				.stream()
+				.filter(p -> p instanceof ITrackedTarget)
+				.filter(p -> ((ITrackedTarget) p).getId().equals(id))
+				.findFirst().orElse(null);
+	}
 	
 	/**
 	 * Gets the ownship from a environment if found, else returns null.
@@ -148,9 +184,8 @@ public final class EPDModelUtils {
 	 * @return Ownship if environment contains an ownship, else null.
 	 */
 	public static Vessel getOwnship(Environment environment) {
-		ObjectLayer objectLayer = retrieveObjectLayer(environment);
-		return (Vessel) objectLayer
-			.getObjects()
+		List<LocatableObject> copy = new ArrayList<>(retrieveObjectLayer(environment).getObjects());
+		return (Vessel) copy
 			.stream()
 			.filter(object -> object instanceof Vessel)
 			.filter(vessel -> ((Vessel) vessel).getAllias().contains("Ownship"))
@@ -191,11 +226,11 @@ public final class EPDModelUtils {
 	}
 
 	/**
-	 * Gets the ownship of the default environment with the ownship ID set by the ownship plugin. If no ownship was found or the ownship id was not set by the ownship plugin, 211724970 is used.
-	 * @return The current ownship or the newly selected ownship with the ID 211724970 if the ownship MMSI is not set.
+	 * Gets the ownship of the default environment with the ownship ID set by the ownship plugin. If no ownship was found or the ownship id was not set by the ownship plugin, 211876480 is used.
+	 * @return The current ownship or the newly selected ownship with the ID 211876480 if the ownship MMSI is not set.
 	 */
 	public static Vessel retrieveOwnship() {
-		String id = PropertyStore.getContext(OwnshipIds.OWNSHIP_VIEWER_PROP_CONTEXT).getProperty(OwnshipIds.OWNSHIP_VIEWER_PROP_AIS_TARGET, "211724970").getValue();
+		String id = PropertyStore.getContext(OwnshipIds.OWNSHIP_VIEWER_PROP_CONTEXT).getProperty(OwnshipIds.OWNSHIP_VIEWER_PROP_AIS_TARGET, "211876480").getValue();
 		return retrieveOwnship(id);
 	}
 	
@@ -210,12 +245,15 @@ public final class EPDModelUtils {
 		Vessel currentOwnship = getOwnship(environment);
 		ObjectLayer objectLayer = retrieveObjectLayer(environment);
 		if(currentOwnship != null) {
-			objectLayer.getObjects().get(objectLayer.getObjects().indexOf(currentOwnship)).getAllias().remove("Ownship");
+			LocatableObject lastOwnship = objectLayer.getObjects().get(objectLayer.getObjects().indexOf(currentOwnship));
+			if(lastOwnship.getAllias() != null && lastOwnship.hasAlias("Ownship")) {
+				lastOwnship.getAllias().remove("Ownship");
+			}
 		}
+		vessel.getAllias().add("Ownship");
 		if(!objectLayer.getObjects().contains(vessel)) {
 			add(environment, vessel);
 		}
-		objectLayer.getObjects().get(objectLayer.getObjects().indexOf(vessel)).getAllias().add("Ownship");
 		return true;
 	}
 
@@ -237,8 +275,8 @@ public final class EPDModelUtils {
 	 */
 	public static Vessel retrieveById(Environment environment, String id) {
 		Vessel result = getVesselById(environment, id);
-		
-		if (result == null) {
+
+		if (result == null && id != null) {
 			Vessel [] oldTargets = getAisTargets(environment);
 			Environment oldTargetSet = environment;
 			result = new VesselImpl();
@@ -247,6 +285,44 @@ public final class EPDModelUtils {
 			support.firePropertyChange("aisTarget", null, result);
 			forcePropertyChange("aisTargets", oldTargets, getAisTargets(environment));
 			forcePropertyChange("aisTargetSet", oldTargetSet, environment);
+		}
+		return result;
+	}
+
+	/**
+	 * Gets or creates a Target by a given ID.
+	 * @param environment Environment to query or create Target on.
+	 * @param id ID of the Target to get.
+	 * @return Existing Target matching by ID or newly created Target.
+	 */
+	public static ITarget retrieveByTargetId(Environment environment, String id) {
+		ITarget result = getTargetById(environment, id);
+
+		if (result == null && id != null) {
+			ITarget [] oldTargets = getTargets(environment);
+			result = new TargetImpl();
+			result.setId(id);
+			add(environment, result);
+			forcePropertyChange("targets", oldTargets, getTargets(environment));
+		}
+		return result;
+	}
+
+	/**
+	 * Gets or creates a TrackedTarget by a given ID.
+	 * @param environment Environment to query or create TrackedTarget on.
+	 * @param id ID of the TrackedTarget to get.
+	 * @return Existing TrackedTarget matching by ID or newly created TrackedTarget.
+	 */
+	public static ITrackedTarget retrieveByTrackedTargetId(Environment environment, String id) {
+		ITrackedTarget result = getTrackedTargetById(environment, id);
+
+		if (result == null && id != null) {
+			ITrackedTarget [] oldTargets = getTrackedTargets(environment);
+			result = new TrackedTargetImpl();
+			result.setId(id);
+			add(environment, result);
+			forcePropertyChange("trackedTargets", oldTargets, getTrackedTargets(environment));
 		}
 		return result;
 	}
@@ -273,6 +349,34 @@ public final class EPDModelUtils {
 			return false;
 		}
 	}
+
+	/**
+	 * Adds a Target to the object layer of an environment. If the Target is already present in the object layer, it is not added again.
+	 * @param environment Environment to add the Target to.
+	 * @param target Target to add.
+	 * @return True if adding was successful, else false (for example when the Target already exists).
+	 */
+	public static boolean add(Environment environment, ITrackedTarget target) {
+		if(!retrieveObjectLayer(environment).getObjects().contains(target)) {
+			return retrieveObjectLayer(environment).getObjects().add(target);
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Adds a TrackedTarget to the object layer of an environment. If the TrackedTarget is already present in the object layer, it is not added again.
+	 * @param environment Environment to add the TrackedTarget to.
+	 * @param target TrackedTarget to add.
+	 * @return True if adding was successful, else false (for example when the TrackedTarget already exists).
+	 */
+	public static boolean add(Environment environment, ITarget target) {
+		if(!retrieveObjectLayer(environment).getObjects().contains(target)) {
+			return retrieveObjectLayer(environment).getObjects().add(target);
+		} else {
+			return false;
+		}
+	}
 	
 	/**
 	 * Removes an object from the object layer of an environment.
@@ -281,13 +385,17 @@ public final class EPDModelUtils {
 	 * @return True if removal was successul.
 	 */
 	public static boolean remove(Environment environment, Object o) {
-		Vessel [] oldTargets = getAisTargets(environment);
+		Vessel [] oldAISTargets = getAisTargets(environment);
+		ITrackedTarget [] oldTrackedTargets = getTrackedTargets(environment);
+		ITarget [] oldTargets = getTargets(environment);
 		Environment oldEnvironment = environment;
 		Vessel oldOwnship = getOwnship(environment);
 		boolean removeStatus = retrieveObjectLayer(environment).getObjects().remove(o);
-		forcePropertyChange("aisTargets", oldTargets, getAisTargets(environment));
+		forcePropertyChange("aisTargets", oldAISTargets, getAisTargets(environment));
 		forcePropertyChange("aisTargetSet", oldEnvironment, environment);
 		forcePropertyChange("ownship", oldOwnship, getOwnship(environment));
+		forcePropertyChange("targets", oldTargets, getTargets(environment));
+		forcePropertyChange("trackedTargets", oldTrackedTargets, getTrackedTargets(environment));
 		return removeStatus;
 	}
 
@@ -296,13 +404,17 @@ public final class EPDModelUtils {
 	 * @param environment Environment top remove objects from.
 	 */
 	public static void clear(Environment environment) {
-		Vessel [] oldTargets = getAisTargets(environment);
+		Vessel [] oldAISTargets = getAisTargets(environment);
+		ITrackedTarget [] oldTrackedTargets = getTrackedTargets(environment);
+		ITarget [] oldTargets = getTargets(environment);
 		Vessel oldOwnship = getOwnship(environment);
 		Environment oldEnvironment = environment;
 		retrieveObjectLayer(environment).getObjects().clear();
-		forcePropertyChange("aisTargets", oldTargets, getAisTargets(environment));
+		forcePropertyChange("aisTargets", oldAISTargets, getAisTargets(environment));
 		forcePropertyChange("aisTargetSet", oldEnvironment, environment);
 		forcePropertyChange("ownship", oldOwnship, getOwnship(environment));
+		forcePropertyChange("targets", oldTargets, getTargets(environment));
+		forcePropertyChange("trackedTargets", oldTrackedTargets, getTrackedTargets(environment));
 	}
 
 	/**
@@ -311,8 +423,31 @@ public final class EPDModelUtils {
 	 * @return Array of current ais targets.
 	 */
 	public static Vessel[] getAisTargets(Environment environment) {
-        return retrieveObjectLayer(environment).getObjects().stream().filter(p -> p instanceof Vessel)
+		List<LocatableObject> copy = new ArrayList<>(retrieveObjectLayer(environment).getObjects());
+        return copy.stream().filter(p -> p instanceof Vessel)
 				.map(Vessel.class::cast).toArray(Vessel[]::new);
+	}
+
+	/**
+	 * Gets all Target objects of an environment as an array.
+	 * @param environment Environment to get Targets from.
+	 * @return Array of current Targets.
+	 */
+	public static ITarget[] getTargets(Environment environment) {
+		List<LocatableObject> copy = new ArrayList<>(retrieveObjectLayer(environment).getObjects());
+		return copy.stream().filter(p -> p instanceof ITarget)
+				.map(ITarget.class::cast).toArray(ITarget[]::new);
+	}
+
+	/**
+	 * Gets all TrackedTarget objects of an environment as an array.
+	 * @param environment Environment to get TrackedTargets from.
+	 * @return Array of current TrackedTargets.
+	 */
+	public static ITrackedTarget[] getTrackedTargets(Environment environment) {
+		List<LocatableObject> copy = new ArrayList<>(retrieveObjectLayer(environment).getObjects());
+		return copy.stream().filter(p -> p instanceof ITrackedTarget)
+				.map(ITrackedTarget.class::cast).toArray(ITrackedTarget[]::new);
 	}
 
 	/**

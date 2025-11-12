@@ -9,7 +9,9 @@ import de.emir.model.domain.maritime.iec61174.impl.WayPointsImpl;
 import de.emir.model.domain.maritime.iec61174.impl.WaypointImpl;
 import de.emir.model.universal.crs.CoordinateReferenceSystem;
 import de.emir.model.universal.spatial.impl.CoordinateImpl;
+import de.emir.model.universal.units.DistanceUnit;
 import de.emir.model.universal.units.SpeedUnit;
+import de.emir.model.universal.units.impl.DistanceImpl;
 import de.emir.model.universal.units.impl.SpeedImpl;
 import de.emir.service.routeservices.ICSVRouteFile;
 import de.emir.service.routeservices.RouteservicesPackage;
@@ -27,10 +29,7 @@ import java.io.StringReader;
  *	@generated
  */
 @UMLImplementation(classifier = ICSVRouteFile.class)
-public class CSVRouteFileImpl extends RouteImportImpl implements ICSVRouteFile
-{
-
-
+public class CSVRouteFileImpl extends RouteImportImpl implements ICSVRouteFile {
 
 	/**
 	 *	Default constructor
@@ -71,73 +70,138 @@ public class CSVRouteFileImpl extends RouteImportImpl implements ICSVRouteFile
 		return loadCSV(reader, crs);
 	}
 
-	private Route loadCSV(BufferedReader reader, CoordinateReferenceSystem crs){
+    private double parseDouble(String field){
+        return Double.parseDouble(field.replace(",", "."));
+    }
+
+	private Route loadCSV(BufferedReader reader, CoordinateReferenceSystem crs) {
 			Route route = new RouteImpl();
 	        WayPoints wps = new WayPointsImpl();
 	        route.setWaypoints(wps);
 	        try {
 	            boolean firstLine = true;
-	            String line = null;
-	            String formatErrorMsg = "Unrecognized route format";
+	            String line;
 
 	            while ((line = reader.readLine()) != null) {
 	                // Ignore empty lines and comments
-	                if (line.length() == 0 || line.startsWith("//") || line.startsWith("#")) {
+	                if (line.isEmpty() || line.startsWith("//") || line.startsWith("#")) {
 	                    continue;
 	                }
 	                // Split line by tab
 	                String[] fields = line.split(";");
-	                // Handle first line name\tdeparture\tdestination
+	                // Handle first line name, departure, destination
 	                if (firstLine) {
-	                    if (fields.length == 0) {
-	                        ULog.error("First line has no fields: " + line);
-	                        throw new IOException(formatErrorMsg);
-	                    }
-	                    route.setName(fields[0]);
-	                    if (fields.length >= 3) {
-//	                        route.setDestination(fields[2]);
-	                    }
-	                    if (fields.length >= 2) {
-//	                        route.setDeparture(fields[1]);
-	                    }
-	                    firstLine = false;
-	                    formatErrorMsg = "Error in route format";
-	                } else {
-	                    // Handle waypoint lines
-	                    if (fields.length < 3) {
-	                        ULog.error("Waypoint line has less than seven fields: " + line);
-	                        throw new IOException(formatErrorMsg);
-	                    }
+                        String expected = "name;latitude;longitude;speedMin;speedMax;portsideXTD;starboardXTD".toLowerCase();
 
-	                    // Create new waypoint
-	                    Waypoint wp = new WaypointImpl();
-	                    // Create leg
-	                    LegImpl leg = new LegImpl();
-	                    leg.setPlanSpeedMax(new SpeedImpl(Double.parseDouble(fields[3].replace(",", ".")),SpeedUnit.KNOTS));
-	                    // Set name
-	                    wp.setName(fields[0]);
-	                    wp.setLeg(leg);
-	                    // Get position
-	                    try {
-	                        wp.setPosition(new CoordinateImpl(Double.parseDouble(fields[1].replace(",", ".")),Double.parseDouble(fields[2].replace(",", ".")), crs));
-	                    } catch (Exception e) {
-	                        throw new IOException(formatErrorMsg + ": Error in position");
-	                    }
+                        if (!line.toLowerCase().replace(" ", "").equals(expected)){
+                            throw new IOException(
+                                    "CSV header does not have the expected format (" + expected + ") got: " + line
+                            );
+                        }
 
-	                    // Add waypoint
-	                    route.getWaypoints().getWaypoints().add(wp);
-
+                        firstLine = false;
+	                    continue;
 	                }
+
+                    // Handle waypoint lines
+                    if (fields.length < 3) {
+                        ULog.error("Waypoint line has less than three fields: " + line);
+                        return null;
+                    }
+
+                    // Create new waypoint
+                    Waypoint wp = new WaypointImpl();
+                    // Get position
+                    wp.setPosition(
+                        new CoordinateImpl(
+                            parseDouble(fields[1]),
+                            parseDouble(fields[2]),
+                            crs
+                        )
+                    );
+
+                    // if no fields are left, we just continue with the next waypoint
+                    if (fields.length < 4){
+                        // Add waypoint
+                        route.getWaypoints().getWaypoints().add(wp);
+                        continue;
+                    }
+
+                    // Create leg
+                    LegImpl leg = new LegImpl();
+                    // allow fields without content
+                    if (!fields[3].isEmpty()){
+                        leg.setPlanSpeedMin(
+                                new SpeedImpl(
+                                        parseDouble(fields[3]),
+                                        SpeedUnit.KNOTS
+                                )
+                        );
+                    }
+
+                    // if no fields are left, we just continue with the next waypoint
+                    if (fields.length < 5){
+                        // set leg
+                        wp.setLeg(leg);
+                        // Add waypoint
+                        route.getWaypoints().getWaypoints().add(wp);
+                        continue;
+                    }
+                    // allow fields without content
+                    if (!fields[4].isEmpty()) {
+                        leg.setPlanSpeedMax(
+                                new SpeedImpl(
+                                        parseDouble(fields[4]),
+                                        SpeedUnit.KNOTS
+                                )
+                        );
+                    }
+
+                    // if no fields are left, we just continue with the next waypoint
+                    if (fields.length < 6){
+                        // set leg
+                        wp.setLeg(leg);
+                        // Add waypoint
+                        route.getWaypoints().getWaypoints().add(wp);
+                        continue;
+                    }
+                    // allow fields without content
+                    if (!fields[5].isEmpty()){
+                        leg.setPortsideXTD(
+                                new DistanceImpl(
+                                        parseDouble(fields[5]),
+                                        DistanceUnit.NAUTICAL_MILES
+                                )
+                        );
+                    }
+
+                    // if no fields are left, we just continue with the next waypoint
+                    if (fields.length < 7){
+                        // set leg
+                        wp.setLeg(leg);
+                        // Add waypoint
+                        route.getWaypoints().getWaypoints().add(wp);
+                        continue;
+                    }
+                    // allow fields without content
+                    if (!fields[6].isEmpty()){
+                        leg.setStarboardXTD(
+                                new DistanceImpl(
+                                        parseDouble(fields[6]),
+                                        DistanceUnit.NAUTICAL_MILES
+                                )
+                        );
+                    }
+
+                    // set leg
+                    wp.setLeg(leg);
+                    // Add waypoint
+                    route.getWaypoints().getWaypoints().add(wp);
 	            }
 
-	        } catch (IOException e) {
+	        } catch (Exception e) {
 	            ULog.error("Failed to load route file: " + e.getMessage());
-	            try {
-					throw new IOException("Error reading route file");
-				} catch (IOException e1) {
-					ULog.error(e);
-					return null;
-				}
+                return null;
 	        } finally {
 	            if (reader != null) {
 	                try {
@@ -153,6 +217,6 @@ public class CSVRouteFileImpl extends RouteImportImpl implements ICSVRouteFile
 
 	@Override
 	public FileNameExtensionFilter getFileExtension() {
-		return new FileNameExtensionFilter("Comma Separated Values", "cvs", "CVS");
+		return new FileNameExtensionFilter("Comma Separated Values", "csv", "CSV");
 	}
 }

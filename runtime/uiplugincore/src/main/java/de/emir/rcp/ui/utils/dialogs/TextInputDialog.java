@@ -53,7 +53,7 @@ public class TextInputDialog extends JDialog {
         getContentPane().setLayout(gridBagLayout);
 
         JLabel lblDetailtext = new JLabel(info);
-        lblDetailtext.setFont(new Font("Tahoma", Font.ITALIC, 11));
+        lblDetailtext.setFont(lblDetailtext.getFont().deriveFont(Font.ITALIC, 11));
         GridBagConstraints gbc_lblDetailtext = new GridBagConstraints();
         gbc_lblDetailtext.anchor = GridBagConstraints.WEST;
         gbc_lblDetailtext.gridwidth = 2;
@@ -94,7 +94,7 @@ public class TextInputDialog extends JDialog {
         panel_1.setLayout(gbl_panel_1);
 
         errorLabel = new JLabel("");
-        errorLabel.setFont(new Font("Tahoma", Font.ITALIC, 11));
+        errorLabel.setFont(errorLabel.getFont().deriveFont(Font.ITALIC, 11));
         GridBagConstraints gbc_label = new GridBagConstraints();
         gbc_label.gridx = 0;
         gbc_label.gridy = 0;

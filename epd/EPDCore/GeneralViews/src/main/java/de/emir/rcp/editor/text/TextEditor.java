@@ -50,7 +50,6 @@ public class TextEditor extends AbstractEditor {
 		parent.setLayout(new BorderLayout());
 
 		JPanel p = new JPanel();
-//		p.setBackground(new Color(255, 255, 255));
 
 		parent.add(p, BorderLayout.CENTER);
 
@@ -69,8 +68,6 @@ public class TextEditor extends AbstractEditor {
 			errorLabel.setIcon(icon);
 			errorLabel.setVerticalAlignment(SwingConstants.TOP);
 			errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
-//			errorLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-//			errorLabel.setForeground(Color.BLACK);
 			GridBagConstraints gbc_errorLabel = new GridBagConstraints();
 			gbc_errorLabel.fill = GridBagConstraints.BOTH;
 			gbc_errorLabel.insets = new Insets(20, 20, 20, 20);
@@ -94,8 +91,6 @@ public class TextEditor extends AbstractEditor {
 			errorLabel.setIcon(icon);
 			errorLabel.setVerticalAlignment(SwingConstants.TOP);
 			errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
-//			errorLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-//			errorLabel.setForeground(Color.BLACK);
 			GridBagConstraints gbc_errorLabel = new GridBagConstraints();
 			gbc_errorLabel.fill = GridBagConstraints.BOTH;
 			gbc_errorLabel.insets = new Insets(20, 20, 20, 20);
@@ -112,19 +107,18 @@ public class TextEditor extends AbstractEditor {
 		p.setLayout(gbl_p);
 
 		editorPane = new JEditorPane();
-
+		editorPane.setFont(Font.getFont(Font.MONOSPACED));
+		editorPane.setBackground(Color.WHITE);
+		editorPane.setForeground(Color.BLACK);
 		JScrollPane sc = new JScrollPane(editorPane);
 
 		GridBagConstraints gbc_sc = new GridBagConstraints();
 		gbc_sc.fill = GridBagConstraints.BOTH;
 		p.add(sc, gbc_sc);
-		StyledEditorKit kit = new StyledEditorKit();
-		editorPane.setBackground(new Color(255, 255, 255));
 		String extension = Files.getFileExtension(path.toFile().getName());
-		if(extension.equals("xml")) {
+		if(extension.equals("xml") || extension.equals("app")) {
 			editorPane.setEditorKit(new XmlEditorKit());
 		}
-//		editorPane.setEditorKit(kit);
 	
 		try {
 			FileReader fr = new FileReader(file);
@@ -141,7 +135,6 @@ public class TextEditor extends AbstractEditor {
 		
 		Document document = editorPane.getDocument();
 	
-		editorPane.setForeground(new Color(0, 0, 0));
 		document.addUndoableEditListener(new UndoableEditListener() {
 
 			String lastEditName=null;

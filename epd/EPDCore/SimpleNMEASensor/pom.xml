@@ -4,7 +4,7 @@
     <parent>
         <groupId>de.dlr-se.emir.epd</groupId>
         <artifactId>EPDCore</artifactId>
-        <version>4.2.0</version>
+        <version>4.3.0</version>
     </parent>
     <artifactId>SimpleNMEASensor</artifactId>
     <name>Simple NMEA Sensor</name>
@@ -26,6 +26,12 @@
             <groupId>de.dlr-se.emir.model.domain.maritime</groupId>
             <artifactId>Vessel</artifactId>
             <version>${model.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.dlr-se.emir.model.universal</groupId>
+            <artifactId>Detection</artifactId>
+            <version>4.3.0</version>
         </dependency>
 
         <dependency>

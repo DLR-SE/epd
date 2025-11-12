@@ -10,15 +10,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import de.emir.model.universal.units.Angle;
-import de.emir.model.universal.units.AngleUnit;
 import de.emir.model.universal.units.SpeedUnit;
 import de.emir.model.universal.units.UnitSymbolUtil;
 import de.emir.model.universal.units.UnitsPackage;
 import de.emir.model.universal.units.Velocity;
-import de.emir.model.universal.units.impl.AngleImpl;
+import de.emir.model.universal.units.impl.VelocityImpl;
 import de.emir.rcp.manager.PropertyManager;
-import de.emir.rcp.properties.ui.editors.AbstractMeasureEditor;
 import de.emir.rcp.properties.ui.editors.AbstractMeasurementEditor;
 import de.emir.tuml.ucore.runtime.pointer.PointerOperations;
 import de.emir.tuml.ucore.runtime.utils.Pointer;
@@ -67,6 +64,6 @@ public class VelocityEditor extends AbstractMeasurementEditor<Velocity, SpeedUni
 
 	@Override
 	protected void createValue() {
-		getUCoreProperty().getPointer().setValue(new AngleImpl());
+		getUCoreProperty().getPointer().setValue(new VelocityImpl());
 	}
 }

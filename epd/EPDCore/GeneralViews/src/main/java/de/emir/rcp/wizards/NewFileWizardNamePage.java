@@ -77,7 +77,7 @@ public class NewFileWizardNamePage extends AbstractNewFileWizardPage {
 		panel.setLayout(gbl_panel);
 		
 		lblFile = new JLabel();
-		lblFile.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblFile.setFont(lblFile.getFont().deriveFont(Font.BOLD, 13));
 		GridBagConstraints gbc_lblFile = new GridBagConstraints();
 		gbc_lblFile.anchor = GridBagConstraints.WEST;
 		gbc_lblFile.gridx = 0;

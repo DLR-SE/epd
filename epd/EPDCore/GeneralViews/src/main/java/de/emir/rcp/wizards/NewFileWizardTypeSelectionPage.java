@@ -79,7 +79,7 @@ public class NewFileWizardTypeSelectionPage extends AbstractNewFileWizardPage {
 		panel.setLayout(gbl_panel);
 
 		JLabel lblSelectAWizard = new JLabel("Select a Wizard");
-		lblSelectAWizard.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblSelectAWizard.setFont(lblSelectAWizard.getFont().deriveFont(Font.BOLD, 13));
 		GridBagConstraints gbc_lblSelectAWizard = new GridBagConstraints();
 		gbc_lblSelectAWizard.anchor = GridBagConstraints.WEST;
 		gbc_lblSelectAWizard.gridx = 0;

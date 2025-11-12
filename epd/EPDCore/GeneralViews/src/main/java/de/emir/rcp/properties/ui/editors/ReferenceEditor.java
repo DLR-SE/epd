@@ -88,7 +88,12 @@ public class ReferenceEditor extends AbstractPropertyEditor<UObject> {
                     }
 					String label = sLabelProvider.getLabel(value);
 //                    ULog.info(label);
-					URL icon = sLabelProvider.getIcon(value);
+					URL icon = null;
+					if (value instanceof UObject uobj) {
+						icon = sLabelProvider.getIcon(PointerOperations.create(uobj));
+					} else {
+						icon = sLabelProvider.getIcon(value);
+					}
 					String tooltip = sLabelProvider.getTooltip(value);
 					if (label != null)
                         if (!label.startsWith("<html>")) {
@@ -97,7 +102,7 @@ public class ReferenceEditor extends AbstractPropertyEditor<UObject> {
                             setText(label);
                         }
 					if (icon != null) {
-						setIcon(IconManager.getIcon(icon, 16));
+						setIcon(IconManager.getIcon(icon, IconManager.preferedSmallIconSize()));
                     } else {
                         setIcon(UIManager.getIcon("Tree.leafIcon"));
                     }

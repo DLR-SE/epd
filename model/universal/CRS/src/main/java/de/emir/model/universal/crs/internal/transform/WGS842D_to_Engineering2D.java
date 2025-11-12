@@ -37,7 +37,7 @@ public class WGS842D_to_Engineering2D implements ICoordinateTransform {
 		double[] da = mCalculator.getDistanceAndAzimuth(center.getX(), center.getY(), in[0], in[1]);
 		
 		double offset = dst.getOrientationOffset().get(0); //consider the orientation of the destination (source has no orientation)
-		Vector2D dir = (Vector2D)dst.bearingToDirection(da[1] - offset, Double.NaN);
+		Vector2D dir = (Vector2D) dst.bearingToDirection(da[1] - offset, 0); //Double.NaN);
 		return new double[]{dir.getX() * da[0], dir.getY() * da[0]};
 	}
 
@@ -50,7 +50,7 @@ public class WGS842D_to_Engineering2D implements ICoordinateTransform {
 		double bearing = src.directionToBearing(in[0]/mag, in[1]/mag, Double.NaN).get(0); //TODO: check if mag == 0
 		double offset = dst.getOrientationOffset().get(0); //consider the orientation of the destination (source has no orientation)
 	
-		Vector2D dir = (Vector2D)dst.bearingToDirection(bearing - offset, Double.NaN);
+		Vector2D dir = (Vector2D)dst.bearingToDirection(bearing - offset, 0); //Double.NaN);
 		return new double[]{dir.getX() * mag, dir.getY() * mag};
 	}
 }

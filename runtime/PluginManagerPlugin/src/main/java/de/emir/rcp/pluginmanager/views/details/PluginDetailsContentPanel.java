@@ -177,12 +177,12 @@ public class PluginDetailsContentPanel extends AbstractDetailsContentPanel<Plugi
         splitPane.setLeftComponent(scrollPane);
         scrollPane.setPreferredSize(new Dimension(250,50));
         //scrollPane.setForeground(Color.WHITE);
-        scrollPane.setFont(new Font("Tahoma", Font.PLAIN, 5));
+        scrollPane.setFont(scrollPane.getFont().deriveFont(Font.PLAIN, 5));
         scrollPane.setBorder(new TitledBorder(
                 UIManager.getBorder("TitledBorder.border"), 
                 "Dependencies", TitledBorder.LEADING, 
                 TitledBorder.TOP, 
-                new Font("Tahoma", 0, 10)));
+                scrollPane.getFont().deriveFont(Font.PLAIN, 10)));
         
         dependencyTree = new JTree(createDependencyNodes());
         dependencyTree.setCellRenderer(new PluginsTreeCellRenderer());
@@ -194,12 +194,12 @@ public class PluginDetailsContentPanel extends AbstractDetailsContentPanel<Plugi
         scrollPane_1.setPreferredSize(new Dimension(250,50));
         splitPane.setRightComponent(scrollPane_1);
         //scrollPane_1.setForeground(Color.WHITE);
-        scrollPane_1.setFont(new Font("Tahoma", Font.PLAIN, 5));
+        scrollPane_1.setFont(scrollPane_1.getFont().deriveFont(Font.PLAIN, 5));
         scrollPane_1.setBorder(new TitledBorder(
                 UIManager.getBorder("TitledBorder.border"),
                 "Required by", TitledBorder.LEADING,
                 TitledBorder.TOP,
-                new Font("Tahoma", 0, 10)));
+                scrollPane.getFont().deriveFont(Font.PLAIN, 10)));
         
         neededFromTree = new JTree(createNeededFromNodes());
         neededFromTree.setCellRenderer(new PluginsTreeCellRenderer());

@@ -1,8 +1,12 @@
 package de.emir.rcp.views.workspace;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.filechooser.FileSystemView;
@@ -141,19 +145,30 @@ public class FileTreeNode extends DefaultMutableTreeNode {
 		
 		}
 		
-		File[] files = FileSystemView.getFileSystemView().getFiles(file, true);
-			
+		List<File> files = Arrays.asList(FileSystemView.getFileSystemView().getFiles(file, true));
+		
 		removeAllChildren();
 		
+		Collections.sort(files, new FileComparator());
 		for (File child : files) {
 			if (child.isDirectory() || (child.canRead() && onlyDirectories == false)) {
 				add(new FileTreeNode(child, onlyDirectories));
 			}
 		}
-		
-		
-		
 	}
 	
-	
+	class FileComparator implements Comparator<File> {
+		@Override
+		public int compare(File f1, File f2) {
+			if (f1.isDirectory() && !f2.isDirectory()) return -1;
+			if (!f1.isDirectory() && f2.isDirectory()) return 1;
+			int dot = f1.getName().lastIndexOf('.');
+			String ext1 = (dot > 0) ? f1.getName().substring(dot + 1) : "";
+			dot = f2.getName().lastIndexOf('.');
+			String ext2 = (dot > 0) ? f2.getName().substring(dot + 1) : "";
+			int extOrder = ext1.compareToIgnoreCase(ext2);
+			if (extOrder != 0) return extOrder;
+			return f1.getName().compareTo(f2.getName());
+		}
+	}
 }

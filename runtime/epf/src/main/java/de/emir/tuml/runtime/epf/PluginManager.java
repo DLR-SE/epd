@@ -110,7 +110,7 @@ public class PluginManager {
                     if (c.startsWith(start)) {
                         int j = c.lastIndexOf(":");
                         if (j > 0 && c.substring(0, j).equals(start)) {
-                            ULog.warn("Could not find exact Dependency: " + coordinate + " replace with other version: " + c);
+                            ULog.debug("Could not find exact Dependency: " + coordinate + " replace with other version: " + c);
                             return mEntries.get(c);
                         }
                     }
@@ -121,7 +121,7 @@ public class PluginManager {
                 start = start.split(":")[1];
                 for (String c : mEntries.keySet()) {
                     if (c.split(":")[1].equals(start)) {
-                        ULog.warn("Could not find exact Dependency: " + coordinate + " replace with similar name: " + c);
+                        ULog.debug("Could not find exact Dependency: " + coordinate + " replace with similar name: " + c);
                         return mEntries.get(c);
                     }
                 }

@@ -80,9 +80,9 @@ public class OwnshipViewerPlugin extends AbstractUIPlugin {
 	public void preWindowOpen() {
 		PropertyContext context = PropertyStore.getContext(OwnshipBasics.OWNSHIP_VIEWER_PROP_CONTEXT);
 		// If the ownship source settings or ownship MMSI was set to null by accident, revert to default values.
-		IProperty prop = context.getProperty(OwnshipBasics.OWNSHIP_VIEWER_PROP_AIS_TARGET, "211724970");
+		IProperty prop = context.getProperty(OwnshipBasics.OWNSHIP_VIEWER_PROP_AIS_TARGET, "211876480");
 		if(prop.getValue() == null) {
-			context.setValue(OwnshipBasics.OWNSHIP_VIEWER_PROP_AIS_TARGET, "211724970");
+			context.setValue(OwnshipBasics.OWNSHIP_VIEWER_PROP_AIS_TARGET, "211876480");
 		}
 		IProperty sourceProp = context.getProperty(OwnshipBasics.OWNSHIP_VIEWER_PROP_OWNSHIP_SOURCE, OwnshipSource.AISTARGET.name());
 		if(sourceProp.getValue() == null) {

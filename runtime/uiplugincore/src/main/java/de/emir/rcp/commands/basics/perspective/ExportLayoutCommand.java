@@ -14,7 +14,7 @@ public class ExportLayoutCommand extends AbstractCommand {
     @Override
     public void execute() {
         ResourceManager manager = ResourceManager.get(ImportLayoutCommand.class);
-        Path layoutFile = manager.getHomePath().resolve("layout.xml");
+        Path layoutFile = manager.getHomePath().resolve("application-layout.xml");
 
         MainWindow window = PlatformUtil.getWindowManager().getMainWindow();
 

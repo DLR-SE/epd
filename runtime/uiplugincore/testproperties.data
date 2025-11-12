@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<UPackage documentation="" name="" xmlns:xmi="http://www.omg.org/XMI" xmi:id="720e9cf0-5b3c-46e8-ad9d-24d6831d37a8">
-    <content documentation="" name="TestContext" xmi:id="7b412e99-d57d-43e5-9a20-6e4d30e1c61d" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="UPackage">
+<UPackage documentation="" name="" xmlns:xmi="http://www.omg.org/XMI" xmi:id="94296ab9-8594-40b4-afde-889cfe91c73e">
+    <content documentation="" name="TestContext" xmi:id="590e21a4-e224-406d-a584-a6460f95a254" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="UPackage">
         <UProperty d="The second test property." e="true" n="TestProperty2" t="Long" v="23"/>
         <UProperty d="The first test property a, simple String." e="true" n="TestProperty1" t="String" v="StringValue">
             <UProperty d="The second test property a boolean." e="true" n="TestProperty2" t="Boolean" v="true"/>
         </UProperty>
-        <content documentation="" name="TestPropertyU3" xmi:id="084fc3a7-4cf4-48cd-93c5-cc7cdbd1b8f7" xsi:type="UPackage">
-            <content documentation="" height="1080" name="ConfigRectangleTest1" width="1920" x="0" xmi:id="0e127ca7-0aaf-4776-a09e-18bec8101ffa" xsi:type="ConfigRectangle" y="0">
-                <package xmi:ref="084fc3a7-4cf4-48cd-93c5-cc7cdbd1b8f7"/>
+        <content documentation="" name="TestPropertyU3" xmi:id="9dc5d002-aff8-42f9-a2dd-410eabdc00f0" xsi:type="UPackage">
+            <content documentation="" height="1080" name="ConfigRectangleTest1" width="1920" x="0" xmi:id="eb42c5f7-07ea-4a3c-a841-4dc445af5d0e" xsi:type="ConfigRectangle" y="0">
+                <package xmi:ref="9dc5d002-aff8-42f9-a2dd-410eabdc00f0"/>
             </content>
-            <package xmi:ref="7b412e99-d57d-43e5-9a20-6e4d30e1c61d"/>
+            <package xmi:ref="590e21a4-e224-406d-a584-a6460f95a254"/>
         </content>
-        <content documentation="" name="TestPropertyU2" xmi:id="26937c1b-54cf-48c2-acc8-41395fc331ee" xsi:type="UPackage">
-            <content alpha="255" blue="66" documentation="" green="0" name="ConfigColorTest1" red="123" xmi:id="e8b5a5e1-6dbc-44a0-a40e-c91b1c669657" xsi:type="ConfigColor">
-                <package xmi:ref="26937c1b-54cf-48c2-acc8-41395fc331ee"/>
+        <content documentation="" name="TestPropertyU2" xmi:id="94a2dd8e-3acf-4001-93e3-7e74ac0ceb83" xsi:type="UPackage">
+            <content alpha="255" blue="66" documentation="" green="0" name="ConfigColorTest1" red="123" xmi:id="cd19d316-33b4-4eb5-b318-582ecd411fda" xsi:type="ConfigColor">
+                <package xmi:ref="94a2dd8e-3acf-4001-93e3-7e74ac0ceb83"/>
             </content>
-            <package xmi:ref="7b412e99-d57d-43e5-9a20-6e4d30e1c61d"/>
+            <package xmi:ref="590e21a4-e224-406d-a584-a6460f95a254"/>
         </content>
-        <content documentation="" name="TestPropertyU5" xmi:id="c3d6833a-9798-43e9-8812-180131d18c6e" xsi:type="UPackage">
-            <content documentation="" name="ConfigMapTest1" xmi:id="81694cd0-c66a-4af9-aea1-9a26967b8023" xsi:type="ConfigMap">
-                <map documentation="" key="fourth" name="" xmi:id="553f649f-a829-4f2e-bb51-f2e474cc649c">
-                    <value documentation="" name="ConfigArrayTest1" xmi:id="4853cf8e-9f7f-441d-aa67-a254b9c33aaa" xsi:type="ConfigArray">
-                        <array documentation="" name="" value="String in Array1" xmi:id="5a9e8bfc-5fc0-44bc-bdeb-eb362ee3d6b2"/>
-                        <array documentation="" name="" value="String in Array2" xmi:id="e8704eb6-5388-4798-85d0-007b6e0545cd"/>
-                        <package documentation="" name="TestPropertyU4" xmi:id="d3622015-a1a7-4003-b47c-70467dbf67e4">
-                            <content xmi:ref="4853cf8e-9f7f-441d-aa67-a254b9c33aaa"/>
-                            <package xmi:ref="7b412e99-d57d-43e5-9a20-6e4d30e1c61d"/>
+        <content documentation="" name="TestPropertyU5" xmi:id="59485ca6-aace-41b0-829e-c06698fab70c" xsi:type="UPackage">
+            <content documentation="" name="ConfigMapTest1" xmi:id="628554e4-d34a-4e3b-ac6a-913992d2123f" xsi:type="ConfigMap">
+                <map documentation="" key="fourth" name="" xmi:id="f62f67b2-bc1d-4096-bb8e-bfc41edd5ab6">
+                    <value documentation="" name="ConfigArrayTest1" xmi:id="8300b9d2-4ce0-47a4-b36f-4b69c107b334" xsi:type="ConfigArray">
+                        <array documentation="" name="" value="String in Array1" xmi:id="cf9ca848-c6a7-4fed-88ab-23065f72b2e0"/>
+                        <array documentation="" name="" value="String in Array2" xmi:id="057fd2e4-242c-42f0-a695-1312085e5e17"/>
+                        <package documentation="" name="TestPropertyU4" xmi:id="d42ea875-4a22-49a3-8322-47145e160905">
+                            <content xmi:ref="8300b9d2-4ce0-47a4-b36f-4b69c107b334"/>
+                            <package xmi:ref="590e21a4-e224-406d-a584-a6460f95a254"/>
                         </package>
                     </value>
                 </map>
-                <mapSimple documentation="" key="first" name="" xmi:id="a7002596-0267-48d0-87c0-806b7477aa07">
-                    <value documentation="" name="" value="String item" xmi:id="b4721712-44ee-45fc-ae54-7084de9c46ca"/>
+                <mapSimple documentation="" key="first" name="" xmi:id="504c63c7-fb25-472b-871d-5d586561e0a6">
+                    <value documentation="" name="" value="String item" xmi:id="719704f6-bb09-4071-9a01-4f538667bcaf"/>
                 </mapSimple>
-                <mapSimple documentation="" key="second" name="" xmi:id="7af7bc47-0e59-4cf9-83e9-d7651f88f2b8">
-                    <value documentation="" name="" value="23" xmi:id="9c8320e2-b286-479d-a7f9-8090edaed3d9"/>
+                <mapSimple documentation="" key="second" name="" xmi:id="4f6174c0-2a6f-4e88-aa30-59a62fdc36b4">
+                    <value documentation="" name="" value="23" xmi:id="e9d429c3-51bb-496a-945a-00f16c4bc6a3"/>
                 </mapSimple>
-                <mapSimple documentation="" key="third" name="" xmi:id="b7cdd350-c11c-48db-81cb-c1b7681c14d2">
-                    <value documentation="" name="" value="true" xmi:id="f1e93050-c59d-4b4c-a7c5-639f92019795"/>
+                <mapSimple documentation="" key="third" name="" xmi:id="c40cac71-b5ed-43d8-a778-7dac5cbc63bf">
+                    <value documentation="" name="" value="true" xmi:id="92c8f805-96e1-488e-ac54-8d81af9fcffb"/>
                 </mapSimple>
-                <package xmi:ref="c3d6833a-9798-43e9-8812-180131d18c6e"/>
+                <package xmi:ref="59485ca6-aace-41b0-829e-c06698fab70c"/>
             </content>
-            <package xmi:ref="7b412e99-d57d-43e5-9a20-6e4d30e1c61d"/>
+            <package xmi:ref="590e21a4-e224-406d-a584-a6460f95a254"/>
         </content>
-        <content xmi:ref="d3622015-a1a7-4003-b47c-70467dbf67e4"/>
-        <package xmi:ref="720e9cf0-5b3c-46e8-ad9d-24d6831d37a8"/>
+        <content xmi:ref="d42ea875-4a22-49a3-8322-47145e160905"/>
+        <package xmi:ref="94296ab9-8594-40b4-afde-889cfe91c73e"/>
     </content>
-    <content xmi:ref="7b412e99-d57d-43e5-9a20-6e4d30e1c61d"/>
-    <content documentation="" name="2ndTestContext" xmi:id="a41d713d-64d8-488e-a3f5-bbf2ed9d4d28" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="UPackage">
-        <content documentation="" name="TestPropertyU" xmi:id="dd6b0fd6-c876-4c6f-84e3-6fb21f9556ce" xsi:type="UPackage">
-            <content documentation="" name="MyName" xmi:id="5d49baca-ba29-412b-b1c5-7d08823af36b" xsi:type="UPackage">
-                <package xmi:ref="dd6b0fd6-c876-4c6f-84e3-6fb21f9556ce"/>
+    <content xmi:ref="590e21a4-e224-406d-a584-a6460f95a254"/>
+    <content documentation="" name="2ndTestContext" xmi:id="3057354b-1c16-4416-9323-b62ab6b09a70" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="UPackage">
+        <content documentation="" name="TestPropertyU" xmi:id="bdac3117-f4f6-4634-a027-4277dc83a1f0" xsi:type="UPackage">
+            <content documentation="" name="MyName" xmi:id="a468f890-4af7-4a7e-bc65-dcc0c7f6ad7b" xsi:type="UPackage">
+                <package xmi:ref="bdac3117-f4f6-4634-a027-4277dc83a1f0"/>
             </content>
-            <package xmi:ref="a41d713d-64d8-488e-a3f5-bbf2ed9d4d28"/>
+            <package xmi:ref="3057354b-1c16-4416-9323-b62ab6b09a70"/>
         </content>
-        <package xmi:ref="720e9cf0-5b3c-46e8-ad9d-24d6831d37a8"/>
+        <package xmi:ref="94296ab9-8594-40b4-afde-889cfe91c73e"/>
     </content>
-    <content xmi:ref="a41d713d-64d8-488e-a3f5-bbf2ed9d4d28"/>
+    <content xmi:ref="3057354b-1c16-4416-9323-b62ab6b09a70"/>
 </UPackage>

@@ -21,7 +21,8 @@ import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
 @UMLImplementation(classifier = AISPort.class)
 public class AISPortImpl extends PositionPortImpl implements AISPort  
 {
-	
+	private static final org.apache.logging.log4j.Logger LOG = org.apache.logging.log4j.LogManager
+			.getLogger(AISPortImpl.class);
 	
 	/**
 	 *	Default constructor
@@ -54,7 +55,8 @@ public class AISPortImpl extends PositionPortImpl implements AISPort
 	@Override
 	public AISMeasurement getAISMeasurement()
 	{
-		return (AISMeasurement)getMeasurement();
+		AISMeasurement result = (AISMeasurement) getMeasurement();
+		return result;
 	}
 
 	/**

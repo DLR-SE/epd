@@ -29,6 +29,7 @@ public class GVBasic {
 	// Console View ------------------------------------------------------------------------------------
 	public static final String CMD_CONSOLE_LOCK_TAILING = "de.emir.rcp.console.locktailing";
 	public static final String CMD_CONSOLE_CLEAR = "de.emir.rcp.console.clear";
+	public static final String CMD_CONSOLE_COPY = "de.emir.rcp.console.copy";
 	public static final String CMD_CONSOLE_LOG_LEVEL = "de.emir.rcp.console.loglevel";
 	public static final String CMD_CONSOLE_CLASS_LOG_LEVEL = "de.emir.rcp.console.classloglevel";
 
@@ -70,9 +71,5 @@ public class GVBasic {
 	
 	public static final String NEW_FILE_WIZ_GENERAL_CAT = "newFileWizardGeneralCategory";
 	public static final String NEW_FILE_WIZ_UCORE_CAT = "newFileWizardUCoreCategory";
-	
-
-
-
 
 }

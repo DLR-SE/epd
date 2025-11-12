@@ -30,7 +30,11 @@ import javax.swing.JToolBar;
 import org.apache.logging.log4j.Logger;
 
 import bibliothek.gui.dock.station.stack.tab.MenuLineLayoutOrder.Item;
+import de.emir.rcp.commands.AbstractCheckableCommand;
+import de.emir.rcp.commands.AbstractCommand;
+import de.emir.rcp.commands.AbstractRadioGroupCommand;
 import de.emir.rcp.commands.basics.ExternalBrowserCommand;
+import de.emir.rcp.commands.ep.CommandExtensionPoint;
 import de.emir.rcp.ids.Basic;
 import de.emir.rcp.menu.CustomJButton;
 import de.emir.rcp.menu.CustomJButtonMenu;
@@ -55,8 +59,10 @@ import de.emir.rcp.menu.ep.RadioGroup;
 import de.emir.rcp.menu.ep.RadioGroupElement;
 import de.emir.rcp.menu.ep.Separator;
 import de.emir.rcp.menu.ep.util.PopupMenuSeparatorVisibilityHandler;
+import de.emir.tuml.ucore.runtime.extension.ExtensionPointManager;
 import de.emir.tuml.ucore.runtime.extension.IService;
 import de.emir.tuml.ucore.runtime.logging.ULog;
+import de.emir.tuml.ucore.runtime.resources.IconManager;
 import de.emir.tuml.ucore.runtime.resources.ResourceManager;
 
 /**
@@ -490,7 +496,12 @@ public class MenuManager implements IService {
         if (((MenuItem) entry).getMenuItemType() == MenuItemType.TOGGLE) {
             c = new CustomJToggleButton(((MenuItem) entry).getLabel(), icon, ((MenuItem) entry).getTooltip(), path,
                     entry.getPlugin());
-            ((CustomJToggleButton) c).setCommand(((MenuItem) entry).getCommand());
+            AbstractCommand cmd = ((MenuItem) entry).getCommand();
+            ((CustomJToggleButton) c).setCommand(cmd);
+            // Find out if the underlaying command is checkable and make the ToggleButton represent its status
+            if (cmd instanceof AbstractCheckableCommand ccmd) {
+            	((CustomJToggleButton) c).setSelected(ccmd.isChecked());
+            }
         } else {
             c = new CustomJButton(((MenuItem) entry).getLabel(), icon, ((MenuItem) entry).getTooltip(), path,
                     entry.getPlugin());

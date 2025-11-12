@@ -30,7 +30,7 @@
 			<item name="How To Build" href="HowToBuild.html"/>
 			<item name="Documentation Guide" href="DocumentionGuide.html"/>
 		</menu>
-		<menu ref="modules" inherit="top"/>
+		<menu ref="modules" inherit="bottom"/>
 		<menu ref="reports" inherit="bottom"/>
 		<menu ref="parent" inherit="bottom"/>
 	</body>

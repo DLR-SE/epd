@@ -10,7 +10,7 @@ public class OpenStreetMapTileSource extends AbstractTileSource {
 	 * Default constructor
 	 */
 	public OpenStreetMapTileSource() {
-		super("OpenStreetMap", 1, max - 2, max, 256, true, true, "http://tile.openstreetmap.org", "x", "y", "z");
+		super("OpenStreetMap", 1, max - 2, max, 256, true, true, "https://tile.openstreetmap.org", "x", "y", "z");
 	}
 
 	@Override

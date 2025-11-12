@@ -6,7 +6,7 @@
 	<parent>
         <groupId>de.dlr-se.emir.epd</groupId>
         <artifactId>epd</artifactId>
-        <version>4.2.0</version>
+        <version>4.3.0</version>
     </parent>
 	<artifactId>epdcommunity</artifactId>
 	
@@ -74,6 +74,11 @@
 	</dependencies>
 
 	<repositories>
+		<repository>
+			<id>emirgitlab</id>
+			<url>https://gitlab.dlr.de/api/v4/projects/25659/packages/maven</url>
+		</repository>
+		
 		<repository>
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
@@ -170,9 +175,9 @@
 										<Manifest-Version>1.0</Manifest-Version>
 										<Specification-Title>eMIR Prototype Display</Specification-Title>
 										<Specification-Vendor>DLR</Specification-Vendor>
-										<Specification-Version>4.2.0</Specification-Version>
+										<Specification-Version>4.3.0</Specification-Version>
 										<Implementation-Vendor>DLR</Implementation-Vendor>
-										<Implementation-Version>4.2.0</Implementation-Version>
+										<Implementation-Version>4.3.0</Implementation-Version>
 										<Implementation-Title>eMIR Prototype Display</Implementation-Title>
 										<Extension-Name>Extension</Extension-Name>
 										<Main-Class>de.emaritime.epd.product.EPDCommunity</Main-Class>
@@ -228,9 +233,9 @@
 										<requires64Bit>true</requires64Bit>
 									</jre>
 									<versionInfo>
-										<fileVersion>4.2.0.0</fileVersion>
-										<txtFileVersion>4.2.0</txtFileVersion>
-										<productVersion>4.2.0.0</productVersion>
+										<fileVersion>4.3.0.0</fileVersion>
+										<txtFileVersion>4.3.0</txtFileVersion>
+										<productVersion>4.3.0.0</productVersion>
 										<productName>eMIR Prototype Display</productName>
 										<internalName>epd</internalName>
 										<originalFilename>EPDCommunity.exe</originalFilename>
@@ -310,6 +315,14 @@
 	</dependencyManagement>
 
 	<distributionManagement>
+		<repository>
+			<id>emirgitlab</id>
+			<url>https://gitlab.dlr.de/api/v4/projects/25659/packages/maven</url>
+		</repository>
+		<snapshotRepository>
+			<id>emirgitlab</id>
+			<url>https://gitlab.dlr.de/api/v4/projects/25659/packages/maven</url>
+		</snapshotRepository>
 		<site>
 			<id>emir.website</id>
 			<name>eMIR Website</name>

@@ -5,10 +5,10 @@
 	<parent>
 		<groupId>de.dlr-se.emir.services</groupId>
 		<artifactId>connection</artifactId>
-		<version>4.2.0</version>
+		<version>4.3.0</version>
 	</parent>
 	<artifactId>connection-serial</artifactId>
-	<version>4.2.0</version>
+	<version>4.3.0</version>
 	<name>Connection Serial</name>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>de.dlr-se.emir.services</groupId>
 			<artifactId>connection-core</artifactId>
-			<version>4.2.0</version>
+			<version>4.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.scream3r</groupId>

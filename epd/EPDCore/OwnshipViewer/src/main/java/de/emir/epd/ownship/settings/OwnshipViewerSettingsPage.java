@@ -44,7 +44,7 @@ public class OwnshipViewerSettingsPage extends AbstractSettingsPage {
 	private JRadioButton rdbtnNoProcessing;
 	private Vessel ownship;
 	private JPanel vePanel = new JPanel();
-	private String oldMMSI = "211724970";
+	private String oldMMSI = "211876480";
 
 	public enum OwnshipSource {NO_PROCESSING, AISTARGET, INTERNAL}
 
@@ -66,7 +66,7 @@ public class OwnshipViewerSettingsPage extends AbstractSettingsPage {
 		p.setLayout(gbl_p);
 
 		JLabel lblOwnshipSource = new JLabel("Ownship Source");
-		lblOwnshipSource.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblOwnshipSource.setFont(lblOwnshipSource.getFont().deriveFont(Font.BOLD, 13));
 		GridBagConstraints gbc_lblOwnshipSource = new GridBagConstraints();
 		gbc_lblOwnshipSource.anchor = GridBagConstraints.WEST;
 		gbc_lblOwnshipSource.insets = new Insets(10, 5, 5, 0);
@@ -76,7 +76,7 @@ public class OwnshipViewerSettingsPage extends AbstractSettingsPage {
 
 		JLabel lblNewLabel = new JLabel(
 				"<html>Select if the ownship information should be received from an AIS Target (for development and testing) of from the ship internal NMEA sentences.</html>");
-		lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lblNewLabel.setFont(lblNewLabel.getFont().deriveFont(Font.ITALIC, 11));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblNewLabel.anchor = GridBagConstraints.NORTH;
@@ -99,7 +99,7 @@ public class OwnshipViewerSettingsPage extends AbstractSettingsPage {
 		sourcePanel.setLayout(gbl_sourcePanel);
 
 		JLabel lblSourceSettings = new JLabel("Source Settings");
-		lblSourceSettings.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblSourceSettings.setFont(lblSourceSettings.getFont().deriveFont(Font.BOLD, 13));
 		GridBagConstraints gbc_lblSourceSettings = new GridBagConstraints();
 		gbc_lblSourceSettings.anchor = GridBagConstraints.WEST;
 		gbc_lblSourceSettings.gridwidth = 2;
@@ -130,7 +130,7 @@ public class OwnshipViewerSettingsPage extends AbstractSettingsPage {
 		gbc_rdbtnAisTargetBy.gridy = 2;
 		sourcePanel.add(rdbtnAisTargetBy, gbc_rdbtnAisTargetBy);
 
-		aisTargetMMSI = new PropertyTextWidget(OwnshipBasics.OWNSHIP_VIEWER_PROP_CONTEXT, OwnshipBasics.OWNSHIP_VIEWER_PROP_AIS_TARGET, "211724970");
+		aisTargetMMSI = new PropertyTextWidget(OwnshipBasics.OWNSHIP_VIEWER_PROP_CONTEXT, OwnshipBasics.OWNSHIP_VIEWER_PROP_AIS_TARGET, "211876480");
 
 		oldMMSI = aisTargetMMSI.getValue();
 
@@ -146,13 +146,21 @@ public class OwnshipViewerSettingsPage extends AbstractSettingsPage {
 			public void actionPerformed(ActionEvent e) {
 				ownship = EPDModelUtils.retrieveOwnship();
 				if(ownship != null){
+					ObjectSurfaceInformation osi = ownship.getFirstCharacteristic(ObjectSurfaceInformation.class, true);
+					if (osi == null) {
+						PredefinedGeometryItem geometryItem = (PredefinedGeometryItem) PredefinedGeometryItem.getPredefinedGeometryItems().get("Simple");
+						WKTUtil wktUtil = new WKTUtil();
+						Geometry topGeometry = wktUtil.loadWKT(geometryItem.wktTop);
+						osi = new ObjectSurfaceInformationImpl(topGeometry);
+						ownship.getCharacteristics().add(osi);
+					}
 		            vePanel = new VesselEditorPart(ownship);
 		            vePanel.setSize(new Dimension(100,100));
 		            vePanel.setPreferredSize(new Dimension(100, 100));
 		        } else {
 		            vePanel.setLayout(new BorderLayout(0, 0));
 		            JLabel infoLabel = new JLabel("No Ownship found");
-		            infoLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		            infoLabel.setFont(infoLabel.getFont().deriveFont(Font.PLAIN, 18));
 		            vePanel.add(infoLabel, BorderLayout.CENTER);
 		        }
 			}
@@ -170,13 +178,21 @@ public class OwnshipViewerSettingsPage extends AbstractSettingsPage {
 			public void actionPerformed(ActionEvent e) {
 				ownship = EPDModelUtils.retrieveOwnship();
 				if(ownship != null){
+					ObjectSurfaceInformation osi = ownship.getFirstCharacteristic(ObjectSurfaceInformation.class, true);
+					if (osi == null) {
+						PredefinedGeometryItem geometryItem = (PredefinedGeometryItem) PredefinedGeometryItem.getPredefinedGeometryItems().get("Simple");
+						WKTUtil wktUtil = new WKTUtil();
+						Geometry topGeometry = wktUtil.loadWKT(geometryItem.wktTop);
+						osi = new ObjectSurfaceInformationImpl(topGeometry);
+						ownship.getCharacteristics().add(osi);
+					}
 		            vePanel = new VesselEditorPart(ownship);
 		            vePanel.setSize(new Dimension(100,100));
 		            vePanel.setPreferredSize(new Dimension(100, 100));
 		        } else {
 		            vePanel.setLayout(new BorderLayout(0, 0));
 		            JLabel infoLabel = new JLabel("No Ownship found");
-		            infoLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		            infoLabel.setFont(infoLabel.getFont().deriveFont(Font.PLAIN, 18));
 		            vePanel.add(infoLabel, BorderLayout.CENTER);
 		        }
 			}
@@ -209,7 +225,7 @@ public class OwnshipViewerSettingsPage extends AbstractSettingsPage {
         } else {
             vePanel.setLayout(new BorderLayout(0, 0));
             JLabel infoLabel = new JLabel("No Ownship found");
-            infoLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+            infoLabel.setFont(infoLabel.getFont().deriveFont(Font.PLAIN, 18));
             vePanel.add(infoLabel, BorderLayout.CENTER);
         }
         

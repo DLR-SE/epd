@@ -18,126 +18,94 @@ import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class PmModelProvider extends AbstractModelProvider implements IDirtyStateProvider {
+	private boolean dirty = false;
+	private ProductFile productFile;
+	private MavenUtil mu;
+	private PublishSubject<Optional<ProductFile>> productFileSubject = PublishSubject.create();
+	private boolean isLocked;
 
-    private boolean dirty = false;
+	public PmModelProvider() {
+		isLocked = PlatformUtil.getArgumentsManager().exists(PMBasics.LOCK_ARG);
+	}
 
-    private ProductFile productFile;
+	public boolean isLocked() {
+		return isLocked;
+	}
 
-    private MavenUtil mu;
-    private PublishSubject<Optional<ProductFile>> productFileSubject = PublishSubject.create();
+	public ProductFile getProductFile() {
+		return productFile;
+	}
 
-    private boolean isLocked;
+	public Disposable subscribeProductFile(Consumer<Optional<ProductFile>> c) {
+		return productFileSubject.subscribe(c);
+	}
 
-    public PmModelProvider() {
+	public void setProductFile(ProductFile productFile) {
+		if (isLocked && this.productFile != null) {
+			throw new IllegalStateException("The Application is locked on the current Product File");
+		}
+		if (dirty == true) {
+			// TODO: Ask for save
+		}
+		this.productFile = productFile;
+		dirty = false;
+		setTransactionStack(new ModelTransactionStack(this));
+		createMavenUtil();
+		writeProductFileProperty();
+		productFileSubject.onNext(Optional.ofNullable(productFile));
+	}
 
-        isLocked = PlatformUtil.getArgumentsManager().exists(PMBasics.LOCK_ARG);
+	private void writeProductFileProperty() {
+		PropertyContext ctx = PropertyStore.getContext(PMBasics.PM_PROP_CTX);
+		String value = null;
+		if (productFile != null) {
+			File file = productFile.getFile();
+			if (file != null) {
+				value = file.getAbsolutePath();
+			}
+		}
+		ctx.setValue(PMBasics.PM_PROP_LAST_PRODUCT_PATH, value);
+	}
 
-    }
+	public MavenUtil getMavenUtil() {
+		return mu;
+	}
 
-    public boolean isLocked() {
-        return isLocked;
-    }
+	private void createMavenUtil() {
+		if (productFile == null) {
+			mu = null;
+			return;
+		}
+		mu = new MavenUtil(productFile, false);
+	}
 
-    public ProductFile getProductFile() {
-        return productFile;
-    }
+	@Override
+	public String getModelIdentifier() {
+		return productFile == null ? "PluginManagerModel" : productFile.getFile().getName();
+	}
 
-    public Disposable subscribeProductFile(Consumer<Optional<ProductFile>> c) {
-        return productFileSubject.subscribe(c);
-    }
+	@Override
+	public void reloadActiveModel() {
+	}
 
-    public void setProductFile(ProductFile productFile) {
+	@Override
+	public boolean isDirty() {
+		return dirty;
+	}
 
-        if (isLocked && this.productFile != null) {
-            throw new IllegalStateException("The Application is locked on the current Product File");
-        }
+	@Override
+	public void setDirty(boolean isDirty) {
+		this.dirty = isDirty;
+	}
 
-        if (dirty == true) {
-
-            // TODO: Ask for save
-
-        }
-
-        this.productFile = productFile;
-        dirty = false;
-        setTransactionStack(new ModelTransactionStack(this));
-        createMavenUtil();
-
-        writeProductFileProperty();
-
-        productFileSubject.onNext(Optional.ofNullable(productFile));
-    }
-
-    private void writeProductFileProperty() {
-
-        PropertyContext ctx = PropertyStore.getContext(PMBasics.PM_PROP_CTX);
-
-        String value = null;
-
-        if (productFile != null) {
-
-            File file = productFile.getFile();
-
-            if (file != null) {
-
-                value = file.getAbsolutePath();
-
-            }
-
-        }
-
-        ctx.setValue(PMBasics.PM_PROP_LAST_PRODUCT_PATH, value);
-
-    }
-
-    public MavenUtil getMavenUtil() {
-        return mu;
-    }
-
-    private void createMavenUtil() {
-
-        if (productFile == null) {
-            mu = null;
-            return;
-        }
-
-        mu = new MavenUtil(productFile, false);
-
-    }
-
-    @Override
-    public String getModelIdentifier() {
-
-        return productFile == null ? "PluginManagerModel" : productFile.getFile().getName();
-    }
-
-    @Override
-    public void reloadActiveModel() {
-
-    }
-
-    @Override
-    public boolean isDirty() {
-        return dirty;
-    }
-
-    @Override
-    public void setDirty(boolean isDirty) {
-        this.dirty = isDirty;
-
-    }
-
-    @Override
-    public boolean save() {
-
-        try {
-            productFile.write();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        return true;
-    }
-
+	@Override
+	public boolean save() {
+		try {
+			productFile.write();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 }

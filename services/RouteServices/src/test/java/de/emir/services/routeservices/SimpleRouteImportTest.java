@@ -25,24 +25,43 @@ public class SimpleRouteImportTest {
 		SpatialDelegateProviders.register(); //register operations for coordinate handling
 		
 	}
-	public static void main(String[] args) throws IOException{
-		new SimpleRouteImportTest().testImport("tests/routeImport/OSLO-CPH VEN W.txt");//OSLO-CPH VEN W.txt");
+
+    public static void main(String[] args) throws IOException{
+		SimpleRouteImportTest tester = new SimpleRouteImportTest();
+
+        tester.testImport("tests/routeImport/OSLO-CPH VEN W.txt");
+        tester.testImport("tests/routeImport/OSLO-CPH VEN W.txt", "testdata/Route.txt");
 	}
-	private void testImport(String url) throws IOException {
-		InputStream is = getClass().getClassLoader().getResourceAsStream(url);
+
+	private void testImport(String importFile) throws IOException {
+		InputStream is = getClass().getClassLoader().getResourceAsStream(importFile);
 		SimpleRouteFileImpl srfi = new SimpleRouteFileImpl();
 		String str = CharStreams.toString(new InputStreamReader(is));
 		Route r = srfi.importRoute(str, CRSUtils.WGS84_2D);
 		Assert.assertNotNull(r);
 		Assert.assertEquals(35, r.getWaypoints().getWaypoints().size());
-		
-		
-		SimpleRouteFileExportImpl exp = new SimpleRouteFileExportImpl();
-		System.out.println(exp.exportToString(r));
-		File f = new File("testdata/Route.txt");
-		if (f.getParentFile().exists() == false)
-			f.getParentFile().mkdirs(); 
-		exp.exportToFile(r, f);
-		Assert.assertTrue(f.exists());
 	}
+
+    private void testImport(String importFile, String exportFile) throws IOException {
+        // import test file, which gets exported later
+        InputStream is = getClass().getClassLoader().getResourceAsStream(importFile);
+        SimpleRouteFileImpl srfi = new SimpleRouteFileImpl();
+        String str = CharStreams.toString(new InputStreamReader(is));
+        Route r = srfi.importRoute(str, CRSUtils.WGS84_2D);
+        Assert.assertNotNull(r);
+        Assert.assertEquals(35, r.getWaypoints().getWaypoints().size());
+
+        // export previously imported route file
+        SimpleRouteFileExportImpl exp = new SimpleRouteFileExportImpl();
+        System.out.println(exp.exportToString(r));
+        File f = new File(exportFile);
+        if (f.getParentFile().exists() == false)
+            f.getParentFile().mkdirs();
+        exp.exportToFile(r, f);
+        Assert.assertTrue(f.exists());
+
+        // we imported and exported the same file. Thus, we repeat the same test
+        // case as import to check if everything is correct.
+        this.testImport(exportFile);
+    }
 }

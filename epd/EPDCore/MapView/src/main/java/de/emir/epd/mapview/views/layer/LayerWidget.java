@@ -37,33 +37,20 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.SwingConstants;
 
 public class LayerWidget extends JPanel {
-
 	private static final long serialVersionUID = -2652799213280854000L;
 
-	private MapLayer layer;
-
-	private IProperty layerVisibleProperty;
-	private IProperty layerExpandedProperty;
+	private IProperty<Boolean> layerVisibleProperty;
+	private IProperty<Boolean> layerExpandedProperty;
 
 	private JCheckBox chckbxVisible;
-
-	private ImageIcon expandIcon = IconManager.getIcon(UICorePlugin.class, "icons/emiricons/32/arrow-right.png",
-			IconManager.preferedSmallIconSize());
-	private ImageIcon collapseIcon = IconManager.getIcon(UICorePlugin.class, "icons/emiricons/32/arrow_drop_down.png",
-			IconManager.preferedSmallIconSize());
-	private ImageIcon disabledExpandIcon = IconManager.getIcon(UICorePlugin.class, "icons/emiricons/32/arrow_right_disabled.png",
-			IconManager.preferedSmallIconSize());
 	private JLabel expandButton;
 	private JPanel expandablePanel;
 	private JPanel panel_1;
-	private JPanel panel_2;
 
 	private boolean hasSettings;
 
 	public LayerWidget(MapLayer layer) {
 		setBorder(new MatteBorder(new Insets(0, 0, 1, 0), UIManager.getColor("controlDkShadow")));
-
-		this.layer = layer;
 
 		PropertyContext context = PropertyStore.getContext(MVBasic.MAP_VIEW_PROP_CONTEXT);
 		layerVisibleProperty = context.getProperty(MVBasic.MAP_VIEW_VISIBLE_LAYERS_PROP + "_" + layer.getId(), true);
@@ -90,14 +77,10 @@ public class LayerWidget extends JPanel {
 		gbl_panel_1.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 		panel_1.setLayout(gbl_panel_1);
 
-		
 		MouseListener expandMouseListener = new MouseAdapter() {
-
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
 				setExpandedPropertyFromViewState();
-
 			}
 		};
 		
@@ -125,7 +108,7 @@ public class LayerWidget extends JPanel {
 		lblXyzLayer.addMouseListener(expandMouseListener);
 		
 		panel_1.add(lblXyzLayer, gbc_lblXyzLayer);
-		lblXyzLayer.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblXyzLayer.setFont(lblXyzLayer.getFont().deriveFont(Font.BOLD, 13));
 
 		chckbxVisible = new JCheckBox();
 		GridBagConstraints gbc_chckbxVisible = new GridBagConstraints();
@@ -181,88 +164,60 @@ public class LayerWidget extends JPanel {
 			}
 
 			if (settingsPanel != null) {
-
 				Container content = settingsPanel.createContent();
-				
 				if(content != null) {
 					content.setBackground(UIManager.getColor("Table.background"));
 					expandablePanel.add(content, BorderLayout.CENTER);
 					hasSettings = true;
 				}
-				
-				
-				
 			}
-
 		}
 
 		if (hasSettings == true) {
 			setExpandedFromProperty();
 		} else {
-			
 			expandButton.setEnabled(false);
-			
 			expandablePanel.setVisible(false);
 		}
-
 		setCheckboxFromVisibleProperty();
-
 		layerVisibleProperty.addPropertyChangeListener(new PropertyChangeListener() {
-
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				setCheckboxFromVisibleProperty();
-
 			}
 		});
 
 		layerExpandedProperty.addPropertyChangeListener(new PropertyChangeListener() {
-
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				setExpandedFromProperty();
-
 			}
 		});
-
 	}
 
 	protected void setExpandedFromProperty() {
 		if (!hasSettings) return;
-		
 		boolean value = (boolean) layerExpandedProperty.getValue();
-
 		if (value == true) {
 			expandButton.setIcon(UIManager.getIcon("Tree.expandedIcon"));
-
 		} else {
 			expandButton.setIcon(UIManager.getIcon("Tree.collapsedIcon"));
-
 		}
-
 		expandablePanel.setVisible(value);
-
 		setMaximumSize(new Dimension(Integer.MAX_VALUE, getPreferredSize().height));
-
 	}
 
 	private void setCheckboxFromVisibleProperty() {
-
 		boolean value = (boolean) layerVisibleProperty.getValue();
 		chckbxVisible.setSelected(value);
-
 	}
 
 	private void setVisiblePropertyFromCheckbox() {
-
 		layerVisibleProperty.setValue(chckbxVisible.isSelected());
-
 	}
 
 	private void setExpandedPropertyFromViewState() {
-
 		layerExpandedProperty.setValue(!expandablePanel.isVisible());
-
 	}
 
 }

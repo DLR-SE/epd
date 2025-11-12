@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
@@ -14,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import de.emir.rcp.manager.JobManager.JobData;
 import de.emir.tuml.ucore.runtime.progress.IProgressMonitor;
@@ -25,17 +27,17 @@ public class ProgressDialog implements IProgressMonitor {
     private JFrame parent;
 
     private boolean canceled = false;
-    private JDialog dlg;
+    private volatile JDialog dlg;
     private JProgressBar progressBar;
 
-    private ActionListener cancelListener;
-    private ActionListener closeListener;
-    private JobData jobData;
-    private Disposable cancelSubscription;
+    private volatile ActionListener cancelListener;
+    private volatile ActionListener closeListener;
+    private volatile JobData jobData;
+    private volatile Disposable cancelSubscription;
+    private volatile Timer timeout;
     private JButton cancelButton;
 
     public ProgressDialog(JFrame parent, JobData jd) {
-
         this.parent = parent;
         this.jobData = jd;
     }
@@ -43,13 +45,12 @@ public class ProgressDialog implements IProgressMonitor {
     /**
      * @wbp.parser.entryPoint
      */
-    private void create() {
-
+    private JDialog create() {
         boolean cancelable = jobData.job.isCancelable();
         boolean modal = jobData.job.isBlocking();
         String title = jobData.job.getTitle();
 
-        dlg = new JDialog(parent, title, true);
+        dlg = new JDialog(parent, title, modal);
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWeights = new double[] { 1.0 };
         gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0 };
@@ -105,32 +106,37 @@ public class ProgressDialog implements IProgressMonitor {
         cancelButton.setIcon(icon2);
 
         cancelButton.setEnabled(cancelable);
-        btnRunInBackground.setEnabled(modal == false);
+        btnRunInBackground.setEnabled(!modal);
 
         cancelButton.addActionListener(e -> {
-
             cancelButton.setEnabled(false);
             canceled = true;
             if (cancelListener != null) {
                 cancelListener.actionPerformed(e);
             }
-
         });
 
         btnRunInBackground.addActionListener(e -> {
-
             if (closeListener != null) {
                 closeListener.actionPerformed(null);
             }
             close();
-
         });
 
-        dlg.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        dlg.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
         dlg.setSize(309, 163);
         dlg.setLocationRelativeTo(parent);
         progressBar.setStringPainted(true);
-
+        timeout = new Timer(5000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO: Timed out, job is possibly dead
+				close();
+			}
+        	
+        });
+        timeout.start();
+        return dlg;
     }
 
     public void setCancelListener(ActionListener l) {
@@ -138,9 +144,7 @@ public class ProgressDialog implements IProgressMonitor {
     }
 
     public void open() {
-
         create();
-
         cancelSubscription = jobData.subscribeCancelRequest(c -> cancelButton.setEnabled(c == false));
         dlg.setVisible(true);
     }
@@ -150,10 +154,12 @@ public class ProgressDialog implements IProgressMonitor {
     }
 
     public void close() {
-
+    	if (timeout != null) {
+    		timeout.stop();
+    	}
+    	dlg.setVisible(false);
         cancelSubscription.dispose();
-        dlg.setVisible(false);
-
+        dlg.dispose(); // make sure we have no dead dialog lying around
     }
 
     public Component getDialog() {
@@ -162,7 +168,10 @@ public class ProgressDialog implements IProgressMonitor {
 
     @Override
     public void setProgress(final float percent) {
-        SwingUtilities.invokeLater(() -> progressBar.setValue((int) percent));
+        SwingUtilities.invokeLater(() -> {
+        	timeout.restart();
+        	progressBar.setValue((int) percent);
+        });
     }
 
     @Override

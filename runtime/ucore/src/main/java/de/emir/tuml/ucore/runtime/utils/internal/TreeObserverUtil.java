@@ -154,7 +154,7 @@ public class TreeObserverUtil implements IValueChangeListener<Object> {
                             }
                         } else { // isMany
                             // add all subTrees to processing
-                            Collection valueAsMany = (Collection) valueOfFeature; // no type check needed since it isMany
+                            List<Object> valueAsMany = new ArrayList<Object>((Collection) valueOfFeature); // no type check needed since it isMany
                             for (Object object : valueAsMany) {
                                 if (object instanceof UObject uObjectElement) {
                                     unprocessedSubtrees.push(uObjectElement);

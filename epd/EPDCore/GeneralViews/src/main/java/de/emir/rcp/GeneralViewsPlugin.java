@@ -34,6 +34,7 @@ import de.emir.rcp.settings.WorkspaceSettingsPage;
 import de.emir.rcp.settings.ep.SettingsPageExtensionPoint;
 import de.emir.rcp.views.console.ConsoleView;
 import de.emir.rcp.views.console.cmd.ClearConsoleCommand;
+import de.emir.rcp.views.console.cmd.CopyConsoleCommand;
 import de.emir.rcp.views.console.cmd.LockTailingCommand;
 import de.emir.rcp.views.console.cmd.SetClassLogLevelCommand;
 import de.emir.rcp.views.console.cmd.SetLogLevelCommand;
@@ -76,7 +77,7 @@ public class GeneralViewsPlugin extends AbstractUIPlugin {
 			ExtensionPointManager.registerExtensionPoint(FormEditorPartManager.FORM_PROVIDER_EXTENSIONPOINT_ID,
 				new FormEditorPartManager());
 		} catch (IllegalAccessException e) {
-			LOG.error(e);
+			LOG.error("Error while loading Extension Points for GeneralViewsPlugin: {}.", e.getMessage());
 		}
 	}
 
@@ -146,11 +147,14 @@ public class GeneralViewsPlugin extends AbstractUIPlugin {
 		ICommandDescriptor cmdClear = cmdEP.command(
 				GVBasic.CMD_CONSOLE_CLEAR, "Clear Console", new ClearConsoleCommand()
 		);
+		ICommandDescriptor cmdCopyConsole = cmdEP.command(
+				GVBasic.CMD_CONSOLE_COPY, "Copy Console", new CopyConsoleCommand()
+		);
 		ICommandDescriptor cmdLogLevel = cmdEP.command(
 				GVBasic.CMD_CONSOLE_LOG_LEVEL, "Set Log Level", new SetLogLevelCommand()
 		);
 		ICommandDescriptor cmdClassLogLevel = cmdEP.command(
-				GVBasic.CMD_CONSOLE_CLASS_LOG_LEVEL, "Set Class Log Level" ,new SetClassLogLevelCommand()
+				GVBasic.CMD_CONSOLE_CLASS_LOG_LEVEL, "Set Class Log Level", new SetClassLogLevelCommand()
 		);
 
 		// Workspace Commands
@@ -223,18 +227,20 @@ public class GeneralViewsPlugin extends AbstractUIPlugin {
 				.icon("icons/emiricons/32/lock.png", rmgr);
 		menuEP.menuContribution(ConsoleView.TOOLBAR_ID).menuItem("clearconsole", cmdClear)
 				.icon("icons/emiricons/32/delete_forever.png", rmgr);
+		menuEP.menuContribution(ConsoleView.TOOLBAR_ID).menuItem("copyconsole", cmdCopyConsole)
+				.icon("icons/emiricons/32/content_copy.png", rmgr);
 		menuEP.menuContribution(ConsoleView.TOOLBAR_ID).menuItem("setLogLevel", cmdClassLogLevel)
-				.icon("icons/emiricons/32/filter_alt.png", rmgr);
+				.icon("icons/emiricons/32/visibility.png", rmgr);
 
 		IRadioGroup<Level> levelGroup = menuEP.menuContribution(ConsoleView.TOOLBAR_ID)
 				.menu("consoleLogLevel")
-				.icon("icons/emiricons/32/info.png", rmgr)
+				.icon("icons/emiricons/32/filter_alt.png", rmgr)
 				.radioGroup("logLevelGroup", Level.class, cmdLogLevel);
-		levelGroup.option("Info", Level.INFO)
-				.option("Warning", Level.WARN)
-				.option("Error", Level.ERROR)
-				.option("Debug", Level.DEBUG)
-				.option("Trace", Level.TRACE);
+		levelGroup.option("Info", Level.INFO, "icons/emiricons/32/info.png")
+				.option("Warning", Level.WARN, "icons/emiricons/32/warning.png")
+				.option("Error", Level.ERROR, "icons/emiricons/32/dangerous.png")
+				.option("Debug", Level.DEBUG, "icons/emiricons/32/critical_bug.png")
+				.option("Trace", Level.TRACE, "icons/emiricons/32/code.png");
 
 		IMenu newMenu = menuEP.menuContribution(WorkspaceView.POPUP_MENU_ID)
 				.menu(GVBasic.MENU_NEW_FILE_MENU, "New");

@@ -43,7 +43,7 @@ public class RepositoryDescriptionContentPanel extends AbstractDetailsContentPan
 
         JLabel lblNewLabel = new JLabel(
                 "<html>External repositories that provide classic libraries or plug-ins.</html>");
-        lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 11));
+        lblNewLabel.setFont(lblNewLabel.getFont().deriveFont(Font.ITALIC, 11));
         GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
         gbc_lblNewLabel.insets = new Insets(20, 0, 0, 0);
         gbc_lblNewLabel.anchor = GridBagConstraints.NORTH;

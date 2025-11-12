@@ -14,16 +14,23 @@ import java.net.URISyntaxException;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import de.emir.rcp.commands.basics.ExternalBrowserCommand;
 import de.emir.rcp.manager.util.PlatformUtil;
+import de.emir.tuml.runtime.epf.ClasspathEntry;
+import de.emir.tuml.ucore.runtime.UCoreExtensionManager;
 import de.emir.tuml.ucore.runtime.resources.ResourceManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AboutDialog extends JDialog {
     private static final String URL_DLR = "https://www.dlr.de/se";
@@ -43,7 +50,7 @@ public class AboutDialog extends JDialog {
         }
         setAlwaysOnTop(true);
         setModalityType(ModalityType.APPLICATION_MODAL);
-        setSize(new Dimension(450, 270));
+        setSize(new Dimension(450, 290));
         setResizable(false);
         getContentPane().setLayout(new BorderLayout());
         
@@ -51,9 +58,9 @@ public class AboutDialog extends JDialog {
         panel.setBorder(new EmptyBorder(8, 8, 8, 8));
 
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0};
+        gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
         gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+        gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
         gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
         panel.setLayout(gridBagLayout);   
         
@@ -61,7 +68,7 @@ public class AboutDialog extends JDialog {
 
         JLabel lblNewLabel = new JLabel(getContent());
         GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-        gbc_lblNewLabel.gridwidth = 4;
+        gbc_lblNewLabel.gridwidth = 5;
         gbc_lblNewLabel.gridheight = 2;
         gbc_lblNewLabel.fill = GridBagConstraints.HORIZONTAL;
         gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
@@ -84,7 +91,7 @@ public class AboutDialog extends JDialog {
         });
         GridBagConstraints gbc_lblDlr = new GridBagConstraints();
         gbc_lblDlr.anchor = GridBagConstraints.WEST;
-        gbc_lblDlr.gridwidth = 4;
+        gbc_lblDlr.gridwidth = 5;
         gbc_lblDlr.insets = new Insets(0, 0, 5, 0);
         gbc_lblDlr.gridx = 0;
         gbc_lblDlr.gridy = 4;
@@ -105,7 +112,7 @@ public class AboutDialog extends JDialog {
         });
         GridBagConstraints gbc_lblDlr_1 = new GridBagConstraints();
         gbc_lblDlr_1.anchor = GridBagConstraints.WEST;
-        gbc_lblDlr_1.gridwidth = 4;
+        gbc_lblDlr_1.gridwidth = 5;
         gbc_lblDlr_1.insets = new Insets(0, 0, 5, 0);
         gbc_lblDlr_1.gridx = 0;
         gbc_lblDlr_1.gridy = 5;
@@ -126,7 +133,7 @@ public class AboutDialog extends JDialog {
         });
         GridBagConstraints gbc_lblDlr_1_1 = new GridBagConstraints();
         gbc_lblDlr_1_1.anchor = GridBagConstraints.WEST;
-        gbc_lblDlr_1_1.gridwidth = 4;
+        gbc_lblDlr_1_1.gridwidth = 5;
         gbc_lblDlr_1_1.insets = new Insets(0, 0, 5, 0);
         gbc_lblDlr_1_1.gridx = 0;
         gbc_lblDlr_1_1.gridy = 6;
@@ -154,10 +161,38 @@ public class AboutDialog extends JDialog {
         		lic.setVisible(true);
         	}
         });
+        
+        JButton btnExtensions = new JButton("Extensions");
+        btnExtensions.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		StringBuilder sb = new StringBuilder();
+        		for (Object o : UCoreExtensionManager.getExtensions(Object.class)) {
+        			String entry = o.getClass().getName();
+        			if (o instanceof ClasspathEntry cpe && cpe.getPluginClass() != null) {
+        				entry = cpe.getCoordinate() + " - " + cpe.getPluginClass();
+        			} else if (o instanceof ClasspathEntry cpe && cpe.getPluginClass() == null) {
+        				continue;
+        			}
+        			LOG.info(" " + entry);
+        			sb.append(entry).append("\n");
+        		}
+        		final JTextArea textArea = new JTextArea(20, 80);
+        	    textArea.setText(sb.toString());
+        	    textArea.setEditable(false);
+        	    final JScrollPane scrollPane = new JScrollPane(textArea);
+        		JOptionPane.showMessageDialog(panel, scrollPane, "Loaded Extensions", JOptionPane.PLAIN_MESSAGE);
+        	}
+        });
+        GridBagConstraints gbc_btnExtensions = new GridBagConstraints();
+        gbc_btnExtensions.anchor = GridBagConstraints.SOUTHEAST;
+        gbc_btnExtensions.insets = new Insets(0, 0, 5, 5);
+        gbc_btnExtensions.gridx = 3;
+        gbc_btnExtensions.gridy = 7;
+        panel.add(btnExtensions, gbc_btnExtensions);
         GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
         gbc_btnNewButton.anchor = GridBagConstraints.SOUTHEAST;
         gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
-        gbc_btnNewButton.gridx = 3;
+        gbc_btnNewButton.gridx = 4;
         gbc_btnNewButton.gridy = 7;
         panel.add(btnNewButton, gbc_btnNewButton);
         setLocationRelativeTo(PlatformUtil.getWindowManager().getMainWindow());

@@ -70,7 +70,7 @@ public class MapViewSettingsPage extends AbstractSettingsPage {
 		p.setLayout(gbl_p);
 
 		JLabel lblTileSource = new JLabel("Tile Source");
-		lblTileSource.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblTileSource.setFont(lblTileSource.getFont().deriveFont(Font.BOLD, 13));
 		GridBagConstraints gbc_lblTileSource = new GridBagConstraints();
 		gbc_lblTileSource.anchor = GridBagConstraints.WEST;
 		gbc_lblTileSource.insets = new Insets(10, 5, 5, 0);
@@ -80,7 +80,7 @@ public class MapViewSettingsPage extends AbstractSettingsPage {
 
 		JLabel lblNewLabel = new JLabel(
 				"<html>A Tile Source is used to load the map in the Map View. Select a source. If necessary, further parameters must be set.</html>");
-		lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lblNewLabel.setFont(lblNewLabel.getFont().deriveFont(Font.ITALIC, 11));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblNewLabel.anchor = GridBagConstraints.NORTH;
@@ -97,12 +97,12 @@ public class MapViewSettingsPage extends AbstractSettingsPage {
 		gbc_chckbxCacheTilesLocally.gridx = 0;
 		gbc_chckbxCacheTilesLocally.gridy = 2;
 		p.add(chckbxCacheTilesLocally, gbc_chckbxCacheTilesLocally);
-		chckbxCacheTilesLocally.setFont(new Font("Tahoma", Font.BOLD, 11));
+		chckbxCacheTilesLocally.setFont(chckbxCacheTilesLocally.getFont().deriveFont(Font.BOLD, 11));
 		chckbxCacheTilesLocally.setText("Hard Drive Caching");
 
 		JLabel lblstoresTileData = new JLabel(
 				"<html>Caches tile image data on your hard drive. Note: Changes within tile source may not be considered.</html>");
-		lblstoresTileData.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lblstoresTileData.setFont(lblstoresTileData.getFont().deriveFont(Font.ITALIC, 11));
 		GridBagConstraints gbc_lblstoresTileData = new GridBagConstraints();
 		gbc_lblstoresTileData.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblstoresTileData.insets = new Insets(0, 5, 5, 0);
@@ -180,7 +180,7 @@ public class MapViewSettingsPage extends AbstractSettingsPage {
 		wmsPanel.setLayout(gbl_wmsPanel);
 
 		JLabel lblWmsSettings = new JLabel("WMS Settings");
-		lblWmsSettings.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblWmsSettings.setFont(lblWmsSettings.getFont().deriveFont(Font.BOLD, 11));
 		GridBagConstraints gbc_lblWmsSettings = new GridBagConstraints();
 		gbc_lblWmsSettings.anchor = GridBagConstraints.WEST;
 		gbc_lblWmsSettings.gridwidth = 2;

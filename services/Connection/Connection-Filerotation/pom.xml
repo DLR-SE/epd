@@ -5,10 +5,10 @@
 	<parent>
 		<groupId>de.dlr-se.emir.services</groupId>
 		<artifactId>connection</artifactId>
-		<version>4.2.0</version>
+		<version>4.3.0</version>
 	</parent>
 	<artifactId>connection-filerotation</artifactId>
-	<version>4.2.0</version>
+	<version>4.3.0</version>
 	<name>Connection Filerotation</name>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>

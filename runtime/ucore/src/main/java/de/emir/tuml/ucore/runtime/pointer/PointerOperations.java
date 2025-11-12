@@ -343,21 +343,32 @@ public class PointerOperations {
 		}
 		return null;
 	}
+	
+	/**
+	 * Get the Object that is stored in a structural feature at a given index, or the feature itself if it is not a List
+	 * type.
+	 * @param instance the UObject containing the structural elements
+	 * @param feature the feature in this structural element to get the item from
+	 * @param listIndex the index to get from the feature
+	 * @return an element from the feature within the given UObject or the feature itself 
+	 */
 	public static Object getValue(UObject instance, IStructuralElement feature, int listIndex) {
 		if (instance != null && feature != null)
 		{
 			Object value = feature.invoke(instance, null); //since we use null as parameter the feature is choosing the getter
-			if (listIndex >= 0 && listIndex < ((List)value).size())
-				return ((List)value).get(listIndex); //this may throws an exception, but that's intended. 
-			return value;
+			try {
+				if (listIndex >= 0 && listIndex < ((List) value).size()) {
+					return ((List) value).get(listIndex); //this may throws an exception, but that's intended.
+				}
+				return value; // index was out of bounds, just return the feature
+			} catch (ClassCastException e) {
+				return value; // feature could not be cast to a list, just return the feature
+			}
 		}
 		return null;
 	}
 	
-	
-	
-	
-	
+
 	/**
 	 * removes the value from its parent
 	 * for this purpose this method search a valid pointer to the value (based on parent and feature) and invokes the unset(Pointer) method.

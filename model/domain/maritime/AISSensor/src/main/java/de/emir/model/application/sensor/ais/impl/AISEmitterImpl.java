@@ -16,6 +16,8 @@ import de.emir.model.universal.physics.PhysicalObject;
 import de.emir.model.universal.physics.RelativeEngineering2D;
 import de.emir.model.universal.spatial.Geometry;
 import de.emir.model.universal.units.Time;
+import de.emir.model.universal.units.TimeUnit;
+import de.emir.model.universal.units.impl.TimeImpl;
 import de.emir.tuml.ucore.runtime.Notification;
 import de.emir.tuml.ucore.runtime.NotificationType;
 import de.emir.model.universal.spatial.Pose;
@@ -64,9 +66,9 @@ public class AISEmitterImpl extends EmitterImpl implements AISEmitter
 	private AISEmitterClass mAisEmitterClass = null;
 
 	/**
-	 *	@generated 
+	 *	@generated_not
 	 */
-	private Time mFixedAISInvterval = null;
+	private Time mFixedAISInvterval = new TimeImpl(1, TimeUnit.SECOND);
 
 	/**
 	 *	@generated 
