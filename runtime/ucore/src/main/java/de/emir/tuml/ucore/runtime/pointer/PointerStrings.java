@@ -1,15 +1,11 @@
 package de.emir.tuml.ucore.runtime.pointer;
 
-import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.emir.tuml.ucore.runtime.IStructuralElement;
-import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.UClassifier;
 import de.emir.tuml.ucore.runtime.UObject;
-import de.emir.tuml.ucore.runtime.UOperation;
-import de.emir.tuml.ucore.runtime.UStructuralFeature;
 import de.emir.tuml.ucore.runtime.UType;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.utils.FeaturePointer;
@@ -48,7 +44,7 @@ public class PointerStrings {
 	/**
 	 * Checks if the string follows a syntax to describe a pointer. For this purpose the string has to follow this
 	 * BNF: <FeatureName>(:<ListIndex>)?(,<FeatureName>(:<ListIndex>)?)*
-	 * @param mPointerString
+	 * @param str
 	 * @return
 	 */
 	public static boolean syntaxCheckPointerString(String str) {
@@ -70,9 +66,11 @@ public class PointerStrings {
 			return null;
 		return create(new ObjectPointerImpl(root), pointerString);
 	}
+
 	public static Pointer create(Pointer parent, String pointerString) {
 		if (pointerString == null || pointerString.isEmpty())
 			return parent;
+
 		String[] segments = pointerString.replace(',', '.').trim().split("\\.");
 		Pointer ptr = parent.copy();
 		
@@ -138,7 +136,6 @@ public class PointerStrings {
 		return ptr;
 	}
 
-
 	/**
 	 * Creates a string that could be read by <code>createPointerFromString(UObject, String)</code>
 	 * 
@@ -171,7 +168,5 @@ public class PointerStrings {
 		}
 		return str;
 	}
-
-
 
 }

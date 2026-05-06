@@ -102,7 +102,7 @@ public class VesselDimensionCharacteristicImpl extends MultiViewObjectSurfaceInf
 		if (needNotification(VesselPackage.Literals.VesselDimensionCharacteristic_neadTonnage)){
 			double _oldValue = mNeadTonnage;
 			mNeadTonnage = _neadTonnage;
-			notify(_oldValue, mNeadTonnage, VesselPackage.Literals.VesselDimensionCharacteristic_neadTonnage, NotificationType.SET);
+			notify(_oldValue, _neadTonnage, VesselPackage.Literals.VesselDimensionCharacteristic_neadTonnage, NotificationType.SET);
 		}else{
 			mNeadTonnage = _neadTonnage;
 		}
@@ -130,7 +130,7 @@ public class VesselDimensionCharacteristicImpl extends MultiViewObjectSurfaceInf
 		if (needNotification(VesselPackage.Literals.VesselDimensionCharacteristic_blockCoefficient)){
 			double _oldValue = mBlockCoefficient;
 			mBlockCoefficient = _blockCoefficient;
-			notify(_oldValue, mBlockCoefficient, VesselPackage.Literals.VesselDimensionCharacteristic_blockCoefficient, NotificationType.SET);
+			notify(_oldValue, _blockCoefficient, VesselPackage.Literals.VesselDimensionCharacteristic_blockCoefficient, NotificationType.SET);
 		}else{
 			mBlockCoefficient = _blockCoefficient;
 		}

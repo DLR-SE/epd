@@ -8,34 +8,33 @@ import de.emir.tuml.ucore.runtime.annotations.UMLProperty;
 import de.emir.tuml.ucore.runtime.annotations.UMLProperty.AssociationType;
 
 /**
- *	@generated 
+ * @generated
  */
-@UMLClass	
-public interface UserDefinedDeltaChangeKeyBinding extends IUserDefinedDelta 
-{
+@UMLClass
+public interface UserDefinedDeltaChangeKeyBinding extends IUserDefinedDelta {
 
-	/**
-	 *	@generated 
-	 */
-	@UMLProperty(name = "add", associationType = AssociationType.PROPERTY)
-	public UserDefinedDeltaAddKeyBinding getAdd();
+    /**
+     * @generated
+     */
+    @UMLProperty(name = "add", associationType = AssociationType.PROPERTY)
+    public UserDefinedDeltaAddKeyBinding getAdd();
 
-	/**
-	 *	@generated 
-	 */
-	@UMLProperty(name = "remove", associationType = AssociationType.PROPERTY)
-	public UserDefinedDeltaDeleteKeyBinding getRemove();
+    /**
+     * @generated
+     */
+    @UMLProperty(name = "remove", associationType = AssociationType.PROPERTY)
+    public UserDefinedDeltaDeleteKeyBinding getRemove();
 
-	/**
-	 *	@generated 
-	 */
-	@UMLProperty(name = "add", associationType = AssociationType.PROPERTY)
-	public void setAdd(UserDefinedDeltaAddKeyBinding _add);
+    /**
+     * @generated
+     */
+    @UMLProperty(name = "add", associationType = AssociationType.PROPERTY)
+    public void setAdd(UserDefinedDeltaAddKeyBinding _add);
 
-	/**
-	 *	@generated 
-	 */
-	@UMLProperty(name = "remove", associationType = AssociationType.PROPERTY)
-	public void setRemove(UserDefinedDeltaDeleteKeyBinding _remove);
-	
+    /**
+     * @generated
+     */
+    @UMLProperty(name = "remove", associationType = AssociationType.PROPERTY)
+    public void setRemove(UserDefinedDeltaDeleteKeyBinding _remove);
+
 }

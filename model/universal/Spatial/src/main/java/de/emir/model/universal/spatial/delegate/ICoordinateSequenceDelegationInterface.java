@@ -43,7 +43,7 @@ public interface ICoordinateSequenceDelegationInterface extends IDelegateInterfa
 	 */
 	void removeCoordinate(CoordinateSequence self, final Coordinate _coord);
 	/**
-	 returns the boundingbox containing all coordinates within this sequence 
+	 Returns the bounding box containing all coordinates within this sequence 
 	 * @generated 
 	 */
 	Envelope getEnvelope(CoordinateSequence self);

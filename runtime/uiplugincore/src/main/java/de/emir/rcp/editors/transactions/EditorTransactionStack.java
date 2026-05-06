@@ -5,9 +5,8 @@ import de.emir.rcp.model.ModelTransactionStack;
 
 /**
  * A editor transaction stack handles EditorTransactions of one editor. It manages the undo/redo functionality.
- * 
- * @author fklein
  *
+ * @author fklein
  */
 public class EditorTransactionStack extends ModelTransactionStack {
 

@@ -52,7 +52,7 @@ public class TcpReceiverHandle implements IConnection {
     }
 
     /**
-	 * 
+	 * Initialize the tcp receiver
 	 * @param listener
 	 * @param port
 	 * @param packetsize
@@ -66,11 +66,11 @@ public class TcpReceiverHandle implements IConnection {
 	}
 	
 	/**
-	 * 
-	 * @param listener
-	 * @param port
-	 * @param packetsize
-	 * @param local
+	 * Initialize the TCP receiver
+	 * @param listener listener for received messages
+	 * @param port network
+	 * @param packetsize max packet size
+	 * @param localadr local address
 	 */
 	public TcpReceiverHandle(final ReceiverListener listener, String host, Integer port, Integer packetsize, String localadr) {
 		this.listener = listener;
@@ -103,7 +103,7 @@ public class TcpReceiverHandle implements IConnection {
             try {
                 LOG.trace("Disconnecting source " + hostname + ":" + port);
                 clientSocket.close();
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
         }
     }
@@ -127,31 +127,36 @@ public class TcpReceiverHandle implements IConnection {
 			public void run() {
 				while (!TcpReceiverHandle.this.isStopped()) {
 					try {
-
 						disconnect();
 						connect();
+
 						BufferedReader reader = new BufferedReader(
-								new InputStreamReader(clientSocket.getInputStream()));
+                            new InputStreamReader(
+                                clientSocket.getInputStream()
+                            )
+                        );
 						String line;
-						
-			
-						
 						while (!isStopped() && (line = reader.readLine()) != null) {
 
 							try {
 								listener.onReceived(instance, line.getBytes());
 							} catch (Exception e) {
-								e.printStackTrace();
+                                LOG.error(e);
 							}
 							
 							
 						}
 					} catch (IOException e) {
-						LOG.trace("TCP NMEA sensor failed: " + e.getMessage() + " retry in " + reconnectInterval / 1000
-								+ " seconds");
+						LOG.trace(
+                                "TCP NMEA sensor failed: "
+                                        + e.getMessage()
+                                        + " retry in "
+                                        + reconnectInterval / 1000
+                                        + " seconds");
 						try {
 							Thread.sleep(reconnectInterval);
-						} catch (InterruptedException intE) {
+						} catch (InterruptedException ignored) {
+
 						}
 					}
 				}
@@ -167,7 +172,7 @@ public class TcpReceiverHandle implements IConnection {
 
 	@Override
 	public ReceiverListener getListener() {
-		return this.getListener();
+		return this.listener;
 	}
 
 	@Override

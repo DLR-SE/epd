@@ -26,7 +26,7 @@ public class GeometryXMLCompatibilityHandler implements IXMLPostProcessor {
 	@Override
 	public boolean requiresPostProcessing(UObject obj, Node xmlNode, XMLReader reader) {
 		if (obj instanceof Geometry) {
-			if (((Geometry)obj).numCoordinates() == 0)
+			if (((Geometry) obj).getNumGeometries() == 0)
 				return true;
 		}
 		return false;
@@ -35,7 +35,9 @@ public class GeometryXMLCompatibilityHandler implements IXMLPostProcessor {
 	@Override
 	public void onObjectRead(UObject object, Node xmlNode, XMLReader reader, XMLReaderImpl ser) {
 		Geometry geom = (Geometry) object; //we can do this, since we are only registered for instances of Geometry
-		if (geom.numCoordinates() > 0) return ; //we obviously have some coordiantes, so we did load something correct
+		
+		//if (geom.numCoordinates() > 0) return ; //we obviously have some coordiantes, so we did load something correct
+		if (geom.getNumGeometries() > 0) return;
 		
 		Collection<Node> coordNodes = reader.getAllNodes(xmlNode, "coordinats"); //only if we find coordinates in the node, we continue, otherwise it's already the new version
 		if (coordNodes == null || coordNodes.isEmpty()) return ;

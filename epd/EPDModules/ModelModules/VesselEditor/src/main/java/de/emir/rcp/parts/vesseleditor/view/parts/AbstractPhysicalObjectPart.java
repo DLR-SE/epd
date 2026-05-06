@@ -21,15 +21,19 @@ import de.emir.rcp.parts.vesseleditor.utils.PredefinedGeometryItem;
 import de.emir.rcp.parts.vesseleditor.utils.View;
 import de.emir.rcp.parts.vesseleditor.view.geometry.AbstractGeometryPanel;
 import de.emir.service.geometry.impl.WKTUtil;
+import de.emir.tuml.ucore.runtime.IDisposable;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.UClassifier;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.pointer.PointerOperations;
 import de.emir.tuml.ucore.runtime.utils.UCoreMetaRepository;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public abstract class AbstractPhysicalObjectPart extends JPanel {
     private boolean mEdtScaleActivated = false;
@@ -37,6 +41,9 @@ public abstract class AbstractPhysicalObjectPart extends JPanel {
     private PhysicalObject physicalObject;
     private JComponent chooseCharacteristicPanel;
     private AbstractGeometryPanel editorPanel;
+
+    private final List<Disposable> registeredConsumer = new ArrayList<>();
+    private final List<IDisposable> registeredTreeListeners = new ArrayList<>();
 
     public AbstractPhysicalObjectPart(PhysicalObject pobj) {
         physicalObject = pobj;
@@ -60,8 +67,6 @@ public abstract class AbstractPhysicalObjectPart extends JPanel {
 
             add(editorPanel, BorderLayout.CENTER);
 
-            initListeners();
-
             doSetup();
         }
     }
@@ -70,10 +75,41 @@ public abstract class AbstractPhysicalObjectPart extends JPanel {
 
     protected abstract void doSetup();
 
-    private void initListeners() {
+    /**
+     * Informs use that this panel got added to something. Thus, we can register listeners
+     * which get removed when this panel is removed (removeNotify).
+     */
+    @Override
+    public void addNotify() {
 //        needed because removing and adding listeners to geometries causes concurrent modification exception
-        getPhysicalObject().registerTreeListener(notification -> onModelChanged());
-        PlatformUtil.getSelectionManager().subscribe(VesselEditorBasic.CTX_VIEW_SELECTION_ID, e -> onModelChanged());
+        registeredTreeListeners.add(
+                getPhysicalObject().registerTreeListener(notification -> onModelChanged())
+        );
+        registeredConsumer.add(
+                PlatformUtil.getSelectionManager()
+                        .subscribe(VesselEditorBasic.CTX_VIEW_SELECTION_ID, e -> onModelChanged())
+        );
+
+        super.addNotify();
+    }
+
+    /**
+     * Unregister listeners when a panel got removed
+     */
+    @Override
+    public void removeNotify() {
+        for (Disposable disposable : registeredConsumer){
+            disposable.dispose();
+        }
+
+        for (IDisposable disposable : registeredTreeListeners){
+            disposable.dispose();
+        }
+
+        registeredTreeListeners.clear();
+        registeredConsumer.clear();
+
+        super.removeNotify();
     }
 
     private JComponent setupChooseCharacteristicPanel() {
@@ -95,7 +131,6 @@ public abstract class AbstractPhysicalObjectPart extends JPanel {
     }
 
     protected void onChooseCharacteristic(UClassifier cl) {
-
         CreateChildTransaction physicalCharacteristics = new CreateChildTransaction(PointerOperations.create(getPhysicalObject(), PhysicsPackage.Literals.PhysicalObject_characteristics), (UClass) cl);
         PlatformUtil.getModelManager().getModelProvider().getTransactionStack().run(physicalCharacteristics);
 
@@ -136,8 +171,6 @@ public abstract class AbstractPhysicalObjectPart extends JPanel {
         }
 
         add(editorPanel);
-
-        initListeners();
 
         doSetup();
     }
@@ -221,58 +254,65 @@ public abstract class AbstractPhysicalObjectPart extends JPanel {
     /**
      * Change scale of the current geometry
      */
-    public void changeScaleFromProperty(Length nl, Length nw, Length nh) {
-        if (mEdtScaleActivated)
+    public void changeScaleFromProperty(Length newLength, Length newWidth, Length newHeight) {
+        if (mEdtScaleActivated) {
             return;
-        if (nl == null || nw == null || nh == null)
-        	return ;
-        if (nl.getValue() == 0 || nw.getValue() == 0 || nh.getValue() == 0) {
-        	ULog.error("Invalid Scale of 0 detected");
-        	return ;
+        }
+
+        if (newLength == null || newWidth == null || newHeight == null) {
+            return;
+        }
+
+        if (newLength.getValue() == 0 || newWidth.getValue() == 0 || newHeight.getValue() == 0) {
+        	ULog.error("Invalid Scale of 0 detected! Won't scale the geometry!");
+        	return;
         }
         try {
             mEdtScaleActivated = true;
             ObjectSurfaceInformation osi = getSurfaceInformation();
-            Length ol = osi.getLength();
-            Length ow = osi.getWidth();
-            Length oh = osi.getHeight();
+            Length oldLength = osi.getLength();
+            Length oldWidth = osi.getWidth();
+            Length oldHeight = osi.getHeight();
 
             CompoundTransaction ct = new CompoundTransaction();
-            if (nl != null && ol != null && nl.equals(ol) == false) {
+            if (oldLength != null && newLength.equals(oldLength) == false) {
                 //length is shown by SIDE and TOP
-                double f = nl.getAs(DistanceUnit.METER) / ol.getAs(DistanceUnit.METER);
-                if (f != 1.0) {
-                    if (GeometryUtil.getGeometry(View.SIDE, getSurfaceInformation()) != null)
-                        ct.add(new ScaleGeometryTransaction(GeometryUtil.getGeometry(View.SIDE, getSurfaceInformation()), f, 1));
+                double scalingFactor = newLength.getAs(DistanceUnit.METER) / oldLength.getAs(DistanceUnit.METER);
+                if (Math.abs(scalingFactor - 1.0) > 1e-6) {
                     if (GeometryUtil.getGeometry(View.TOP, getSurfaceInformation()) != null)
-                        ct.add(new ScaleGeometryTransaction(GeometryUtil.getGeometry(View.TOP, getSurfaceInformation()), 1, f));
+                        ct.add(new ScaleGeometryTransaction(GeometryUtil.getGeometry(View.TOP, getSurfaceInformation()), 1, scalingFactor));
+
+                    if (GeometryUtil.getGeometry(View.SIDE, getSurfaceInformation()) != null)
+                        ct.add(new ScaleGeometryTransaction(GeometryUtil.getGeometry(View.SIDE, getSurfaceInformation()), scalingFactor, 1));
                 }
             }
-            if (nw != null && ow != null && nw.equals(ow) == false) {
+            if (oldWidth != null && newWidth.equals(oldWidth) == false) {
                 //width is shown by TOP (Y-Comp) and FRONT (X-Comp)
-                double f = nw.getAs(DistanceUnit.METER) / ow.getAs(DistanceUnit.METER);
-                if (f != 1.0) {
+                double scalingFactor = newWidth.getAs(DistanceUnit.METER) / oldWidth.getAs(DistanceUnit.METER);
+                if (Math.abs(scalingFactor - 1.0) > 1e-6) {
                     if (GeometryUtil.getGeometry(View.TOP, getSurfaceInformation()) != null)
-                        ct.add(new ScaleGeometryTransaction(GeometryUtil.getGeometry(View.TOP, getSurfaceInformation()), f, 1));
+                        ct.add(new ScaleGeometryTransaction(GeometryUtil.getGeometry(View.TOP, getSurfaceInformation()), scalingFactor, 1));
+
                     if (GeometryUtil.getGeometry(View.FRONT, getSurfaceInformation()) != null)
-                        ct.add(new ScaleGeometryTransaction(GeometryUtil.getGeometry(View.FRONT, getSurfaceInformation()), f, 1));
+                        ct.add(new ScaleGeometryTransaction(GeometryUtil.getGeometry(View.FRONT, getSurfaceInformation()), scalingFactor, 1));
                 }
             }
-            if (nh != null && oh != null && nh.equals(oh) == false) {
+            if (oldHeight != null && newHeight.equals(oldHeight) == false) {
                 //height is shown by SIDE(Y-COMP) && FRONT (Y-Comp)
-                double f1 = nh.getAs(DistanceUnit.METER) / oh.getAs(DistanceUnit.METER);
-                if (f1 != 1) {
+                double scalingFactor = newHeight.getAs(DistanceUnit.METER) / oldHeight.getAs(DistanceUnit.METER);
+                if (Math.abs(scalingFactor - 1.0) > 1e-6) {
                     if (GeometryUtil.getGeometry(View.SIDE, getSurfaceInformation()) != null)
-                        ct.add(new ScaleGeometryTransaction(GeometryUtil.getGeometry(View.SIDE, getSurfaceInformation()), 1, f1));
+                        ct.add(new ScaleGeometryTransaction(GeometryUtil.getGeometry(View.SIDE, getSurfaceInformation()), 1, scalingFactor));
+
                     if (GeometryUtil.getGeometry(View.FRONT, getSurfaceInformation()) != null)
-                        ct.add(new ScaleGeometryTransaction(GeometryUtil.getGeometry(View.FRONT, getSurfaceInformation()), 1, f1));
+                        ct.add(new ScaleGeometryTransaction(GeometryUtil.getGeometry(View.FRONT, getSurfaceInformation()), 1, scalingFactor));
                 }
             }
             if (ct.isEmpty() == false){
                 PlatformUtil.getModelManager().getModelProvider().getTransactionStack().run(ct);
-                if(ol != null && nl != null) ol.set(nl);
-                if(ow != null && nw != null) ow.set(nw);
-                if(oh != null && nh != null) oh.set(oh);
+                if(oldLength != null && newLength != null) oldLength.set(newLength);
+                if(oldWidth != null && newWidth != null) oldWidth.set(newWidth);
+                if(oldHeight != null && newHeight != null) oldHeight.set(oldHeight);
             }
         } finally {
             mEdtScaleActivated = false;

@@ -12,169 +12,166 @@ import de.emir.tuml.ucore.runtime.lists.ListUtils;
 import de.emir.tuml.ucore.runtime.UAnnotation;
 import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.tuml.ucore.runtime.UPackage;
+
 import java.util.Iterator;
 import java.util.List;
 
 
 /**
- *	@generated 
+ * @generated
  */
 @UMLImplementation(classifier = ConfigMap.class)
-public class ConfigMapImpl extends ConfigVariableImpl implements ConfigMap  
-{
-	
-	
-	/**
-	 *	@generated 
-	 */
-	private List<ConfigPair> mMap = null;
-	/**
-	 *	@generated 
-	 */
-	private List<ConfigPairSimple> mMapSimple = null;
+public class ConfigMapImpl extends ConfigVariableImpl implements ConfigMap {
 
-	/**
-	 *	Default constructor
-	 *	@generated
-	 */
-	public ConfigMapImpl(){
-		super();
-	}
 
-	/**
-	 *	Default copy constructor
-	 *	@generated
-	 */
-	public ConfigMapImpl(final ConfigMap _copy) {
-		super(_copy);
-		mMap = _copy.getMap();
-		mMapSimple = _copy.getMapSimple();
-	}
-    
-	/**
-	 *	Default attribute constructor
-	 *	@generated
-	 */
-	public ConfigMapImpl(String _documentation, List<UAnnotation> _annotations, UPackage _package, String _name, List<ConfigPair> _map, List<ConfigPairSimple> _mapSimple) {
-		super(_documentation,_annotations,_package,_name);
-		mMap = _map; 
-		mMapSimple = _mapSimple; 
-	}
+    /**
+     * @generated
+     */
+    private List<ConfigPair> mMap = null;
+    /**
+     * @generated
+     */
+    private List<ConfigPairSimple> mMapSimple = null;
 
-	/**
-	 * @generated
-	 */
-	public UClass getUClassifier() {
-		return VarPackage.Literals.ConfigMap;
-	}
+    /**
+     * Default constructor
+     *
+     * @generated
+     */
+    public ConfigMapImpl() {
+        super();
+    }
 
-	/**
-	 *	@generated 
-	 */
-	public List<ConfigPairSimple> getMapSimple() {
-		if (mMapSimple == null) {
-			mMapSimple = ListUtils.<ConfigPairSimple>asList(this, VarPackage.theInstance.getConfigMap_mapSimple()); 
-		}
-		return mMapSimple;
-	}
-	
-	/**
-	 *	@generated_not
-	 */
+    /**
+     * Default copy constructor
+     *
+     * @generated
+     */
+    public ConfigMapImpl(final ConfigMap _copy) {
+        super(_copy);
+        mMap = _copy.getMap();
+        mMapSimple = _copy.getMapSimple();
+    }
+
+    /**
+     * Default attribute constructor
+     *
+     * @generated
+     */
+    public ConfigMapImpl(String _documentation, List<UAnnotation> _annotations, UPackage _package, String _name, List<ConfigPair> _map, List<ConfigPairSimple> _mapSimple) {
+        super(_documentation, _annotations, _package, _name);
+        mMap = _map;
+        mMapSimple = _mapSimple;
+    }
+
+    /**
+     * @generated
+     */
+    public UClass getUClassifier() {
+        return VarPackage.Literals.ConfigMap;
+    }
+
+    /**
+     * @generated
+     */
+    public List<ConfigPairSimple> getMapSimple() {
+        if (mMapSimple == null) {
+            mMapSimple = ListUtils.<ConfigPairSimple>asList(this, VarPackage.theInstance.getConfigMap_mapSimple());
+        }
+        return mMapSimple;
+    }
+
+    /**
+     * @generated_not
+     */
     @Override
-	public List<ConfigPair> getMap() {
-		if (mMap == null) {
-			mMap = ListUtils.<ConfigPair>asList(this, VarPackage.theInstance.getConfigMap_map()); 
-		}
-		return mMap;
-	}
+    public List<ConfigPair> getMap() {
+        if (mMap == null) {
+            mMap = ListUtils.<ConfigPair>asList(this, VarPackage.theInstance.getConfigMap_map());
+        }
+        return mMap;
+    }
 
-	/**
-	 * @inheritDoc
-	 * @generated_not
-	 */
-	public void put(final String key, final Object value)
-	{
+    /**
+     * @inheritDoc
+     * @generated_not
+     */
+    public void put(final String key, final Object value) {
         if (value instanceof UObject) {
-            ConfigPairImpl pair = new ConfigPairImpl(key, (ConfigVariable) value); 
+            ConfigPairImpl pair = new ConfigPairImpl(key, (ConfigVariable) value);
             put(pair);
         } else {
-            ConfigPairSimpleImpl pairSimple = new ConfigPairSimpleImpl(key, value); 
+            ConfigPairSimpleImpl pairSimple = new ConfigPairSimpleImpl(key, value);
             put(pairSimple);
         }
-	}
+    }
 
-	/**
-	 * @inheritDoc
-	 * @generated_not
-	 */
-	public void put(final ConfigPairSimple pair)
-	{
+    /**
+     * @inheritDoc
+     * @generated_not
+     */
+    public void put(final ConfigPairSimple pair) {
         // make sure the key is not present before adding the new entry
         remove(pair.getKey());
-		getMapSimple().add(pair);
-	}
+        getMapSimple().add(pair);
+    }
 
-	/**
-	 * @inheritDoc
-	 * @generated_not
-	 */
-	public void put(final ConfigPair pair)
-	{
-		// make sure the key is not present before adding the new entry
+    /**
+     * @inheritDoc
+     * @generated_not
+     */
+    public void put(final ConfigPair pair) {
+        // make sure the key is not present before adding the new entry
         remove(pair.getKey());
-		getMap().add(pair);
-	}
+        getMap().add(pair);
+    }
 
-	/**
-	 * @inheritDoc
-	 * @generated_not
-	 */
-	public ConfigVariable get(final String key)
-	{
-		for (ConfigPairSimple item : getMapSimple()) {
+    /**
+     * @inheritDoc
+     * @generated_not
+     */
+    public ConfigVariable get(final String key) {
+        for (ConfigPairSimple item : getMapSimple()) {
             if (item.getKey().equals(key)) return item.getValue();
         }
         for (ConfigPair item : getMap()) {
             if (item.getKey().equals(key)) return item.getValue();
         }
         return null;
-	}
+    }
 
-	//////////////////////////////////////////////////////////////////
-	//							 Operations							//
-	//////////////////////////////////////////////////////////////////
-
-	/**
-	 * @inheritDoc
-	 * @generated
-	 */
-	public void build()
-	{
-		//TODO: 
-		// 
-		//  * initializes the model element, e.g. create private member for reflection access
-		//  
-		throw new UnsupportedOperationException("build not yet implemented");
-	}
-
-
-
-	/**
-	* @generated
-	*/
-	@Override
-	public String toString() {
-		return "ConfigMapImpl{" +
-		" documentation = " + getDocumentation() + 
-		" name = " + getName() + 
-		"}";
-	}
+    //////////////////////////////////////////////////////////////////
+    //							 Operations							//
+    //////////////////////////////////////////////////////////////////
 
     /**
-	 * @inheritDoc
-	 * @generated_not
-	 */
+     * @inheritDoc
+     * @generated
+     */
+    public void build() {
+        //TODO:
+        //
+        //  * initializes the model element, e.g. create private member for reflection access
+        //
+        throw new UnsupportedOperationException("build not yet implemented");
+    }
+
+
+    /**
+     * @generated
+     */
+    @Override
+    public String toString() {
+        return "ConfigMapImpl{" +
+                " documentation = " + getDocumentation() +
+                " name = " + getName() +
+                "}";
+    }
+
+    /**
+     * @inheritDoc
+     * @generated_not
+     */
     public void remove(String key) {
         Iterator<ConfigPairSimple> it = getMapSimple().iterator();
         while (it.hasNext()) {

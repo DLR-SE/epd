@@ -33,7 +33,7 @@ public class PoseImpl extends UObjectImpl implements Pose
 	 *	@generated 
 	 */
 	private Orientation mOrientation = null;
-			
+
 	/**
 	 *	Default constructor
 	 *	@generated
@@ -53,7 +53,7 @@ public class PoseImpl extends UObjectImpl implements Pose
 		mCoordinate = _copy.getCoordinate();
 		mOrientation = _copy.getOrientation();
 	}
-	
+
 	/**
 	 *	Default attribute constructor
 	 *	@generated
@@ -62,7 +62,7 @@ public class PoseImpl extends UObjectImpl implements Pose
 		mCoordinate = _coordinate; 
 		mOrientation = _orientation; 
 	}
-	
+
 	/**
 	 * @generated
 	 */
@@ -77,7 +77,7 @@ public class PoseImpl extends UObjectImpl implements Pose
 		if (needNotification(SpatialPackage.Literals.Pose_coordinate)){
 			Coordinate _oldValue = mCoordinate;
 			mCoordinate = _coordinate;
-			notify(_oldValue, mCoordinate, SpatialPackage.Literals.Pose_coordinate, NotificationType.SET);
+			notify(_oldValue, _coordinate, SpatialPackage.Literals.Pose_coordinate, NotificationType.SET);
 		}else{
 			mCoordinate = _coordinate;
 		}
@@ -108,8 +108,6 @@ public class PoseImpl extends UObjectImpl implements Pose
 		return mOrientation;
 	}
 
-	
-	
 	//////////////////////////////////////////////////////////////////
 	//							 Operations							//
 	//////////////////////////////////////////////////////////////////

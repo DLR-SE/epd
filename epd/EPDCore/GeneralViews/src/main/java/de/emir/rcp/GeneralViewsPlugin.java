@@ -15,6 +15,7 @@ import de.emir.rcp.keybindings.ep.KeyBindingExtensionPoint;
 import de.emir.rcp.manager.NewFileWizardManager;
 import de.emir.rcp.manager.OperationManager;
 import de.emir.rcp.manager.PropertyManager;
+import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.menu.ep.IMenu;
 import de.emir.rcp.menu.ep.IRadioGroup;
 import de.emir.rcp.menu.ep.MenuExtensionPoint;
@@ -30,6 +31,7 @@ import de.emir.rcp.properties.provider.property.UStructuralFeaturePropertyProvid
 import de.emir.rcp.properties.ui.editors.CoordinateSequenceEditor;
 import de.emir.rcp.settings.ConsoleSettingsPage;
 import de.emir.rcp.settings.SystemSettingsPage;
+import de.emir.rcp.settings.TargetTableSettingsPage;
 import de.emir.rcp.settings.WorkspaceSettingsPage;
 import de.emir.rcp.settings.ep.SettingsPageExtensionPoint;
 import de.emir.rcp.views.console.ConsoleView;
@@ -39,9 +41,12 @@ import de.emir.rcp.views.console.cmd.LockTailingCommand;
 import de.emir.rcp.views.console.cmd.SetClassLogLevelCommand;
 import de.emir.rcp.views.console.cmd.SetLogLevelCommand;
 import de.emir.rcp.views.ep.IViewGroup;
+import de.emir.rcp.views.ep.ViewDescriptor;
 import de.emir.rcp.views.ep.ViewExtensionPoint;
+import de.emir.rcp.views.ep.ViewGroup;
 import de.emir.rcp.views.operations.OperationView;
 import de.emir.rcp.views.properties.PropertyView;
+import de.emir.rcp.views.targets.TargetTableView;
 import de.emir.rcp.views.workspace.WorkspaceView;
 import de.emir.rcp.views.workspace.cmd.*;
 import de.emir.rcp.wizards.cmd.OpenNewFileWizardCommand;
@@ -61,6 +66,7 @@ import java.awt.Component;
 import org.apache.logging.log4j.Level;
 
 import java.io.File;
+import java.util.Map;
 import javax.swing.Icon;
 
 public class GeneralViewsPlugin extends AbstractUIPlugin {
@@ -130,6 +136,9 @@ public class GeneralViewsPlugin extends AbstractUIPlugin {
 		group.view(OperationView.UNIQUE_ID, OperationView.class)
 				.label("Operations")
 				.icon("icons/emiricons/32/architecture.png", rmgr);
+		group.view(TargetTableView.UNIQUE_ID, TargetTableView.class)
+				.label("Target Table")
+				.icon("icons/emiricons/32/library_books.png", rmgr);
 
 		// Editors
 		EditorExtensionPoint editorEP = ExtensionPointManager.getExtensionPoint(EditorExtensionPoint.class);
@@ -322,6 +331,11 @@ public class GeneralViewsPlugin extends AbstractUIPlugin {
 			.page(GVBasic.SETTINGS_CONSOLE_SETTINGS_PAGE, ConsoleSettingsPage.class)
 			.label("Console")
 			.icon("icons/emiricons/32/monitoring.png", rmgr);
+
+		settingsEP.page(Basic.SETTINGS_GENERAL_SETTINGS_PAGE)
+				.page(GVBasic.SETTINGS_TARGET_TABLE_SETTINGS_PAGE, TargetTableSettingsPage.class)
+				.label("Target Table")
+				.icon("icons/emiricons/32/library_books.png", rmgr);
 		
         //Register Property extensions; the PropertyManager is the extensionpoint
         //register the property provider
@@ -350,5 +364,4 @@ public class GeneralViewsPlugin extends AbstractUIPlugin {
 			return null;
 		return new File(property.getValue());
 	}
-
 }

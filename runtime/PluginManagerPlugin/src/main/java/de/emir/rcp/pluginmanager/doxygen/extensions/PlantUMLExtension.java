@@ -4,6 +4,7 @@ import de.emir.rcp.pluginmanager.doxygen.AbstractDoxygenExtension;
 import de.emir.rcp.pluginmanager.model.ExportData;
 import de.emir.rcp.pluginmanager.model.TextUtils;
 import de.emir.tuml.runtime.epf.ProductFile;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 
 public class PlantUMLExtension extends AbstractDoxygenExtension {
     @Override
@@ -13,7 +14,7 @@ public class PlantUMLExtension extends AbstractDoxygenExtension {
             String replaceText = "PLANTUML_JAR_PATH      = \"" + data.getPlantUMLPath() + "\"";
             return TextUtils.replaceText(textContent, startString, replaceText);
         } catch (Exception e) {
-            e.printStackTrace();
+            ULog.error(e);
             return textContent;
         }
     }

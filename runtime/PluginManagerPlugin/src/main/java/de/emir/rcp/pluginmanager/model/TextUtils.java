@@ -1,5 +1,7 @@
 package de.emir.rcp.pluginmanager.model;
 
+import de.emir.tuml.ucore.runtime.logging.ULog;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,7 +62,7 @@ public class TextUtils {
             }
 
         } catch (IOException e1) {
-            e1.printStackTrace();
+            ULog.error(e1);
         }
 
         StringBuilder builder = new StringBuilder();

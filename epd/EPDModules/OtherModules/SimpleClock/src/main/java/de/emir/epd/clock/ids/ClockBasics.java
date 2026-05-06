@@ -6,4 +6,6 @@ public class ClockBasics {
     
 	public static final int MIN_CLOCK_SIZE = 8;
 	public static final int MAX_CLOCK_SIZE = 120;
+	public static final String CLOCK_PROP_CONTEXT = "SimpleClock";
+	public static final String CLOCK_PROP_TZ = "TimezoneId";
 }

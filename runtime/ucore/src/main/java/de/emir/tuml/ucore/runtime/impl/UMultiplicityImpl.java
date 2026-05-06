@@ -2,11 +2,9 @@ package de.emir.tuml.ucore.runtime.impl;
 
 import de.emir.tuml.ucore.runtime.NotificationType;
 import de.emir.tuml.ucore.runtime.RuntimePackage;
-import de.emir.tuml.ucore.runtime.Notification;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.UMultiplicity;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
-import de.emir.tuml.ucore.runtime.impl.UObjectImpl;
 
 /**
  * @generated

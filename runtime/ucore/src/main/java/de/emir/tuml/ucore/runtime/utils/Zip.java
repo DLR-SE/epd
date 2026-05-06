@@ -1,5 +1,7 @@
 package de.emir.tuml.ucore.runtime.utils;
 
+import de.emir.tuml.ucore.runtime.logging.ULog;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -48,20 +50,19 @@ public class Zip {
             final ZipOutputStream out = new ZipOutputStream(new FileOutputStream(target));
             out.setMethod(ZipOutputStream.DEFLATED);
 
-            for (int i = 0; i < fileList.size(); i++) {
-                final String name = fileList.get(i).getPath().replace(root, "");
+            for (File file : fileList) {
+                final String name = file.getPath().replace(root, "");
                 final ZipEntry entry = new ZipEntry(name);
-                in = new FileInputStream(fileList.get(i).getPath());
+                in = new FileInputStream(file.getPath());
                 out.putNextEntry(entry);
                 while ((read = in.read(data, 0, 1024)) != -1)
                     out.write(data, 0, read);
                 out.closeEntry();
                 in.close();
-//                System.out.println(name + "...added");
             }
             out.close();
         } catch (final Exception e) {
-            e.printStackTrace();
+            ULog.error(e);
         }
     }
 
@@ -77,7 +78,6 @@ public class Zip {
         while (entries.hasMoreElements()) {
             final ZipEntry entry = entries.nextElement();
             out.add(saveEntry(entry, zf, target));
-//            System.out.println(target + File.separator + entry.getName() + "....unziped");
         }
         zf.close();
         return out;
@@ -85,9 +85,9 @@ public class Zip {
 
     private static File saveEntry(final ZipEntry entry, final ZipFile zf, final String target) throws IOException {
         final File f = new File(target + "/" + entry.getName());
-        if (entry.isDirectory())
+        if (entry.isDirectory()) {
             f.mkdirs();
-        else {
+        } else {
             final InputStream is = zf.getInputStream(entry);
             final BufferedInputStream bis = new BufferedInputStream(is);
             new File(f.getParent()).mkdirs();

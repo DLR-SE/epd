@@ -9,12 +9,12 @@ public class ShowAboutCommand extends AbstractCommand {
 
     @Override
     public void execute() {
-        if (dialog == null){
+        if (dialog == null) {
             dialog = PlatformUtil.getProductInfoManager().getAboutDialog();
             dialog.setModal(true);
         }
 
-        if (dialog.isVisible() == false){
+        if (dialog.isVisible() == false) {
             dialog.setVisible(true);
         }
     }

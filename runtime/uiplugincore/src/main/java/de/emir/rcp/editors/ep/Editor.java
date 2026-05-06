@@ -84,7 +84,7 @@ public class Editor implements IEditor {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.emir.rcp.editors.ep.IEditor#fileExtension(java.lang.String)
      */
     @Override

@@ -10,7 +10,6 @@ import de.emir.tuml.ucore.runtime.UClassifier;
 import de.emir.tuml.ucore.runtime.UInterface;
 import de.emir.tuml.ucore.runtime.UOperation;
 import de.emir.tuml.ucore.runtime.UPackage;
-import de.emir.tuml.ucore.runtime.impl.UClassifierImpl;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
 

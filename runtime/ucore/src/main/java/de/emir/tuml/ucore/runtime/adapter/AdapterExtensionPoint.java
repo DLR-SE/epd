@@ -22,7 +22,7 @@ public abstract class AdapterExtensionPoint<T extends IAdapter> implements IExte
 
     private Logger log;
 
-    private List<T> adapters = new ArrayList<>();
+    private final List<T> adapters = new ArrayList<>();
 
     private T activeAdapter;
 
@@ -59,11 +59,8 @@ public abstract class AdapterExtensionPoint<T extends IAdapter> implements IExte
         adapters.add(a);
 
         // TODO: set active adapter from config if found
-
         if (activeAdapter == null) {
-
             activeAdapter = adapters.get(0);
-
         }
     }
 

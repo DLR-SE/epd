@@ -31,7 +31,7 @@ public abstract class AbstractDetailsContentPanel<T> {
 
     /**
      * Create the ui contents of this panel.
-     * 
+     *
      * @return The root element of the ui structure
      */
     public abstract Component createContents();

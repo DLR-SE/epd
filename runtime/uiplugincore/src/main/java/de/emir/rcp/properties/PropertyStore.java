@@ -42,8 +42,8 @@ public class PropertyStore {
     public static void load(File propertyFile) {
         PluginCoreModel.init();
         VarPackage.init();
-        AbstractSerializer ser = AbstractSerializer.createSerializerForFile(propertyFile);
         try {
+            AbstractSerializer ser = AbstractSerializer.createSerializerForFile(propertyFile);
             if (ser instanceof XMLSerializer) {
                 ((XMLSerializer) ser).setAcceptMissingReferences(true);
             }

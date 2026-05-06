@@ -7,7 +7,6 @@ import de.emir.model.universal.spatial.impl.GeometryImpl;
 import de.emir.model.universal.spatial.sf.SfPackage;
 import de.emir.model.universal.spatial.sf.WKTGeometry;
 import de.emir.model.universal.spatial.sf.delegate.IWKTGeometryDelegationInterface;
-import de.emir.tuml.ucore.runtime.Notification;
 import de.emir.tuml.ucore.runtime.NotificationType;
 
 
@@ -25,7 +24,7 @@ public class WKTGeometryImpl extends GeometryImpl implements WKTGeometry
 	 *	@generated 
 	 */
 	private String mWkt = "";
-			
+
 	/**
 	 *	Default constructor
 	 *	@generated
@@ -33,7 +32,7 @@ public class WKTGeometryImpl extends GeometryImpl implements WKTGeometry
 	public WKTGeometryImpl(){
 		super();
 	}
-	
+
 	/**
 	 *	Default copy constructor
 	 *	@generated
@@ -42,7 +41,7 @@ public class WKTGeometryImpl extends GeometryImpl implements WKTGeometry
 		super(_copy);
 		mWkt = _copy.getWkt();
 	}
-	
+
 	/**
 	 *	Default attribute constructor
 	 *	@generated
@@ -51,17 +50,14 @@ public class WKTGeometryImpl extends GeometryImpl implements WKTGeometry
 		super();
 		mWkt = _wkt;
 	}
-	
+
 	/**
 	 * @generated
 	 */
 	public UClass getUClassifier() {
 		return SfPackage.Literals.WKTGeometry;
 	}
-	
-	//////////////////////////////////////////////////////////////////
-	//						Setter / Getter							//
-	//////////////////////////////////////////////////////////////////
+
 	/**
 	 *	@generated 
 	 */
@@ -69,18 +65,19 @@ public class WKTGeometryImpl extends GeometryImpl implements WKTGeometry
 		if (needNotification(SfPackage.Literals.WKTGeometry_wkt)){
 			String _oldValue = mWkt;
 			mWkt = _wkt;
-			notify(_oldValue, mWkt, SfPackage.Literals.WKTGeometry_wkt, NotificationType.SET);
+			notify(_oldValue, _wkt, SfPackage.Literals.WKTGeometry_wkt, NotificationType.SET);
 		}else{
 			mWkt = _wkt;
 		}
 	}
+
 	/**
 	 *	@generated 
 	 */
 	public String getWkt() {
 		return mWkt;
 	}
-	
+
 	//////////////////////////////////////////////////////////////////
 	//							 Operations							//
 	//////////////////////////////////////////////////////////////////

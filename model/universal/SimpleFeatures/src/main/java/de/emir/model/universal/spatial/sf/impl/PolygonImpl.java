@@ -7,9 +7,7 @@ import de.emir.model.universal.spatial.impl.GeometryImpl;
 import de.emir.model.universal.spatial.sf.LinearRing;
 import de.emir.model.universal.spatial.sf.Polygon;
 import de.emir.model.universal.spatial.sf.SfPackage;
-import de.emir.model.universal.spatial.sf.delegate.IPolygonDelegationInterface;
 import de.emir.tuml.ucore.runtime.Notification;
-import de.emir.tuml.ucore.runtime.NotificationType;
 import de.emir.tuml.ucore.runtime.lists.UContainmentList;
 import java.util.List;
 
@@ -30,7 +28,7 @@ public class PolygonImpl extends GeometryImpl implements Polygon
 	 *	@generated 
 	 */
 	private List<LinearRing> mHoles = null;
-			
+
 	/**
 	 *	Default constructor
 	 *	@generated
@@ -40,7 +38,7 @@ public class PolygonImpl extends GeometryImpl implements Polygon
 		//set the default values and assign them to this instance 
 		setShell(mShell);
 	}
-	
+
 	/**
 	 *	Default copy constructor
 	 *	@generated
@@ -50,7 +48,7 @@ public class PolygonImpl extends GeometryImpl implements Polygon
 		mShell = _copy.getShell();
 		mHoles = _copy.getHoles();
 	}
-	
+
 	/**
 	 *	Default attribute constructor
 	 *	@generated
@@ -60,17 +58,14 @@ public class PolygonImpl extends GeometryImpl implements Polygon
 		mShell = _shell; 
 		mHoles = _holes; 
 	}
-	
+
 	/**
 	 * @generated
 	 */
 	public UClass getUClassifier() {
 		return SfPackage.Literals.Polygon;
 	}
-	
-	//////////////////////////////////////////////////////////////////
-	//						Setter / Getter							//
-	//////////////////////////////////////////////////////////////////
+
 	/**
 	 *	@generated 
 	 */
@@ -81,12 +76,14 @@ public class PolygonImpl extends GeometryImpl implements Polygon
 			dispatchNotification(notification);
 		}
 	}
+
 	/**
 	 *	@generated 
 	 */
 	public LinearRing getShell() {
 		return mShell;
 	}
+
 	/**
 	 *	@generated 
 	 */
@@ -96,7 +93,7 @@ public class PolygonImpl extends GeometryImpl implements Polygon
 		}
 		return mHoles;
 	}
-	
+
 	//////////////////////////////////////////////////////////////////
 	//							 Operations							//
 	//////////////////////////////////////////////////////////////////

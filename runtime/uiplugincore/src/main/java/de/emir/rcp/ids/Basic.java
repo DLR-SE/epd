@@ -2,9 +2,8 @@ package de.emir.rcp.ids;
 
 /**
  * Basic identifiers
- * 
- * @author fklein
  *
+ * @author fklein
  */
 public class Basic {
 
@@ -15,6 +14,8 @@ public class Basic {
     public static final String CMD_SETTINGS = "de.emir.rcp.swingrcp.settingsCommand";
     public static final String CMD_OPEN_VIEW = "de.emir.rcp.swingrcp.openViewCommand";
     public static final String CMD_LOCK_UNLOCK_LAYOUT = "de.emir.rcp.swingrcp.lockUnlockLayoutCommand";
+    public static final String CMD_TAB_LAYOUT = "de.emir.rcp.swingrcp.tabLayoutCommand";
+    public static final String CMD_TAB_LAYOUT_EDIT = "de.emir.rcp.swingrcp.tabLayoutEditCommand";
 
     public static final String CMD_LOAD_LAYOUT = "de.emir.rcp.swingrcp.loadLayoutCommand";
     public static final String CMD_SAVE_LAYOUT = "de.emir.rcp.swingrcp.saveLayoutCommand";
@@ -27,6 +28,7 @@ public class Basic {
     public static final String MENU_MAIN_MENU = MENU_IDENTIFIER + "main";
     public static final String MENU_MAIN_TOOLBAR = TOOLBAR_IDENTIFIER + "main";
     public static final String PERSPECTIVE_MENU = MENU_IDENTIFIER + "perspective";
+    public static final String TAB_LAYOUT_MENU = MENU_IDENTIFIER + "tablayout";
 
     public static final String SETTINGS_GENERAL_SETTINGS_PAGE = "de.emir.rcp.swingrcp.settings.general";
 
@@ -41,6 +43,15 @@ public class Basic {
 
     public static final String KEY_BINDING_PROP_CTX = "keyBindingPropertyContext";
     public static final String KEY_BINDING_PROP = "keyBindings";
+
+    public static final String LAYOUT_PROP_CTX = "layoutPropertyContext";
+    public static final String LAYOUT_SELECTED_PROP = "layoutSelected";
+
+    public static final String TAB_LAYOUT_PROP_CTX = "tabLayoutPropertyContext";
+    public static final String TAB_LAYOUT_ACTIVE_PROP = "tabLayoutActive";
+    public static final String TAB_LAYOUT_EDIT_MODE_PROP = "tabLayoutEditMode";
+    public static final String TAB_LAYOUT_LAYOUTS_PROP = "tabLayoutLayouts";
+    public static final String TAB_LAYOUT_LAST_SELECTED_VIEW = "tabLayoutLastSelectedView";
 
     public static final String DEV_PROP_CTX = "de.emir.rcp.dev.DevToolPropertiesContext";
     public static final String PROP_DEV_SHOW_MENU_CONTRIBUTIONS = "de.emir.rcp.dev.DevToolPropertiesContext";

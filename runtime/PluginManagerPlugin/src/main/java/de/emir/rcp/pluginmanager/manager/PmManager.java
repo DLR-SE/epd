@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.xml.parsers.ParserConfigurationException;
 
+import de.emir.tuml.ucore.runtime.logging.ULog;
 import org.apache.maven.model.Model;
 import org.xml.sax.SAXException;
 
@@ -207,7 +208,7 @@ public class PmManager implements IService {
         try {
             pf = new ProductFile(f);
         } catch (SAXException | IOException | ParserConfigurationException e) {
-            e.printStackTrace();
+            ULog.error(e);
             return null;
         }
 
@@ -237,7 +238,7 @@ public class PmManager implements IService {
             pf = new ProductFile(f);
 
         } catch (SAXException | IOException | ParserConfigurationException e) {
-            e.printStackTrace();
+            ULog.error(e);
             return null;
         }
 
@@ -280,7 +281,7 @@ public class PmManager implements IService {
 			mKnownWorkspaceModels.put(cf, m);
 			return m;
 		} catch (IOException e) {
-			e.printStackTrace();
+            ULog.error(e);
 		}
 		return null;
 	}

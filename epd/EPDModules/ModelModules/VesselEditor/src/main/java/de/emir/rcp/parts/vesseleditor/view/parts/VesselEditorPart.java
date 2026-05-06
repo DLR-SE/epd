@@ -1,14 +1,19 @@
 package de.emir.rcp.parts.vesseleditor.view.parts;
 
 import de.emir.model.domain.maritime.vessel.Vessel;
+import de.emir.model.domain.maritime.vessel.VesselDimensionCharacteristic;
+import de.emir.model.domain.maritime.vessel.VesselSafetyCharacteristic;
+import de.emir.model.universal.physics.ObjectSurfaceInformation;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.parts.VesselEditorBasic;
 import de.emir.rcp.parts.vesseleditor.utils.GeometryUtil;
+import de.emir.rcp.parts.vesseleditor.utils.PredefinedGeometryItem;
 import de.emir.rcp.parts.vesseleditor.view.geometry.AbstractGeometryPanel;
 import de.emir.rcp.parts.vesseleditor.view.panels.*;
 import de.emir.rcp.parts.vesseleditor.view.panels.transferable.EquipmentPanel;
 import de.emir.rcp.parts.vesseleditor.view.panels.transferable.ReferencePointPanel;
 import de.emir.rcp.parts.vesseleditor.view.vessel.VesselEditorPanel;
+import de.emir.tuml.ucore.runtime.utils.UCoreUtils;
 
 import javax.swing.*;
 import javax.swing.event.AncestorEvent;
@@ -80,16 +85,34 @@ public class VesselEditorPart extends AbstractPhysicalObjectPart {
 
         side.add(new GeneralVesselPanel(getPhysicalObject()), gbc);
         gbc.gridy++;
-        side.add(new SizePanel(this), gbc);
-        gbc.gridy++;
-        side.add(new HullPanel(this), gbc);
-        gbc.gridy++;
-        side.add(new SafetyPanel(this), gbc);
-        gbc.gridy++;
-        side.add(new WKTPanel(this), gbc);
-        gbc.gridy++;
+
+        // only add it if this characteristic is present
+        if (UCoreUtils.firstInstance(getPhysicalObject(), ObjectSurfaceInformation.class, true) != null){
+            side.add(new SizePanel(this), gbc);
+            gbc.gridy++;
+        }
+
+        // only add it if this characteristic is present
+        if (UCoreUtils.firstInstance(getPhysicalObject(), VesselDimensionCharacteristic.class, true) != null){
+            side.add(new HullPanel(this), gbc);
+            gbc.gridy++;
+        }
+
+        // only add it if this characteristic is present
+        if (UCoreUtils.firstInstance(getPhysicalObject(), VesselSafetyCharacteristic.class, true) != null) {
+            side.add(new SafetyPanel(this), gbc);
+            gbc.gridy++;
+        }
+
+        // only add it if there are geometries to choose from
+        if (!PredefinedGeometryItem.getPredefinedGeometryItems().isEmpty()){
+            side.add(new WKTPanel(this), gbc);
+            gbc.gridy++;
+        }
+
         side.add(new EquipmentPanel(this), gbc);
         gbc.gridy++;
+
         side.add(new ReferencePointPanel(this), gbc);
         gbc.gridy++;
 

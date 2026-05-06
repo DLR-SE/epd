@@ -4,7 +4,7 @@ public interface IDetailsAreaProvider {
 
     /**
      * Implementations should return an ui displaying the given object
-     * 
+     *
      * @param o
      * @return
      */

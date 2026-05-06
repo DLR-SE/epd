@@ -2,6 +2,8 @@ package de.emir.epd.nmeasensor;
 
 import java.util.AbstractMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.apache.logging.log4j.Logger;
 
@@ -24,8 +26,10 @@ public class NMEAOutput {
 
 	/** Handle to the publisher for AIS messages for a given sensor. **/
 	private static BehaviorSubject<Map.Entry<NMEASensor, AISMessage>> aisPublisher = BehaviorSubject.create();
-    
-    /**
+
+	private static final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+	/**
      * This methods allows interested consumers to register a subscription with a publisher.
      * 
      * @param consumer the interested consumer to register
@@ -51,7 +55,7 @@ public class NMEAOutput {
 	 */
 	public static void notify(NMEASensor sensor, Sentence sentence) {
 		try {
-			publisher.onNext(new AbstractMap.SimpleEntry<>(sensor, sentence));
+			executor.submit(() -> publisher.onNext(new AbstractMap.SimpleEntry<>(sensor, sentence)));
 		} catch (Exception e) {
 			LOG.debug("Could not notify NMEAOutput. {}", e);
 		}
@@ -83,7 +87,7 @@ public class NMEAOutput {
 	 */
 	public static void notifyAis(NMEASensor sensor, AISMessage message) {
 		try {
-			aisPublisher.onNext(new AbstractMap.SimpleEntry<>(sensor, message));
+			executor.submit(() -> aisPublisher.onNext(new AbstractMap.SimpleEntry<>(sensor, message)));
 		} catch (Exception e) {
 			LOG.debug("Could not notify NMEAOutput. {}", e);
 		}

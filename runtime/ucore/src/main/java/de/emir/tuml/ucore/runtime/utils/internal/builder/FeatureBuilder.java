@@ -20,6 +20,7 @@ import de.emir.tuml.ucore.runtime.annotations.UMLProperty.AssociationType;
 import de.emir.tuml.ucore.runtime.impl.UClassImpl;
 import de.emir.tuml.ucore.runtime.impl.UMultiplicityImpl;
 import de.emir.tuml.ucore.runtime.impl.UStructuralFeatureImpl;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.utils.TypeUtils;
 import de.emir.tuml.ucore.runtime.utils.UCoreMetaRepository;
 
@@ -37,7 +38,7 @@ public class FeatureBuilder {
                     out.add(feature);
             }
         } catch (IntrospectionException e) {
-            e.printStackTrace();
+            ULog.error(e);
         }
         return out;
     }

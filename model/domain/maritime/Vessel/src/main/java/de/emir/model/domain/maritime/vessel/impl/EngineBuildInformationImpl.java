@@ -77,7 +77,7 @@ public class EngineBuildInformationImpl extends UObjectImpl implements EngineBui
 		if (needNotification(VesselPackage.Literals.EngineBuildInformation_model)){
 			String _oldValue = mModel;
 			mModel = _model;
-			notify(_oldValue, mModel, VesselPackage.Literals.EngineBuildInformation_model, NotificationType.SET);
+			notify(_oldValue, _model, VesselPackage.Literals.EngineBuildInformation_model, NotificationType.SET);
 		}else{
 			mModel = _model;
 		}

@@ -37,7 +37,7 @@ public class CustomJCheckBoxMenuItem extends JCheckBoxMenuItem implements Observ
     private String tooltip;
 
     public CustomJCheckBoxMenuItem(String label, ImageIcon icon, String tooltip, String fullPath,
-            AbstractUIPlugin provider) {
+                                   AbstractUIPlugin provider) {
         super(label);
 
         this.fullPath = fullPath;

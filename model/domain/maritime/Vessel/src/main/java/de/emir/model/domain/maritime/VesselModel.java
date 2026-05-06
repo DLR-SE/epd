@@ -28,6 +28,7 @@ public class VesselModel implements UCorePlugin {
 		//initialize referenced models
 		VehicleModel.init();
 		IEC61174Model.init();
+		PhysicsModel.init();
 		
 		//initialize sub packages
 		VesselPackage.theInstance.init();

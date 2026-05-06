@@ -1,64 +1,51 @@
 package de.emir.rcp.ui.utils.properties;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import org.apache.logging.log4j.Logger;
-
-import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
-import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
 
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.*;
+
 /**
- * @author Florian
- *
+ * Property editor for string properties that represent (longer) texts. If the properties value does not match the
+ * UI value, `isDirty` will be set to true. Note that the properties value is not directly modified on user input.
+ * It is only written to the property if `finish()` is called!
  */
-public class PropertyTextWidget extends JPanel implements IPropertyWidget {
+public class PropertyTextWidget extends JPanel implements IPropertyWidget<String> {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -8935435319289993420L;
+
     protected JTextField textField;
-    protected IProperty property;
+    protected IProperty<String> property;
 
-    private Logger log = ULog.getLogger(PropertyTextWidget.class);
-    protected PropertyChangeListener changeListener;
+    protected boolean isDirty = false;
 
-    boolean dirty = false;
+    // set to true, to disable listener calls
+    protected boolean isListenerDisabled = false;
+
+    public PropertyTextWidget(String propertyContext, String propertyName, String defaultValue) {
+        this(
+                PropertyStore
+                        .getContext(propertyContext)
+                        .getProperty(propertyName, defaultValue)
+        );
+    }
 
     /**
      * @wbp.parser.constructor
      */
-    public PropertyTextWidget(IProperty property) {
-
+    public PropertyTextWidget(IProperty<String> property) {
         this.property = property;
         init();
     }
 
-    public PropertyTextWidget(String propertyContext, String propertyName, String defaultValue) {
-
-        PropertyContext context = PropertyStore.getContext(propertyContext);
-
-        property = context.getProperty(propertyName, defaultValue);
-
-        init();
-    }
-
     protected void init() {
-
         GridBagLayout gridBagLayout = new GridBagLayout();
 
-        gridBagLayout.columnWeights = new double[] { 1.0 };
-        gridBagLayout.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
+        gridBagLayout.columnWeights = new double[]{1.0};
+        gridBagLayout.rowWeights = new double[]{0.0, Double.MIN_VALUE};
         setLayout(gridBagLayout);
 
         textField = new JTextField();
@@ -70,62 +57,81 @@ public class PropertyTextWidget extends JPanel implements IPropertyWidget {
         add(textField, gbc_textField);
         textField.setColumns(10);
 
-        changeListener = new PropertyChangeListener() {
+        property.addPropertyChangeListener(evt -> setTextFieldValue());
 
+        textField.addActionListener(e -> {
+            Object oldValue = property.getValue();
+            Object newValue = textField.getText();
+            isDirty = !oldValue.equals(newValue);
+            firePropertyChange(PROPERTY_VALUE_CHANGE_NAME, oldValue, newValue);
+        });
+
+        textField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-
-                setTextfieldValue();
-
+            public void insertUpdate(DocumentEvent e) {
+                checkChange();
             }
-        };
-
-        property.addPropertyChangeListener(changeListener);
-
-        textField.addKeyListener(new KeyAdapter() {
 
             @Override
-            public void keyTyped(KeyEvent e) {
-                dirty = true;
+            public void removeUpdate(DocumentEvent e) {
+                checkChange();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                checkChange();
+            }
+
+            private void checkChange() {
+
+                if (isListenerDisabled){
+                    return;
+                }
+
+                Object oldValue = property.getValue();
+                Object newValue = textField.getText();
+                isDirty = !oldValue.equals(newValue);
+                firePropertyChange(PROPERTY_VALUE_CHANGE_NAME, oldValue, newValue);
             }
         });
-        setTextfieldValue();
 
+        setTextFieldValue();
     }
 
-    protected void setTextfieldValue() {
+    protected void setTextFieldValue() {
+        if (isListenerDisabled){
+            return;
+        }
 
-        Object value = property.getValue();
+        String value = property.getValue();
 
         if (value == null) {
             textField.setText("");
-            dirty = false;
+            isDirty = false;
             return;
         }
 
-        if (value instanceof String == false) {
-            log.error("Property is not of type of String");
-            return;
-        }
-
-        textField.setText((String) value);
-        dirty = false;
-
+        textField.setText(value);
+        isDirty = false;
     }
 
     public void reset() {
-        setTextfieldValue();
+        setTextFieldValue();
     }
 
     public void finish() {
-
+        isListenerDisabled = true;
         property.setValue(textField.getText());
-        property.removePropertyChangeListener(changeListener);
-
+        isListenerDisabled = false;
     }
 
     public boolean isDirty() {
-        return dirty;
+        return isDirty;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return textField.isEnabled();
     }
 
     @Override
@@ -133,17 +139,12 @@ public class PropertyTextWidget extends JPanel implements IPropertyWidget {
         textField.setEnabled(isEnabled);
     }
 
-    @Override
-    public boolean isEnabled() {
-        return textField.isEnabled();
-    }
-    
     public String getValue() {
-    	return textField.getText();
+        return textField.getText();
     }
 
     @Override
-    public IProperty getProperty() {
+    public IProperty<String> getProperty() {
         return property;
     }
 }

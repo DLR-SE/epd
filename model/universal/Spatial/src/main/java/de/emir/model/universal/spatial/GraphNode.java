@@ -1,8 +1,6 @@
 package de.emir.model.universal.spatial;
 
 import java.util.List;
-import de.emir.model.universal.spatial.Coordinate;
-import de.emir.model.universal.spatial.GraphEdge;
 
 import de.emir.model.universal.crs.CoordinateReferenceSystem;
 import de.emir.tuml.ucore.runtime.UObject;

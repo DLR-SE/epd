@@ -78,7 +78,7 @@ public class MenuItem extends MenuEntry implements IMenuItem {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.emir.rcp.menu.ep.IMenuItem#label(java.lang.String)
      */
     @Override
@@ -89,7 +89,7 @@ public class MenuItem extends MenuEntry implements IMenuItem {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.emir.rcp.menu.ep.IMenuItem#tooltip(java.lang.String)
      */
     @Override
@@ -100,7 +100,7 @@ public class MenuItem extends MenuEntry implements IMenuItem {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.emir.rcp.menu.ep.IMenuItem#icon(java.lang.String)
      */
     @Override
@@ -124,7 +124,7 @@ public class MenuItem extends MenuEntry implements IMenuItem {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.emir.rcp.menu.ep.IMenuItem#after(java.lang.String)
      */
     @Override
@@ -136,7 +136,7 @@ public class MenuItem extends MenuEntry implements IMenuItem {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.emir.rcp.menu.ep.IMenuItem#before(java.lang.String)
      */
     @Override

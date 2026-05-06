@@ -7,22 +7,21 @@ import de.emir.tuml.ucore.runtime.annotations.UMLProperty.AssociationType;
 import de.emir.tuml.ucore.runtime.annotations.UMLProperty;
 
 /**
- *	@generated 
+ * @generated
  */
-@UMLClass	
-public interface UserDefinedDeltaAddKeyBinding extends IUserDefinedDelta 
-{
+@UMLClass
+public interface UserDefinedDeltaAddKeyBinding extends IUserDefinedDelta {
 
-	/**
-	 *	@generated 
-	 */
-	@UMLProperty(name = "newBinding", associationType = AssociationType.PROPERTY)
-	public AbstractKeyBinding getNewBinding();
+    /**
+     * @generated
+     */
+    @UMLProperty(name = "newBinding", associationType = AssociationType.PROPERTY)
+    public AbstractKeyBinding getNewBinding();
 
-	/**
-	 *	@generated 
-	 */
-	@UMLProperty(name = "newBinding", associationType = AssociationType.PROPERTY)
-	public void setNewBinding(AbstractKeyBinding _newBinding);
+    /**
+     * @generated
+     */
+    @UMLProperty(name = "newBinding", associationType = AssociationType.PROPERTY)
+    public void setNewBinding(AbstractKeyBinding _newBinding);
 
 }

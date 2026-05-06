@@ -1,24 +1,28 @@
 package de.emir.model.universal.spatial.sf.ops;
 
+import de.emir.model.universal.crs.CoordinateReferenceSystem;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 
 import de.emir.model.universal.spatial.Coordinate;
+import de.emir.model.universal.spatial.CoordinateSequence;
 import de.emir.model.universal.spatial.Geometry;
 import de.emir.model.universal.spatial.impl.CoordinateImpl;
+import de.emir.model.universal.spatial.impl.CoordinateSequenceImpl;
 import de.emir.model.universal.spatial.ops.GeometryOperations;
 import de.emir.model.universal.spatial.sf.WKTGeometry;
 import de.emir.model.universal.spatial.sf.delegate.IWKTGeometryDelegationInterface;
 
 /**
  The WKTGeometry is a helper geometry, where the geometry is specified using a WKT (Well known text) String
- * the internal geometry (getNativeGeometry()) is determinated at runtime
+ * the internal geometry (getNativeGeometry()) is determined at runtime
  * @generated 
  */
 public class WKTGeometryOperations extends GeometryOperations implements IWKTGeometryDelegationInterface{
 
 	@Override
 	public org.locationtech.jts.geom.Geometry createNativeGeometry(Geometry self) {
+        assert self instanceof WKTGeometry;
 		WKTReader reader = new WKTReader();
 		try {
 			return reader.read(((WKTGeometry)self).getWkt());
@@ -28,7 +32,19 @@ public class WKTGeometryOperations extends GeometryOperations implements IWKTGeo
 		return null;
 	}
 
-	@Override
+    @Override
+    public Geometry createUCoreGeometry(org.locationtech.jts.geom.Geometry self, CoordinateReferenceSystem crs) {
+
+        // cannot create an object from an empty geometry
+        if (self.isEmpty()){
+            return null;
+        }
+
+        // TODO this currently does not work!
+        throw new UnsupportedOperationException("Creating UCore geometry does not work, since WKTGeometry does not have a JTS match type.");
+    }
+
+    @Override
 	public int numCoordinates(Geometry self) {
 		org.locationtech.jts.geom.Geometry nat = getNativeGeometry(self);
 		return nat.getNumPoints();
@@ -49,6 +65,15 @@ public class WKTGeometryOperations extends GeometryOperations implements IWKTGeo
 	public Geometry getGeometry(Geometry self, int idx) {
 		if (idx == 0) return self;
 		return null;
+	}
+
+	@Override
+	public CoordinateSequence getCoordinates(Geometry self) {
+		CoordinateSequence result = new CoordinateSequenceImpl();
+		for (int i = 0; i < self.numCoordinates(); i++) {
+			result.addCoordinate(getCoordinate(self, i));
+		}
+		return result;
 	}
 	
 }

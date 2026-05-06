@@ -8,9 +8,7 @@ import de.emir.model.universal.spatial.impl.CoordinateSequenceImpl;
 import de.emir.model.universal.spatial.impl.GeometryImpl;
 import de.emir.model.universal.spatial.sf.Point;
 import de.emir.model.universal.spatial.sf.SfPackage;
-import de.emir.model.universal.spatial.sf.delegate.IPointDelegationInterface;
 import de.emir.tuml.ucore.runtime.Notification;
-import de.emir.tuml.ucore.runtime.NotificationType;
 
 
 /**
@@ -25,7 +23,7 @@ public class PointImpl extends GeometryImpl implements Point
 	 *	@generated 
 	 */
 	private Coordinate mCoordinate = null;
-			
+
 	/**
 	 *	Default constructor
 	 *	@generated
@@ -35,7 +33,7 @@ public class PointImpl extends GeometryImpl implements Point
 		//set the default values and assign them to this instance 
 		setCoordinate(mCoordinate);
 	}
-	
+
 	/**
 	 *	Default copy constructor
 	 *	@generated
@@ -44,7 +42,7 @@ public class PointImpl extends GeometryImpl implements Point
 		super(_copy);
 		mCoordinate = _copy.getCoordinate();
 	}
-	
+
 	/**
 	 *	Default attribute constructor
 	 *	@generated
@@ -53,17 +51,14 @@ public class PointImpl extends GeometryImpl implements Point
 		super();
 		mCoordinate = _coordinate; 
 	}
-	
+
 	/**
 	 * @generated
 	 */
 	public UClass getUClassifier() {
 		return SfPackage.Literals.Point;
 	}
-	
-	//////////////////////////////////////////////////////////////////
-	//						Setter / Getter							//
-	//////////////////////////////////////////////////////////////////
+
 	/**
 	 *	@generated 
 	 */
@@ -74,13 +69,14 @@ public class PointImpl extends GeometryImpl implements Point
 			dispatchNotification(notification);
 		}
 	}
+
 	/**
 	 *	@generated 
 	 */
 	public Coordinate getCoordinate() {
 		return mCoordinate;
 	}
-	
+
 	//////////////////////////////////////////////////////////////////
 	//							 Operations							//
 	//////////////////////////////////////////////////////////////////
@@ -89,10 +85,11 @@ public class PointImpl extends GeometryImpl implements Point
 	 * @inheritDoc
 	 * @generated not
 	 */
-	public CoordinateSequence getCoordinates()
-	{
+	public CoordinateSequence getCoordinates()  {
 		CoordinateSequence cs = new CoordinateSequenceImpl();
 		cs.addCoordinate(getCoordinate());
+        // set crs explicitly, as the sequence doesn't do it by itself
+        cs.setCrs(getCoordinate().getCrs());
 		return cs;
 	}
 

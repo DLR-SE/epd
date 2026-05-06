@@ -71,8 +71,6 @@ public class EquipmentPanel extends AbstractTransferablePanel {
         gbc.weighty = 1;
         gbc.fill = GridBagConstraints.VERTICAL;
         add(empty, gbc);
-
-        initListeners();
     }
 
 }

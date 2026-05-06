@@ -1,22 +1,15 @@
 package de.emir.tuml.ucore.runtime.pointer;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import de.emir.tuml.ucore.runtime.IDisposable;
 import de.emir.tuml.ucore.runtime.IStructuralElement;
 import de.emir.tuml.ucore.runtime.ITreeValueChangeListener;
 import de.emir.tuml.ucore.runtime.IValueChangeListener;
-import de.emir.tuml.ucore.runtime.Notification;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
-import de.emir.tuml.ucore.runtime.UType;
-import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.utils.FeaturePointer;
 import de.emir.tuml.ucore.runtime.utils.ObjectPointer;
 import de.emir.tuml.ucore.runtime.utils.Pointer;
@@ -30,18 +23,15 @@ import de.emir.tuml.ucore.runtime.utils.impl.QualifiedNameImpl;
 import de.emir.tuml.ucore.runtime.utils.impl.TypePointerImpl;
 
 public class PointerOperations {
-	
-	
-	
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//											Creation of Pointers															//
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//											Creation of Pointers												  //
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static Pointer create(UObject instance){
 		return new ObjectPointerImpl(instance);
 	}
+
 	public static Pointer create(UObject instance, UStructuralFeature feature, int listIndex) {
 		return new FeaturePointerImpl(instance, feature, listIndex);
 	}
@@ -54,9 +44,11 @@ public class PointerOperations {
 			pc = new PointerChainImpl(pc, features[i]);
 		return pc;
 	}
+
 	public static Pointer createChain(Pointer parent, IStructuralElement element, int listIndex) {
 		return new PointerChainImpl(parent, element, listIndex);
 	}
+
 	public static Pointer createChain(Pointer parent, UStructuralFeature feature, int listIndex) {
 		return new PointerChainImpl(parent, feature, listIndex);
 	}
@@ -90,7 +82,7 @@ public class PointerOperations {
 	}
 	
 	/**
-	 * Chreates a pointer chain from the root of the uobject tree
+	 * Chreates a pointer chain from the root of the UObject tree
 	 * @param uobj
 	 * @return
 	 */
@@ -107,10 +99,10 @@ public class PointerOperations {
 	}
 	
 	/**
-	 * converts any pointer to a pointer to the root of the current tree. 
-	 * How it works: 
-	 * if the pointed value is a UObject, this method returns the value of createPointerFromRoot(UObject)
-	 * otherwise it will return the pointer of the pointedContainer (always an UObject) and adds the feature to the object
+	 * Converts any pointer to a pointer to the root of the current tree.
+	 * How it works: If the pointed value is a UObject, this method returns the value of createPointerFromRoot(UObject)
+	 * otherwise it will return the pointer of the pointedContainer (always an UObject) and adds the feature to the
+     * object
 	 * @param ptr
 	 * @return
 	 */
@@ -130,9 +122,11 @@ public class PointerOperations {
 	
 	
 	/**
-	 * Creates a pointer that points towards the given object and is not an ObjectPointer, e.g. its relativ to its current parent
+	 * Creates a pointer that points towards the given object and is not an ObjectPointer, e.g. its relative to its
+     * current parent.
 	 * @param uobj the object that should be pointed at
-	 * @return a valid FeaturePointer if the uobj is not null and the uobj is contained inside a composite association. Null otherwise
+	 * @return a valid FeaturePointer if the UObject is not null and the UObject is contained inside a composite
+     *         association. Null otherwise
 	 */
 	public static Pointer createPointerToObject(UObject uobj){
 		if (uobj == null)
@@ -166,8 +160,8 @@ public class PointerOperations {
 	/**
 	 * Checks if the string follows a syntax to describe a pointer. For this purpose the string has to follow this
 	 * BNF: <FeatureName>(:<ListIndex>)?(,<FeatureName>(:<ListIndex>)?)*
-	 * @param mPointerString
-	 * @return
+	 * @param pointerString string representation of a pointer
+	 * @return true if the pointerString is conform with the pointer format
 	 */
 	public static boolean checkPointerString(String pointerString) {
 		return PointerStrings.syntaxCheckPointerString(pointerString);
@@ -176,32 +170,33 @@ public class PointerOperations {
 	
 	/**
 	 * For more information see de.emir.tuml.ucore.runtime.pointer.PointerStrings
-	 * @param root
-	 * @param pointerString
-	 * @return
+	 * @param parent base/start for the pointer
+	 * @param pointerString string representation of a pointer
+	 * @return pointer instance
 	 */
 	public static Pointer createPointerFromString(Pointer parent, String pointerString) {
 		return PointerStrings.create(parent, pointerString);
 	}
 	/**
 	 * For more information see de.emir.tuml.ucore.runtime.pointer.PointerStrings
-	 * @param root
-	 * @param pointerString
-	 * @return
+	 * @param parent parent base/start for the pointer
+	 * @param pointerString string representation of a pointer
+	 * @return pointer instance
 	 */
-	public static Pointer createPointerFromString(UObject root, String pointerString) {
-		return PointerStrings.create(root, pointerString);
+	public static Pointer createPointerFromString(UObject parent, String pointerString) {
+		return PointerStrings.create(parent, pointerString);
 	}
 	
 	/**
 	 * Creates a new Pointer relative to an UClassifier. 
 	 * @warn the Pointer will be valid but can not be read or written!!
-	 * 		Nevertheless this pointer can be transformed to an valid pointer with read and write access by chainging its root
+	 * 		Nevertheless, this pointer can be transformed to an valid pointer with read and write access by chaining
+     * 		its root
 	 * 
 	 * @note This type of pointer is meant for UI-Purposes only
 	 *  
 	 * @param classifier
-	 * @param pointerString
+	 * @param pointerString string representation of a pointer
 	 * @return a new PointerChain, with a TypePointer as root pointer, that possesses an empty (null) parent itself. 
 	 */
 	public static Pointer createPointerFromString(UClass classifier, String pointerString) {
@@ -212,8 +207,9 @@ public class PointerOperations {
 	 * Creates a pointer that points into a specific index inside a list, based on a pointer to the whole list
 	 * @param ptr pointer that has to point to an list
 	 * @param idx new list index for the pointer
-	 * @return a new pointer, that points to the idx's position in the list or null, if the ptr is invalid or does not point to an list (for example a ObjectPointer could not point to an list)
-	 * @note the method does not take care if the index is valid, e.g. only working on the meta model. 
+	 * @return a new pointer, that points to the idx's position in the list or null, if the ptr is invalid or does not
+     *         point to a list (for example a ObjectPointer could not point to a list)
+	 * @note the method does not take care if the index is valid, e.g. only working on the metamodel.
 	 */
 	public static FeaturePointer createListPointer(Pointer ptr, int idx) {
 		if (ptr == null || ptr.isValid() == false)
@@ -228,17 +224,9 @@ public class PointerOperations {
 		return newPtr;
 	}
 	
-	
-	
-	
-	
-	
-	
-
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//										Manipulation of Pointer Values														//
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//										Manipulation of Pointer Values											  //
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public synchronized static void set(UObject instance, IStructuralElement feature, int listIndex, Object value) {
 		assign(instance, feature, listIndex, value);
@@ -251,15 +239,17 @@ public class PointerOperations {
 			return assignToMany(instance, feature, listIndex, _value);
 		}else{
 			if (feature instanceof UStructuralFeature) {
-				//@note: we can not use invoke here, as the feature needs somehow to find out if its a getter or a setter, using the
-				//generic method. If we known that its a feature, we can simply use the set method
+				//@note: we can not use invoke here, as the feature needs somehow to find out if its a getter or a
+                // setter, using the generic method. If we have known that it's a feature, we can simply use the set
+                // method
 				((UStructuralFeature)feature).set(instance, _value);
-			}else {
+			} else {
 				feature.invoke(instance, _value);
 			}
 			return true;
 		}
 	}
+
 	public synchronized static boolean assign(UObject instance, IStructuralElement feature, final Object value){
 		return assign(instance, feature, -1, value);
 	}
@@ -275,7 +265,7 @@ public class PointerOperations {
 	 * @param listIndex
 	 * @param _value
 	 * @return true, if the variable has been set. False if either the variable could not be set (@see assign) or if the 
-	 * value is the same as the current pointed value
+	 *         value is the same as the current pointed value
 	 */
 	public synchronized static boolean assignIfDiffers(UObject instance, IStructuralElement feature, int listIndex, Object _value) {
 		if (instance == null)
@@ -289,9 +279,11 @@ public class PointerOperations {
 		feature.invoke(instance, _value);
 		return true;
 	}
+
 	public static boolean assignIfDiffers(UObject instance, IStructuralElement feature, final Object value){
 		return assignIfDiffers(instance, feature, -1, value);
 	}
+
 	public synchronized static boolean assignToManyIfDiffers(UObject instance, IStructuralElement feature, int listIndex, Object value) {
 		Object list_obj = feature.invoke(instance, null); //getter //instance.uGet(feature);
 		if (list_obj == null || list_obj instanceof List == false)
@@ -308,8 +300,6 @@ public class PointerOperations {
 			return false; //did not differ
 		}
 	}
-	
-	
 
 	public synchronized static boolean assignToMany(UObject instance, IStructuralElement feature, int listIndex, Object value) {
 		Object list_obj = feature.invoke(instance, null); //gettter //instance.uGet(feature);
@@ -334,8 +324,7 @@ public class PointerOperations {
 	}
 
 	public static Object getValue(UObject instance, UStructuralFeature feature, int listIndex) {
-		if (instance != null && feature != null)
-		{
+		if (instance != null && feature != null) {
 			Object value = feature.get(instance);
 			if (listIndex >= 0 && listIndex < ((List)value).size())
 				return ((List)value).get(listIndex); //this may throws an exception, but that's intended. 
@@ -367,11 +356,10 @@ public class PointerOperations {
 		}
 		return null;
 	}
-	
 
 	/**
-	 * removes the value from its parent
-	 * for this purpose this method search a valid pointer to the value (based on parent and feature) and invokes the unset(Pointer) method.
+	 * Removes the value from its parent. For this purpose this method search a valid pointer to the value (based on
+     * parent and feature) and invokes the unset(Pointer) method.
 	 * @param parent
 	 * @param feature
 	 * @param value
@@ -399,12 +387,11 @@ public class PointerOperations {
 
 	/**
 	 * removes the given value from its parent. 
-	 * - if the parent, feature pair points to a list, the index (stored inside the pointer) is removed. If the pointer points to the whole list (getListIndex() < 0) the list is cleared
+	 * - if the parent, feature pair points to a list, the index (stored inside the pointer) is removed. If the pointer
+     *   points to the whole list (getListIndex() < 0) the list is cleared
 	 * - if the parent, feature pair points to a single value, the value is set to null
 	 * @note this method does not work with ObjectPointer instance's
-	 * @param parent
-	 * @param feature
-	 * @param value
+	 * @param ptr pointer instance
 	 * @return true, if the object has been removed
 	 */
 	public static boolean unset(Pointer ptr){
@@ -413,7 +400,7 @@ public class PointerOperations {
 		if (ptr.getPointedFeature().isMany()){
 			List list = (List)getValue(ptr.getPointedContainer(), ptr.getPointedFeature(), -1);
 			int listIndex = -1;
-			if (ptr instanceof FeaturePointer){ //goes also for pointerchain
+			if (ptr instanceof FeaturePointer){ // goes also for pointer chain
 				listIndex = ((FeaturePointer)ptr).getListIndex();
 			}
 			if (listIndex < 0) //remove the whole list
@@ -421,7 +408,7 @@ public class PointerOperations {
 			else
 				list.remove(listIndex);
 			return true;
-		}else{
+		} else {
 			//simple case, just set to null
 			//TODO: need to check for primitive types?
 			ptr.setValue(null);
@@ -433,7 +420,7 @@ public class PointerOperations {
 	/**
 	 * Checks if a new value can be set at the pointed position. 
 	 * A value can be set if: 
-	 * - the pointer points to an list
+	 * - the pointer points to a list
 	 * - the pointed element (not a list) is null
 	 * @param ptr Pointer to be checked
 	 * @return true, if a new value can be set, without deleting anything 
@@ -447,28 +434,19 @@ public class PointerOperations {
 		return ptr.getValue() == null;
 	}
 	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//									Observation of Pointers and their Values									  //
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//									Observation of Pointers and their Values												//
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	
-		
 	/**
-	 * @brief Observes the full chain of a pointer, e.g. if anything within the chain from root to the pointed object changes, the listener gets notified
+	 * @brief Observes the full chain of a pointer, e.g. if anything within the chain from root to the pointed object
+     * changes, the listener gets notified
 	 * 
 	 * - get a notification if the value of a pointer changes
-	 * - get a notification if one of the elements between root and the pointed value changes (and thus potentially the value itself)
-	 * - takes care that after changing an instance within the pointed chain, the listener is remvoed from all removed instances, and added to all new instances
+	 * - get a notification if one of the elements between root and the pointed value changes (and thus potentially the
+     *   value itself)
+	 * - takes care that after changing an instance within the pointed chain, the listener is removed from all removed
+     *   instances, and added to all new instances
 	 * @param ptr pointer to be observed
 	 * @param listener listener that shall be notified
 	 * @return a PointerChangeListener that will be registered within the pointer chain and does the listener management
@@ -480,13 +458,15 @@ public class PointerOperations {
 		return PointerObserver.registerListener(ptr, listener);
 	}
 	
-	
 	/**
-	 * @brief Observes the full chain of a pointer, e.g. if anything within the chain from root to the pointed object changes, the listener gets notified
+	 * @brief Observes the full chain of a pointer, e.g. if anything within the chain from root to the pointed object
+     * changes, the listener gets notified
 	 * 
 	 * - get a notification if the value of a pointer changes
-	 * - get a notification if one of the elements between root and the pointed value changes (and thus potentially the value itself)
-	 * - takes care that after changing an instance within the pointed chain, the listener is remvoed from all removed instances, and added to all new instances
+	 * - get a notification if one of the elements between root and the pointed value changes (and thus potentially the
+     *   value itself)
+	 * - takes care that after changing an instance within the pointed chain, the listener is removed from all removed
+     *   instances, and added to all new instances
 	 * @param ptr pointer to be observed
 	 * @param listener listener that shall be notified
 	 * @return a PointerChangeListener that will be registered within the pointer chain and does the listener management
@@ -498,25 +478,27 @@ public class PointerOperations {
 		return PointerObserver.registerListener(ptr, listener);
 	}
 	
-	
-	
 	/**
-	 * @brief Observes the full chain of a pointer, e.g. if anything within the chain from root to the pointed object changes, the listener gets notified
+	 * @brief Observes the full chain of a pointer, e.g. if anything within the chain from root to the pointed object
+     * changes, the listener gets notified
 	 * 
 	 * - get a notification if the value of a pointer changes
-	 * - get a notification if one of the elements between root and the pointed value changes (and thus potentially the value itself)
-	 * - takes care that after changing an instance within the pointed chain, the listener is remvoed from all removed instances, and added to all new instances
+	 * - get a notification if one of the elements between root and the pointed value changes (and thus potentially the
+     *   value itself)
+	 * - takes care that after changing an instance within the pointed chain, the listener is removed from all removed
+     *   instances, and added to all new instances
 	 * @param ptr pointer to be observed
 	 * @param listener listener that shall be notified
 	 * @return a PointerChangeListener that will be registered within the pointer chain and does the listener management
 	 * 
 	 * @warn remember to remove the observer if no longer needed, to save memory and computation time
-	 * @deprecated use the observePointer(Pointer, IValueChangeListener) or observePointer(Pointer, ITreeValueChangeListener) methods instead
+	 * @deprecated use the observePointer(Pointer, IValueChangeListener) or
+     *             observePointer(Pointer, ITreeValueChangeListener) methods instead
 	 */
 	@Deprecated
 	public static void observePointer(Pointer ptr, PointerChangeListener listener){
 		//extract the pointer chain
-		listener.register(PointerChangeListener.getForwardPointerChain(ptr)); //nullpointer is wanted
+		listener.register(PointerChangeListener.getForwardPointerChain(ptr)); // null pointer is wanted
 	}
 	
 	/**
@@ -531,32 +513,20 @@ public class PointerOperations {
 		l.remove(l.mFPC);
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//													Other														 //
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//													Other																	//
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
 	/**
 	 * Creates a string that could be read by <code>createPointerFromString(UObject, String)</code>
 	 * 
 	 * @param ptr pointer that should be written as string
-	 * @return pointer string, that can be read by createPointerFromString(UObject, String) or null if ptr is an ObjectPointer
+	 * @return pointer string, that can be read by createPointerFromString(UObject, String) or null if ptr is an
+     *         ObjectPointer
 	 */
 	public static String toPointerString(Pointer ptr) {
 		return PointerStrings.toPointerString(ptr);
 	}
-	
 
 
 	/**
@@ -581,8 +551,9 @@ public class PointerOperations {
 
 	
 	/** 
-	 * Search for a common parent between the pointer and the given instance (owner) and bend the pointer to start from the common base. 
-	 * The base has to fullfill the following rules
+	 * Search for a common parent between the pointer and the given instance (owner) and bend the pointer to
+     * start from the common base.
+	 * The base has to fulfill the following rules
 	 * 1. not the owner
 	 * 2. not the pointed value
 	 * 4. parent of both, ptr and owner
@@ -625,11 +596,4 @@ public class PointerOperations {
 		
 		return null;
 	}
-
-	
-	
-
-	
-
-
 }

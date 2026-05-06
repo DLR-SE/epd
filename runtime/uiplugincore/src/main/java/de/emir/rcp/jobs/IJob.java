@@ -8,7 +8,7 @@ public interface IJob {
     /**
      * Defines whether this job is blocking. A blocking job prevents other jobs from running in parallel. Run via
      * JobManager a modal dialog is shown that can't be hidden.
-     * 
+     *
      * @return
      */
     public boolean isBlocking();
@@ -16,7 +16,7 @@ public interface IJob {
     /**
      * Defines whether this job can be canceled by the user. A cancelable job should check if cancel() has been called
      * as often as possible within its run method
-     * 
+     *
      * @return
      */
     public boolean isCancelable();
@@ -37,7 +37,7 @@ public interface IJob {
 
     /**
      * The title of the job. Define what this job does.
-     * 
+     *
      * @return
      */
     public String getTitle();

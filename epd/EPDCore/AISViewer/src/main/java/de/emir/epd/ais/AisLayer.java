@@ -5,6 +5,7 @@ import de.emir.epd.ais.ids.AisBasics;
 import de.emir.epd.ais.ids.OwnshipIds;
 import de.emir.epd.ais.manager.AisTargetManager;
 import de.emir.epd.ais.model.IAisReadAdapter;
+import de.emir.epd.ais.utils.ShapeCache;
 import de.emir.epd.mapview.basics.utils.SetLayerDirtyPropertyChangeListener;
 import de.emir.epd.mapview.ids.MVBasic;
 import de.emir.epd.mapview.views.map.AbstractMapLayer;
@@ -49,7 +50,7 @@ import java.util.concurrent.ScheduledExecutorService;
  */
 public class AisLayer extends AbstractMapLayer implements Observer {
 
-	protected Color shipColor = new Color(78, 78, 78);
+	protected Color shipColor = new Color(34, 34, 34, 255);
 	protected Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 11);
 
 	protected Polygon polyActiveAisTarget = new Polygon(new int[] { -6, 0, 6, -6 }, new int[] { 6, -12, 6, 6 }, 4);
@@ -61,7 +62,10 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 	protected BasicStroke trackStroke = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
 	protected BasicStroke cogSogStroke = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1,
 			new float[] { 5, 3 }, 0);
-
+	protected BasicStroke geometryStroke = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
+	protected Color geometryOutlineColor = new Color(78, 78, 78);
+	protected Color geometryFillColor = new Color(74, 74, 74, 48);
+	protected ShapeCache cache = new ShapeCache();
 	protected Color trackColor = new Color(78, 78, 78, 96);
 	protected Color focusColor = new Color(0, 0, 0, 255);
 
@@ -81,6 +85,7 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 	protected IProperty<Integer> propLookahead;
 	protected IProperty<Boolean> propLayerFixedUpdate;
 	protected IProperty<Integer> propLayerUpdateRate;
+	protected IProperty<Boolean> propLayerDisplayGeometries;
 	protected ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
 	protected JPopupMenu popupMenu;
@@ -177,6 +182,7 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 		propLookahead = ctx.getProperty(AisBasics.AIS_VIEWER_PROP_LOOKAHEAD, 6);
 		propLayerFixedUpdate = ctx.getProperty(AisBasics.AIS_VIEWER_PROP_LAYER_FIXED_UPDATE, true);
 		propLayerUpdateRate = ctx.getProperty(AisBasics.AIS_VIEWER_PROP_LAYER_UPDATE_RATE, 10);
+		propLayerDisplayGeometries = ctx.getProperty(AisBasics.AIS_VIEWER_PROP_LAYER_DISPLAY_GEOMETRIES, true);
 
 		propNames.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
 		propShowTimedOut.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
@@ -188,6 +194,7 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 		propLookahead.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
 		propLayerFixedUpdate.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
 		propLayerUpdateRate.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
+		propLayerDisplayGeometries.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
 		ownshipMMSIProp.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
 
 		// Updater which updates the layer at a fixed rate if no other changes in the model were made.
@@ -254,6 +261,10 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 
 			Point2D px = c.convert(lon, lat);
 
+			Angle course = PhysicalObjectUtils.getCOG(v);
+			Angle trueHeading = PhysicalObjectUtils.getHeading(v);
+			int zoom = c.getZoom();
+
 			// draw historic positions of a vessel
 			if (showTracks) {
 
@@ -301,11 +312,36 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 				}
 			}
 
-			int zoom = c.getZoom();
+
 
 			g.setColor(shipColor);
 			AffineTransform transform = g.getTransform();
 			g.translate(px.getX(), px.getY());
+
+			boolean showShape = false;
+			double shapeRotation = 0;
+			if(trueHeading != null && trueHeading.getAs(AngleUnit.DEGREE) != 511.0) {
+				showShape = true;
+				shapeRotation = trueHeading.getAs(AngleUnit.RADIAN);
+			} else if(course != null && course.getAs(AngleUnit.DEGREE) != 360.0) {
+				showShape = true;
+				shapeRotation = course.getAs(AngleUnit.RADIAN);
+			}
+
+			if(propLayerDisplayGeometries.getValue() && showShape && zoom < 5) {
+				Shape shape = cache.getShape(v, c);
+				if(shape != null) {
+					g.rotate(shapeRotation);
+					g.setColor(geometryFillColor);
+					g.setStroke(geometryStroke);
+					g.fill(shape);
+					g.setColor(geometryOutlineColor);
+					g.draw(shape);
+					g.rotate(-shapeRotation);
+					g.setColor(shipColor);
+					g.setStroke(polyActiveAisTargetStroke);
+				}
+			}
 
 			boolean showCogSogHeading = zoom < 11;
 
@@ -345,7 +381,7 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 			boolean cogAvailable = false;
 			boolean headingAvailable = false;
 
-			Angle course = PhysicalObjectUtils.getCOG(v);
+
 			Speed speed = PhysicalObjectUtils.getSOG(v);
 
 			// draw lookahead
@@ -410,10 +446,7 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 			g.rotate(-cogRad);
 
 			double headingRad = 0;
-			Angle trueHeading = PhysicalObjectUtils.getHeading(v);
-
-
-			if (trueHeading != null && lostTarget == false && showCogSogHeading == true) {
+			if (trueHeading != null && showCogSogHeading == true) {
 				float heading = (float) trueHeading.getAs(AngleUnit.DEGREE);
 
 				// Only draw heading line if heading is available (not 511 according to
@@ -464,6 +497,7 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 				shipRotation = 0;
 			}
 
+			g.setColor(shipColor);
 			g.setStroke(polyActiveAisTargetStroke);
 			g.rotate(shipRotation);
 
@@ -477,19 +511,15 @@ public class AisLayer extends AbstractMapLayer implements Observer {
 			// If no COG nor heading is available, draw a horizontal line through the AIS
 			// target according to SN.1/Circ.243/Rev.2
 			if (!cogAvailable && !headingAvailable) {
-				g.rotate(-shipRotation);
 				g.drawLine(-10, 10, 10, -10);
-				g.rotate(shipRotation);
 			}
 
 			// If the target has not received new values during the timeout period, it is
 			// considered lost and indicated by a cross through the AIS target
 			// according to SN.1/Circ.243/Rev.2
 			if (lostTarget) {
-				g.rotate(-shipRotation);
 				g.drawLine(-10, -10, 10, 10);
 				g.drawLine(-10, 10, 10, -10);
-				g.rotate(shipRotation);
 			}
 
 			g.rotate(-shipRotation);

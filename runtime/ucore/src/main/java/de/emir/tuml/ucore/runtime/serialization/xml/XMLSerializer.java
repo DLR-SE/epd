@@ -47,18 +47,18 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 {
 	public static final String 	XMI_NS = "http://www.omg.org/XMI";
 	public static final String 	XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
-	private static final org.apache.logging.log4j.Logger LOG = org.apache.logging.log4j.LogManager.getLogger(XMLSerializer.class);
-	public interface IXMLReadListener {
-		public void onObjectRead(UObject object, final Node xmlNode, XMLReader reader, XMLReaderImpl serializer);
 
-		public UClassifier onCouldNotFindClassifier(String type, UObject instance, UStructuralFeature feature,
+    public interface IXMLReadListener {
+		void onObjectRead(UObject object, final Node xmlNode, XMLReader reader, XMLReaderImpl serializer);
+
+		UClassifier onCouldNotFindClassifier(String type, UObject instance, UStructuralFeature feature,
 				Node node, XMLReader mReader, XMLReaderImpl xmlReaderImpl);
 	}
 
 
 	protected class XMLWriter {
 		
-		private HashMap<UObject, String>		mObjectIds = new HashMap<UObject, String>();
+		private final HashMap<UObject, String> mObjectIds = new HashMap<UObject, String>();
 		
 		
 		public String createID(UObject instance){
@@ -66,12 +66,12 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 			mObjectIds.put(instance, str);
 			return str;
 		}
+
 		public String getID(UObject instance){
 			return mObjectIds.get(instance);
 		}
-		
-		
-		OutputStream write(UObject instance, final OutputStream stream) throws ParserConfigurationException, TransformerException{
+
+		OutputStream write(UObject instance, final OutputStream stream) throws ParserConfigurationException, TransformerException {
 			final DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			final Document doc = builder.newDocument();
 			
@@ -91,18 +91,8 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 			transformer.transform(source, result);
 			return stream;
 		}
-		
-		
-		/*
-		 * 		public string write (UObject obj){
-			XDocument doc = new XDocument();
-			XElement el = write(doc, obj);
-			el.Add(new XAttribute(XNamespace.Xmlns + "xmi", "http://www.omg.org/XMI"));
-			el.Add(new XAttribute(XNamespace.Xmlns + "xsi", "http://www.w3.org/2001/XMLSchema-instance"));
-			doc.Add(el);
-			return doc.ToString();
-		}
-		 */
+
+
 		public String write(UObject instance) throws ParserConfigurationException, TransformerException{
 			final DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			final Document doc = builder.newDocument();
@@ -138,7 +128,6 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 			return el;
 		}
 
-
 		protected void writeProperties(Document doc, Element el, Collection<IProperty> allProperties) {
 			if (allProperties != null && allProperties.isEmpty() == false){
 				for (IProperty p : allProperties){
@@ -155,13 +144,14 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 				}
 			}
 		}
+
 		protected void writeReferences(Document doc, Element el, UObject instance, List<UStructuralFeature> allReferences) {
 			for (UStructuralFeature f : allReferences){
 				Object value = f.get(instance);
 				if (value == null)
 					continue;
 				if (f.isMany()){
-					List list = (List)value;
+					List list = (List) value;
 					for (Object v : list){
 						if (v != null){
 							Element child = writeSingleReference(doc, f, (UObject) v, instance); //we now that its an UObject, since its part of an reference
@@ -169,7 +159,7 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 								el.appendChild(child);
 						}
 					}
-				}else{
+				} else {
 					Element child = writeSingleReference(doc, f, (UObject) value, instance);
 					if (child != null)
 						el.appendChild(child);
@@ -182,7 +172,8 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 		 * @param doc
 		 * @param f
 		 * @param instance
-		 * @param parent parent from which this method is called, not necessarily the container of the UObject. This attribute may be used to decide if it's owned by the caller
+		 * @param parent parent from which this method is called, not necessarily the container of the UObject. This
+         *               attribute may be used to decide if it's owned by the caller
 		 * @return
 		 */
 		protected Element writeSingleReference(Document doc, UStructuralFeature f, UObject instance, UObject parent) {
@@ -190,7 +181,7 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 			String id = getID(instance);
 			if (id == null){ // if the ID is null, the object has not yet been serialized
 				if (instance == null)
-					ULog.error("can not serialize null instance: " + instance + " Feature: " + f);
+					ULog.error("can not serialize null instance: {} Feature: {}", instance, f);
 				UClassifier cl = instance.getUClassifier();
 				if (cl != f.getType()){
 					el.setAttributeNS(XSI_NS, "xsi:type", cl.getName());
@@ -201,7 +192,7 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 					writeProperties(doc, el, allProperties);
 				writeAttributes(doc, el, instance, cl.getAllAttributes());
 				writeReferences(doc, el, instance, cl.getAllReferences());
-			}else{
+			} else {
 				el.setAttributeNS(XMI_NS, "xmi:ref", id);
 			}
 			return el;
@@ -240,20 +231,24 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 	public static class XMLReaderImpl {
 		XMLReader 							mReader = null;
 		
-		private HashMap<String, UObject> 	mInstanceMap = new HashMap<String, UObject>();
-		private IXMLReadListener 			mCallback;
-		private boolean 					mAcceptMissingReferences = false;
+		private final HashMap<String, UObject> 	mInstanceMap = new HashMap<>();
+		private final IXMLReadListener 			mCallback;
+		private boolean 					    mAcceptMissingReferences = false;
 		
 		public XMLReaderImpl(IXMLReadListener callback) {
 			mCallback = callback;
 		}
-		void enableMissingReferences(boolean b) { mAcceptMissingReferences = b; }
+
+        void enableMissingReferences(boolean b) {
+            mAcceptMissingReferences = b;
+        }
 		
 		private void rememberID(Node node, UObject instance) {
 			String id = mReader.getAttributeValue(node, "xmi:id");
 			if (id != null)
 				mInstanceMap.put(id, instance);
 		}
+
 		private UObject getInstance(String id){
 			return mInstanceMap.get(id);
 		}
@@ -266,7 +261,8 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 			return read(rootNode);
 		}
 
-		/** reads a UObject from a given XML node 
+		/**
+         * Reads a UObject from a given XML node
 		 * @throws InstantiationException 
 		 * @throws ClassNotFoundException */
 		public UObject read(Node rootNode, UClass cl) throws ClassNotFoundException, InstantiationException {
@@ -275,15 +271,21 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 			readAttributes(rootNode, instance, cl);
 			try {
 				readReferences(rootNode, instance, cl);
-			}catch(ClassNotFoundException cnfe) {
+			} catch(ClassNotFoundException exception) {
 				if (!mAcceptMissingReferences)
-					throw cnfe;
-				ULog.warn("Ignoring unknown reference: " + cnfe.getMessage());
+					throw exception;
+				ULog.warn("Ignoring unknown reference: {}", exception.getMessage());
 			}
 			if (mCallback != null)
-				try { mCallback.onObjectRead(instance, rootNode, mReader, this); }catch(Exception e) {e.printStackTrace();} //notify listener, if we have one
+				try {
+                    // notify listener, if we have one
+                    mCallback.onObjectRead(instance, rootNode, mReader, this);
+                } catch(Exception e) {
+                    ULog.error(e);
+                }
 			return instance;
 		}
+
 		public UObject read(Node rootNode) throws ClassNotFoundException, InstantiationException {
 			String str = rootNode.getNodeName();
             if (str.contains(":")) {
@@ -295,7 +297,7 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 				for (UClassifier _c : UCoreMetaRepository.getAllClassifier()){
 					sb.append(_c.getName()).append("\n");
 				}
-                LOG.debug("List of available UClssifiers: \n" + sb.toString());
+                ULog.debug("List of available UClassifiers: \n{}", sb);
 				throw new NullPointerException("Could not find Classifier for: " + str);
 			}
 			return read(rootNode, cl);
@@ -331,8 +333,8 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 				readProperty(cn, instance, parentName + name + ".");
 			}			
 		}
-		private void readReferences(Node node, UObject instance, UClass cl) throws ClassNotFoundException, InstantiationException {
-			HashSet<UStructuralFeature> readFeatures = new HashSet<UStructuralFeature>();
+		private void readReferences(Node node, UObject instance, UClass cl) throws ClassNotFoundException {
+			HashSet<UStructuralFeature> readFeatures = new HashSet<>();
 			for (Node child : mReader.getChildren(node)){
 				UStructuralFeature feature = cl.getFeature(child.getNodeName());
 				if (feature == null){
@@ -341,10 +343,11 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 					}
 					continue;
 				}
-				if (feature.isReadOnly() ) {
+//				if (feature.isReadOnly() ) {
 					//if readonly we would get an exception
+                    // TODO why is this commented out?
 //					continue;
-				}
+//				}
 				if (feature.isMany() && !feature.isReadOnly()){
 					if (readFeatures.contains(feature) == false){
 						readFeatures.add(feature);
@@ -353,9 +356,10 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 						l.clear();
 					}
 				}
+
 				if (feature.isMany() && feature.isAttribute()){
 					readAttributeCollectionElement(child, instance, cl, feature);
-				}else{
+				} else {
 					String ref = mReader.getAttributeValue(child, "xmi:ref");
 					UObject child_instance = null; 
 					if (feature.isReadOnly()) {
@@ -367,23 +371,28 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 						assert(child_instance != null);
 					}else{
 						String type = mReader.getAttributeValue(child, "xsi:type");
-						UClassifier child_cl = (UClassifier) feature.getType(); //we know that its a classifier, since its part of an reference
+                        // we know that it's a classifier, since its part of an reference
+						UClassifier child_cl = (UClassifier) feature.getType();
 						if (type != null)
 							child_cl = UCoreMetaRepository.findClassifierBySimpleName(type);
 						if (child_cl == null){
 							//ask the callback if there are has been some changes in the model
 							if (mCallback != null)
-								try{ child_cl = mCallback.onCouldNotFindClassifier(type, instance, feature, node, mReader, this); }catch(Exception e) {e.printStackTrace();}
+								try {
+                                    child_cl = mCallback.onCouldNotFindClassifier(type, instance, feature, node, mReader, this);
+                                } catch(Exception e) {
+                                    ULog.error(e);
+                                }
 						}
 						if (child_cl == null) { //if we still could not find the classifier we have to aboard at this point 
 							throw new ClassNotFoundException("Could not find Class: " + type);
-						}else if (child_cl instanceof UClass && ((UClass)child_cl).getAbstract())
-							ULog.error("The class: " + type + " is abstract and can not be instantiiated " + node);// InstantiationException
+						} else if (child_cl instanceof UClass && ((UClass)child_cl).getAbstract())
+							ULog.error("The class: " + type + " is abstract and can not be instantiated " + node);// InstantiationException
 						if (child_cl instanceof UEnum){
 							ULog.error("TODO: Read Enumeration value");
-						}else{
+						} else {
 							if (child_cl instanceof UClass == false){
-								ULog.error("Classifier: " + child_cl.getName() + " is not an UClass");
+								ULog.error("Classifier: {} is not an UClass", child_cl.getName());
 							}
 							UClass child_class = (UClass)child_cl;
 							if (child_instance == null)
@@ -392,15 +401,20 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 							readAttributes(child, child_instance, child_class);
 							readReferences(child, child_instance, child_class);
 							if (mCallback != null)
-								try { mCallback.onObjectRead(child_instance, child, mReader, this); }catch(Exception e) {e.printStackTrace();} //notify listener, if we have one
+								try {
+                                    // notify listener, if we have one
+                                    mCallback.onObjectRead(child_instance, child, mReader, this);
+                                } catch(Exception e) {
+                                    ULog.error(e);
+                                }
 						}
 					}
 					assert(child_instance != null);
-					if (feature.isMany()){
+
+                    if (feature.isMany()){
 						instance.uAdd(feature, child_instance);
-					}else
-						if (feature.isReadOnly() == false)
-							feature.set(instance, child_instance);
+					} else if (feature.isReadOnly() == false)
+                        feature.set(instance, child_instance);
 				}
 			}
 		}
@@ -412,10 +426,11 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 				if (value != null){
 					instance.uAdd(feature, value);
 				}
-			}catch(Exception e) {
-				e.printStackTrace();
+			} catch(Exception e) {
+                ULog.error(e);
 			}
 		}
+
 		private void readAttributes(Node node, UObject instance, UClass cl) {
 			for (Attr attr : mReader.getAttributes(node)){
 				UStructuralFeature f = cl.getFeature(attr.getName());
@@ -439,29 +454,28 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 		
 		public Object readAttributeValue(UStructuralFeature f, Attr attr) {
 			if (f.getType() instanceof UPrimitiveType){
-				Object value = ((UPrimitiveType)f.getType()).parseString(attr.getValue());
-				if (value != null)
-					return value;
-			}else{
+                return ((UPrimitiveType)f.getType()).parseString(attr.getValue());
+			} else {
 				UEnum en = (UEnum) f.getType();
-				Object value = en.createNewInstance(attr.getValue());
-				if (value != null)
-					return value;
+                return en.createNewInstance(attr.getValue());
 			}
-			return null;
-		}
-		
-				
+        }
 	}
 
 	static class MultipleReadCallbacks implements IXMLReadListener {
 		ArrayList<IXMLReadListener> 	mDelegates = new ArrayList<>();
+
 		@Override
 		public void onObjectRead(UObject object, Node xmlNode, XMLReader reader, XMLReaderImpl serializer) {
 			for (IXMLReadListener d : mDelegates) {
-				try { d.onObjectRead(object, xmlNode, reader, serializer); }catch(Exception e) {e.printStackTrace();}
+				try {
+                    d.onObjectRead(object, xmlNode, reader, serializer);
+                } catch(Exception e) {
+                    ULog.error(e);
+                }
 			}
 		}
+
 		@Override
 		public UClassifier onCouldNotFindClassifier(String type, UObject instance, UStructuralFeature feature,
 				Node node, XMLReader mReader, XMLReaderImpl xmlReaderImpl) {
@@ -470,18 +484,16 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 					UClassifier cl = d.onCouldNotFindClassifier(type, instance, feature, node, mReader, xmlReaderImpl);
 					if (cl != null)
 						return cl;
-				}catch(Exception e) {e.printStackTrace();}
+				} catch(Exception e) {
+                    ULog.error(e);
+                }
 			}
 			return null;
 		}
 	}
 
-	
-	
 	private MultipleReadCallbacks mReadCallback = null;
-	
-	
-	
+
 	public XMLSerializer() {
 		XMLCompatibilityManager mgr = ExtensionPointManager.getExtensionPoint(XMLCompatibilityManager.class);
 		if (mgr != null)
@@ -498,8 +510,11 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 		if (mReadCallback.mDelegates.isEmpty()) mReadCallback = null;
 	}
 	
-	/** if set to true, the serializer accepts missing references, e.g. ClassNotFoundExceptions if a model has not been loaded.
-	 * @note this option is disabled by defeault as the resulting object may not be the same as the serialized object -> use with caution
+	/**
+     * If set to true, the serializer accepts missing references, e.g. ClassNotFoundExceptions if a model has not
+     * been loaded.
+	 * @note this option is disabled by default as the resulting object may not be the same as the serialized
+     *       object -> use with caution
 	 */
 	private boolean mAcceptMissingReferences = false; 
 	public void setAcceptMissingReferences(boolean b) { mAcceptMissingReferences = b; }
@@ -510,7 +525,7 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 		try {
 			return new XMLWriter().write(instance);
 		} catch (ParserConfigurationException | TransformerException e) {
-			e.printStackTrace();
+            ULog.error(e);
 		}
 		return null;
 	}
@@ -521,11 +536,9 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 		try {
 			new XMLWriter().write(instance, stream);
 		} catch (ParserConfigurationException | TransformerException e) {
-			e.printStackTrace();
+            ULog.error(e);
 		}
 	}
-
-
 
 	@Override
 	public UObject deserialize(InputStream stream) {
@@ -533,8 +546,8 @@ public class XMLSerializer extends AbstractSerializer implements ISerializer
 			XMLReaderImpl reader = new XMLReaderImpl(mReadCallback);
 			reader.enableMissingReferences(isAcceptMissingReferencesEnabled());
 			return reader.read(stream);
-		}catch(Exception e){
-			e.printStackTrace();
+		} catch(Exception e) {
+            ULog.error(e);
 			return null;
 		}
 	}

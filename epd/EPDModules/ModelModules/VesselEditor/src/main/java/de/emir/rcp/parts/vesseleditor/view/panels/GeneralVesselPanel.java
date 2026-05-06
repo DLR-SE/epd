@@ -27,20 +27,32 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 
+/**
+ * Creates a panel that lets users edit the basic properties of a Vessel (e.g. MMSI, IMO, Callsign, etc.). It is
+ * able to differentiate between PhysicalObject and Vessel. Therefore, it adapts the UI according to the provided
+ * type.
+ * Basic elements (e.g. Pose) that are not present will automatically be added to the object to ensure the same UI
+ * for all physical objects.
+ */
 public class GeneralVesselPanel extends JPanel {
 
-    private PhysicalObject mVessel;
+    private final PhysicalObject mPhysicalObject;
 
     /**
      * @wbp.parser.constructor
      */
-    public GeneralVesselPanel(PhysicalObject vessel) {
-        this(vessel, null);
+    public GeneralVesselPanel(PhysicalObject physicalObject) {
+        this(physicalObject, null);
     }
 
-    public GeneralVesselPanel(PhysicalObject vessel, JPanel additions) {
+    /**
+     * Constructor with additional elements that should be added to the panel
+     * @param physicalObject object to create the UI for
+     * @param additions additional awt components
+     */
+    public GeneralVesselPanel(PhysicalObject physicalObject, JPanel additions) {
         super();
-        mVessel = vessel;
+        mPhysicalObject = physicalObject;
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.rowWeights = new double[]{1.0};
         gridBagLayout.columnWeights = new double[]{1.0};
@@ -96,13 +108,14 @@ public class GeneralVesselPanel extends JPanel {
 
         PropertyManager pmgr = PropertyManager.getInstance();
 
-        if (mVessel.getName() == null)
-            mVessel.setName(new RSIdentifierImpl());
+        if (mPhysicalObject.getName() == null) {
+            mPhysicalObject.setName(new RSIdentifierImpl());
+        }
         
-        WidgetUtils.addEditor(panel, "Name", gbcL, PointerOperations.create(mVessel, CorePackage.Literals.NamedElement_name, CorePackage.Literals.MDIdentifier_code), gbcPE);
+        WidgetUtils.addEditor(panel, "Name", gbcL, PointerOperations.create(mPhysicalObject, CorePackage.Literals.NamedElement_name, CorePackage.Literals.MDIdentifier_code), gbcPE);
 
-        if (mVessel instanceof Vessel) {
-        	WidgetUtils.addEditor(panel, "Call Sign", gbcL, PointerOperations.create(mVessel, VesselPackage.Literals.Vessel_callSign), gbcPE);
+        if (mPhysicalObject instanceof Vessel) {
+        	WidgetUtils.addEditor(panel, "Call Sign", gbcL, PointerOperations.create(mPhysicalObject, VesselPackage.Literals.Vessel_callSign), gbcPE);
             
             gbcPE.gridwidth = 1;
             gbcPE.gridx = 2;
@@ -112,22 +125,24 @@ public class GeneralVesselPanel extends JPanel {
             gbcPE.gridx = 1;
             gbcPE.weightx = 1;
             
-            Pointer pointer = PointerOperations.create(mVessel, VesselPackage.Literals.Vessel_mmsi);
+            Pointer pointer = PointerOperations.create(mPhysicalObject, VesselPackage.Literals.Vessel_mmsi);
             IPropertyEditor mmsiEd = pmgr.getDefaultEditor(pointer);
             addProperty(panel, "MMSI", mmsiEd, gbcL, gbcPE);
             
             gbcPE.gridwidth = 2;
             mmsiEd.addPropertyChangeListener(pcl -> {
                 ImageIcon icon = MIDManager.getInstance().getIcon(pcl.getNewValue().toString(), 16);
-                if (icon != null)
+                if (icon != null) {
                     flagLabel.setIcon(icon);
+                }
             });
-            ImageIcon icon = MIDManager.getInstance().getIcon("" + ((Vessel) mVessel).getMmsi(), 16);
-            if (icon != null)
+            ImageIcon icon = MIDManager.getInstance().getIcon("" + ((Vessel) mPhysicalObject).getMmsi(), 16);
+            if (icon != null) {
                 flagLabel.setIcon(icon);
+            }
             
-            WidgetUtils.addEditor(panel, "IMO", gbcL, PointerOperations.create(mVessel, VesselPackage.Literals.Vessel_imo), gbcPE);
-            WidgetUtils.addEditor(panel, "Type", gbcL, PointerOperations.create(mVessel, VesselPackage.Literals.Vessel_type), gbcPE);
+            WidgetUtils.addEditor(panel, "IMO", gbcL, PointerOperations.create(mPhysicalObject, VesselPackage.Literals.Vessel_imo), gbcPE);
+            WidgetUtils.addEditor(panel, "Type", gbcL, PointerOperations.create(mPhysicalObject, VesselPackage.Literals.Vessel_type), gbcPE);
         }
         return panel;
     }
@@ -151,21 +166,24 @@ public class GeneralVesselPanel extends JPanel {
         gbcPE.weightx = 1;
         gbcPE.gridwidth = 2;
 
-        Pose pose = mVessel.getPose();
+        Pose pose = mPhysicalObject.getPose();
         Coordinate coord = pose.getCoordinate();
-        if (coord == null)
+        if (coord == null) {
             pose.setCoordinate(coord = new CoordinateImpl(0.0, 0.0, CRSUtils.WGS84_2D));
-        if (coord.getCrs() == null)
+        }
+        if (coord.getCrs() == null) {
             coord.setCrs(CRSUtils.WGS84_2D);
+        }
 
         WidgetUtils.addEditor(posePanel, "Latitude", gbcL, PointerOperations.create(coord, SpatialPackage.Literals.Coordinate_x), gbcPE);
         WidgetUtils.addEditor(posePanel, "Longitude", gbcL, PointerOperations.create(coord, SpatialPackage.Literals.Coordinate_y), gbcPE);
 
         Orientation ori = pose.getOrientation();
-        if (ori == null)
+        if (ori == null) {
             pose.setOrientation(ori = new EulerImpl(0, 0, 0, AngleUnit.DEGREE));
-        else if (ori instanceof Quaternion)
+        } else if (ori instanceof Quaternion) {
             pose.setOrientation(ori = ori.toEuler());
+        }
         
         WidgetUtils.addEditor(posePanel, "Heading", gbcL, PointerOperations.create(ori, UnitsPackage.Literals.Euler_z), gbcPE);
         return posePanel;

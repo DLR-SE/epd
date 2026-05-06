@@ -11,22 +11,23 @@ import de.emir.tuml.ucore.runtime.utils.UCoreMetaRepository;
 
 
 /**
- * 
  * @author sschweigert
- *@deprecated use the UModelAdapter from ucore
+ * @deprecated use the UModelAdapter from ucore
  */
 @Deprecated
 public class UModelAdapter extends de.emir.tuml.ucore.runtime.adapter.UModelAdapter {
 
-	public static class AdapterOptions extends de.emir.tuml.ucore.runtime.adapter.UModelAdapter.AdapterOptions{
+    public static class AdapterOptions extends de.emir.tuml.ucore.runtime.adapter.UModelAdapter.AdapterOptions {
 
-		public AdapterOptions(Class<?> clazz) {
-			super(clazz);
-		}
-		public AdapterOptions(UClassifier classifier) {
-			super(classifier);
-		}
-	}
-	
-	public interface IObjectCallback extends de.emir.tuml.ucore.runtime.adapter.UModelAdapter.IObjectCallback {}
+        public AdapterOptions(Class<?> clazz) {
+            super(clazz);
+        }
+
+        public AdapterOptions(UClassifier classifier) {
+            super(classifier);
+        }
+    }
+
+    public interface IObjectCallback extends de.emir.tuml.ucore.runtime.adapter.UModelAdapter.IObjectCallback {
+    }
 }

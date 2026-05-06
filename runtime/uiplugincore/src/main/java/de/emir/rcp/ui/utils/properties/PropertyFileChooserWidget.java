@@ -1,56 +1,48 @@
 package de.emir.rcp.ui.utils.properties;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
-
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.filechooser.FileFilter;
-
-import org.apache.logging.log4j.Logger;
-
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
-import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
 
-public class PropertyFileChooserWidget extends JPanel implements IPropertyWidget {
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileFilter;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
-    /**
-     * 
-     */
+/**
+ * A class that creates a file chooser UI for String properties. It can be used if the String should represent a
+ * file path. If the properties value does not match the UI value, `isDirty` will be set to true. Note that the
+ * properties value is not directly modified on user input. It is only written to the property if `finish()` is
+ * called!
+ */
+public class PropertyFileChooserWidget extends JPanel implements IPropertyWidget<String> {
+
     private static final long serialVersionUID = -8935435319289993420L;
-    private JTextField textField;
-    private IProperty property;
 
-    private Logger log = ULog.getLogger(PropertyFileChooserWidget.class);
-    private PropertyChangeListener changeListener;
+    protected final JTextField textField;
+    protected final IProperty<String> property;
 
-    private boolean dirty = false;
+    protected boolean isDirty = false;
+
+    // set to true, to disable listener calls
+    protected boolean isListenerDisabled = false;
 
     public PropertyFileChooserWidget(String label, String propertyContext, String propertyName, String defaultValue,
-            FileFilter ff) {
+                                     FileFilter ff) {
 
         PropertyContext context = PropertyStore.getContext(propertyContext);
 
         property = context.getProperty(propertyName, defaultValue);
 
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
-        gridBagLayout.rowHeights = new int[] { 0, 0 };
-        gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0 };
-        gridBagLayout.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
+        gridBagLayout.columnWidths = new int[]{0, 0, 0};
+        gridBagLayout.rowHeights = new int[]{0, 0};
+        gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0};
+        gridBagLayout.rowWeights = new double[]{0.0, Double.MIN_VALUE};
         setLayout(gridBagLayout);
 
         JLabel lblLabel = new JLabel(label + ": ");
@@ -76,26 +68,44 @@ public class PropertyFileChooserWidget extends JPanel implements IPropertyWidget
         gbc_btnBrowse.gridy = 0;
         add(btnBrowse, gbc_btnBrowse);
 
-        changeListener = new PropertyChangeListener() {
+        property.addPropertyChangeListener(evt -> setTextFieldValue());
 
+        textField.addActionListener(e -> {
+            Object oldValue = property.getValue();
+            Object newValue = textField.getText();
+            isDirty = !oldValue.equals(newValue);
+        });
+
+        textField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-
-                setTextfieldValue();
-
+            public void insertUpdate(DocumentEvent e) {
+                checkChange();
             }
-        };
-
-        property.addPropertyChangeListener(changeListener);
-
-        textField.addKeyListener(new KeyAdapter() {
 
             @Override
-            public void keyTyped(KeyEvent e) {
-                dirty = true;
+            public void removeUpdate(DocumentEvent e) {
+                checkChange();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                checkChange();
+            }
+
+            private void checkChange() {
+
+                if (isListenerDisabled){
+                    return;
+                }
+
+                Object oldValue = property.getValue();
+                Object newValue = textField.getText();
+                isDirty = !oldValue.equals(newValue);
+                firePropertyChange(PROPERTY_VALUE_CHANGE_NAME, oldValue, newValue);
             }
         });
-        setTextfieldValue();
+
+        setTextFieldValue();
 
         btnBrowse.addActionListener(new ActionListener() {
 
@@ -110,7 +120,7 @@ public class PropertyFileChooserWidget extends JPanel implements IPropertyWidget
                 }
                 String text = textField.getText();
 
-                if (text != null && text.isEmpty() == false) {
+                if (text != null && !text.isEmpty()) {
 
                     File current = new File(text);
 
@@ -126,7 +136,14 @@ public class PropertyFileChooserWidget extends JPanel implements IPropertyWidget
                     File selectedFile = chooser.getSelectedFile();
 
                     textField.setText(selectedFile.getAbsolutePath());
-                    dirty = true;
+
+                    isDirty = true;
+
+                    firePropertyChange(
+                            PROPERTY_VALUE_CHANGE_NAME,
+                            text,
+                            selectedFile.getAbsolutePath()
+                    );
                 }
 
             }
@@ -134,43 +151,39 @@ public class PropertyFileChooserWidget extends JPanel implements IPropertyWidget
 
     }
 
-    private void setTextfieldValue() {
+    private void setTextFieldValue() {
+        if (isListenerDisabled){
+            return;
+        }
 
-        Object value = property.getValue();
+        String value = property.getValue();
 
         if (value == null) {
             textField.setText("");
-            dirty = false;
+            isDirty = false;
             return;
         }
 
-        if (value instanceof String == false) {
-            log.error("Property is not of type of String");
-            return;
-        }
-
-        textField.setText((String) value);
-        dirty = false;
-
+        textField.setText(value);
+        isDirty = false;
     }
 
     public void reset() {
-        setTextfieldValue();
+        setTextFieldValue();
     }
 
     public void finish() {
-
+        isListenerDisabled = true;
         property.setValue(textField.getText());
-        property.removePropertyChangeListener(changeListener);
-
+        isListenerDisabled = false;
     }
 
     public boolean isDirty() {
-        return dirty;
+        return isDirty;
     }
 
     @Override
-    public IProperty getProperty() {
+    public IProperty<String> getProperty() {
         return property;
     }
 }

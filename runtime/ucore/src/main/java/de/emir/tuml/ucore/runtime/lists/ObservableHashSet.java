@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import de.emir.tuml.ucore.runtime.lists.ICollectionObserver.CHANGE_TYPE;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 
 /**
  * Specialized HashMap that notifies about changes.
@@ -64,7 +65,7 @@ public class ObservableHashSet<V> extends HashSet<V> {
                     obs.onCollectionChanged(this, type, oldValue, newValue);
                 } catch (Exception | Error err) {
                     // DO nothing at the moment, expect printing the stacktrace
-                    err.printStackTrace();
+                    ULog.error(err);
                 }
             }
         }

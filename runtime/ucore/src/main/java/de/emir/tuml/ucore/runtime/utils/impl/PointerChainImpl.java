@@ -4,13 +4,11 @@ import de.emir.tuml.ucore.runtime.IStructuralElement;
 import de.emir.tuml.ucore.runtime.Notification;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.UObject;
-import de.emir.tuml.ucore.runtime.NotificationType;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
 import de.emir.tuml.ucore.runtime.pointer.PointerOperations;
 import de.emir.tuml.ucore.runtime.utils.Pointer;
 import de.emir.tuml.ucore.runtime.utils.PointerChain;
-import de.emir.tuml.ucore.runtime.utils.impl.FeaturePointerImpl;
 import de.emir.tuml.ucore.runtime.utils.UtilsPackage;
 
 /**

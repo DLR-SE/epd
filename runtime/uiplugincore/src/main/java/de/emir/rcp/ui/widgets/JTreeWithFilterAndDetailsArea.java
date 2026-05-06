@@ -34,465 +34,464 @@ import de.emir.tuml.ucore.runtime.resources.IconManager;
  * Selecting an element will update the details area to display informations
  * regarding this element. An optional filter text field can be used. Note: The
  * filter text will only show up, if a FilterMatcher is added.
- * 
- * @author Florian
  *
+ * @author Florian
  */
 public class JTreeWithFilterAndDetailsArea extends JPanel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7788285063478895705L;
-	private JTextField filterText;
-	private String filterInfoText = "type filter text";
-	private JLabel detailsLabel;
-	private JTree tree;
-	private JPanel content;
-
-	private IDetailsAreaProvider detailsAreaProvider;
-	private IFilterMatcher filterMatcher;
-
-	protected boolean firstFocus;
-
-	private DefaultMutableTreeNode rootNode;
-	private DefaultMutableTreeNode filteredRootNode;
-
-	private AbstractDetailsContentPanel<?> currentDetails;
-
-	private Icon defaultIcon = IconManager.getIcon(this, "icons/emiricons/32/settings.png",
-			IconManager.preferedSmallIconSize());
-	private JScrollPane sc;
-	protected boolean tempFilterDisabled;
-	private TreeSelectionListener treeSelectionListener;
-	private DefaultTreeModel treeModel;
-	private JSplitPane splitPane;
-	private JPanel rightPanel;
-	private JPanel leftPanel;
-	private JScrollPane sc_1;
-
-	public JTreeWithFilterAndDetailsArea() {
-
-		rightPanel = new JPanel();
-		GridBagLayout gbl_rightPanel = new GridBagLayout();
-		gbl_rightPanel.columnWidths = new int[] { 104, 0 };
-		gbl_rightPanel.rowHeights = new int[] { 0, 0, 0 };
-		gbl_rightPanel.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_rightPanel.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
-		rightPanel.setLayout(gbl_rightPanel);
-
-		JPanel panel_1 = new JPanel();
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.anchor = GridBagConstraints.NORTH;
-		gbc_panel_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_1.gridx = 0;
-		gbc_panel_1.gridy = 0;
-		rightPanel.add(panel_1, gbc_panel_1);
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[] { 0, 0 };
-		gbl_panel_1.rowHeights = new int[] { 0, 0, 0, 0 };
-		gbl_panel_1.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_panel_1.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		panel_1.setLayout(gbl_panel_1);
-
-		detailsLabel = new JLabel("");
-		detailsLabel.setFont(detailsLabel.getFont().deriveFont(Font.BOLD, 11));
-		detailsLabel.setIcon(defaultIcon);
-
-		GridBagConstraints gbc_lblDetailsLabel = new GridBagConstraints();
-		gbc_lblDetailsLabel.anchor = GridBagConstraints.WEST;
-		gbc_lblDetailsLabel.insets = new Insets(2, 0, 5, 0);
-		gbc_lblDetailsLabel.gridx = 0;
-		gbc_lblDetailsLabel.gridy = 0;
-		panel_1.add(detailsLabel, gbc_lblDetailsLabel);
-
-		JSeparator separator_1 = new JSeparator();
-		GridBagConstraints gbc_separator_1 = new GridBagConstraints();
-		gbc_separator_1.insets = new Insets(0, 0, 5, 0);
-		gbc_separator_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_separator_1.gridx = 0;
-		gbc_separator_1.gridy = 1;
-		panel_1.add(separator_1, gbc_separator_1);
-
-		treeModel = new DefaultTreeModel(filteredRootNode);
-		setLayout(new BorderLayout(0, 0));
-
-		splitPane = new JSplitPane();
-		splitPane.setResizeWeight(0.20);
-		add(splitPane);
-
-		splitPane.setRightComponent(rightPanel);
-		
-		sc_1 = new JScrollPane();
-		GridBagConstraints gbc_sc_1 = new GridBagConstraints();
-		gbc_sc_1.fill = GridBagConstraints.BOTH;
-		gbc_sc_1.gridx = 0;
-		gbc_sc_1.gridy = 1;
-		rightPanel.add(sc_1, gbc_sc_1);
-		
-				content = new JPanel();
-				sc_1.setViewportView(content);
-				GridBagLayout gbl_content = new GridBagLayout();
-				gbl_content.columnWidths = new int[]{0, 0};
-				gbl_content.rowHeights = new int[]{0, 0};
-				gbl_content.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-				gbl_content.rowWeights = new double[]{1.0, Double.MIN_VALUE};
-				content.setLayout(gbl_content);
-
-		leftPanel = new JPanel();
-		splitPane.setLeftComponent(leftPanel);
-				leftPanel.setLayout(new BorderLayout(0, 0));
-		
-				sc = new JScrollPane();
-				leftPanel.add(sc);
-				tree = new JTree(treeModel);
-				sc.setViewportView(tree);
-				tree.setRootVisible(false);
-				tree.setShowsRootHandles(true);
+    /**
+     *
+     */
+    private static final long serialVersionUID = -7788285063478895705L;
+    private JTextField filterText;
+    private String filterInfoText = "type filter text";
+    private JLabel detailsLabel;
+    private JTree tree;
+    private JPanel content;
+
+    private IDetailsAreaProvider detailsAreaProvider;
+    private IFilterMatcher filterMatcher;
+
+    protected boolean firstFocus;
+
+    private DefaultMutableTreeNode rootNode;
+    private DefaultMutableTreeNode filteredRootNode;
+
+    private AbstractDetailsContentPanel<?> currentDetails;
+
+    private Icon defaultIcon = IconManager.getIcon(this, "icons/emiricons/32/settings.png",
+            IconManager.preferedSmallIconSize());
+    private JScrollPane sc;
+    protected boolean tempFilterDisabled;
+    private TreeSelectionListener treeSelectionListener;
+    private DefaultTreeModel treeModel;
+    private JSplitPane splitPane;
+    private JPanel rightPanel;
+    private JPanel leftPanel;
+    private JScrollPane sc_1;
+
+    public JTreeWithFilterAndDetailsArea() {
+
+        rightPanel = new JPanel();
+        GridBagLayout gbl_rightPanel = new GridBagLayout();
+        gbl_rightPanel.columnWidths = new int[]{104, 0};
+        gbl_rightPanel.rowHeights = new int[]{0, 0, 0};
+        gbl_rightPanel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+        gbl_rightPanel.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+        rightPanel.setLayout(gbl_rightPanel);
+
+        JPanel panel_1 = new JPanel();
+        GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+        gbc_panel_1.anchor = GridBagConstraints.NORTH;
+        gbc_panel_1.fill = GridBagConstraints.HORIZONTAL;
+        gbc_panel_1.insets = new Insets(0, 0, 5, 0);
+        gbc_panel_1.gridx = 0;
+        gbc_panel_1.gridy = 0;
+        rightPanel.add(panel_1, gbc_panel_1);
+        GridBagLayout gbl_panel_1 = new GridBagLayout();
+        gbl_panel_1.columnWidths = new int[]{0, 0};
+        gbl_panel_1.rowHeights = new int[]{0, 0, 0, 0};
+        gbl_panel_1.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+        gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+        panel_1.setLayout(gbl_panel_1);
+
+        detailsLabel = new JLabel("");
+        detailsLabel.setFont(detailsLabel.getFont().deriveFont(Font.BOLD, 11));
+        detailsLabel.setIcon(defaultIcon);
+
+        GridBagConstraints gbc_lblDetailsLabel = new GridBagConstraints();
+        gbc_lblDetailsLabel.anchor = GridBagConstraints.WEST;
+        gbc_lblDetailsLabel.insets = new Insets(2, 0, 5, 0);
+        gbc_lblDetailsLabel.gridx = 0;
+        gbc_lblDetailsLabel.gridy = 0;
+        panel_1.add(detailsLabel, gbc_lblDetailsLabel);
+
+        JSeparator separator_1 = new JSeparator();
+        GridBagConstraints gbc_separator_1 = new GridBagConstraints();
+        gbc_separator_1.insets = new Insets(0, 0, 5, 0);
+        gbc_separator_1.fill = GridBagConstraints.HORIZONTAL;
+        gbc_separator_1.gridx = 0;
+        gbc_separator_1.gridy = 1;
+        panel_1.add(separator_1, gbc_separator_1);
+
+        treeModel = new DefaultTreeModel(filteredRootNode);
+        setLayout(new BorderLayout(0, 0));
+
+        splitPane = new JSplitPane();
+        splitPane.setResizeWeight(0.20);
+        add(splitPane);
+
+        splitPane.setRightComponent(rightPanel);
+
+        sc_1 = new JScrollPane();
+        GridBagConstraints gbc_sc_1 = new GridBagConstraints();
+        gbc_sc_1.fill = GridBagConstraints.BOTH;
+        gbc_sc_1.gridx = 0;
+        gbc_sc_1.gridy = 1;
+        rightPanel.add(sc_1, gbc_sc_1);
+
+        content = new JPanel();
+        sc_1.setViewportView(content);
+        GridBagLayout gbl_content = new GridBagLayout();
+        gbl_content.columnWidths = new int[]{0, 0};
+        gbl_content.rowHeights = new int[]{0, 0};
+        gbl_content.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+        gbl_content.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+        content.setLayout(gbl_content);
+
+        leftPanel = new JPanel();
+        splitPane.setLeftComponent(leftPanel);
+        leftPanel.setLayout(new BorderLayout(0, 0));
 
-		addListeners();
+        sc = new JScrollPane();
+        leftPanel.add(sc);
+        tree = new JTree(treeModel);
+        sc.setViewportView(tree);
+        tree.setRootVisible(false);
+        tree.setShowsRootHandles(true);
 
-	}
+        addListeners();
 
-	public void addTreeSelectionListener(TreeSelectionListener tsl) {
-		tree.addTreeSelectionListener(tsl);
-	}
+    }
 
-	public void setTreeWidth(int width) {
-		sc.setPreferredSize(new Dimension(width, sc.getPreferredSize().height));
-		sc.setMinimumSize(new Dimension(width / 2, sc.getPreferredSize().height));
-	}
+    public void addTreeSelectionListener(TreeSelectionListener tsl) {
+        tree.addTreeSelectionListener(tsl);
+    }
 
-	public void setMinimumTreeWidth(int width) {
-		sc.setMinimumSize(new Dimension(width, sc.getPreferredSize().height));
-	}
+    public void setTreeWidth(int width) {
+        sc.setPreferredSize(new Dimension(width, sc.getPreferredSize().height));
+        sc.setMinimumSize(new Dimension(width / 2, sc.getPreferredSize().height));
+    }
 
-	private void addListeners() {
+    public void setMinimumTreeWidth(int width) {
+        sc.setMinimumSize(new Dimension(width, sc.getPreferredSize().height));
+    }
 
-		treeSelectionListener = new TreeSelectionListener() {
+    private void addListeners() {
 
-			@Override
-			public void valueChanged(TreeSelectionEvent e) {
+        treeSelectionListener = new TreeSelectionListener() {
 
-				DefaultMutableTreeNode selection = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-				activateContent(selection == null ? null : selection.getUserObject());
+            @Override
+            public void valueChanged(TreeSelectionEvent e) {
 
-			}
-		};
+                DefaultMutableTreeNode selection = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+                activateContent(selection == null ? null : selection.getUserObject());
 
-		tree.addTreeSelectionListener(treeSelectionListener);
+            }
+        };
 
-	}
+        tree.addTreeSelectionListener(treeSelectionListener);
 
-	/**
-	 * Updates the filtered model tree to show elements in accordance to the
-	 * currently active filtering
-	 */
-	protected void updateFiltering() {
+    }
 
-		filteredRootNode = new DefaultMutableTreeNode();
+    /**
+     * Updates the filtered model tree to show elements in accordance to the
+     * currently active filtering
+     */
+    protected void updateFiltering() {
 
-		for (int i = 0; i < rootNode.getChildCount(); i++) {
-			DefaultMutableTreeNode child = (DefaultMutableTreeNode) rootNode.getChildAt(i);
-			updateFiltering(filteredRootNode, child);
-		}
-		tree.removeTreeSelectionListener(treeSelectionListener);
-		treeModel = new DefaultTreeModel(filteredRootNode);
-		tree.setModel(treeModel);
-		tree.addTreeSelectionListener(treeSelectionListener);
+        filteredRootNode = new DefaultMutableTreeNode();
 
-		if (filterText != null && filterText.getText().isEmpty() == false
-				&& filterText.getText().equals(filterInfoText) == false) {
+        for (int i = 0; i < rootNode.getChildCount(); i++) {
+            DefaultMutableTreeNode child = (DefaultMutableTreeNode) rootNode.getChildAt(i);
+            updateFiltering(filteredRootNode, child);
+        }
+        tree.removeTreeSelectionListener(treeSelectionListener);
+        treeModel = new DefaultTreeModel(filteredRootNode);
+        tree.setModel(treeModel);
+        tree.addTreeSelectionListener(treeSelectionListener);
 
-			expandAllNodes(tree, 0, tree.getRowCount());
+        if (filterText != null && filterText.getText().isEmpty() == false
+                && filterText.getText().equals(filterInfoText) == false) {
 
-		}
+            expandAllNodes(tree, 0, tree.getRowCount());
 
-	}
+        }
 
-	private void expandAllNodes(JTree tree, int startingIndex, int rowCount) {
-		for (int i = startingIndex; i < rowCount; ++i) {
-			tree.expandRow(i);
-		}
+    }
 
-		if (tree.getRowCount() != rowCount) {
-			expandAllNodes(tree, rowCount, tree.getRowCount());
-		}
-	}
+    private void expandAllNodes(JTree tree, int startingIndex, int rowCount) {
+        for (int i = startingIndex; i < rowCount; ++i) {
+            tree.expandRow(i);
+        }
 
-	/**
-	 * Recursivly walks along the model tree, filtering all non matching elements
-	 * 
-	 * @param root
-	 * @param child
-	 * @return
-	 */
-	private boolean updateFiltering(DefaultMutableTreeNode root, DefaultMutableTreeNode child) {
+        if (tree.getRowCount() != rowCount) {
+            expandAllNodes(tree, rowCount, tree.getRowCount());
+        }
+    }
 
-		DefaultMutableTreeNode childRepresentation = new DefaultMutableTreeNode(child.getUserObject());
+    /**
+     * Recursivly walks along the model tree, filtering all non matching elements
+     *
+     * @param root
+     * @param child
+     * @return
+     */
+    private boolean updateFiltering(DefaultMutableTreeNode root, DefaultMutableTreeNode child) {
 
-		if (child.getChildCount() == 0) {
+        DefaultMutableTreeNode childRepresentation = new DefaultMutableTreeNode(child.getUserObject());
 
-			// leaf reached
-			boolean matches = filterText == null || filterText.getText().isEmpty() == true
-					|| filterText.getText().equals(filterInfoText) ? true : matches(child);
+        if (child.getChildCount() == 0) {
 
-			if (matches == true) {
+            // leaf reached
+            boolean matches = filterText == null || filterText.getText().isEmpty() == true
+                    || filterText.getText().equals(filterInfoText) ? true : matches(child);
 
-				root.add(childRepresentation);
-			}
+            if (matches == true) {
 
-			return matches;
+                root.add(childRepresentation);
+            }
 
-		}
+            return matches;
 
-		boolean matchFound = false;
+        }
 
-		for (int i = 0; i < child.getChildCount(); i++) {
-			DefaultMutableTreeNode child2 = (DefaultMutableTreeNode) child.getChildAt(i);
-			boolean contained = updateFiltering(childRepresentation, child2);
+        boolean matchFound = false;
 
-			if (contained == true) {
+        for (int i = 0; i < child.getChildCount(); i++) {
+            DefaultMutableTreeNode child2 = (DefaultMutableTreeNode) child.getChildAt(i);
+            boolean contained = updateFiltering(childRepresentation, child2);
 
-				matchFound = true;
+            if (contained == true) {
 
-			}
+                matchFound = true;
 
-		}
+            }
 
-		if (matchFound == true || matches(child)) {
+        }
 
-			root.add(childRepresentation);
-			return true;
-		}
+        if (matchFound == true || matches(child)) {
 
-		return false;
+            root.add(childRepresentation);
+            return true;
+        }
 
-	}
+        return false;
 
-	private boolean matches(DefaultMutableTreeNode node) {
+    }
 
-		if (filterText.getText().isEmpty() == true || filterText.getText().equals(filterInfoText)) {
-			return true;
-		}
+    private boolean matches(DefaultMutableTreeNode node) {
 
-		if (filterMatcher == null) {
-			return false;
-		}
+        if (filterText.getText().isEmpty() == true || filterText.getText().equals(filterInfoText)) {
+            return true;
+        }
 
-		return filterMatcher.matches(node.getUserObject(), filterText.getText());
+        if (filterMatcher == null) {
+            return false;
+        }
 
-	}
+        return filterMatcher.matches(node.getUserObject(), filterText.getText());
 
-	/**
-	 * Updates the details area
-	 * 
-	 * @param o
-	 */
-	protected void activateContent(Object o) {
+    }
 
-		if (currentDetails != null) {
-			currentDetails.onClose();
-		}
+    /**
+     * Updates the details area
+     *
+     * @param o
+     */
+    protected void activateContent(Object o) {
 
-		detailsLabel.setText("");
-		detailsLabel.setIcon(defaultIcon);
+        if (currentDetails != null) {
+            currentDetails.onClose();
+        }
 
-		Component[] components = content.getComponents();
+        detailsLabel.setText("");
+        detailsLabel.setIcon(defaultIcon);
 
-		for (Component comp : components) {
-			content.remove(comp);
-		}
+        Component[] components = content.getComponents();
 
-		if (o == null) {
-			content.repaint();
-			return;
-		}
+        for (Component comp : components) {
+            content.remove(comp);
+        }
 
-		if (detailsAreaProvider == null) {
-			return;
-		}
+        if (o == null) {
+            content.repaint();
+            return;
+        }
 
-		GridBagConstraints gbcContent = new GridBagConstraints();
-		gbcContent.insets = new Insets(0, 0, 0, 0);
-		gbcContent.fill = GridBagConstraints.BOTH;
-		gbcContent.gridx = 0;
-		gbcContent.gridy = 0;
+        if (detailsAreaProvider == null) {
+            return;
+        }
 
-		currentDetails = detailsAreaProvider.getDetailsPanel(o);
+        GridBagConstraints gbcContent = new GridBagConstraints();
+        gbcContent.insets = new Insets(0, 0, 0, 0);
+        gbcContent.fill = GridBagConstraints.BOTH;
+        gbcContent.gridx = 0;
+        gbcContent.gridy = 0;
 
-		if (currentDetails == null) {
+        currentDetails = detailsAreaProvider.getDetailsPanel(o);
 
-			content.add(new JPanel(), gbcContent);
-			return;
-		}
+        if (currentDetails == null) {
 
-		Component detailsContentPanel = currentDetails.createContents();
+            content.add(new JPanel(), gbcContent);
+            return;
+        }
 
-		if (detailsContentPanel != null) {
+        Component detailsContentPanel = currentDetails.createContents();
 
-			content.add(detailsContentPanel, gbcContent);
+        if (detailsContentPanel != null) {
 
-		}
+            content.add(detailsContentPanel, gbcContent);
 
-		detailsLabel.setText(currentDetails.getTitle());
-		detailsLabel.setIcon(currentDetails.getIcon());
+        }
 
-		if (detailsLabel.getIcon() == null) {
-			detailsLabel.setIcon(defaultIcon);
-		}
+        detailsLabel.setText(currentDetails.getTitle());
+        detailsLabel.setIcon(currentDetails.getIcon());
 
-		currentDetails.onOpen();
+        if (detailsLabel.getIcon() == null) {
+            detailsLabel.setIcon(defaultIcon);
+        }
 
-	}
+        currentDetails.onOpen();
 
-	/**
-	 * Add a cell renderer to define how elements are displayed within the tree
-	 * 
-	 * @param r
-	 */
-	public void setCellRenderer(TreeCellRenderer r) {
-		tree.setCellRenderer(r);
-	}
+    }
 
-	/**
-	 * The root node of the tree model
-	 * 
-	 * @param rootNode
-	 */
-	public void setRootNode(DefaultMutableTreeNode rootNode) {
-		this.rootNode = rootNode;
-		updateFiltering();
-	}
+    /**
+     * Add a cell renderer to define how elements are displayed within the tree
+     *
+     * @param r
+     */
+    public void setCellRenderer(TreeCellRenderer r) {
+        tree.setCellRenderer(r);
+    }
 
-	/**
-	 * Set to define the details area in accordance to the selected element
-	 * 
-	 * @param p
-	 */
-	public void setDetailsAreaProvider(IDetailsAreaProvider p) {
-		detailsAreaProvider = p;
-	}
+    /**
+     * The root node of the tree model
+     *
+     * @param rootNode
+     */
+    public void setRootNode(DefaultMutableTreeNode rootNode) {
+        this.rootNode = rootNode;
+        updateFiltering();
+    }
 
-	/**
-	 * The default text shown within the filter text field
-	 * 
-	 * @param filterInfoText
-	 */
-	public void setFilterInfoText(String filterInfoText) {
+    /**
+     * Set to define the details area in accordance to the selected element
+     *
+     * @param p
+     */
+    public void setDetailsAreaProvider(IDetailsAreaProvider p) {
+        detailsAreaProvider = p;
+    }
 
-		if (filterText != null && filterText.getText().equals(this.filterInfoText)) {
-			filterText.setText(filterInfoText);
-		}
+    /**
+     * The default text shown within the filter text field
+     *
+     * @param filterInfoText
+     */
+    public void setFilterInfoText(String filterInfoText) {
 
-		this.filterInfoText = filterInfoText;
-	}
+        if (filterText != null && filterText.getText().equals(this.filterInfoText)) {
+            filterText.setText(filterInfoText);
+        }
 
-	/**
-	 * (Optional) Set a matcher that checks, if an element applies to the currently
-	 * active filter. The filter tet field is only visible if a matcher is set
-	 * 
-	 * @param f
-	 */
-	public void setFilterMatcher(IFilterMatcher f) {
+        this.filterInfoText = filterInfoText;
+    }
 
-		if (filterMatcher == null) {
-			addFilterText();
-		}
+    /**
+     * (Optional) Set a matcher that checks, if an element applies to the currently
+     * active filter. The filter tet field is only visible if a matcher is set
+     *
+     * @param f
+     */
+    public void setFilterMatcher(IFilterMatcher f) {
 
-		this.filterMatcher = f;
-	}
+        if (filterMatcher == null) {
+            addFilterText();
+        }
 
-	private void addFilterText() {
+        this.filterMatcher = f;
+    }
 
-		filterText = new JTextField();
-		leftPanel.add(filterText, BorderLayout.NORTH);
-		filterText.setColumns(10);
-		filterText.setText(filterInfoText);
+    private void addFilterText() {
 
-		leftPanel.remove(sc);
-		leftPanel.add(sc, BorderLayout.CENTER);
+        filterText = new JTextField();
+        leftPanel.add(filterText, BorderLayout.NORTH);
+        filterText.setColumns(10);
+        filterText.setText(filterInfoText);
 
-		filterText.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void removeUpdate(DocumentEvent e) {
+        leftPanel.remove(sc);
+        leftPanel.add(sc, BorderLayout.CENTER);
 
-				if (tempFilterDisabled == false) {
-					updateFiltering();
-				}
+        filterText.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void removeUpdate(DocumentEvent e) {
 
-			}
+                if (tempFilterDisabled == false) {
+                    updateFiltering();
+                }
 
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				if (tempFilterDisabled == false) {
-					updateFiltering();
-				}
-			}
+            }
 
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-			}
-		});
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                if (tempFilterDisabled == false) {
+                    updateFiltering();
+                }
+            }
 
-		filterText.addFocusListener(new FocusListener() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				firstFocus = false;
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+            }
+        });
 
-				if (filterText.getText().isEmpty()) {
+        filterText.addFocusListener(new FocusListener() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                firstFocus = false;
 
-					tempFilterDisabled = true;
-					filterText.setText(filterInfoText);
-					tempFilterDisabled = false;
-				}
+                if (filterText.getText().isEmpty()) {
 
-			}
+                    tempFilterDisabled = true;
+                    filterText.setText(filterInfoText);
+                    tempFilterDisabled = false;
+                }
 
-			@Override
-			public void focusGained(FocusEvent e) {
-				if (firstFocus == false && filterText.getText().equals(filterInfoText)) {
-					tempFilterDisabled = true;
-					filterText.setText("");
-					tempFilterDisabled = false;
+            }
 
-				} else {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (firstFocus == false && filterText.getText().equals(filterInfoText)) {
+                    tempFilterDisabled = true;
+                    filterText.setText("");
+                    tempFilterDisabled = false;
 
-					filterText.select(0, filterText.getText().length());
+                } else {
 
-				}
-			}
-		});
+                    filterText.select(0, filterText.getText().length());
 
-	}
+                }
+            }
+        });
 
-	public JTree getTree() {
-		return tree;
-	}
+    }
 
-	public void clearSelection() {
-		tree.clearSelection();
-	}
+    public JTree getTree() {
+        return tree;
+    }
 
-	public void expandPath(TreePath treePath) {
-		tree.expandPath(treePath);
-	}
+    public void clearSelection() {
+        tree.clearSelection();
+    }
 
-	public int getRowCount() {
-		return tree.getRowCount();
-	}
+    public void expandPath(TreePath treePath) {
+        tree.expandPath(treePath);
+    }
 
-	public void expandRow(int i) {
-		tree.expandRow(i);
-	}
+    public int getRowCount() {
+        return tree.getRowCount();
+    }
 
-	public int getRowForPath(TreePath path) {
-		return tree.getRowForPath(path);
-	}
+    public void expandRow(int i) {
+        tree.expandRow(i);
+    }
 
-	public TreePath getSelectionPath() {
-		return tree.getSelectionPath();
-	}
+    public int getRowForPath(TreePath path) {
+        return tree.getRowForPath(path);
+    }
+
+    public TreePath getSelectionPath() {
+        return tree.getSelectionPath();
+    }
 
 }

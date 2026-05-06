@@ -27,24 +27,21 @@ public class WindowManager implements IService {
     private PublishSubject<Optional<JFrame>> activeFrameSubject = PublishSubject.create();
 
     static {
-    	initializeUIManager();
+        initializeUIManager();
     }
-    
-    
-    
+
+
     /**
      * Adjust global ui settings
      */
     private static void initializeUIManager() {
-    	UIDefaults uiDefs = UIManager.getDefaults();
-	}
-    
-    
-    
-    
+        UIDefaults uiDefs = UIManager.getDefaults();
+    }
+
+
     /**
      * Returns the application main window
-     * 
+     *
      * @return
      */
     public MainWindow getMainWindow() {
@@ -52,10 +49,9 @@ public class WindowManager implements IService {
     }
 
 
-
-	/**
+    /**
      * Sets the application main window. For interal use only
-     * 
+     *
      * @param mw
      */
     public void setMainWindow(JFrame mw) {
@@ -63,20 +59,20 @@ public class WindowManager implements IService {
         if (mw instanceof MainWindow == false) {
             LOG.error("Main Window has to be of type [" + MainWindow.class + "]");
         }
-        
+
         mainWindow = (MainWindow) mw;
         setActiveFrame(mainWindow);
     }
 
     public JFrame getActiveFrame() {
-    	
-    	Window[] windows = Window.getWindows();
- 
-    	for (Window window : windows) {
-			if(window instanceof JFrame && window.isActive() == true) {
-				return (JFrame) window;
-			}
-		}
+
+        Window[] windows = Window.getWindows();
+
+        for (Window window : windows) {
+            if (window instanceof JFrame && window.isActive() == true) {
+                return (JFrame) window;
+            }
+        }
 
         return activeFrame;
     }

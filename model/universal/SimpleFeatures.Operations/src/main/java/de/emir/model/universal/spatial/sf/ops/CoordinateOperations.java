@@ -5,10 +5,14 @@ import de.emir.model.universal.math.Vector;
 import de.emir.model.universal.math.Vector2D;
 import de.emir.model.universal.math.Vector3D;
 import de.emir.model.universal.spatial.Coordinate;
+import de.emir.model.universal.spatial.CoordinateSequence;
 import de.emir.model.universal.spatial.Geometry;
 import de.emir.model.universal.spatial.delegate.ICoordinateDelegationInterface;
+import de.emir.model.universal.spatial.impl.CoordinateImpl;
+import de.emir.model.universal.spatial.impl.CoordinateSequenceImpl;
 import de.emir.model.universal.spatial.ops.GeometryOperations;
 import de.emir.model.universal.spatial.sf.Point;
+import de.emir.model.universal.spatial.sf.impl.PointImpl;
 import de.emir.model.universal.units.Angle;
 import de.emir.model.universal.units.Distance;
 
@@ -20,13 +24,35 @@ public class CoordinateOperations extends GeometryOperations implements ICoordin
 
 	@Override
 	public org.locationtech.jts.geom.Geometry createNativeGeometry(Geometry self) {
+        assert self instanceof de.emir.model.universal.spatial.sf.Point;
 		de.emir.model.universal.spatial.sf.Point p = (de.emir.model.universal.spatial.sf.Point) self;
 		Coordinate c = p.getCoordinate();
 		
 		return sGeometryFactory.createPoint(new org.locationtech.jts.geom.Coordinate(c.getX(), c.getY(), c.getZ()));
 	}
 
-	@Override
+    @Override
+    public Geometry createUCoreGeometry(org.locationtech.jts.geom.Geometry self, CoordinateReferenceSystem crs) {
+        // cannot create an object from an empty geometry
+        if (self.isEmpty()){
+            return null;
+        }
+
+        if (self instanceof Point) {
+            return new PointImpl(
+                    new CoordinateImpl(
+                            self.getCoordinate().getX(),
+                            self.getCoordinate().getY(),
+                            self.getCoordinate().getZ(),
+                            crs
+                    )
+            );
+        } else {
+            return GeometryOperationUtil.createUCoreGeometry(self, crs);
+        }
+    }
+
+    @Override
 	public int numCoordinates(Geometry self) {
 		return 1;
 	}
@@ -145,5 +171,12 @@ public class CoordinateOperations extends GeometryOperations implements ICoordin
     public String readableString(Coordinate self) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+	@Override
+	public CoordinateSequence getCoordinates(Geometry self) {
+		CoordinateSequence result = new CoordinateSequenceImpl();
+		result.addCoordinate(getCoordinate(self, 0));
+		return result;
+	}
 
 }

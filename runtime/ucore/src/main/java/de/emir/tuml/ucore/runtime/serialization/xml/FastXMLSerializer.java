@@ -116,7 +116,7 @@ public class FastXMLSerializer extends AbstractSerializer implements ISerializer
                 StringBuffer sb = new StringBuffer();
                 stream.write(sb.toString().getBytes());
             } catch (IOException e) {
-                e.printStackTrace();
+                ULog.error(e);
             }
         }
     }
@@ -231,7 +231,7 @@ public class FastXMLSerializer extends AbstractSerializer implements ISerializer
         try {
             return new XMLWriter().write(instance);
         } catch (ParserConfigurationException | TransformerException e) {
-            e.printStackTrace();
+            ULog.error(e);
         }
         return null;
     }
@@ -241,7 +241,7 @@ public class FastXMLSerializer extends AbstractSerializer implements ISerializer
         try {
             new XMLWriter().write(instance, stream);
         } catch (ParserConfigurationException | TransformerException e) {
-            e.printStackTrace();
+            ULog.error(e);
         }
     }
 

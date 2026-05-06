@@ -384,7 +384,7 @@ public final class EPDModelUtils {
 	 * @param o Object to remove.
 	 * @return True if removal was successul.
 	 */
-	public static boolean remove(Environment environment, Object o) {
+	public static boolean remove(Environment environment, LocatableObject o) {
 		Vessel [] oldAISTargets = getAisTargets(environment);
 		ITrackedTarget [] oldTrackedTargets = getTrackedTargets(environment);
 		ITarget [] oldTargets = getTargets(environment);

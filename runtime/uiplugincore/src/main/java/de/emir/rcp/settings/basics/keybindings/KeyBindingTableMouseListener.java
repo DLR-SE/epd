@@ -1,6 +1,7 @@
 package de.emir.rcp.settings.basics.keybindings;
 
 import de.emir.model.universal.plugincore.var.AbstractKeyBinding;
+
 import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.Window;

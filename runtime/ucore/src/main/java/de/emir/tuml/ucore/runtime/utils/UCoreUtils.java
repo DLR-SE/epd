@@ -36,7 +36,7 @@ public class UCoreUtils {
 			return false;
 		if (v1 instanceof UObject)
 			return equals((UObject)v1, (UObject)v2);
-		return v1.equals(v2); //should call the underlaying equals method of primitive types
+		return v1.equals(v2); //should call the underlying equals method of primitive types
 	}
 
 	private static boolean compareLists(Object v1, Object v2) {
@@ -51,7 +51,8 @@ public class UCoreUtils {
 	}
 
 	/**
-	 * collects all instances, within the current object tree (of the pointed value) that could be assigned to the given pointer
+	 * Collects all instances, within the current object tree (of the pointed value) that could be assigned to the
+     * given pointer
 	 * @param pointer
 	 * @return
 	 */
@@ -63,9 +64,8 @@ public class UCoreUtils {
 		return collectTypedChildren(root, pointer.getExpectedType());
 	}
 
-
 	/**
-	 * returns the topmost UObject of the tree this, value is assigned to 
+	 * Returns the topmost UObject of the tree this, value is assigned to
 	 * @param value
 	 * @return
 	 */
@@ -82,7 +82,7 @@ public class UCoreUtils {
 	}
 
 	/**
-	 * returns the nearest container in the hierarchy of obj that implements clazz
+	 * Returns the nearest container in the hierarchy of obj that implements clazz
 	 * @param obj
 	 * @param clazz
 	 * @return
@@ -99,9 +99,8 @@ public class UCoreUtils {
 		return null;
 	}
 	
-	
 	/**
-	 * returns the nearest container in the hierarchy of obj that implements clazz
+	 * Returns the nearest container in the hierarchy of obj that implements clazz
 	 * @param obj
 	 * @param clazz
 	 * @return
@@ -122,7 +121,8 @@ public class UCoreUtils {
 	 * Finds the first instance, that inherits the given class, within the subtree defined by the instance
 	 * @param instance root instance of tree where instance of clazz may exist
 	 * @param clazz class zu search for
-	 * @param includeInherited if set to true, this method also returns instances, who's class differs from the given clazz, but inherit from clazz
+	 * @param includeInherited if set to true, this method also returns instances, who's class differs from the
+     *                         given clazz, but inherit from clazz
 	 * @return
 	 */
 	public static <T extends UObject> T firstInstance(UObject instance, Class<T> clazz, boolean includeInherited) {
@@ -177,7 +177,9 @@ public class UCoreUtils {
 				return false; //forward result from super
 			}
 			@Override
-			public void visit(UObject parent, UStructuralFeature feature, int list_index, Object value) {	} //we are only interested in the object itself
+			public void visit(UObject parent, UStructuralFeature feature, int list_index, Object value) {
+                // we are only interested in the object itself
+            }
 
 		});
 		return result;
@@ -212,9 +214,8 @@ public class UCoreUtils {
 	}
 
 	/**
-	 * Copies an instance of a UObject
-	 * <br>
-	 * takes care about composite features. Each composit feature is also copied, all other features, are simply assigned. 
+	 * Copies an instance of a UObject takes care about composite features. Each composite feature is also copied, all
+     * other features, are simply assigned.
 	 * @param orig instance to copy
 	 * @return copy of orig
 	 */
@@ -223,8 +224,8 @@ public class UCoreUtils {
 		UObject newInstance = cl.createNewInstance();
 		for (UStructuralFeature f : cl.getAllStructuralFeatures()){
 			if (f.isMany()){
-				List l = (List)f.get(orig);
-				List nl = (List)f.get(newInstance); 
+				List l = (List) f.get(orig);
+				List nl = (List) f.get(newInstance);
 				nl.clear(); //remove standard values
 				for (Object v : l){
 					copy_SetAttribute(newInstance, f, v, nl, false, false);
@@ -234,35 +235,37 @@ public class UCoreUtils {
 				copy_SetAttribute(newInstance, f, value, null, false, false);
 			}
 		}
-		return (T)newInstance;
+		return (T) newInstance;
 	}
 	
 	/**
-	 * creates a deep copy of the object that includes a copy of all Composite values
+	 * Creates a deep copy of the object that includes a copy of all Composite values
 	 * @param copyProperties if set to true, properties will also be copied
-	 * @param copyAssociations if set to true, associations (e.g. UStructuralFeature.getAggreggationType() == Association) will also be copied
-	 * @param orig
+	 * @param copyAssociations if set to true, associations (e.g. UStructuralFeature.getAggreggationType() ==
+     *                         Association) will also be copied
+	 * @param origin
 	 * @return a copy of the original value that would return true on orig.equals(copy) but false on orig == copy
 	 * 
-	 * @warn setting copyProperties or copyAssociations may result in large copy operations, since the method is called recursive
+	 * @warn setting copyProperties or copyAssociations may result in large copy operations, since the method is called
+     *       recursive
 	 */
-	public static <T extends UObject> T deepCopy(T orig, boolean copyProperties, boolean copyAssociations) {
-		UClass cl = orig.getUClassifier();
+	public static <T extends UObject> T deepCopy(T origin, boolean copyProperties, boolean copyAssociations) {
+		UClass cl = origin.getUClassifier();
 		UObject newInstance = cl.createNewInstance();
 		for (UStructuralFeature f : cl.getAllStructuralFeatures()){
 			if (f.isMany()){
-				List l = (List)f.get(orig);
+				List l = (List)f.get(origin);
 				List nl = (List)f.get(newInstance); 
 				nl.clear(); //remove standard values
 				for (Object v : l){
 					copy_SetAttribute(newInstance, f, v, nl, copyProperties, copyAssociations);
 				}
 			}else{
-				Object value = f.get(orig);
+				Object value = f.get(origin);
 				copy_SetAttribute(newInstance, f, value, null, copyProperties, copyAssociations);
 			}
 		}
-		return (T)newInstance;
+		return (T) newInstance;
 	}
 
 	private static void copy_SetAttribute(UObject newInstance, UStructuralFeature feature, Object value, List targetList, boolean copyProperties, boolean copyAssociations) {
@@ -288,7 +291,4 @@ public class UCoreUtils {
 				feature.set(newInstance, value);
 		}
 	}
-
-	
-
 }

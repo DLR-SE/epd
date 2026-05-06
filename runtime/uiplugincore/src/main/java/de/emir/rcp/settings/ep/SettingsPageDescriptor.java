@@ -34,7 +34,7 @@ public class SettingsPageDescriptor extends SettingsPageNodeDescriptor implement
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.emir.rcp.settings.ep.ISettingsPage#label(java.lang.String)
      */
     @Override

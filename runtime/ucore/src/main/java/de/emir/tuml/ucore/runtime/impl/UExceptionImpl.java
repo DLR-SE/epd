@@ -9,7 +9,6 @@ import de.emir.tuml.ucore.runtime.UAnnotation;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.UException;
 import de.emir.tuml.ucore.runtime.UPackage;
-import de.emir.tuml.ucore.runtime.impl.UTypeImpl;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
 
 /**

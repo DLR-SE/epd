@@ -9,29 +9,28 @@ import de.emir.tuml.ucore.runtime.utils.TypeUtils;
 
 /**
  * Static class to register extension points this class is just used as central storage point and has almost no logic.
- * Extensionpoints can either be registered as Class<?> or as instance (Object). to query extensionpoints you can ask
+ * ExtensionPoints can either be registered as Class<?> or as instance (Object). to query ExtensionPoints you can ask
  * for instances that implements a specific Class<?>.
  * 
  * @note if registered as Class<?> each query for this class will result in a new instance
- * @author sschweigert
  *
  */
 public class UCoreExtensionManager {
 
-    private static HashSet<Class<?>> mExtensionClasses = new HashSet<>();
-    private static HashSet<Object> mExtensionInstances = new HashSet<>();
-    private static HashMap<String, Object> mNamedExtensions = new HashMap<>();
+    private static final HashSet<Class<?>> mExtensionClasses = new HashSet<>();
+    private static final HashSet<Object> mExtensionInstances = new HashSet<>();
+    private static final HashMap<String, Object> mNamedExtensions = new HashMap<>();
 
     public static void registerExtension(Class<?> clazz) {
         if (clazz != null) {
-            ULog.debug("Register Extension: " + clazz.getName());
+            ULog.debug("Register Extension: {}", clazz.getName());
             mExtensionClasses.add(clazz);
         }
     }
 
     public static void registerExtension(Object obj) {
         if (obj != null) {
-            ULog.debug("Register Extension: " + obj.toString());
+            ULog.debug("Register Extension: {}", obj);
             mExtensionInstances.add(obj);
         }
     }
@@ -44,7 +43,6 @@ public class UCoreExtensionManager {
 
     public static <T> Collection<T> getExtensions(Class<T> clazz) {
         HashSet<T> out = new HashSet<>();
-        HashSet<Class<?>> outClasses = new HashSet<>();
 
         for (Object obj : mExtensionInstances) {
             if (TypeUtils.inherits(obj.getClass(), clazz))
@@ -53,11 +51,11 @@ public class UCoreExtensionManager {
         for (Class<?> cl : mExtensionClasses) {
             if (TypeUtils.inherits(cl, clazz)) {
                 try {
-                    Object nObj = cl.newInstance();
+                    Object nObj = cl.getDeclaredConstructor().newInstance();
                     if (nObj != null)
                         out.add((T) nObj);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    ULog.error(e);
                 }
             }
         }

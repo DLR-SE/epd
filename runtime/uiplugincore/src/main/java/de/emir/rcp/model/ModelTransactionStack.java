@@ -12,9 +12,8 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 
 /**
  * A transaction stack handles ModelTransactions. It manages the undo/redo functionality.
- * 
- * @author fklein
  *
+ * @author fklein
  */
 public class ModelTransactionStack extends Observable {
 
@@ -95,10 +94,10 @@ public class ModelTransactionStack extends Observable {
         }
 
         synchronized (transactions) {
-        	transactions.removeAll(toRemove);
-            transactions.add(trans);	
-		}
-        
+            transactions.removeAll(toRemove);
+            transactions.add(trans);
+        }
+
 
         trans.run();
 
@@ -181,7 +180,7 @@ public class ModelTransactionStack extends Observable {
 
     /**
      * Returns an unmodifiable list of all transactions
-     * 
+     *
      * @return
      */
     public List<AbstractModelTransaction> getTransactions() {

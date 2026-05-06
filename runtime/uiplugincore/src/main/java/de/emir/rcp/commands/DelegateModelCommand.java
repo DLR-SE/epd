@@ -6,11 +6,10 @@ import de.emir.rcp.model.AbstractModelTransaction;
 /**
  * Delegates an AbstractModelCommand, to be executed (or at least the execution is initialized), using the default
  * command stack
- * 
+ * <p>
  * this may be used to run EditorCommands as part of menu entries
- * 
- * @author sschweigert
  *
+ * @author sschweigert
  */
 public class DelegateModelCommand extends AbstractCommand {
 

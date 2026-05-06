@@ -1,12 +1,9 @@
 package de.emir.tuml.ucore.runtime.serialization.json;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.json.XML;
 
 import de.emir.tuml.ucore.runtime.UObject;
@@ -26,8 +23,14 @@ public class JsonSerializer extends AbstractSerializer implements ISerializer
 	 * @note this option is disabled by defeault as the resulting object may not be the same as the serialized object -> use with caution
 	 */
 	private boolean mAcceptMissingReferences = false; 
-	public void setAcceptMissingReferences(boolean b) { mAcceptMissingReferences = b; }
-	public boolean isAcceptMissingReferencesEnabled() { return mAcceptMissingReferences; }
+
+    public void setAcceptMissingReferences(boolean b) {
+        mAcceptMissingReferences = b;
+    }
+
+    public boolean isAcceptMissingReferencesEnabled() {
+        return mAcceptMissingReferences;
+    }
 	
 	
 	public String serialize(UObject instance){

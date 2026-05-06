@@ -44,12 +44,12 @@ public interface IEnvelopeDelegationInterface extends IDelegateInterface{
 	 */
 	void setXYZ(Envelope self, final double _min_x, final double _min_y, final double _min_z, final double _max_x, final double _max_y, final double _max_z);
 	/**
-	 set the crs to min and max point 
+	 Set the crs to min and max point 
 	 * @generated 
 	 */
 	void setCRS(Envelope self, final CoordinateReferenceSystem _crs);
 	/**
-	 Applys the CRS to min and max point, by changing their x,y, and z values but without changing the instances 
+	 Apply the CRS to min and max point, by changing their x,y, and z values but without changing the instances 
 	 * @generated 
 	 */
 	void applyCRS(Envelope self, final CoordinateReferenceSystem _crs);
@@ -111,7 +111,7 @@ public interface IEnvelopeDelegationInterface extends IDelegateInterface{
 	Envelope transform(Envelope self, final Coordinate _translate, final Rotation _rotation);
 	/**
 	
-	 * returns the four corners of the bounding box
+	 * Returns the four corners of the bounding box
 	 * - vertices[0] = mMinPoint;
 	 * - vertices[1] = Vec2d(mMaxPoint.X, mMinPoint.Y);
 	 * - vertices[2] = mMaxPoint;

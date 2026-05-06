@@ -1,87 +1,82 @@
 package de.emir.rcp.ui.utils.properties;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
-import javax.swing.JCheckBox;
-
-import org.apache.logging.log4j.Logger;
-
-import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
-import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
 
+import javax.swing.*;
+
 /**
- * 
- * This class can be used within a settings page to bind a boolean property value to a checkbox
- * 
- * @author Florian
+ *
+ * This class can be used within a settings page to bind a boolean property value to a checkbox. If the value
+ * of the checkbox does not match the properties value, `isDirty` will be set to true. Note that the properties
+ * value is not directly modified on user input. It is only written to the property if `finish()` is called!
  *
  */
-public class PropertyCheckboxWidget extends JCheckBox implements IPropertyWidget {
+public class PropertyCheckboxWidget extends JCheckBox implements IPropertyWidget<Boolean> {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -60510016204044804L;
-    private IProperty<Boolean> property;
-    private PropertyChangeListener propertyChangeListener;
 
-    private Logger log = ULog.getLogger(PropertyCheckboxWidget.class);
+    protected final IProperty<Boolean> property;
 
-    private boolean dirty = false;
+    protected boolean isDirty = false;
+
+    // set to true, to disable listener calls
+    protected boolean isListenerDisabled = false;
 
     public PropertyCheckboxWidget(String label, String propertyContext, String propertyName, boolean defaultValue) {
-        super(label);
-
-        PropertyContext context = PropertyStore.getContext(propertyContext);
-
-        property = context.getProperty(propertyName, defaultValue);
-
-        init();
-
+        this(
+                label,
+                PropertyStore
+                        .getContext(propertyContext)
+                        .getProperty(propertyName, defaultValue)
+        );
     }
 
-    private void init() {
+    public PropertyCheckboxWidget(String label, IProperty<Boolean> property) {
+        super(label);
 
-        propertyChangeListener = new PropertyChangeListener() {
+        this.property = property;
 
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-
-                setSelectedValue();
-
-            }
-        };
-
-        property.addPropertyChangeListener(propertyChangeListener);
+        property.addPropertyChangeListener(evt -> setSelectedValue());
 
         setSelectedValue();
 
-        addItemListener(new ItemListener() {
+        // both listeners (action, item) are required to avoid inconsistencies
+        // see: https://stackoverflow.com/a/9883189
+        addActionListener(e -> {
 
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                dirty = true;
-
+            if (isListenerDisabled){
+                return;
             }
+
+            boolean newValue = isSelected();
+            boolean oldValue = this.property.getValue();
+            isDirty = newValue != oldValue;
+            firePropertyChange(PROPERTY_VALUE_CHANGE_NAME, oldValue, newValue);
         });
 
+        addItemListener(e -> {
+
+            if (isListenerDisabled){
+                return;
+            }
+
+            boolean newValue = isSelected();
+            boolean oldValue = this.property.getValue();
+            isDirty = newValue != oldValue;
+            firePropertyChange(PROPERTY_VALUE_CHANGE_NAME, oldValue, newValue);
+        });
     }
 
     private void setSelectedValue() {
-        Object value = property.getValue();
-        if (value instanceof Boolean == false) {
-            log.error("Property is not of type of boolean");
+
+        if (isListenerDisabled){
             return;
         }
 
-        setSelected((boolean) value);
-        dirty = false;
-
+        boolean value = property.getValue();
+        setSelected(value);
+        isDirty = false;
     }
 
     public void reset() {
@@ -89,18 +84,17 @@ public class PropertyCheckboxWidget extends JCheckBox implements IPropertyWidget
     }
 
     public void finish() {
-
+        isListenerDisabled = true;
         property.setValue(isSelected());
-        property.removePropertyChangeListener(propertyChangeListener);
-
+        isListenerDisabled = false;
     }
 
     public boolean isDirty() {
-        return dirty;
+        return isDirty;
     }
 
     @Override
-    public IProperty getProperty() {
+    public IProperty<Boolean> getProperty() {
         return property;
     }
 }

@@ -96,7 +96,7 @@ public class VesselImpl extends WatercraftImpl implements Vessel
 		if (needNotification(VesselPackage.Literals.Vessel_mmsi)){
 			long _oldValue = mMmsi;
 			mMmsi = _mmsi;
-			notify(_oldValue, mMmsi, VesselPackage.Literals.Vessel_mmsi, NotificationType.SET);
+			notify(_oldValue, _mmsi, VesselPackage.Literals.Vessel_mmsi, NotificationType.SET);
 		}else{
 			mMmsi = _mmsi;
 		}
@@ -116,7 +116,7 @@ public class VesselImpl extends WatercraftImpl implements Vessel
 		if (needNotification(VesselPackage.Literals.Vessel_imo)){
 			long _oldValue = mImo;
 			mImo = _imo;
-			notify(_oldValue, mImo, VesselPackage.Literals.Vessel_imo, NotificationType.SET);
+			notify(_oldValue, _imo, VesselPackage.Literals.Vessel_imo, NotificationType.SET);
 		}else{
 			mImo = _imo;
 		}
@@ -136,7 +136,7 @@ public class VesselImpl extends WatercraftImpl implements Vessel
 		if (needNotification(VesselPackage.Literals.Vessel_callSign)){
 			String _oldValue = mCallSign;
 			mCallSign = _callSign;
-			notify(_oldValue, mCallSign, VesselPackage.Literals.Vessel_callSign, NotificationType.SET);
+			notify(_oldValue, _callSign, VesselPackage.Literals.Vessel_callSign, NotificationType.SET);
 		}else{
 			mCallSign = _callSign;
 		}
@@ -156,7 +156,7 @@ public class VesselImpl extends WatercraftImpl implements Vessel
 		if (needNotification(VesselPackage.Literals.Vessel_type)){
 			VesselType _oldValue = mType;
 			mType = _type;
-			notify(_oldValue, mType, VesselPackage.Literals.Vessel_type, NotificationType.SET);
+			notify(_oldValue, _type, VesselPackage.Literals.Vessel_type, NotificationType.SET);
 		}else{
 			mType = _type;
 		}

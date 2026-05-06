@@ -1,9 +1,6 @@
 package de.emir.tuml.ucore.runtime.impl;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.List;
-import de.emir.tuml.ucore.runtime.IStructuralElement;
-import de.emir.tuml.ucore.runtime.Notification;
 
 import de.emir.tuml.ucore.runtime.NotificationType;
 import de.emir.tuml.ucore.runtime.RuntimePackage;
@@ -14,7 +11,6 @@ import de.emir.tuml.ucore.runtime.UMultiplicity;
 import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.tuml.ucore.runtime.UOperation;
 import de.emir.tuml.ucore.runtime.UPackage;
-import de.emir.tuml.ucore.runtime.impl.UNamedElementImpl;
 import de.emir.tuml.ucore.runtime.UParameter;
 import de.emir.tuml.ucore.runtime.UType;
 import de.emir.tuml.ucore.runtime.access.IOperationInvoker;
@@ -149,19 +145,11 @@ public class UOperationImpl extends UNamedElementImpl implements UOperation {
      * @generated not
      */
     public UType getType() {
-        UParameter p = getReturParameter();
+        UParameter p = getReturnParameter();
         if (p == null) {
             return TypeUtils.getPrimitiveType(void.class);
         }
         return p.getType();
-    }
-
-    private UParameter getReturParameter() {
-        for (UParameter p : getParameters()) {
-            if (p.getDirection() == UDirectionType.RETURN)
-                return p;
-        }
-        return null;
     }
 
     /**
@@ -169,7 +157,7 @@ public class UOperationImpl extends UNamedElementImpl implements UOperation {
      * @generated not
      */
     public UMultiplicity getMultiplicity() {
-        UParameter p = getReturParameter();
+        UParameter p = getReturnParameter();
         if (p == null) {
             return new UMultiplicityImpl(0, 0);
         }

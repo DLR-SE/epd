@@ -1,6 +1,7 @@
 package de.emir.rcp.settings.basics.keybindings;
 
 import de.emir.model.universal.plugincore.var.AbstractKeyBinding;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -65,8 +66,8 @@ public class KeyBindingContentPanel extends AbstractDetailsContentPanel<KeyBindi
 
         GridBagLayout gbl_panel = new GridBagLayout();
 
-        gbl_panel.columnWeights = new double[] { 1.0 };
-        gbl_panel.rowWeights = new double[] { 1.0 };
+        gbl_panel.columnWeights = new double[]{1.0};
+        gbl_panel.rowWeights = new double[]{1.0};
         panel.setLayout(gbl_panel);
 
         table = new JTable();
@@ -160,8 +161,8 @@ public class KeyBindingContentPanel extends AbstractDetailsContentPanel<KeyBindi
         }
 
         kb.setKey(newKeys);
-        
-        kb.setName(kb.getCommandID()+kb.getKey()); // We need any name to store the keybinding.
+
+        kb.setName(kb.getCommandID() + kb.getKey()); // We need any name to store the keybinding.
 
         getObject().addBinding(kb);
         int rows = table.getRowCount();

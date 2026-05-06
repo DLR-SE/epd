@@ -16,7 +16,7 @@ import de.emir.tuml.ucore.runtime.prop.IProperty;
 public class CustomJMenu extends JMenu {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 478835743022944654L;
     private Boolean showDev;

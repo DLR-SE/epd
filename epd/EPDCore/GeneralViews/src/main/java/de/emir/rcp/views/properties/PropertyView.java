@@ -27,6 +27,10 @@ public class PropertyView extends AbstractView {
 	public PropertyView() {
 		super(UNIQUE_ID);
 	}
+	
+	public PropertyView(String id) {
+		super(id);
+	}
 
 	// private void setInput(Selection selection) {
 	// final List<IProperty> sortedProperties = new ArrayList<>();

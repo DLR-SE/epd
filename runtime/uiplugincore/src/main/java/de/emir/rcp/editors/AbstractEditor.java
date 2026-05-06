@@ -33,47 +33,46 @@ import de.emir.tuml.ucore.runtime.resources.IconManager;
 
 /**
  * All editor implementations should extend this class.
- * 
- * @author fklein
  *
+ * @author fklein
  */
 public abstract class AbstractEditor extends DefaultMultipleCDockable implements IDirtyStateProvider {
 
-	protected Path path;
+    protected Path path;
 
-	protected EditorTransactionStack transactionStack = new EditorTransactionStack(this);
+    protected EditorTransactionStack transactionStack = new EditorTransactionStack(this);
 
-	private String id;
+    private String id;
 
-	private Container parentPanel;
+    private Container parentPanel;
 
-	private boolean isDirty;
+    private boolean isDirty;
 
-	private String title;
+    private String title;
 
-	public AbstractEditor(MultipleCDockableFactory<?, ?> factory) {
-		super(factory, (CAction[]) null);
+    public AbstractEditor(MultipleCDockableFactory<?, ?> factory) {
+        super(factory, (CAction[]) null);
 
-		createBasicListeners();
+        createBasicListeners();
 
-		setRemoveOnClose(true);
-		setCloseable(true);
+        setRemoveOnClose(true);
+        setCloseable(true);
 
-		parentPanel = new JPanel();
+        parentPanel = new JPanel();
 
-		getContentPane().add(parentPanel);
-		setFocusComponent(parentPanel);
+        getContentPane().add(parentPanel);
+        setFocusComponent(parentPanel);
 
-	}
+    }
 
-	public void setID(String id) {
-		this.id = id;
-	}
+    public void setID(String id) {
+        this.id = id;
+    }
 
-	private void createBasicListeners() {
+    private void createBasicListeners() {
 
-		
-		//Note (SoS) we do not want to deactivate an editor if we lost the focus, but if we activate or deactivate one (see below)
+
+        //Note (SoS) we do not want to deactivate an editor if we lost the focus, but if we activate or deactivate one (see below)
 //		addFocusListener(new CFocusListener() {
 //			@Override
 //			public void focusLost(CDockable dockable) {
@@ -84,251 +83,251 @@ public abstract class AbstractEditor extends DefaultMultipleCDockable implements
 //				EditorManager.setActiveEditor(AbstractEditor.this);
 //			}
 //		});
-		
-		addCDockableLocationListener(event -> {
+
+        addCDockableLocationListener(event -> {
 //				if (event.getOldShowing()) {
 //					onDeactivated();
 //					EditorManager.setActiveEditor(null);
 //				}
-			if (event.getNewShowing()) {
-				PlatformUtil.getEditorManager().setActiveEditor(AbstractEditor.this);
-				onActivated();
-			}
+            if (event.getNewShowing()) {
+                PlatformUtil.getEditorManager().setActiveEditor(AbstractEditor.this);
+                onActivated();
+            }
 
-		});
+        });
 
-		addVetoClosingListener(new CVetoClosingListener() {
+        addVetoClosingListener(new CVetoClosingListener() {
 
-			@Override
-			public void closing(CVetoClosingEvent event) {
+            @Override
+            public void closing(CVetoClosingEvent event) {
 
-				shutdown();
+                shutdown();
 
-			}
+            }
 
-			@Override
-			public void closed(CVetoClosingEvent event) {
+            @Override
+            public void closed(CVetoClosingEvent event) {
 
-				EditorManager em = PlatformUtil.getEditorManager();
-				
-				AbstractEditor activeEditor = em.getActiveEditor();
+                EditorManager em = PlatformUtil.getEditorManager();
 
-				if (activeEditor == AbstractEditor.this) {
+                AbstractEditor activeEditor = em.getActiveEditor();
 
-					// If this editor is currently focused, handle as unfocused
-					em.setActiveEditor(null);
+                if (activeEditor == AbstractEditor.this) {
 
-				}
-				em.removeEditor(AbstractEditor.this);
-				
-				onClose();
-			}
-		});
+                    // If this editor is currently focused, handle as unfocused
+                    em.setActiveEditor(null);
 
-	}
-	
-	protected void onClose() {
-		
-	}
+                }
+                em.removeEditor(AbstractEditor.this);
 
-	/**
-	 * Called if the editor is activated, e.g. if the editor is shown in the editor pane
-	 */
-	protected void onActivated() {
-		//Nothing to do here - for the moment
-	}
-	
-	/**
-	 * Called if the editor is deactivated, e.g. if the editor is no longer shown on the editor pane
-	 */
-	protected void onDeactivated() {
-		//Nothing to do here - for the moment
-	}
-	
-	public boolean shutdown() {
+                onClose();
+            }
+        });
 
-		if (isDirty == true) {
+    }
 
-			MainWindow mw = PlatformUtil.getWindowManager().getMainWindow();
+    protected void onClose() {
 
-			File file = path.toFile();
-			int rc = JOptionPane.showConfirmDialog(mw, "'" + file.getName() + "' has been modified. Save changes?",
-					"Save Resource", JOptionPane.YES_NO_CANCEL_OPTION);
+    }
 
-			if (rc == JOptionPane.YES_OPTION) {
+    /**
+     * Called if the editor is activated, e.g. if the editor is shown in the editor pane
+     */
+    protected void onActivated() {
+        //Nothing to do here - for the moment
+    }
 
-				getTransactionStack().save();
-			}
+    /**
+     * Called if the editor is deactivated, e.g. if the editor is no longer shown on the editor pane
+     */
+    protected void onDeactivated() {
+        //Nothing to do here - for the moment
+    }
 
-			if (rc == JOptionPane.CANCEL_OPTION) {
-				return false;
-			}
+    public boolean shutdown() {
 
-		}
+        if (isDirty == true) {
 
-		return true;
+            MainWindow mw = PlatformUtil.getWindowManager().getMainWindow();
 
-	}
+            File file = path.toFile();
+            int rc = JOptionPane.showConfirmDialog(mw, "'" + file.getName() + "' has been modified. Save changes?",
+                    "Save Resource", JOptionPane.YES_NO_CANCEL_OPTION);
 
-	public void setPath(Path path) {
-		this.path = path;
-		setTitleText(path.toFile().getName());
+            if (rc == JOptionPane.YES_OPTION) {
 
-	}
+                getTransactionStack().save();
+            }
 
-	public Path getPath() {
-		return path;
-	}
+            if (rc == JOptionPane.CANCEL_OPTION) {
+                return false;
+            }
 
-	public EditorTransactionStack getTransactionStack() {
-		return transactionStack;
-	}
+        }
 
-	@Override
-	public String toString() {
-		return "Editor :" + path == null ? "null" : path.toFile().getName();
-	}
+        return true;
 
-	public String getID() {
-		return id;
-	}
+    }
 
-	public Container getParentPanel() {
-		return parentPanel;
-	}
+    public void setPath(Path path) {
+        this.path = path;
+        setTitleText(path.toFile().getName());
 
-	public boolean isDirty() {
-		return isDirty;
-	}
+    }
 
-	/**
-	 * Set the editor dirty state. Set to true to activate the save function
-	 * 
-	 * @param isDirty
-	 */
-	public void setDirty(boolean isDirty) {
+    public Path getPath() {
+        return path;
+    }
 
-		boolean old = this.isDirty;
+    public EditorTransactionStack getTransactionStack() {
+        return transactionStack;
+    }
 
-		this.isDirty = isDirty;
+    @Override
+    public String toString() {
+        return "Editor :" + path == null ? "null" : path.toFile().getName();
+    }
 
-		if (old != isDirty) {
-			super.setTitleText((isDirty ? "*" : "") + title);
+    public String getID() {
+        return id;
+    }
 
-		}
-	}
+    public Container getParentPanel() {
+        return parentPanel;
+    }
 
-	/**
-	 * Save the current editor state
-	 * 
-	 * @return
-	 */
-	@Override
-	public abstract boolean save();
-	
-	public void reload() {
-		
-	}
+    public boolean isDirty() {
+        return isDirty;
+    }
 
-	/**
-	 * Build your UI Elements and bind them to your model within this method.
-	 * 
-	 * @param parent
-	 */
-	public abstract void createContent(Container parent);
+    /**
+     * Set the editor dirty state. Set to true to activate the save function
+     *
+     * @param isDirty
+     */
+    public void setDirty(boolean isDirty) {
 
-	@Override
-	public void setTitleText(String text) {
-		this.title = text;
-		super.setTitleText(text);
-	}
+        boolean old = this.isDirty;
 
-	/**
-	 * Initialization process. For internal use only. Checks if the file to be
-	 * represented exists and displays an error message instead of
-	 * creatingContent().
-	 * 
-	 * @param parent
-	 */
-	public final void init(Container parent) {
+        this.isDirty = isDirty;
 
-		File file = path.toFile();
+        if (old != isDirty) {
+            super.setTitleText((isDirty ? "*" : "") + title);
 
-		if (file.exists() == false) {
+        }
+    }
 
-			parent.setLayout(new BorderLayout());
+    /**
+     * Save the current editor state
+     *
+     * @return
+     */
+    @Override
+    public abstract boolean save();
 
-			JPanel p = new JPanel();
-			p.setBackground(UIManager.getColor("EditorPane.background"));
+    public void reload() {
 
-			parent.add(p, BorderLayout.CENTER);
+    }
 
-			ImageIcon icon = IconManager.getIcon(this, "icons/emiricons/32/dangerous.png");
-			GridBagLayout gbl_p = new GridBagLayout();
+    /**
+     * Build your UI Elements and bind them to your model within this method.
+     *
+     * @param parent
+     */
+    public abstract void createContent(Container parent);
 
-			gbl_p.columnWeights = new double[] { 0.0 };
-			gbl_p.rowWeights = new double[] { 1.0 };
-			p.setLayout(gbl_p);
+    @Override
+    public void setTitleText(String text) {
+        this.title = text;
+        super.setTitleText(text);
+    }
 
-			JLabel errorLabel = new JLabel("<html>File does not exist.<br/>" + file.getAbsolutePath() + "</html>");
+    /**
+     * Initialization process. For internal use only. Checks if the file to be
+     * represented exists and displays an error message instead of
+     * creatingContent().
+     *
+     * @param parent
+     */
+    public final void init(Container parent) {
 
-			errorLabel.setIcon(icon);
-			errorLabel.setVerticalAlignment(SwingConstants.TOP);
-			errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			errorLabel.setFont(errorLabel.getFont().deriveFont(Font.PLAIN, 12));
-			errorLabel.setForeground(UIManager.getColor("EditorPane.foreground"));
-			GridBagConstraints gbc_errorLabel = new GridBagConstraints();
-			gbc_errorLabel.fill = GridBagConstraints.BOTH;
-			gbc_errorLabel.insets = new Insets(20, 20, 20, 20);
-			gbc_errorLabel.gridx = 0;
-			gbc_errorLabel.gridy = 0;
-			p.add(errorLabel, gbc_errorLabel);
-			return;
-		}
-		//
-		if (file.isFile() == false) {
+        File file = path.toFile();
 
-			parent.setLayout(new BorderLayout());
+        if (file.exists() == false) {
 
-			JPanel p = new JPanel();
-			p.setBackground(UIManager.getColor("EditorPane.background"));
+            parent.setLayout(new BorderLayout());
 
-			parent.add(p, BorderLayout.CENTER);
+            JPanel p = new JPanel();
+            p.setBackground(UIManager.getColor("EditorPane.background"));
 
-			ImageIcon icon = IconManager.getIcon(this, "icons/emiricons/32/dangerous.png");
-			GridBagLayout gbl_p = new GridBagLayout();
+            parent.add(p, BorderLayout.CENTER);
 
-			gbl_p.columnWeights = new double[] { 0.0 };
-			gbl_p.rowWeights = new double[] { 1.0 };
-			p.setLayout(gbl_p);
+            ImageIcon icon = IconManager.getIcon(this, "icons/emiricons/32/dangerous.png");
+            GridBagLayout gbl_p = new GridBagLayout();
 
-			JLabel errorLabel = new JLabel("<html>Not a valid file.<br/>" + file.getAbsolutePath() + "</html>");
+            gbl_p.columnWeights = new double[]{0.0};
+            gbl_p.rowWeights = new double[]{1.0};
+            p.setLayout(gbl_p);
 
-			errorLabel.setIcon(icon);
-			errorLabel.setVerticalAlignment(SwingConstants.TOP);
-			errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			errorLabel.setFont(errorLabel.getFont().deriveFont(Font.PLAIN, 12));
-			errorLabel.setForeground(UIManager.getColor("EditorPane.foreground"));
-			GridBagConstraints gbc_errorLabel = new GridBagConstraints();
-			gbc_errorLabel.fill = GridBagConstraints.BOTH;
-			gbc_errorLabel.insets = new Insets(20, 20, 20, 20);
-			gbc_errorLabel.gridx = 0;
-			gbc_errorLabel.gridy = 0;
-			p.add(errorLabel, gbc_errorLabel);
-			return;
-		}
+            JLabel errorLabel = new JLabel("<html>File does not exist.<br/>" + file.getAbsolutePath() + "</html>");
 
-		createContent(parent);
+            errorLabel.setIcon(icon);
+            errorLabel.setVerticalAlignment(SwingConstants.TOP);
+            errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            errorLabel.setFont(errorLabel.getFont().deriveFont(Font.PLAIN, 12));
+            errorLabel.setForeground(UIManager.getColor("EditorPane.foreground"));
+            GridBagConstraints gbc_errorLabel = new GridBagConstraints();
+            gbc_errorLabel.fill = GridBagConstraints.BOTH;
+            gbc_errorLabel.insets = new Insets(20, 20, 20, 20);
+            gbc_errorLabel.gridx = 0;
+            gbc_errorLabel.gridy = 0;
+            p.add(errorLabel, gbc_errorLabel);
+            return;
+        }
+        //
+        if (file.isFile() == false) {
 
-	}
+            parent.setLayout(new BorderLayout());
 
-	public abstract Object getModel();
-	
-	public String getModelIdentifier() {
-		if(path != null) {
-			return path.toFile().getAbsolutePath();
-		}
-		
-		return id;
-	}
+            JPanel p = new JPanel();
+            p.setBackground(UIManager.getColor("EditorPane.background"));
+
+            parent.add(p, BorderLayout.CENTER);
+
+            ImageIcon icon = IconManager.getIcon(this, "icons/emiricons/32/dangerous.png");
+            GridBagLayout gbl_p = new GridBagLayout();
+
+            gbl_p.columnWeights = new double[]{0.0};
+            gbl_p.rowWeights = new double[]{1.0};
+            p.setLayout(gbl_p);
+
+            JLabel errorLabel = new JLabel("<html>Not a valid file.<br/>" + file.getAbsolutePath() + "</html>");
+
+            errorLabel.setIcon(icon);
+            errorLabel.setVerticalAlignment(SwingConstants.TOP);
+            errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            errorLabel.setFont(errorLabel.getFont().deriveFont(Font.PLAIN, 12));
+            errorLabel.setForeground(UIManager.getColor("EditorPane.foreground"));
+            GridBagConstraints gbc_errorLabel = new GridBagConstraints();
+            gbc_errorLabel.fill = GridBagConstraints.BOTH;
+            gbc_errorLabel.insets = new Insets(20, 20, 20, 20);
+            gbc_errorLabel.gridx = 0;
+            gbc_errorLabel.gridy = 0;
+            p.add(errorLabel, gbc_errorLabel);
+            return;
+        }
+
+        createContent(parent);
+
+    }
+
+    public abstract Object getModel();
+
+    public String getModelIdentifier() {
+        if (path != null) {
+            return path.toFile().getAbsolutePath();
+        }
+
+        return id;
+    }
 }

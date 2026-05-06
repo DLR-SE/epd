@@ -1,9 +1,6 @@
 package de.emir.rcp.manager;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URI;
@@ -15,26 +12,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JSeparator;
-import javax.swing.JToolBar;
+import javax.swing.*;
 
+import de.emir.rcp.layout.VisualLayoutControl;
+import de.emir.rcp.properties.PropertyStore;
+import de.emir.tuml.ucore.runtime.prop.IProperty;
 import org.apache.logging.log4j.Logger;
 
-import bibliothek.gui.dock.station.stack.tab.MenuLineLayoutOrder.Item;
 import de.emir.rcp.commands.AbstractCheckableCommand;
 import de.emir.rcp.commands.AbstractCommand;
-import de.emir.rcp.commands.AbstractRadioGroupCommand;
 import de.emir.rcp.commands.basics.ExternalBrowserCommand;
-import de.emir.rcp.commands.ep.CommandExtensionPoint;
 import de.emir.rcp.ids.Basic;
 import de.emir.rcp.menu.CustomJButton;
 import de.emir.rcp.menu.CustomJButtonMenu;
@@ -59,18 +46,15 @@ import de.emir.rcp.menu.ep.RadioGroup;
 import de.emir.rcp.menu.ep.RadioGroupElement;
 import de.emir.rcp.menu.ep.Separator;
 import de.emir.rcp.menu.ep.util.PopupMenuSeparatorVisibilityHandler;
-import de.emir.tuml.ucore.runtime.extension.ExtensionPointManager;
 import de.emir.tuml.ucore.runtime.extension.IService;
 import de.emir.tuml.ucore.runtime.logging.ULog;
-import de.emir.tuml.ucore.runtime.resources.IconManager;
 import de.emir.tuml.ucore.runtime.resources.ResourceManager;
 
 /**
  * Manages all menu entries defined via the MenuExtensionPoint.
- * 
+ *
  * @author fklein
  * @author Behrensen, Stefan <stefan.behrensen@dlr.de>
- *
  */
 public class MenuManager implements IService {
     private static final Logger LOG = ULog.getLogger(MenuManager.class);
@@ -84,11 +68,24 @@ public class MenuManager implements IService {
     // If a fill is requested before the menu extensions have been loaded
     private Map<String, List<Object>> menusToFill = new HashMap<>();
     private boolean entriesCreated = false;
+    private VisualLayoutControl layoutControl;
+    IProperty<Boolean> tabLayoutActiveProperty;
+    private JPanel layoutContainer;
 
+    /**
+     * Creates a new MenuManager. Note: this method should not be used manually as the manager is registered globally
+     * on startup of UIPluginCore. Use PlatformUtil.getMenuManager() to access the global instance.
+     */
     public MenuManager() {
 
     }
 
+    /**
+     * Adds a menu to the list of menus to fill. This ensures that registered menus are added even if the 
+     * extensions have not been loaded yert.
+     * @param menu Menu to add for loading.
+     * @param id ID of the menu to add.
+     */
     private void addMenuToFill(Object menu, String id) {
         List<Object> menuList = menusToFill.get(id);
         if (menuList == null) {
@@ -98,6 +95,11 @@ public class MenuManager implements IService {
         menuList.add(menu);
     }
 
+    /**
+     * Adds a toolbar to the MenuManager.
+     * @param tb Toolbar to add.
+     * @param id Identifier of Toolbar to add.
+     */
     public void fillToolbar(JToolBar tb, String id) {
         if (id.startsWith(Basic.TOOLBAR_IDENTIFIER) == false) {
             throw new UnsupportedOperationException("Toolbar IDs have to start with " + Basic.TOOLBAR_IDENTIFIER
@@ -113,6 +115,11 @@ public class MenuManager implements IService {
         fillRoot(tb, id);
     }
 
+    /**
+     * Adds a popup to the MenuManager.
+     * @param pm Popup to add.
+     * @param id Identifier of Popup to add.
+     */
     public void fillPopup(JPopupMenu pm, String id) {
         if (id.startsWith(Basic.POPUP_IDENTIFIER) == false) {
             throw new UnsupportedOperationException("Popup Menu IDs have to start with " + Basic.POPUP_IDENTIFIER
@@ -129,6 +136,11 @@ public class MenuManager implements IService {
         addSeparatorVisibleStateHandler(pm);
     }
 
+    /**
+     * Adds a menu bar to the MenuManager.
+     * @param mb JMenuBar to add.
+     * @param id Identifier of menu bar to add.
+     */
     public void fillMenuBar(JMenuBar mb, String id) {
         if (id.startsWith(Basic.MENU_IDENTIFIER) == false) {
             throw new UnsupportedOperationException("MenuBar IDs have to start with " + Basic.MENU_IDENTIFIER
@@ -155,6 +167,11 @@ public class MenuManager implements IService {
         }
     }
 
+    /**
+     * Gets the menu entries registered to a specific root ID.
+     * @param rootID Root IDs which the menu entry was associated to.
+     * @return List of all menu entries associated to the root ID.
+     */
     private List<MenuEntryData> getMenuEntriesOfRoot(String rootID) {
         List<MenuEntryData> entries = rootToEntriesMap.get(rootID);
         if (entries == null) {
@@ -164,16 +181,25 @@ public class MenuManager implements IService {
         return entries;
     }
 
+    /**
+     * Gets the menu extension point. This extension point allows extending the entries of the menu manager.
+     * @return MenuExtensionPoint of the menu manager.
+     */
     public MenuExtensionPoint getMenuExtensionPoint() {
         return menuExtensionPoint;
     }
 
+    /**
+     * Injects the menu into a JFrame.
+     * @param mainWindow Frame to inject generated menu into.
+     */
     public void init(JFrame mainWindow) {
         mainWindow.setJMenuBar(mMainMenu);
-        mTopPanel.setLayout(new BorderLayout());
+        mTopPanel.setLayout(new GridBagLayout());
         mainWindow.add(mTopPanel, BorderLayout.NORTH);
         JLabel label = new JLabel();
-        JPanel panel = new JPanel(); // Just a spacer for the layout
+        layoutContainer = new JPanel(); // Just a spacer for the layout
+        layoutContainer.setLayout(new GridBagLayout());
         ResourceManager resourceManager = ResourceManager.get(MenuManager.class);
         ImageIcon icon = new ImageIcon(resourceManager.getImageIcon("branding/DLR-Programm_Icon.png").getImage().getScaledInstance(48, 48, java.awt.Image.SCALE_SMOOTH));
         label.setIcon(icon);
@@ -182,18 +208,31 @@ public class MenuManager implements IService {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 try {
-        			ExternalBrowserCommand browseDLRCmd = new ExternalBrowserCommand(new URI("https://www.dlr.de/se"));
-        			browseDLRCmd.execute();
-        		} catch (URISyntaxException e) {
-        			LOG.error("Not a valid URI.", e);
-        		}
+                    ExternalBrowserCommand browseDLRCmd = new ExternalBrowserCommand(new URI("https://www.dlr.de/se"));
+                    browseDLRCmd.execute();
+                } catch (URISyntaxException e) {
+                    LOG.error("Not a valid URI.", e);
+                }
             }
         });
-        mTopPanel.add(label, BorderLayout.EAST);
-        mTopPanel.add(panel, BorderLayout.CENTER);
-        mTopPanel.add(mToolBar, BorderLayout.WEST);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.weighty = 1;
+        gbc.weightx = 0;
+        mTopPanel.add(mToolBar, gbc);
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1;
+        mTopPanel.add(layoutContainer, gbc);
+        gbc.gridx = 2;
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.weightx = 0;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        mTopPanel.add(label, gbc);
         mToolBar.setFloatable(false);
-
     }
 
     private void fillRoot(Object root, String rootID) {
@@ -318,6 +357,30 @@ public class MenuManager implements IService {
 
         fillWaitingMenus();
 
+        tabLayoutActiveProperty = PropertyStore.getContext(Basic.TAB_LAYOUT_PROP_CTX).getProperty(Basic.TAB_LAYOUT_ACTIVE_PROP, false);
+        layoutControl = new VisualLayoutControl();
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.anchor = GridBagConstraints.WEST;
+        layoutContainer.add(layoutControl, gbc);
+        layoutControl.setVisible(tabLayoutActiveProperty.getValue());
+        tabLayoutActiveProperty.addPropertyChangeListener(evt -> {
+            layoutControl.setVisible((boolean) evt.getNewValue());
+            layoutControl.revalidate();
+        });
+    }
+
+    /**
+     * Gets the layout control. This component handles the visualization of the tab layout and is
+     * activated if the tab layout property is active.
+     * @return VisualLayoutControl.
+     */
+    public VisualLayoutControl getLayoutControl() {
+        return layoutControl;
     }
 
     private void fillWaitingMenus() {
@@ -375,25 +438,25 @@ public class MenuManager implements IService {
             } else if (entry instanceof Separator) {
                 int orientation = ((JToolBar) menu).getOrientation();
                 int oo = CustomMenuUtil.getOppositeOrientation(orientation);
-				c = new CustomJToolbarSeparator(oo, path, entry.getPlugin());
-				if (items.isEmpty()
-						|| (items.values().size() == 1 && items.values().iterator().next() instanceof JToolBar)) {
-					// Must be first element in this toolbar. Do not show lonely separators.
-					c.setVisible(false);
-				}
+                c = new CustomJToolbarSeparator(oo, path, entry.getPlugin());
+                if (items.isEmpty()
+                        || (items.values().size() == 1 && items.values().iterator().next() instanceof JToolBar)) {
+                    // Must be first element in this toolbar. Do not show lonely separators.
+                    c.setVisible(false);
+                }
             } else if (entry instanceof MenuItem) {
                 c = createButtonMenuItem(entry, path);
             }
 
             if (c != null) {
-            	if (((JToolBar) menu).getComponents() != null && ((JToolBar) menu).getComponentCount() > 0) {
-					JComponent lc = (JComponent) ((JToolBar) menu)
-							.getComponentAtIndex(((JToolBar) menu).getComponentCount() - 1);
-            		if (lc != null && lc instanceof JSeparator && c instanceof JSeparator) {
-            			// Don't allow two neighboring separators 
-            			c.setVisible(false);
-            		}
-            	}
+                if (((JToolBar) menu).getComponents() != null && ((JToolBar) menu).getComponentCount() > 0) {
+                    JComponent lc = (JComponent) ((JToolBar) menu)
+                            .getComponentAtIndex(((JToolBar) menu).getComponentCount() - 1);
+                    if (lc != null && lc instanceof JSeparator && c instanceof JSeparator) {
+                        // Don't allow two neighboring separators
+                        c.setVisible(false);
+                    }
+                }
                 ((JToolBar) menu).add(c);
                 items.put(path, c);
             }
@@ -423,7 +486,7 @@ public class MenuManager implements IService {
             } else if (entry instanceof MenuItem) {
                 c = createMenuItem(entry, path);
             }
-            
+
             if (c != null) {
                 ((JMenu) menu).add(c);
                 items.put(path, c);
@@ -500,7 +563,7 @@ public class MenuManager implements IService {
             ((CustomJToggleButton) c).setCommand(cmd);
             // Find out if the underlaying command is checkable and make the ToggleButton represent its status
             if (cmd instanceof AbstractCheckableCommand ccmd) {
-            	((CustomJToggleButton) c).setSelected(ccmd.isChecked());
+                ((CustomJToggleButton) c).setSelected(ccmd.isChecked());
             }
         } else {
             c = new CustomJButton(((MenuItem) entry).getLabel(), icon, ((MenuItem) entry).getTooltip(), path,
@@ -610,7 +673,7 @@ public class MenuManager implements IService {
     /**
      * Checks if a given path only contains of "toolbar:XY", "menu:XY" or "popup:XY" and therefore points to a menu root
      * element
-     * 
+     *
      * @param path
      * @return
      */
@@ -620,7 +683,7 @@ public class MenuManager implements IService {
 
     /**
      * Recursive fill submenu paths
-     * 
+     *
      * @param paths
      * @param base
      * @param menu
@@ -645,7 +708,7 @@ public class MenuManager implements IService {
     /**
      * This Listener controls the visibility of menu separators. Separators at the beginning or end of the menu will be
      * hidden. If there are multiple separators next to each other, only one will be shown
-     * 
+     *
      * @param popupMenu
      */
     private void addSeparatorVisibleStateHandler(JPopupMenu popupMenu) {

@@ -11,6 +11,7 @@ import de.emir.tuml.ucore.runtime.UStructuralFeature;
 import de.emir.tuml.ucore.runtime.UType;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
 import de.emir.tuml.ucore.runtime.impl.UObjectImpl;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.pointer.PointerOperations;
 import de.emir.tuml.ucore.runtime.utils.FeaturePointer;
 import de.emir.tuml.ucore.runtime.utils.Pointer;
@@ -202,9 +203,8 @@ public class FeaturePointerImpl extends UObjectImpl implements FeaturePointer, P
     	if (li >= 0) {
     		if (f.isMany() == false)
     			return false;
-    		List l = (List) PointerOperations.getValue(getTheInstance(), getFeature(), -1);
-    		if (li >= l.size())
-    			return false;
+    		List<?> l = (List<?>) PointerOperations.getValue(getTheInstance(), getFeature(), -1);
+            return li < l.size();
     	} //if (li < 0) and f.isMany() the pointer points to the list itself
     	return true;
     }
@@ -284,7 +284,7 @@ public class FeaturePointerImpl extends UObjectImpl implements FeaturePointer, P
     @Override
     public UObject getUObject() {
         Object v = getValue();
-        if (v != null && v instanceof UObject)
+        if (v instanceof UObject)
             return (UObject) v;
         return null;
     }
@@ -317,7 +317,7 @@ public class FeaturePointerImpl extends UObjectImpl implements FeaturePointer, P
         try {
             return (T) getValue();
         } catch (Exception e) {
-            e.printStackTrace();
+            ULog.error(e);
         }
         return null;
     }

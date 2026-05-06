@@ -7,6 +7,7 @@ import de.emir.model.universal.spatial.impl.CoordinateSequenceImpl;
 import de.emir.model.universal.spatial.impl.GeometryImpl;
 import de.emir.model.universal.spatial.sf.LineString;
 import de.emir.model.universal.spatial.sf.SfPackage;
+import de.emir.tuml.ucore.runtime.NotificationType;
 import de.emir.tuml.ucore.runtime.Notification;
 
 
@@ -32,7 +33,7 @@ public class LineStringImpl extends GeometryImpl implements LineString
 		//set the default values and assign them to this instance 
 		setPoints(mPoints);
 	}
-	
+
 	/**
 	 *	Default copy constructor
 	 *	@generated
@@ -41,7 +42,7 @@ public class LineStringImpl extends GeometryImpl implements LineString
 		super(_copy);
 		mPoints = _copy.getPoints();
 	}
-	
+
 	/**
 	 *	Default attribute constructor
 	 *	@generated
@@ -50,17 +51,14 @@ public class LineStringImpl extends GeometryImpl implements LineString
 		super();
 		mPoints = _points; 
 	}
-	
+
 	/**
 	 * @generated
 	 */
 	public UClass getUClassifier() {
 		return SfPackage.Literals.LineString;
 	}
-	
-	//////////////////////////////////////////////////////////////////
-	//						Setter / Getter							//
-	//////////////////////////////////////////////////////////////////
+
 	/**
 	 *	@generated 
 	 */
@@ -71,13 +69,14 @@ public class LineStringImpl extends GeometryImpl implements LineString
 			dispatchNotification(notification);
 		}
 	}
+
 	/**
 	 *	@generated 
 	 */
 	public CoordinateSequence getPoints() {
 		return mPoints;
 	}
-	
+
 	//////////////////////////////////////////////////////////////////
 	//							 Operations							//
 	//////////////////////////////////////////////////////////////////
@@ -86,12 +85,9 @@ public class LineStringImpl extends GeometryImpl implements LineString
 	 * @inheritDoc
 	 * @generated not
 	 */
-	public CoordinateSequence getCoordinates()
-	{
+	public CoordinateSequence getCoordinates() {
 		return mPoints;
 	}
-
-
 
 	/**
 	* @generated

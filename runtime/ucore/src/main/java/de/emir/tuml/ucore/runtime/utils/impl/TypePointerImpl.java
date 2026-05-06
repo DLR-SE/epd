@@ -13,6 +13,7 @@ import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
 import de.emir.tuml.ucore.runtime.UType;
 import de.emir.tuml.ucore.runtime.impl.UObjectImpl;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.pointer.PointerOperations;
 import de.emir.tuml.ucore.runtime.utils.Pointer;
 import de.emir.tuml.ucore.runtime.utils.TypePointer;
@@ -363,7 +364,7 @@ public class TypePointerImpl extends UObjectImpl implements TypePointer, Pointer
         try {
             return (T) getValue();
         } catch (Exception e) {
-            e.printStackTrace();
+            ULog.error(e);
         }
         return null;
     }

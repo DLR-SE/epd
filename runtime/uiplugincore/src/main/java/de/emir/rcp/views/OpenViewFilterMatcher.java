@@ -11,7 +11,8 @@ public class OpenViewFilterMatcher implements IFilterMatcher {
         /*if (o instanceof ViewGroup){
             ViewGroup view = (ViewGroup) o;
             return view.getLabel().toLowerCase().contains(filter.toLowerCase());
-        }else */if (o instanceof ViewDescriptor) {
+        }else */
+        if (o instanceof ViewDescriptor) {
             ViewDescriptor view = (ViewDescriptor) o;
             return view.getLabel().toLowerCase().contains(filter.toLowerCase());
         }

@@ -7,6 +7,7 @@ import de.emir.model.universal.plugincore.var.ViewKeyBinding;
 import de.emir.model.universal.plugincore.var.impl.EditorKeyBindingImpl;
 import de.emir.model.universal.plugincore.var.impl.GlobalKeyBindingImpl;
 import de.emir.model.universal.plugincore.var.impl.ViewKeyBindingImpl;
+
 import java.awt.Window;
 import java.util.ArrayList;
 import java.util.HashMap;

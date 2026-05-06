@@ -3,7 +3,6 @@ package de.emir.model.universal.spatial;
 import java.util.List;
 
 import de.emir.model.universal.crs.CoordinateReferenceSystem;
-import de.emir.model.universal.spatial.Coordinate;
 import de.emir.model.universal.math.Vector;
 import de.emir.model.universal.units.DistanceUnit;
 import de.emir.model.universal.units.Rotation;
@@ -38,14 +37,10 @@ public interface Envelope extends UObject
 	 */
 	@UMLProperty(name = "maxPoint", associationType = AssociationType.PROPERTY, lowerBound = 1)
 	public Coordinate getMaxPoint();
-	//////////////////////////////////////////////////////////////////
-	//						Owned Operations						//
-	//////////////////////////////////////////////////////////////////
 	/**
 	 *	@generated 
 	 */
 	Coordinate getCenter();
-	
 	/**
 	 *	@generated 
 	 */
@@ -54,12 +49,10 @@ public interface Envelope extends UObject
 	 *	@generated 
 	 */
 	void correct();
-	
 	/**
 	 *	@generated 
 	 */
 	Envelope copy();
-	
 	/**
 	 *	@generated 
 	 */
@@ -73,12 +66,12 @@ public interface Envelope extends UObject
 	 */
 	void setXYZ(final double min_x, final double min_y, final double min_z, final double max_x, final double max_y, final double max_z);
 	/**
-	 set the crs to min and max point 
+	 Set the crs to min and max point 
 	 * @generated 
 	 */
 	void setCRS(final CoordinateReferenceSystem crs);
 	/**
-	 Applys the CRS to min and max point, by changing their x,y, and z values but without changing the instances 
+	 Apply the CRS to min and max point, by changing their x,y, and z values but without changing the instances 
 	 * @generated 
 	 */
 	void applyCRS(final CoordinateReferenceSystem crs);
@@ -140,7 +133,7 @@ public interface Envelope extends UObject
 	Envelope transform(final Coordinate translate, final Rotation rotation);
 	/**
 	
-	 * returns the four corners of the bounding box
+	 * Returns the four corners of the bounding box
 	 * - vertices[0] = mMinPoint;
 	 * - vertices[1] = Vec2d(mMaxPoint.X, mMinPoint.Y);
 	 * - vertices[2] = mMaxPoint;

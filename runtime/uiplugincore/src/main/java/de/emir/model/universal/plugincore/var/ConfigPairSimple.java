@@ -7,31 +7,33 @@ import de.emir.tuml.ucore.runtime.annotations.UMLProperty;
 import de.emir.tuml.ucore.runtime.annotations.UMLProperty.AssociationType;
 
 /**
- *	@generated 
+ * @generated
  */
-@UMLClass(parent = ConfigVariable.class)	
-public interface ConfigPairSimple extends ConfigVariable 
-{
-	/**
-	 *	@generated 
-	 */
-	@UMLProperty(name = "key", associationType = AssociationType.PROPERTY)
-	public void setKey(String _key);
-	/**
-	 *	@generated 
-	 */
-	@UMLProperty(name = "key", associationType = AssociationType.PROPERTY)
-	public String getKey();
-	/**
-	 *	@generated 
-	 */
-	@UMLProperty(name = "value", associationType = AssociationType.PROPERTY)
-	public void setValue(ConfigObject _value);
-	/**
-	 *	@generated 
-	 */
-	@UMLProperty(name = "value", associationType = AssociationType.PROPERTY)
-	public ConfigObject getValue();
+@UMLClass(parent = ConfigVariable.class)
+public interface ConfigPairSimple extends ConfigVariable {
+    /**
+     * @generated
+     */
+    @UMLProperty(name = "key", associationType = AssociationType.PROPERTY)
+    public void setKey(String _key);
 
-	
+    /**
+     * @generated
+     */
+    @UMLProperty(name = "key", associationType = AssociationType.PROPERTY)
+    public String getKey();
+
+    /**
+     * @generated
+     */
+    @UMLProperty(name = "value", associationType = AssociationType.PROPERTY)
+    public void setValue(ConfigObject _value);
+
+    /**
+     * @generated
+     */
+    @UMLProperty(name = "value", associationType = AssociationType.PROPERTY)
+    public ConfigObject getValue();
+
+
 }

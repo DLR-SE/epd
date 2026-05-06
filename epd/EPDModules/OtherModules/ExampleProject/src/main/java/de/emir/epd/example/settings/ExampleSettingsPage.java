@@ -24,7 +24,7 @@ import java.util.List;
 public class ExampleSettingsPage extends AbstractSettingsPage {
 
     // keep references to all editors. Necessary for reversing changes then a user cancels operation
-    protected List<IPropertyWidget> widgets;
+    protected List<IPropertyWidget<?>> widgets;
 
     public ExampleSettingsPage() {
         widgets = new ArrayList<>();
@@ -45,7 +45,7 @@ public class ExampleSettingsPage extends AbstractSettingsPage {
 
         { // add spinner
             panel.add(new JLabel("Spinner:"));
-            PropertySpinnerWidget spinner = new PropertySpinnerWidget(
+            PropertySpinnerWidget<Integer> spinner = new PropertySpinnerWidget<>(
                     ExampleBasic.EXAMPLE_PROPERTY_CONTEXT,
                     ExampleBasic.EXAMPLE_SPINNER_PROPERTY,
                     5
@@ -91,7 +91,7 @@ public class ExampleSettingsPage extends AbstractSettingsPage {
     @Override
     public boolean isDirty() {
         // We need to check each obj here, hence we need to keep a reference
-        for (IPropertyWidget widget : widgets) {
+        for (IPropertyWidget<?> widget : widgets) {
             if (widget.isDirty()) {
                 return true;
             }
@@ -103,7 +103,7 @@ public class ExampleSettingsPage extends AbstractSettingsPage {
     @Override
     public void finish() {
         // We need to dispose each obj, too. So take care.
-        for (IPropertyWidget widget : widgets) {
+        for (IPropertyWidget<?> widget : widgets) {
            widget.finish();
         }
     }

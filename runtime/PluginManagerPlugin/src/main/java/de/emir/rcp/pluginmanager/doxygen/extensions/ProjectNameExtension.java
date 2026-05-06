@@ -4,6 +4,7 @@ import de.emir.rcp.pluginmanager.doxygen.AbstractDoxygenExtension;
 import de.emir.rcp.pluginmanager.model.ExportData;
 import de.emir.rcp.pluginmanager.model.TextUtils;
 import de.emir.tuml.runtime.epf.ProductFile;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 
 public class ProjectNameExtension extends AbstractDoxygenExtension {
     @Override
@@ -14,7 +15,7 @@ public class ProjectNameExtension extends AbstractDoxygenExtension {
             String replaceText = "PROJECT_NAME           = \"" + TextUtils.replaceSpecialChars(pf.getName()) + "\"";
             return TextUtils.replaceText(textContent, startString, replaceText);
         } catch (Exception e) {
-            e.printStackTrace();
+            ULog.error(e);
             return textContent;
         }
     }

@@ -4,8 +4,6 @@ import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
 import de.emir.model.universal.crs.CoordinateReferenceSystem;
-import de.emir.model.universal.crs.impl.NativeCRSImpl;
-import de.emir.model.universal.crs.util.CRSUtils;
 import de.emir.model.universal.spatial.Coordinate;
 import de.emir.model.universal.spatial.CoordinateSequence;
 import de.emir.model.universal.spatial.Envelope;
@@ -414,7 +412,15 @@ public class CoordinateSequenceImpl extends UObjectImpl implements CoordinateSeq
 			mEnvelope.setCRS(getCrs());
 			mDirty = false;
 		}
-		return mEnvelope;
+        // return a copy to avoid modifications of the internal variable. The better way would be
+        // a frozen object, however this is currently not implemented
+		return new EnvelopeImpl(
+                mEnvelope.getMinPoint().getX(),
+                mEnvelope.getMinPoint().getY(),
+                mEnvelope.getMaxPoint().getX(),
+                mEnvelope.getMaxPoint().getY(),
+                getCrs()
+        );
 	}
 
 

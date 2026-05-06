@@ -1,17 +1,11 @@
 package de.emir.tuml.ucore.runtime;
 
-import de.emir.tuml.ucore.runtime.UClass;
-import de.emir.tuml.ucore.runtime.UClassifier;
-import de.emir.tuml.ucore.runtime.UEnum;
-import de.emir.tuml.ucore.runtime.UInterface;
-import de.emir.tuml.ucore.runtime.UNamedElement;
-import de.emir.tuml.ucore.runtime.UModelElement;
-import java.util.List;
-
 import de.emir.tuml.ucore.runtime.annotations.UMLClass;
 import de.emir.tuml.ucore.runtime.annotations.UMLProperty;
 import de.emir.tuml.ucore.runtime.annotations.UMLProperty.AssociationType;
 import de.emir.tuml.ucore.runtime.utils.QualifiedName;
+
+import java.util.List;
 
 /**
  * @generated

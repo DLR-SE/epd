@@ -1,5 +1,30 @@
 # Changelog
 
+## [4.4.0] - 2026-05-06
+
+### Added
+
+- Added the TargetTableView which allows display of PhysicalObjects in the model
+- Implemented geometry operations for UCore `Geometry` class, which are present in [JTS Geometry](https://locationtech.github.io/jts/javadoc/org/locationtech/jts/geom/Geometry.html)
+    - This includes conversions between UCore and JTS geometry types
+- Added DistanceCharacteristics to the VesselModel for modeling measured distances from a vessel to objects in the environment
+
+### Fixed
+
+- Fixed property editors to be marked dirty only after actual changes.
+- Changes in NMEA Sensor settings are now correctly applied.
+- Fixed missing/unimplemented geometry operations of UCore `Geometry` class
+
+### Changed
+
+- (De-)activation of NMEA Sensor receivers now happens immediately.
+- Made AISTargetView and OwnshipView scale its font based on the available height and width
+
+### Removed
+
+- Removed class PropertyJCheckBox as it was functionally equal to PropertyCheckboxWidget.
+- Removed `isConvex` method from `Geometry` class which was never implemented
+
 ## [4.3.0] - 2025-11-11
 
 ### Added

@@ -4,6 +4,7 @@ import de.emir.model.universal.plugincore.var.AbstractKeyBinding;
 import de.emir.model.universal.plugincore.var.EditorKeyBinding;
 import de.emir.model.universal.plugincore.var.GlobalKeyBinding;
 import de.emir.model.universal.plugincore.var.ViewKeyBinding;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,10 +42,10 @@ public class KeyBindingTableModel implements TableModel {
 
         switch (columnIndex) {
 
-        case 0:
-            return "Context";
-        case 1:
-            return "Key(s)";
+            case 0:
+                return "Context";
+            case 1:
+                return "Key(s)";
         }
 
         return null;
@@ -54,10 +55,10 @@ public class KeyBindingTableModel implements TableModel {
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
 
-        case 0:
-            return String.class;
-        case 1:
-            return String.class;
+            case 0:
+                return String.class;
+            case 1:
+                return String.class;
         }
 
         return null;

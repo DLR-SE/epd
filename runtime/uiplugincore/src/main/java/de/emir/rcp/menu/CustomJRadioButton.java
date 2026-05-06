@@ -44,7 +44,7 @@ public class CustomJRadioButton<T> extends JRadioButton implements Observer {
     private String tooltip;
 
     public CustomJRadioButton(String label, String iconPath, T value, String tooltip, String fullPath,
-            AbstractUIPlugin provider) {
+                              AbstractUIPlugin provider) {
         super(label);
 
         this.fullPath = fullPath;

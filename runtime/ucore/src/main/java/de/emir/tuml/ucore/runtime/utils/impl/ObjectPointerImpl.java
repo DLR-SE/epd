@@ -3,7 +3,6 @@ package de.emir.tuml.ucore.runtime.utils.impl;
 import de.emir.tuml.ucore.runtime.Notification;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.UObject;
-import de.emir.tuml.ucore.runtime.NotificationType;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
 import de.emir.tuml.ucore.runtime.UType;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
@@ -104,7 +103,7 @@ public class ObjectPointerImpl extends UObjectImpl implements ObjectPointer, Poi
     @Override
     public void assign(final Object value, final boolean copyContainments) {
         if (value == mTheInstance || mTheInstance == null || value == null) {
-            ULog.debug("NULL");
+            ULog.debug("Cannot assign pointer. Value that should be assigned to this object pointer is NULL!");
             return;
         }
         // check if the classes match somehow, that is 1) they are the same, or both are UObjects and
@@ -122,8 +121,6 @@ public class ObjectPointerImpl extends UObjectImpl implements ObjectPointer, Poi
             return;
         }
         for (UStructuralFeature f : mTheInstance.getUClassifier().getAllStructuralFeatures()) {
-            // if (f == null)
-            // System.out.println("NULL F");
             PointerOperations.assign(mTheInstance, f, f.get(uv));
         }
     }
@@ -233,7 +230,7 @@ public class ObjectPointerImpl extends UObjectImpl implements ObjectPointer, Poi
         try {
             return (T) getValue();
         } catch (Exception e) {
-            e.printStackTrace();
+            ULog.error(e);
         }
         return null;
     }

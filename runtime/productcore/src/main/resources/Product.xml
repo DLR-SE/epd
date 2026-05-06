@@ -2,10 +2,7 @@
 	<!-- This is NOT a MAVEN file it just uses a similar syntax -->
 	<name>ProductCore</name>
 	<description>This is a generic product config. Replace it with your correct product data.</description>
-
-	<groupId>de.emir.runtime</groupId>
-	<artifactId>productcore</artifactId>
-	<version>4.0.0-SNAPSHOT</version>
+	<version>4.4.0</version>
 
 	<localRepos></localRepos>
 

@@ -109,7 +109,7 @@ public class CapacityCharacteristicImpl extends VesselCharacteristicImpl impleme
 		if (needNotification(VesselPackage.Literals.CapacityCharacteristic_teu)){
 			int _oldValue = mTeu;
 			mTeu = _teu;
-			notify(_oldValue, mTeu, VesselPackage.Literals.CapacityCharacteristic_teu, NotificationType.SET);
+			notify(_oldValue, _teu, VesselPackage.Literals.CapacityCharacteristic_teu, NotificationType.SET);
 		}else{
 			mTeu = _teu;
 		}
@@ -129,7 +129,7 @@ public class CapacityCharacteristicImpl extends VesselCharacteristicImpl impleme
 		if (needNotification(VesselPackage.Literals.CapacityCharacteristic_passengers)){
 			int _oldValue = mPassengers;
 			mPassengers = _passengers;
-			notify(_oldValue, mPassengers, VesselPackage.Literals.CapacityCharacteristic_passengers, NotificationType.SET);
+			notify(_oldValue, _passengers, VesselPackage.Literals.CapacityCharacteristic_passengers, NotificationType.SET);
 		}else{
 			mPassengers = _passengers;
 		}
@@ -149,7 +149,7 @@ public class CapacityCharacteristicImpl extends VesselCharacteristicImpl impleme
 		if (needNotification(VesselPackage.Literals.CapacityCharacteristic_cars)){
 			int _oldValue = mCars;
 			mCars = _cars;
-			notify(_oldValue, mCars, VesselPackage.Literals.CapacityCharacteristic_cars, NotificationType.SET);
+			notify(_oldValue, _cars, VesselPackage.Literals.CapacityCharacteristic_cars, NotificationType.SET);
 		}else{
 			mCars = _cars;
 		}
@@ -169,7 +169,7 @@ public class CapacityCharacteristicImpl extends VesselCharacteristicImpl impleme
 		if (needNotification(VesselPackage.Literals.CapacityCharacteristic_trucks)){
 			int _oldValue = mTrucks;
 			mTrucks = _trucks;
-			notify(_oldValue, mTrucks, VesselPackage.Literals.CapacityCharacteristic_trucks, NotificationType.SET);
+			notify(_oldValue, _trucks, VesselPackage.Literals.CapacityCharacteristic_trucks, NotificationType.SET);
 		}else{
 			mTrucks = _trucks;
 		}
@@ -189,7 +189,7 @@ public class CapacityCharacteristicImpl extends VesselCharacteristicImpl impleme
 		if (needNotification(VesselPackage.Literals.CapacityCharacteristic_roRoLanes)){
 			int _oldValue = mRoRoLanes;
 			mRoRoLanes = _roRoLanes;
-			notify(_oldValue, mRoRoLanes, VesselPackage.Literals.CapacityCharacteristic_roRoLanes, NotificationType.SET);
+			notify(_oldValue, _roRoLanes, VesselPackage.Literals.CapacityCharacteristic_roRoLanes, NotificationType.SET);
 		}else{
 			mRoRoLanes = _roRoLanes;
 		}

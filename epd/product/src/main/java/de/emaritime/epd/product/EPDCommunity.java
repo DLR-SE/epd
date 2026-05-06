@@ -62,6 +62,7 @@ public class EPDCommunity extends AbstractUIProduct {
 				}
 			}
             UIManager.setLookAndFeel(new com.formdev.flatlaf.FlatDarkLaf());
+			System.setProperty( "flatlaf.uiscale", "1.5" );
 		} catch (Exception e) {
 			// Could not set metal LaF, try others.
 			try {

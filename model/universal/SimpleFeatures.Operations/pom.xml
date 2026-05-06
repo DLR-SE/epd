@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>de.dlr-se.emir.model.universal</groupId>
 		<artifactId>universal</artifactId>
-		<version>4.3.0</version>
+		<version>4.4.0</version>
 	</parent>
 	
 	<packaging>jar</packaging>
@@ -27,5 +27,12 @@
 			<artifactId>Spatial.Operations</artifactId>
 			<version>${model.version}</version>
 		</dependency>
-	</dependencies>	
+
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>7.12.0</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>

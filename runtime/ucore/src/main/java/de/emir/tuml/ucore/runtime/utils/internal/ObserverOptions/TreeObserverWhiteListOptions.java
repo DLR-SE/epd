@@ -13,10 +13,10 @@ import java.util.HashSet;
  */
 public class TreeObserverWhiteListOptions implements TreeObserverUtil.ITreeObserverOptions {
 
-    public boolean registerForAssociations = true;
-    public boolean registerForAggregations = true;
-    public boolean registerForProperties = true;
-    public boolean registerForCompositions = true;
+    public boolean registerForAssociations;
+    public boolean registerForAggregations;
+    public boolean registerForProperties;
+    public boolean registerForCompositions;
     private final HashSet<UStructuralFeature> whiteList = new HashSet<>();
 
     public TreeObserverWhiteListOptions() {

@@ -4,9 +4,11 @@ import bibliothek.gui.dock.common.MultipleCDockableFactory;
 import bibliothek.gui.dock.common.MultipleCDockableLayout;
 import bibliothek.util.xml.XElement;
 import de.emir.rcp.manager.util.PlatformUtil;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -17,51 +19,55 @@ public class AbstractViewFactory implements MultipleCDockableFactory<AbstractVie
 
     /**
      * Converts the AbstractView to a serializable Layout.
+     *
      * @param abstractView the element whose properties should be collected.
      * @return Layout object which can be serialized.
      */
     @Override
     public Layout write(AbstractView abstractView) {
-        return new Layout(abstractView.getDescriptorId(), abstractView.getUniqueId());
+        return new Layout(abstractView.getDescriptorId(), abstractView.getUniqueId(), abstractView.getGlobalId());
     }
 
     /**
      * Reads the serializable Layout and instantiates an AbstractView.
+     *
      * @param layout the set of properties that can be used to create the new AbstractView.
      * @return New instance of AbstractView.
      */
     @Override
     public AbstractView read(Layout layout) {
-        return PlatformUtil.getViewManager().createView(PlatformUtil.getViewManager().getViewDescriptor(layout.descriptorID), layout.uniqueID);
+        return PlatformUtil.getViewManager().createView(PlatformUtil.getViewManager().getViewDescriptor(layout.descriptorID), layout.uniqueID, layout.globalID);
     }
 
     /**
      * Checks if the currently loaded Layout object belongs to the instance of AbstractView.
+     *
      * @param abstractView some element that is shown or known to the view.
-     * @param layout some layout that will be applied.
+     * @param layout       some layout that will be applied.
      * @return True if descriptor and uniqueID are matching.
      */
     @Override
     public boolean match(AbstractView abstractView, Layout layout) {
-        return abstractView.getUniqueId().equals(layout.uniqueID) && abstractView.getDescriptorId().equals(layout.descriptorID);
+        return abstractView.getUniqueId().equals(layout.uniqueID) && abstractView.getDescriptorId().equals(layout.descriptorID) && abstractView.getGlobalId().equals(layout.globalID);
     }
 
     /**
      * Creates a new Layout if there is no AbstractView.
+     *
      * @return Randomly generated layout object.
      */
     @Override
     public Layout create() {
         // This method is usually not called and only used for deserializing.
         String uid = UUID.randomUUID().toString();
-        return new Layout(uid, uid);
+        return new Layout(uid, uid, uid);
     }
 
     /**
      * Layout object which is used for serializing and deserializing AbstractView information to layout configurations.
      */
     public static class Layout implements MultipleCDockableLayout {
-        private String descriptorID, uniqueID;
+        private String descriptorID, uniqueID, globalID;
 
         /**
          * Creates an empty Layout object.
@@ -72,16 +78,20 @@ public class AbstractViewFactory implements MultipleCDockableFactory<AbstractVie
 
         /**
          * Creates a Layout object.
+         *
          * @param descriptorID ID of the ViewDescriptor.
-         * @param uniqueID Unique ID of the AbstractView to serialize/deserialize.
+         * @param uniqueID     Unique ID of the AbstractView to serialize/deserialize.
+         * @param globalID     Global ID of the AbstractView. This ID is layout file independent.
          */
-        public Layout(String descriptorID, String uniqueID) {
+        public Layout(String descriptorID, String uniqueID, String globalID) {
             this.descriptorID = descriptorID;
             this.uniqueID = uniqueID;
+            this.globalID = globalID;
         }
 
         /**
          * Writes the layout configuration to a DataOutputStream.
+         *
          * @param dataOutputStream the stream to write into.
          * @throws IOException If writing to stream failed.
          */
@@ -89,10 +99,12 @@ public class AbstractViewFactory implements MultipleCDockableFactory<AbstractVie
         public void writeStream(DataOutputStream dataOutputStream) throws IOException {
             dataOutputStream.writeUTF(descriptorID != null ? descriptorID : "");
             dataOutputStream.writeUTF(uniqueID != null ? uniqueID : "");
+            dataOutputStream.writeUTF(globalID != null ? globalID : UUID.randomUUID().toString());
         }
 
         /**
          * Reads the layout configuration from a DataInputStream.
+         *
          * @param dataInputStream the stream to read.
          * @throws IOException If reading from stream failed.
          */
@@ -100,27 +112,43 @@ public class AbstractViewFactory implements MultipleCDockableFactory<AbstractVie
         public void readStream(DataInputStream dataInputStream) throws IOException {
             descriptorID = dataInputStream.readUTF();
             uniqueID = dataInputStream.readUTF();
+            try {
+                globalID = dataInputStream.readUTF();
+            } catch (EOFException e) {
+                ULog.warn("Could not find global ID for layout object. Generating global ID.");
+                globalID = UUID.randomUUID().toString();
+            }
+
         }
 
         /**
          * Writes a layout element to a XML element.
+         *
          * @param xElement the xml element into which this method can write,
-         * the attributes of <code>element</code> should not be changed.
+         *                 the attributes of <code>element</code> should not be changed.
          */
         @Override
         public void writeXML(XElement xElement) {
             xElement.addElement("descriptorID").setString(descriptorID);
             xElement.addElement("uniqueID").setString(uniqueID);
+            xElement.addElement("globalID").setString(globalID);
         }
 
         /**
          * Reads a layout element from a XML element.
+         *
          * @param xElement the element to read.
          */
         @Override
         public void readXML(XElement xElement) {
             descriptorID = xElement.getElement("descriptorID").getString();
             uniqueID = xElement.getElement("uniqueID").getString();
+            XElement globalIDElement = xElement.getElement("globalID");
+            if (globalIDElement != null) {
+                globalID = globalIDElement.getString();
+            } else {
+                globalID = UUID.randomUUID().toString();
+            }
         }
     }
 }

@@ -1,14 +1,10 @@
 package de.emir.tuml.ucore.runtime;
 
-import de.emir.tuml.ucore.runtime.UAnnotation;
-import de.emir.tuml.ucore.runtime.UAnnotationDetail;
-import de.emir.tuml.ucore.runtime.UObject;
-import de.emir.tuml.ucore.runtime.UPackage;
-import java.util.List;
-
 import de.emir.tuml.ucore.runtime.annotations.UMLClass;
 import de.emir.tuml.ucore.runtime.annotations.UMLProperty;
 import de.emir.tuml.ucore.runtime.annotations.UMLProperty.AssociationType;
+
+import java.util.List;
 
 /**
  * @generated

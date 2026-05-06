@@ -2,7 +2,6 @@ package de.emir.epd.nmeasensor.ui;
 
 import java.awt.Component;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
@@ -12,10 +11,10 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import de.emir.epd.nmeasensor.ids.NMEASensorIds;
-import de.emir.epd.nmeasensor.settings.NMEASensorSettingsPage;
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
+import de.emir.tuml.ucore.runtime.resources.IconManager;
 
 public class ReceiversList extends JList<IProperty> {
 	protected static Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);
@@ -28,17 +27,18 @@ public class ReceiversList extends JList<IProperty> {
 	}
 
 	protected class CellRenderer implements ListCellRenderer<IProperty> {
-		public Component getListCellRendererComponent(JList<? extends IProperty> list, IProperty value, int index, boolean isSelected, boolean cellHasFocus) {
-//            if (value == null || value.getValue() == null) return null;
+		public Component getListCellRendererComponent(JList<? extends IProperty> list, IProperty value, int index,
+				boolean isSelected, boolean cellHasFocus) {
             String namePath = NMEASensorIds.NMEA_SENSOR_PROP + "." + value.getName();
             String name = (String) value.getValue();
             IProperty<String> type = context.getProperty(namePath + '.' + NMEASensorIds.NMEA_SENSOR_PROP_TYPE, "UDP");
             JLabel label = new JLabel(type.getValue() + " " + name);
-            IProperty<Boolean> active = context.getProperty(namePath + '.' + NMEASensorIds.NMEA_SENSOR_PROP_ACTIVE, false);
+            IProperty<Boolean> active = context.getProperty(namePath + '.' + NMEASensorIds.NMEA_SENSOR_PROP_ACTIVE,
+            		false);
 			if (active.getValue()) {
-				label.setIcon(new ImageIcon(NMEASensorSettingsPage.class.getResource("/icons/emiricons/32/gps_fixed.png")));
+				label.setIcon(IconManager.getIcon(this, "/icons/emiricons/32/gps_fixed.png"));
 			} else {
-				label.setIcon(new ImageIcon(NMEASensorSettingsPage.class.getResource("/icons/emiricons/32/gps_off.png")));
+				label.setIcon(IconManager.getIcon(this, "/icons/emiricons/32/gps_off.png"));
 			}
 			label.setBackground(isSelected ? UIManager.getColor("List.selectionBackground") : getBackground());
 			label.setForeground(isSelected ? UIManager.getColor("List.selectionForeground") : getForeground());

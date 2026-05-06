@@ -24,10 +24,11 @@ public class ViewExtensionPoint implements IExtensionPoint {
 
     /**
      * Creates a ViewDescriptor for a given view.
-     * @param id ID of the view which should be added.
+     *
+     * @param id        ID of the view which should be added.
      * @param viewClass Class of the view which can be instantiated.
      * @return ViewDescriptor for the registered view.
-    */
+     */
     public IViewDescriptor view(String id, Class<? extends AbstractView> viewClass) {
         if (views.containsKey(id)) {
             log.error("A view with id [{}] already exists.", id);
@@ -44,7 +45,7 @@ public class ViewExtensionPoint implements IExtensionPoint {
         }
 
         ViewGroup group;
-        if (views.containsKey(null)){
+        if (views.containsKey(null)) {
             group = views.get(null);
         } else {
             group = new ViewGroup(null);
@@ -63,25 +64,27 @@ public class ViewExtensionPoint implements IExtensionPoint {
 
     /**
      * Creates a new ViewGroup or gets an already registered group.
+     *
      * @param id ID of the group.
      * @return Newly created ViewGroup with the given ID or already created instance.
      */
-    public IViewGroup group(String id){
-       if (views.containsKey(id)){
-           return views.get(id);
-       }
+    public IViewGroup group(String id) {
+        if (views.containsKey(id)) {
+            return views.get(id);
+        }
 
-       ViewGroup group = new ViewGroup(id);
+        ViewGroup group = new ViewGroup(id);
 
-       views.put(id, group);
+        views.put(id, group);
 
-       log.debug("View group with id [{}] added.", id);
+        log.debug("View group with id [{}] added.", id);
 
-       return group;
+        return group;
     }
 
     /**
      * Gets all registered ViewGroups.
+     *
      * @return ViewGroups.
      */
     public Map<String, ViewGroup> getViewDescriptors() {

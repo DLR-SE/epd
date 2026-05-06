@@ -1,7 +1,5 @@
 package de.emir.model.universal.spatial.ops;
 
-import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
-import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.model.universal.spatial.Coordinate;
 import de.emir.model.universal.spatial.Pose;
 import de.emir.model.universal.spatial.delegate.IPoseDelegationInterface;
@@ -19,8 +17,7 @@ public class PoseOperations  implements IPoseDelegationInterface{
 	 * @inheritDoc
 	 * @generated
 	*/
-	public String readableString(Pose self)
-	{
+	public String readableString(Pose self) {
 		//TODO: 
 		throw new UnsupportedOperationException("readableString not yet implemented");
 	}
@@ -29,17 +26,16 @@ public class PoseOperations  implements IPoseDelegationInterface{
 	 * @generated not
 	*/
 	@Override
-	public Pose copy(Pose self)
-	{
+	public Pose copy(Pose self) {
 		return new PoseImpl(self);
 	}
+
 	/**
 	 * @inheritDoc
 	 * @generated not
 	*/
 	@Override
-	public void set(Pose self, final Coordinate coord, final Orientation ori)
-	{
+	public void set(Pose self, final Coordinate coord, final Orientation ori) {
 		if(self.getCoordinate() == null)
 			self.setCoordinate(coord);
 		else

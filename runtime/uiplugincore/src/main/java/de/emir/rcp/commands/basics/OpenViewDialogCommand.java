@@ -7,9 +7,8 @@ import de.emir.runtime.plugin.windows.MainWindow;
 
 /**
  * This command opens the view dialog used to open a view
- * 
- * @author fklein
  *
+ * @author fklein
  */
 public class OpenViewDialogCommand extends AbstractCommand {
 

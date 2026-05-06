@@ -18,12 +18,7 @@ import de.emir.tuml.ucore.runtime.utils.impl.ObjectPointerImpl;
 
 public class PointerProperty extends AbstractProperty<Object> implements IDisposable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3982043132765964321L;
-	
-	
 	
 	private Pointer 										mPointer;
 	private HashMap<PropertyChangeListener, IDisposable> 	mListenerMap = new HashMap<>();

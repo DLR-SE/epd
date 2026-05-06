@@ -33,7 +33,7 @@ public class RemoveValueTransaction extends AbstractModelTransaction {
 
     }
 
-    @SuppressWarnings({ "rawtypes" })
+    @SuppressWarnings({"rawtypes"})
     @Override
     public void run() {
 
@@ -51,7 +51,7 @@ public class RemoveValueTransaction extends AbstractModelTransaction {
 
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     public void undo() {
         if (isValidRequest() == false) {

@@ -13,9 +13,8 @@ import de.emir.tuml.ucore.runtime.logging.ULog;
 
 /**
  * Performs a undo operation on the command stack of the currently active editor.
- * 
- * @author fklein
  *
+ * @author fklein
  */
 public class UndoCommand extends AbstractCommand implements Observer {
 

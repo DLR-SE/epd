@@ -4,14 +4,15 @@ import java.nio.file.Path;
 import java.util.concurrent.CountDownLatch;
 
 import de.emir.rcp.jobs.IJob;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.progress.IProgressMonitor;
 
 public class LoadInfoJob implements IJob {
 
-	private StoreableTileCache cache;
-	private Path infoPath;
+	private final StoreableTileCache cache;
+	private final Path infoPath;
 
-	private CountDownLatch latch;
+	private final CountDownLatch latch;
 
 	public LoadInfoJob(StoreableTileCache cache, Path infoPath, CountDownLatch latch) {
 		this.cache = cache;
@@ -26,6 +27,7 @@ public class LoadInfoJob implements IJob {
 			UriImageFileData uifd = CacheFolder.loadInfo(infoPath);
 			
 			if (uifd == null) {
+				latch.countDown();
 				return;
 			}
 	
@@ -37,10 +39,9 @@ public class LoadInfoJob implements IJob {
 			latch.countDown();
 			
 			
-		}catch(Exception e) {
-			e.printStackTrace();
+		} catch(Exception e) {
+            ULog.error(e);
 			latch.countDown();
-			return ;
 		}
 
 	}

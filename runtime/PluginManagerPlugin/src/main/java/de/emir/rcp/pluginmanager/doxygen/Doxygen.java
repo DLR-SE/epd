@@ -89,7 +89,7 @@ public class Doxygen {
             try {
                 while (process.getInputStream().read() != -1) ;
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e);
             } finally {
                 thread.interrupt();
             }
@@ -403,7 +403,7 @@ public class Doxygen {
 
                 return new MavenModel(model);
             } catch (IOException | XmlPullParserException e) {
-                e.printStackTrace();
+                logger.error(e);
                 return null;
             }
         }

@@ -63,7 +63,7 @@ public class CheckTreeManager extends MouseAdapter implements TreeSelectionListe
     public CheckTreeSelectionModel getSelectionModel() {
         return selectionModel;
     }
-    
+
     public JTree getTree() {
         return tree;
     }

@@ -13,7 +13,6 @@ import de.emir.rcp.parts.vesseleditor.view.helper.DragProperties;
 import de.emir.rcp.parts.vesseleditor.view.helper.DragWrapper;
 import de.emir.rcp.parts.vesseleditor.view.helper.LineWrapper;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
-import de.emir.tuml.ucore.runtime.logging.ULog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,7 +42,6 @@ public class GeometryPanel extends AbstractGeometryPanel {
 
     protected UStructuralFeature horizontalFeature;
     protected UStructuralFeature verticalFeature;
-    private double zoomFactor;
     private int zoomLevel;
 
     public GeometryPanel(Geometry geometry, View view) {
@@ -114,11 +112,9 @@ public class GeometryPanel extends AbstractGeometryPanel {
             g.setTransform(getZoomAndPanListener().getCoordTransform());
         }
 
-        zoomFactor = (getZoomAndPanListener().getZoomMultiplicationFactor() * getZoomAndPanListener().getZoomLevel());
         zoomLevel = (getZoomAndPanListener().DEFAULT_MAX_ZOOM_LEVEL - getZoomAndPanListener().getZoomLevel());
         zoomLevel = zoomLevel == 0 ? 1 : zoomLevel;
-        zoomFactor = (zoomFactor / 10);
-        
+
         if (isShowGridLines()) {
             drawGrid(g);
         }

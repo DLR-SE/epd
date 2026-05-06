@@ -12,11 +12,10 @@ import de.emir.runtime.plugin.AbstractUIPlugin;
 import de.emir.tuml.ucore.runtime.extension.ExtensionPointManager;
 import de.emir.tuml.ucore.runtime.resources.ResourceManager;
 
-import javax.swing.*;
-
 /**
+ * This is the plugin entry point for the SimpleNMEASensor.
+ * 
  * @author Stefan Behrensen <stefan.behrensen@dlr.de>
- *
  */
 public class NMEASensorPlugin extends AbstractUIPlugin {
 	/** Static reference to the managed sensors. **/
@@ -53,8 +52,8 @@ public class NMEASensorPlugin extends AbstractUIPlugin {
 				.label("NMEA0183")
 				.icon("icons/emiricons/32/settings_input_antenna.png", rmgr);
 
-		Alert ownship = new Alert(NMEASensorIds.NMEA_SENSOR_OWNSHIP_ALERT_ID,"Ownship", AlertState.UNKNOWN);
-		Alert ais = new Alert(NMEASensorIds.NMEA_SENSOR_AIS_ALERT_ID,"AIS", AlertState.UNKNOWN);
+		Alert ownship = new Alert(NMEASensorIds.NMEA_SENSOR_OWNSHIP_ALERT_ID,"NMEA0183 Ownship", AlertState.UNKNOWN);
+		Alert ais = new Alert(NMEASensorIds.NMEA_SENSOR_AIS_ALERT_ID,"NMEA0183 AIS", AlertState.UNKNOWN);
 
 		AlertManager.registerAlert(ownship);
 		AlertManager.registerAlert(ais);

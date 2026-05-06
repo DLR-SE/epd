@@ -6,9 +6,8 @@ import de.emir.runtime.plugin.windows.LayoutLockState;
 
 /**
  * This command toggles the layout lock state of the application
- * 
- * @author fklein
  *
+ * @author fklein
  */
 public class LockUnlockLayoutCommand extends AbstractCheckableCommand {
 

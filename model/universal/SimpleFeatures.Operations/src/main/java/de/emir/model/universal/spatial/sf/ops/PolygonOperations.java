@@ -1,11 +1,17 @@
 package de.emir.model.universal.spatial.sf.ops;
 
+import de.emir.model.universal.crs.CoordinateReferenceSystem;
 import de.emir.model.universal.spatial.Coordinate;
+import de.emir.model.universal.spatial.CoordinateSequence;
 import de.emir.model.universal.spatial.Geometry;
+import de.emir.model.universal.spatial.impl.CoordinateImpl;
+import de.emir.model.universal.spatial.impl.CoordinateSequenceImpl;
 import de.emir.model.universal.spatial.ops.GeometryOperations;
 import de.emir.model.universal.spatial.sf.LinearRing;
 import de.emir.model.universal.spatial.sf.Polygon;
 import de.emir.model.universal.spatial.sf.delegate.IPolygonDelegationInterface;
+import de.emir.model.universal.spatial.sf.impl.LinearRingImpl;
+import de.emir.model.universal.spatial.sf.impl.PolygonImpl;
 
 /**
  *	@generated 
@@ -14,6 +20,7 @@ public class PolygonOperations extends GeometryOperations implements IPolygonDel
 
 	@Override
 	public org.locationtech.jts.geom.Geometry createNativeGeometry(Geometry self) {
+        assert self instanceof Polygon;
 		Polygon poly = (Polygon)self;
 		
 		if (poly.getShell() != null && poly.getShell().getPoints().numCoordinates() > 0) {
@@ -24,7 +31,6 @@ public class PolygonOperations extends GeometryOperations implements IPolygonDel
 			}
 			if (poly.getShell().getPoints().numCoordinates() > 2) {
 				org.locationtech.jts.geom.Polygon nat = null;
-//			GeometryOperations del = poly.getShell().getDelegate();
 				LinearRingOperations del = new LinearRingOperations();
 				org.locationtech.jts.geom.LinearRing nat_shell = (org.locationtech.jts.geom.LinearRing) del
 						.getNativeGeometry(poly.getShell());
@@ -44,7 +50,57 @@ public class PolygonOperations extends GeometryOperations implements IPolygonDel
 		return null;
 	}
 
-	@Override
+    @Override
+    public Geometry createUCoreGeometry(org.locationtech.jts.geom.Geometry self, CoordinateReferenceSystem crs) {
+
+        // cannot create an object from an empty geometry
+        if (self.isEmpty()){
+            return null;
+        }
+
+        if (self instanceof org.locationtech.jts.geom.Polygon) {
+
+            org.locationtech.jts.geom.Polygon nativePolygon = (org.locationtech.jts.geom.Polygon) self;
+            Polygon polygon = new PolygonImpl();
+            polygon.setShell(new LinearRingImpl());
+
+            // map the exterior ring
+            for (org.locationtech.jts.geom.Coordinate coord : nativePolygon.getExteriorRing().getCoordinates()) {
+                polygon.getShell().getPoints().addCoordinate(
+                        new CoordinateImpl(
+                                coord.getX(),
+                                coord.getY(),
+                                coord.getZ(),
+                                crs
+                        )
+                );
+            }
+
+            // map all interior holes
+            for (int i = 0; i < nativePolygon.getNumInteriorRing(); i++) {
+                LinearRing ring = new LinearRingImpl();
+
+                for (org.locationtech.jts.geom.Coordinate coord : nativePolygon.getInteriorRingN(i).getCoordinates()) {
+                    ring.getPoints().addCoordinate(
+                            new CoordinateImpl(
+                                    coord.getX(),
+                                    coord.getY(),
+                                    coord.getZ(),
+                                    crs
+                            )
+                    );
+                }
+
+                polygon.getHoles().add(ring);
+            }
+
+            return polygon;
+        } else {
+            return GeometryOperationUtil.createUCoreGeometry(self, crs);
+        }
+    }
+
+    @Override
 	public int numCoordinates(Geometry self) {
 		Polygon p = (Polygon)self;
 		int n = p.getShell() != null ? p.getShell().numCoordinates() : 0;
@@ -77,6 +133,15 @@ public class PolygonOperations extends GeometryOperations implements IPolygonDel
 	@Override
 	public Geometry getGeometry(Geometry self, int idx) {
 		return self;
+	}
+
+	@Override
+	public CoordinateSequence getCoordinates(Geometry self) {
+		CoordinateSequence result = new CoordinateSequenceImpl();
+		for (int i = 0; i < self.numCoordinates(); i++) {
+			result.addCoordinate(getCoordinate(self, i));
+		}
+		return result;
 	}
 	
 }

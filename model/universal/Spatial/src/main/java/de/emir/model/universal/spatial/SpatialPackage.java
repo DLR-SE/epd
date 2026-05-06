@@ -71,7 +71,7 @@ public class SpatialPackage
 	 * @generated
 	 */
 	public static SpatialPackage theInstance = new SpatialPackage().init();
-	
+
 	/**
 	 * @generated
 	 */
@@ -311,12 +311,13 @@ public class SpatialPackage
 	* @generated
 	*/
 	private UClass mGraph = null;
+	
+	
 	//////////////////////////////////////////////////////////////////////
 	//				StructuralFeatures									//
 	//////////////////////////////////////////////////////////////////////
 	
 	
-	//Features for classifier Coordinate
 	/**
 	 * @generated
 	 */
@@ -333,8 +334,6 @@ public class SpatialPackage
 	 * @generated
 	 */
 	private UStructuralFeature mCoordinate_crs = null;
-	
-	//Features for classifier Pose
 	/**
 	 * @generated
 	 */
@@ -343,8 +342,6 @@ public class SpatialPackage
 	 * @generated
 	 */
 	private UStructuralFeature mPose_orientation = null;
-	
-	//Features for classifier Envelope
 	/**
 	 * @generated
 	 */
@@ -353,13 +350,10 @@ public class SpatialPackage
 	 * @generated
 	 */
 	private UStructuralFeature mEnvelope_maxPoint = null;
-	
 	/**
 	 * @generated
 	 */
 	private UStructuralFeature mCoordinateSequence_crs = null;
-	
-	//Features for classifier EFeature
 	/**
 	 * @generated
 	 */
@@ -376,9 +370,6 @@ public class SpatialPackage
 	 * @generated
 	 */
 	private UStructuralFeature mEFeature_geometry = null;
-	
-	
-	//Features for classifier SpatialLayer
 	/**
 	 * @generated
 	 */
@@ -403,7 +394,6 @@ public class SpatialPackage
 	 * @generated
 	 */
 	private UStructuralFeature mGraphEdge_nodeB = null;
-	
 	/**
 	 * @generated
 	 */
@@ -431,7 +421,7 @@ public class SpatialPackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package SpatialPackage ...");
+		ULog.debug("initialize package SpatialPackage ...", 1);
 		theInstance = new SpatialPackage();
 		//initialize referenced models
 		MathModel.init();
@@ -459,7 +449,7 @@ public class SpatialPackage
 		
 		
 		
-		ULog.debug("... package SpatialPackage initialized");
+		ULog.debug(-1, "... package SpatialPackage initialized");
 		
 		return theInstance;
 	}
@@ -509,7 +499,7 @@ public class SpatialPackage
 					return new CoordinateSequenceImpl();
 				}
 			});
-			mCoordinateSequence.setDocumentation("\r\n * A coordinate sequence serves as container for the coordinates, forming a geometry\r\n ");
+			mCoordinateSequence.setDocumentation("\n * A coordinate sequence serves as container for the coordinates, forming a geometry\n ");
 			//Annotations for CoordinateSequence
 			mCoordinateSequence.createAnnotation("ComplexAttributeType");
 			mCoordinateSequence.createAnnotation("struct");
@@ -537,7 +527,7 @@ public class SpatialPackage
 			mSpatialLayer.createAnnotation("FeatureType");
 		
 		mSpatialLayerContainer = UMetaBuilder.manual().createInterface("SpatialLayerContainer", SpatialLayerContainer.class);
-			mSpatialLayerContainer.setDocumentation(" \r\n * The Abstract class SpatialLayerContainer can be used to provide \r\n * SpatialLayers, which are dynamically loaded. \r\n * This abstract class could be used by a user interface to display \r\n * all relevant layers, even if they are not part of the persistent model. \r\n ");
+			mSpatialLayerContainer.setDocumentation(" \n * The Abstract class SpatialLayerContainer can be used to provide \n * SpatialLayers, which are dynamically loaded. \n * This abstract class could be used by a user interface to display \n * all relevant layers, even if they are not part of the persistent model. \n ");
 		
 		mGraphEdge = UMetaBuilder.manual().createClass("GraphEdge", false, GraphEdge.class, GraphEdgeImpl.class);
 			UMetaBuilder.manual().setInstanceCreator(mGraphEdge, new IInstanceCreator() {
@@ -597,7 +587,7 @@ public class SpatialPackage
 						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((Coordinate)instance).getCrs(); } }, 
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((Coordinate)instance).setCrs((CoordinateReferenceSystem)value); } }
 				);
-				mCoordinate_crs.setDocumentation(" references the current coordinate system, and therefore how x,y,z has to be read\r\n * if this value is set to null, a cartesian coordinate system (EngineeringCRS - default) is assumed\r\n ");
+				mCoordinate_crs.setDocumentation(" References the current coordinate system, and therefore how x,y,z has to be read\n * if this value is set to null, a cartesian coordinate system (EngineeringCRS - default) is assumed\n ");
 			
 			//Features of Pose
 			mPose_coordinate = UMetaBuilder.manual().createFeature("coordinate", SpatialPackage.theInstance.getCoordinate(), UAssociationType.COMPOSITION, 1, 1);
@@ -806,7 +796,7 @@ public class SpatialPackage
 					return ((Coordinate)instance).getLatitude();
 				}
 			});
-				operation.setDocumentation(" \r\n * returns the longitude (WGS84) of this coordinate.\r\n * depending on the current crs, this includes a coordinate transformation \r\n ");
+				operation.setDocumentation(" \n * Returns the longitude (WGS84) of this coordinate.\n * depending on the current crs, this includes a coordinate transformation \n ");
 				//Annotations for Coordinate:getLatitude(double)
 				operation.createAnnotation("const");
 				mCoordinate.getOperations().add(operation);
@@ -817,7 +807,7 @@ public class SpatialPackage
 					return ((Coordinate)instance).getLongitude();
 				}
 			});
-				operation.setDocumentation(" \r\n * returns the longitude (WGS84) of this coordinate.\r\n * depending on the current crs, this includes a coordinate transformation \r\n ");
+				operation.setDocumentation(" \n * Returns the longitude (WGS84) of this coordinate.\n * depending on the current crs, this includes a coordinate transformation \n ");
 				//Annotations for Coordinate:getLongitude(double)
 				operation.createAnnotation("const");
 				mCoordinate.getOperations().add(operation);
@@ -828,7 +818,7 @@ public class SpatialPackage
 					return ((Coordinate)instance).get((CoordinateReferenceSystem)parameter[0]);
 				}
 			});
-				operation.setDocumentation(" returns a copy of this coordinate, that has been transformed into the given crs. \r\n * if parameter crs is the same as the member crs, a copy is returned. \r\n * \\note if the member crs is set to null, the coordinate is assumed to be defined as WGS84 coordinate \r\n ");
+				operation.setDocumentation(" Returns a copy of this coordinate, that has been transformed into the given crs.\n * if parameter crs is the same as the member crs, a copy is returned. \n * \\note if the member crs is set to null, the coordinate is assumed to be defined as WGS84 coordinate \n ");
 				//Annotations for Coordinate:get(Coordinate, CoordinateReferenceSystem)
 				operation.createAnnotation("const");
 				UMetaBuilder.manual().addParameter(operation, "crs", CrsPackage.theInstance.getCoordinateReferenceSystem(), 0, 1, UDirectionType.IN);
@@ -896,7 +886,7 @@ public class SpatialPackage
 					return ((Coordinate)instance).toVector();
 				}
 			});
-				operation.setDocumentation("\r\n * Returns either an Vector2D or Vector3D, depending on the value of dimension()\r\n ");
+				operation.setDocumentation("\n * Returns either an Vector2D or Vector3D, depending on the value of dimension()\n ");
 				//Annotations for Coordinate:toVector(Vector)
 				operation.createAnnotation("const");
 				mCoordinate.getOperations().add(operation);
@@ -907,7 +897,7 @@ public class SpatialPackage
 					return ((Coordinate)instance).toVector2D();
 				}
 			});
-				operation.setDocumentation(" returns a 2D vector, skips the z value, if not NaN ");
+				operation.setDocumentation(" Returns a 2D vector, skips the z value, if not NaN ");
 				//Annotations for Coordinate:toVector2D(Vector2D)
 				operation.createAnnotation("const");
 				mCoordinate.getOperations().add(operation);
@@ -918,7 +908,7 @@ public class SpatialPackage
 					return ((Coordinate)instance).toVector3D();
 				}
 			});
-				operation.setDocumentation(" returns a 3D vector, fills the z value with 0 if dimension() == 2 ");
+				operation.setDocumentation(" Returns a 3D vector, fills the z value with 0 if dimension() == 2 ");
 				//Annotations for Coordinate:toVector3D(Vector3D)
 				operation.createAnnotation("const");
 				mCoordinate.getOperations().add(operation);
@@ -962,7 +952,7 @@ public class SpatialPackage
 					return null;
 				}
 			});
-				operation.setDocumentation(" utility method to set all coordinate values and the crs \r\n * @note this method calls the corresponding setter and thus produces IValueChange events\r\n ");
+				operation.setDocumentation(" utility method to set all coordinate values and the crs \n * @note this method calls the corresponding setter and thus produces IValueChange events\n ");
 				UMetaBuilder.manual().addParameter(operation, "x", TypeUtils.getPrimitiveType(double.class), 0, 1, UDirectionType.IN);
 				UMetaBuilder.manual().addParameter(operation, "y", TypeUtils.getPrimitiveType(double.class), 0, 1, UDirectionType.IN);
 				UMetaBuilder.manual().addParameter(operation, "z", TypeUtils.getPrimitiveType(double.class), 0, 1, UDirectionType.IN);
@@ -1102,7 +1092,7 @@ public class SpatialPackage
 					return null;
 				}
 			});
-				operation.setDocumentation(" set the crs to min and max point ");
+				operation.setDocumentation(" Set the crs to min and max point ");
 				UMetaBuilder.manual().addParameter(operation, "crs", CrsPackage.theInstance.getCoordinateReferenceSystem(), 0, 1, UDirectionType.IN);
 				mEnvelope.getOperations().add(operation);
 			//operation : applyCRS(void, CoordinateReferenceSystem)
@@ -1113,7 +1103,7 @@ public class SpatialPackage
 					return null;
 				}
 			});
-				operation.setDocumentation(" Applys the CRS to min and max point, by changing their x,y, and z values but without changing the instances ");
+				operation.setDocumentation(" Apply the CRS to min and max point, by changing their x,y, and z values but without changing the instances ");
 				UMetaBuilder.manual().addParameter(operation, "crs", CrsPackage.theInstance.getCoordinateReferenceSystem(), 0, 1, UDirectionType.IN);
 				mEnvelope.getOperations().add(operation);
 			//operation : intersects(boolean, Envelope)
@@ -1123,7 +1113,7 @@ public class SpatialPackage
 					return ((Envelope)instance).intersects((Envelope)parameter[0]);
 				}
 			});
-				operation.setDocumentation("\r\n * Checks weather both envelopes intersect with each other. \r\n * Fails if one envelope is totally contained inside the other\r\n ");
+				operation.setDocumentation("\n * Checks weather both envelopes intersect with each other. \n * Fails if one envelope is totally contained inside the other\n ");
 				//Annotations for Envelope:intersects(boolean, Envelope)
 				operation.createAnnotation("const");
 				UMetaBuilder.manual().addParameter(operation, "other", SpatialPackage.theInstance.getEnvelope(), 0, 1, UDirectionType.IN);
@@ -1135,7 +1125,7 @@ public class SpatialPackage
 					return ((Envelope)instance).containsOrIntersects((Envelope)parameter[0]);
 				}
 			});
-				operation.setDocumentation("\r\n * Checks if the other envelope is totally or partially inside this envelope\r\n ");
+				operation.setDocumentation("\n * Checks if the other envelope is totally or partially inside this envelope\n ");
 				//Annotations for Envelope:containsOrIntersects(boolean, Envelope)
 				operation.createAnnotation("const");
 				UMetaBuilder.manual().addParameter(operation, "other", SpatialPackage.theInstance.getEnvelope(), 0, 1, UDirectionType.IN);
@@ -1158,7 +1148,7 @@ public class SpatialPackage
 					return ((Envelope)instance).contains((Envelope)parameter[0]);
 				}
 			});
-				operation.setDocumentation("\r\n * Checks if the other envelope is inside this envelope, \r\n * fails if they do intersect but the other envelope is not totally within this\r\n ");
+				operation.setDocumentation("\n * Checks if the other envelope is inside this envelope, \n * fails if they do intersect but the other envelope is not totally within this\n ");
 				//Annotations for Envelope:contains(boolean, Envelope)
 				operation.createAnnotation("const");
 				UMetaBuilder.manual().addParameter(operation, "other", SpatialPackage.theInstance.getEnvelope(), 0, 1, UDirectionType.IN);
@@ -1171,7 +1161,7 @@ public class SpatialPackage
 					return null;
 				}
 			});
-				operation.setDocumentation("\r\n * Expand the current instance to also covers the other envelope\r\n ");
+				operation.setDocumentation("\n * Expand the current instance to also covers the other envelope\n ");
 				UMetaBuilder.manual().addParameter(operation, "other", SpatialPackage.theInstance.getEnvelope(), 0, 1, UDirectionType.IN);
 				mEnvelope.getOperations().add(operation);
 			//operation : expand(Envelope, Envelope)
@@ -1181,7 +1171,7 @@ public class SpatialPackage
 					return ((Envelope)instance).expand((Envelope)parameter[0]);
 				}
 			});
-				operation.setDocumentation("\r\n * returns a new envelope that covers the current instance as well as the other envelope\r\n ");
+				operation.setDocumentation("\n * returns a new envelope that covers the current instance as well as the other envelope\n ");
 				//Annotations for Envelope:expand(Envelope, Envelope)
 				operation.createAnnotation("const");
 				UMetaBuilder.manual().addParameter(operation, "other", SpatialPackage.theInstance.getEnvelope(), 0, 1, UDirectionType.IN);
@@ -1194,7 +1184,7 @@ public class SpatialPackage
 					return null;
 				}
 			});
-				operation.setDocumentation("\r\n * expands the current envelope to also cover the given coordinate\r\n ");
+				operation.setDocumentation("\n * expands the current envelope to also cover the given coordinate\n ");
 				UMetaBuilder.manual().addParameter(operation, "other", SpatialPackage.theInstance.getCoordinate(), 0, 1, UDirectionType.IN);
 				mEnvelope.getOperations().add(operation);
 			//operation : expand(Envelope, Coordinate)
@@ -1204,7 +1194,7 @@ public class SpatialPackage
 					return ((Envelope)instance).expand((Coordinate)parameter[0]);
 				}
 			});
-				operation.setDocumentation("\r\n * creates a new envelope that covers the current envelope as well as the given coordinate\r\n ");
+				operation.setDocumentation("\n * creates a new envelope that covers the current envelope as well as the given coordinate\n ");
 				//Annotations for Envelope:expand(Envelope, Coordinate)
 				operation.createAnnotation("const");
 				UMetaBuilder.manual().addParameter(operation, "other", SpatialPackage.theInstance.getCoordinate(), 0, 1, UDirectionType.IN);
@@ -1239,7 +1229,7 @@ public class SpatialPackage
 					return ((Envelope)instance).getVertices();
 				}
 			});
-				operation.setDocumentation("\r\n * returns the four corners of the bounding box\r\n * - vertices[0] = mMinPoint;\r\n * - vertices[1] = Vec2d(mMaxPoint.X, mMinPoint.Y);\r\n * - vertices[2] = mMaxPoint;\r\n * - vertices[3] = Vec2d(mMinPoint.X, mMaxPoint.Y);\r\n ");
+				operation.setDocumentation("\n * Returns the four corners of the bounding box\n * - vertices[0] = mMinPoint;\n * - vertices[1] = Vec2d(mMaxPoint.X, mMinPoint.Y);\n * - vertices[2] = mMaxPoint;\n * - vertices[3] = Vec2d(mMinPoint.X, mMaxPoint.Y);\n ");
 				//Annotations for Envelope:getVertices(Coordinate)
 				operation.createAnnotation("const");
 				mEnvelope.getOperations().add(operation);
@@ -1334,8 +1324,139 @@ public class SpatialPackage
 					return ((Geometry)instance).getEnvelope();
 				}
 			});
+				operation.setDocumentation("\n * Gets a Geometry representing the envelope (bounding box) of this Geometry.\n ");
 				//Annotations for Geometry:getEnvelope(Envelope)
 				operation.createAnnotation("const");
+				mGeometry.getOperations().add(operation);
+			//operation : contains(boolean, Geometry)
+			operation = UMetaBuilder.manual().createOperation("contains", false, TypeUtils.getPrimitiveType(boolean.class), 0, 1, new IOperationInvoker() {				
+				@Override
+				public Object invoke(UObject instance, Object... parameter) {
+					return ((Geometry)instance).contains((Geometry)parameter[0]);
+				}
+			});
+				operation.setDocumentation("\n * Tests whether this geometry contains the argument geometry.\n ");
+				//Annotations for Geometry:contains(boolean, Geometry)
+				operation.createAnnotation("const");
+				UMetaBuilder.manual().addParameter(operation, "geom", SpatialPackage.theInstance.getGeometry(), 0, 1, UDirectionType.IN);
+				mGeometry.getOperations().add(operation);
+			//operation : coveredBy(boolean, Geometry)
+			operation = UMetaBuilder.manual().createOperation("coveredBy", false, TypeUtils.getPrimitiveType(boolean.class), 0, 1, new IOperationInvoker() {				
+				@Override
+				public Object invoke(UObject instance, Object... parameter) {
+					return ((Geometry)instance).coveredBy((Geometry)parameter[0]);
+				}
+			});
+				operation.setDocumentation("\n                             * Tests whether this geometry is covered by the argument geometry.\n                             ");
+				//Annotations for Geometry:coveredBy(boolean, Geometry)
+				operation.createAnnotation("const");
+				UMetaBuilder.manual().addParameter(operation, "g", SpatialPackage.theInstance.getGeometry(), 0, 1, UDirectionType.IN);
+				mGeometry.getOperations().add(operation);
+			//operation : covers(boolean, Geometry)
+			operation = UMetaBuilder.manual().createOperation("covers", false, TypeUtils.getPrimitiveType(boolean.class), 0, 1, new IOperationInvoker() {				
+				@Override
+				public Object invoke(UObject instance, Object... parameter) {
+					return ((Geometry)instance).covers((Geometry)parameter[0]);
+				}
+			});
+				operation.setDocumentation("\n                             * Tests whether this geometry covers the argument geometry.\n                             ");
+				//Annotations for Geometry:covers(boolean, Geometry)
+				operation.createAnnotation("const");
+				UMetaBuilder.manual().addParameter(operation, "g", SpatialPackage.theInstance.getGeometry(), 0, 1, UDirectionType.IN);
+				mGeometry.getOperations().add(operation);
+			//operation : crosses(boolean, Geometry)
+			operation = UMetaBuilder.manual().createOperation("crosses", false, TypeUtils.getPrimitiveType(boolean.class), 0, 1, new IOperationInvoker() {				
+				@Override
+				public Object invoke(UObject instance, Object... parameter) {
+					return ((Geometry)instance).crosses((Geometry)parameter[0]);
+				}
+			});
+				operation.setDocumentation("\n                             * Tests whether this geometry crosses the argument geometry.\n                             ");
+				//Annotations for Geometry:crosses(boolean, Geometry)
+				operation.createAnnotation("const");
+				UMetaBuilder.manual().addParameter(operation, "g", SpatialPackage.theInstance.getGeometry(), 0, 1, UDirectionType.IN);
+				mGeometry.getOperations().add(operation);
+			//operation : difference(Geometry, Geometry)
+			operation = UMetaBuilder.manual().createOperation("difference", false, SpatialPackage.theInstance.getGeometry(), 0, 1, new IOperationInvoker() {				
+				@Override
+				public Object invoke(UObject instance, Object... parameter) {
+					return ((Geometry)instance).difference((Geometry)parameter[0]);
+				}
+			});
+				operation.setDocumentation("\n                             * Computes a Geometry representing the closure of the point-set of the points contained in this Geometry that are not contained in the other Geometry.\n                             ");
+				//Annotations for Geometry:difference(Geometry, Geometry)
+				operation.createAnnotation("const");
+				UMetaBuilder.manual().addParameter(operation, "g", SpatialPackage.theInstance.getGeometry(), 0, 1, UDirectionType.IN);
+				mGeometry.getOperations().add(operation);
+			//operation : disjoint(boolean, Geometry)
+			operation = UMetaBuilder.manual().createOperation("disjoint", false, TypeUtils.getPrimitiveType(boolean.class), 0, 1, new IOperationInvoker() {				
+				@Override
+				public Object invoke(UObject instance, Object... parameter) {
+					return ((Geometry)instance).disjoint((Geometry)parameter[0]);
+				}
+			});
+				operation.setDocumentation("\n                             * Tests whether this geometry is disjoint from the argument geometry.\n                             ");
+				//Annotations for Geometry:disjoint(boolean, Geometry)
+				operation.createAnnotation("const");
+				UMetaBuilder.manual().addParameter(operation, "g", SpatialPackage.theInstance.getGeometry(), 0, 1, UDirectionType.IN);
+				mGeometry.getOperations().add(operation);
+			//operation : distance(double, Geometry)
+			operation = UMetaBuilder.manual().createOperation("distance", false, TypeUtils.getPrimitiveType(double.class), 0, 1, new IOperationInvoker() {				
+				@Override
+				public Object invoke(UObject instance, Object... parameter) {
+					return ((Geometry)instance).distance((Geometry)parameter[0]);
+				}
+			});
+				operation.setDocumentation("\n                             * Returns the minimum distance between this Geometry and another Geometry.\n                             ");
+				//Annotations for Geometry:distance(double, Geometry)
+				operation.createAnnotation("const");
+				UMetaBuilder.manual().addParameter(operation, "g", SpatialPackage.theInstance.getGeometry(), 0, 1, UDirectionType.IN);
+				mGeometry.getOperations().add(operation);
+			//operation : equalsExact(boolean, Geometry)
+			operation = UMetaBuilder.manual().createOperation("equalsExact", false, TypeUtils.getPrimitiveType(boolean.class), 0, 1, new IOperationInvoker() {				
+				@Override
+				public Object invoke(UObject instance, Object... parameter) {
+					return ((Geometry)instance).equalsExact((Geometry)parameter[0]);
+				}
+			});
+				operation.setDocumentation("\n                             * Returns true if the two Geometries are exactly equal, up to a specified distance tolerance.\n                             ");
+				//Annotations for Geometry:equalsExact(boolean, Geometry)
+				operation.createAnnotation("const");
+				UMetaBuilder.manual().addParameter(operation, "g", SpatialPackage.theInstance.getGeometry(), 0, 1, UDirectionType.IN);
+				mGeometry.getOperations().add(operation);
+			//operation : getArea(double)
+			operation = UMetaBuilder.manual().createOperation("getArea", false, TypeUtils.getPrimitiveType(double.class), 0, 1, new IOperationInvoker() {				
+				@Override
+				public Object invoke(UObject instance, Object... parameter) {
+					return ((Geometry)instance).getArea();
+				}
+			});
+				operation.setDocumentation("\n                             * Returns the area of this Geometry.\n                             ");
+				//Annotations for Geometry:getArea(double)
+				operation.createAnnotation("const");
+				mGeometry.getOperations().add(operation);
+			//operation : getLength(double)
+			operation = UMetaBuilder.manual().createOperation("getLength", false, TypeUtils.getPrimitiveType(double.class), 0, 1, new IOperationInvoker() {				
+				@Override
+				public Object invoke(UObject instance, Object... parameter) {
+					return ((Geometry)instance).getLength();
+				}
+			});
+				operation.setDocumentation("\n                             * Returns the length of this Geometry.\n                             ");
+				//Annotations for Geometry:getLength(double)
+				operation.createAnnotation("const");
+				mGeometry.getOperations().add(operation);
+			//operation : intersection(Geometry, Geometry)
+			operation = UMetaBuilder.manual().createOperation("intersection", false, SpatialPackage.theInstance.getGeometry(), 0, 1, new IOperationInvoker() {				
+				@Override
+				public Object invoke(UObject instance, Object... parameter) {
+					return ((Geometry)instance).intersection((Geometry)parameter[0]);
+				}
+			});
+				operation.setDocumentation("\n                             * Computes a Geometry representing the point-set which is common to both this Geometry and the other Geometry.\n                             ");
+				//Annotations for Geometry:intersection(Geometry, Geometry)
+				operation.createAnnotation("const");
+				UMetaBuilder.manual().addParameter(operation, "geom", SpatialPackage.theInstance.getGeometry(), 0, 1, UDirectionType.IN);
 				mGeometry.getOperations().add(operation);
 			//operation : intersects(boolean, Geometry)
 			operation = UMetaBuilder.manual().createOperation("intersects", false, TypeUtils.getPrimitiveType(boolean.class), 0, 1, new IOperationInvoker() {				
@@ -1344,19 +1465,104 @@ public class SpatialPackage
 					return ((Geometry)instance).intersects((Geometry)parameter[0]);
 				}
 			});
+				operation.setDocumentation("\n * Tests whether this geometry intersects the argument geometry.\n ");
 				//Annotations for Geometry:intersects(boolean, Geometry)
 				operation.createAnnotation("const");
 				UMetaBuilder.manual().addParameter(operation, "geom", SpatialPackage.theInstance.getGeometry(), 0, 1, UDirectionType.IN);
 				mGeometry.getOperations().add(operation);
-			//operation : isConvex(boolean)
-			operation = UMetaBuilder.manual().createOperation("isConvex", false, TypeUtils.getPrimitiveType(boolean.class), 0, 1, new IOperationInvoker() {				
+			//operation : normalized(Geometry)
+			operation = UMetaBuilder.manual().createOperation("normalized", false, SpatialPackage.theInstance.getGeometry(), 0, 1, new IOperationInvoker() {				
 				@Override
 				public Object invoke(UObject instance, Object... parameter) {
-					return ((Geometry)instance).isConvex();
+					return ((Geometry)instance).normalized();
 				}
 			});
-				//Annotations for Geometry:isConvex(boolean)
+				operation.setDocumentation("\n * Creates a new Geometry which is a normalized copy of this Geometry.\n ");
+				//Annotations for Geometry:normalized(Geometry)
 				operation.createAnnotation("const");
+				mGeometry.getOperations().add(operation);
+			//operation : normalize(void)
+			operation = UMetaBuilder.manual().createOperation("normalize", false, TypeUtils.getPrimitiveType(void.class), 0, 1, new IOperationInvoker() {				
+				@Override
+				public Object invoke(UObject instance, Object... parameter) {
+					((Geometry)instance).normalize();
+					return null;
+				}
+			});
+				operation.setDocumentation("\n                             * Converts this Geometry to normal form (or canonical form ).\n                             ");
+				//Annotations for Geometry:normalize(void)
+				operation.createAnnotation("const");
+				mGeometry.getOperations().add(operation);
+			//operation : overlaps(boolean, Geometry)
+			operation = UMetaBuilder.manual().createOperation("overlaps", false, TypeUtils.getPrimitiveType(boolean.class), 0, 1, new IOperationInvoker() {				
+				@Override
+				public Object invoke(UObject instance, Object... parameter) {
+					return ((Geometry)instance).overlaps((Geometry)parameter[0]);
+				}
+			});
+				operation.setDocumentation("\n                             * Tests whether this geometry overlaps the specified geometry.\n                             ");
+				//Annotations for Geometry:overlaps(boolean, Geometry)
+				operation.createAnnotation("const");
+				UMetaBuilder.manual().addParameter(operation, "geom", SpatialPackage.theInstance.getGeometry(), 0, 1, UDirectionType.IN);
+				mGeometry.getOperations().add(operation);
+			//operation : reversed(Geometry)
+			operation = UMetaBuilder.manual().createOperation("reversed", false, SpatialPackage.theInstance.getGeometry(), 0, 1, new IOperationInvoker() {				
+				@Override
+				public Object invoke(UObject instance, Object... parameter) {
+					return ((Geometry)instance).reversed();
+				}
+			});
+				operation.setDocumentation("\n                             * Computes a new geometry which has all component coordinate sequences in reverse order\n                             * (opposite orientation) to this one.\n                             ");
+				//Annotations for Geometry:reversed(Geometry)
+				operation.createAnnotation("const");
+				mGeometry.getOperations().add(operation);
+			//operation : symDifference(Geometry, Geometry)
+			operation = UMetaBuilder.manual().createOperation("symDifference", false, SpatialPackage.theInstance.getGeometry(), 0, 1, new IOperationInvoker() {				
+				@Override
+				public Object invoke(UObject instance, Object... parameter) {
+					return ((Geometry)instance).symDifference((Geometry)parameter[0]);
+				}
+			});
+				operation.setDocumentation("\n                             * Computes a Geometry representing the closure of the point-set which is the union\n                             * of the points in this Geometry which are not contained in the other Geometry, with\n                             * the points in the other Geometry not contained in this Geometry.\n                             ");
+				//Annotations for Geometry:symDifference(Geometry, Geometry)
+				operation.createAnnotation("const");
+				UMetaBuilder.manual().addParameter(operation, "geom", SpatialPackage.theInstance.getGeometry(), 0, 1, UDirectionType.IN);
+				mGeometry.getOperations().add(operation);
+			//operation : touches(boolean, Geometry)
+			operation = UMetaBuilder.manual().createOperation("touches", false, TypeUtils.getPrimitiveType(boolean.class), 0, 1, new IOperationInvoker() {				
+				@Override
+				public Object invoke(UObject instance, Object... parameter) {
+					return ((Geometry)instance).touches((Geometry)parameter[0]);
+				}
+			});
+				operation.setDocumentation("\n                             * Tests whether this geometry touches the argument geometry.\n                             ");
+				//Annotations for Geometry:touches(boolean, Geometry)
+				operation.createAnnotation("const");
+				UMetaBuilder.manual().addParameter(operation, "geom", SpatialPackage.theInstance.getGeometry(), 0, 1, UDirectionType.IN);
+				mGeometry.getOperations().add(operation);
+			//operation : union(Geometry, Geometry)
+			operation = UMetaBuilder.manual().createOperation("union", false, SpatialPackage.theInstance.getGeometry(), 0, 1, new IOperationInvoker() {				
+				@Override
+				public Object invoke(UObject instance, Object... parameter) {
+					return ((Geometry)instance).union((Geometry)parameter[0]);
+				}
+			});
+				operation.setDocumentation("\n                             * Computes the union of all the elements of this geometry.\n                             ");
+				//Annotations for Geometry:union(Geometry, Geometry)
+				operation.createAnnotation("const");
+				UMetaBuilder.manual().addParameter(operation, "geom", SpatialPackage.theInstance.getGeometry(), 0, 1, UDirectionType.IN);
+				mGeometry.getOperations().add(operation);
+			//operation : within(boolean, Geometry)
+			operation = UMetaBuilder.manual().createOperation("within", false, TypeUtils.getPrimitiveType(boolean.class), 0, 1, new IOperationInvoker() {				
+				@Override
+				public Object invoke(UObject instance, Object... parameter) {
+					return ((Geometry)instance).within((Geometry)parameter[0]);
+				}
+			});
+				operation.setDocumentation("\n * Tests whether this geometry is within the specified geometry.\n ");
+				//Annotations for Geometry:within(boolean, Geometry)
+				operation.createAnnotation("const");
+				UMetaBuilder.manual().addParameter(operation, "geom", SpatialPackage.theInstance.getGeometry(), 0, 1, UDirectionType.IN);
 				mGeometry.getOperations().add(operation);
 			//operation : applyCRS(void, CoordinateReferenceSystem)
 			operation = UMetaBuilder.manual().createOperation("applyCRS", false, TypeUtils.getPrimitiveType(void.class), 0, 1, new IOperationInvoker() {				
@@ -1366,7 +1572,7 @@ public class SpatialPackage
 					return null;
 				}
 			});
-				operation.setDocumentation(" Applys the coordinate reference system to all coordinates in this geometry, without changing their instance\r\n * e.g. change the values of the coordinate\r\n ");
+				operation.setDocumentation(" Apply the coordinate reference system to all coordinates in this geometry, without changing their instance\n * e.g. change the values of the coordinate\n ");
 				UMetaBuilder.manual().addParameter(operation, "crs", CrsPackage.theInstance.getCoordinateReferenceSystem(), 0, 1, UDirectionType.IN);
 				mGeometry.getOperations().add(operation);
 			//operation : recursiveSetCRS(void, CoordinateReferenceSystem)
@@ -1490,7 +1696,7 @@ public class SpatialPackage
 					return ((CoordinateSequence)instance).getEnvelope();
 				}
 			});
-				operation.setDocumentation(" returns the boundingbox containing all coordinates within this sequence ");
+				operation.setDocumentation(" Returns the bounding box containing all coordinates within this sequence ");
 				mCoordinateSequence.getOperations().add(operation);
 		}
 		{		//Operations of SpatialLayer
@@ -1502,7 +1708,7 @@ public class SpatialPackage
 					return ((SpatialLayer)instance).queryFeatures((Geometry)parameter[0], (boolean)parameter[1]);
 				}
 			});
-				operation.setDocumentation("\r\n * returns all features that intersect with the given query geometry (geom). \r\n * if exactQuery is set to false, only the corresponding envelopes will be checked, otherwise a full intersection test is performed (slower)\r\n ");
+				operation.setDocumentation("\n * returns all features that intersect with the given query geometry (geom). \n * if exactQuery is set to false, only the corresponding envelopes will be checked, otherwise a full intersection test is performed (slower)\n ");
 				UMetaBuilder.manual().addParameter(operation, "geom", SpatialPackage.theInstance.getGeometry(), 0, 1, UDirectionType.IN);
 				UMetaBuilder.manual().addParameter(operation, "exactQuery", TypeUtils.getPrimitiveType(boolean.class), 0, 1, UDirectionType.IN);
 				mSpatialLayer.getOperations().add(operation);
@@ -1529,7 +1735,7 @@ public class SpatialPackage
 					return ((GraphNode)instance).getCRS();
 				}
 			});
-				operation.setDocumentation("\r\n * Returns the CRS of the coordinate\r\n ");
+				operation.setDocumentation("\n * Returns the CRS of the coordinate\n ");
 				//Annotations for GraphNode:getCRS(CoordinateReferenceSystem)
 				operation.createAnnotation("const");
 				mGraphNode.getOperations().add(operation);
@@ -1566,7 +1772,7 @@ public class SpatialPackage
 					return null;
 				}
 			});
-				operation.setDocumentation("\r\n * Set the given CRS for all nodes, without changing the instance of the Coordinate (e.g. the values of each node's coordiante is changed)\r\n ");
+				operation.setDocumentation("\n * Set the given CRS for all nodes, without changing the instance of the Coordinate (e.g. the values of each node's coordiante is changed)\n ");
 				UMetaBuilder.manual().addParameter(operation, "crs", CrsPackage.theInstance.getCoordinateReferenceSystem(), 0, 1, UDirectionType.IN);
 				mGraph.getOperations().add(operation);
 		}
@@ -1579,6 +1785,8 @@ public class SpatialPackage
 		mGenericEFeature.setSuperType(SpatialPackage.theInstance.getEFeature());
 		
 	}
+	
+	
 	
 	//////////////////////////////////////////////////////////////////////
 	//				Classifier GETTER									//
@@ -1666,6 +1874,8 @@ public class SpatialPackage
 		return mSpatialLayerContainer;
 	}
 	
+	
+	
 	//////////////////////////////////////////////////////////////////////
 	//				StructuralFeatures	GETTER							//
 	//////////////////////////////////////////////////////////////////////
@@ -1678,9 +1888,6 @@ public class SpatialPackage
 			mCoordinate_x = getCoordinate().getFeature("x");
 		return mCoordinate_x;
 	}
-
-
-
 	/**
 	* @generated
 	*/
@@ -1706,9 +1913,6 @@ public class SpatialPackage
 			mCoordinate_z = getCoordinate().getFeature("z");
 		return mCoordinate_z;
 	}
-
-
-
 	/**
 	* @generated
 	*/
@@ -1750,9 +1954,6 @@ public class SpatialPackage
 			mEnvelope_minPoint = getEnvelope().getFeature("minPoint");
 		return mEnvelope_minPoint;
 	}
-
-
-
 	/**
 	* @generated
 	*/
@@ -1794,9 +1995,6 @@ public class SpatialPackage
 			mEFeature_featureType = getEFeature().getFeature("featureType");
 		return mEFeature_featureType;
 	}
-
-
-
 	/**
 	* @generated
 	*/
@@ -1821,9 +2019,6 @@ public class SpatialPackage
 			mSpatialLayer_features = getSpatialLayer().getFeature("features");
 		return mSpatialLayer_features;
 	}
-
-
-
 	/**
 	* @generated
 	*/
@@ -1840,9 +2035,6 @@ public class SpatialPackage
 			mCoordinateSequence_yCoordinates = getCoordinateSequence().getFeature("yCoordinates");
 		return mCoordinateSequence_yCoordinates;
 	}
-
-
-
 	/**
 	* @generated
 	*/
@@ -1851,9 +2043,6 @@ public class SpatialPackage
 			mGraphEdge_id = getGraphEdge().getFeature("id");
 		return mGraphEdge_id;
 	}
-
-
-
 	/**
 	* @generated
 	*/
@@ -1870,9 +2059,6 @@ public class SpatialPackage
 			mCoordinateSequence_zCoordinates = getCoordinateSequence().getFeature("zCoordinates");
 		return mCoordinateSequence_zCoordinates;
 	}
-
-
-
 	/**
 	* @generated
 	*/
@@ -1881,9 +2067,6 @@ public class SpatialPackage
 			mGraphNode_id = getGraphNode().getFeature("id");
 		return mGraphNode_id;
 	}
-
-
-
 	/**
 	* @generated
 	*/
@@ -1892,9 +2075,6 @@ public class SpatialPackage
 			mGraph_edges = getGraph().getFeature("edges");
 		return mGraph_edges;
 	}
-
-
-
 	/**
 	* @generated
 	*/
@@ -1903,9 +2083,6 @@ public class SpatialPackage
 			mGraph_nodes = getGraph().getFeature("nodes");
 		return mGraph_nodes;
 	}
-
-
-
 	/**
 	* @generated
 	*/
@@ -1914,9 +2091,6 @@ public class SpatialPackage
 			mGraphEdge_nodeB = getGraphEdge().getFeature("nodeB");
 		return mGraphEdge_nodeB;
 	}
-
-
-
 	/**
 	* @generated
 	*/

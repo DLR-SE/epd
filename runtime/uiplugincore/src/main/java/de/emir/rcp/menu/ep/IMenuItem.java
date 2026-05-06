@@ -10,17 +10,16 @@ public interface IMenuItem {
 
     /**
      * Associate an ResourceManager with the icon. The ResourceManager is used to locate the icon path
-     * 
+     *
      * @param path
-     * @param rmgr
-     *            ResourceManager to locate the icon
+     * @param rmgr ResourceManager to locate the icon
      * @return
      */
     IMenuItem icon(String path, ResourceManager rmgr);
 
     /**
      * (Optional) Assign the size (in pixel) for the icon
-     * 
+     *
      * @param size
      * @return
      */
@@ -32,7 +31,7 @@ public interface IMenuItem {
 
     /**
      * Define a tooltip for this menu item. If no tooltip is set the label of the command is used
-     * 
+     *
      * @param tooltip
      * @return
      */

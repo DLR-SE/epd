@@ -29,7 +29,7 @@ public class GraphImpl extends UObjectImpl implements Graph
 	 *	@generated 
 	 */
 	private List<GraphEdge> mEdges = null;
-			
+
 	/**
 	 *	Default constructor
 	 *	@generated
@@ -37,7 +37,7 @@ public class GraphImpl extends UObjectImpl implements Graph
 	public GraphImpl(){
 		super();
 	}
-	
+
 	/**
 	 *	Default copy constructor
 	 *	@generated
@@ -46,7 +46,7 @@ public class GraphImpl extends UObjectImpl implements Graph
 		mNodes = _copy.getNodes();
 		mEdges = _copy.getEdges();
 	}
-	
+
 	/**
 	 *	Default attribute constructor
 	 *	@generated
@@ -55,7 +55,7 @@ public class GraphImpl extends UObjectImpl implements Graph
 		mNodes = _nodes; 
 		mEdges = _edges; 
 	}
-	
+
 	/**
 	 * @generated
 	 */

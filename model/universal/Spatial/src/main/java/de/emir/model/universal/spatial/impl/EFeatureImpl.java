@@ -26,7 +26,7 @@ abstract public class EFeatureImpl extends UObjectImpl implements EFeature
 	 *	@generated 
 	 */
 	private Geometry mGeometry = null;
-			
+
 	/**
 	 *	Default constructor
 	 *	@generated
@@ -45,7 +45,7 @@ abstract public class EFeatureImpl extends UObjectImpl implements EFeature
 		mFeatureType = _copy.getFeatureType();
 		mGeometry = _copy.getGeometry();
 	}
-	
+
 	/**
 	 *	Default attribute constructor
 	 *	@generated
@@ -54,7 +54,7 @@ abstract public class EFeatureImpl extends UObjectImpl implements EFeature
 		mFeatureType = _featureType;
 		mGeometry = _geometry; 
 	}
-	
+
 	/**
 	 * @generated
 	 */
@@ -69,7 +69,7 @@ abstract public class EFeatureImpl extends UObjectImpl implements EFeature
 		if (needNotification(SpatialPackage.Literals.EFeature_featureType)){
 			String _oldValue = mFeatureType;
 			mFeatureType = _featureType;
-			notify(_oldValue, mFeatureType, SpatialPackage.Literals.EFeature_featureType, NotificationType.SET);
+			notify(_oldValue, _featureType, SpatialPackage.Literals.EFeature_featureType, NotificationType.SET);
 		}else{
 			mFeatureType = _featureType;
 		}

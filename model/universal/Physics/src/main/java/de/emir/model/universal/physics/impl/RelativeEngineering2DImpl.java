@@ -22,6 +22,7 @@ import de.emir.model.universal.units.impl.AngleImpl;
 import de.emir.tuml.ucore.runtime.Notification;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.utils.UCoreUtils;
 
 
@@ -115,19 +116,29 @@ public class RelativeEngineering2DImpl extends Engineering2DImpl implements Rela
 	@Override
 	public List<Double> getOrientationOffset() {
 		List<Double> ori = super.getOrientationOffset();
-		if (getReference() == null ){
+
+        if (getReference() == null ){
 			return ori;
 		}
-		Pose refPose = getReference().getPose();
-		if (refPose == null)
-			return ori;
-		double offsetRadian = 0;
+
+        Pose refPose = getReference().getPose();
+		if (refPose == null) {
+            return ori;
+        }
+
+        double offsetRadian = 0;
 		//first get the orientation offset of the CRS used by the referenced pose
 		Coordinate refCoord = refPose.getCoordinate();
 		if (refCoord != null){
 			CoordinateReferenceSystem refCRS = refCoord.getCrs();
-			if (refCRS != null && refCRS instanceof LocalCRS)
-				offsetRadian = ((LocalCRS)refCRS).getOrientationOffset().get(0);
+            // check if refCRS is the same as this. In this case we would recursively call ourselves
+            // ending in an error.
+            if (refCRS != null && refCRS == this){
+                ULog.error("Reference CRS is the same as this! Cannot compute orientation offset!");
+            } else if (refCRS != null && refCRS instanceof LocalCRS) {
+                List<Double> offset = ((LocalCRS)refCRS).getOrientationOffset();
+                offsetRadian = offset != null && !offset.isEmpty() ? offset.getFirst() : 0.0;
+            }
 		}
 		//if the object is rotated itself, this will superposition the offset
 		if (refPose.getOrientation() != null){
@@ -136,8 +147,11 @@ public class RelativeEngineering2DImpl extends Engineering2DImpl implements Rela
 			if (e.getZ() != null)
 				offsetRadian += e.getZ().getAs(AngleUnit.RADIAN);
 		}
-		while(offsetRadian < 0) offsetRadian += AngleImpl.PI_2; //do the normalisation
-		while(offsetRadian > AngleImpl.PI_2) offsetRadian -= AngleImpl.PI_2; 
+        // normalize angles between [-720, 720]
+        offsetRadian = offsetRadian % AngleImpl.PI_2;
+        if (offsetRadian < 0){
+            offsetRadian += AngleImpl.PI_2;
+        }
 		ori.set(0, offsetRadian); //e.getZ().getAs(AngleUnit.RADIAN));
 		return ori;
 	}

@@ -29,131 +29,130 @@ import de.emir.tuml.ucore.runtime.prop.IProperty;
 
 public class CustomJButtonMenu extends JButton {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 478835743022944654L;
-	private JPopupMenu popupMenu;
-	private Boolean showDev;
-	private String fullPath;
-	private AbstractUIPlugin provider;
-	
-	private Polygon arrowPolygon;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 478835743022944654L;
+    private JPopupMenu popupMenu;
+    private Boolean showDev;
+    private String fullPath;
+    private AbstractUIPlugin provider;
 
-	public CustomJButtonMenu(String label, ImageIcon icon, String tooltip, String fullPath, AbstractUIPlugin provider) {
-		super(label);
+    private Polygon arrowPolygon;
 
-		this.fullPath = fullPath;
-		this.provider = provider;
+    public CustomJButtonMenu(String label, ImageIcon icon, String tooltip, String fullPath, AbstractUIPlugin provider) {
+        super(label);
 
-		setToolTipText(tooltip);
+        this.fullPath = fullPath;
+        this.provider = provider;
 
-		if (icon != null) {
-			setIcon(icon);
-		}
+        setToolTipText(tooltip);
 
-		setFocusPainted(false);
+        if (icon != null) {
+            setIcon(icon);
+        }
 
-		popupMenu = new JPopupMenu();
+        setFocusPainted(false);
 
-		addMouseListener(new MouseAdapter() {
+        popupMenu = new JPopupMenu();
 
-			@Override
-			public void mouseExited(MouseEvent e) {
-				CustomJButtonMenu.this.setCursor(Cursor.getDefaultCursor());
+        addMouseListener(new MouseAdapter() {
 
-			}
+            @Override
+            public void mouseExited(MouseEvent e) {
+                CustomJButtonMenu.this.setCursor(Cursor.getDefaultCursor());
 
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				CustomJButtonMenu.this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            }
 
-			}
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                CustomJButtonMenu.this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-		});
-		
-		// Get some space for arrow down
-		if(label != null) {
-			setText(label + "   ");
-		} else {
-			setText("   ");
-		}
-		
-		
+            }
 
-		addActionListener(new ActionListener() {
+        });
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
+        // Get some space for arrow down
+        if (label != null) {
+            setText(label + "   ");
+        } else {
+            setText("   ");
+        }
 
-				Component[] components = popupMenu.getComponents();
 
-				for (int i = 0; i < components.length; i++) {
-					if (components[i] instanceof JSeparator) {
-						components[i].setVisible(i > 0 && i < components.length - 1);
-					}
-				}
+        addActionListener(new ActionListener() {
 
-				popupMenu.show(CustomJButtonMenu.this, 0, CustomJButtonMenu.this.getBounds().height);
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-			}
-		});
-		// To remove all unnecessary Separators
-		popupMenu.addPopupMenuListener(new PopupMenuSeparatorVisibilityHandler(popupMenu));
-		PropertyContext propContext = PropertyStore.getContext(Basic.DEV_PROP_CTX);
-		IProperty<Boolean> property = propContext.getProperty(Basic.PROP_DEV_SHOW_MENU_CONTRIBUTIONS, false);
-		showDev = property.getValue();
+                Component[] components = popupMenu.getComponents();
 
-		if (showDev == true && tooltip == null) {
-			setToolTipText("");
-		}
-		
-		arrowPolygon = new Polygon();
-		arrowPolygon.addPoint(0, 0);
-		arrowPolygon.addPoint(7, 0);
-		arrowPolygon.addPoint(3, 4);
-		arrowPolygon.addPoint(0, 0);
+                for (int i = 0; i < components.length; i++) {
+                    if (components[i] instanceof JSeparator) {
+                        components[i].setVisible(i > 0 && i < components.length - 1);
+                    }
+                }
 
-	}
-	
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-		
-		Rectangle b = getBounds();
-		
-		Graphics2D g2 = (Graphics2D) g;
-		AffineTransform transform = g2.getTransform();
-		transform.translate(b.width - 13, b.height/2 - 2);
-		g2.setTransform(transform);
-		g2.setColor(getForeground());
-		g2.fillPolygon(arrowPolygon);
-		
-	}
+                popupMenu.show(CustomJButtonMenu.this, 0, CustomJButtonMenu.this.getBounds().height);
 
-	@Override
-	public JToolTip createToolTip() {
+            }
+        });
+        // To remove all unnecessary Separators
+        popupMenu.addPopupMenuListener(new PopupMenuSeparatorVisibilityHandler(popupMenu));
+        PropertyContext propContext = PropertyStore.getContext(Basic.DEV_PROP_CTX);
+        IProperty<Boolean> property = propContext.getProperty(Basic.PROP_DEV_SHOW_MENU_CONTRIBUTIONS, false);
+        showDev = property.getValue();
 
-		if (showDev == true) {
-			return new CustomDevTooltip(fullPath, provider);
-		} else {
-			return super.createToolTip();
-		}
+        if (showDev == true && tooltip == null) {
+            setToolTipText("");
+        }
 
-	}
+        arrowPolygon = new Polygon();
+        arrowPolygon.addPoint(0, 0);
+        arrowPolygon.addPoint(7, 0);
+        arrowPolygon.addPoint(3, 4);
+        arrowPolygon.addPoint(0, 0);
 
-	@Override
-	public void setIcon(Icon defaultIcon) {
+    }
 
-		ImageIcon icon = (ImageIcon) defaultIcon;
-		icon.getImage();
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
 
-		super.setIcon(defaultIcon);
-	}
+        Rectangle b = getBounds();
 
-	public void addToPopup(JComponent c) {
-		popupMenu.add(c);
+        Graphics2D g2 = (Graphics2D) g;
+        AffineTransform transform = g2.getTransform();
+        transform.translate(b.width - 13, b.height / 2 - 2);
+        g2.setTransform(transform);
+        g2.setColor(getForeground());
+        g2.fillPolygon(arrowPolygon);
 
-	}
-	
+    }
+
+    @Override
+    public JToolTip createToolTip() {
+
+        if (showDev == true) {
+            return new CustomDevTooltip(fullPath, provider);
+        } else {
+            return super.createToolTip();
+        }
+
+    }
+
+    @Override
+    public void setIcon(Icon defaultIcon) {
+
+        ImageIcon icon = (ImageIcon) defaultIcon;
+        icon.getImage();
+
+        super.setIcon(defaultIcon);
+    }
+
+    public void addToPopup(JComponent c) {
+        popupMenu.add(c);
+
+    }
+
 }

@@ -5,8 +5,6 @@ import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
-
 import de.emir.epd.nmeasensor.ids.NMEASensorIds;
 import de.emir.epd.nmeasensor.settings.NMEASensorSettingsPage;
 import de.emir.rcp.properties.PropertyContext;
@@ -14,6 +12,11 @@ import de.emir.rcp.properties.PropertyStore;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
 
+/**
+ * This class manages a map of NMEASensors.
+ * 
+ * @author Stefan Behrensen <stefan.behrensen@dlr.de>
+ */
 public class NMEASensors {
 	/** NMEA Sensors identified by string. */
 	Map<String, NMEASensor> nmeaSensors;
@@ -21,28 +24,54 @@ public class NMEASensors {
 	private PropertyContext context;
 	/** NMEA sources property container. */
 	private IProperty<Integer> nmeaSources;
-	public Logger LOG = ULog.getLogger(NMEASensors.class);
 
 	public NMEASensors() {
 		nmeaSensors = new HashMap<>();
 		context = PropertyStore.getContext(NMEASensorIds.NMEA_SENSOR_PROP_CONTEXT);
 		nmeaSources = getContext().getProperty(NMEASensorIds.NMEA_SENSOR_PROP, 0);
-        
+		
 		NMEASensorSettingsPage.printProperty(nmeaSources);
-		PropListener propListener = new PropListener();
+		
+		// Listener to react to changes in the number of NMEA sensors. 
+		PropertyChangeListener propListener = new PropertyChangeListener() {
+			@Override
+			public synchronized void propertyChange(PropertyChangeEvent evt) {
+				ULog.debug("Sensors Property changed.", evt);
+				nmeaSources = getContext().getProperty(NMEASensorIds.NMEA_SENSOR_PROP, 0);
+				if (nmeaSources.getValue() != null && nmeaSources.getSubProperties() != null) {
+		            for (IProperty sensorProp : nmeaSources.getSubProperties()) {
+						if (nmeaSensors.containsKey(sensorProp.getName())) {
+							ULog.debug("Sensor already exists.", sensorProp.getName());
+							NMEASensor sensor = nmeaSensors.get(sensorProp.getName());
+							// Restart all NMEA sensors that indicate they need it.
+							if (sensor.needsRestart()) {
+								ULog.info("Restarting {}", sensorProp.getName());
+								sensor.remove();
+								sensor.receive();
+							}
+						} else {
+							ULog.debug("Adding sensor.", sensorProp.getName());
+							NMEASensor sensor = new NMEASensor(sensorProp);
+							sensor.receive();
+							nmeaSensors.put(sensorProp.getName(), sensor);
+						}
+					}
+				}
+			}
+		};
 
 		if (nmeaSources.getValue() == null) {
 			nmeaSources.setValue(null);
 		}
 		
+		nmeaSources.addPropertyChangeListener(propListener);
+		
 		if (nmeaSources.getValue() != null && nmeaSources.getSubProperties() != null) {
             for (IProperty sensorProp : nmeaSources.getSubProperties()) {
-				if (nmeaSensors.containsKey(sensorProp.getName())) {
-//					prop.notify();
-				} else {
+				if (!nmeaSensors.containsKey(sensorProp.getName())) {
 					NMEASensor sensor = new NMEASensor(sensorProp);
 					nmeaSensors.put(sensorProp.getName(), sensor);
-				}
+				} 
 			}
 		}
 		
@@ -52,17 +81,9 @@ public class NMEASensors {
 	public NMEASensor getSensor(String id) {
 		return nmeaSensors.get(id);
 	}
-
-	class PropListener implements PropertyChangeListener {
-		@Override
-		public synchronized void propertyChange(PropertyChangeEvent evt) {
-			LOG .info("property changed");
-			nmeaSources = getContext().getProperty(NMEASensorIds.NMEA_SENSOR_PROP, 0);
-		}
-	}
-
-	public void initializeSensors() {
-		
+	
+	public void removeSensor(String id) {
+		nmeaSensors.remove(id);
 	}
 
 	protected PropertyContext getContext() {

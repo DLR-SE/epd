@@ -13,45 +13,45 @@ import de.emir.tuml.ucore.runtime.logging.ULog;
  * Use this with caution as nothing prevents plugins from overwriting information.
  */
 public class ProductInfoManager implements IService {
-	private static final Logger LOG = ULog.getLogger(ProductInfoManager.class);
-	private String productName;
-	private String productVersion;
-	private ImageIcon productIcon;
-	private AboutDialog aboutDialog;
-	
-	public String getProductName() {
-		return productName;
-	}
-	
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-	
-	public String getProductVersion() {
-		return productVersion;
-	}
-	
-	public void setProductVersion(String productVersion) {
-		this.productVersion = productVersion;
-	}
-	
-	public ImageIcon getProductIcon() {
-		return productIcon;
-	}
-	
-	public void setProductIcon(ImageIcon productIcon) {
-		this.productIcon = productIcon;
-	}
-	
-	public AboutDialog getAboutDialog() {
-		if (aboutDialog == null) {
-			aboutDialog = new AboutDialog();
-		}
-		return aboutDialog;
-	}
-	
-	public void setAboutDialog(AboutDialog aboutDialog) {
-		this.aboutDialog = aboutDialog;
-	}
+    private static final Logger LOG = ULog.getLogger(ProductInfoManager.class);
+    private String productName;
+    private String productVersion;
+    private ImageIcon productIcon;
+    private AboutDialog aboutDialog;
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductVersion() {
+        return productVersion;
+    }
+
+    public void setProductVersion(String productVersion) {
+        this.productVersion = productVersion;
+    }
+
+    public ImageIcon getProductIcon() {
+        return productIcon;
+    }
+
+    public void setProductIcon(ImageIcon productIcon) {
+        this.productIcon = productIcon;
+    }
+
+    public AboutDialog getAboutDialog() {
+        if (aboutDialog == null) {
+            aboutDialog = new AboutDialog();
+        }
+        return aboutDialog;
+    }
+
+    public void setAboutDialog(AboutDialog aboutDialog) {
+        this.aboutDialog = aboutDialog;
+    }
 
 }

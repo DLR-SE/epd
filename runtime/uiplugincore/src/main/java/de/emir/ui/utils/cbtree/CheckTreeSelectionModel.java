@@ -96,10 +96,10 @@ public class CheckTreeSelectionModel extends DefaultTreeSelectionModel {
                 else {
                     if (!isSelectionEmpty())
                         removeSelectionPaths(getSelectionPaths());
-                    super.addSelectionPaths(new TreePath[] { temp });
+                    super.addSelectionPaths(new TreePath[]{temp});
                 }
             } else
-                super.addSelectionPaths(new TreePath[] { path });
+                super.addSelectionPaths(new TreePath[]{path});
         }
     }
 
@@ -126,7 +126,7 @@ public class CheckTreeSelectionModel extends DefaultTreeSelectionModel {
         for (int i = 0; i < paths.length; i++) {
             TreePath path = paths[i];
             if (path.getPathCount() == 1)
-                super.removeSelectionPaths(new TreePath[] { path });
+                super.removeSelectionPaths(new TreePath[]{path});
             else
                 toggleRemoveSelection(path);
         }
@@ -145,7 +145,7 @@ public class CheckTreeSelectionModel extends DefaultTreeSelectionModel {
         if (parent != null)
             stack.push(parent);
         else {
-            super.removeSelectionPaths(new TreePath[] { path });
+            super.removeSelectionPaths(new TreePath[]{path});
             return;
         }
 
@@ -158,9 +158,9 @@ public class CheckTreeSelectionModel extends DefaultTreeSelectionModel {
             for (int i = 0; i < childCount; i++) {
                 Object childNode = model.getChild(node, i);
                 if (childNode != peekNode)
-                    super.addSelectionPaths(new TreePath[] { temp.pathByAddingChild(childNode) });
+                    super.addSelectionPaths(new TreePath[]{temp.pathByAddingChild(childNode)});
             }
         }
-        super.removeSelectionPaths(new TreePath[] { parent });
+        super.removeSelectionPaths(new TreePath[]{parent});
     }
 }

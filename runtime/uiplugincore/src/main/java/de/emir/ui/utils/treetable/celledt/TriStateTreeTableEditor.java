@@ -23,7 +23,7 @@ import de.emir.ui.utils.tscb.TristateState;
 public class TriStateTreeTableEditor extends TristateCheckBox implements TableCellRenderer, TableCellEditor {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 4877673854148458324L;
     protected static Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);
@@ -40,7 +40,7 @@ public class TriStateTreeTableEditor extends TristateCheckBox implements TableCe
     }
 
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-            int row, int column) {
+                                                   int row, int column) {
 
         // if (isSelected) {
         // setForeground(table.getSelectionForeground());

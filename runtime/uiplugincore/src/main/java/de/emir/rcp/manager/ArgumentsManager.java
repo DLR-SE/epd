@@ -4,9 +4,9 @@ import de.emir.tuml.ucore.runtime.extension.IService;
 
 /**
  * @author Florian
- *
- *         This manager stores command line arguments the application has been started with. Instantiated and registered
- *         by AbstractUIProduct
+ * <p>
+ * This manager stores command line arguments the application has been started with. Instantiated and registered
+ * by AbstractUIProduct
  */
 public class ArgumentsManager implements IService {
 
@@ -18,7 +18,7 @@ public class ArgumentsManager implements IService {
 
     /**
      * Get all arguments this application has been started with
-     * 
+     *
      * @return
      */
     public String[] getArguments() {
@@ -27,7 +27,7 @@ public class ArgumentsManager implements IService {
 
     /**
      * Checks whether a given argument exists
-     * 
+     *
      * @param arg
      * @return
      */
@@ -46,7 +46,7 @@ public class ArgumentsManager implements IService {
     /**
      * Based on the assumption that an argument consists of key and value, the value is delivered for a given key (e.g.
      * "-port 5000") getArgumentValue("-port") -> returns 5000).
-     * 
+     *
      * @param key
      * @return
      */

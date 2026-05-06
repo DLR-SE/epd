@@ -15,9 +15,8 @@ import de.emir.tuml.ucore.runtime.logging.ULog;
  * Model adapter extension points are different from normal extension points in that it is possible to check whether
  * multiple adapters have been registered for the same purpose. This allows the plugin system to offer the product
  * developer a user interface for selecting the currently active adapter.
- * 
- * @author Florian
  *
+ * @author Florian
  */
 public abstract class AdapterExtensionPoint<T extends de.emir.tuml.ucore.runtime.adapter.IAdapter> implements IExtensionPoint {
 

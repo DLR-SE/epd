@@ -6,6 +6,7 @@ import de.emir.model.universal.plugincore.var.GlobalKeyBinding;
 import de.emir.model.universal.plugincore.var.IUserDefinedDelta;
 import de.emir.model.universal.plugincore.var.ViewKeyBinding;
 import de.emir.model.universal.plugincore.var.impl.KeyBindingsImpl;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -38,9 +39,8 @@ import de.emir.tuml.ucore.runtime.prop.IProperty;
 
 /**
  * Manages the key bindings
- * 
- * @author fklein
  *
+ * @author fklein
  */
 public class KeyBindingManager implements IService {
 
@@ -79,7 +79,7 @@ public class KeyBindingManager implements IService {
         }
 
     }
-    
+
     public IProperty<KeyBindingsImpl> getDeltas() {
         return deltas;
     }
@@ -93,9 +93,7 @@ public class KeyBindingManager implements IService {
     }
 
     public KeyStroke getKeyStrokeFrom(String unformated) {
-
         String[] parts = unformated.split("\\+");
-
         String formatedKey = "";
 
         for (int i = 0; i < parts.length; i++) {
@@ -111,13 +109,9 @@ public class KeyBindingManager implements IService {
                 }
 
             }
-
             formatedKey += parts[i] + " ";
         }
-
-        formatedKey.trim();
-
-        KeyStroke ks = KeyStroke.getKeyStroke(formatedKey);
+        KeyStroke ks = KeyStroke.getKeyStroke(formatedKey.trim());
 
         if (ks == null) {
             log.error("KeyStroke for formated string [" + formatedKey + "] not found.");
@@ -250,7 +244,7 @@ public class KeyBindingManager implements IService {
 
     private void applyDeltas(IProperty<KeyBindingsImpl> deltasToApply) {
         for (Object o : deltasToApply.getValue().getDeltas()) {
-            IUserDefinedDelta d = (IUserDefinedDelta) o; 
+            IUserDefinedDelta d = (IUserDefinedDelta) o;
             d.apply(kbEP.getBindings());
         }
 

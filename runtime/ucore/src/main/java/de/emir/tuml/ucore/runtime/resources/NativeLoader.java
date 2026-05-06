@@ -22,9 +22,10 @@ public class NativeLoader {
     /**
      * Copies resources from one directory to another.
      * @param reference Reference class to load resources from.
-     * @param parser Initial library information (containing platform information etc.) which is used to retrieve loaded libraries.
-     * @param resourcePath Path of the directory in the plugins resource folder which contains the native libraries. These
-     *                     are copied to the EPD home directory in order to be loaded dynamically.
+     * @param parser Initial library information (containing platform information etc.) which is used to retrieve
+     *               loaded libraries.
+     * @param resourcePath Path of the directory in the plugins resource folder which contains the native libraries.
+     *                     These are copied to the EPD home directory in order to be loaded dynamically.
      * @return List of detected libraries.
      * @throws IOException If copying of file was not possible.
      * @throws URISyntaxException If the supplied path was not in the right syntax.
@@ -51,7 +52,8 @@ public class NativeLoader {
 
     /**
      * Copies contents of a directory to another.
-     * @param parser Initial library information (containing platform information etc.) which is used to retrieve loaded libraries.
+     * @param parser Initial library information (containing platform information etc.) which is used to retrieve
+     *               loaded libraries.
      * @param result List of results which should be filled.
      * @param sourceDir Source directory from where to load files.
      * @param targetDir Target directory where to copy files to.
@@ -80,7 +82,8 @@ public class NativeLoader {
 
     /**
      * Copies a file to a new target.
-     * @param parser Initial library information (containing platform information etc.) which is used to retrieve loaded libraries.
+     * @param parser Initial library information (containing platform information etc.) which is used to retrieve
+     *               loaded libraries.
      * @param sourceFile Source directory from where to load files.
      * @param targetFile Target directory where to copy files to.
      * @return Copied library.
@@ -102,8 +105,9 @@ public class NativeLoader {
     }
 
     /**
-     * Loads a library via the System.load call. Warning: If libraries are loaded using loadLibrary, they will not find libraries registered with System.load. Always use
-     * the path of the library file (By default ResourceManager.get(CallerClass).getHomePath()+/lib) to load native libraries with the NativeLoader.
+     * Loads a library via the System.load call. Warning: If libraries are loaded using loadLibrary, they will not find
+     * libraries registered with System.load. Always use the path of the library file (By default
+     * ResourceManager.get(CallerClass).getHomePath()+/lib) to load native libraries with the NativeLoader.
      * @param libPath Path of the library file to load.
      */
     private static void loadLibrary(Path libPath) {
@@ -116,7 +120,8 @@ public class NativeLoader {
     }
 
     /**
-     * Registers a native resource to the NativeLoader. This will extract all native libraries from the specified folder inside the plugin resources to the general native library folder at
+     * Registers a native resource to the NativeLoader. This will extract all native libraries from the specified
+     * folder inside the plugin resources to the general native library folder at
      * ResourceManager.get(CallerClass).getHomePath()+/lib.
      * @param reference Class which is part of the plugin from where the libraries should be loaded from.
      * @param parser LibraryInformation parser which is used for injecting registered library information.
@@ -133,7 +138,8 @@ public class NativeLoader {
     }
 
     /**
-     * Loads a library from the LibraryInformation with System.load if the filename is contained in the allowedExtensions of LibraryInformation.
+     * Loads a library from the LibraryInformation with System.load if the filename is contained in the
+     * allowedExtensions of LibraryInformation.
      * @param nativeInformation Information to use for identifying library.
      */
     public static void loadLibrary(LibraryInformation nativeInformation) {

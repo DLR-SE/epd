@@ -19,7 +19,7 @@ public class SettingsPageManager implements IService {
 
     /**
      * Returns a tree with all registered settings pages
-     * 
+     *
      * @return
      */
     public DefaultMutableTreeNode getTreeNodes() {

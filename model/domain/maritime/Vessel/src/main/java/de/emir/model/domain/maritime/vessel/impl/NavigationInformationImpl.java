@@ -65,7 +65,7 @@ public class NavigationInformationImpl extends VesselCharacteristicImpl implemen
 		if (needNotification(VesselPackage.Literals.NavigationInformation_status)){
 			NavigationStatus _oldValue = mStatus;
 			mStatus = _status;
-			notify(_oldValue, mStatus, VesselPackage.Literals.NavigationInformation_status, NotificationType.SET);
+			notify(_oldValue, _status, VesselPackage.Literals.NavigationInformation_status, NotificationType.SET);
 		}else{
 			mStatus = _status;
 		}

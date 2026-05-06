@@ -14,9 +14,6 @@ package de {
 					package spatial {
 						package sf {
 							
-							abstract class MultiGeometry extends Geometry {
-							}
-							
 							<< ComplexAttributeType >>
 							struct Point extends Geometry {
 								val Coordinate coordinate;
@@ -25,11 +22,6 @@ package de {
 							<< ComplexAttributeType >>
 							struct LineString extends Geometry {
 								val CoordinateSequence		points;
-							}
-							
-							<< ComplexAttributeType >>
-							struct MultiLineString extends MultiGeometry {
-								val LineString[*]	lines;
 							}
 							
 							/** Same as the LineString but has to be closed (first coordinate has to be the same as the last) */
@@ -46,18 +38,38 @@ package de {
 								val LinearRing[*]		holes;
 							}
 							
-							<< ComplexAttributeType >>
-							struct MultiPolygon extends MultiGeometry {
-								val Polygon[*]			polygons;
-							}
+
 							
 							/** The WKTGeometry is a helper geometry, where the geometry is specified using a WKT (Well known text) String
-							 * the internal geometry (getNativeGeometry()) is determinated at runtime
+							 * the internal geometry (getNativeGeometry()) is determined at runtime
 							 */
 							 << ComplexAttributeType >>
 							struct WKTGeometry extends Geometry {
 								String 	wkt;
 							}
+
+                            /** Base class for collections of geometries */
+                            abstract class GeometryCollection extends Geometry {
+
+                            }
+
+                            /** Collection of multiple geometries */
+                            << ComplexAttributeType >>
+                            struct MultiGeometry extends GeometryCollection {
+                                val Geometry[*]	geometries;
+                            }
+
+                            /** Collection of multiple line strings */
+                            << ComplexAttributeType >>
+                            struct MultiLineString extends GeometryCollection {
+                                val LineString[*]	lines;
+                            }
+
+                            /** Collection of multiple polygons */
+                            << ComplexAttributeType >>
+                            struct MultiPolygon extends GeometryCollection {
+                                val Polygon[*]			polygons;
+                            }
 						}
 					}
 				}

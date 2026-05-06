@@ -10,22 +10,14 @@ import de.emir.ui.utils.TreeUtils;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.List;
-import java.awt.event.InputMethodListener;
-import java.awt.event.InputMethodEvent;
 
 public class OpenViewDialog extends JDialog {
+
+    private static final long serialVersionUID = -6566622285770162507L;
 
     private JButton btnOk;
     private JButton btnCancel;
@@ -60,7 +52,7 @@ public class OpenViewDialog extends JDialog {
         tree.setRootNode(createNodes());
         tree.setFilterInfoText("Filter...");
         tree.setFilterMatcher(new OpenViewFilterMatcher());
-        
+
         JScrollPane sc = new JScrollPane(tree);
 
         sc.setBorder(new LineBorder(UIManager.getColor("Separator.foreground")));
@@ -83,7 +75,7 @@ public class OpenViewDialog extends JDialog {
         addListeners();
 
         btnOk.setEnabled(false);
-        
+
         springLayout.putConstraint(SpringLayout.NORTH, sc, 6, SpringLayout.SOUTH, lblSelectAView);
     }
 
@@ -93,40 +85,37 @@ public class OpenViewDialog extends JDialog {
         btnCancel.addActionListener(e -> dispose());
 
         tree.addTreeSelectionListener(e -> {
-//                DefaultMutableTreeNode selection = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
             DefaultMutableTreeNode selection = (DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent();
 
             if (selection == null || selection.getUserObject() == null) {
-
                 btnOk.setEnabled(false);
-
             } else {
-
                 btnOk.setEnabled(true);
-
             }
-
         });
 
-        tree.addMouseListener(new MouseAdapter() {
-
-            public void mouseClicked(MouseEvent event) {
-                if (event.getClickCount() == 2) {
-
+        tree.getTree().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     finish();
-
                 }
             }
-
         });
 
+        tree.getTree().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent event) {
+                if (event.getClickCount() == 2) {
+                    finish();
+                }
+            }
+        });
     }
 
     private void finish() {
+        DefaultMutableTreeNode selection = (DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent();
 
-//        DefaultMutableTreeNode selection = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-    	DefaultMutableTreeNode selection = (DefaultMutableTreeNode) tree.getSelectionPath().getLastPathComponent();
-    	
         if (selection == null || selection.getUserObject() == null) {
 
             btnOk.setEnabled(false);
@@ -182,10 +171,5 @@ public class OpenViewDialog extends JDialog {
 
         return groupNode;
     }
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = -6566622285770162507L;
 
 }

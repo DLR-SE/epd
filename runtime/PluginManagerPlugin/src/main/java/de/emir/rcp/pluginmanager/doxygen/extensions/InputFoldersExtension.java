@@ -4,6 +4,7 @@ import de.emir.rcp.pluginmanager.doxygen.AbstractDoxygenExtension;
 import de.emir.rcp.pluginmanager.doxygen.DoxygenUtils;
 import de.emir.rcp.pluginmanager.model.ExportData;
 import de.emir.tuml.runtime.epf.ProductFile;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 import org.apache.maven.model.Model;
 
 import java.io.File;
@@ -106,7 +107,7 @@ public class InputFoldersExtension extends AbstractDoxygenExtension {
 
             return builder.toString();
         } catch (Exception e) {
-            e.printStackTrace();
+            ULog.error(e);
             return textContent;
         }
     }

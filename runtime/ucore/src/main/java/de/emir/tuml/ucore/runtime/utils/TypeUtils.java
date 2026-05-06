@@ -11,7 +11,7 @@ import de.emir.tuml.ucore.runtime.impl.UPrimitiveTypeImpl;
 
 public class TypeUtils {
 
-    private static HashMap<Class, UPrimitiveType> mPrimitiveTypes = new HashMap<Class, UPrimitiveType>();
+    private static final HashMap<Class, UPrimitiveType> mPrimitiveTypes = new HashMap<>();
 
     static {
         mPrimitiveTypes.put(boolean.class, new UPrimitiveTypeImpl(boolean.class));
@@ -48,15 +48,14 @@ public class TypeUtils {
         return mPrimitiveTypes.get(t);
     }
 
-    private static HashMap<Class<?>, HashMap<Class<?>, Boolean>> mInheritMap = new HashMap<Class<?>, HashMap<Class<?>, Boolean>>(); // [class,
-                                                                                                                                    // [parent,
-                                                                                                                                    // inherits]]
+    // [class, [parent, inherits]]
+    private static HashMap<Class<?>, HashMap<Class<?>, Boolean>> mInheritMap = new HashMap<>();
 
     public static boolean inherits(Class<?> clazz, Class<?> parent) {
         if (parent == Object.class)
             return true;
         HashMap<Class<?>, Boolean> t1 = mInheritMap.get(clazz);
-        Boolean b = null;
+        Boolean b;
         if (t1 != null) {
             b = t1.get(parent);
             if (b != null)
@@ -66,7 +65,7 @@ public class TypeUtils {
                 t1.put(parent, b);
             }
         } else {
-            t1 = new HashMap<Class<?>, Boolean>();
+            t1 = new HashMap<>();
             b = _inherits(clazz, parent);
             t1.put(parent, b);
             mInheritMap.put(clazz, t1);
@@ -77,12 +76,14 @@ public class TypeUtils {
     public static boolean _inherits(Class<?> clazz, Class<?> parent) {
         if (clazz == parent)
             return true;
+
         if (clazz.getSuperclass() == parent)
             return true;
 
         for (Class<?> in : clazz.getInterfaces())
             if (inherits(in, parent))
                 return true;
+
         return false;
     }
 

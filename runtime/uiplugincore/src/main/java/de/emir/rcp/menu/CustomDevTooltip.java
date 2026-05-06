@@ -49,8 +49,8 @@ public class CustomDevTooltip extends JToolTip {
 
         m_panel = new JPanel();
         GridBagLayout gbl_m_panel = new GridBagLayout();
-        gbl_m_panel.columnWeights = new double[] { 1.0 };
-        gbl_m_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+        gbl_m_panel.columnWeights = new double[]{1.0};
+        gbl_m_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
         m_panel.setLayout(gbl_m_panel);
         setLayout(new BorderLayout());
         add(m_panel);
@@ -103,8 +103,8 @@ public class CustomDevTooltip extends JToolTip {
         m_panel.add(panel, gbc_panel);
         GridBagLayout gbl_panel = new GridBagLayout();
 
-        gbl_panel.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-        gbl_panel.rowWeights = new double[] { 0.0 };
+        gbl_panel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+        gbl_panel.rowWeights = new double[]{0.0};
         panel.setLayout(gbl_panel);
 
         iconLabel = new JLabel("");

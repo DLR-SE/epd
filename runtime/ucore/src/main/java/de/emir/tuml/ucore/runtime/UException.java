@@ -1,6 +1,5 @@
 package de.emir.tuml.ucore.runtime;
 
-import de.emir.tuml.ucore.runtime.UType;
 import de.emir.tuml.ucore.runtime.annotations.UMLClass;
 import de.emir.tuml.ucore.runtime.annotations.UMLProperty;
 import de.emir.tuml.ucore.runtime.annotations.UMLProperty.AssociationType;

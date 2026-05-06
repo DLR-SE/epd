@@ -6,11 +6,6 @@ is detected by a detection or tracking system such as RADAR. This plugin provide
 these targets as a separate map layer trough the TargetLayer and display target information through the
 TargetView. The display representation adheres to SN.1/Circ.243.
 
-&nbsp;&nbsp;&nbsp;&nbsp;Maintainers: Arne Bokern
-
-&nbsp;&nbsp;&nbsp;&nbsp;TRL: 1
-&nbsp;&nbsp;&nbsp;&nbsp; [AC](https://wiki.dlr.de/display/SoftwareEngineering/Guidelines): 0
-
 &nbsp;&nbsp;&nbsp;&nbsp;Compatible OS: Windows, Linux
 
 ## Getting Started

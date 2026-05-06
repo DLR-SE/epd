@@ -1,6 +1,5 @@
 package de.emir.tuml.ucore.runtime;
 
-import de.emir.tuml.ucore.runtime.UNamedElement;
 import de.emir.tuml.ucore.runtime.annotations.UMLClass;
 
 /**

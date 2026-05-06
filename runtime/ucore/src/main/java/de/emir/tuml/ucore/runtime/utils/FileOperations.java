@@ -11,23 +11,24 @@ import java.util.ArrayList;
 
 public class FileOperations {
 
-
 	public static String getRelativePathToDirectory(final String file, final String relativeTo) throws IOException{
 		return getRelativePathToDirectory(new File(file), new File(relativeTo));
 	}
+
 	public static String getRelativePathToDirectory(final File file, final File file2) throws IOException {
 		if (file2.isDirectory()==false)
 			return getRelativePath(file, file2.getParentFile());
 		else
 			return getRelativePath(file, file2);
 	}
-	public static String getRelativePath(final String file, final String relativeTo) throws IOException
-	{
+
+	public static String getRelativePath(final String file, final String relativeTo) throws IOException {
 		return getRelativePath(new File(file), new File(relativeTo));
 	}
+
 	public static String getRelativePath(File file, File relativeTo)
 			throws IOException {
-		//Übernommen von: http://forums.sun.com/thread.jspa?threadID=584546
+		//Taken from: http://forums.sun.com/thread.jspa?threadID=584546
 		//Autor:  rioriorio945  06.01.2005 07:19
 		file = new File(file + File.separator + "89243jmsjigs45u9w43545lkhj7").getParentFile();
 		relativeTo = new File(relativeTo + File.separator+ "984mvcxbsfgqoykj30487df556").getParentFile();
@@ -79,6 +80,7 @@ public class FileOperations {
 		}
 		return relString.toString();
 	}
+
 	public static void createDir(final String dir, final boolean overwrite)
 			throws IOException {
 
@@ -96,42 +98,52 @@ public class FileOperations {
 		File f = new File(dir);
 		if (f.isDirectory()) {
 			final File[] fl = f.listFiles();
-			for (int i = 0; i < fl.length; i++) {
-				deleteDir(fl[i].getAbsolutePath());
-			}
+            if (fl != null) {
+                for (File file : fl) {
+                    deleteDir(file.getAbsolutePath());
+                }
+            }
 		}
 		if (!f.delete())
 			throw new IOException("Could not delete file or directory: " + f);
-		f = null;
-	}
+    }
 
 	public static boolean copyDir(final String src, final String dest, final boolean overwrite, final boolean verbose) throws IOException {
 		return copyDir(src, dest, overwrite, verbose, false, null);
 	}
+
 	public static boolean copyDir(final String src, final String dest, final boolean overwrite) throws IOException {
 		return copyDir(src, dest, overwrite, false, false, null);
 	}
+
 	public static boolean copyDir(final String src, final String dest, final boolean overwrite, final FileFilter fileFilter) throws IOException {
 		return copyDir(src, dest, overwrite, false, false, fileFilter);
 	}
+
 	public static boolean copyDirNew(final String src, final String dest, final boolean overwrite, final boolean verbose) throws IOException {
 		return copyDir(src, dest, overwrite, verbose, true, null);
 	}
+
 	public static boolean copyDirNew(final File src, final File dest, final boolean overwrite) throws IOException {
 		return copyDir(src.getAbsolutePath(), dest.getAbsolutePath(), overwrite, false, true, null);
 	}
+
 	public static boolean copyDirNew(final String src, final String dest, final boolean overwrite) throws IOException {
 		return copyDir(src, dest, overwrite, false, true, null);
 	}
+
 	public static boolean copyDirNew(final String src, final String dest, final boolean overwrite, final FileFilter fileFilter) throws IOException {
 		return copyDir(src, dest, overwrite, false, true, fileFilter);
 	}
+
 	public static boolean copyDir(final File src, final File dst, final boolean overwrite) throws IOException {
 		return copyDir(src.getAbsolutePath(), dst.getAbsolutePath(), overwrite);
 	}
+
 	public static boolean copyDir(final File src, final File dst, final boolean overwrite, final boolean verbose) throws IOException {
 		return copyDir(src.getAbsolutePath(), dst.getAbsolutePath(), overwrite, verbose);
 	}
+
 	public static boolean copyDir(final File src, final File dst, final boolean overwrite, final FileFilter fileFilter) throws IOException {
 		return copyDir(src.getAbsolutePath(), dst.getAbsolutePath(), overwrite, fileFilter);
 	}
@@ -147,31 +159,31 @@ public class FileOperations {
 		final File target = new File(dest);
 		if (!target.isDirectory())
 			createDir(target.getAbsolutePath(), overwrite);
-		File[] fl = null;
+		File[] fl;
 		if (fileFilter != null)
 			fl = source.listFiles(fileFilter);
 		else
 			fl = source.listFiles();
+
 		if (fl == null){
-			if (!verbose)
+			if (!verbose) // TODO replace this with real logging!
 				System.out.println("Empty Directory");
 			return false;
 		}
 		boolean res = true;
-		for (int i = 0; i < fl.length; i++)
-			if (fl[i].isDirectory()){
-				final String tmp = dest+"/" + fl[i].getName();
-				res = res & copyDir(fl[i].getAbsolutePath(), tmp, overwrite, verbose, onlynew, fileFilter);
-				if (!verbose && res)
-					System.out.println("CopyDir: "+fl[i].getAbsolutePath()+" to: "+tmp);
-			}else {
-				final String[] tmp = fl[i].getPath().replace("\\", "/").split("/");
-				final String filename = tmp[tmp.length - 1];
-				res = res & copy(fl[i].getAbsolutePath(), dest + "/" + filename, overwrite, onlynew);
-				if (!verbose && res)
-					System.out.println("CopyFile: "+fl[i].getAbsolutePath()+" to: "+dest + "/" + filename);
-
-			}
+        for (File file : fl)
+            if (file.isDirectory()) {
+                final String tmp = dest + "/" + file.getName();
+                res = res & copyDir(file.getAbsolutePath(), tmp, overwrite, verbose, onlynew, fileFilter);
+                if (!verbose && res)
+                    ULog.info("CopyDir: {} to: {}", file.getAbsolutePath(), tmp);
+            } else {
+                final String[] tmp = file.getPath().replace("\\", "/").split("/");
+                final String filename = tmp[tmp.length - 1];
+                res = res & copy(file.getAbsolutePath(), dest + "/" + filename, overwrite, onlynew);
+                if (!verbose && res) // TODO replace this with real logging!
+                    ULog.debug("CopyFile: {} to: {}/{}" + filename, file.getAbsolutePath(), dest, filename);
+            }
 		return res;
 	}
 
@@ -197,11 +209,11 @@ public class FileOperations {
 		FileOutputStream f_out = null;
 
 		try {
-			// Streams ï¿½ffnen
+			// open streams
 			f_in = new FileInputStream(src);
 			f_out = new FileOutputStream(dest);
 
-			// eigentliches Kopieren blockweise
+			// actual blockwise copying
 			final byte[] buffer = new byte[1000];
 			int n_bytes;
 			for (;;) {
@@ -213,22 +225,22 @@ public class FileOperations {
 		} catch (final IOException e) {
 			ULog.error(e);
 		} finally {
-			// auf jeden Fall aufrï¿½umen
+			// clean up, even in case of errors
 			if (f_in != null)
 				try {
 					f_in.close();
 				} catch (final IOException e) {
-				}
+				    ULog.error(e);
+                }
 			if (f_out != null)
 				try {
 					f_out.close();
 				} catch (final IOException e) {
-				}
+                    ULog.error(e);
+                }
 		}
 		return true;
 	}
-
-
 
 	public static File searchFile(final String name, final String root, final int depth) {
 		final ArrayList<File> fl = readAllFilesOfDirectory(root, depth);
@@ -261,9 +273,11 @@ public class FileOperations {
 	public static File searchFile(final String name, final String root) {
 		return searchFile(name, root, -1);
 	}
+
 	public static ArrayList<File> readAllFiles(final String path, final int depth, final FileFilter filter){
 		return readAllFiles(path, depth, filter, false);
 	}
+
 	public static ArrayList<File> readAllFiles(final String path, final int depth, final FileFilter filter, final boolean Selectdirectory){
 		if (depth == 0)
 			return null;
@@ -297,7 +311,6 @@ public class FileOperations {
 		return readAllFiles(f.getAbsolutePath(), depth, filter);
 	}
 
-
 	public static void delete(final String target, final boolean recursiv) throws IOException {
 		final File f = new File(target);
 		if (!f.exists())
@@ -310,10 +323,11 @@ public class FileOperations {
 
 	}
 
-	public static void cut(final String source, final String target,final boolean overwrite, final boolean recursiv) throws IOException {
-		cut(source, target, overwrite, recursiv, false);
+	public static void cut(final String source, final String target,final boolean overwrite, final boolean recursive) throws IOException {
+		cut(source, target, overwrite, recursive, false);
 	}
-	public static void cut(final String source, final String target,final boolean overwrite, final boolean recursiv, final boolean verbose) throws IOException {
+
+	public static void cut(final String source, final String target,final boolean overwrite, final boolean recursive, final boolean verbose) throws IOException {
 		final File s = new File(source);
 		if (!s.exists())
 			return;
@@ -361,6 +375,7 @@ public class FileOperations {
 		}
 		Zip.compressZip(root, fileList, target, false);
 	}
+
 	public static void compress(final String root, final String[] source, final String target, final boolean recursiv) throws ZipFileException, IOException {
 		compress(root, source, target, recursiv, false);
 	}
@@ -403,9 +418,7 @@ public class FileOperations {
      * @see #INVALID_CHARACTERS_FOR_WINDOWS_FILE_NAME
      * @since 1.5.2
      */
-    public static boolean isValidWindowsFileName( File f )
-    {
-    
+    public static boolean isValidWindowsFileName( File f )  {
     	String n = f.getName();
     	for (int i = 0; i < INVALID_CHARACTERS_FOR_WINDOWS_FILE_NAME.length; i++) {
     		int idx = n.indexOf(INVALID_CHARACTERS_FOR_WINDOWS_FILE_NAME[i]);
@@ -417,7 +430,6 @@ public class FileOperations {
         {
             return isValidWindowsFileName( parentFile );
         }
-        
 
         return true;
     }

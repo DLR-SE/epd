@@ -9,7 +9,7 @@ public class LazyReferenceContainmentList<T extends UObject> extends UContainmen
         UStructuralFeature getFeature();
     }
 
-    private FeatureResolver mResolver;
+    private final FeatureResolver mResolver;
 
     public LazyReferenceContainmentList(UObject owner, FeatureResolver resolver) {
         super(owner);

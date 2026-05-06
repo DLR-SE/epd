@@ -66,27 +66,31 @@ public class FileReceiverHandle implements IConnection {
 			@Override
 			public void run() {
 				runs = 0;
-				do {
-					try {
-						BufferedReader reader = new BufferedReader(
-								new InputStreamReader(new FileInputStream(file), "ISO-8859-15"));
-						while (run) {
-							String line;
-							while ((line = reader.readLine()) != null) {
-								listener.onReceived(instance, line.getBytes());
-								Thread.sleep(timeout);
-							}
-							reader = new BufferedReader(
-									new InputStreamReader(new FileInputStream(file), "ISO-8859-15"));
-						}
-						reader.close();
-					} catch (IOException e) {
-						LOG.error("IOException", e);
-					} catch (InterruptedException e) {
-						LOG.debug("Stopped file receiver thread.", e);
-					}
-					runs++;
-				} while (runs < repeat || repeat < 0);
+                try {
+                    BufferedReader reader;
+                    String line;
+
+                    do {
+                        reader = new BufferedReader(
+                                new InputStreamReader(
+                                        new FileInputStream(file),
+                                        "ISO-8859-15"
+                                )
+                        );
+                        while ((line = reader.readLine()) != null) {
+                            listener.onReceived(instance, line.getBytes());
+                            Thread.sleep(timeout);
+                        }
+                        reader.close();
+                        runs++;
+                    } while (run && (runs < repeat || repeat < 0));
+
+                    reader.close();
+                }  catch (IOException e) {
+                    LOG.error("IOException", e);
+                } catch (InterruptedException e) {
+                    LOG.debug("Stopped file receiver thread.", e);
+                }
 			}
 		};
 		run = true;
@@ -95,30 +99,13 @@ public class FileReceiverHandle implements IConnection {
 
 	public void stopReceiving() {
 		this.run = false;
-		if (thread != null) {
+		if (thread != null && this.thread.isAlive()) {
 			this.thread.interrupt();
 		}
 	}
 
 	public ReceiverListener getListener() {
 		return this.listener;
-	}
-
-	/**
-	 * 
-	 * @param data
-	 * @param length
-	 * @return
-	 */
-	private byte[] trimData(byte[] data, int length) {
-		if (data.length <= length) {
-			return data;
-		}
-		byte[] temp = new byte[length];
-		for (int x = 0; x < temp.length; x++) {
-			temp[x] = data[x];
-		}
-		return temp;
 	}
 
 	public boolean getState() {

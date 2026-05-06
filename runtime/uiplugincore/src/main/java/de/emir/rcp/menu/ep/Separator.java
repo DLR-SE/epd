@@ -4,7 +4,7 @@ public class Separator extends MenuEntry implements ISeparator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.emir.rcp.menu.ep.ISeparator#after(java.lang.String)
      */
     @Override
@@ -21,7 +21,7 @@ public class Separator extends MenuEntry implements ISeparator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.emir.rcp.menu.ep.ISeparator#before(java.lang.String)
      */
     @Override

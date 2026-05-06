@@ -35,7 +35,7 @@ public class GraphNodeImpl extends UObjectImpl implements GraphNode
 	 *	@generated 
 	 */
 	private List<GraphEdge> mEdges = null;
-			
+
 	/**
 	 *	Default constructor
 	 *	@generated
@@ -55,7 +55,7 @@ public class GraphNodeImpl extends UObjectImpl implements GraphNode
 		mCoordinate = _copy.getCoordinate();
 		mEdges = _copy.getEdges();
 	}
-	
+
 	/**
 	 *	Default attribute constructor
 	 *	@generated
@@ -65,7 +65,7 @@ public class GraphNodeImpl extends UObjectImpl implements GraphNode
 		mCoordinate = _coordinate; 
 		mEdges = _edges; 
 	}
-	
+
 	/**
 	 * @generated
 	 */
@@ -80,7 +80,7 @@ public class GraphNodeImpl extends UObjectImpl implements GraphNode
 		if (needNotification(SpatialPackage.Literals.GraphNode_id)){
 			long _oldValue = mId;
 			mId = _id;
-			notify(_oldValue, mId, SpatialPackage.Literals.GraphNode_id, NotificationType.SET);
+			notify(_oldValue, _id, SpatialPackage.Literals.GraphNode_id, NotificationType.SET);
 		}else{
 			mId = _id;
 		}
@@ -100,7 +100,7 @@ public class GraphNodeImpl extends UObjectImpl implements GraphNode
 		if (needNotification(SpatialPackage.Literals.GraphNode_coordinate)){
 			Coordinate _oldValue = mCoordinate;
 			mCoordinate = _coordinate;
-			notify(_oldValue, mCoordinate, SpatialPackage.Literals.GraphNode_coordinate, NotificationType.SET);
+			notify(_oldValue, _coordinate, SpatialPackage.Literals.GraphNode_coordinate, NotificationType.SET);
 		}else{
 			mCoordinate = _coordinate;
 		}

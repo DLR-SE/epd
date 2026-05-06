@@ -33,20 +33,14 @@ public interface Pose extends UObject
 	 */
 	@UMLProperty(name = "orientation", associationType = AssociationType.COMPOSITE)
 	public Orientation getOrientation();
-	
-	//////////////////////////////////////////////////////////////////
-	//						Owned Operations						//
-	//////////////////////////////////////////////////////////////////
 	/**
 	 *	@generated 
 	 */
 	String readableString();
-	
 	/**
 	 *	@generated 
 	 */
 	Pose copy();
-	
 	/**
 	 *	@generated 
 	 */

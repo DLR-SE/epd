@@ -9,6 +9,7 @@ import de.emir.model.universal.crs.util.CRSUtils;
 import de.emir.model.universal.physics.PhysicalObject;
 import de.emir.model.universal.physics.PhysicalObjectUtils;
 import de.emir.model.universal.units.*;
+import de.emir.model.universal.units.impl.TimeImpl;
 import de.emir.rcp.manager.SelectionManager;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.properties.PropertyContext;
@@ -34,6 +35,7 @@ public class TargetViewerPanel extends JPanel {
     private ITreeValueChangeListener valueChangeListener;
     private final IProperty<Boolean> propDisplayProperties;
 
+
     /**
      * Creates a new TargetViewerPanel. This panel contains a template which is the baseline of representation. It contains
      * the at least necessary fields which should be displayed in the viewer. Depending on the type of object which should
@@ -42,17 +44,37 @@ public class TargetViewerPanel extends JPanel {
      * @param template Template to use.
      */
     public TargetViewerPanel(Map<String, String> template) {
+        setLayout(new BorderLayout());
         this.template = new LinkedHashMap<>(template);
         PropertyContext ctx = PropertyStore.getContext(TargetBasics.TARGET_VIEWER_PROP_CONTEXT);
         propDisplayProperties = ctx.getProperty(TargetBasics.TARGET_VIEWER_PROP_DISPLAY_PROPERTIES, true);
         setLayout(new BorderLayout());
 
-        contentPanel = new JPanel();
-        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        contentPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        contentPanel = new JPanel(new GridBagLayout());
+        contentPanel.setBorder(new EmptyBorder(10, 0, 10, 10));
 
-        JScrollPane scrollPane = new JScrollPane(contentPanel);
+        JPanel wrapper = new JPanel(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.insets = new Insets(20, -20, 0, 0);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+
+
+        wrapper.add(contentPanel, gbc);
+
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weighty = 1.0;
+        wrapper.add(Box.createVerticalGlue(), gbc);
+
+        JScrollPane scrollPane = new JScrollPane(wrapper);
         scrollPane.getVerticalScrollBar().setUnitIncrement(10);
+
         add(scrollPane, BorderLayout.CENTER);
         initializePanel(template);
         setupListener();
@@ -117,11 +139,13 @@ public class TargetViewerPanel extends JPanel {
     private void initializePanel(Map<String, String> baseTemplate) {
         contentPanel.removeAll();
         fieldLabels.clear();
+
         for (String key : baseTemplate.keySet()) {
             addField(key, baseTemplate.get(key));
         }
-        revalidate();
-        repaint();
+
+        contentPanel.revalidate();
+        contentPanel.repaint();
     }
 
     /**
@@ -131,25 +155,27 @@ public class TargetViewerPanel extends JPanel {
      * @param value Value to display.
      */
     private void addField(String key, String value) {
-        JLabel label = new JLabel(key + ": " + (value != null ? value : "Unknown"));
-        label.setBorder(new EmptyBorder(5, 5, 5, 5));
-        label.setOpaque(true);
-        label.setAlignmentX(Component.LEFT_ALIGNMENT);
-        label.setText(formatLabelText(key, value));
-        fieldLabels.put(key, label);
-        contentPanel.add(label);
-    }
-
-    /**
-     * Formats the attributes.
-     *
-     * @param key   Label of the value to format.
-     * @param value Value to format.
-     * @return Formatted HTML string for the label value combination.
-     */
-    private String formatLabelText(String key, String value) {
-        String val = value != null ? value : "Unknown";
-        return String.format("<html><b>%s:</b> %s</html>", key, val);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(4, 0, 4, 4);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridy = contentPanel.getComponentCount() / 2;
+        JLabel keyLabel = new JLabel(key + ": ");
+        keyLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        keyLabel.setForeground(UIManager.getColor("Label.disabledForeground"));
+        keyLabel.setFont(keyLabel.getFont().deriveFont(17f));
+        gbc.gridx = 0;
+        gbc.weightx = 0.2;
+        contentPanel.add(keyLabel, gbc);
+        gbc.insets = new Insets(4, 4, 4, 4);
+        JLabel valueLabel = new JLabel(value != null ? value : "Unknown");
+        valueLabel.setForeground(UIManager.getColor("Label.foreground"));
+        valueLabel.setFont(valueLabel.getFont().deriveFont(Font.BOLD, 19f));
+        valueLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        gbc.gridx = 1;
+        gbc.weightx = 0.8;
+        contentPanel.add(valueLabel, gbc);
+        fieldLabels.put(key, valueLabel);
     }
 
     /**
@@ -179,14 +205,14 @@ public class TargetViewerPanel extends JPanel {
                 addOrUpdateField(entry.getKey(), entry.getValue());
             }
             for (Map.Entry<String, String> entry : additionalProperties.entrySet()) {
-                addOrUpdateField(entry.getKey(), entry.getValue());
+                if(!entry.getKey().equals("lastReceiveTimestamp")) addOrUpdateField(entry.getKey(), entry.getValue());
             }
         } else {
             for (Map.Entry<String, String> entry : data.entrySet()) {
                 addOrUpdateField(entry.getKey(), entry.getValue());
             }
             for (Map.Entry<String, String> entry : additionalProperties.entrySet()) {
-                addOrUpdateField(entry.getKey(), entry.getValue());
+                if(!entry.getKey().equals("lastReceiveTimestamp")) addOrUpdateField(entry.getKey(), entry.getValue());
             }
         }
         revalidate();
@@ -200,12 +226,11 @@ public class TargetViewerPanel extends JPanel {
      * @param value Value of the field.
      */
     private void addOrUpdateField(String key, String value) {
-        String displayValue = value != null ? value : "Unknown";
         JLabel label = fieldLabels.get(key);
         if (label == null) {
             addField(key, value);
         } else {
-            label.setText(formatLabelText(key, displayValue));
+            label.setText(value != null ? value : "Unknown");
         }
     }
 
@@ -223,6 +248,8 @@ public class TargetViewerPanel extends JPanel {
                 values.put("ID", it.getId());
                 if (it.getTimestamp() != null) {
                     values.put("Timestamp", it.getTimestamp().getDateTime().toString());
+                } else if(it.hasProperty("lastReceiveTimestamp")) {
+                    values.put("Timestamp", new TimeImpl(Double.parseDouble(it.getProperty("lastReceiveTimestamp").getValue().toString()), TimeUnit.MILLISECOND).getDateTime().toString());
                 } else {
                     values.put("Timestamp", null);
                 }
@@ -231,7 +258,9 @@ public class TargetViewerPanel extends JPanel {
                 values.put("ID", it.getId());
                 if (it.getTrack() != null && it.getTrack().getLastUpdate() != null) {
                     values.put("Timestamp", it.getTrack().getLastUpdate().getDateTime().toString());
-                } else {
+                } else if(it.hasProperty("lastReceiveTimestamp")) {
+                    values.put("Timestamp", new TimeImpl(Double.parseDouble(it.getProperty("lastReceiveTimestamp").getValue().toString()), TimeUnit.MILLISECOND).getDateTime().toString());
+                }else {
                     values.put("Timestamp", null);
                 }
             }
@@ -243,7 +272,7 @@ public class TargetViewerPanel extends JPanel {
                 values.put("COG", null);
             }
             if (target.getPose() != null && target.getPose().getCoordinate() != null) {
-                String readablePosition = CRSUtils.toDegreeMinuteSecond(target.getPose().getCoordinate().getLatitude()) +
+                String readablePosition = CRSUtils.toDegreeMinuteSecond(target.getPose().getCoordinate().getLatitude()) + " / " +
                         CRSUtils.toDegreeMinuteSecond(target.getPose().getCoordinate().getLongitude());
                 values.put("Position", readablePosition);
             } else {

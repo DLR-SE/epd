@@ -49,24 +49,24 @@ public class XMLReader {
         doc.getDocumentElement().normalize();
     }
 
-    public NodeList findNodes(final String tagname) {
-        return doc.getElementsByTagName(tagname);
+    public NodeList findNodes(final String tagName) {
+        return doc.getElementsByTagName(tagName);
     }
 
-    public NamedNodeMap findAttributes(final Node n, final String tagname) {
+    public NamedNodeMap findAttributes(final Node n, final String tagName) {
         if (n == null)
             return null;
         final NamedNodeMap nl = n.getAttributes();
         if (nl == null)
             return null;
-        nl.getNamedItem(tagname);
+        nl.getNamedItem(tagName);
         return nl;
     }
 
-    public String getAttributeValue(final Node n, final String tagname) {
-        final NamedNodeMap nnm = findAttributes(n, tagname);
-        if (nnm != null && nnm.getNamedItem(tagname) != null)
-            return nnm.getNamedItem(tagname).getNodeValue();
+    public String getAttributeValue(final Node n, final String tagName) {
+        final NamedNodeMap nnm = findAttributes(n, tagName);
+        if (nnm != null && nnm.getNamedItem(tagName) != null)
+            return nnm.getNamedItem(tagName).getNodeValue();
         return null;
     }
 
@@ -132,7 +132,7 @@ public class XMLReader {
 
     public Collection<Node> getChildNodes(final Node n, final String tag) {
         final NodeList nl = n.getChildNodes();
-        final ArrayList<Node> out = new ArrayList<Node>();
+        final ArrayList<Node> out = new ArrayList<>();
         for (int i = 0; i < nl.getLength(); i++)
             if (nl.item(i).getNodeName().equals(tag))
                 out.add(nl.item(i));
@@ -140,7 +140,7 @@ public class XMLReader {
     }
 
     public Collection<Node> getAllNodes(final Node node, final String tag) {
-        final ArrayList<Node> out = new ArrayList<Node>();
+        final ArrayList<Node> out = new ArrayList<>();
         final NodeList nl = findNodes(node, tag);
         for (int i = 0; i < nl.getLength(); i++) {
             if (nl.item(i).getNodeName().equals(tag))
@@ -183,9 +183,9 @@ public class XMLReader {
 
     public Collection<Node> getChildNodes(final Node src, final String tagName, final String keyAttr,
             final String keyAttrValue) {
-        final Collection<Node> tag_childs = getChildNodes(src, tagName);
-        final ArrayList<Node> out = new ArrayList<Node>();
-        for (final Node n : tag_childs) {
+        final Collection<Node> tagChildren = getChildNodes(src, tagName);
+        final ArrayList<Node> out = new ArrayList<>();
+        for (final Node n : tagChildren) {
             final String kav = getAttributeValue(n, keyAttr);
             if (kav != null && kav.equals(keyAttrValue))
                 out.add(n);
@@ -195,7 +195,7 @@ public class XMLReader {
 
     public Collection<Attr> getAttributes(Node node) {
         NamedNodeMap nl = node.getAttributes();
-        ArrayList<Attr> out = new ArrayList<Attr>();
+        ArrayList<Attr> out = new ArrayList<>();
         for (int i = 0; i < nl.getLength(); i++) {
             if (nl.item(i) instanceof Attr)
                 out.add((Attr) nl.item(i));
@@ -205,7 +205,7 @@ public class XMLReader {
 
     public Collection<Node> getChildren(Node n) {
         final NodeList nl = n.getChildNodes();
-        final ArrayList<Node> out = new ArrayList<Node>();
+        final ArrayList<Node> out = new ArrayList<>();
         for (int i = 0; i < nl.getLength(); i++)
             out.add(nl.item(i));
         return out;
@@ -224,7 +224,7 @@ public class XMLReader {
             return elements.item(0);
         }
         if (recursive) {
-            // did not found, so search recursive in each subnode
+            // not found, so search recursive in each subnode
             for (int i = 0; i < nl.getLength(); i++) {
                 Node n = findNode(nl.item(i), tagName, recursive);
                 if (n != null)

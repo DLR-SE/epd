@@ -5,7 +5,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,14 +40,13 @@ public class BinarySerializer extends AbstractSerializer {
         stream.writeInt(MAGIC);
 
         serializeUObject(instance, stream);
-
     }
 
     private void serializeUObject(UObject instance, DataOutputStream stream) throws IOException {
         // remember the instance to be referenced by other instances
         int instanceId = instance.hashCode();
         stream.writeInt(instanceId);
-        // check if we allready have written the content
+        // check if we already have written the content
         if (mInstanceMap.containsKey(instanceId) == false) { // we did not
             // now remember the instance, need to be done at the beginning, otherwise we may run into an endless loop
             mInstanceMap.put(instanceId, instance);
@@ -127,11 +125,14 @@ public class BinarySerializer extends AbstractSerializer {
         return null;
     }
 
-    private void writeSingleValue(UStructuralFeature feature, Object value, DataOutputStream stream)
-            throws IOException {
+    private void writeSingleValue(UStructuralFeature feature, Object value, DataOutputStream stream) throws IOException {
         UType type = feature.getType();
         if (type instanceof UEnum) {
             UEnumerator lit = ((UEnum) type).getEnumerator(value.toString());
+            int v = lit.getValue();
+            // Check that the internal value is a short
+            assert v >= -32768;
+            assert v <= 32767;
             stream.writeShort(lit.getValue()); // FIXME: this will crash if the literal uses an value > short
         } else if (type instanceof UPrimitiveType) {
             // avoid instanceof and use == instead; look for order for faster returning; double is more often used than
@@ -166,8 +167,13 @@ public class BinarySerializer extends AbstractSerializer {
         }
     }
 
-    /// if the value is set, the method returns an array [f, valueToWrite], otherwise null
-    /// this way we do not need to ask the feature value again, we do the actual writing
+    /**
+     * If the value is set, the method returns an array [f, valueToWrite], otherwise null. This way we do not need to
+     * ask the feature value again, we do the actual writing
+     * @param instance
+     * @param f
+     * @return
+     */
     private static Object[] isSet(UObject instance, UStructuralFeature f) {
         Object v = f.get(instance);
         if (v != null) {
@@ -264,7 +270,7 @@ public class BinarySerializer extends AbstractSerializer {
     }
 
     private Object readObject(DataInputStream stream) throws IOException {
-        // we always first read the instanceid and check if we already did read this instance
+        // we always first read the instance id and check if we already did read this instance
         int instanceID = stream.readInt();
         if (mInstanceMap.containsKey(instanceID))
             return mInstanceMap.get(instanceID);
@@ -286,19 +292,8 @@ public class BinarySerializer extends AbstractSerializer {
         return instance;
     }
 
-    int sounding = 0;
-
     private void readFeatureValueFromStream(UObject instance, UClass cl, DataInputStream stream, int idx)
             throws IOException {
-        // if (cl.getName().equals("SoundingFeature")) {
-        // sounding++;
-        // System.out.println(sounding + " = " + idx);
-        // }
-        // if (sounding == 6021 && idx == 2)
-        // System.out.println();
-        // if (sounding == 6024 && idx == 2)
-        // System.out.println();
-
         UStructuralFeature feature = readFeatureFromStream(stream, cl, true);
         if (feature == null)
             throw new IOException("Could not find the expected feature");
@@ -327,11 +322,12 @@ public class BinarySerializer extends AbstractSerializer {
                 throw new IOException("Could not discover Type with name: " + clName);
             // remember for next time
             mClassifierMap.put((short) -id, type);
-            // System.out.println("R: " + -id + "=" + clName);
         } else
             type = mClassifierMap.get(id);
+
         if (type == null)
             return null;
+
         return type;
     }
 
@@ -344,7 +340,7 @@ public class BinarySerializer extends AbstractSerializer {
 
     /**
      * This method is used to identify / discover a type, based on the name for now we just look up in the
-     * UCoreMetaRepository, but this would not handle changes in the datamodel. For this there need to be an option to
+     * UCoreMetaRepository, but this would not handle changes in the data model. For this there need to be an option to
      * create dynamic classifiers(and objects)
      * 
      * @param id

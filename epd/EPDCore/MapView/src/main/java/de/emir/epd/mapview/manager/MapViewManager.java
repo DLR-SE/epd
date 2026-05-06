@@ -1,5 +1,6 @@
 package de.emir.epd.mapview.manager;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +8,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.jxmapviewer.viewer.GeoPosition;
-import org.apache.logging.log4j.Logger;
 
 import de.emir.epd.mapview.ep.MapTool;
 import de.emir.epd.mapview.ep.MapViewExtensionPoint;
@@ -23,23 +23,22 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class MapViewManager implements IService {
 	
-	private MapViewExtensionPoint ep = new MapViewExtensionPoint();
-	private AbstractMapViewTool activeTool;
-	private AbstractMapViewTool defaultTool;
-	
-	private List<IMapManuallyMovedListener> mapManMovedListeners = new ArrayList<>();
-	
-	private Map<String, AbstractMapViewTool> tools = new HashMap<>();
-	
-	private static Logger log = ULog.getLogger(MapViewManager.class);
+	private final MapViewExtensionPoint ep = new MapViewExtensionPoint();
 
-	private PublishSubject<String> toolCreatedSubject = PublishSubject.create();
-	private PublishSubject<Optional<AbstractMapViewTool>> activeToolSubject = PublishSubject.create();
+	private final List<IMapManuallyMovedListener> mapManMovedListeners = new ArrayList<>();
 	
-	private boolean toolsInitialized = false;
+	private final Map<String, AbstractMapViewTool> tools = new HashMap<>();
 	
-	private PublishSubject<GeoPosition> cursorPositionSubject = PublishSubject.create();
-	
+	private final PublishSubject<String> toolCreatedSubject = PublishSubject.create();
+	private final PublishSubject<Optional<AbstractMapViewTool>> activeToolSubject = PublishSubject.create();
+
+	private final PublishSubject<GeoPosition> cursorPositionSubject = PublishSubject.create();
+
+    private AbstractMapViewTool activeTool;
+    private AbstractMapViewTool defaultTool;
+
+    private boolean toolsInitialized = false;
+
 	public MapViewExtensionPoint getExtensionPoint() {
 		return ep;
 	}
@@ -58,13 +57,12 @@ public class MapViewManager implements IService {
 
 		AbstractTileSource sourceInstance = null;
 		try {
-			sourceInstance = sourceClass.newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
-
-			e.printStackTrace();
+			sourceInstance = sourceClass.getDeclaredConstructor().newInstance();
+		} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            ULog.error(e);
 		}
 
-		return sourceInstance;
+        return sourceInstance;
 	}
 
 	public TileSource getTileSource(String id) {
@@ -78,7 +76,7 @@ public class MapViewManager implements IService {
 		AbstractMapViewTool tool = getTools().get(toolID);
 		
 		if(tool == null) {
-			log.warn("Tool with id [" + toolID + "] can't be found.");
+			ULog.warn("Tool with id [{}] can't be found.", toolID);
 		}
 		
 		setActiveTool(tool);
@@ -108,7 +106,7 @@ public class MapViewManager implements IService {
 		AbstractMapViewTool tool = getTools().get(toolID);
 		
 		if(tool == null) {
-			log.warn("Tool with id [" + toolID + "] can't be found.");
+			ULog.warn("Tool with id [{}] can't be found.", toolID);
 		}
 		
 		setDefaultTool(tool);
@@ -149,7 +147,7 @@ public class MapViewManager implements IService {
 	
 	public void fillToolsList() {
 		
-		if(toolsInitialized == true) {
+		if (toolsInitialized) {
 			return;
 		}
 		toolsInitialized = true;
@@ -163,26 +161,21 @@ public class MapViewManager implements IService {
 			
 			try {
 				
-				AbstractMapViewTool newTool = toolClass.newInstance();
+				AbstractMapViewTool newTool = toolClass.getDeclaredConstructor().newInstance();
 				newTool.setId(id);
 				tools.put(id, newTool);
 				toolCreatedSubject.onNext(id);
 				
-			} catch (InstantiationException | IllegalAccessException e) {
-				
-				log.error("Can't create Tool. Error calling default constructor [" + id + "].");
-				
-				e.printStackTrace();
+			} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                ULog.error("Can't create Tool. Error calling default constructor [{}].", id, e);
 			}
-			
-		}
-		
+        }
 	}
 	
 	/**
 	 * Use this method when the cursor position is changed.
 	 * 
-	 * @param position The GeoPosition containting the cursors world coordinates
+	 * @param position The GeoPosition containing the cursors world coordinates
 	 */
 	public void setCursorPosition(GeoPosition position) {
 		cursorPositionSubject.onNext(position);

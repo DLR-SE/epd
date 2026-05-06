@@ -1,8 +1,6 @@
 package de.emir.model.universal.spatial.sf.delegate;
 
-import de.emir.tuml.ucore.runtime.IDelegateInterface;
 import de.emir.model.universal.spatial.sf.LinearRing;
-import de.emir.model.universal.spatial.sf.delegate.ILineStringDelegationInterface;
 
 /**
 *	delegation interface

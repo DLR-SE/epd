@@ -1,0 +1,304 @@
+<?xml version='1.0'?>
+<root>
+	<resource name="dock.ui.ThemeMap">
+		<key>smooth</key>
+	</resource>
+	<resource name="ccontrol.frontend">
+		<frontend>
+			<current>
+				<base>
+					<roots>
+						<root name="external">
+							<layout factory="predefined">
+								<replacement id="rootexternal"/>
+								<delegate id="delegate_CommonDockStationFactory">
+									<root>true</root>
+									<content delegate="screen dock">
+										<placeholders>
+											<version>0</version>
+											<format>dock.PlaceholderList</format>
+										</placeholders>
+									</content>
+								</delegate>
+							</layout>
+							<adjacent>
+								<layout factory="dock.RootStationAdjacentFactory">
+									<type>dock.CExternalizeArea</type>
+								</layout>
+							</adjacent>
+							<children ignore="false"/>
+						</root>
+						<root name="ccontrol north">
+							<layout factory="predefined">
+								<replacement id="rootccontrol north"/>
+								<delegate id="delegate_CommonDockStationFactory">
+									<root>true</root>
+									<content delegate="flap dock">
+										<window auto="false" direction="SOUTH"/>
+										<placeholders>
+											<version>0</version>
+											<format>dock.PlaceholderList</format>
+										</placeholders>
+									</content>
+								</delegate>
+							</layout>
+							<adjacent>
+								<layout factory="dock.RootStationAdjacentFactory">
+									<type>dock.CContentArea.minimize</type>
+								</layout>
+							</adjacent>
+							<children ignore="false"/>
+						</root>
+						<root name="ccontrol south">
+							<layout factory="predefined">
+								<replacement id="rootccontrol south"/>
+								<delegate id="delegate_CommonDockStationFactory">
+									<root>true</root>
+									<content delegate="flap dock">
+										<window auto="false" direction="NORTH"/>
+										<placeholders>
+											<version>0</version>
+											<format>dock.PlaceholderList</format>
+										</placeholders>
+									</content>
+								</delegate>
+							</layout>
+							<adjacent>
+								<layout factory="dock.RootStationAdjacentFactory">
+									<type>dock.CContentArea.minimize</type>
+								</layout>
+							</adjacent>
+							<children ignore="false"/>
+						</root>
+						<root name="ccontrol east">
+							<layout factory="predefined">
+								<replacement id="rootccontrol east"/>
+								<delegate id="delegate_CommonDockStationFactory">
+									<root>true</root>
+									<content delegate="flap dock">
+										<window auto="false" direction="WEST"/>
+										<placeholders>
+											<version>0</version>
+											<format>dock.PlaceholderList</format>
+										</placeholders>
+									</content>
+								</delegate>
+							</layout>
+							<adjacent>
+								<layout factory="dock.RootStationAdjacentFactory">
+									<type>dock.CContentArea.minimize</type>
+								</layout>
+							</adjacent>
+							<children ignore="false"/>
+						</root>
+						<root name="ccontrol center">
+							<layout factory="predefined" placeholder="dock.single.ccontrol\ center">
+								<replacement id="rootccontrol center"/>
+								<delegate id="delegate_CommonDockStationFactory">
+									<id>ccontrol center</id>
+									<root>true</root>
+									<content delegate="SplitDockStationFactory">
+										<fullscreen-action>false</fullscreen-action>
+										<node nodeId="1771421085121" orientation="VERTICAL" divider="0.9989545216936748">
+											<leaf id="1" nodeId="1771421085119">
+												<placeholders>
+													<placeholder>dock.multi.\0\ AbstractViewFactory</placeholder>
+												</placeholders>
+											</leaf>
+											<node nodeId="1762500557010" orientation="VERTICAL" divider="0.5">
+												<leaf id="-1" nodeId="1762500557008">
+													<placeholders>
+														<placeholder>dock.multi.\5\ AbstractViewFactory</placeholder>
+													</placeholders>
+												</leaf>
+												<node nodeId="1762438958939" orientation="VERTICAL" divider="0.5">
+													<leaf id="-1" nodeId="1762438958937">
+														<placeholders>
+															<placeholder>dock.multi.\10\ AbstractViewFactory</placeholder>
+														</placeholders>
+													</leaf>
+													<node nodeId="1762438914988" orientation="VERTICAL" divider="0.5">
+														<leaf id="-1" nodeId="1762438914986">
+															<placeholders>
+																<placeholder>dock.multi.\9\ AbstractViewFactory</placeholder>
+															</placeholders>
+														</leaf>
+														<node nodeId="1757676718276" orientation="VERTICAL" divider="0.9989545216936748">
+															<node nodeId="1762500510894" orientation="HORIZONTAL" divider="0.8328828828828829">
+																<leaf id="-1" nodeId="1762438952547">
+																	<placeholders>
+																		<placeholder>dock.multi.\7\ AbstractViewFactory</placeholder>
+																	</placeholders>
+																</leaf>
+																<node nodeId="1762500513214" orientation="VERTICAL" divider="0.5997904662126768">
+																	<node nodeId="1762500595874" orientation="VERTICAL" divider="0.35631753043928127">
+																		<leaf id="-1" nodeId="1762500595872">
+																			<placeholders>
+																				<placeholder>dock.multi.\3\ AbstractViewFactory</placeholder>
+																			</placeholders>
+																		</leaf>
+																		<leaf id="-1" nodeId="1757676796315">
+																			<placeholders>
+																				<placeholder>dock.multi.\6\ AbstractViewFactory</placeholder>
+																				<placeholder>dock.multi.\8\ AbstractViewFactory</placeholder>
+																				<placeholder>dock.multi.\4\ AbstractViewFactory</placeholder>
+																			</placeholders>
+																			<placeholder-map>
+																				<version>0</version>
+																				<format>dock.PlaceholderList</format>
+																			</placeholder-map>
+																		</leaf>
+																	</node>
+																	<node nodeId="1762500533693" orientation="VERTICAL" divider="0.3675213675213676">
+																		<leaf id="-1" nodeId="1762500513212">
+																			<placeholders>
+																				<placeholder>dock.multi.\2\ AbstractViewFactory</placeholder>
+																			</placeholders>
+																			<placeholder-map>
+																				<version>0</version>
+																				<format>dock.PlaceholderList</format>
+																			</placeholder-map>
+																		</leaf>
+																		<leaf id="-1" nodeId="1762500533691">
+																			<placeholders>
+																				<placeholder>dock.multi.\1\ AbstractViewFactory</placeholder>
+																			</placeholders>
+																			<placeholder-map>
+																				<version>0</version>
+																				<format>dock.PlaceholderList</format>
+																			</placeholder-map>
+																		</leaf>
+																	</node>
+																</node>
+															</node>
+															<leaf id="0" nodeId="1756123661651">
+																<placeholders>
+																	<placeholder>dock.single.EditorArea</placeholder>
+																</placeholders>
+																<placeholder-map>
+																	<version>0</version>
+																	<format>dock.SplitDockStation</format>
+																</placeholder-map>
+															</leaf>
+														</node>
+													</node>
+												</node>
+											</node>
+										</node>
+									</content>
+								</delegate>
+							</layout>
+							<adjacent>
+								<layout factory="dock.RootStationAdjacentFactory">
+									<type>dock.CContentArea.center</type>
+								</layout>
+							</adjacent>
+							<children ignore="false">
+								<child>
+									<layout factory="predefined" placeholder="dock.single.EditorArea">
+										<replacement id="dockablesingle EditorArea"/>
+										<delegate id="delegate_CommonDockStationFactory">
+											<id>EditorArea</id>
+											<root>true</root>
+											<content delegate="SplitDockStationFactory">
+												<fullscreen-action>false</fullscreen-action>
+											</content>
+										</delegate>
+									</layout>
+									<adjacent>
+										<layout factory="dock.RootStationAdjacentFactory">
+											<type>dock.CWorkingArea</type>
+										</layout>
+									</adjacent>
+									<children ignore="false"/>
+								</child>
+								<child>
+									<layout factory="delegate_AbstractViewFactory" placeholder="dock.multi.\0\ AbstractViewFactory">
+										<id>0 AbstractViewFactory</id>
+										<multiple>
+											<descriptorID>de.emir.epd.mapview.views.MapView</descriptorID>
+											<uniqueID>de.emir.epd.mapview.views.MapView_Instance1</uniqueID>
+											<globalID>caf55f18-746c-400a-b238-518199d70974</globalID>
+										</multiple>
+									</layout>
+									<children ignore="false"/>
+								</child>
+							</children>
+						</root>
+						<root name="ccontrol west">
+							<layout factory="predefined">
+								<replacement id="rootccontrol west"/>
+								<delegate id="delegate_CommonDockStationFactory">
+									<root>true</root>
+									<content delegate="flap dock">
+										<window auto="false" direction="EAST"/>
+										<placeholders>
+											<version>0</version>
+											<format>dock.PlaceholderList</format>
+										</placeholders>
+									</content>
+								</delegate>
+							</layout>
+							<adjacent>
+								<layout factory="dock.RootStationAdjacentFactory">
+									<type>dock.CContentArea.minimize</type>
+								</layout>
+							</adjacent>
+							<children ignore="false"/>
+						</root>
+					</roots>
+					<children/>
+				</base>
+				<modes>
+					<dockables>
+						<entry id="single EditorArea" current="dock.mode.normal">
+							<history>
+								<mode>dock.mode.normal</mode>
+							</history>
+							<properties>
+								<property id="dock.mode.normal">
+									<mode>dock.mode.normal</mode>
+									<root>ccontrol center</root>
+									<applicationDefined>false</applicationDefined>
+									<location>
+										<property factory="SplitDockPlaceholderProperty">
+											<placeholder>dock.single.EditorArea</placeholder>
+											<backup-path>
+												<leaf id="1756123661651"/>
+											</backup-path>
+										</property>
+									</location>
+								</property>
+							</properties>
+						</entry>
+						<entry id="multi 0 AbstractViewFactory" current="dock.mode.normal">
+							<history>
+								<mode>dock.mode.normal</mode>
+							</history>
+							<properties>
+								<property id="dock.mode.normal">
+									<mode>dock.mode.normal</mode>
+									<root>ccontrol center</root>
+									<applicationDefined>false</applicationDefined>
+									<location>
+										<property factory="SplitDockPlaceholderProperty">
+											<placeholder>dock.multi.\0\ AbstractViewFactory</placeholder>
+											<backup-path>
+												<node location="TOP" size="0.5" id="1771421085121"/>
+												<leaf id="1771421085119"/>
+											</backup-path>
+										</property>
+									</location>
+								</property>
+							</properties>
+						</entry>
+					</dockables>
+					<modes>
+						<entry id="dock.mode.maximized"/>
+					</modes>
+				</modes>
+			</current>
+		</frontend>
+	</resource>
+	<resource name="ccontrol.preferences"/>
+</root>

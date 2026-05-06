@@ -1,7 +1,5 @@
 package de.emir.model.universal.spatial.ops;
 
-import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
-import de.emir.tuml.ucore.runtime.UClass;
 import java.util.List;
 
 import de.emir.model.universal.spatial.SpatialLayer;
@@ -22,8 +20,7 @@ public class SpatialLayerContainerOperations  implements ISpatialLayerContainerD
 	 * @inheritDoc
 	 * @generated
 	*/
-	public List<SpatialLayer> provideSpatialLayer(SpatialLayerContainer self)
-	{
+	public List<SpatialLayer> provideSpatialLayer(SpatialLayerContainer self) {
 		//TODO: 
 		throw new UnsupportedOperationException("provideSpatialLayer not yet implemented");
 	}

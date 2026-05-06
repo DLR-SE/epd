@@ -1,7 +1,5 @@
 package de.emir.tuml.ucore.runtime;
 
-import de.emir.tuml.ucore.runtime.UAnnotationDetail;
-import de.emir.tuml.ucore.runtime.UObject;
 import java.util.List;
 
 import de.emir.tuml.ucore.runtime.annotations.UMLClass;

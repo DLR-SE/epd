@@ -1,10 +1,11 @@
 package de.emir.runtime.plugin.windows;
 
+import bibliothek.gui.DockStation;
+import bibliothek.gui.Dockable;
 import bibliothek.gui.dock.common.CControl;
 import bibliothek.gui.dock.common.CWorkingArea;
-import bibliothek.gui.dock.common.intern.CDockable;
+import bibliothek.gui.dock.event.DockStationAdapter;
 import de.emir.rcp.manager.util.PlatformUtil;
-import de.emir.rcp.views.AbstractViewFactory;
 import de.emir.runtime.plugin.windows.layout.BorderModifierDockableFrames;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.resources.IconManager;
@@ -25,6 +26,9 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -39,36 +43,55 @@ public class MainWindow extends JFrame {
 
     private static final Logger log = LogManager.getLogger(MainWindow.class);
 
-    public static interface ICloseListener {
+    /**
+     * CloseListener interface which is used for being notified when the main window closes.
+     */
+    public interface ICloseListener {
+        /**
+         * Fired when the main window closing process is initiated.
+         */
         void aboutToClose();
 
+        /**
+         * Fired when the main window was closed.
+         */
         void closed();
+    }
+
+    /**
+     * LayoutChangeListener which is used for being notified when the current layout was modified by the user.
+     */
+    public interface ILayoutChangeListener {
+        /**
+         * Fired when the layout of the application was changed by the user.
+         */
+        void layoutChanged();
     }
 
     public static final String LAYOUT_FILE = "application-layout.xml";
 
+    @Serial
     private static final long serialVersionUID = -5182981258360273853L;
 
     private static final int BASIC_WIDTH = 800;
     private static final int BASIC_HEIGHT = 600;
 
-    private CControl mainControl;
+    private final CControl mainControl;
 
-    private LayoutLockState layoutLockState = new LayoutLockState();
-
+    private final LayoutLockState layoutLockState = new LayoutLockState();
+    private final List<ILayoutChangeListener> layoutChangeListeners = new ArrayList<>();
+    private final List<ICloseListener> mCloseListeners = new ArrayList<>();
     private CWorkingArea workingArea;
-
     private boolean hasEditorArea;
-
-    private ICloseListener mCloseListener = null;
 
     private JPanel statusBar;
 
     /**
      * Creates a new MainWindow.
+     *
      * @param mainFrameTitle Title of the window.
      * @param hasWorkingArea Sets the working area flag. This signals to DockingFrames that a working area is available.
-     * @param hasStatusBar Sets the status bar flag. Appends a status bar if set to true.
+     * @param hasStatusBar   Sets the status bar flag. Appends a status bar if set to true.
      */
     public MainWindow(String mainFrameTitle, boolean hasWorkingArea, boolean hasStatusBar) {
         this.hasEditorArea = hasWorkingArea;
@@ -116,10 +139,10 @@ public class MainWindow extends JFrame {
 
         getContentPane().add(panelUp, BorderLayout.SOUTH);
         GridBagLayout gbl_panelUp = new GridBagLayout();
-        gbl_panelUp.columnWidths = new int[] { 0, 0 };
-        gbl_panelUp.rowHeights = new int[] { 0, 0 };
-        gbl_panelUp.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-        gbl_panelUp.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+        gbl_panelUp.columnWidths = new int[]{0, 0};
+        gbl_panelUp.rowHeights = new int[]{0, 0};
+        gbl_panelUp.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+        gbl_panelUp.rowWeights = new double[]{1.0, Double.MIN_VALUE};
         panelUp.setLayout(gbl_panelUp);
 
         JPanel panel = new JPanel();
@@ -132,10 +155,10 @@ public class MainWindow extends JFrame {
         gbc_panel.gridy = 0;
         panelUp.add(panel, gbc_panel);
         GridBagLayout gbl_panel = new GridBagLayout();
-        gbl_panel.columnWidths = new int[] { 0, 0 };
-        gbl_panel.rowHeights = new int[] { 0, 0 };
-        gbl_panel.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-        gbl_panel.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+        gbl_panel.columnWidths = new int[]{0, 0};
+        gbl_panel.rowHeights = new int[]{0, 0};
+        gbl_panel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+        gbl_panel.rowWeights = new double[]{1.0, Double.MIN_VALUE};
         panel.setLayout(gbl_panel);
 
         statusBar = new JPanel();
@@ -153,6 +176,7 @@ public class MainWindow extends JFrame {
 
     /**
      * Gets the status bar component.
+     *
      * @return Status bar component.
      */
     public JPanel getStatusBar() {
@@ -161,6 +185,7 @@ public class MainWindow extends JFrame {
 
     /**
      * Gets the EditorArea. This is an unmodifiable area of the docking frames layout.
+     *
      * @return EditorArea component.
      */
     public CWorkingArea getWorkingArea() {
@@ -169,6 +194,7 @@ public class MainWindow extends JFrame {
 
     /**
      * Gets the layout lock state. This signals if the layout is movable and editable.
+     *
      * @return Current lock state of the layout.
      */
     public LayoutLockState getLayoutLockState() {
@@ -176,11 +202,37 @@ public class MainWindow extends JFrame {
     }
 
     /**
-     * Sets the close listener of the main window.
+     * Adds a close listener to the main window.
+     *
      * @param cl Close listener to set for the main window.
      */
-    public void setCloseListener(ICloseListener cl) {
-        mCloseListener = cl;
+    public void addCloseListener(ICloseListener cl) {
+        mCloseListeners.add(cl);
+    }
+
+    /**
+     * Removes a close listener from the main window.
+     * @param cl Close listener to remove.
+     */
+    public void removeCloseListener(ICloseListener cl) {
+        mCloseListeners.remove(cl);
+    }
+
+    /**
+     * Adds a layout change listener to the main window. If the layout was changed by the user, it is fired to
+     * signal that a layout change took place.
+     * @param listener LayoutChangeListener to add.
+     */
+    public void addLayoutChangeListener(ILayoutChangeListener listener) {
+        this.layoutChangeListeners.add(listener);
+    }
+
+    /**
+     * Removes a layout change listener from the main window.
+     * @param listener Layout change listener to remove.
+     */
+    public void removeLayoutChangeListener(ILayoutChangeListener listener) {
+        this.layoutChangeListeners.remove(listener);
     }
 
     /**
@@ -199,7 +251,7 @@ public class MainWindow extends JFrame {
                 IconManager.getIcon(this, "icons/emiricons/windowcontrols/16/dashboard.png", IconManager.preferedSmallIconSize()));
         mainControl.getController().getIcons().setIconClient("locationmanager.unmaximize_externalized",
                 IconManager.getIcon(this, "icons/emiricons/windowcontrols/16/exit_to_app.png", IconManager.preferedSmallIconSize()));
-        
+
         mainControl.getController().getIcons().setIconClient("flap.hold",
                 IconManager.getIcon(this, "icons/emiricons/windowcontrols/16/pin_invoke.png", IconManager.preferedSmallIconSize()));
         mainControl.getController().getIcons().setIconClient("flap.free",
@@ -213,7 +265,30 @@ public class MainWindow extends JFrame {
 
         LayoutLockResizeObserver lockStateObserver = new LayoutLockResizeObserver(this);
 
-        if (hasEditorArea == true) {
+        mainControl.intern().getDefaultStation().addDockStationListener(new DockStationAdapter() {
+            private void notifyListeners() {
+                layoutChangeListeners.forEach(ILayoutChangeListener::layoutChanged);
+            }
+
+            @Override
+            public void dockableAdded(DockStation station, Dockable dockable) {
+                notifyListeners();
+                super.dockableAdded(station, dockable);
+            }
+
+            @Override
+            public void dockableRemoved(DockStation station, Dockable dockable) {
+                notifyListeners();
+                super.dockableRemoved(station, dockable);
+            }
+
+            @Override
+            public void dockablesRepositioned(DockStation station, Dockable[] dockables) {
+                notifyListeners();
+                super.dockablesRepositioned(station, dockables);
+            }
+        });
+        if (hasEditorArea = true) {
 
             workingArea = mainControl.createWorkingArea("EditorArea");
             workingArea.setVisible(true);
@@ -247,6 +322,7 @@ public class MainWindow extends JFrame {
 
     /**
      * Gets the main CControl element. This is used for managing the layout of CDockables (i.e. AbstractViews).
+     *
      * @return Main CControl instance.
      */
     public CControl getMainControl() {
@@ -273,17 +349,22 @@ public class MainWindow extends JFrame {
 
     /**
      * Saves the current layout to a custom file.
+     *
      * @param file Custom file to store layout in.
-     * @throws IOException
+     * @throws IOException If writing the layout configuration failed.
      */
     public void saveLayout(File file) throws IOException {
         mainControl.writeXML(file);
     }
 
+    /**
+     * Loads the default layout and configures the layout. The default layout is located in the home directory
+     * and is named application-layout.xml.
+     */
     public void loadLayout() {
         try {
             File file = ResourceManager.get(getClass()).resolveFile(LAYOUT_FILE); // note: this will first look in the
-                                                                                  // applications root and later im
+            // applications root and later im
             // the applications home directory
             if (file != null) {
                 loadLayout(file);
@@ -293,6 +374,10 @@ public class MainWindow extends JFrame {
                     log.error("Did not find layout file but detected old non-compatible layout.xml configuration. The layout needs to be reconfigured.");
                 }
             }
+        } catch (IllegalArgumentException e) {
+            // may happen when product is exported and this code tries to load it from the jar.
+            // in this case no layout file is present, thus no need to raise exceptions here
+            log.info("Did not find layout file.");
         } catch (IOException e) {
             File oldFile = ResourceManager.get(getClass()).resolveFile("layout.xml");
             if (oldFile != null) {
@@ -303,6 +388,11 @@ public class MainWindow extends JFrame {
         }
     }
 
+    /**
+     * Loads a custom layout from a layout xml file.
+     * @param file File to load.
+     * @throws IOException If loading failed.
+     */
     public void loadLayout(File file) throws IOException {
         PlatformUtil.getViewManager().setLoadComplete(false);
         mainControl.readXML(file);
@@ -319,23 +409,23 @@ public class MainWindow extends JFrame {
     }
 
     public void notifyAboutToClose() {
-        if (mCloseListener != null) {
+        mCloseListeners.forEach(l -> {
             try {
-                mCloseListener.aboutToClose();
+                l.aboutToClose();
             } catch (Exception e) {
                 ULog.error("Failed to notify about to close");
             }
-        }
+        });
     }
 
     public void notifyClosed() {
-        if (mCloseListener != null) {
+        mCloseListeners.forEach(l -> {
             try {
-                mCloseListener.closed();
+                l.closed();
             } catch (Exception e) {
                 ULog.error("Failed to notify about to close");
             }
-        }
+        });
     }
 
     // TODO: Move to external utils class

@@ -3,11 +3,8 @@ package de.emir.rcp.product;
 import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -19,9 +16,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import com.google.common.base.Function;
-
-import de.emir.rcp.UICorePlugin;
 import de.emir.rcp.manager.ArgumentsManager;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.model.AbstractModelProvider;
@@ -36,7 +30,6 @@ import de.emir.tuml.ucore.runtime.extension.ServiceManager;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.resources.IconManager;
 import de.emir.tuml.ucore.runtime.resources.ResourceManager;
-import de.emir.tuml.ucore.runtime.utils.FileOperations;
 import de.emir.tuml.ucore.runtime.utils.Zip;
 import de.emir.tuml.ucore.runtime.utils.ZipFileException;
 
@@ -110,7 +103,7 @@ public abstract class AbstractUIProduct extends AbstractProduct implements IClos
 		PlatformUtil.initBasicManagers();
 
 		final MainWindow mainFrame = new MainWindow(getTitle(), hasEditorArea(), hasStatusBar());
-		mainFrame.setCloseListener(this);
+		mainFrame.addCloseListener(this);
 
 		// perform first start initialization if necessary
 		try {

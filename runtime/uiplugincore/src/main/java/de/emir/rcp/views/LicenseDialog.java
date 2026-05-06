@@ -1,6 +1,7 @@
 package de.emir.rcp.views;
 
 import de.emir.rcp.manager.util.PlatformUtil;
+
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.io.FileReader;
@@ -15,35 +16,35 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 public class LicenseDialog extends JDialog {
-	static final Logger LOG = LogManager.getLogger(LicenseDialog.class);
+    static final Logger LOG = LogManager.getLogger(LicenseDialog.class);
 
-	/**
-	 * Create the license dialog.
-	 */
-	public LicenseDialog() {
-		setBounds(100, 100, 550, 500);
-		setResizable(true);
-		setTitle("License");
-		setAlwaysOnTop(true);
+    /**
+     * Create the license dialog.
+     */
+    public LicenseDialog() {
+        setBounds(100, 100, 550, 500);
+        setResizable(true);
+        setTitle("License");
+        setAlwaysOnTop(true);
         setModalityType(ModalityType.APPLICATION_MODAL);
-        
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBorder(new EmptyBorder(8, 8, 8, 8));
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
-		
-		JTextArea textArea = new JTextArea();
-		textArea.setEditable(false);
-		textArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
-		scrollPane.setViewportView(textArea);
 
-		FileReader reader;
-		try {
-			reader = new FileReader("LICENSE");
-			textArea.read(reader, "LICENSE");
-		} catch (IOException e) {
-			LOG.error("Could not read LICENSE file.");
-		}
-		setLocationRelativeTo(PlatformUtil.getWindowManager().getMainWindow());
-	}
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setBorder(new EmptyBorder(8, 8, 8, 8));
+        getContentPane().add(scrollPane, BorderLayout.CENTER);
+
+        JTextArea textArea = new JTextArea();
+        textArea.setEditable(false);
+        textArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        scrollPane.setViewportView(textArea);
+
+        FileReader reader;
+        try {
+            reader = new FileReader("LICENSE");
+            textArea.read(reader, "LICENSE");
+        } catch (IOException e) {
+            LOG.error("Could not read LICENSE file.");
+        }
+        setLocationRelativeTo(PlatformUtil.getWindowManager().getMainWindow());
+    }
 
 }

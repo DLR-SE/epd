@@ -19,7 +19,7 @@ public class CommandExtensionPoint implements IExtensionPoint {
 
     /**
      * List of commands that have been registered.
-     * 
+     *
      * @see registerListener / removeListener to get notified about new commands
      */
     private HashBiMap<String, CommandDescriptor> commandMap = HashBiMap.create();
@@ -29,13 +29,10 @@ public class CommandExtensionPoint implements IExtensionPoint {
      * Adds a new command. Commands are used to execute logic initiated by the user. By encapsulating this logic, it is
      * possible to link both menu entries and key bindings to the same execution. However, a command can also be
      * executed programmatically.
-     * 
-     * @param id
-     *            A unique ID, identifies this command
-     * @param label
-     *            A label. Used e.g. for display in the KeyBinding Settings
-     * @param handler
-     *            The handler class to be executed
+     *
+     * @param id      A unique ID, identifies this command
+     * @param label   A label. Used e.g. for display in the KeyBinding Settings
+     * @param handler The handler class to be executed
      * @return A representation of the command within the ExtensionPoint
      */
     public ICommandDescriptor command(String id, String label, AbstractCommand command) {

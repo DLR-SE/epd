@@ -37,7 +37,7 @@ public class BorderModifierDockableFrames {
         controller.getThemeManager().setBorderModifier("dock.border.displayer.basic.content", new BorderModifier() {
             public Border modify(Border border) {
 //                return BorderFactory.createEtchedBorder(UIManager.getColor("InternalFrame.borderHighlight"), UIManager.getColor("InternalFrame.borderShadow"));
-            	return BorderFactory.createLineBorder(UIManager.getColor("controlDkShadow"));
+                return BorderFactory.createLineBorder(UIManager.getColor("controlDkShadow"));
             }
         });
 
@@ -129,7 +129,7 @@ public class BorderModifierDockableFrames {
         @Override
         public Border modify(Border border) {
 //            return BorderFactory.createEtchedBorder(UIManager.getColor("Button.select"), UIManager.getColor("InternalFrame.borderShadow"));
-        	return BorderFactory.createLineBorder(Color.RED, 2);
+            return BorderFactory.createLineBorder(Color.RED, 2);
         }
     }
 }

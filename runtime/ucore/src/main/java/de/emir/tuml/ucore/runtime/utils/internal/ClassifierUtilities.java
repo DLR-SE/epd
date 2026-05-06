@@ -11,8 +11,9 @@ import de.emir.tuml.ucore.runtime.utils.UCoreMetaRepository;
 
 public class ClassifierUtilities {
 
+    private final HashMap<UClassifier, HashSet<UClassifier>> mInheritMap = new HashMap<>();
+
     private boolean mDirty = true;
-    private HashMap<UClassifier, HashSet<UClassifier>> mInheritMap = new HashMap<>();
 
     /**
      * notify the utility class, that something within the UCoreMetaRepository has changed
@@ -32,7 +33,7 @@ public class ClassifierUtilities {
      */
     public synchronized Collection<UClassifier> getClassesInheritFrom(UClassifier parent, boolean instantiableOnly) {
         if (mDirty || mInheritMap.containsKey(parent) == false) {
-            HashSet<UClassifier> set = new HashSet<UClassifier>();
+            HashSet<UClassifier> set = new HashSet<>();
             for (UClassifier cl : UCoreMetaRepository.getAllClassifier()) {
                 if (cl.inherits(parent)) {
                     if (instantiableOnly) {

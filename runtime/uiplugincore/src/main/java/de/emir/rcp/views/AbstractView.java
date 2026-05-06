@@ -3,6 +3,7 @@ package de.emir.rcp.views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.util.UUID;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -26,9 +27,12 @@ import de.emir.tuml.ucore.runtime.logging.ULog;
  * Therefore each view contains the ID of the descriptor which it is assigned to (descriptorID) and the ID of the
  * view itself (uniqueID). If multiple instances of a view can be created, each uniqueID is created in the following
  * scheme: descriptorID+_InstanceX, for example for ViewDescriptor AISView it would be AISView_Instance1, AISView_Instance2 etc.
+ * Next to the uniqueID, there is also the globalID. This is an identifier which is used across layouts so
+ * that
  */
 public abstract class AbstractView extends DefaultMultipleCDockable {
     protected final String uniqueID;
+    protected String globalID;
     protected final String descriptorID;
     private JPanel parentPanel;
     private ViewLockStateObserver lockStateObserver;
@@ -36,13 +40,16 @@ public abstract class AbstractView extends DefaultMultipleCDockable {
 
     /**
      * Creates a new AbstractView instance.
-     * @param id Unique ID of the view.
+     * @param id ID the view should be assigned to.
+     * @param globalID Global ID the view should be assigned to. This ID is persistent across layouts and used to
+     *                 identify views across different layout configurations.
      */
-    public AbstractView(String id) {
+    public AbstractView(String id, String globalID) {
         super(PlatformUtil.getWindowManager().getMainWindow().getMainControl().getMultipleDockableFactory("AbstractViewFactory"));
 
         this.uniqueID = id;
         this.descriptorID = uniqueID.split("_Instance")[0];
+        this.globalID = globalID;
 
         // Manages the visibility of the title bar and the resize functionality
         lockStateObserver = new ViewLockStateObserver(this);
@@ -106,7 +113,16 @@ public abstract class AbstractView extends DefaultMultipleCDockable {
         lockStateObserver.setState();
 
         PlatformUtil.getKeyBindingManager().registerViewKeyBindings(this);
+    }
 
+    /**
+     * Creates a new AbstractView instance. This method auto-generates the global ID which is used for
+     * identifying views across
+     *
+     * @param id Unique ID of the view.
+     */
+    public AbstractView(String id) {
+        this(id, UUID.randomUUID().toString());
     }
 
     /**
@@ -167,6 +183,7 @@ public abstract class AbstractView extends DefaultMultipleCDockable {
     /**
      * Gets the parent panel of the AbstractView. This is the component where the layout of createContent of the view
      * is stored in.
+     *
      * @return Parent JPane.
      */
     public JPanel getParentPanel() {
@@ -175,6 +192,7 @@ public abstract class AbstractView extends DefaultMultipleCDockable {
 
     /**
      * Populates the content of the view.
+     *
      * @return Content of the view which should be displayed.
      */
     public abstract Component createContent();
@@ -219,6 +237,7 @@ public abstract class AbstractView extends DefaultMultipleCDockable {
      * Gets the unique ID of the view. This usually equals the descriptor ID if the view is not reopenable. If
      * the view is reopenable, it will return descriptorID+_InstanceX where X specifies the current Instance of the view,
      * for example for AISTargetView it would be AISTargetView_Instance1, AISTargetView_Instance2 etc.
+     *
      * @return Unique ID of the view.
      */
     public String getUniqueId() {
@@ -226,8 +245,31 @@ public abstract class AbstractView extends DefaultMultipleCDockable {
     }
 
     /**
+     * Sets the global ID of an AbstractView. This id is a unique identifier of the view which can be used
+     * to identify it across different layout files. Compared to the normal id, which identifies the view in the current
+     * layout (for example AISTargetView/AISTargetView_InstanceX) this is usually a UUID which allows identification
+     * even if the view is loaded in a different context.
+     * @param globalID Global ID to set.
+     */
+    public void setGlobalID(String globalID) {
+        this.globalID = globalID;
+    }
+
+    /**
+     * Gets the global ID of an AbstractView. This id is a unique identifier of the view which can be used
+     * to identify it across different layout files. Compared to the normal id, which identifies the view in the current
+     * layout (for example AISTargetView/AISTargetView_InstanceX) this is usually a UUID which allows identification
+     * even if the view is loaded in a different context.
+     * @return Global ID of the view.
+     */
+    public String getGlobalId() {
+        return globalID;
+    }
+
+    /**
      * Gets the descriptor ID of the view. This is the ID of the descriptor which is used for setting properties of this
      * view.
+     *
      * @return ID of the corresponding ViewDescriptor.
      */
     public String getDescriptorId() {

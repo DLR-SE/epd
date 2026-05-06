@@ -20,7 +20,7 @@ public abstract class AbstractModelProvider {
 
     /**
      * Unique identifier of the model, may be the file, if the model is stored in a file
-     * 
+     *
      * @return
      */
     public abstract String getModelIdentifier();
@@ -28,7 +28,7 @@ public abstract class AbstractModelProvider {
     /**
      * Returns the currently active model of the application. The model can be a fixed backend, but also the model of an
      * editor. This behavior is determined by the ModelProvider.
-     * 
+     *
      * @return
      */
     public Object getModel() {
@@ -37,7 +37,7 @@ public abstract class AbstractModelProvider {
 
     /**
      * Sets the currently active model. Subclasses should call this method to propagate this information
-     * 
+     *
      * @param model
      */
     protected void setModel(Object model) {
@@ -48,7 +48,7 @@ public abstract class AbstractModelProvider {
     /**
      * Returns the transaction stack of the currently active model. Use this Stack to execute undoable transactions on
      * the model
-     * 
+     *
      * @return
      */
     public ModelTransactionStack getTransactionStack() {
@@ -57,7 +57,7 @@ public abstract class AbstractModelProvider {
 
     /**
      * Sets the currently active transaction stack. Subclasses should call this method to propagate this information
-     * 
+     *
      * @param stack
      */
     protected void setTransactionStack(ModelTransactionStack stack) {
@@ -67,7 +67,7 @@ public abstract class AbstractModelProvider {
 
     /**
      * Subscribes to changes OF the currently active model
-     * 
+     *
      * @param obs
      * @return
      */
@@ -77,7 +77,7 @@ public abstract class AbstractModelProvider {
 
     /**
      * Subscribe to changes OF the currently active transaction stack
-     * 
+     *
      * @param obs
      */
     public Disposable subscribeTransactionStack(Consumer<Optional<ModelTransactionStack>> obs) {

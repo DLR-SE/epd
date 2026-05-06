@@ -17,7 +17,8 @@ public class OpenSeaMapPlugin extends AbstractUIPlugin {
 
 		mvEP.layer("OpenSeaMapLayer", OpenSeaMapLayer.class)
 				.label("OpenSeaMap")
-				.icon("icons/unlicensed/openseamap-logo-32.png");
+				.icon("icons/unlicensed/openseamap-logo-32.png")
+				.zOrder(1);
 	}
 
 }

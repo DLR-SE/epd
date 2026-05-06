@@ -2,8 +2,6 @@ package de.emir.tuml.ucore.runtime.impl;
 
 import java.beans.PropertyDescriptor;
 import java.util.List;
-import de.emir.tuml.ucore.runtime.IStructuralElement;
-import de.emir.tuml.ucore.runtime.Notification;
 
 import com.google.common.reflect.Invokable;
 
@@ -17,7 +15,6 @@ import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.tuml.ucore.runtime.UPackage;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
 import de.emir.tuml.ucore.runtime.UType;
-import de.emir.tuml.ucore.runtime.impl.UTypedElementImpl;
 import de.emir.tuml.ucore.runtime.access.IFeatureGetter;
 import de.emir.tuml.ucore.runtime.access.IFeatureSetter;
 import de.emir.tuml.ucore.runtime.access.impl.ReflectiveFeatureGetter;

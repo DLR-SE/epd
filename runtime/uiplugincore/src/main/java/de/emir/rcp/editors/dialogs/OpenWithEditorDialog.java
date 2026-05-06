@@ -34,9 +34,8 @@ import de.emir.rcp.manager.util.PlatformUtil;
 
 /**
  * A classic "Open With..." dialog
- * 
- * @author fklein
  *
+ * @author fklein
  */
 public class OpenWithEditorDialog extends JDialog {
 
@@ -69,8 +68,8 @@ public class OpenWithEditorDialog extends JDialog {
         }
         headText = "<html>" + headText + "</html>";
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.rowWeights = new double[] { 0.0, 1.0, 0.0, 0.0 };
-        gridBagLayout.columnWeights = new double[] { 1.0 };
+        gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0};
+        gridBagLayout.columnWeights = new double[]{1.0};
 
         // gridBagLayout.columnWeights = new double[] { 1.0 };
         // gridBagLayout.rowWeights = new double[] { 0.2, 0.8, 0.0 };
@@ -231,7 +230,7 @@ public class OpenWithEditorDialog extends JDialog {
     }
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -6566622285770162507L;
     private JPanel panel;

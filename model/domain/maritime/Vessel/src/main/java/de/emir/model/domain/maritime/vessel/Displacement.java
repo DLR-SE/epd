@@ -74,7 +74,7 @@ public interface Displacement extends UObject
 	public Volume getCargoDeadweigthTons();
 	
 	/**
-	 returns the dead weight mass, in relation to seawater (1025 kg/m^3)
+	 returns the dead weight mass, in relation to sea water (1025 kg/m^3)
 	 * @param seawaterFactor scales the mass to get the displaced weight in fresh water use 1000 [kg/m^3] / 1025 [kg/m^3]
 	 * @return the mass of the displaced water
 	 * @generated 

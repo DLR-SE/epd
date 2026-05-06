@@ -11,12 +11,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import de.emir.tuml.ucore.runtime.logging.ULog;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Parent;
@@ -264,14 +263,10 @@ public class ExportProductJob implements IJob {
 
                     }
                 } catch (Exception e) {
-
-                    e.printStackTrace();
+                    ULog.error(e);
                 }
-
             });
-
         }
-
     }
 
     private String copyEntryPointPom() {
@@ -340,7 +335,7 @@ public class ExportProductJob implements IJob {
             try {
                 Files.createDirectories(targetRepo);
             } catch (IOException e) {
-                e.printStackTrace();
+                ULog.error(e);
             }
 
             // boolean offline = data.isResolveLocally();
@@ -373,7 +368,7 @@ public class ExportProductJob implements IJob {
             try {
                 Files.createDirectories(targetRepo);
             } catch (IOException e) {
-                e.printStackTrace();
+                ULog.error(e);
             }
 
             boolean online = true;
@@ -434,16 +429,14 @@ public class ExportProductJob implements IJob {
                                 .filter(path -> !Files.isDirectory(path))
                                 .filter(path -> path.getFileName().toString().startsWith("maven-metadata"))
                                 .filter(path -> path.getFileName().toString().endsWith(".xml"))
-                                .collect(Collectors.toList());
+                                .toList();
                         for(Path path : files) {
                             copyFile(path, sourceRepo, targetRepo);
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        ULog.error(e);
                     }
                 }
-
-
 
                 for (URL url : descURLs) {
                     File f = new File(url.toURI());
@@ -470,9 +463,8 @@ public class ExportProductJob implements IJob {
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
+                ULog.error(e);
             }
-
         }
     }
 
@@ -488,12 +480,11 @@ public class ExportProductJob implements IJob {
 
         try {
             Files.createDirectories(targetFolder);
-//            System.out.println("copy " + filePath.toString() + " " + targetFullPath.toString());
             Files.copy(filePath, targetFullPath);
-        } catch (FileAlreadyExistsException e) {
+        } catch (FileAlreadyExistsException ignored) {
 
         } catch (IOException e) {
-            e.printStackTrace();
+            ULog.error(e);
         }
 
     }
@@ -506,16 +497,9 @@ public class ExportProductJob implements IJob {
 
         String pom = artifactID + "-" + version + ".pom";
 
-        String[] folders = groupID.split("\\.");
+        String folderPart = groupID.replaceAll("\\.", File.separator);
 
-        String folderPart = "";
-
-        for (String f : folders) {
-            folderPart += f + File.separator;
-        }
-
-        Path parentPomPath = sourceRepo
-                .resolve(folderPart + artifactID + File.separator + version + File.separator + pom);
+        Path parentPomPath = sourceRepo.resolve(folderPart + File.separator + artifactID + File.separator + version + File.separator + pom);
 
         if (parentPomPath.toFile().exists() == false) {
             return;
@@ -525,9 +509,12 @@ public class ExportProductJob implements IJob {
 
         Model parentModel = mu.readModel(parentPomPath.toFile());
 
+        if (parentModel == null){
+            return;
+        }
+
         Parent parentParent = parentModel.getParent();
         if (parentParent != null) {
-
             copyParentsToOutputRepo(parentParent, mu, sourceRepo, targetRepo);
         }
 
@@ -540,12 +527,9 @@ public class ExportProductJob implements IJob {
         String entryPointFileName = entryPointFile.getName();
 
         try {
-
             FileUtils.copyFile(entryPointFile, targetRoot.toPath().resolve(entryPointFileName).toFile());
-
         } catch (IOException e) {
             return "Can't copy entry point jar\n " + e.getMessage();
-
         }
 
         return null;
@@ -555,7 +539,6 @@ public class ExportProductJob implements IJob {
     private String createOrClearOutputFolder() {
 
         if (targetRoot.exists() == true) {
-
             try {
                 FileUtils.deleteDirectory(targetRoot);
             } catch (IOException e) {

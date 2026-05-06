@@ -33,20 +33,20 @@ public interface ICoordinateDelegationInterface extends IDelegateInterface{
 	int dimension(Coordinate self);
 	/**
 	 
-	 * returns the longitude (WGS84) of this coordinate.
+	 * Returns the longitude (WGS84) of this coordinate.
 	 * depending on the current crs, this includes a coordinate transformation 
 	 * @generated 
 	 */
 	double getLatitude(Coordinate self);
 	/**
 	 
-	 * returns the longitude (WGS84) of this coordinate.
+	 * Returns the longitude (WGS84) of this coordinate.
 	 * depending on the current crs, this includes a coordinate transformation 
 	 * @generated 
 	 */
 	double getLongitude(Coordinate self);
 	/**
-	 returns a copy of this coordinate, that has been transformed into the given crs. 
+	 Returns a copy of this coordinate, that has been transformed into the given crs.
 	 * if parameter crs is the same as the member crs, a copy is returned. 
 	 * \note if the member crs is set to null, the coordinate is assumed to be defined as WGS84 coordinate 
 	 * @generated 
@@ -79,12 +79,12 @@ public interface ICoordinateDelegationInterface extends IDelegateInterface{
 	 */
 	Vector toVector(Coordinate self);
 	/**
-	 returns a 2D vector, skips the z value, if not NaN 
+	 Returns a 2D vector, skips the z value, if not NaN 
 	 * @generated 
 	 */
 	Vector2D toVector2D(Coordinate self);
 	/**
-	 returns a 3D vector, fills the z value with 0 if dimension() == 2 
+	 Returns a 3D vector, fills the z value with 0 if dimension() == 2 
 	 * @generated 
 	 */
 	Vector3D toVector3D(Coordinate self);

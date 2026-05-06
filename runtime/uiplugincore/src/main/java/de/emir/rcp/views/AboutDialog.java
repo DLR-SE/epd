@@ -45,7 +45,7 @@ public class AboutDialog extends JDialog {
     protected void init() {
         setTitle("Help");
         ImageIcon logo = getDLRLogo();
-        if (logo != null){
+        if (logo != null) {
             setIconImage(logo.getImage());
         }
         setAlwaysOnTop(true);
@@ -53,7 +53,7 @@ public class AboutDialog extends JDialog {
         setSize(new Dimension(450, 290));
         setResizable(false);
         getContentPane().setLayout(new BorderLayout());
-        
+
         JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(8, 8, 8, 8));
 
@@ -62,8 +62,8 @@ public class AboutDialog extends JDialog {
         gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
         gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-        panel.setLayout(gridBagLayout);   
-        
+        panel.setLayout(gridBagLayout);
+
         getContentPane().add(panel, BorderLayout.CENTER);
 
         JLabel lblNewLabel = new JLabel(getContent());
@@ -82,11 +82,11 @@ public class AboutDialog extends JDialog {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 try {
-        			ExternalBrowserCommand browseDLRCmd = new ExternalBrowserCommand(new URI(URL_DLR));
-        			browseDLRCmd.execute();
-        		} catch (URISyntaxException e) {
-        			LOG.error("Not a valid URI.", e);
-        		}
+                    ExternalBrowserCommand browseDLRCmd = new ExternalBrowserCommand(new URI(URL_DLR));
+                    browseDLRCmd.execute();
+                } catch (URISyntaxException e) {
+                    LOG.error("Not a valid URI.", e);
+                }
             }
         });
         GridBagConstraints gbc_lblDlr = new GridBagConstraints();
@@ -103,11 +103,11 @@ public class AboutDialog extends JDialog {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 try {
-        			ExternalBrowserCommand browseDLRCmd = new ExternalBrowserCommand(new URI(URL_EMARITIME));
-        			browseDLRCmd.execute();
-        		} catch (URISyntaxException e) {
-        			LOG.error("Not a valid URI.", e);
-        		}
+                    ExternalBrowserCommand browseDLRCmd = new ExternalBrowserCommand(new URI(URL_EMARITIME));
+                    browseDLRCmd.execute();
+                } catch (URISyntaxException e) {
+                    LOG.error("Not a valid URI.", e);
+                }
             }
         });
         GridBagConstraints gbc_lblDlr_1 = new GridBagConstraints();
@@ -124,11 +124,11 @@ public class AboutDialog extends JDialog {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 try {
-        			ExternalBrowserCommand browseDLRCmd = new ExternalBrowserCommand(new URI(URL_DIGITAL_INCUBATOR));
-        			browseDLRCmd.execute();
-        		} catch (URISyntaxException e) {
-        			LOG.error("Not a valid URI.", e);
-        		}
+                    ExternalBrowserCommand browseDLRCmd = new ExternalBrowserCommand(new URI(URL_DIGITAL_INCUBATOR));
+                    browseDLRCmd.execute();
+                } catch (URISyntaxException e) {
+                    LOG.error("Not a valid URI.", e);
+                }
             }
         });
         GridBagConstraints gbc_lblDlr_1_1 = new GridBagConstraints();
@@ -152,36 +152,36 @@ public class AboutDialog extends JDialog {
         gbc_lblLogo_1.gridx = 2;
         gbc_lblLogo_1.gridy = 7;
         panel.add(lblLogo_1, gbc_lblLogo_1);
-        
+
         JButton btnNewButton = new JButton("License");
         btnNewButton.addMouseListener(new MouseAdapter() {
-        	@Override
-        	public void mouseClicked(MouseEvent e) {
-        		LicenseDialog lic = new LicenseDialog();
-        		lic.setVisible(true);
-        	}
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                LicenseDialog lic = new LicenseDialog();
+                lic.setVisible(true);
+            }
         });
-        
+
         JButton btnExtensions = new JButton("Extensions");
         btnExtensions.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		StringBuilder sb = new StringBuilder();
-        		for (Object o : UCoreExtensionManager.getExtensions(Object.class)) {
-        			String entry = o.getClass().getName();
-        			if (o instanceof ClasspathEntry cpe && cpe.getPluginClass() != null) {
-        				entry = cpe.getCoordinate() + " - " + cpe.getPluginClass();
-        			} else if (o instanceof ClasspathEntry cpe && cpe.getPluginClass() == null) {
-        				continue;
-        			}
-        			LOG.info(" " + entry);
-        			sb.append(entry).append("\n");
-        		}
-        		final JTextArea textArea = new JTextArea(20, 80);
-        	    textArea.setText(sb.toString());
-        	    textArea.setEditable(false);
-        	    final JScrollPane scrollPane = new JScrollPane(textArea);
-        		JOptionPane.showMessageDialog(panel, scrollPane, "Loaded Extensions", JOptionPane.PLAIN_MESSAGE);
-        	}
+            public void actionPerformed(ActionEvent e) {
+                StringBuilder sb = new StringBuilder();
+                for (Object o : UCoreExtensionManager.getExtensions(Object.class)) {
+                    String entry = o.getClass().getName();
+                    if (o instanceof ClasspathEntry cpe && cpe.getPluginClass() != null) {
+                        entry = cpe.getCoordinate() + " - " + cpe.getPluginClass();
+                    } else if (o instanceof ClasspathEntry cpe && cpe.getPluginClass() == null) {
+                        continue;
+                    }
+                    LOG.info(" " + entry);
+                    sb.append(entry).append("\n");
+                }
+                final JTextArea textArea = new JTextArea(20, 80);
+                textArea.setText(sb.toString());
+                textArea.setEditable(false);
+                final JScrollPane scrollPane = new JScrollPane(textArea);
+                JOptionPane.showMessageDialog(panel, scrollPane, "Loaded Extensions", JOptionPane.PLAIN_MESSAGE);
+            }
         });
         GridBagConstraints gbc_btnExtensions = new GridBagConstraints();
         gbc_btnExtensions.anchor = GridBagConstraints.SOUTHEAST;
@@ -198,7 +198,7 @@ public class AboutDialog extends JDialog {
         setLocationRelativeTo(PlatformUtil.getWindowManager().getMainWindow());
     }
 
-    protected String asURLReference(String url){
+    protected String asURLReference(String url) {
         return "<html><a href='" +
                 url +
                 "'>" +

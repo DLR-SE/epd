@@ -20,8 +20,8 @@ import de.emir.tuml.ucore.runtime.impl.UObjectImpl;
 public class InputStreamImpl extends UObjectImpl implements IInputStream  
 {
 	
-	private BufferedInputStream mBuffer;
-	private ByteArrayInputStream mArrayInputStream;
+	private final BufferedInputStream mBuffer;
+	private final ByteArrayInputStream mArrayInputStream;
 			
 	/**
 	 *	Default constructor
@@ -29,7 +29,8 @@ public class InputStreamImpl extends UObjectImpl implements IInputStream
 	 */
 	public InputStreamImpl(){
 		super();
-		mBuffer = new BufferedInputStream(mArrayInputStream = new ByteArrayInputStream(new byte[]{}));
+        mArrayInputStream = new ByteArrayInputStream(new byte[]{});
+		mBuffer = new BufferedInputStream(mArrayInputStream);
 	}
 	
 	/**
@@ -37,21 +38,25 @@ public class InputStreamImpl extends UObjectImpl implements IInputStream
 	 *	@generated not
 	 */
 	public InputStreamImpl(final IInputStream _copy) {
-		throw new UnsupportedOperationException("Not yet implemented");
+        throw new UnsupportedOperationException("Not yet implemented");
 //		mBuffer = new ByteArrayInputStream(_copy.getByteBuffer().array());
 	}
 	
 	
 	public InputStreamImpl(final InputStream in){
+        // unused but needs to be initialized!
+        mArrayInputStream = new ByteArrayInputStream(new byte[]{});
 		mBuffer = new BufferedInputStream(in);
 	}
 	
 	public InputStreamImpl(byte[] data) {
-		mBuffer = new BufferedInputStream(mArrayInputStream = new ByteArrayInputStream(data));
+        mArrayInputStream = new ByteArrayInputStream(data);
+		mBuffer = new BufferedInputStream(mArrayInputStream);
 	}
 
 	public InputStreamImpl(byte[] receiveData, int length) {
-		mBuffer = new BufferedInputStream(mArrayInputStream = new ByteArrayInputStream(receiveData, 0, length), length);
+        mArrayInputStream = new ByteArrayInputStream(receiveData, 0, length);
+        mBuffer = new BufferedInputStream(mArrayInputStream, length);
 	}
 
 	/**

@@ -6,9 +6,8 @@ import de.emir.rcp.model.AbstractModelTransaction;
 /**
  * An abstract editor transaction with undo/redo functionality. This is not the same as an abstract command. Editor
  * commands have to be executed by the commandstack of an editor.
- * 
- * @author fklein
  *
+ * @author fklein
  */
 public abstract class AbstractEditorTransaction extends AbstractModelTransaction {
 

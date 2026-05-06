@@ -57,7 +57,7 @@ public class RadioGroup<T> extends MenuEntry implements IRadioGroup<T> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.emir.rcp.menu.ep.IMenuItem#before(java.lang.String)
      */
     @Override

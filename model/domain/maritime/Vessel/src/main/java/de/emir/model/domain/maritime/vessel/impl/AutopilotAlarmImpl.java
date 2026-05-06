@@ -69,7 +69,7 @@ public class AutopilotAlarmImpl extends UObjectImpl implements AutopilotAlarm
 		if (needNotification(VesselPackage.Literals.AutopilotAlarm_message)){
 			String _oldValue = mMessage;
 			mMessage = _message;
-			notify(_oldValue, mMessage, VesselPackage.Literals.AutopilotAlarm_message, NotificationType.SET);
+			notify(_oldValue, _message, VesselPackage.Literals.AutopilotAlarm_message, NotificationType.SET);
 		}else{
 			mMessage = _message;
 		}

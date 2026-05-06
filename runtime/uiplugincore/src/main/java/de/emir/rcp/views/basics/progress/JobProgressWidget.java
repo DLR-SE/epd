@@ -42,16 +42,16 @@ public class JobProgressWidget extends JPanel implements IProgressMonitor {
 
         GridBagLayout gbl_panel = new GridBagLayout();
 
-        gbl_panel.columnWeights = new double[] { 1.0 };
-        gbl_panel.rowWeights = new double[] { 0.0, 0.0 };
+        gbl_panel.columnWeights = new double[]{1.0};
+        gbl_panel.rowWeights = new double[]{0.0, 0.0};
         setLayout(gbl_panel);
 
         JPanel content = new JPanel();
 
         GridBagLayout gbl_content = new GridBagLayout();
 
-        gbl_content.columnWeights = new double[] { 1.0, 0.0 };
-        gbl_content.rowWeights = new double[] { 0.0, 0.0, 0.0 };
+        gbl_content.columnWeights = new double[]{1.0, 0.0};
+        gbl_content.rowWeights = new double[]{0.0, 0.0, 0.0};
         content.setLayout(gbl_content);
 
         GridBagConstraints gbc_content = new GridBagConstraints();
@@ -110,10 +110,10 @@ public class JobProgressWidget extends JPanel implements IProgressMonitor {
         gbc_panel2.gridy = 1;
         add(panel, gbc_panel2);
         GridBagLayout gbl_panel2 = new GridBagLayout();
-        gbl_panel2.columnWidths = new int[] { 0 };
-        gbl_panel2.rowHeights = new int[] { 0 };
-        gbl_panel2.columnWeights = new double[] { Double.MIN_VALUE };
-        gbl_panel2.rowWeights = new double[] { Double.MIN_VALUE };
+        gbl_panel2.columnWidths = new int[]{0};
+        gbl_panel2.rowHeights = new int[]{0};
+        gbl_panel2.columnWeights = new double[]{Double.MIN_VALUE};
+        gbl_panel2.rowWeights = new double[]{Double.MIN_VALUE};
         panel.setLayout(gbl_panel2);
 
         btnCancelbutton.addActionListener(evt -> jobData.requestCancel());

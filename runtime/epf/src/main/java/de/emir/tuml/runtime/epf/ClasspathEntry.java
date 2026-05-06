@@ -92,8 +92,8 @@ public class ClasspathEntry<VERSION extends Comparable<VERSION>> implements Clas
                 ClasspathEntry depEntry = mPluginManager.getEntry(coord.getCoordinate());
                 if (depEntry == null) {// do not throw an exception we may still be able to continue, but indicate a
                                        // serious issue through an error
-                    ULog.error("Could not resolve all classpath dependencies for" + mDescriptor.getCoordinate()
-                            + ", missing: " + coord);
+                    ULog.error("Could not resolve all classpath dependencies for {}, missing: {}",
+                    		mDescriptor.getCoordinate(), coord);
                 } else {
                     deps.add(depEntry);
                     if (depEntry.isPlugin())
@@ -147,7 +147,7 @@ public class ClasspathEntry<VERSION extends Comparable<VERSION>> implements Clas
                 mClassPath = ClassPath.from(getClassLoader());
             } catch (IOException e) {
                 e.printStackTrace();
-                ULog.error("Failed to create Classpath for: " + this + " Exception: " + e.getMessage());
+                ULog.error("Failed to create Classpath for: {} Exception: {}", this, e.getMessage());
             }
         }
         return mClassPath;

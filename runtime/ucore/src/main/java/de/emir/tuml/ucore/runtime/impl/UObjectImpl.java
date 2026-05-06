@@ -889,6 +889,7 @@ abstract public class UObjectImpl implements UObject {
                         ((FeatureDisposable)l).listener.onValueChange(notification);
                     } catch (Exception e) {
                         e.printStackTrace();
+                        ULog.error(e);
                     }
                 }
             }
@@ -901,7 +902,7 @@ abstract public class UObjectImpl implements UObject {
                 try {
                     ((ClassifierDisposable)l).listener.onValueChange(notification);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    ULog.error(e);
                 }
             }
         }

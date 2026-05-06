@@ -8,21 +8,23 @@ import de.emir.tuml.ucore.runtime.utils.TypeUtils;
 import org.apache.logging.log4j.Logger;
 
 public class ExtensionPointManager {
-    private static Map<String, IExtensionPoint> extensionPoints = new HashMap<String, IExtensionPoint>();
-    private static Map<Class<? extends IExtensionPoint>, IExtensionPoint> extensionPointsByClass = new HashMap<Class<? extends IExtensionPoint>, IExtensionPoint>();
-    private static Logger log = ULog.getLogger(ExtensionPointManager.class.getName());
+
+    private static final Logger LOG = ULog.getLogger(ExtensionPointManager.class.getName());
+
+    private static final Map<String, IExtensionPoint> extensionPoints = new HashMap<String, IExtensionPoint>();
+    private static final Map<Class<? extends IExtensionPoint>, IExtensionPoint> extensionPointsByClass = new HashMap<Class<? extends IExtensionPoint>, IExtensionPoint>();
 
     public static void registerExtensionPoint(String id, IExtensionPoint ep) {
+        assert LOG != null;
 
-        if (extensionPoints.containsKey(id) == true) {
-
-            log.error("Extension Point with id [" + id + "] already exists.");
+        if (extensionPoints.containsKey(id)) {
+            LOG.error("Extension Point with id [{}] already exists.", id);
             return;
-
         }
+
         extensionPointsByClass.put(ep.getClass(), ep);
         extensionPoints.put(id, ep);
-        log.debug("Extension Point with ID [" + id + "] registered.");
+        LOG.debug("Extension Point with ID [{}] registered.", id);
     }
 
     public static IExtensionPoint getExtensionPoint(String id) {
@@ -36,7 +38,7 @@ public class ExtensionPointManager {
         if (res != null)
             return res;
         // if we could not find the instance directly, we check if one of our instances inherits from this type
-        // the first positive check will be assiciated (and remembered)
+        // the first positive check will be associated (and remembered)
         for (Class<?> c : extensionPointsByClass.keySet()) {
             if (TypeUtils.inherits(c, extClass)) {
                 extensionPointsByClass.put(extClass, extensionPointsByClass.get(c));

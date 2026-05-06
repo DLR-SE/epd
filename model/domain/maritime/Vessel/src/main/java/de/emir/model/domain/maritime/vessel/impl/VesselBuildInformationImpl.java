@@ -79,7 +79,7 @@ public class VesselBuildInformationImpl extends VesselCharacteristicImpl impleme
 		if (needNotification(VesselPackage.Literals.VesselBuildInformation_hullNumber)){
 			String _oldValue = mHullNumber;
 			mHullNumber = _hullNumber;
-			notify(_oldValue, mHullNumber, VesselPackage.Literals.VesselBuildInformation_hullNumber, NotificationType.SET);
+			notify(_oldValue, _hullNumber, VesselPackage.Literals.VesselBuildInformation_hullNumber, NotificationType.SET);
 		}else{
 			mHullNumber = _hullNumber;
 		}

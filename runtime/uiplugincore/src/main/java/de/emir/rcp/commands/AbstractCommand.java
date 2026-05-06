@@ -6,8 +6,7 @@ import java.util.Observable;
  * Commands are used to execute logic initiated by the user. By encapsulating this logic, it is possible to link both
  * menu entries and key bindings to the same execution. However, a command can also be executed programmatically. See
  * CommandManager.executeCommand(...)
- * 
- * 
+ *
  * @author fklein
  */
 public abstract class AbstractCommand extends Observable {
@@ -54,7 +53,7 @@ public abstract class AbstractCommand extends Observable {
     }
 
     /**
-     * 
+     *
      */
     public abstract void execute();
 

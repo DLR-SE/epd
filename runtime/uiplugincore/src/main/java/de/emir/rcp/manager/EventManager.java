@@ -11,7 +11,6 @@ import de.emir.tuml.ucore.runtime.logging.ULog;
 
 /**
  * @author fklein
- *
  */
 public class EventManager {
 

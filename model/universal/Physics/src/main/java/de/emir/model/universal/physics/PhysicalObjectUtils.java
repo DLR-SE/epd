@@ -52,26 +52,35 @@ public class PhysicalObjectUtils {
 	}
 	
 	public static Angle getCOG(PhysicalObject pobj){
-		try{
-			if (pobj == null) return null;
-			DynamicObjectCharacteristic doc = (pobj.getFirstCharacteristic(DynamicObjectCharacteristic.class, true));
-			if (doc == null || doc.getLinearVelocity() == null || doc.getLinearVelocity().getValue() == null) 
+		try {
+			if (pobj == null) {
 				return null;
+			}
+
+			DynamicObjectCharacteristic doc = (pobj.getFirstCharacteristic(DynamicObjectCharacteristic.class, true));
+
+			if (doc == null || doc.getLinearVelocity() == null || doc.getLinearVelocity().getValue() == null) {
+				return null;
+			}
+
 			CoordinateReferenceSystem crs = doc.getLinearVelocity().getCrs();
-			if (crs == null)
+			if (crs == null) {
 				crs = doc.getLinearVelocity().getValue().dimensions() == 2 ? CRSUtils.ENGINEERING_2D : CRSUtils.ENGINEERING_3D;
-			double angle_rad = 0;
+			}
+
+			double angle_rad;
+
 			if (doc.getLinearVelocity().getValue().dimensions() == 2){
 				Engineering2D eng = new Engineering2DImpl();
 				eng.setOrigin(pobj.getPose().getCoordinate().get(CRSUtils.WGS84_2D).toVector());
 				Vector2D v = (Vector2D)doc.getLinearVelocity().get(eng).getValue(); //we are just interested in the direction
-				angle_rad = crs.directionToBearing(v.getX(), v.getY(), Double.NaN).get(0);
-			}else{
+				angle_rad = crs.directionToBearing(v.getX(), v.getY(), Double.NaN).getFirst();
+			} else {
 				Vector3D v = (Vector3D)doc.getLinearVelocity().get(CRSUtils.ENGINEERING_3D).getValue(); //we are just interested in the direction
-				angle_rad = crs.directionToBearing(v.getX(), v.getY(), v.getZ()).get(0);
+				angle_rad = crs.directionToBearing(v.getX(), v.getY(), v.getZ()).getFirst();
 			}
 			return new AngleImpl(angle_rad, AngleUnit.RADIAN).normalize();
-		}catch(Exception e){
+		} catch(Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -206,17 +215,32 @@ public class PhysicalObjectUtils {
 	 * @param angle
 	 */
 	public static void changeOrientationZ(Pose pose, Angle angle) {
-		if (pose == null) return ;
-		if (pose.getOrientation() == null) 
+		// Check how to insert the new orientation into the poses' orientation, since we have multiple implementations.
+		// Note that "setOrientation" is not the best option since it would invalidate listeners and creates a
+		// high cpu overhead. Instead, we only modify what truly needs to be changed.
+		if (pose == null) {
+			return;
+		}
+
+		final Orientation orientation = pose.getOrientation();
+
+		if (orientation == null) {
 			pose.setOrientation(new EulerImpl(null, null, angle));
-		else {
-			Euler e = pose.getOrientation().toEuler();
+		} else {
+			Euler e = orientation.toEuler();
 			if (e.getZ() == null) 
 				e.setZ(angle);
 			else
 				e.getZ().set(angle);
-			if (pose.getOrientation() != e) //in this case the orientation is an quaternion, otherwhise the value has been set with the previous command
-				((Quaternion)pose.getOrientation()).set(e.toQuaternion());
+			if (orientation instanceof Quaternion) {
+				//in this case the orientation is a quaternion, otherwise the value has been set with the
+				// previous command
+				((Quaternion)orientation).set(e.toQuaternion());
+			} else if (!(orientation instanceof Euler || orientation instanceof Quaternion)){
+				// override the orientation since we do not know the orientation implementation type, otherwise
+				// we cannot set the value
+				pose.setOrientation(new EulerImpl(null, null, angle));
+			}
 		}
 	}
 
@@ -330,12 +354,15 @@ public class PhysicalObjectUtils {
 	 */
 	public static Distance getDistanceAtClosedPointOfApproach(Coordinate pos1, Coordinate pos2, Velocity vel1, Velocity vel2) {
 		Time tcpa = getTimeToClosedPointOfApproach(pos1, pos2, vel1, vel2);
-		//calculate both pcpa's (position at closed point of approach)
-		CoordinateReferenceSystem crs = new Engineering2DImpl(pos1.get(CRSUtils.WGS84_2D).toVector());//calculate in local space - local for l1
-		CoordinateImpl pcpa1 = new CoordinateImpl(pos1.get(crs).toVector2D().add(((Vector2D) vel1.get(crs).getAs(SpeedUnit.METER_PER_SECOND)).mult(tcpa.getAs(TimeUnit.SECOND))), crs);
-		CoordinateImpl pcpa2 = new CoordinateImpl(pos2.get(crs).toVector2D().add(((Vector2D) vel2.get(crs).getAs(SpeedUnit.METER_PER_SECOND)).mult(tcpa.getAs(TimeUnit.SECOND))), crs);
-		
-		return pcpa1.getDistance(pcpa2);
+		if(tcpa != null) {
+			//calculate both pcpa's (position at closed point of approach)
+			CoordinateReferenceSystem crs = new Engineering2DImpl(pos1.get(CRSUtils.WGS84_2D).toVector());//calculate in local space - local for l1
+			CoordinateImpl pcpa1 = new CoordinateImpl(pos1.get(crs).toVector2D().add(((Vector2D) vel1.get(crs).getAs(SpeedUnit.METER_PER_SECOND)).mult(tcpa.getAs(TimeUnit.SECOND))), crs);
+			CoordinateImpl pcpa2 = new CoordinateImpl(pos2.get(crs).toVector2D().add(((Vector2D) vel2.get(crs).getAs(SpeedUnit.METER_PER_SECOND)).mult(tcpa.getAs(TimeUnit.SECOND))), crs);
+
+			return pcpa1.getDistance(pcpa2);
+		}
+		return null;
 	}
 	
 	public static Distance getDistanceAtClosedPointOfApproach(Coordinate pos1, Angle course1, Speed speed1, Coordinate pos2, Angle course2, Speed speed2) {
@@ -344,6 +371,25 @@ public class PhysicalObjectUtils {
 		Vector2D v1 = north.rotateCW(course1.getAs(AngleUnit.RADIAN)).mult(speed1.getAs(SpeedUnit.METER_PER_SECOND));
 		Vector2D v2 = north.rotateCW(course2.getAs(AngleUnit.RADIAN)).mult(speed2.getAs(SpeedUnit.METER_PER_SECOND));
 		return getDistanceAtClosedPointOfApproach(pos1, pos2, new VelocityImpl(v1, SpeedUnit.METER_PER_SECOND, crs), new VelocityImpl(v2, SpeedUnit.METER_PER_SECOND, crs));
+	}
+
+	public static Angle getAbsoluteBearing(Coordinate pos1, Coordinate pos2) {
+		if(pos1 != null && pos2 != null) {
+			double phi1 = Math.toRadians(pos1.getLatitude());
+			double phi2 = Math.toRadians(pos2.getLatitude());
+			double deltaLambda = Math.toRadians(pos2.getLongitude() - pos1.getLongitude());
+			// Bearing computation.
+			double y = Math.sin(deltaLambda) * Math.cos(phi2);
+			double x = Math.cos(phi1) * Math.sin(phi2)
+					- Math.sin(phi1) * Math.cos(phi2) * Math.cos(deltaLambda);
+			double theta = Math.atan2(y, x);
+			double bearing = Math.toDegrees(theta);
+			// Normalization.
+			bearing = (bearing + 360) % 360;
+			return new AngleImpl(bearing, AngleUnit.DEGREE);
+		} else {
+			return null;
+		}
 	}
 
 	/**

@@ -11,14 +11,14 @@ public interface IWizardContainer {
 
     /**
      * Returns the current Wizard instance.
-     * 
+     *
      * @return
      */
     public AbstractWizard getWizard();
 
     /**
      * Returns the page container.
-     * 
+     *
      * @return
      */
     public Container getWizardPageContainer();
@@ -30,35 +30,35 @@ public interface IWizardContainer {
 
     /**
      * Changes the state of the cancel button.
-     * 
+     *
      * @param b
      */
     public void setCancelAvailable(boolean b);
 
     /**
      * Changes the state of the finish button.
-     * 
+     *
      * @param b
      */
     public void setFinishAvailable(boolean b);
 
     /**
      * Changes the state of the next button.
-     * 
+     *
      * @param b
      */
     public void setNextAvailable(boolean b);
 
     /**
      * Changes the state of the previous button.
-     * 
+     *
      * @param b
      */
     public void setPreviousAvailable(boolean b);
 
     /**
      * Sets the current Wizard instance.
-     * 
+     *
      * @param wizard
      */
     public void setWizard(AbstractWizard wizard);

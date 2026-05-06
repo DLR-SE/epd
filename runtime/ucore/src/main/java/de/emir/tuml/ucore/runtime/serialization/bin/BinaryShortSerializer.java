@@ -476,7 +476,7 @@ public class BinaryShortSerializer extends AbstractSerializer {
                     try {
                         f.set(newInstance, v);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        ULog.error(e);
                     }
                 else
                     ULog.error("read property returned an invalid instance");

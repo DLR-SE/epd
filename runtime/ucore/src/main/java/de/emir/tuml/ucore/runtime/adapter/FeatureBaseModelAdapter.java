@@ -175,7 +175,7 @@ public class FeatureBaseModelAdapter {
 			String[] clf = str.split("\\.");
 			return addObservableFeature(clf[0], clf[1]);
 		} catch (Exception e) {
-			e.printStackTrace();
+            ULog.error(e);
 		}
 		return false;
 	}
@@ -227,7 +227,7 @@ public class FeatureBaseModelAdapter {
 			String[] clf = str.split("\\.");
 			return addIteratableFeature(clf[0], clf[1]);
 		} catch (Exception e) {
-			e.printStackTrace();
+            ULog.error(e);
 		}
 		return false;
 	}
@@ -255,7 +255,7 @@ public class FeatureBaseModelAdapter {
 			String[] clf = str.split("\\.");
 			removeObservableFeature(clf[0], clf[1]);
 		} catch (Exception e) {
-			e.printStackTrace();
+            ULog.error(e);
 		}
 	}
 	public void removeObservableFeature(String classifier, String feature) {

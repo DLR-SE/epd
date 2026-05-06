@@ -8,9 +8,8 @@ import de.emir.rcp.manager.util.PlatformUtil;
 
 /**
  * @author Florian
- * 
- *         An ActionListener executing a command. Can be used to bind a command to a simple UI Component
- *
+ * <p>
+ * An ActionListener executing a command. Can be used to bind a command to a simple UI Component
  */
 public class ExecuteCommandAction implements ActionListener {
 

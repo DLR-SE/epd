@@ -149,10 +149,10 @@ public class JobStatusBarElement extends AbstractStatusBarElement implements IPr
 
         JPanel p = new JPanel();
         GridBagLayout gbl_p = new GridBagLayout();
-        gbl_p.columnWidths = new int[] { 150, 40, 20 };
-        gbl_p.rowHeights = new int[] { 20 };
-        gbl_p.columnWeights = new double[] { 1.0, 0.0, 0.0 };
-        gbl_p.rowWeights = new double[] { 0.0 };
+        gbl_p.columnWidths = new int[]{150, 40, 20};
+        gbl_p.rowHeights = new int[]{20};
+        gbl_p.columnWeights = new double[]{1.0, 0.0, 0.0};
+        gbl_p.rowWeights = new double[]{0.0};
         p.setLayout(gbl_p);
 
         jobLabel = new JLabel(jobLabelMessage);

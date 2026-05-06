@@ -10,30 +10,25 @@ import de.emir.tuml.ucore.runtime.extension.ExtensionPointManager;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Plugin which provides a clock view for the layout. The clock view displays the date and time for
+ * the local (configurable) timezone and UTC.
+ */
 public class SimpleClockPlugin extends AbstractUIPlugin {
-    private static Logger LOG = ULog.getLogger(SimpleClockPlugin.class);
 
-    @Override
-    public void initializePlugin() {
-
-    }
-
-    @Override
-    public void registerExtensionPoints() {
-
-    }
-
+    /**
+     * Configures and registers the clock views and settings pages.
+     */
     @Override
     public void addExtensions() {
         ViewExtensionPoint extensionPoint = ExtensionPointManager.getExtensionPoint(ViewExtensionPoint.class);
-        extensionPoint.view(ClockBasics.CLOCK_VIEW_ID, ClockView.class).label("Clock").icon("/icons/emiricons/32/schedule.png");
+        if(extensionPoint != null) {
+            extensionPoint.view(ClockBasics.CLOCK_VIEW_ID, ClockView.class).label("Clock").icon("/icons/emiricons/32/schedule.png");
+        }
 
         SettingsPageExtensionPoint settingsPageExtensionPoint = ExtensionPointManager.getExtensionPoint(SettingsPageExtensionPoint.class);
-        settingsPageExtensionPoint.page(ClockBasics.CLOCK_VIEW_SETTINGS_PAGE_ID, ClockSettingsPage.class).label("Clock View").icon("/icons/emiricons/32/schedule.png");
-    }
-
-    @Override
-    public void postAddExtensions() {
-    	// TODO: set time
+        if(settingsPageExtensionPoint != null) {
+            settingsPageExtensionPoint.page(ClockBasics.CLOCK_VIEW_SETTINGS_PAGE_ID, ClockSettingsPage.class).label("Clock View").icon("/icons/emiricons/32/schedule.png");
+        }
     }
 }

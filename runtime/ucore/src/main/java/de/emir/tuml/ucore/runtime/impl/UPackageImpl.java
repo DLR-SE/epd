@@ -11,7 +11,6 @@ import de.emir.tuml.ucore.runtime.UClassifier;
 import de.emir.tuml.ucore.runtime.UEnum;
 import de.emir.tuml.ucore.runtime.UInterface;
 import de.emir.tuml.ucore.runtime.UModelElement;
-import de.emir.tuml.ucore.runtime.impl.UNamedElementImpl;
 import de.emir.tuml.ucore.runtime.UPackage;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
 import de.emir.tuml.ucore.runtime.annotations.UMLClass;
@@ -120,7 +119,7 @@ public class UPackageImpl extends UNamedElementImpl implements UPackage {
      */
     @Override
     public UPackage createPackage(final String _name) {
-        // first check if we allready got this package
+        // first check if we already got this package
         UPackage sub = getSubpackage(_name, true);
         if (sub != null)
             return sub;

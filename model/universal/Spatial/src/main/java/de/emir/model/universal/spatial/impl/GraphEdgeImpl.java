@@ -30,7 +30,7 @@ public class GraphEdgeImpl extends UObjectImpl implements GraphEdge
 	 *	@generated 
 	 */
 	private GraphNode mNodeB = null;
-			
+
 	/**
 	 *	Default constructor
 	 *	@generated
@@ -51,7 +51,7 @@ public class GraphEdgeImpl extends UObjectImpl implements GraphEdge
 		mNodeA = _copy.getNodeA();
 		mNodeB = _copy.getNodeB();
 	}
-	
+
 	/**
 	 *	Default attribute constructor
 	 *	@generated
@@ -61,7 +61,7 @@ public class GraphEdgeImpl extends UObjectImpl implements GraphEdge
 		mNodeA = _nodeA; 
 		mNodeB = _nodeB; 
 	}
-	
+
 	/**
 	 * @generated
 	 */
@@ -76,7 +76,7 @@ public class GraphEdgeImpl extends UObjectImpl implements GraphEdge
 		if (needNotification(SpatialPackage.Literals.GraphEdge_id)){
 			long _oldValue = mId;
 			mId = _id;
-			notify(_oldValue, mId, SpatialPackage.Literals.GraphEdge_id, NotificationType.SET);
+			notify(_oldValue, _id, SpatialPackage.Literals.GraphEdge_id, NotificationType.SET);
 		}else{
 			mId = _id;
 		}

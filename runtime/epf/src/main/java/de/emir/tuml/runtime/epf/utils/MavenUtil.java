@@ -13,12 +13,10 @@ import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Parent;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
-import org.codehaus.plexus.util.xml.PrettyPrintXMLWriter;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.collection.CollectRequest;
 import org.eclipse.aether.graph.DependencyFilter;
-import org.eclipse.aether.graph.DependencyNode;
 import org.eclipse.aether.resolution.*;
 import org.eclipse.aether.util.artifact.JavaScopes;
 import org.eclipse.aether.util.filter.DependencyFilterUtils;
@@ -33,7 +31,9 @@ import de.emir.tuml.ucore.runtime.logging.ULog;
 public class MavenUtil {
 
     private CustomMavenAether mTA = new CustomMavenAether(
-            new File(System.getProperty("user.home"), ".m2" + File.separator + "repository"), new String[] {});
+            new File(System.getProperty("user.home"), ".m2" + File.separator + "repository"),
+            new String[] {}
+    );
 
     private static HashMap<String, Model> mCoordinateToModel = new HashMap<>();
     private static HashMap<String, Artifact> mCoordinateToArtifact = new HashMap<>();
@@ -65,14 +65,8 @@ public class MavenUtil {
     }
 
     public static String getCoordinate(Dependency dep) {
-//        if (dep.getVersion() == null) {
-//            System.out.println();
-//        }
-//        if (dep.getVersion().contains("${")) {
-//            System.out.println();
-//        }
-        return dep.getGroupId() + ":" + dep.getArtifactId() + ":" + dep.getVersion(); // for now assume we always have a
-                                                                                      // version and groupID
+        // for now assume we always have a version and groupID
+        return dep.getGroupId() + ":" + dep.getArtifactId() + ":" + dep.getVersion();
     }
 
     public static String getCoordinate(Dependency dep, String backupVersion) {
@@ -97,9 +91,6 @@ public class MavenUtil {
         if (v == null && m.getParent() != null)
             v = m.getParent().getVersion();
         if (v != null) {
-//            if (v.contains("${")) {
-//                System.out.println();
-//            }
             return v;
         }
 
@@ -144,16 +135,21 @@ public class MavenUtil {
     }
 
     public Model resolveModel(URL url) {
-        File file = null;
         try {
-            file = new File(url.toURI());
+            File file = new File(url.toURI());
+
+            if (file.getName().endsWith(".jar")){
+                file = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().length() - 4) + ".pom");
+            }
+
+            if (file.exists()) {
+                return resolveModel(file);
+            } else {
+                return readModel(url);
+            }
         } catch (Exception e) {
+            return null;
         }
-        if (file.getName().endsWith(".jar"))
-            file = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().length() - 4) + ".pom");
-        if (file != null && file.exists())
-            return resolveModel(file);
-        return readModel(url);
     }
 
     public Model resolveModel(InputStream inputStream) throws IOException, XmlPullParserException {
@@ -165,15 +161,15 @@ public class MavenUtil {
         if (pomFile == null || pomFile.exists() == false || pomFile.isFile() == false)
             return null;
         try {
-            // use the ather to resolve the file, this will also resolve dependencies (versions and groupids - given as
+            // use the aether to resolve the file, this will also resolve dependencies (versions and groupids - given as
             // property)
             return mTA.resolveModel(pomFile);
         } catch (Exception e) {
-            e.printStackTrace();
+            ULog.error(e);
             try {
                 return readModel(pomFile.toURI().toURL());
             } catch (MalformedURLException e1) {
-                e1.printStackTrace();
+                ULog.error(e);
                 return null;
             }
         }
@@ -188,46 +184,43 @@ public class MavenUtil {
         try {
             return resolveJarModel(jarFile.toURI().toURL());
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            ULog.error(e);
             return null;
         }
     }
 
     public Model resolveJarModel(URL url) {
         if (url.toString().endsWith(".jar")) {
-            File jarFile = null;
-            JarFile jf = null;
             try {
-                jarFile = new File(url.toURI());
-                jf = new JarFile(jarFile);
-            } catch (Exception e) {
-            }
-            if (jf == null)
-                return null;
+                File jarFile = new File(url.toURI());
+                JarFile jf = new JarFile(jarFile);
 
-            Enumeration<JarEntry> entries = jf.entries();
-            while (entries.hasMoreElements()) {
-                JarEntry entry = entries.nextElement();
-                // TODO: Isn't it always META_INF/maven/pom.xml?
-                if (entry.getName().endsWith("/pom.xml")) { // this could give problems, if more than one pom.xml is
-                    // available, for example in resources
-                    try {
-                        InputStream pomInputStream = jf.getInputStream(entry);
-                        Model model = resolveModel(pomInputStream);
-                        // just a sanity check
-                        String artifName = model.getArtifactId();
-                        if (jarFile.getName().contains(artifName) == false) {
-                            continue; // check if there are other pom files
+                Enumeration<JarEntry> entries = jf.entries();
+                while (entries.hasMoreElements()) {
+                    JarEntry entry = entries.nextElement();
+                    // TODO: Isn't it always META_INF/maven/pom.xml?
+                    if (entry.getName().endsWith("/pom.xml")) { // this could give problems, if more than one pom.xml is
+                        // available, for example in resources
+                        try {
+                            InputStream pomInputStream = jf.getInputStream(entry);
+                            Model model = resolveModel(pomInputStream);
+                            // just a sanity check
+                            String artifactName = model.getArtifactId();
+                            if (jarFile.getName().contains(artifactName) == false) {
+                                continue; // check if there are other pom files
+                            }
+                            model.setPomFile(jarFile);
+                            return model;
+                        } catch (IOException | XmlPullParserException e) {
+                            ULog.error(e);
                         }
-                        model.setPomFile(jarFile);
-                        return model;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (XmlPullParserException e) {
-                        e.printStackTrace();
+                        break;
                     }
-                    break;
                 }
+
+            } catch (Exception e) {
+                ULog.error(e);
+                return null;
             }
         }
         return null;
@@ -288,7 +281,7 @@ public class MavenUtil {
         if (scope != null) {
             if (scope.equals("test"))
                 return false; // we do not want to test
-            if (scope.equals("provided"))
+            else if (scope.equals("provided"))
                 return false; // part of the file?
             // if (scope.equals("compile"))
             // return false; //part of the file?
@@ -300,11 +293,11 @@ public class MavenUtil {
         Artifact artifact = resolveArtifact(getCoordinate(model));
         if (artifact == null)
             return null;
-        DependencyFilter classpathFlter = DependencyFilterUtils.classpathFilter(JavaScopes.RUNTIME);
+        DependencyFilter classpathFilter = DependencyFilterUtils.classpathFilter(JavaScopes.RUNTIME);
         CollectRequest collectRequest = new CollectRequest();
         collectRequest.setRoot(new org.eclipse.aether.graph.Dependency(artifact, JavaScopes.RUNTIME));
 
-        DependencyRequest dependencyRequest = new DependencyRequest(collectRequest, classpathFlter);
+        DependencyRequest dependencyRequest = new DependencyRequest(collectRequest, classpathFilter);
         dependencyRequest.setFilter((node, parents) -> true);
         try {
             List<Artifact> res3 = mTA.resolveArtifacts(dependencyRequest);
@@ -312,7 +305,7 @@ public class MavenUtil {
                 mCoordinateToArtifact.put(getCoordinate(r), r);// remember for later
             return res3;
         } catch (DependencyResolutionException e) {
-            e.printStackTrace();
+            ULog.error(e);
         }
         return null;
     }
@@ -323,7 +316,7 @@ public class MavenUtil {
             return readModel(file.toURI().toURL());
 
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            ULog.error(e);
         }
         return null;
     }
@@ -340,29 +333,35 @@ public class MavenUtil {
             return null;
         try {
             Model m = mModelReader.read(url.openStream());
-            // if the url is a file, we do save it, since the readeer doesn't
+            // if the url is a file, we do save it, since the reader doesn't
             if (m.getPomFile() == null)
                 try {
                     File file = new File(url.toURI());
-                    if (file != null && file.exists())
+                    if (file != null && file.exists()) {
                         m.setPomFile(file);
+                    }
                 } catch (Exception e1) {
+                    ULog.error(e1);
                 }
             mCoordinateToModel.put(getCoordinate(m), m);// remember if we need it in future times
             return m;
         } catch (Exception e) {
-            e.printStackTrace();
+            ULog.error(e);
         }
         return null;
     }
 
     public List<Artifact> resolveArtifacts(Artifact resolveResult) {
         try {
-
             return mTA.resolveArtifacts(resolveResult);
-
         } catch (DependencyResolutionException e) {
-            ULog.error(String.format("Error resolving artifact for %s: %s", resolveResult.getArtifactId(), e.getMessage()));
+            ULog.error(
+                    String.format(
+                            "Error resolving artifact for %s: %s",
+                            resolveResult.getArtifactId(),
+                            e.getMessage()
+                    )
+            );
         }
 
         return null;

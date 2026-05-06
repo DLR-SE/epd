@@ -14,11 +14,11 @@ public class ViewSelectionTreeCellRenderer extends DefaultTreeCellRenderer {
 
     private static final long serialVersionUID = 5599432058867531308L;
 
-    private Border border = BorderFactory.createEmptyBorder ( 1, 0, 1, 0);
+    private Border border = BorderFactory.createEmptyBorder(1, 0, 1, 0);
 
     @Override
     public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf,
-            int row, boolean hasFocus) {
+                                                  int row, boolean hasFocus) {
 
         super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 
@@ -31,7 +31,7 @@ public class ViewSelectionTreeCellRenderer extends DefaultTreeCellRenderer {
         if (node.getUserObject() != null) {
             Object obj = node.getUserObject();
 
-            if (obj instanceof ViewGroup){
+            if (obj instanceof ViewGroup) {
                 ViewGroup view = (ViewGroup) obj;
 
                 ImageIcon icon = view.getIcon();
@@ -39,7 +39,7 @@ public class ViewSelectionTreeCellRenderer extends DefaultTreeCellRenderer {
                 if (icon != null) {
                     setIcon(icon);
                 }
-            }else {
+            } else {
                 ViewDescriptor view = (ViewDescriptor) obj;
 
                 ImageIcon icon = view.getIcon();

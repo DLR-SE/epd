@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 public class PointerObserver implements IDisposable{
 	
 	public static IDisposable registerListener(Pointer ptr, IValueChangeListener vcl) {

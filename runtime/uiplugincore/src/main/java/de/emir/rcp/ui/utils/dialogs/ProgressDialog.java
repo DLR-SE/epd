@@ -52,8 +52,8 @@ public class ProgressDialog implements IProgressMonitor {
 
         dlg = new JDialog(parent, title, modal);
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWeights = new double[] { 1.0 };
-        gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0 };
+        gridBagLayout.columnWeights = new double[]{1.0};
+        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0};
         dlg.getContentPane().setLayout(gridBagLayout);
         ImageIcon icon = IconManager.getIcon(this, "icons/emiricons/32/dynamic_feed.png", IconManager.preferedSmallIconSize());
         dlg.setIconImage(icon.getImage());
@@ -85,10 +85,10 @@ public class ProgressDialog implements IProgressMonitor {
         gbc_panel.gridy = 2;
         dlg.getContentPane().add(panel, gbc_panel);
         GridBagLayout gbl_panel = new GridBagLayout();
-        gbl_panel.columnWidths = new int[] { 0, 0, 0 };
-        gbl_panel.rowHeights = new int[] { 0, 0 };
-        gbl_panel.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
-        gbl_panel.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
+        gbl_panel.columnWidths = new int[]{0, 0, 0};
+        gbl_panel.rowHeights = new int[]{0, 0};
+        gbl_panel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+        gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
         panel.setLayout(gbl_panel);
 
         JButton btnRunInBackground = new JButton("Run in Background");
@@ -128,12 +128,12 @@ public class ProgressDialog implements IProgressMonitor {
         dlg.setLocationRelativeTo(parent);
         progressBar.setStringPainted(true);
         timeout = new Timer(5000, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO: Timed out, job is possibly dead
-				close();
-			}
-        	
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                // TODO: Timed out, job is possibly dead
+                close();
+            }
+
         });
         timeout.start();
         return dlg;
@@ -154,10 +154,10 @@ public class ProgressDialog implements IProgressMonitor {
     }
 
     public void close() {
-    	if (timeout != null) {
-    		timeout.stop();
-    	}
-    	dlg.setVisible(false);
+        if (timeout != null) {
+            timeout.stop();
+        }
+        dlg.setVisible(false);
         cancelSubscription.dispose();
         dlg.dispose(); // make sure we have no dead dialog lying around
     }
@@ -169,8 +169,8 @@ public class ProgressDialog implements IProgressMonitor {
     @Override
     public void setProgress(final float percent) {
         SwingUtilities.invokeLater(() -> {
-        	timeout.restart();
-        	progressBar.setValue((int) percent);
+            timeout.restart();
+            progressBar.setValue((int) percent);
         });
     }
 

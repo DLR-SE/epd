@@ -65,8 +65,8 @@ public class TreeSelectionDialog extends JDialog {
 
         GridBagLayout gridBagLayout = new GridBagLayout();
 
-        gridBagLayout.columnWeights = new double[] { 1.0 };
-        gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, 0.0 };
+        gridBagLayout.columnWeights = new double[]{1.0};
+        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0};
         getContentPane().setLayout(gridBagLayout);
 
         DefaultTreeModel model = new DefaultTreeModel(filteredRootNode);
@@ -102,10 +102,10 @@ public class TreeSelectionDialog extends JDialog {
         gbc_panel.gridy = 3;
         getContentPane().add(panel, gbc_panel);
         GridBagLayout gbl_panel = new GridBagLayout();
-        gbl_panel.columnWidths = new int[] { 0, 0, 0 };
-        gbl_panel.rowHeights = new int[] { 0, 0 };
-        gbl_panel.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
-        gbl_panel.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
+        gbl_panel.columnWidths = new int[]{0, 0, 0};
+        gbl_panel.rowHeights = new int[]{0, 0};
+        gbl_panel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+        gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
         panel.setLayout(gbl_panel);
 
         btnCancel = new JButton("Cancel");
@@ -233,7 +233,7 @@ public class TreeSelectionDialog extends JDialog {
 
     /**
      * Recursivly walks along the model tree, filtering all non matching elements
-     * 
+     *
      * @param root
      * @param child
      * @return
@@ -296,7 +296,7 @@ public class TreeSelectionDialog extends JDialog {
 
     /**
      * Add a cell renderer to define how elements are displayed within the tree
-     * 
+     *
      * @param r
      */
     public void setCellRenderer(TreeCellRenderer r) {
@@ -305,7 +305,7 @@ public class TreeSelectionDialog extends JDialog {
 
     /**
      * The root node of the tree model
-     * 
+     *
      * @param rootNode
      */
     public void setRootNode(DefaultMutableTreeNode rootNode) {
@@ -315,7 +315,7 @@ public class TreeSelectionDialog extends JDialog {
 
     /**
      * The default text shown within the filter text field
-     * 
+     *
      * @param filterInfoText
      */
     public void setFilterInfoText(String filterInfoText) {
@@ -330,7 +330,7 @@ public class TreeSelectionDialog extends JDialog {
     /**
      * (Optional) Set a matcher that checks, if an element applies to the currently active filter. The filter tet field
      * is only visible if a matcher is set
-     * 
+     *
      * @param f
      */
     public void setFilterMatcher(IFilterMatcher f) {

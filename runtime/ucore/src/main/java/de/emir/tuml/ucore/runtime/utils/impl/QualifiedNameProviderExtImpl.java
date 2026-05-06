@@ -7,7 +7,6 @@ import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.UClassifier;
 import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
-import de.emir.tuml.ucore.runtime.utils.impl.QualifiedNameProviderImpl;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
 import de.emir.tuml.ucore.runtime.lists.UContainmentList;
 import de.emir.tuml.ucore.runtime.pointer.PointerOperations;

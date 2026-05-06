@@ -388,12 +388,11 @@ public class PluginManager {
         ClassPathDescriptor<?> oldDesc = mDescriptors.get(coordinate);
 
         if (oldDesc != null) {
-            ULog.warn("An Descriptor with Coordinate: " + coordinate
-                    + " has already been loaded, skipping new descriptor");
+            ULog.warn("A descriptor with coordinate: {} has already been loaded, skipping new descriptor", coordinate);
             return oldDesc;
         }
 
-        ULog.debug("Loaded Descriptor: " + coordinate);
+        ULog.debug("Loaded descriptor: {}", coordinate);
 
         mDescriptors.put(coordinate, desc);
 
@@ -402,7 +401,7 @@ public class PluginManager {
         // unresolved list
         // @note in a later step (before loading) this may be done again with
         // non-strict mode, e.g. ignoring the version
-        StringBuilder depsMsg = new StringBuilder("Adding Dependencies of: " + coordinate + " = [");
+        StringBuilder depsMsg = new StringBuilder("Adding dependencies of: " + coordinate + " = [");
         for (CoordinateElement<?> ce : desc.getDependencies()) {
 
             String depCoordinate = ce.getCoordinate();
@@ -429,14 +428,14 @@ public class PluginManager {
      */
     public void loadUnresolvedDescriptors() {
         monitor.setProgress(25);
-        monitor.setMessage("Resolving Dependencies");
+        monitor.setMessage("Resolving dependencies");
 
-        ULog.info("Resolving Dependencies...");
+        ULog.info("Resolving dependencies...");
         HashSet<String> closedList = new HashSet<>(); // list of coordinates we already tried to resolve; for the case
                                                       // we are not able to resolve one of the deps
         while (mUnresolvedCoordinates.isEmpty() == false) {
             String coord = mUnresolvedCoordinates.keySet().iterator().next();
-            monitor.setMessage("loading Dependency: " + coord);
+            monitor.setMessage("loading dependency: " + coord);
 
             // remove from list to not resolve it again
             CoordinateElement<?> entry = mUnresolvedCoordinates.remove(coord);
@@ -468,12 +467,12 @@ public class PluginManager {
     public Collection<ClasspathEntry<?>> build() {
         monitor.setProgress(75);
         monitor.setMessage("Building entries");
-        ULog.info("build ClasspathEntries");
+        ULog.info("build classpath entries");
         for (ClassPathDescriptor<?> descriptor : mDescriptors.values()) {
             loadEntry(descriptor);
         }
         monitor.setProgress(80);
-        ULog.info("... ClasspathEntries build");
+        ULog.info("... Classpath entries built");
         return null;
     }
 
@@ -493,7 +492,7 @@ public class PluginManager {
             return; // has already been loaded, for example during initialisation
                     // of the root application
         }
-        ULog.debug("Build ClasspathEntry for: " + descriptor);
+        ULog.debug("Build classpath entry for: {}", descriptor);
         // try all entry provider if they are able to provide us a classpath
         // entry - first comes, first serves
         ClasspathEntry<?> entry = null;
@@ -508,17 +507,17 @@ public class PluginManager {
             }
         }
         if (entry == null) {
-            ULog.warn("Failed to create ClassPathEntry for: " + descriptor);
+            ULog.warn("Failed to create classpath entry for: {}", descriptor);
             return;
         }
 
-        ULog.debug("register Entry: " + entry.getCoordinate());
+        ULog.debug("register entry: {}", entry.getCoordinate());
         monitor.setMessage(entry.getCoordinate());
         mEntries.put(entry.getCoordinate(), entry);
         mEntrySubject.onNext(entry);
 
         if (entry.getDescriptor() instanceof PluginDescriptor) {
-            ULog.debug("register Plugin Entry: " + entry.getCoordinate());
+            ULog.debug("Register plugin entry: {}", entry.getCoordinate());
             mPluginEntries.put(entry.getCoordinate(), entry);
         }
         // register the ClasspathEntry in the UCoreExtensionManager
@@ -528,7 +527,7 @@ public class PluginManager {
     public void startPlugins() {
 
         monitor.setProgress(80);
-        monitor.setMessage("Starting Plugins");
+        monitor.setMessage("Starting plugins");
 
         int n = mPluginEntries.size();
         float f = 20.0f / n;
@@ -549,14 +548,14 @@ public class PluginManager {
     private void startPlugin(String coord) {
         ClasspathEntry<?> entry = getEntry(coord);
         if (entry == null) {
-            ULog.error("Could not find the Entry: " + coord);
+            ULog.error("Could not find the entry: {}", coord);
             return;
         }
         if (entry.isStarted()) {
-            ULog.trace("Plugin: " + coord + " already started");
+            ULog.trace("Plugin: {} already started", coord);
             return; // nothing to do anymore
         }
-        ULog.debug("start plugin: " + coord);
+        ULog.debug("start plugin: {}", coord);
         if (entry.getPluginDependencies().isEmpty() == false) {
             ULog.debug("start plugin dependencies...");
             // first start all of its dependencies (if they are plugins as well)
@@ -576,7 +575,7 @@ public class PluginManager {
         try { // do the actual starting by calling the pluginClassName class as
               // UCorePlugin
             String pluginClassName = entry.getPluginClass();
-            ULog.debug("Loading class: " + pluginClassName);
+            ULog.debug("Loading class: {}", pluginClassName);
             Class<?> pluginClass = entry.getClassLoader().loadClass(pluginClassName);
             UCorePlugin plugin = (UCorePlugin) pluginClass.getDeclaredConstructor().newInstance();// no check, so we get an exception
                                                                          // and do the logging
@@ -591,7 +590,7 @@ public class PluginManager {
 
         } catch (Exception | Error e) {
             e.printStackTrace();
-            ULog.error("Failed to start Plugin : " + entry + " Error: " + e.getMessage());
+            ULog.error("Failed to start plugin: {} error: {}", entry, e.getMessage());
         }
     }
 

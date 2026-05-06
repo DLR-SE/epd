@@ -1,5 +1,7 @@
 package de.emir.epd.mapview.views.map;
 
+import de.emir.tuml.ucore.runtime.logging.ULog;
+
 public class MapViewerDrawRunnable implements Runnable {
 
 	private static final int FPS = 40;
@@ -15,14 +17,11 @@ public class MapViewerDrawRunnable implements Runnable {
 	}
 
 	public void stop() {
-
 		stop = true;
-
 	}
 
 	@Override
 	public void run() {
-
 		stop = false;
 
 		while (stop == false) {
@@ -42,15 +41,11 @@ public class MapViewerDrawRunnable implements Runnable {
 			long end = System.currentTimeMillis();
 
 			try {
-
 				Thread.sleep(Math.max(0, sleepMS - (end - start)));
-
 			} catch (InterruptedException e) {
-
-				e.printStackTrace();
+                ULog.error(e);
 			}
 		}
-
 	}
 
 	private boolean needsRepaint() {
@@ -67,9 +62,7 @@ public class MapViewerDrawRunnable implements Runnable {
 		LayerController lc = viewer.getActiveToolLayerController();
 
 		if (lc != null) {
-			if (lc.isVisible() && lc.isDirty()) {
-				return true;
-			}
+            return lc.isVisible() && lc.isDirty();
 		}
 
 		return false;

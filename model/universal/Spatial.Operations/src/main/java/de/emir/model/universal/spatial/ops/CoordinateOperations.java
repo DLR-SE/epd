@@ -1,7 +1,5 @@
 package de.emir.model.universal.spatial.ops;
 
-import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
-import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.model.universal.crs.CoordinateReferenceSystem;
 import de.emir.model.universal.crs.util.CRSUtils;
 import de.emir.model.universal.math.Vector2D;
@@ -10,7 +8,6 @@ import de.emir.model.universal.math.Vector;
 import de.emir.model.universal.math.impl.Vector2DImpl;
 import de.emir.model.universal.math.impl.Vector3DImpl;
 import de.emir.model.universal.spatial.Coordinate;
-import de.emir.model.universal.units.Length;
 import de.emir.model.universal.spatial.delegate.ICoordinateDelegationInterface;
 import de.emir.model.universal.spatial.impl.CoordinateImpl;
 import de.emir.model.universal.units.Angle;
@@ -27,16 +24,6 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	double mLat = Double.NaN;
 	double mLon = Double.NaN;
-
-	/**
-	 * @inheritDoc
-	 * @generated
-	*/
-	public Coordinate getTarget(Coordinate self, final Distance distance, final Angle azimuth)
-	{
-		//TODO: 
-		throw new UnsupportedOperationException("getTarget not yet implemented");
-	}
 
 	double mCartX = Double.NaN;
 	double mCartY = Double.NaN;
@@ -83,13 +70,57 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 		mLon = v[1];
 	}
 
+    /**
+     * @inheritDoc
+     * @generated not
+     */
+    public Coordinate getTarget(Coordinate self, final Distance distance, final Angle azimuth)  {
+        if (self.getCrs() == null){
+            return null;
+        }
+
+        if (self.dimension() == 2){
+            double[] result = self.getCrs().getTarget(
+                    new double[]{self.getX(), self.getY()},
+                    distance.getAs(DistanceUnit.METER),
+                    azimuth.getAs(AngleUnit.RADIAN),
+                    0.0
+            );
+
+            // should normally return the same dimension as the original dimension
+            assert result.length == self.dimension();
+            return new CoordinateImpl(
+                    result[0],
+                    result[1],
+                    self.getCrs()
+            );
+        } else if (self.dimension() == 3){
+            double[] result = self.getCrs().getTarget(
+                    new double[]{self.getX(), self.getY(), self.getZ()},
+                    distance.getAs(DistanceUnit.METER),
+                    azimuth.getAs(AngleUnit.RADIAN),
+                    0.0
+            );
+
+            // should normally return the same dimension as the original dimension
+            assert result.length == self.dimension();
+            return new CoordinateImpl(
+                    result[0],
+                    result[1],
+                    result[2],
+                    self.getCrs()
+            );
+        } else {
+            throw new UnsupportedOperationException("getTarget only supports 2D or 3D coordinates");
+        }
+    }
+
 	/**
 	 * @inheritDoc
-	 * @generated_not
+	 * @generated not
 	*/
 	@Override
-	public Angle getAzimuth(Coordinate self, final Coordinate other)
-	{
+	public Angle getAzimuth(Coordinate self, final Coordinate other) {
 		CoordinateReferenceSystem crs = internalGetCRS(self);
 		Coordinate o = other.get(crs);
 		double angle = crs.getDistanceAndAzimuth(toVector(self), toVector(o)).get(1); //0 is always the distance
@@ -98,7 +129,7 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated_not
+	 * @generated not
 	 */
 	@Override
 	public Distance getDistance(Coordinate self, final Coordinate other) {
@@ -109,7 +140,7 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated_not
+	 * @generated not
 	*/
 	public Vector2D toVector2D(Coordinate self)
 	{
@@ -118,11 +149,10 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated_not
+	 * @generated not
 	*/
-	public Vector3D toVector3D(Coordinate self)
-	{
-		if (dimension(self) == 2) {
+	public Vector3D toVector3D(Coordinate self) {
+        if (dimension(self) == 2) {
             return new Vector3DImpl(self.getX(), self.getY(), 0);
         }
         return new Vector3DImpl(self.getX(), self.getY(), self.getZ());
@@ -130,7 +160,7 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated_not
+	 * @generated not
 	 */
 	@Override
 	public int dimension(Coordinate self) {
@@ -142,7 +172,7 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated_not
+	 * @generated not
 	 */
 	@Override
 	public double getLatitude(Coordinate self) {
@@ -153,11 +183,10 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated_not
+	 * @generated not
 	*/
 	@Override
-	public void set(Coordinate self, final Coordinate value)
-	{
+	public void set(Coordinate self, final Coordinate value) {
 		self.setX(value.getX());
 		self.setY(value.getY());
 		self.setZ(value.getZ());
@@ -166,10 +195,9 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated_not
+	 * @generated not
 	*/
-	public void set(Coordinate self, final double x, final double y, final double z, final CoordinateReferenceSystem crs)
-	{
+	public void set(Coordinate self, final double x, final double y, final double z, final CoordinateReferenceSystem crs) {
 		self.setX(x);
 		self.setY(y);
 		self.setZ(z);
@@ -178,7 +206,7 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated_not
+	 * @generated not
 	 */
 	@Override
 	public double getLongitude(Coordinate self) {
@@ -189,7 +217,7 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated_not
+	 * @generated not
 	 */
 	@Override
 	public Coordinate get(Coordinate self, final CoordinateReferenceSystem dst) {
@@ -203,7 +231,7 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 			// if both fail, the following exception is intended.
 		}
 
-		// first check if we allready got the right crs
+		// first check if we already got the right crs
 		if (src.equals(dst))
 			return self;
 
@@ -215,7 +243,7 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated_not
+	 * @generated not
 	 */
 	@Override
 	public void setLatLon(Coordinate self, final double lat, final double lon) {
@@ -224,7 +252,7 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated_not
+	 * @generated not
 	 */
 	@Override
 	public void setLatLonAlt(Coordinate self, final double lat, final double lon, final double alt) {
@@ -244,20 +272,18 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated_not
+	 * @generated not
 	*/
-	public void setXY(Coordinate self, final double x, final double y)
-	{
+	public void setXY(Coordinate self, final double x, final double y) {
 		self.setX(x);
 		self.setY(y);
 	}
 
 	/**
 	 * @inheritDoc
-	 * @generated_not
+	 * @generated not
 	*/
-	public void setXYZ(Coordinate self, final double x, final double y, final double z)
-	{
+	public void setXYZ(Coordinate self, final double x, final double y, final double z) {
 		self.setX(x);
 		self.setY(y);
 		self.setZ(z);
@@ -265,7 +291,7 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated_not
+	 * @generated not
 	*/
 	public Coordinate copy(Coordinate self)
 	{
@@ -274,7 +300,7 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated_not 
+	 * @generated not 
 	 */
 	@Override
 	public Vector toVector(Coordinate self) {
@@ -286,20 +312,18 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated_not
+	 * @generated not
 	*/
-	public void fromVector(Coordinate self, final Vector value, final CoordinateReferenceSystem crs)
-	{
+	public void fromVector(Coordinate self, final Vector value, final CoordinateReferenceSystem crs) {
 		fromVector(self, value);
         self.setCrs(crs);
 	}
 
 	/**
 	 * @inheritDoc
-	 * @generated_not
+	 * @generated not
 	*/
-	public void fromVector(Coordinate self, final Vector value)
-	{
+	public void fromVector(Coordinate self, final Vector value) {
 		self.setX(value.get(0));
         self.setY(value.get(1));
         if (value.dimensions() == 3) {
@@ -309,10 +333,9 @@ public class CoordinateOperations implements ICoordinateDelegationInterface {
 
 	/**
 	 * @inheritDoc
-	 * @generated_not
+	 * @generated not
 	*/
-	public String readableString(Coordinate self)
-	{
+	public String readableString(Coordinate self) {
 		if (self.dimension() == 3) {
             return String.format("%.6f %.6f %.6f", self.getX(), self.getY(), self.getZ());
         }

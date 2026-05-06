@@ -19,10 +19,10 @@ public class GeneralSettingsPage extends AbstractSettingsPage {
 
         JPanel p = new JPanel();
         GridBagLayout gbl_p = new GridBagLayout();
-        gbl_p.columnWidths = new int[] { 0, 0 };
-        gbl_p.rowHeights = new int[] { 0, 0 };
-        gbl_p.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-        gbl_p.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
+        gbl_p.columnWidths = new int[]{0, 0};
+        gbl_p.rowHeights = new int[]{0, 0};
+        gbl_p.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+        gbl_p.rowWeights = new double[]{0.0, Double.MIN_VALUE};
         p.setLayout(gbl_p);
 
         JLabel lblSeeSubpagesFor = new JLabel("See subpages for settings");

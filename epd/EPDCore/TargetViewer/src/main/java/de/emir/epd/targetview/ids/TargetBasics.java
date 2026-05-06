@@ -18,4 +18,5 @@ public class TargetBasics {
     public static final String TARGET_VIEWER_PROP_LAYER_UPDATE_RATE = "targetPropertyLayerUpdateRate";
     public static final String TARGET_VIEWER_PROP_LAYER_FIXED_UPDATE = "targetPropertyLayerFixedUpdate";
     public static final String TARGET_VIEWER_PROP_CONTEXT = "de.emir.epd.target.propertiesContext.TargetViewerPropertiesContext";
+    public static final String TARGET_VIEWER_PROP_DETAILED_ZOOM_LEVEL = "targetPropertyDetailedZoomLevel";
 }

@@ -6,50 +6,50 @@ import de.emir.tuml.ucore.runtime.annotations.UMLProperty;
 import de.emir.tuml.ucore.runtime.annotations.UMLProperty.AssociationType;
 
 /**
- *	@generated 
+ * @generated
  */
-@UMLClass(parent = ConfigVariable.class)	
-public interface ConfigObject extends ConfigVariable 
-{
-	/**
-	 *	@generated 
-	 */
-	@UMLProperty(name = "value", associationType = AssociationType.PROPERTY)
-	public void setValue(Object _value);
-	/**
-	 *	@generated 
-	 */
-	@UMLProperty(name = "value", associationType = AssociationType.PROPERTY)
-	public String getValue();
+@UMLClass(parent = ConfigVariable.class)
+public interface ConfigObject extends ConfigVariable {
+    /**
+     * @generated
+     */
+    @UMLProperty(name = "value", associationType = AssociationType.PROPERTY)
+    public void setValue(Object _value);
 
-	
-	//////////////////////////////////////////////////////////////////
-	//						Owned Operations						//
-	//////////////////////////////////////////////////////////////////
+    /**
+     * @generated
+     */
+    @UMLProperty(name = "value", associationType = AssociationType.PROPERTY)
+    public String getValue();
 
-	/**
-	 *	@generated 
-	 */
-	int getAsInteger();
-	
-	/**
-	 *	@generated 
-	 */
-	double getAsDouble();
-	
-	/**
-	 *	@generated 
-	 */
-	float getAsFloat();
-	
-	/**
-	 *	@generated 
-	 */
-	long getAsLong();
-	
-	/**
-	 *	@generated 
-	 */
-	boolean getAsBoolean();
-	
+
+    //////////////////////////////////////////////////////////////////
+    //						Owned Operations						//
+    //////////////////////////////////////////////////////////////////
+
+    /**
+     * @generated
+     */
+    int getAsInteger();
+
+    /**
+     * @generated
+     */
+    double getAsDouble();
+
+    /**
+     * @generated
+     */
+    float getAsFloat();
+
+    /**
+     * @generated
+     */
+    long getAsLong();
+
+    /**
+     * @generated
+     */
+    boolean getAsBoolean();
+
 }

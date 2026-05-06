@@ -13,6 +13,7 @@ import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
 import de.emir.tuml.runtime.epf.ProductFile;
 import de.emir.tuml.runtime.epf.utils.MavenUtil;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.subjects.PublishSubject;
@@ -103,7 +104,7 @@ public class PmModelProvider extends AbstractModelProvider implements IDirtyStat
 		try {
 			productFile.write();
 		} catch (IOException e) {
-			e.printStackTrace();
+            ULog.error(e);
 			return false;
 		}
 		return true;

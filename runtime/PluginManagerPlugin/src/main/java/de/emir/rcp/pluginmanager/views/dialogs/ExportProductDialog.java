@@ -35,8 +35,8 @@ import de.emir.rcp.pluginmanager.views.PluginRenderUtil;
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
 import de.emir.tuml.runtime.epf.ProductFile;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
-import javax.swing.UIManager;
 
 public class ExportProductDialog extends JDialog {
 
@@ -1000,13 +1000,10 @@ public class ExportProductDialog extends JDialog {
             entryPointClassLabel.setIcon(PluginRenderUtil.CLASS_ICON);
 
         } catch (IOException e1) {
-
-            e1.printStackTrace();
+            ULog.error(e1);
             clearEntryPointClassLabel();
             return;
-
         }
-
     }
 
     private void clearNameLabel() {
@@ -1239,12 +1236,12 @@ public class ExportProductDialog extends JDialog {
         }
 
         try {
-            // Has to be saved before opening this dialog, so it can be saved afterwards and
+            // Has to be saved before opening this dialog, so it can be saved afterward and
             // only name is changed
             productFile.write();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            ULog.error(e);
         }
         ok = true;
         setVisible(false);

@@ -15,9 +15,10 @@ public class InstanceManager {
 
     /**
      * Loads existing unique IDs of views to the model.
+     *
      * @param uniqueID Unique ID of the view to load.
-     * @throws IllegalArgumentException If the unique ID is not in the Format XX_InstanceX.
      * @return the last assigned id
+     * @throws IllegalArgumentException If the unique ID is not in the Format XX_InstanceX.
      */
     public void loadExistingName(String uniqueID) {
         String[] parts = uniqueID.split("_Instance");
@@ -26,7 +27,7 @@ public class InstanceManager {
         }
         String descriptorID = parts[0];
         int number = Integer.parseInt(parts[1]);
-        if(!assigned.containsKey(descriptorID)) {
+        if (!assigned.containsKey(descriptorID)) {
             assigned.put(descriptorID, new HashSet<>());
         }
         assigned.get(descriptorID).add(number);
@@ -34,6 +35,7 @@ public class InstanceManager {
 
     /**
      * Creates a unique ID based on the number of instances and the descriptor ID.
+     *
      * @param descriptorID ID of the ViewDescriptor for the view to create.
      * @return Unique identifier in the format descriptorID+_InstanceX.
      * @implNote This method checks whether instances with the same name exists and fills gaps in the increment number.
@@ -42,20 +44,21 @@ public class InstanceManager {
     public String create(String descriptorID) {
         int number = 1;
         synchronized (assigned) {
-            if(!assigned.containsKey(descriptorID)) {
+            if (!assigned.containsKey(descriptorID)) {
                 assigned.put(descriptorID, new HashSet<>());
             }
-            if(assigned.get(descriptorID).contains(number)) {
+            if (assigned.get(descriptorID).contains(number)) {
                 while (assigned.get(descriptorID).contains(number)) {
                     number++;
                 }
             }
-            return descriptorID + "_Instance"+number;
+            return descriptorID + "_Instance" + number;
         }
     }
 
     /**
      * Deletes a uniqueID from the model.
+     *
      * @param uniqueID UniqueID to remove from the model.
      */
     public void delete(String uniqueID) {
@@ -66,7 +69,7 @@ public class InstanceManager {
             }
             String descriptorID = parts[0];
             int number = Integer.parseInt(parts[1]);
-            if(assigned.containsKey(descriptorID)) {
+            if (assigned.containsKey(descriptorID)) {
                 assigned.get(descriptorID).remove(number);
             }
         }

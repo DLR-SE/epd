@@ -1,12 +1,16 @@
 package de.emir.model.universal.spatial.sf.ops;
 
+import de.emir.model.universal.crs.CoordinateReferenceSystem;
 import de.emir.model.universal.spatial.Coordinate;
 import de.emir.model.universal.spatial.CoordinateSequence;
 import de.emir.model.universal.spatial.Envelope;
 import de.emir.model.universal.spatial.Geometry;
 import de.emir.model.universal.spatial.delegate.ICoordinateSequenceDelegationInterface;
+import de.emir.model.universal.spatial.impl.CoordinateImpl;
+import de.emir.model.universal.spatial.impl.CoordinateSequenceImpl;
 import de.emir.model.universal.spatial.impl.EnvelopeImpl;
 import de.emir.model.universal.spatial.ops.GeometryOperations;
+import de.emir.model.universal.spatial.sf.impl.LinearRingImpl;
 import org.locationtech.jts.geom.impl.CoordinateArraySequence;
 
 /**
@@ -22,11 +26,39 @@ public class CoordinateSequenceOperations extends GeometryOperations implements 
      */
     @Override
 	public org.locationtech.jts.geom.Geometry createNativeGeometry(Geometry self) {
+        assert self instanceof CoordinateSequence;
 		CoordinateSequence cs = (CoordinateSequence) self;
 		
 		return new org.locationtech.jts.geom.LineString(getPoints(cs), sGeometryFactory);
 	}
-    
+
+    @Override
+    public Geometry createUCoreGeometry(org.locationtech.jts.geom.Geometry self, CoordinateReferenceSystem crs) {
+
+        // cannot create an object from an empty geometry
+        if (self.isEmpty()){
+            return null;
+        }
+
+        if (self instanceof CoordinateSequence){
+            CoordinateSequence sequence = new CoordinateSequenceImpl();
+            for (int i = 0; i < self.getNumPoints(); i++){
+                sequence.addCoordinate(
+                        new CoordinateImpl(
+                            self.getCoordinates()[i].getX(),
+                            self.getCoordinates()[i].getY(),
+                            self.getCoordinates()[i].getZ(),
+                            crs
+                        )
+                );
+            }
+
+            return new LinearRingImpl(sequence);
+        } else {
+            return GeometryOperationUtil.createUCoreGeometry(self, crs);
+        }
+    }
+
     protected org.locationtech.jts.geom.CoordinateSequence getPoints(CoordinateSequence self) {
 		int size = self.numCoordinates();
 		CoordinateArraySequence cas = new CoordinateArraySequence(size);
@@ -119,5 +151,14 @@ public class CoordinateSequenceOperations extends GeometryOperations implements 
     public Geometry getGeometry(Geometry self, int idx) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+	@Override
+	public CoordinateSequence getCoordinates(Geometry self) {
+		CoordinateSequence result = new CoordinateSequenceImpl();
+		for (int i = 0; i < self.numCoordinates(); i++) {
+			result.addCoordinate(getCoordinate(self, i));
+		}
+		return result;
+	}
 	
 }

@@ -6,7 +6,7 @@
 	<parent>
         <groupId>de.dlr-se.emir.epd</groupId>
         <artifactId>epd</artifactId>
-        <version>4.3.0</version>
+        <version>4.4.0</version>
     </parent>
 	<artifactId>epdcommunity</artifactId>
 	
@@ -175,9 +175,9 @@
 										<Manifest-Version>1.0</Manifest-Version>
 										<Specification-Title>eMIR Prototype Display</Specification-Title>
 										<Specification-Vendor>DLR</Specification-Vendor>
-										<Specification-Version>4.3.0</Specification-Version>
+										<Specification-Version>4.4.0</Specification-Version>
 										<Implementation-Vendor>DLR</Implementation-Vendor>
-										<Implementation-Version>4.3.0</Implementation-Version>
+										<Implementation-Version>4.4.0</Implementation-Version>
 										<Implementation-Title>eMIR Prototype Display</Implementation-Title>
 										<Extension-Name>Extension</Extension-Name>
 										<Main-Class>de.emaritime.epd.product.EPDCommunity</Main-Class>
@@ -233,9 +233,9 @@
 										<requires64Bit>true</requires64Bit>
 									</jre>
 									<versionInfo>
-										<fileVersion>4.3.0.0</fileVersion>
-										<txtFileVersion>4.3.0</txtFileVersion>
-										<productVersion>4.3.0.0</productVersion>
+										<fileVersion>4.4.0.0</fileVersion>
+										<txtFileVersion>4.4.0</txtFileVersion>
+										<productVersion>4.4.0.0</productVersion>
 										<productName>eMIR Prototype Display</productName>
 										<internalName>epd</internalName>
 										<originalFilename>EPDCommunity.exe</originalFilename>

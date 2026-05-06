@@ -54,11 +54,11 @@ public class UdpReceiverHandle implements IConnection {
 	}
 	
 	/**
-	 * 
-	 * @param listener
-	 * @param port
-	 * @param packetsize
-	 * @param local
+	 * Initialize the UDP receiver
+     * @param listener listener for received messages
+     * @param port network
+     * @param packetsize max packet size
+     * @param localadr local address
 	 */
 	public UdpReceiverHandle(final ReceiverListener listener, Integer port, Integer packetsize, String localadr) {
 		this.listener = listener;
@@ -75,15 +75,20 @@ public class UdpReceiverHandle implements IConnection {
 			@Override
 			public void run() {
 				try {
-					socket = new DatagramSocket(port,
-							InetAddress.getByName(local));
+					socket = new DatagramSocket(port, InetAddress.getByName(local));
 					while (run) {
 						byte[] receiveData = new byte[packetsize];
 						DatagramPacket receivePacket = new DatagramPacket(
-								receiveData, receiveData.length);
+								receiveData,
+                                receiveData.length
+                        );
 						socket.receive(receivePacket);
-						receivePacket.setData(trimData(receivePacket.getData(),
-								receivePacket.getLength()));
+						receivePacket.setData(
+                                trimData(
+                                        receivePacket.getData(),
+								receivePacket.getLength()
+                                )
+                        );
 						listener.onReceived(instance, receivePacket.getData());
 						Thread.sleep(1);
 					}
@@ -119,7 +124,6 @@ public class UdpReceiverHandle implements IConnection {
 		if (thread != null) {
             try {
                 isCloseExpected = true;
-
                 this.thread.interrupt();
 //                this.thread.join();
             } catch (Exception e) {

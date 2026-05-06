@@ -315,7 +315,7 @@ public class JTreeWithFilter extends JPanel {
         return tree.getSelectionPath();
     }
 
-    public void reset(){
+    public void reset() {
         filterText.setText("");
     }
 

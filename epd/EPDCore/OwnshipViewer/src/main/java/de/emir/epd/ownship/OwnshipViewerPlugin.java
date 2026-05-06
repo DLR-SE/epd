@@ -50,7 +50,8 @@ public class OwnshipViewerPlugin extends AbstractUIPlugin {
 
 		mvEP.layer("OwnshipLayer", OwnshipLayer.class)
 				.label("Ownship")
-				.icon("icons/emiricons/32/sailing.png");
+				.icon("icons/emiricons/32/sailing.png")
+				.zOrder(10);
 
 		// Settings EP
 

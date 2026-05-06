@@ -33,7 +33,7 @@ public abstract class AbstractWizard {
 
     /**
      * Constructs a new Wizard.
-     * 
+     *
      * @param container
      */
     public AbstractWizard(GenericWizardContainer container) {
@@ -43,7 +43,7 @@ public abstract class AbstractWizard {
 
     /**
      * Constructs a new Wizard.
-     * 
+     *
      * @param title
      */
     public AbstractWizard(JFrame parent, String title) {
@@ -53,7 +53,7 @@ public abstract class AbstractWizard {
 
     /**
      * Returns the wizard container.
-     * 
+     *
      * @return
      */
     public GenericWizardContainer getContainer() {
@@ -62,7 +62,7 @@ public abstract class AbstractWizard {
 
     /**
      * Initializes the wizard.
-     * 
+     *
      * @param page
      */
     public void initialize(AbstractWizardPage page) {
@@ -139,7 +139,7 @@ public abstract class AbstractWizard {
 
     /**
      * Sets a new page.
-     * 
+     *
      * @param page
      */
     public void setPage(AbstractWizardPage page) {

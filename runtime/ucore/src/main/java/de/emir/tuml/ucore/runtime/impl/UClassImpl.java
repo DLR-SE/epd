@@ -13,7 +13,6 @@ import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.tuml.ucore.runtime.UOperation;
 import de.emir.tuml.ucore.runtime.UPackage;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
-import de.emir.tuml.ucore.runtime.impl.UClassifierImpl;
 import de.emir.tuml.ucore.runtime.access.IInstanceCreator;
 import de.emir.tuml.ucore.runtime.access.impl.ReflectiveInstanceCreator;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;

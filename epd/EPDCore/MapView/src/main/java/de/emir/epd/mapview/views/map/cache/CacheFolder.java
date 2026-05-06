@@ -14,6 +14,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.imageio.ImageIO;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 import org.apache.commons.io.FileUtils;
 
 import de.emir.epd.mapview.ids.MVBasic;
@@ -24,8 +25,8 @@ import de.emir.tuml.ucore.runtime.resources.ResourceManager;
 
 public class CacheFolder {
 
-	private static XmlMapper mapper = new XmlMapper();
-	private static PropertyContext ctx = PropertyStore.getContext(MVBasic.MAP_VIEW_PROP_CONTEXT);
+	private static final XmlMapper mapper = new XmlMapper();
+	private static final PropertyContext ctx = PropertyStore.getContext(MVBasic.MAP_VIEW_PROP_CONTEXT);
 	
 	public static int fileCount = 0;
 
@@ -39,7 +40,6 @@ public class CacheFolder {
 	}
 
 	public static void saveImage(IProgressMonitor monitor, URI uri, BufferedImage img) {
-
 		if (CacheFolder.lock.isLocked() == true) {
 			// We have only one writing and one deleting thread, so if it is locked, the
 			// cache currently gets dropped by the delete thread. This happens if the tile
@@ -54,25 +54,19 @@ public class CacheFolder {
 			Path cachePath = getCachePath();
 
 			if (cachePath.toFile().getAbsoluteFile().exists() == false) {
-
 				cachePath.toFile().getAbsoluteFile().mkdirs();
-
 			}
 
 			int maxCachedTiles = ctx.getValue(MVBasic.MAP_VIEW_PROP_MAX_HARD_DRIVE_CACHED_TILES, 500);
 
 			while(fileCount >= maxCachedTiles) {
-
 				deleteOldestTile();
-
 			}
 
 			String hashedURI = getHashedURI(uri);
 
 			Path out = cachePath.resolve(getImageName(hashedURI));
 			Path outInfo = cachePath.resolve(getInfoName(hashedURI));
-
-			cachePath.toFile().listFiles();
 
 			ImageIO.write(img, "png", out.toFile());
 
@@ -82,16 +76,16 @@ public class CacheFolder {
 			fileCount++;
 
 		} catch (IOException e) {
-			e.printStackTrace();
+            ULog.error(e);
 		} finally {
 			CacheFolder.lock.unlock();
 		}
 	}
 
 	private static void deleteOldestTile() {
-
 		try {
-			Optional<Path> oldest = Files.list(getCachePath()).filter(n -> n.toString().endsWith(".tic"))
+			Optional<Path> oldest = Files.list(getCachePath())
+                    .filter(n -> n.toString().endsWith(".tic"))
 					.min(Comparator.comparingLong(f -> f.toFile().lastModified()));
 
 			if (oldest.isPresent()) {
@@ -116,30 +110,26 @@ public class CacheFolder {
 			fileCount--;
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			ULog.error(e);
 		}
-
 	}
 
 	public static UriImageFileData loadInfo(Path infoPath) {
-
 		UriImageFileData uifd = loadInfoWithoutCounting(infoPath);
 		fileCount++;
 		return uifd;
-
 	}
 	
 	public static UriImageFileData loadInfoWithoutCounting(Path infoPath) {
         try {
             return mapper.readValue(infoPath.toFile(), UriImageFileData.class);
         } catch (IOException e) {
-			e.printStackTrace();
+			ULog.error(e);
 			return null;
         }
 	}
 
 	public static void clearTileCache(IProgressMonitor monitor) {
-
 		monitor.setMessage("Deleting cached tiles...");
 
 		try {
@@ -148,8 +138,8 @@ public class CacheFolder {
 			if (success == false){
 				throw new RuntimeException("Cannot delete tilecaches, its locked by another thread");
 			}
-		}catch (InterruptedException e){
-			e.printStackTrace();
+		} catch (InterruptedException e){
+			ULog.error(e);
 		}
 		
 		// Drop cache
@@ -181,21 +171,20 @@ public class CacheFolder {
 						i++;
 						monitor.setProgress(i / (float) paths.length * 100);
 					} catch (Exception e) {
-						e.printStackTrace();
+						ULog.error(e);
 					}
 
 				}
 
 			} catch (IOException e1) {
-
-				e1.printStackTrace();
+                ULog.error(e1);
 			}
 
 			try {
 				FileUtils.deleteDirectory(cachePath.toFile());
 				CacheFolder.fileCount = 0;
 			} catch (IOException e) {
-				e.printStackTrace();
+                ULog.error(e);
 			}
 		} finally {
 			CacheFolder.lock.unlock();

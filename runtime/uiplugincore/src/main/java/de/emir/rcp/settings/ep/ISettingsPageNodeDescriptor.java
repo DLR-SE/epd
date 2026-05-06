@@ -8,7 +8,7 @@ public interface ISettingsPageNodeDescriptor {
 
     /**
      * This method only returns existing pages. No new page will be created
-     * 
+     *
      * @param id
      * @return
      */

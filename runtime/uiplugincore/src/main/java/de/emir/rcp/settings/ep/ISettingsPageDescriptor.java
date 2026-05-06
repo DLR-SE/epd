@@ -11,17 +11,16 @@ public interface ISettingsPageDescriptor extends ISettingsPageNodeDescriptor {
 
     /**
      * Specifies an icon for this SettingsPage
-     * 
+     *
      * @param path
-     * @param rmgr
-     *            ResourceManager used to locate the icon
+     * @param rmgr ResourceManager used to locate the icon
      * @return
      */
     ISettingsPageDescriptor icon(String path, ResourceManager rmgr);
 
     /**
      * Defines the size of the icon (if set)
-     * 
+     *
      * @param size
      * @return
      */

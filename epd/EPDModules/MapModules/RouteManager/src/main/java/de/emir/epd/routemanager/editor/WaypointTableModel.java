@@ -1,25 +1,60 @@
 package de.emir.epd.routemanager.editor;
 
+import de.emir.model.domain.maritime.iec61174.Leg;
 import de.emir.model.domain.maritime.iec61174.Waypoint;
 import de.emir.model.domain.maritime.iec61174.impl.LegImpl;
-import de.emir.model.universal.units.DistanceUnit;
-import de.emir.model.universal.units.SpeedUnit;
+import de.emir.model.universal.units.*;
 import de.emir.model.universal.units.impl.DistanceImpl;
 import de.emir.model.universal.units.impl.SpeedImpl;
+import de.emir.rcp.manager.util.PlatformUtil;
+import de.emir.rcp.model.AbstractModelProvider;
+import de.emir.rcp.model.ModelTransactionStack;
+import de.emir.rcp.model.transactions.SetValueTransaction;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
+/**
+ * Table model for a list of WayPoints of a route. It lets users edit wp name, coordinate,
+ * radius, speed and xtd settings. Each change will be executed by the ModelTransactionStack
+ * to make changes reversible.
+ */
 class WaypointTableModel extends AbstractTableModel {
+
+    private static final double DEFAULT_SPEED = 10.0; // knots
+    private static final double DEFAULT_XTD = 0.3; // nautical miles
+
     private final List<Waypoint> waypointList;
 
-    private final String[] columnNames = new String[]{"Name", "Latitude", "Longitude", "Rad",
-            "Min Speed (KNOTS) ", "Max Speed (KNOTS) ", "XTD S", "XTD P"};
-    private final Class[] columnClass = new Class[]{String.class, Double.class, Double.class, Double.class,
-            Double.class, Double.class, Double.class, Double.class,};
+    private ModelTransactionStack ts;
+
+    private final String[] columnNames = new String[]{
+            "Name",
+            "Latitude",
+            "Longitude",
+            "Rad",
+            "Min Speed (KNOTS)",
+            "Max Speed (KNOTS)",
+            "XTD S",
+            "XTD P"
+    };
+    private final Class<?>[] columnClass = new Class[]{
+            String.class,
+            Double.class,
+            Double.class,
+            Double.class,
+            Double.class,
+            Double.class,
+            Double.class,
+            Double.class
+    };
 
     public WaypointTableModel(List<Waypoint> waypointList) {
         this.waypointList = waypointList;
+
+        AbstractModelProvider mp = PlatformUtil.getModelManager().getModelProvider();
+        mp.subscribeTransactionStack(opt -> ts = opt.orElse(null));
+        ts = mp.getTransactionStack();
     }
 
     @Override
@@ -45,107 +80,188 @@ class WaypointTableModel extends AbstractTableModel {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         Waypoint row = waypointList.get(rowIndex);
-        if (0 == columnIndex) {
+        if (0 == columnIndex) { // name
             row.setName((String) aValue);
-        } else if (1 == columnIndex) {
+        } else if (1 == columnIndex) { // position x
             row.getPosition().setX((Double) aValue);
-        } else if (2 == columnIndex) {
+        } else if (2 == columnIndex) { // position y
             row.getPosition().setY((Double) aValue);
-        } else if (3 == columnIndex) {
+        } else if (3 == columnIndex) { // radius
             row.setRadius(((Double) aValue));
-        } else if (4 == columnIndex) {
-            try {
-                row.getLeg().getPlanSpeedMin().set(((Double) aValue), SpeedUnit.KNOTS);
-            } catch (NullPointerException e) {
-                if (row.getLeg() == null) {
-                    row.setLeg(new LegImpl());
-                    row.getLeg().getPlanSpeedMin().set(((Double) aValue), SpeedUnit.KNOTS);
-                }
+        } else if (4 == columnIndex) { // min speed
+
+            Leg leg = row.getLeg();
+            if (leg == null) {
+                row.setLeg(leg = new LegImpl());
             }
-        } else if (5 == columnIndex) {
-            try {
-                row.getLeg().getPlanSpeedMax().set(((Double) aValue), SpeedUnit.KNOTS);
-            } catch (NullPointerException e) {
-                if (row.getLeg() == null) {
-                    row.setLeg(new LegImpl());
-                    row.getLeg().getPlanSpeedMax().set(((Double) aValue), SpeedUnit.KNOTS);
-                }
+
+            Speed speed = leg.getPlanSpeedMin();
+            if (speed == null){
+                leg.setPlanSpeedMin(speed = new SpeedImpl(DEFAULT_SPEED, SpeedUnit.KNOTS));
             }
-        } else if (6 == columnIndex) {
-            try {
-                row.getLeg().getStarboardXTD().setValue(((Double) aValue));
-            } catch (NullPointerException e) {
-                if (row.getLeg() == null) {
-                    row.setLeg(new LegImpl());
-                    row.getLeg().getStarboardXTD().setValue(((Double) aValue));
-                }
+
+            if (speed.getUnit() != SpeedUnit.KNOTS){
+                speed.setUnit(SpeedUnit.KNOTS);
             }
-        } else if (7 == columnIndex) {
-            try {
-                row.getLeg().getPortsideXTD().setValue(((Double) aValue));
-            } catch (NullPointerException e) {
-                if (row.getLeg() == null) {
-                    row.setLeg(new LegImpl());
-                    row.getLeg().getPortsideXTD().setValue(((Double) aValue));
-                }
+
+            if (ts != null){
+                ts.run(
+                        new SetValueTransaction(
+                                speed,
+                                UnitsPackage.init().getMeasure_value(),
+                                aValue
+                        )
+                );
+            } else {
+                speed.setValue((Double) aValue);
+            }
+
+        } else if (5 == columnIndex) { // max speed
+
+            Leg leg = row.getLeg();
+            if (leg == null) {
+                row.setLeg(leg = new LegImpl());
+            }
+
+            Speed speed = leg.getPlanSpeedMax();
+            if (speed == null){
+                leg.setPlanSpeedMax(speed = new SpeedImpl(DEFAULT_SPEED, de.emir.model.universal.units.SpeedUnit.KNOTS));
+            }
+
+            if (speed.getUnit() != SpeedUnit.KNOTS){
+                speed.setUnit(SpeedUnit.KNOTS);
+            }
+
+            if (ts != null){
+                ts.run(
+                        new SetValueTransaction(
+                                speed,
+                                UnitsPackage.init().getMeasure_value(),
+                                aValue
+                        )
+                );
+            } else {
+                speed.setValue((Double) aValue);
+            }
+        } else if (6 == columnIndex) { // starboard xtd
+
+            Leg leg = row.getLeg();
+            if (leg == null) {
+                row.setLeg(leg = new LegImpl());
+            }
+            // cannot use getStarboardXTDNotNull as it does not set the distance within the object
+            Distance distance = leg.getStarboardXTD();
+            if (distance == null){
+                leg.setStarboardXTD(distance = new DistanceImpl(DEFAULT_XTD, DistanceUnit.NAUTICAL_MILES));
+            }
+
+            if (distance.getUnit() != DistanceUnit.NAUTICAL_MILES){
+                distance.setUnit(DistanceUnit.NAUTICAL_MILES);
+            }
+
+            if (ts != null){
+                ts.run(
+                        new SetValueTransaction(
+                                distance,
+                                UnitsPackage.init().getMeasure_value(),
+                                aValue
+                        )
+                );
+            } else {
+                distance.setValue((Double) aValue);
+            }
+        } else if (7 == columnIndex) { // portside xtd
+
+            Leg leg = row.getLeg();
+            if (leg == null) {
+                row.setLeg(leg = new LegImpl());
+            }
+
+            // cannot use getPortsideXTDNotNull as it does not set the distance within the object
+            Distance distance = leg.getPortsideXTD();
+            if (distance == null){
+                leg.setPortsideXTD(distance = new DistanceImpl(DEFAULT_XTD, DistanceUnit.NAUTICAL_MILES));
+            }
+
+            if (distance.getUnit() != DistanceUnit.NAUTICAL_MILES){
+                distance.setUnit(DistanceUnit.NAUTICAL_MILES);
+            }
+
+            if (ts != null){
+                ts.run(
+                        new SetValueTransaction(
+                                distance,
+                                UnitsPackage.init().getMeasure_value(),
+                                aValue
+                        )
+                );
+            } else {
+                distance.setValue((Double) aValue);
             }
         }
-
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Waypoint row = waypointList.get(rowIndex);
-        if (0 == columnIndex) {
+        if (0 == columnIndex) { // name
             return row.getName();
-        } else if (1 == columnIndex) {
+        } else if (1 == columnIndex) { // pos x
             return row.getPosition().getX();
-        } else if (2 == columnIndex) {
+        } else if (2 == columnIndex) { // pos y
             return row.getPosition().getY();
-        } else if (3 == columnIndex) {
+        } else if (3 == columnIndex) { // radius
             return row.getRadius();
-        } else if (4 == columnIndex) {
-            try {
-                return row.getLeg().getPlanSpeedMin().getAs(SpeedUnit.KNOTS);
-            } catch (NullPointerException e) {
-                if (row.getLeg() == null) {
-                    row.setLeg(new LegImpl());
-                }
+        } else if (4 == columnIndex) { // min speed
+            Leg leg = row.getLeg();
+            if (leg == null) {
+                row.setLeg(leg = new LegImpl());
+            }
 
-                row.getLeg().setPlanSpeedMin(new SpeedImpl(10.0, de.emir.model.universal.units.SpeedUnit.KNOTS));
-                return row.getLeg().getPlanSpeedMin().getAs(SpeedUnit.KNOTS);
+            Speed speed = leg.getPlanSpeedMin();
+            if (speed == null){
+                leg.setPlanSpeedMin(speed = new SpeedImpl(DEFAULT_SPEED, de.emir.model.universal.units.SpeedUnit.KNOTS));
             }
-        } else if (5 == columnIndex) {
-            try {
-                return row.getLeg().getPlanSpeedMax().getAs(SpeedUnit.KNOTS);
-            } catch (NullPointerException e) {
-                if (row.getLeg() == null) {
-                    row.setLeg(new LegImpl());
-                }
-                row.getLeg().setPlanSpeedMax(new SpeedImpl(10.0, de.emir.model.universal.units.SpeedUnit.KNOTS));
-                return row.getLeg().getPlanSpeedMax().getAs(SpeedUnit.KNOTS);
+
+            return speed.getAs(SpeedUnit.KNOTS);
+        } else if (5 == columnIndex) { // max speed
+            Leg leg = row.getLeg();
+            if (leg == null) {
+                row.setLeg(leg = new LegImpl());
             }
-        } else if (6 == columnIndex) {
-            try {
-                return row.getLeg().getStarboardXTD().getValue();
-            } catch (NullPointerException e) {
-                if (row.getLeg() == null) {
-                    row.setLeg(new LegImpl());
-                }
-                row.getLeg().setStarboardXTD(new DistanceImpl(0.3, DistanceUnit.NAUTICAL_MILES));
-                return row.getLeg().getStarboardXTD().getValue();
+
+            Speed speed = leg.getPlanSpeedMax();
+            if (speed == null){
+                leg.setPlanSpeedMax(speed = new SpeedImpl(DEFAULT_SPEED, de.emir.model.universal.units.SpeedUnit.KNOTS));
             }
-        } else if (7 == columnIndex) {
-            try {
-                return row.getLeg().getPortsideXTD().getValue();
-            } catch (NullPointerException e) {
-                if (row.getLeg() == null) {
-                    row.setLeg(new LegImpl());
-                }
-                row.getLeg().setPortsideXTD(new DistanceImpl(0.3, DistanceUnit.NAUTICAL_MILES));
-                return row.getLeg().getPortsideXTD().getValue();
+
+            return speed.getAs(SpeedUnit.KNOTS);
+        } else if (6 == columnIndex) { // starboard xtd
+            Leg leg = row.getLeg();
+            if (leg == null) {
+                row.setLeg(leg = new LegImpl());
             }
+
+            Distance distance = leg.getStarboardXTD();
+            if (distance == null){
+                leg.setStarboardXTD(distance = new DistanceImpl(0, DistanceUnit.NAUTICAL_MILES));
+            }
+
+            return distance.getAs(DistanceUnit.NAUTICAL_MILES);
+        } else if (7 == columnIndex) { // portside xtd
+            Leg leg = row.getLeg();
+            if (leg == null) {
+                row.setLeg(leg = new LegImpl());
+            }
+
+            Distance distance = leg.getPortsideXTD();
+            if (distance == null){
+                leg.setPortsideXTD(distance = new DistanceImpl(0, DistanceUnit.NAUTICAL_MILES));
+            }
+
+            return distance.getAs(DistanceUnit.NAUTICAL_MILES);
         }
+
         return null;
     }
 

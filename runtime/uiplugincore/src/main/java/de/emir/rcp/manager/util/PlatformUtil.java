@@ -21,9 +21,8 @@ import de.emir.tuml.ucore.runtime.logging.ULog;
 
 /**
  * Grants access to the basic managers of the uicore plugin.
- * 
- * @author Florian
  *
+ * @author Florian
  */
 public class PlatformUtil {
 
@@ -93,43 +92,43 @@ public class PlatformUtil {
     public static StatusBarManager getStatusBarManager() {
         return ServiceManager.get(StatusBarManager.class);
     }
-    
+
     public static ProductInfoManager getProductInfoManager() {
         return ServiceManager.get(ProductInfoManager.class);
     }
 
     /**
-     * 
      * @return The arguments manager which stores command line arguments this application has been started with
      */
     public static ArgumentsManager getArgumentsManager() {
         return ServiceManager.get(ArgumentsManager.class);
     }
-    
+
     /**
-     * Utility method to run a model transaction. 
-     * This method is equivalent to PlatformUtil.getModelManager().getModelProvider().getTransactionStack().run(modelTransaction) 
+     * Utility method to run a model transaction.
+     * This method is equivalent to PlatformUtil.getModelManager().getModelProvider().getTransactionStack().run(modelTransaction)
      * but checks if every manager, provider and stack is available or not
+     *
      * @param modelTransaction transaction to be executed
      * @return true, if the transaction has been forwarded to the model transaction stack, false otherwise
      */
     public static boolean runModelTransaction(AbstractModelTransaction modelTransaction) {
-    	ModelManager mm = getModelManager();
-    	if (mm != null) {
-    		AbstractModelProvider mp = mm.getModelProvider();
-    		if (mp != null) {
-    			ModelTransactionStack ts = mp.getTransactionStack();
-    			if (ts != null) {
-    				ts.run(modelTransaction);
-    				return true;
-    			}else {
-    				ULog.debug("Failed to run ModelTransaction - missing TransactionStack");
-    			}
-    		}else {
-    			ULog.debug("Failed to run ModelTransaction - missing ModelProvider");
-    		}
-    	}
-    	ULog.debug("Failed to run ModelTransaction - missing ModelManager");
-    	return false;
+        ModelManager mm = getModelManager();
+        if (mm != null) {
+            AbstractModelProvider mp = mm.getModelProvider();
+            if (mp != null) {
+                ModelTransactionStack ts = mp.getTransactionStack();
+                if (ts != null) {
+                    ts.run(modelTransaction);
+                    return true;
+                } else {
+                    ULog.debug("Failed to run ModelTransaction - missing TransactionStack");
+                }
+            } else {
+                ULog.debug("Failed to run ModelTransaction - missing ModelProvider");
+            }
+        }
+        ULog.debug("Failed to run ModelTransaction - missing ModelManager");
+        return false;
     }
 }

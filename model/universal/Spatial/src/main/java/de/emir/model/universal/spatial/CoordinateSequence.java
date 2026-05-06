@@ -50,21 +50,14 @@ public interface CoordinateSequence extends UObject
 	 *	@generated 
 	 */
 	int numCoordinates();
-
-	
-	//////////////////////////////////////////////////////////////////
-	//						Owned Operations						//
-	//////////////////////////////////////////////////////////////////
 	/**
 	 *	@generated 
 	 */
 	Coordinate getCoordinate(final int idx);
-	
 	/**
 	 *	@generated 
 	 */
 	void setCoordinate(final int idx, final Coordinate value);
-	
 	/**
 	 *	@generated 
 	 */
@@ -73,7 +66,6 @@ public interface CoordinateSequence extends UObject
 	 *	@generated 
 	 */
 	void addCoordinate(final int idx, final Coordinate value);
-	
 	/**
 	 *	@generated 
 	 */
@@ -82,9 +74,8 @@ public interface CoordinateSequence extends UObject
 	 *	@generated 
 	 */
 	void removeCoordinate(final Coordinate coord);
-	
 	/**
-	 returns the boundingbox containing all coordinates within this sequence 
+	 Returns the bounding box containing all coordinates within this sequence 
 	 * @generated 
 	 */
 	Envelope getEnvelope();

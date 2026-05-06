@@ -28,6 +28,7 @@ public class TargetSettingsPanel extends JPanel {
     protected IProperty<Boolean> propDisplayProperties;
     protected IProperty<Boolean> propLayerFixedUpdate;
     protected IProperty<Integer> propLayerUpdateRate;
+    protected IProperty<Integer> propDetailedZoomLevel;
 
     /**
      * Creates a new TargetSettingsPanel and sets up the layout as well as the listeners.
@@ -46,6 +47,7 @@ public class TargetSettingsPanel extends JPanel {
         propDisplayProperties = ctx.getProperty(TargetBasics.TARGET_VIEWER_PROP_DISPLAY_PROPERTIES, true);
         propLayerFixedUpdate = ctx.getProperty(TargetBasics.TARGET_VIEWER_PROP_LAYER_FIXED_UPDATE, true);
         propLayerUpdateRate = ctx.getProperty(TargetBasics.TARGET_VIEWER_PROP_LAYER_UPDATE_RATE, 10);
+        propDetailedZoomLevel = ctx.getProperty(TargetBasics.TARGET_VIEWER_PROP_DETAILED_ZOOM_LEVEL, 6);
 
         setLayout(new GridBagLayout());
         initiateLayout();
@@ -93,6 +95,9 @@ public class TargetSettingsPanel extends JPanel {
 
         addSetting(propLayerUpdateRate, "Target Layer Update Rate", "The rate with which the Target layer should be updated in seconds.",
                 new JSpinner(new SpinnerNumberModel(propLayerUpdateRate.getValue().intValue(), 0, 3600, 1)), row++);
+
+        addSetting(propDetailedZoomLevel, "Target Layer Detailed Zoom Level", "The zoom level at which to display detailed visualization of the targets.",
+                new JSpinner(new SpinnerNumberModel(propDetailedZoomLevel.getValue().intValue(), 0, 30, 1)), row++);
 
     }
 

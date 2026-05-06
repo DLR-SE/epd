@@ -44,7 +44,7 @@ public class CustomJRadioButtonMenuItem<T> extends JRadioButtonMenuItem implemen
     private String tooltip;
 
     public CustomJRadioButtonMenuItem(String label, String iconPath, T value, String tooltip, String fullPath,
-            AbstractUIPlugin provider) {
+                                      AbstractUIPlugin provider) {
         super(label);
 
         this.value = value;

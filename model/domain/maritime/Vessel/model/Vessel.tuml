@@ -1,5 +1,6 @@
 #import "classpath:/model/Vehicle.tuml"
 #import "classpath:/model/IEC61174.tuml"
+#import "classpath:/model/Physics.tuml"
 
 using UCore.de.*;
 /**
@@ -342,9 +343,47 @@ Model Vessel {
 								 * @note this segment has to be part of the current trajectory */
 								ref TrajectorySegment		segment;								
 							}
-							
-							
-							
+
+						    /**
+						    * Represents a measured distance from a vessel to detected objects surrounding the vessel.
+						    * The ReferencedDistance stores the distance from the point of reference (i.e. the position of
+						    * the detection sensor in reference to the vessels coordinate system) to a
+						    * specific range which is defined by the minimum opening angle and maximum opening angle
+						    * which is measured based on the ships relative northern position.
+						    */
+						    class ReferencedDistance {
+						        /** The reference point of measurement. This is the position of the detection sensor in reference to the vessels coordinate system. */
+						        val PhysicalObject reference;
+						        val AngularDistance[*] angularDistances;
+						        /** Identifier of the sensor which detected the distance. */
+						        val String          source;
+						    }
+
+						    /**
+						    * Represents a measured distance to detected objects surrounding the vessel.
+                            * The AngularDistance is a wrapper for modeling multiple opening degrees for one sensor where
+                            * each opening degree is a specific range which is defined by the minimum opening angle and maximum opening angle
+                            * which is measured based on the ships relative northern position. It should be used as
+                            * part of the ReferencedDistance which specifies the origin point of the distance and the source identifier.
+						    */
+						    class AngularDistance {
+						        /** The minimum opening degree of the sensor which detected the distance. This is in reference to the vessels heading with 0 being north. */
+                                val Angle           minAngle;
+                                /** The maximum opening degree of the sensor which detected the distance. This is in reference to the vessels heading with 0 being north. */
+                                val Angle           maxAngle;
+                                /** The distance detected by the sensor. It is constrained by the minAngle and maxAngle which specify the FOV. */
+                                val Distance        distance;
+                                /** Detection timestamp. */
+                                val Time            timestamp;
+						    }
+
+						    /**
+						    * Stores the measured distances from the vessel to detected objects in the vessels surroundings.
+						    */
+							class DistanceCharacteristic extends VesselCharacteristic {
+							    /** List of ReferenceDistance measurements. The source identifier of each ReferencedDistance should act as the key, i.e. for each source only the most recent ReferencedDistance should exist. */
+							    val ReferencedDistance[*] distances;
+							}
 							
 							/**
 							 * The StandingCommands characteristic holds all currently valid commands

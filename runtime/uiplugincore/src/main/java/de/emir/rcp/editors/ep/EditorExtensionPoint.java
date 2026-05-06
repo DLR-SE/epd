@@ -15,9 +15,8 @@ import de.emir.tuml.ucore.runtime.logging.ULog;
 /**
  * The Editor ExtensionPoint is used to register additional editors to the application. See {@link Editor} for further
  * information
- * 
- * @author fklein
  *
+ * @author fklein
  */
 public class EditorExtensionPoint implements IExtensionPoint {
 
@@ -27,11 +26,9 @@ public class EditorExtensionPoint implements IExtensionPoint {
 
     /**
      * Adds an editor to the application
-     * 
-     * @param id
-     *            A unique identifier
-     * @param editorClass
-     *            The class of the editor
+     *
+     * @param id          A unique identifier
+     * @param editorClass The class of the editor
      * @return A representation of the added editor
      */
     public IEditor editor(String id, Class<? extends AbstractEditor> editorClass, String label) {
@@ -59,7 +56,7 @@ public class EditorExtensionPoint implements IExtensionPoint {
 
     /**
      * Returns an editor supporting the specified file extension
-     * 
+     *
      * @param extension
      * @return
      */

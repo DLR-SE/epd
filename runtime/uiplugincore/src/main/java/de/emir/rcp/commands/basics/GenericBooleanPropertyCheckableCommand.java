@@ -7,9 +7,8 @@ import de.emir.tuml.ucore.runtime.prop.IProperty;
 
 /**
  * A generic command that can be used to bind a checkbox menu item with a boolean property
- * 
- * @author Florian
  *
+ * @author Florian
  */
 public class GenericBooleanPropertyCheckableCommand extends AbstractCheckableCommand {
 

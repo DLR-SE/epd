@@ -58,7 +58,7 @@ public class ClassLogLevelTableModel extends DefaultTableModel {
                 .getContext(false);
         Collection<Logger> config = logContext
                 .getLoggers();
-        if(rowIndex <= config.size()) {
+        if(rowIndex < config.size()) {
             Logger conf = (Logger) config.toArray()[rowIndex];
             if(columnIndex == 0) {
                 return conf.getName();

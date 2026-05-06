@@ -14,7 +14,7 @@ public abstract class SettingsPageNodeDescriptor implements ISettingsPageNodeDes
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.emir.rcp.settings.ep.ISettingsPageNode#page(java.lang.String, java.lang.Class)
      */
     @Override
@@ -39,7 +39,7 @@ public abstract class SettingsPageNodeDescriptor implements ISettingsPageNodeDes
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.emir.rcp.settings.ep.ISettingsPageNode#page(java.lang.String)
      */
     @Override

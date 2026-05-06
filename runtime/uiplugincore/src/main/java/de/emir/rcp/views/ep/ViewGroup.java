@@ -27,7 +27,7 @@ public class ViewGroup implements IViewGroup {
     private Map<String, ViewDescriptor> views;
     private Map<String, ViewGroup> subGroups;
 
-    public ViewGroup(String id){
+    public ViewGroup(String id) {
         this.id = id;
         views = new HashMap<>();
         subGroups = new HashMap<>();
@@ -91,7 +91,7 @@ public class ViewGroup implements IViewGroup {
 
     @Override
     public IViewDescriptor view(String id, IViewDescriptor view) {
-        if (views.containsKey(id)){
+        if (views.containsKey(id)) {
             log.error("A view with id [" + id + "] already exists.");
             return null;
         }

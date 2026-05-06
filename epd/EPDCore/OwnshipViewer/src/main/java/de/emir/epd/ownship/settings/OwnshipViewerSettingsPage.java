@@ -20,7 +20,6 @@ import de.emir.model.domain.maritime.vessel.Vessel;
 import de.emir.model.universal.physics.ObjectSurfaceInformation;
 import de.emir.model.universal.physics.impl.ObjectSurfaceInformationImpl;
 import de.emir.model.universal.spatial.Geometry;
-import de.emir.rcp.model.transactions.CompoundTransaction;
 import de.emir.rcp.parts.vesseleditor.utils.PredefinedGeometryItem;
 import de.emir.rcp.parts.vesseleditor.view.parts.VesselEditorPart;
 import de.emir.rcp.properties.PropertyContext;
@@ -45,7 +44,7 @@ public class OwnshipViewerSettingsPage extends AbstractSettingsPage {
 	private Vessel ownship;
 	private JPanel vePanel = new JPanel();
 	private String oldMMSI = "211876480";
-
+	private final PropertyContext ctx = PropertyStore.getContext(OwnshipBasics.OWNSHIP_VIEWER_PROP_CONTEXT);
 	public enum OwnshipSource {NO_PROCESSING, AISTARGET, INTERNAL}
 
 	/**
@@ -53,8 +52,8 @@ public class OwnshipViewerSettingsPage extends AbstractSettingsPage {
 	 */
 	@Override
 	public Component fillPage() {
-		PropertyContext context = PropertyStore.getContext(OwnshipBasics.OWNSHIP_VIEWER_PROP_CONTEXT);
-		ownshipSourceProp = context.getProperty(OwnshipBasics.OWNSHIP_VIEWER_PROP_OWNSHIP_SOURCE, OwnshipSource.AISTARGET.name());
+
+		ownshipSourceProp = ctx.getProperty(OwnshipBasics.OWNSHIP_VIEWER_PROP_OWNSHIP_SOURCE, OwnshipSource.AISTARGET.name());
 
 		JPanel p = new JPanel();
 	
@@ -212,7 +211,7 @@ public class OwnshipViewerSettingsPage extends AbstractSettingsPage {
 		if(ownship != null){
             ObjectSurfaceInformation osi = ownship.getFirstCharacteristic(ObjectSurfaceInformation.class, true);
             if (osi == null) {
-                PredefinedGeometryItem geometryItem = (PredefinedGeometryItem) PredefinedGeometryItem.getPredefinedGeometryItems().get("Simple");
+                PredefinedGeometryItem geometryItem = PredefinedGeometryItem.getPredefinedGeometryItems().get("Simple");
                 WKTUtil wktUtil = new WKTUtil();
                 Geometry topGeometry = wktUtil.loadWKT(geometryItem.wktTop);
                 //topGeometry.recursiveSetCRS(editor.getPhysicalObject().getOwnedCoordinateSystem());

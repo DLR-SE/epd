@@ -1,5 +1,6 @@
 package de.emir.model.universal.spatial.sf.impl;
 
+import de.emir.model.universal.crs.CoordinateReferenceSystem;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.model.universal.spatial.CoordinateSequence;
@@ -8,7 +9,6 @@ import de.emir.model.universal.spatial.sf.LineString;
 import de.emir.model.universal.spatial.sf.MultiLineString;
 import de.emir.model.universal.spatial.sf.SfPackage;
 import de.emir.model.universal.spatial.sf.delegate.IMultiLineStringDelegationInterface;
-import de.emir.model.universal.spatial.sf.impl.MultiGeometryImpl;
 import de.emir.tuml.ucore.runtime.lists.UContainmentList;
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class MultiLineStringImpl extends MultiGeometryImpl implements MultiLineS
 	 *	@generated 
 	 */
 	private List<LineString> mLines = null;
-			
+
 	/**
 	 *	Default constructor
 	 *	@generated
@@ -33,7 +33,7 @@ public class MultiLineStringImpl extends MultiGeometryImpl implements MultiLineS
 	public MultiLineStringImpl(){
 		super();
 	}
-	
+
 	/**
 	 *	Default copy constructor
 	 *	@generated
@@ -42,7 +42,7 @@ public class MultiLineStringImpl extends MultiGeometryImpl implements MultiLineS
 		super(_copy);
 		mLines = _copy.getLines();
 	}
-	
+
 	/**
 	 *	Default attribute constructor
 	 *	@generated
@@ -51,17 +51,14 @@ public class MultiLineStringImpl extends MultiGeometryImpl implements MultiLineS
 		super();
 		mLines = _lines; 
 	}
-	
+
 	/**
 	 * @generated
 	 */
 	public UClass getUClassifier() {
 		return SfPackage.Literals.MultiLineString;
 	}
-	
-	//////////////////////////////////////////////////////////////////
-	//						Setter / Getter							//
-	//////////////////////////////////////////////////////////////////
+
 	/**
 	 *	@generated 
 	 */
@@ -71,24 +68,32 @@ public class MultiLineStringImpl extends MultiGeometryImpl implements MultiLineS
 		}
 		return mLines;
 	}
+
+	
 	
 	//////////////////////////////////////////////////////////////////
 	//							 Operations							//
 	//////////////////////////////////////////////////////////////////
-	
+
+    /**
+     * @inheritDoc
+     * @generated not
+     */
+    public CoordinateReferenceSystem getCRS() {
+        // there is no CRS for all geometries in this collection, thus we simply return null
+        return null;
+    }
+
 	/**
 	 * @inheritDoc
 	 * @generated
 	 */
-	public CoordinateSequence getCoordinates()
-	{
+	public CoordinateSequence getCoordinates()  {
 		IMultiLineStringDelegationInterface delegate = getDelegate();
 		if (delegate == null)
 			throw new NullPointerException("Operationsdelegate has not been initialized for: MultiLineString");
 		return delegate.getCoordinates(this);
 	}
-
-
 
 	/**
 	* @generated
@@ -99,13 +104,19 @@ public class MultiLineStringImpl extends MultiGeometryImpl implements MultiLineS
 		"}";
 	}
 
-	@Override
+    @Override
+    public List<Geometry> getGeometries() {
+        // down case from lines to geometries -> https://stackoverflow.com/a/933600
+        return (List<Geometry>) (List<?>) getLines();
+    }
+
+    @Override
 	public int getNumGeometries() {
-		return mLines.size();
+		return getLines().size();
 	}
 
 	@Override
 	public Geometry getGeometry(int idx) {
-		return mLines.get(idx);
+		return getLines().get(idx);
 	}
 }

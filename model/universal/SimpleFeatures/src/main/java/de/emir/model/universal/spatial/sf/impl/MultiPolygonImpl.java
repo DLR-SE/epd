@@ -1,16 +1,14 @@
 package de.emir.model.universal.spatial.sf.impl;
 
-import de.emir.model.universal.spatial.Coordinate;
+import de.emir.model.universal.crs.CoordinateReferenceSystem;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.model.universal.spatial.CoordinateSequence;
 import de.emir.model.universal.spatial.Geometry;
-import de.emir.model.universal.spatial.impl.CoordinateSequenceImpl;
 import de.emir.model.universal.spatial.sf.MultiPolygon;
 import de.emir.model.universal.spatial.sf.Polygon;
 import de.emir.model.universal.spatial.sf.SfPackage;
 import de.emir.model.universal.spatial.sf.delegate.IMultiPolygonDelegationInterface;
-import de.emir.model.universal.spatial.sf.impl.MultiGeometryImpl;
 import de.emir.tuml.ucore.runtime.lists.UContainmentList;
 import java.util.List;
 
@@ -27,7 +25,7 @@ public class MultiPolygonImpl extends MultiGeometryImpl implements MultiPolygon
 	 *	@generated 
 	 */
 	private List<Polygon> mPolygons = null;
-			
+
 	/**
 	 *	Default constructor
 	 *	@generated
@@ -35,7 +33,7 @@ public class MultiPolygonImpl extends MultiGeometryImpl implements MultiPolygon
 	public MultiPolygonImpl(){
 		super();
 	}
-	
+
 	/**
 	 *	Default copy constructor
 	 *	@generated
@@ -44,7 +42,7 @@ public class MultiPolygonImpl extends MultiGeometryImpl implements MultiPolygon
 		super(_copy);
 		mPolygons = _copy.getPolygons();
 	}
-	
+
 	/**
 	 *	Default attribute constructor
 	 *	@generated
@@ -53,17 +51,14 @@ public class MultiPolygonImpl extends MultiGeometryImpl implements MultiPolygon
 		super();
 		mPolygons = _polygons; 
 	}
-	
+
 	/**
 	 * @generated
 	 */
 	public UClass getUClassifier() {
 		return SfPackage.Literals.MultiPolygon;
 	}
-	
-	//////////////////////////////////////////////////////////////////
-	//						Setter / Getter							//
-	//////////////////////////////////////////////////////////////////
+
 	/**
 	 *	@generated 
 	 */
@@ -73,34 +68,31 @@ public class MultiPolygonImpl extends MultiGeometryImpl implements MultiPolygon
 		}
 		return mPolygons;
 	}
-	
+
 	//////////////////////////////////////////////////////////////////
 	//							 Operations							//
 	//////////////////////////////////////////////////////////////////
-	
+
+    /**
+     * @inheritDoc
+     * @generated not
+     */
+    public CoordinateReferenceSystem getCRS() {
+        // there is no CRS for all geometries in this collection, thus we simply return null
+        return null;
+    }
+
 	/**
 	 * @inheritDoc
-	 * @generated
+	 * @generated not
 	 */
-	public CoordinateSequence getCoordinates()
-	{
-		/*IMultiPolygonDelegationInterface delegate = getDelegate();
+    @Override
+	public CoordinateSequence getCoordinates() {
+		IMultiPolygonDelegationInterface delegate = getDelegate();
 		if (delegate == null)
 			throw new NullPointerException("Operationsdelegate has not been initialized for: MultiPolygon");
 		return delegate.getCoordinates(this);
-        */
-        CoordinateSequence result = new CoordinateSequenceImpl();
-        if (getPolygons() == null) return null;
-        for (Polygon p : getPolygons()) {
-            for (int i = 0; i < p.getCoordinates().numCoordinates(); i++) {
-                Coordinate c = p.getCoordinate(i);
-                result.addCoordinate(c);
-            }
-        }
-        return result;
 	}
-
-
 
 	/**
 	* @generated
@@ -111,13 +103,19 @@ public class MultiPolygonImpl extends MultiGeometryImpl implements MultiPolygon
 		"}";
 	}
 
-	@Override
+    @Override
+    public List<Geometry> getGeometries() {
+        // down case from polygons to geometries -> https://stackoverflow.com/a/933600
+        return (List<Geometry>) (List<?>) getPolygons();
+    }
+
+    @Override
 	public int getNumGeometries() {
-		return mPolygons.size();
+		return getPolygons().size();
 	}
 
 	@Override
 	public Geometry getGeometry(int idx) {
-		return mPolygons.get(idx);
+		return getPolygons().get(idx);
 	}
 }

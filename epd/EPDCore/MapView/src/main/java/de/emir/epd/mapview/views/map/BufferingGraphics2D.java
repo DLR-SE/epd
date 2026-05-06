@@ -11,9 +11,9 @@ import java.util.List;
 
 public class BufferingGraphics2D {
 
-	private List<IDrawCall> calls = new ArrayList<>();
+	private final List<IDrawCall> calls = new ArrayList<>();
 
-	private Graphics2D graphic;
+	private final Graphics2D graphic;
 	
 	public BufferingGraphics2D() {
 		BufferedImage b = new BufferedImage(1, 1, ColorSpace.TYPE_RGB);
@@ -45,21 +45,17 @@ public class BufferingGraphics2D {
 	}
 
 	public void setColor(Color c) {
-
 		calls.add(new SetColor(c));
 		graphic.setColor(c);
-
 	}
 
 	public void scale(double sx, double sy) {
-
 		calls.add(new Scale(sx, sy));
 		graphic.scale(sx, sy);
 	}
 
 	public void drawString(String s, float x, float y) {
 		calls.add(new DrawString(s, x, y));
-
 	}
 
 	public FontMetrics getFontMetrics(Font font) {
@@ -139,12 +135,6 @@ public class BufferingGraphics2D {
 	public Graphics getGraphic() {
 		return graphic;
 	}
-	
-	public void dispose() {
-		if(graphic != null) {
-			graphic.dispose();
-		}
-	}
 
 	public void drawImage(Image image, int x, int y) {
 		calls.add(new DrawImageXY(image, x, y));
@@ -155,5 +145,11 @@ public class BufferingGraphics2D {
 		calls.add(new DrawRect(x, y, width, height));
 		
 	}
+
+    public void dispose() {
+        if(graphic != null) {
+            graphic.dispose();
+        }
+    }
 
 }

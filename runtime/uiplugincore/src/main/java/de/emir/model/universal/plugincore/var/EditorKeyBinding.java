@@ -6,21 +6,21 @@ import de.emir.tuml.ucore.runtime.annotations.UMLProperty;
 import de.emir.tuml.ucore.runtime.annotations.UMLProperty.AssociationType;
 
 /**
- *	@generated 
+ * @generated
  */
-@UMLClass(parent = AbstractKeyBinding.class)	
-public interface EditorKeyBinding extends AbstractKeyBinding 
-{
-	/**
-	 *	@generated 
-	 */
-	@UMLProperty(name = "editorID", associationType = AssociationType.PROPERTY)
-	public void setEditorID(String _editorID);
-	/**
-	 *	@generated 
-	 */
-	@UMLProperty(name = "editorID", associationType = AssociationType.PROPERTY)
-	public String getEditorID();
+@UMLClass(parent = AbstractKeyBinding.class)
+public interface EditorKeyBinding extends AbstractKeyBinding {
+    /**
+     * @generated
+     */
+    @UMLProperty(name = "editorID", associationType = AssociationType.PROPERTY)
+    public void setEditorID(String _editorID);
 
-	
+    /**
+     * @generated
+     */
+    @UMLProperty(name = "editorID", associationType = AssociationType.PROPERTY)
+    public String getEditorID();
+
+
 }

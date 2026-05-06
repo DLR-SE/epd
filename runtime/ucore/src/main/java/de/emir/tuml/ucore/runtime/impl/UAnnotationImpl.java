@@ -3,13 +3,11 @@ package de.emir.tuml.ucore.runtime.impl;
 import java.util.List;
 
 import de.emir.tuml.ucore.runtime.NotificationType;
-import de.emir.tuml.ucore.runtime.Notification;
 import de.emir.tuml.ucore.runtime.RuntimePackage;
 import de.emir.tuml.ucore.runtime.UAnnotation;
 import de.emir.tuml.ucore.runtime.UAnnotationDetail;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
-import de.emir.tuml.ucore.runtime.impl.UObjectImpl;
 import de.emir.tuml.ucore.runtime.lists.UContainmentList;
 
 /**

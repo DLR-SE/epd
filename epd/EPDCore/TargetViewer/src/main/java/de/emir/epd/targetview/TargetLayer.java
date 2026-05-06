@@ -5,13 +5,16 @@ import de.emir.epd.mapview.ids.MVBasic;
 import de.emir.epd.mapview.views.map.AbstractMapLayer;
 import de.emir.epd.mapview.views.map.BufferingGraphics2D;
 import de.emir.epd.mapview.views.map.IDrawContext;
+import de.emir.epd.model.EPDModel;
 import de.emir.epd.model.EPDModelUtils;
 import de.emir.epd.targetview.ids.TargetBasics;
 import de.emir.epd.targetview.lib.TargetShapeRenderer;
+import de.emir.model.domain.maritime.vessel.Vessel;
 import de.emir.model.universal.detection.ITarget;
 import de.emir.model.universal.detection.ITrackPoint;
 import de.emir.model.universal.detection.ITrackedTarget;
 import de.emir.model.universal.crs.util.CRSUtils;
+import de.emir.model.universal.physics.LocatableObject;
 import de.emir.model.universal.physics.PhysicalObject;
 import de.emir.model.universal.physics.PhysicalObjectUtils;
 import de.emir.model.universal.spatial.Coordinate;
@@ -20,11 +23,17 @@ import de.emir.model.universal.units.*;
 import de.emir.model.universal.units.impl.DistanceImpl;
 import de.emir.rcp.manager.SelectionManager;
 import de.emir.rcp.manager.util.PlatformUtil;
+import de.emir.rcp.model.AbstractModelProvider;
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
 import de.emir.tuml.ucore.runtime.ITreeValueChangeListener;
+import de.emir.tuml.ucore.runtime.IValueChangeListener;
 import de.emir.tuml.ucore.runtime.Notification;
+import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
+import de.emir.tuml.ucore.runtime.utils.UCoreUtils;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Consumer;
 import org.jxmapviewer.viewer.GeoPosition;
 
 import javax.swing.*;
@@ -32,8 +41,11 @@ import java.awt.*;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.time.Instant;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -41,12 +53,13 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.stream.Collectors;
 
 /**
  * Map layer for displaying Target or TrackedTarget objects which are inserted into the model. a Target/TrackedTarget
  * generally refers to an object perceived by a tracking or detection system such as RADAR.
  */
-public class TargetLayer extends AbstractMapLayer {
+public class TargetLayer extends AbstractMapLayer implements ITreeValueChangeListener, IValueChangeListener<PhysicalObject> {
     protected PhysicalObject lastFocusedTarget;
     protected PhysicalObject lastSelectedTarget;
     protected Set<ITarget> targets = ConcurrentHashMap.newKeySet();
@@ -55,8 +68,9 @@ public class TargetLayer extends AbstractMapLayer {
     protected BasicStroke cogSogStroke = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1,
             new float[]{5, 3}, 0);
     protected BasicStroke trackStroke = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
-    protected Color shipColor = new Color(78, 78, 78);
-    protected Color trackColor = new Color(26, 26, 26, 96);
+    protected Color shipColor = new Color(34, 34, 34, 255);
+    protected Color trackColor = new Color(78, 78, 78, 96);
+    protected Color focusColor = new Color(0, 0, 0, 255);
 
     protected IProperty<Integer> propTargetLostTime;
     protected IProperty<Integer> propLookahead;
@@ -69,20 +83,28 @@ public class TargetLayer extends AbstractMapLayer {
     protected IProperty<Boolean> propShowTrackedTargets;
     protected IProperty<Boolean> propLayerFixedUpdate;
     protected IProperty<Integer> propLayerUpdateRate;
+    protected IProperty<Integer> propDetailedZoomLevel;
 
     protected String currentDescription = "";
     private int mouseX;
     private int mouseY;
     protected Set<ShapeTarget> targetShapes = ConcurrentHashMap.newKeySet();
-    protected RedrawObserver observer = new RedrawObserver();
-    protected ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     protected AffineTransform baseTransform;
     protected TargetShapeRenderer iconRenderer = new TargetShapeRenderer();
+    protected UObject currentRoot;
 
+    /**
+     * Creates a new target layer.
+     */
     public TargetLayer() {
+        AbstractModelProvider modelProvider = PlatformUtil.getModelManager().getModelProvider();
+        if(modelProvider != null) {
+            modelProvider.subscribeModel(sub -> modelChanged());
+        }
         modelChanged();
         addListeners();
     }
+
 
     /**
      * Queries if the visibility of the map layer can be controlled by the user.
@@ -99,70 +121,44 @@ public class TargetLayer extends AbstractMapLayer {
      */
     @Override
     public void modelChanged() {
-        EPDModelUtils.subscribeModelChange("targets", event -> {
-            Set<ITarget> oldTargets = new HashSet<>(Arrays.asList((ITarget[]) event.getOldValue()));
-            Set<ITarget> newTargets = new HashSet<>(Arrays.asList((ITarget[]) event.getNewValue()));
-            if (oldTargets.size() > newTargets.size()) {
-                Set<ITarget> removedObjects = difference(oldTargets, newTargets);
-                unregisterTreeListeners(removedObjects);
-                targets.removeAll(removedObjects);
-            } else {
-                Set<ITarget> addedObjects = difference(newTargets, oldTargets);
-                registerTreeListeners(addedObjects);
-                targets.addAll(addedObjects);
-            }
-            setDirty(true);
-        });
-        EPDModelUtils.subscribeModelChange("trackedTargets", event -> {
-            Set<ITrackedTarget> oldTargets = new HashSet<>(Arrays.asList((ITrackedTarget[]) event.getOldValue()));
-            Set<ITrackedTarget> newTargets = new HashSet<>(Arrays.asList((ITrackedTarget[]) event.getNewValue()));
-            if (oldTargets.size() > newTargets.size()) {
-                Set<ITrackedTarget> removedObjects = difference(oldTargets, newTargets);
-                unregisterTreeListeners(removedObjects);
-                trackedTargets.removeAll(removedObjects);
-            } else {
-                Set<ITrackedTarget> addedObjects = difference(newTargets, oldTargets);
-                registerTreeListeners(addedObjects);
-                trackedTargets.addAll(addedObjects);
-            }
-            setDirty(true);
-        });
+        rebuildModel();
+        setDirty(true);
     }
 
     /**
-     * Calculates the difference between two sets based on a bigger and a smaller set. This operation equals the relative complement of the set theory.
-     *
-     * @param biggerSet  Set to compare.
-     * @param smallerSet Set to compare.
-     * @param <T>        Type of physical object.
-     * @return Objects which are included in the bigger set but are not included in the smaller set.
+     * Rebuilds the model. If the underlying UCore model is changed or the root is swapped, the target model
+     * is switched to the new root node.
      */
-    private <T extends PhysicalObject> Set<T> difference(Set<T> biggerSet, Set<T> smallerSet) {
-        biggerSet.removeAll(smallerSet);
-        return biggerSet;
-    }
-
-    /**
-     * Registers a tree listener to all targets of a set of targets.
-     *
-     * @param targets Targets to register tree listeners for.
-     * @param <T>     Type of physical object.
-     */
-    private <T extends PhysicalObject> void registerTreeListeners(Set<T> targets) {
-        for (PhysicalObject target : targets) {
-            target.registerTreeListener(observer);
+    private void rebuildModel() {
+        if (PlatformUtil.getModelManager().getModelProvider() != null) {
+            Object content = PlatformUtil.getModelManager().getModelProvider().getModel();
+            UObject root;
+            if(content instanceof UObject uo) {
+                root = uo;
+                currentRoot = root;
+            } else if(content instanceof EPDModel) {
+                root = EPDModelUtils.retrieveObjectLayer(EPDModelUtils.getDefaultEnvironment());
+                if(currentRoot != root) {
+                    if(currentRoot != null) currentRoot.removeTreeListener(this);
+                    root.registerTreeListener(this);
+                    currentRoot = root;
+                }
+            }
+            refreshTargets();
         }
     }
 
     /**
-     * Deregisters a tree listener from all targets of a set of targets.
-     *
-     * @param targets Targets to unregister tree listener from.
-     * @param <T>     Type of physical object.
+     * Synchonizes the internal target model with the UCore target model. This method should be called when
+     * targets or tracked targets are removed or added to the UCore model.
      */
-    private <T extends PhysicalObject> void unregisterTreeListeners(Set<T> targets) {
-        for (PhysicalObject target : targets) {
-            target.removeTreeListener(observer);
+    private void refreshTargets() {
+        if(currentRoot != null) {
+            Set<ITrackedTarget> trackedTargetSet = new HashSet<>(UCoreUtils.collectTypedChildren(currentRoot, ITrackedTarget.class));
+            if(!this.trackedTargets.isEmpty()) {
+                this.trackedTargets.removeAll(findRemovedObjects(this.trackedTargets, trackedTargetSet));
+            }
+            this.trackedTargets.addAll(findAddedObjects(this.trackedTargets, trackedTargetSet));
         }
     }
 
@@ -220,6 +216,7 @@ public class TargetLayer extends AbstractMapLayer {
         propShowTrackedTargets = ctx.getProperty(TargetBasics.TARGET_VIEWER_PROP_SHOW_TRACKED_TARGETS, true);
         propLayerFixedUpdate = ctx.getProperty(TargetBasics.TARGET_VIEWER_PROP_LAYER_FIXED_UPDATE, true);
         propLayerUpdateRate = ctx.getProperty(TargetBasics.TARGET_VIEWER_PROP_LAYER_UPDATE_RATE, 10);
+        propDetailedZoomLevel = ctx.getProperty(TargetBasics.TARGET_VIEWER_PROP_DETAILED_ZOOM_LEVEL, 6);
 
         propTargetLostTime.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
         propLookahead.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
@@ -227,21 +224,44 @@ public class TargetLayer extends AbstractMapLayer {
         propDisplayTargetLoss.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
         propHandleTrackTimeout.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
         propUseReceiveTimestamp.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
-        ;
         propShowNames.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
-        ;
         propShowTargets.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
-        ;
         propShowTrackedTargets.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
-        ;
         propLayerFixedUpdate.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
+        propDetailedZoomLevel.addPropertyChangeListener(new SetLayerDirtyPropertyChangeListener(this));
 
-        // Updater which updates the layer at a fixed rate if no other changes in the model were made.
-        scheduler.scheduleAtFixedRate(() -> {
-            if (propLayerFixedUpdate.getValue()) {
-                setDirty(true);
+        // TODO Removing objects currently breaks the tree listeners in UCore. Until now we are not removing old tracks.
+//        scheduler.scheduleAtFixedRate(() -> {
+//            for (ITrackedTarget target : trackedTargets) {
+//                cleanupTrack(target);
+//            }
+//        }, 0, 1, java.util.concurrent.TimeUnit.SECONDS);
+    }
+
+    /**
+     * Cleans all tracks older than the configured timestamp from the UCore model.
+     * TODO currently not in use since the aforementioned listener issues.
+     * @param target Target to cleanup track for.
+     */
+    private void cleanupTrack(ITrackedTarget target) {
+        if (target.getTrack() == null) return;
+        List<ITrackPoint> toRemove = new ArrayList<>();
+        for (ITrackPoint trackPoint : target.getTrack().getTrackPoints()) {
+            long timestamp;
+            if(propUseReceiveTimestamp.getValue() && trackPoint.hasProperty("lastReceiveTimestamp")) {
+                timestamp = (long) trackPoint.getProperty("lastReceiveTimestamp").getValue();
+            } else if(trackPoint.getTimestamp() != null) {
+                timestamp = (long) trackPoint.getTimestamp().getAs(TimeUnit.MILLISECOND);
+            } else {
+                timestamp = System.currentTimeMillis();
             }
-        }, 0, propLayerUpdateRate.getValue(), java.util.concurrent.TimeUnit.SECONDS);
+            if((System.currentTimeMillis() - timestamp) > propTrackTimeout.getValue() * 1000) {
+                toRemove.add(trackPoint);
+            }
+        }
+        if (!toRemove.isEmpty()) {
+            target.getTrack().getTrackPoints().removeAll(toRemove);
+        }
     }
 
     /**
@@ -257,11 +277,9 @@ public class TargetLayer extends AbstractMapLayer {
         // Draw each Target if show targets is configured in the layers.
         if (targets != null && propShowTargets.getValue()) {
             for (ITarget target : targets) {
-                if (inViewport(c, target.getPose())) {
-                    paintTargetSymbol(g, c, target);
-                    if (lastSelectedTarget == target) {
-                        paintSelectionBox(g, c, target);
-                    }
+                paintTargetSymbol(g, c, target);
+                if (lastSelectedTarget == target) {
+                    paintSelectionBox(g, c, target);
                 }
             }
         }
@@ -269,10 +287,8 @@ public class TargetLayer extends AbstractMapLayer {
         if (trackedTargets != null && propShowTrackedTargets.getValue()) {
             for (ITrackedTarget target : trackedTargets) {
                 boolean lostTarget = getLostStatus(target);
-                if (inViewport(c, target.getPose())) {
-                    paintTrackedTargetSymbol(lostTarget, g, c, target);
-                    paintVector(lostTarget, g, c, target);
-                }
+                paintTrackedTargetSymbol(lostTarget, g, c, target);
+                paintVector(lostTarget, g, c, target);
                 paintTrackPoints(g, c, target);
                 if (lastSelectedTarget == target) {
                     paintSelectionBox(g, c, target);
@@ -294,7 +310,7 @@ public class TargetLayer extends AbstractMapLayer {
      * @param target     Target to retrieve vector from.
      */
     private void paintVector(boolean lostTarget, BufferingGraphics2D graphics2D, IDrawContext context, PhysicalObject target) {
-        if (context.getZoom() < 6) {
+        if (inViewport(context, target.getPose()) && context.getZoom() < propDetailedZoomLevel.getValue()&& !lostTarget) {
             double cogRad = 0;
             double lat = target.getPose().getCoordinate().getLatitude();
             double lon = target.getPose().getCoordinate().getLongitude();
@@ -313,7 +329,7 @@ public class TargetLayer extends AbstractMapLayer {
                     }
                     cogRad = Math.toRadians(cog);
                     graphics2D.rotate(cogRad);
-                    if (!lostTarget && context.getZoom() < 8 && Float.compare(sog, 102.3f) != 0) {
+                    if (context.getZoom() < propDetailedZoomLevel.getValue() && Float.compare(sog, 102.3f) != 0) {
                         int vec = propLookahead.getValue();
                         double[] nleft = CRSUtils.getTarget(
                                 new double[]{lat, lon},
@@ -354,52 +370,39 @@ public class TargetLayer extends AbstractMapLayer {
      * @param target     Target to retrieve track from.
      */
     private void paintTrackPoints(BufferingGraphics2D graphics2D, IDrawContext context, ITrackedTarget target) {
-        if (context.getZoom() < 6) {
+        if (context.getZoom() < propDetailedZoomLevel.getValue()) {
             if (target.getTrack() != null && !target.getTrack().getTrackPoints().isEmpty()) {
-                List<ITrackPoint> copy = new ArrayList<>(target.getTrack().getTrackPoints());
+                List<ITrackPoint> clone = new ArrayList<>(target.getTrack().getTrackPoints());
                 ITrackPoint prevTrackpoint = null;
-                for (ITrackPoint trackPoint : copy) {
-                    if (propHandleTrackTimeout.getValue()) {
-                        if (propUseReceiveTimestamp.getValue()) {
-                            // Timeouts for internal timestamps inside the EPD.
-                            if (trackPoint.hasProperty("lastReceiveTimestamp") &&
-                                    System.currentTimeMillis() - (long) trackPoint.getProperty("lastReceiveTimestamp").getValue() >=
-                                            (long) (propTargetLostTime.getValue() * 1000)) {
-                                continue;
-                            }
-                            if (!trackPoint.hasProperty("lastReceiveTimestamp")) {
-                                continue;
-                            }
-                        } else {
-                            // Timeouts for supplied timestamps of the target messages.
-                            long tpTime;
-                            long diff;
-                            if (trackPoint.getTimestamp() != null) {
-                                tpTime = (long) trackPoint.getTimestamp().getAs(TimeUnit.MILLISECOND);
-                                diff = System.currentTimeMillis() - tpTime;
-                                // check if we want to draw this point based on track timeout property
-                                if (propHandleTrackTimeout.getValue() && (diff > propTrackTimeout.getValue() * 60 * 1000)) {
-                                    continue;
-                                }
-                            } else if (propHandleTrackTimeout.getValue()) {
-                                continue;
-                            }
+                for (ITrackPoint trackPoint : clone) {
+                    long timestamp;
+                    if(propUseReceiveTimestamp.getValue() && trackPoint.hasProperty("lastReceiveTimestamp")) {
+                        timestamp = (long) trackPoint.getProperty("lastReceiveTimestamp").getValue();
+                    } else if(trackPoint.getTimestamp() != null) {
+                        timestamp = (long) trackPoint.getTimestamp().getAs(TimeUnit.MILLISECOND);
+                    } else {
+                        timestamp = System.currentTimeMillis();
+                    }
+                    if((System.currentTimeMillis() - timestamp) > propTrackTimeout.getValue() * 1000) {
+                        continue;
+                    }
+                    graphics2D.setColor(trackColor);
+                    graphics2D.setStroke(trackStroke);
+                    Point2D point = context.convert(
+                            trackPoint.getPose().getCoordinate());
+                    if (prevTrackpoint != null) {
+                        Point2D prevPoint = context.convert(
+                                prevTrackpoint.getPose().getCoordinate());
+                        Line2D line = new Line2D.Double((int) prevPoint.getX(), (int) prevPoint.getY(), (int) point.getX(), (int) point.getY());
+                        if(line.intersects(context.getBounds())) {
+                            graphics2D.draw(line);
                         }
                     }
-                    if (inViewport(context, trackPoint.getPose())) {
-                        graphics2D.setColor(trackColor);
-                        graphics2D.setStroke(trackStroke);
-                        Point2D point = context.convert(
-                                trackPoint.getPose().getCoordinate());
-                        if (prevTrackpoint != null) {
-                            Point2D prevPoint = context.convert(
-                                    prevTrackpoint.getPose().getCoordinate());
-                            graphics2D.drawLine((int) prevPoint.getX(), (int) prevPoint.getY(), (int) point.getX(), (int) point.getY());
-                        }
+                    if(inViewport(context, point)) {
                         graphics2D.translate(point.getX(), point.getY());
                         graphics2D.fill(iconRenderer.getTrackMarker());
-                        resetTransform(graphics2D);
                     }
+                    resetTransform(graphics2D);
                     prevTrackpoint = trackPoint;
                 }
             }
@@ -415,25 +418,41 @@ public class TargetLayer extends AbstractMapLayer {
      * @param target     Target to retrieve data from.
      */
     private void paintTrackedTargetSymbol(boolean lostTarget, BufferingGraphics2D graphics2D, IDrawContext context, ITrackedTarget target) {
-        double lat = target.getPose().getCoordinate().getLatitude();
-        double lon = target.getPose().getCoordinate().getLongitude();
-        Point2D point2D = context.convert(lon, lat);
-        graphics2D.translate(point2D.getX(), point2D.getY());
-        graphics2D.setColor(shipColor);
-        graphics2D.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-        if (context.getZoom() < 6) {
-            if (target.getName() != null && propShowNames.getValue()) {
-                graphics2D.drawString(target.getNameAsString(), 10, 10);
+        if(inViewport(context, target.getPose())) {
+            double lat = target.getPose().getCoordinate().getLatitude();
+            double lon = target.getPose().getCoordinate().getLongitude();
+            Point2D point2D = context.convert(lon, lat);
+            graphics2D.translate(point2D.getX(), point2D.getY());
+            if (lastFocusedTarget == target) {
+                graphics2D.setColor(focusColor);
+            } else {
+                graphics2D.setColor(shipColor);
             }
-            if (target.hasProperty("status")) {
-                IProperty<?> status = target.getProperty("status");
-                if (status.getValue().equals("LOST")) {
-                    graphics2D.draw(iconRenderer.getTargetSymbol());
-                    graphics2D.draw(iconRenderer.getLostTargetSymbol());
-                    targetShapes.add(new ShapeTarget(graphics2D.getTransform().createTransformedShape(iconRenderer.getTargetSymbol()), target));
-                } else if (status.getValue().equals("QUERY")) {
-                    graphics2D.draw(iconRenderer.getAcquisitionStateSymbol());
-                    targetShapes.add(new ShapeTarget(graphics2D.getTransform().createTransformedShape(iconRenderer.getAcquisitionStateSymbol()), target));
+            graphics2D.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+            if (context.getZoom() < propDetailedZoomLevel.getValue()) {
+                if (propShowNames.getValue()) {
+                    if(target.getName() != null) {
+                        graphics2D.drawString(target.getNameAsString(), 10, 10);
+                    } else if(target.getId() != null) {
+                        graphics2D.drawString(target.getId(), 10, 10);
+                    }
+                }
+                if (target.hasProperty("status")) {
+                    IProperty<?> status = target.getProperty("status");
+                    if (status.getValue().equals("LOST")) {
+                        graphics2D.draw(iconRenderer.getTargetSymbol());
+                        graphics2D.draw(iconRenderer.getLostTargetSymbol());
+                        targetShapes.add(new ShapeTarget(graphics2D.getTransform().createTransformedShape(iconRenderer.getTargetSymbol()), target));
+                    } else if (status.getValue().equals("QUERY")) {
+                        graphics2D.draw(iconRenderer.getAcquisitionStateSymbol());
+                        targetShapes.add(new ShapeTarget(graphics2D.getTransform().createTransformedShape(iconRenderer.getAcquisitionStateSymbol()), target));
+                    } else {
+                        graphics2D.draw(iconRenderer.getTargetSymbol());
+                        targetShapes.add(new ShapeTarget(graphics2D.getTransform().createTransformedShape(iconRenderer.getTargetSymbol()), target));
+                        if (lostTarget) {
+                            graphics2D.draw(iconRenderer.getLostTargetSymbol());
+                        }
+                    }
                 } else {
                     graphics2D.draw(iconRenderer.getTargetSymbol());
                     targetShapes.add(new ShapeTarget(graphics2D.getTransform().createTransformedShape(iconRenderer.getTargetSymbol()), target));
@@ -442,14 +461,8 @@ public class TargetLayer extends AbstractMapLayer {
                     }
                 }
             } else {
-                graphics2D.draw(iconRenderer.getTargetSymbol());
-                targetShapes.add(new ShapeTarget(graphics2D.getTransform().createTransformedShape(iconRenderer.getTargetSymbol()), target));
-                if (lostTarget) {
-                    graphics2D.draw(iconRenderer.getLostTargetSymbol());
-                }
+                graphics2D.draw(iconRenderer.getMinimizedTargetSymbol());
             }
-        } else {
-            graphics2D.draw(iconRenderer.getMinimizedTargetSymbol());
         }
         resetTransform(graphics2D);
     }
@@ -462,38 +475,50 @@ public class TargetLayer extends AbstractMapLayer {
      * @param target     Target to retrieve data from.
      */
     private void paintTargetSymbol(BufferingGraphics2D graphics2D, IDrawContext context, ITarget target) {
-        double lat = target.getPose().getCoordinate().getLatitude();
-        double lon = target.getPose().getCoordinate().getLongitude();
-        Point2D point2D = context.convert(lon, lat);
-        graphics2D.translate(point2D.getX(), point2D.getY());
-        graphics2D.setColor(shipColor);
-        graphics2D.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-        if (context.getZoom() < 6) {
-            graphics2D.draw(iconRenderer.getPlottedTargetSymbol());
-            // Mode = Fix, EP, DR.
-            if (target.hasProperty("mode")) {
-                graphics2D.drawString(target.getPropertyValueAsString("mode"), -30, 15);
+        if(inViewport(context, target.getPose())) {
+            if(propHandleTrackTimeout.getValue() && target.getTimestamp() != null && target.getTimestamp().getAs(TimeUnit.MILLISECOND) != 0) {
+                long diff = (long) (System.currentTimeMillis() - target.getTimestamp().getAs(TimeUnit.MILLISECOND));
+                if(diff > propTrackTimeout.getValue() * 1000) {
+                    return;
+                }
+            }
+            double lat = target.getPose().getCoordinate().getLatitude();
+            double lon = target.getPose().getCoordinate().getLongitude();
+            Point2D point2D = context.convert(lon, lat);
+            graphics2D.translate(point2D.getX(), point2D.getY());
+            if (lastFocusedTarget == target) {
+                graphics2D.setColor(focusColor);
             } else {
-                graphics2D.drawString("DR", -30, 15);
+                graphics2D.setColor(shipColor);
             }
-            if (target.getName() != null && propShowNames.getValue()) {
-                graphics2D.drawString(target.getNameAsString(), 20, -10);
-            }
-            if (target.getTimestamp() != null) {
-                String time = LocalTime.ofInstant(target.getTimestamp().getDateTime(), ZoneOffset.UTC)
-                        .format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-                graphics2D.drawString(time, -30, -10);
-            }
-            // Source of the target. GNSS, L (Loran), R (Radar), V (Visual Bearing), VR (Visual bearing and radar range).
-            if (target.hasProperty("source")) {
-                graphics2D.drawString(target.getPropertyValueAsString("source"), 20, 15);
-            }
-            targetShapes.add(new ShapeTarget(graphics2D.getTransform().createTransformedShape(iconRenderer.getPlottedTargetSymbol()), target));
-        } else {
-            graphics2D.draw(iconRenderer.getMinimizedTargetSymbol());
-            targetShapes.add(new ShapeTarget(graphics2D.getTransform().createTransformedShape(iconRenderer.getMinimizedTargetSymbol()), target));
-        }
 
+            graphics2D.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+            if (context.getZoom() < propDetailedZoomLevel.getValue()) {
+                graphics2D.draw(iconRenderer.getPlottedTargetSymbol());
+                // Mode = Fix, EP, DR.
+                if (target.hasProperty("mode")) {
+                    graphics2D.drawString(target.getPropertyValueAsString("mode"), -30, 15);
+                } else {
+                    graphics2D.drawString("DR", -30, 15);
+                }
+                if (target.getName() != null && propShowNames.getValue()) {
+                    graphics2D.drawString(target.getNameAsString(), 20, -10);
+                }
+                if (target.getTimestamp() != null) {
+                    String time = LocalTime.ofInstant(target.getTimestamp().getDateTime(), ZoneOffset.UTC)
+                            .format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+                    graphics2D.drawString(time, -30, -10);
+                }
+                // Source of the target. GNSS, L (Loran), R (Radar), V (Visual Bearing), VR (Visual bearing and radar range).
+                if (target.hasProperty("source")) {
+                    graphics2D.drawString(target.getPropertyValueAsString("source"), 20, 15);
+                }
+                targetShapes.add(new ShapeTarget(graphics2D.getTransform().createTransformedShape(iconRenderer.getPlottedTargetSymbol()), target));
+            } else {
+                graphics2D.draw(iconRenderer.getMinimizedTargetSymbol());
+                targetShapes.add(new ShapeTarget(graphics2D.getTransform().createTransformedShape(iconRenderer.getMinimizedTargetSymbol()), target));
+            }
+        }
         resetTransform(graphics2D);
     }
 
@@ -505,15 +530,17 @@ public class TargetLayer extends AbstractMapLayer {
      * @param target     Target to retrieve data from.
      */
     private void paintSelectionBox(BufferingGraphics2D graphics2D, IDrawContext context, PhysicalObject target) {
-        double lat = target.getPose().getCoordinate().getLatitude();
-        double lon = target.getPose().getCoordinate().getLongitude();
-        Point2D point2D = context.convert(lon, lat);
-        graphics2D.translate(point2D.getX(), point2D.getY());
-        graphics2D.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-        Color prevColor = graphics2D.getColor();
-        graphics2D.setColor(Color.BLACK);
-        graphics2D.draw(iconRenderer.getSelectedTargetSymbol());
-        graphics2D.setColor(prevColor);
+        if(inViewport(context, target.getPose())) {
+            double lat = target.getPose().getCoordinate().getLatitude();
+            double lon = target.getPose().getCoordinate().getLongitude();
+            Point2D point2D = context.convert(lon, lat);
+            graphics2D.translate(point2D.getX(), point2D.getY());
+            graphics2D.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+            Color prevColor = graphics2D.getColor();
+            graphics2D.setColor(Color.BLACK);
+            graphics2D.draw(iconRenderer.getSelectedTargetSymbol());
+            graphics2D.setColor(prevColor);
+        }
         resetTransform(graphics2D);
     }
 
@@ -528,14 +555,19 @@ public class TargetLayer extends AbstractMapLayer {
         if (target instanceof ITrackedTarget it) {
             descriptionBuilder.append("Target ID: ").append(it.getId()).append("\n");
             if (it.getTrack() != null && it.getTrack().getLastUpdate() != null) {
-                descriptionBuilder.append("Last Updated: ").append(it.getTrack().getLastUpdate().getDateTime().toString()).append("\n");
+                String time = Instant.ofEpochMilli((long)it.getTrack().getLastUpdate().getAs(TimeUnit.MILLISECOND))
+                        .atZone(ZoneId.systemDefault())
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                descriptionBuilder.append("Last Updated: ").append(time).append("\n");
             }
         }
         if (target instanceof ITarget it) {
             descriptionBuilder.append("Target ID: ").append(it.getId()).append("\n");
-            descriptionBuilder.append("Target Timestamp: ").append(it.getTimestamp().toString()).append("\n");
             if (it.getTimestamp() != null) {
-                descriptionBuilder.append("Timestamp: ").append(it.getTimestamp().getDateTime().toString()).append("\n");
+                String time = Instant.ofEpochMilli((long)it.getTimestamp().getAs(TimeUnit.MILLISECOND))
+                        .atZone(ZoneId.systemDefault())
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                descriptionBuilder.append("Target Timestamp: ").append(time).append("\n");
             }
         }
         extractPhysicalObjectInformation(descriptionBuilder, target);
@@ -756,6 +788,52 @@ public class TargetLayer extends AbstractMapLayer {
     }
 
     /**
+     * Finds all objects which were removed from a set.
+     * @param oldSet Previous set.
+     * @param newSet New set.
+     * @return Objects which were removed from the old set compared to the new set.
+     * @param <T> Type of set.
+     */
+    private <T> Set<T> findRemovedObjects(Set<T> oldSet, Set<T> newSet) {
+        Set<T> result = new HashSet<>(oldSet);
+        result.removeAll(newSet);
+        return result;
+    }
+
+    /**
+     * Finds all objects which were added to a set.
+     * @param oldSet Previous set.
+     * @param newSet New set.
+     * @return Objects which were added to the old set compared to the new set.
+     * @param <T> Type of set.
+     */
+    private <T> Set<T> findAddedObjects(Set<T> oldSet, Set<T> newSet) {
+        Set<T> result = new HashSet<>(newSet);
+        result.removeAll(oldSet);
+        return result;
+    }
+
+    /**
+     * Listener for updating the layer.
+     * @param notification Notification which signals update.
+     */
+    @Override
+    public void onValueChange(Notification notification) {
+        switch (notification.getType()) {
+            // We only want to listen to newly added or removed objects from the UCore model. This is necessary
+            // to prevent search in the whole model tree each time a value is changed which boosts performance.
+            case ADD, ADD_MANY, REMOVE, REMOVE_MANY -> {
+                // Only search the model tree for new and removed targets if it is necessary for us. Therefore only
+                // when TrackedTargets or Targets were added/removed.
+                if(notification.getNewValue() instanceof ITrackedTarget || notification.getNewValue() instanceof ITarget) {
+                    refreshTargets();
+                }
+            }
+        }
+        setDirty(true);
+    }
+
+    /**
      * Utility class for storing outline shapes of a target to a target object. This is used for identifying if
      * the current cursor position resides on top of a target symbol.
      */
@@ -775,21 +853,6 @@ public class TargetLayer extends AbstractMapLayer {
         }
     }
 
-    /**
-     * Tree listener which fires a dirty event (update) on the map layer if a UObject variable is changed.
-     */
-    protected class RedrawObserver implements ITreeValueChangeListener {
-
-        /**
-         * Sets the layer dirty if a value was changed and forces redraw.
-         *
-         * @param notification Notification to process.
-         */
-        @Override
-        public void onValueChange(Notification<Object> notification) {
-            setDirty(true);
-        }
-    }
 
 
 }

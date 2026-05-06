@@ -22,9 +22,8 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 
 /**
  * Manages the execution of jobs. Should be used for prolonged tasks to prevent UI locks.
- * 
- * @author fklein
  *
+ * @author fklein
  */
 public class JobManager implements IService {
 
@@ -101,7 +100,7 @@ public class JobManager implements IService {
 
     /**
      * Adds a job to the queue and executes it.
-     * 
+     *
      * @param job
      */
     public void schedule(IJob job) {
@@ -110,10 +109,9 @@ public class JobManager implements IService {
 
     /**
      * Adds a job to the queue and executes it.
-     * 
+     *
      * @param job
-     * @param cb
-     *            A callback, fired when job is completed
+     * @param cb  A callback, fired when job is completed
      */
     public void schedule(IJob job, IJobFinishedHandler cb) {
 
@@ -160,7 +158,7 @@ public class JobManager implements IService {
     public void showDialogForRunningJob(JobData rjd) {
         ProgressDialog dialog = new ProgressDialog(PlatformUtil.getWindowManager().getMainWindow(), rjd);
         IJobFinishedHandler finishHandler = j -> {
-        	dialog.close();
+            dialog.close();
         };
         dialog.open();
         dialog.setCancelListener(new ActionListener() {
@@ -169,7 +167,7 @@ public class JobManager implements IService {
                 rjd.requestCancel();
             }
         });
-        
+
         // Remove the finish handler closing the dialog if it is manually closed
         dialog.setCloseListener(e -> rjd.removeHandler(finishHandler));
 

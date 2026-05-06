@@ -8,11 +8,21 @@ public class BinaryBlob {
 		mData = data;
 	}
 	
-	public byte[] get() { return mData; }
-	public void set(final byte[] data) { mData = data; }
+	public byte[] get() {
+        return mData;
+    }
+
+    public void set(final byte[] data) {
+        mData = data;
+    }
 	
-	public byte get(int idx) { return mData[idx]; }
-	public void set(int idx, byte value) { mData[idx] = value; }
+	public byte get(int idx) {
+        return mData[idx];
+    }
+
+	public void set(int idx, byte value) {
+        mData[idx] = value;
+    }
 	
 	
 	

@@ -10,7 +10,15 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
+/**
+ * Command for saving the currently active layout to a file. Note: this does not save a tab layout is
+ * for the conventional layout system.
+ */
 public class SaveLayoutCommand extends AbstractCommand {
+
+    /**
+     * Saves the current layout configuration to a predefined file specified by the layout name the user chooses.
+     */
     @Override
     public void execute() {
         ResourceManager manager = ResourceManager.get(SaveLayoutCommand.class);
@@ -19,7 +27,7 @@ public class SaveLayoutCommand extends AbstractCommand {
 
         if (layoutFolder.exists() == false) {
             boolean check = layoutFolder.mkdir();
-            if (check == false){
+            if (check == false) {
                 JOptionPane.showConfirmDialog(null, "Couldn't create layout folder, please check application access rights");
                 return;
             }

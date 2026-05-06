@@ -48,12 +48,10 @@ public class ReferencePointPanel extends AbstractTransferablePanel {
         add(btn, gbc);
 
         gbc.gridy++;
-        // place holder to avoid big gabs between general and pose
+        // placeholder to avoid big gabs between general and pose
         JPanel empty = new JPanel();
         gbc.weighty = 1;
         gbc.fill = GridBagConstraints.VERTICAL;
         add(empty, gbc);
-
-        initListeners();
     }
 }

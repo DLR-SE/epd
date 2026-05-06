@@ -1,5 +1,6 @@
 package de.emir.epd.nmeasensor;
 
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.time.*;
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ import org.geotools.referencing.crs.DefaultGeographicCRS;
 /**
  * Component which maps incoming NMEA and AIS messages to vessels of the
  * EPDModel.
- * 
+ *
  * @apiNote It is possible to set filters which prevent certain messages from
  *          being mapped to vessels.
  *          These filters currently are the ownship sources set by the ownship
@@ -103,6 +104,7 @@ public class NMEAVesselUpdater {
     private static Double lastHDG = null;
     private static Double lastCOG = null;
     private static Double lastSOG = null;
+
     /**
      * Initiates the VesselUpdater.
      */
@@ -540,8 +542,10 @@ public class NMEAVesselUpdater {
 						PhysicalObjectUtils.setCOG(ownship, new AngleImpl(rmc.getCourse(), AngleUnit.DEGREE));
 						lastCOG = rmc.getCourse();
 						if (rmc.getPosition() != null) {
-							PhysicalObjectUtils.setCOG(ownship,
-									new AngleImpl(rmc.getCorrectedCourse(), AngleUnit.DEGREE));
+							PhysicalObjectUtils.setCOG(
+                                    ownship,
+									new AngleImpl(rmc.getCorrectedCourse(), AngleUnit.DEGREE)
+                            );
 							lastCOG = rmc.getCorrectedCourse();
 						}
 					} catch (DataNotAvailableException e2) {
@@ -572,11 +576,14 @@ public class NMEAVesselUpdater {
         if (msg == null || vessel == null) {
             return null;
         }
-        
+
 		if (!staticOnly) {
 			if (msg instanceof AISPositionInfo posInfo) {
-				Coordinate coordinate = new CoordinateImpl(posInfo.getLatitudeInDegrees(),
-						posInfo.getLongitudeInDegrees(), CRSUtils.WGS84_2D);
+				Coordinate coordinate = new CoordinateImpl(
+                        posInfo.getLatitudeInDegrees(),
+						posInfo.getLongitudeInDegrees(),
+                        CRSUtils.WGS84_2D
+                );
 
 				if (!debugFilterPosition(coordinate))
 					return null;
@@ -593,21 +600,22 @@ public class NMEAVesselUpdater {
 			}
 
 			if (msg instanceof AISPositionReportB prb) {
-				if (prb.hasCourseOverGround()) {
-					PhysicalObjectUtils.setCOG(vessel, new AngleImpl(prb.getCourseOverGround(), AngleUnit.DEGREE));
-				} else {
-                    PhysicalObjectUtils.setCOG(vessel, new AngleImpl(360, AngleUnit.DEGREE));
+                final double cog = prb.hasCourseOverGround() ? prb.getCourseOverGround() : 360.0;
+                PhysicalObjectUtils.setCOG(vessel, new AngleImpl(cog, AngleUnit.DEGREE));
+
+                Pose pose = vessel.getPose();
+                // create new pose if it does not exist
+                if (pose == null){
+                    pose = new PoseImpl();
+                    vessel.setPose(pose);
                 }
-				if (prb.hasTrueHeading()) {
-					vessel.getPose().setOrientation(new EulerImpl(.0d, .0d, prb.getTrueHeading(), AngleUnit.DEGREE));
-				} else {
-                    vessel.getPose().setOrientation(new EulerImpl(.0d, .0d, 511, AngleUnit.DEGREE));
-                }
-				if (prb.hasSpeedOverGround()) {
-					PhysicalObjectUtils.setSOG(vessel, (new SpeedImpl(prb.getSpeedOverGround(), SpeedUnit.KNOTS)));
-				} else {
-                    PhysicalObjectUtils.setSOG(vessel, (new SpeedImpl(102.3f, SpeedUnit.KNOTS)));
-                }
+
+                final double heading = prb.hasTrueHeading() ? prb.getTrueHeading() : 511.0;
+                PhysicalObjectUtils.changeOrientationZ(pose, new AngleImpl(heading, AngleUnit.DEGREE));
+
+                final double sog = prb.hasSpeedOverGround() ? prb.getSpeedOverGround() : 102.3f;
+                PhysicalObjectUtils.setSOG(vessel, (new SpeedImpl(sog, SpeedUnit.KNOTS)));
+
 				if (prb.hasTimeStamp()) {
 					vessel.setPropertyValue(NMEAFieldIds.NMEA_SECOND, prb.getTimeStamp());
 				}
@@ -616,31 +624,32 @@ public class NMEAVesselUpdater {
 			if (msg instanceof AISPositionReport pr) {
 				vessel.setPropertyValue(NMEAFieldIds.NMEA_NAVIGATION_STATUS, pr.getNavigationalStatus());
 				vessel.setPropertyValue(NMEAFieldIds.NMEA_MANEUVER_INDICATOR, pr.getManouverIndicator());
-				if (pr.hasCourseOverGround()) {
-					PhysicalObjectUtils.setCOG(vessel, new AngleImpl(pr.getCourseOverGround(), AngleUnit.DEGREE));
-				} else {
-                    PhysicalObjectUtils.setCOG(vessel, new AngleImpl(360, AngleUnit.DEGREE));
+
+                final double cog = pr.hasCourseOverGround() ? pr.getCourseOverGround() : 360.0;
+                PhysicalObjectUtils.setCOG(vessel, new AngleImpl(cog, AngleUnit.DEGREE));
+
+                Pose pose = vessel.getPose();
+                // create new pose if it does not exist
+                if (pose == null){
+                    pose = new PoseImpl();
+                    vessel.setPose(pose);
                 }
-				if (pr.hasTrueHeading()) {
-					vessel.getPose().setOrientation(new EulerImpl(.0d, .0d, pr.getTrueHeading(), AngleUnit.DEGREE));
-				} else {
-                    vessel.getPose().setOrientation(new EulerImpl(.0d, .0d, 511, AngleUnit.DEGREE));
-                }
-				if (pr.hasSpeedOverGround()) {
-					PhysicalObjectUtils.setSOG(vessel, (new SpeedImpl(pr.getSpeedOverGround(), SpeedUnit.KNOTS)));
-				} else {
-                    PhysicalObjectUtils.setSOG(vessel, (new SpeedImpl(102.3f, SpeedUnit.KNOTS)));
-                }
+
+                final double heading = pr.hasTrueHeading() ? pr.getTrueHeading() : 511.0;
+                PhysicalObjectUtils.changeOrientationZ(pose, new AngleImpl(heading, AngleUnit.DEGREE));
+
+                final double sog = pr.hasSpeedOverGround() ? pr.getSpeedOverGround() : 102.3f;
+                PhysicalObjectUtils.setSOG(vessel, (new SpeedImpl(sog, SpeedUnit.KNOTS)));
+
 				if (pr.hasTimeStamp()) {
 					vessel.setPropertyValue(NMEAFieldIds.NMEA_SECOND, pr.getTimeStamp());
 				}
-				if (pr.hasRateOfTurn()) {
-					PhysicalObjectUtils.setRateOfTurn(
-							new AngularSpeedImpl(pr.getRateOfTurn(), AngularSpeedUnit.DEGREES_PER_MINUTE), vessel);
-				} else {
-                    PhysicalObjectUtils.setRateOfTurn(
-                            new AngularSpeedImpl(128, AngularSpeedUnit.DEGREES_PER_MINUTE), vessel);
-                }
+
+                final double rot = pr.hasRateOfTurn() ? pr.getRateOfTurn() : 128.0;
+                PhysicalObjectUtils.setRateOfTurn(
+                        new AngularSpeedImpl(rot, AngularSpeedUnit.DEGREES_PER_MINUTE),
+                        vessel
+                );
 			}
 		}
 
@@ -658,7 +667,7 @@ public class NMEAVesselUpdater {
             setDraught(vessel, (float) ais5.getMaximumDraught());
             vessel.setPropertyValue(NMEAFieldIds.NMEA_DATA_TERMINAL_READY, ais5.isDteReady());
         }
-        
+
         if (msg instanceof AISMessage19 ais19) {
             vessel.setName(ais19.getName());
 //            vessel.setType(VesselType.get(ais19.getTypeOfShipAndCargoType()));
@@ -666,7 +675,7 @@ public class NMEAVesselUpdater {
             setDimensions(vessel, ais19.getPort(), ais19.getStarboard(), ais19.getBow(), ais19.getStern());
             vessel.setPropertyValue(NMEAFieldIds.NMEA_POSITION_FIXING_DEVICE, ais19.getTypeOfEPFD());
         }
-        
+
         if (msg instanceof AISMessage24 ais24) {
         	vessel.setCallSign(ais24.getCallSign());
             vessel.setName(ais24.getName());
@@ -674,7 +683,7 @@ public class NMEAVesselUpdater {
             vessel.setType(AisS100VesselTypeDictionary.map().get(ais24.getTypeOfShipAndCargoType()));
             setDimensions(vessel, ais24.getPort(), ais24.getStarboard(), ais24.getBow(), ais24.getStern());
         }
-        
+
         try {
             VesselVerifier.verify(vessel);
         } catch (Exception ignored) {
@@ -743,13 +752,23 @@ public class NMEAVesselUpdater {
     private static Geometry createGeometry(int port, int starboard, int bow, int stern) {
         Polygon geometry = new PolygonImpl();
         List<Coordinate> list = new ArrayList<>();
-        list.add(new CoordinateImpl(-port, 0, CRSUtils.ENGINEERING_2D)); // left
-        list.add(new CoordinateImpl(-port, bow, CRSUtils.ENGINEERING_2D)); // top left
-        list.add(new CoordinateImpl(starboard, bow, CRSUtils.ENGINEERING_2D)); // top right
-        list.add(new CoordinateImpl(starboard, 0, CRSUtils.ENGINEERING_2D)); // right
-        list.add(new CoordinateImpl(starboard, -stern, CRSUtils.ENGINEERING_2D)); // bottom right
-        list.add(new CoordinateImpl(-port, -stern, CRSUtils.ENGINEERING_2D)); // bottom left
-
+        double totalWidth = port + starboard;
+        double totalLength = bow + stern;
+        double centerX = (starboard - port) / 2.0;
+        list.add(new CoordinateImpl(centerX, bow, CRSUtils.ENGINEERING_2D));
+        double bowRoundY = -stern + (totalLength * 0.9);
+        double bowRoundWidth = (totalWidth * 0.6) / 2.0;
+        list.add(new CoordinateImpl(centerX + bowRoundWidth, bowRoundY, CRSUtils.ENGINEERING_2D));
+        double bowShoulderY = -stern + (totalLength * 0.8);
+        list.add(new CoordinateImpl(starboard, bowShoulderY, CRSUtils.ENGINEERING_2D));
+        double sternShoulderY = -stern + (totalLength * 0.2);
+        list.add(new CoordinateImpl(starboard, sternShoulderY, CRSUtils.ENGINEERING_2D));
+        double halfWidthTapered = (totalWidth * 0.8) / 2.0;
+        list.add(new CoordinateImpl(centerX + halfWidthTapered, -stern, CRSUtils.ENGINEERING_2D));
+        list.add(new CoordinateImpl(centerX - halfWidthTapered, -stern, CRSUtils.ENGINEERING_2D));
+        list.add(new CoordinateImpl(-port, sternShoulderY, CRSUtils.ENGINEERING_2D));
+        list.add(new CoordinateImpl(-port, bowShoulderY, CRSUtils.ENGINEERING_2D));
+        list.add(new CoordinateImpl(centerX - bowRoundWidth, bowRoundY, CRSUtils.ENGINEERING_2D));
         CoordinateSequence sequence = new CoordinateSequenceImpl(list);
         LinearRing ring = new LinearRingImpl(sequence);
         ring.close();
@@ -757,15 +776,16 @@ public class NMEAVesselUpdater {
         return geometry;
     }
 
+
     private static void doTheScaling(Geometry geom, double sx, double sy) {
         // we need to change the CRS of the geometry, since we don't want to scale it in
-        // local space. Therefore we remember the current CRS, replace it and put it
+        // local space. Therefore, we remember the current CRS, replace it and put it
         // back when we are finished
         CoordinateReferenceSystem originalCRS = geom.getCRS();
         try {
-            if (originalCRS != null && originalCRS instanceof Engineering2D == false)
-                throw new UnsupportedOperationException(
-                        "Expected some engineering2D CRS for the geometry to be scaled");
+            if (originalCRS != null && originalCRS instanceof Engineering2D == false) {
+                throw new UnsupportedOperationException("Expected engineering2D CRS for the geometry to be scaled");
+            }
             Engineering2D newCRS = new Engineering2DImpl(); // we move the shape to the point 0,0 with not rotation by
                                                             // replacing the CRS
             geom.recursiveSetCRS(newCRS);
@@ -843,7 +863,7 @@ public class NMEAVesselUpdater {
     /**
      * Starts the alert threads for controlling AIS and Ownship status indicators on
      * the UI.
-     * 
+     *
      * @implNote When receiving NMEA or AIS messages, the lastAISUpdate (for AIS
      *           targets) and lastNMEAUpdate (for Ownship) timestamps
      *           are updated to the current system time. These threads check if the

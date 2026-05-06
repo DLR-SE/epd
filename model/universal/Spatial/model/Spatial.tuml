@@ -14,8 +14,6 @@ Model Spatial {
 				package universal {
 					package spatial {
 																		
-						
-						
 						<< ComplexAttributeType >>
 						struct Coordinate {
 							@NumberFormat(format="%1.7f") 
@@ -23,13 +21,15 @@ Model Spatial {
 							@NumberFormat(format="%1.7f")
 							double							y;
 							@NumberFormat(format="%1.7f") 
-							double							z; 
-							/** references the current coordinate system, and therefore how x,y,z has to be read
+							double							z;
+
+							/** References the current coordinate system, and therefore how x,y,z has to be read
 							 * if this value is set to null, a cartesian coordinate system (EngineeringCRS - default) is assumed
 							 */
 							CoordinateReferenceSystem		crs;
 							
 							Angle getAzimuth(in Coordinate other) const;
+
 							Distance getDistance(in Coordinate other) const;
 							
 							Coordinate getTarget(in Distance distance, in Angle azimuth) const;
@@ -39,17 +39,18 @@ Model Spatial {
 							int dimension() const;
 							
 							/** 
-							 * returns the longitude (WGS84) of this coordinate.
+							 * Returns the longitude (WGS84) of this coordinate.
 							 * depending on the current crs, this includes a coordinate transformation 
 							 */
 							double getLatitude() const;
+
 							/** 
-							 * returns the longitude (WGS84) of this coordinate.
+							 * Returns the longitude (WGS84) of this coordinate.
 							 * depending on the current crs, this includes a coordinate transformation 
 							 */
 							double getLongitude() const;
 													
-							/** returns a copy of this coordinate, that has been transformed into the given crs. 
+							/** Returns a copy of this coordinate, that has been transformed into the given crs.
 							 * if parameter crs is the same as the member crs, a copy is returned. 
 							 * \note if the member crs is set to null, the coordinate is assumed to be defined as WGS84 coordinate 
 							 */
@@ -66,15 +67,20 @@ Model Spatial {
 							 * Returns either an Vector2D or Vector3D, depending on the value of dimension()
 							 */
 							Vector toVector() const;
-							/** returns a 2D vector, skips the z value, if not NaN */
+
+							/** Returns a 2D vector, skips the z value, if not NaN */
 							Vector2D toVector2D() const;
-							/** returns a 3D vector, fills the z value with 0 if dimension() == 2 */
+
+							/** Returns a 3D vector, fills the z value with 0 if dimension() == 2 */
 							Vector3D toVector3D() const; 
+
 							void fromVector(in Vector value, in CoordinateReferenceSystem crs);
+
 							void fromVector(in Vector value);
 							
 							/** takes over the values from <code>value</code> */
 							void set(in Coordinate value);
+
 							/** utility method to set all coordinate values and the crs 
 							 * @note this method calls the corresponding setter and thus produces IValueChange events
 							 */
@@ -82,8 +88,7 @@ Model Spatial {
 							
 							String readableString() const;
 						}
-						
-						
+
 						<< ComplexAttributeType >>
 						class Pose {
 							val Coordinate[1] 		coordinate;
@@ -94,11 +99,7 @@ Model Spatial {
 							Pose copy() const;
 							void set(in Coordinate coord, in Orientation ori);
 						}
-						
-						
-						
-						
-						
+
 						<< ComplexAttributeType>>
 						struct Envelope {
 							Coordinate[1] 		minPoint;
@@ -116,9 +117,10 @@ Model Spatial {
 							void setXY(in double min_x, in double min_y, in double max_x, in double max_y);
 							void setXYZ(in double min_x, in double min_y, in double min_z, in double max_x, in double max_y, in double max_z);
 							
-							/** set the crs to min and max point */
+							/** Set the crs to min and max point */
 							void setCRS(in CoordinateReferenceSystem crs);
-							/** Applys the CRS to min and max point, by changing their x,y, and z values but without changing the instances */
+
+							/** Apply the CRS to min and max point, by changing their x,y, and z values but without changing the instances */
 							void applyCRS(in CoordinateReferenceSystem crs); 
 							
 							/**
@@ -126,12 +128,14 @@ Model Spatial {
 							 * Fails if one envelope is totally contained inside the other
 							 */
 							boolean intersects(in Envelope other) const;
+
 							/**
 							 * Checks if the other envelope is totally or partially inside this envelope
 							 */
 							boolean containsOrIntersects(in Envelope other) const;
 							
 							boolean contains(in Coordinate coord) const;
+
 							/**
 							 * Checks if the other envelope is inside this envelope, 
 							 * fails if they do intersect but the other envelope is not totally within this
@@ -142,23 +146,28 @@ Model Spatial {
 							 * Expand the current instance to also covers the other envelope
 							 */
 							void expandLocal(in Envelope other);
+
 							/**
 							 * returns a new envelope that covers the current instance as well as the other envelope
 							 */
 							Envelope expand(in Envelope other) const;
+
 							/**
 							 * expands the current envelope to also cover the given coordinate
 							 */
 							void expandLocal(in Coordinate other);
+
 							/**
 							 * creates a new envelope that covers the current envelope as well as the given coordinate
 							 */
 							Envelope expand(in Coordinate other) const;
 
 							void tranformLocal(in Coordinate translate, in Rotation rotation);
+
 							Envelope transform(in Coordinate translate, in Rotation rotation) const;
+
 							/**
-							 * returns the four corners of the bounding box
+							 * Returns the four corners of the bounding box
 							 * - vertices[0] = mMinPoint;
 							 * - vertices[1] = Vec2d(mMaxPoint.X, mMinPoint.Y);
 							 * - vertices[2] = mMaxPoint;
@@ -178,13 +187,116 @@ Model Spatial {
 							
 							int 		getNumGeometries() const;								//works only on MultiGeometry
 							Geometry 	getGeometry(int idx) const;								//works only on MultiGeometry
-							
-							Envelope 	getEnvelope() const; 
+
+							/**
+							 * Gets a Geometry representing the envelope (bounding box) of this Geometry.
+							 */
+							Envelope 	getEnvelope() const;
+
+						    /**
+							 * Tests whether this geometry contains the argument geometry.
+							 */
+							boolean     contains(in Geometry geom) const;
+
+                            /**
+                             * Tests whether this geometry is covered by the argument geometry.
+                             */
+                            boolean 	coveredBy(Geometry g) const;
+
+                            /**
+                             * Tests whether this geometry covers the argument geometry.
+                             */
+                            boolean 	covers(Geometry g) const;
+
+                            /**
+                             * Tests whether this geometry crosses the argument geometry.
+                             */
+                            boolean 	crosses(Geometry g) const;
+
+                            /**
+                             * Computes a Geometry representing the closure of the point-set of the points contained in this Geometry that are not contained in the other Geometry.
+                             */
+                            Geometry 	difference(Geometry g) const;
+
+                            /**
+                             * Tests whether this geometry is disjoint from the argument geometry.
+                             */
+                            boolean 	disjoint(Geometry g) const;
+
+                            /**
+                             * Returns the minimum distance between this Geometry and another Geometry.
+                             */
+                            double 	distance(Geometry g) const;
+
+                            /**
+                             * Returns true if the two Geometries are exactly equal, up to a specified distance tolerance.
+                             */
+                            boolean 	equalsExact(Geometry g) const;
+
+                            /**
+                             * Returns the area of this Geometry.
+                             */
+                            double 	getArea() const;
+
+                            /**
+                             * Returns the length of this Geometry.
+                             */
+                            double 	getLength() const;
+
+                            /**
+                             * Computes a Geometry representing the point-set which is common to both this Geometry and the other Geometry.
+                             */
+							Geometry    intersection(in Geometry geom) const;
+
+							/**
+							 * Tests whether this geometry intersects the argument geometry.
+							 */
 							boolean		intersects(in Geometry geom) const;
+
+                            /**
+							 * Creates a new Geometry which is a normalized copy of this Geometry.
+							 */
+							Geometry		normalized() const;
+
+							/**
+                             * Converts this Geometry to normal form (or canonical form ).
+                             */
+                            void		normalize() const;
+
+                            /**
+                             * Tests whether this geometry overlaps the specified geometry.
+                             */
+                            boolean		overlaps(in Geometry geom) const;
+
+                            /**
+                             * Computes a new geometry which has all component coordinate sequences in reverse order
+                             * (opposite orientation) to this one.
+                             */
+                            Geometry		reversed() const;
+
+                            /**
+                             * Computes a Geometry representing the closure of the point-set which is the union
+                             * of the points in this Geometry which are not contained in the other Geometry, with
+                             * the points in the other Geometry not contained in this Geometry.
+                             */
+                            Geometry		symDifference(in Geometry geom) const;
+
+                            /**
+                             * Tests whether this geometry touches the argument geometry.
+                             */
+                            boolean		touches(in Geometry geom) const;
+
+                            /**
+                             * Computes the union of all the elements of this geometry.
+                             */
+                            Geometry		union(in Geometry geom) const;
+
+							/**
+							 * Tests whether this geometry is within the specified geometry.
+							 */
+							boolean     within(in Geometry geom) const;
 							
-							boolean 	isConvex() const;
-							
-							/** Applys the coordinate reference system to all coordinates in this geometry, without changing their instance
+							/** Apply the coordinate reference system to all coordinates in this geometry, without changing their instance
 							 * e.g. change the values of the coordinate
 							 */
 							void applyCRS(in CoordinateReferenceSystem crs);
@@ -218,7 +330,7 @@ Model Spatial {
 							int getIndexOf(in Coordinate coord);
 							
 							//Coordinate[*] getCoordinates();
-							/** returns the boundingbox containing all coordinates within this sequence */
+							/** Returns the bounding box containing all coordinates within this sequence */
 							Envelope getEnvelope();
 						}
 						
@@ -230,8 +342,7 @@ Model Spatial {
 						<< FeatureType >>
 						class GenericEFeature extends EFeature {
 						}
-						
-					
+
 						<< FeatureType >>
 						class SpatialLayer {
 							String					name;
@@ -243,8 +354,7 @@ Model Spatial {
 							 */
 							EFeature[*] queryFeatures(in Geometry geom, in boolean exactQuery);  
 						} 
-						
-						
+
 						/** 
 						 * The Abstract class SpatialLayerContainer can be used to provide 
 						 * SpatialLayers, which are dynamically loaded. 
@@ -254,10 +364,7 @@ Model Spatial {
 						interface SpatialLayerContainer {
 							SpatialLayer[*] 	provideSpatialLayer() const;
 						}
-						
-						
-						
-						
+
 						class GraphEdge{
 							long id;
 							ref GraphNode	nodeA;

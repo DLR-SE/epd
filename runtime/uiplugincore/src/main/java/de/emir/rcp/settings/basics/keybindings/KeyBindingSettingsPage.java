@@ -6,6 +6,7 @@ import de.emir.model.universal.plugincore.var.UserDefinedDeltaChangeKeyBinding;
 import de.emir.model.universal.plugincore.var.impl.UserDefinedDeltaAddKeyBindingImpl;
 import de.emir.model.universal.plugincore.var.impl.UserDefinedDeltaChangeKeyBindingImpl;
 import de.emir.model.universal.plugincore.var.impl.UserDefinedDeltaDeleteKeyBindingImpl;
+
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -47,8 +48,8 @@ public class KeyBindingSettingsPage extends AbstractSettingsPage {
 
         GridBagLayout gbl_panel = new GridBagLayout();
 
-        gbl_panel.columnWeights = new double[] { 1.0 };
-        gbl_panel.rowWeights = new double[] { 0.0, 1.0 };
+        gbl_panel.columnWeights = new double[]{1.0};
+        gbl_panel.rowWeights = new double[]{0.0, 1.0};
         panel.setLayout(gbl_panel);
 
         JLabel lblCommands = new JLabel(

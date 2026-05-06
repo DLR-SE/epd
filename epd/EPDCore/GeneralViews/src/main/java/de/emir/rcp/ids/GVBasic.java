@@ -60,6 +60,7 @@ public class GVBasic {
 	public static final String SETTINGS_WORKSPACE_SETTINGS_PAGE = "de.emir.rcp.settingspage.workspace";
 	public static final String SETTINGS_SYSTEM_SETTINGS_PAGE = "de.emir.rcp.settingspage.system";
 	public static final String SETTINGS_CONSOLE_SETTINGS_PAGE = "de.emir.rcp.settingspage.console";
+	public static final String SETTINGS_TARGET_TABLE_SETTINGS_PAGE = "de.emir.rcp.settingspage.targettable";
 
 	// New File Wizard - File Types ----------------------------------------------------------------------
 

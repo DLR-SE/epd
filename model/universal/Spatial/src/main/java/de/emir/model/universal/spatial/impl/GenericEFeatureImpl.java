@@ -24,7 +24,7 @@ public class GenericEFeatureImpl extends EFeatureImpl implements GenericEFeature
 	public GenericEFeatureImpl(){
 		super();
 	}
-	
+
 	/**
 	 *	Default copy constructor
 	 *	@generated
@@ -32,7 +32,7 @@ public class GenericEFeatureImpl extends EFeatureImpl implements GenericEFeature
 	public GenericEFeatureImpl(final GenericEFeature _copy) {
 		super(_copy);
 	}
-	
+
 	/**
 	 *	Default attribute constructor
 	 *	@generated
@@ -40,7 +40,7 @@ public class GenericEFeatureImpl extends EFeatureImpl implements GenericEFeature
 	public GenericEFeatureImpl(String _featureType, Geometry _geometry) {
 		super(_featureType,_geometry);
 	}
-	
+
 	/**
 	 * @generated
 	 */

@@ -15,9 +15,8 @@ import de.emir.tuml.ucore.runtime.logging.ULog;
 
 /**
  * This command terminates the application.
- * 
- * @author fklein
  *
+ * @author fklein
  */
 public class ExitCommand extends AbstractCommand {
 
@@ -27,9 +26,10 @@ public class ExitCommand extends AbstractCommand {
     /**
      * Initiates the close sequence to close the EPD. If the user does not confirm the shutdown, the application
      * will not be closed.
+     *
      * @param exitCode Exit code with which to exit the application.
      */
-    private void doExecute(int exitCode){
+    private void doExecute(int exitCode) {
         MainWindow mw = PlatformUtil.getWindowManager().getMainWindow();
 
         EditorManager em = PlatformUtil.getEditorManager();
@@ -50,7 +50,7 @@ public class ExitCommand extends AbstractCommand {
                 JCheckBox cb = new JCheckBox("Do not show this message again");
 
                 String message = "Exit Application?";
-                Object[] params = { message, cb };
+                Object[] params = {message, cb};
                 int result = JOptionPane.showConfirmDialog(
                         mw,
                         params,
@@ -100,7 +100,10 @@ public class ExitCommand extends AbstractCommand {
 
         // notify all view plugins, that we are going to shut down
         mw.notifyAboutToClose();
-        mw.saveLayout();
+        // If the tab layout is not active, save the current view to the default layout.
+        if (!PlatformUtil.getMenuManager().getLayoutControl().tabLayoutActive()) {
+            mw.saveLayout();
+        }
         PropertyStore.save();
 
         mw.notifyClosed();
@@ -115,7 +118,7 @@ public class ExitCommand extends AbstractCommand {
         int exitCode = 0;
         try {
             doExecute(exitCode);
-        } catch (Exception e){
+        } catch (Exception e) {
             ULog.error(e);
             exitCode = 1;
             System.exit(exitCode);

@@ -31,7 +31,7 @@ public class SpatialLayerImpl extends UObjectImpl implements SpatialLayer
 	 *	@generated 
 	 */
 	private List<EFeature> mFeatures = null;
-			
+
 	/**
 	 *	Default constructor
 	 *	@generated
@@ -39,7 +39,7 @@ public class SpatialLayerImpl extends UObjectImpl implements SpatialLayer
 	public SpatialLayerImpl(){
 		super();
 	}
-	
+
 	/**
 	 *	Default copy constructor
 	 *	@generated
@@ -48,7 +48,7 @@ public class SpatialLayerImpl extends UObjectImpl implements SpatialLayer
 		mName = _copy.getName();
 		mFeatures = _copy.getFeatures();
 	}
-	
+
 	/**
 	 *	Default attribute constructor
 	 *	@generated
@@ -57,7 +57,7 @@ public class SpatialLayerImpl extends UObjectImpl implements SpatialLayer
 		mName = _name;
 		mFeatures = _features; 
 	}
-	
+
 	/**
 	 * @generated
 	 */
@@ -72,7 +72,7 @@ public class SpatialLayerImpl extends UObjectImpl implements SpatialLayer
 		if (needNotification(SpatialPackage.Literals.SpatialLayer_name)){
 			String _oldValue = mName;
 			mName = _name;
-			notify(_oldValue, mName, SpatialPackage.Literals.SpatialLayer_name, NotificationType.SET);
+			notify(_oldValue, _name, SpatialPackage.Literals.SpatialLayer_name, NotificationType.SET);
 		}else{
 			mName = _name;
 		}
@@ -94,8 +94,6 @@ public class SpatialLayerImpl extends UObjectImpl implements SpatialLayer
 		}
 		return mFeatures;
 	}
-
-	
 
 	//////////////////////////////////////////////////////////////////
 	//							 Operations							//

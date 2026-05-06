@@ -3,27 +3,30 @@ package de.emir.tuml.ucore.runtime.extension;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.emir.tuml.ucore.runtime.logging.ULog;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ServiceManager {
-    private static Map<String, IService> extensionPoints = new HashMap<String, IService>();
-    private static Map<Class<? extends IService>, IService> extensionPointsByClass = new HashMap<Class<? extends IService>, IService>();
-    private static Logger log = LogManager.getLogger(ServiceManager.class);
+    private static final Logger LOG = LogManager.getLogger(ServiceManager.class);
+
+    private static final Map<String, IService> extensionPoints = new HashMap<String, IService>();
+    private static final Map<Class<? extends IService>, IService> extensionPointsByClass = new HashMap<Class<? extends IService>, IService>();
 
     public static void register(IService ep) {
         register(ep.getClass().getName(), ep);
     }
 
     public static void register(String id, IService ep) {
-        if (extensionPoints.containsKey(id) == true) {
-            log.error("Extension Point with id [" + id + "] already exists.");
+        assert LOG != null;
+
+        if (extensionPoints.containsKey(id)) {
+            LOG.error("Extension Point with id [{}] already exists.", id);
             return;
         }
+
         extensionPointsByClass.put(ep.getClass(), ep);
         extensionPoints.put(id, ep);
-        log.debug("Extension Point with ID [" + id + "] registered.");
+        LOG.debug("Extension Point with ID [{}] registered.", id);
     }
 
     @SuppressWarnings("unchecked")

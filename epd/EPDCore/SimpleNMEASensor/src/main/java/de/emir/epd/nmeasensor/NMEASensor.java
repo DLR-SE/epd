@@ -1,6 +1,3 @@
-/**
- * 
- */
 package de.emir.epd.nmeasensor;
 
 import java.beans.PropertyChangeEvent;
@@ -12,8 +9,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.logging.log4j.Logger;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import de.emir.epd.model.EPDModel;
 import de.emir.epd.model.EPDModelUtils;
@@ -48,8 +45,6 @@ import net.sf.marineapi.nmea.sentence.SentenceId;
  *
  */
 public class NMEASensor implements ReceiverListener, SentenceListener {
-	/** Logger. */
-	private static Logger LOG = ULog.getLogger(NMEASensor.class);
 	/** Reference to the connection for this sensor. **/
 	private volatile IConnection nmeaReceiver;
 	/** The property storing all settings for this sensor. **/
@@ -70,6 +65,8 @@ public class NMEASensor implements ReceiverListener, SentenceListener {
     private volatile PipedOutputStream os;
     /** PipeWriter to shovel data from IConnection to SentenceReader through InputStream and OutputStream. **/
     private WriteToPipe writer;
+    /** Remember if settings have change and this sensor should be restartet. */
+	private boolean needsRestart = true;
 	
 	/**
 	 * This contains the NMEA sensor with receiver and parser.
@@ -77,17 +74,16 @@ public class NMEASensor implements ReceiverListener, SentenceListener {
 	public NMEASensor(IProperty<?> sourceProperty) {
 		Object o = PlatformUtil.getModelManager().getModelProvider().getModel();
 
-		if (o instanceof EPDModel){
+		if (o instanceof EPDModel) {
 			EPDModel model = (EPDModel) o;
 			this.aisTargets = model.getAisTargetSet();
-		}else {
+		} else {
 			// TODO if there is no EPDModel, aisTargets cannot be created!
 			this.aisTargets = new EnvironmentImpl();
 		}
 
 		this.nmeaSensor = sourceProperty;
 		this.propListener = new PropListener();
-		this.nmeaSensor.addPropertyChangeListener(propListener);
 
 		receive();
 	}
@@ -151,14 +147,19 @@ public class NMEASensor implements ReceiverListener, SentenceListener {
 	class PropListener implements PropertyChangeListener {
 		@Override
 		public synchronized void propertyChange(PropertyChangeEvent evt) {
+			ULog.info("NMEASensor Property changed.", evt);
+			if (!evt.getNewValue().equals(evt.getOldValue())) {
+				ULog.info("Set to restart sensor {}", getNamePath());
+				needsRestart = true;
+			}
             // Only inform about active receivers and stop them for changes
-            if (nmeaReceiver != null && nmeaReceiver.getState() == true) {
-                LOG.info("Changes in Receiver {} {}:{}", getNamePath(), evt.getPropertyName(), evt.getNewValue());
+            if (nmeaReceiver != null && nmeaReceiver.getState() && !isActive()) {
+                ULog.debug("Changes in Receiver {} {}:{}", getNamePath(), evt.getPropertyName(), evt.getNewValue());
                 try {
-                    LOG.info("Stop receiver");
+                    ULog.info("Stop {} receiver {}", getType().name(), nmeaSensor.getName());
                     nmeaReceiver.stopReceiving();
                 } catch (Exception e) {
-                    LOG.error("Could not stop receiver " + getNamePath(), e);
+                    ULog.error("Could not stop receiver " + getNamePath(), e);
                 }
             }
 			receive();
@@ -169,6 +170,15 @@ public class NMEASensor implements ReceiverListener, SentenceListener {
 	 * This method starts the receiver for this sensor.
 	 */
 	public void receive() {
+		// Check if this is already running and everything is in order.
+		if (nmeaReceiver != null && nmeaReceiver.getState() == isActive()) {
+			// Do nothing if this is already connected. Call stopReceiving beforehand if you want this to change. 
+			ULog.debug("State of {} is {}", nmeaSensor.getName(), nmeaReceiver.getState());
+			return;
+		}
+		this.needsRestart = false;
+		this.nmeaSensor.addPropertyChangeListener(propListener);
+		ULog.debug("New sensor property: {}", this.nmeaSensor);
 		String[] sentences = ((String) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_SENTENCES, "")).split(",");
 		Set<Integer> aisSentences = new HashSet<>(); 
 		allowList.clear();
@@ -178,7 +188,7 @@ public class NMEASensor implements ReceiverListener, SentenceListener {
                 allowList.add(SentenceType.valueOf(sentence));
                 aisSentences.add(Integer.valueOf(SentenceType.valueOf(sentence).getDetail()));
             } catch (IllegalArgumentException e) {
-                LOG.warn("No SenenceType for name \"" + sentence + "\", ignoring entry.");
+                ULog.warn("No SenenceType for name \"{}\", ignoring entry.", sentence);
                 continue;
             }
         }
@@ -205,7 +215,7 @@ public class NMEASensor implements ReceiverListener, SentenceListener {
 			sentenceReader.setExceptionListener(new ExceptionListener() {
 				@Override
 				public void onException(Exception e) {
-					LOG.error("Exception in sentenceReader. ", e);
+					ULog.error("Exception in sentenceReader. ", e);
 				}});
 			sentenceReader.start();
 			EPDModelUtils.clear(this.aisTargets);
@@ -216,20 +226,20 @@ public class NMEASensor implements ReceiverListener, SentenceListener {
 				int udpport = (int) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_PORT, 7003);
 				int packetsize = (int) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_PACKETSIZE, 65535);
 				nmeaReceiver = new UdpReceiverHandle(this, udpport, packetsize, localAdr);
-				LOG.info("UDP Receiver {}:{} {}", localAdr, udpport, packetsize);
+				ULog.debug("UDP Receiver {}:{} {}", localAdr, udpport, packetsize);
 				break;
 			case TCP:
 				String hostName = (String) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_HOST, "127.0.0.1");
 				int tcpport = (int) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_PORT, 16100);
 				nmeaReceiver = new TcpReceiverHandle(this, hostName, tcpport, Constants.PACKETSIZE);
-				LOG.info("TCP Receiver {}:{}", hostName, tcpport);
+				ULog.debug("TCP Receiver {}:{}", hostName, tcpport);
 				break;
 			case Serial:
 				String serialPort = (String) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_SERIALPORT, "COM1");
 				int baudrate = (int) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_BAUDRATE, 9600);
 				int maxPacketsize = (int) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_PACKETSIZE, 65535);
 				nmeaReceiver = new SerialReceiverHandle(this, serialPort, baudrate, maxPacketsize);
-				LOG.info("Serial Receiver {} {} {}", serialPort, baudrate, maxPacketsize);
+				ULog.debug("Serial Receiver {} {} {}", serialPort, baudrate, maxPacketsize);
 				break;
 			case File:
 				String filename = (String) getAttributeOrDefault(
@@ -237,21 +247,23 @@ public class NMEASensor implements ReceiverListener, SentenceListener {
 				int delay = (int) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_DELAY, 1000);
 				int repeat = (int) getAttributeOrDefault(NMEASensorIds.NMEA_SENSOR_PROP_REPEAT, -1);
 				nmeaReceiver = new FileReceiverHandle(this, filename, delay, repeat);
-				LOG.info("File Receiver {} {} {}", filename, delay, repeat);
+				ULog.debug("File Receiver {} {} {}", filename, delay, repeat);
 				break;
 			}
             
 			if (isActive()) {
                 // UDP can only send or recieve
-				if (!(getType().equals(ReceiverType.UDP) && (boolean) getAttributeOrDefault(
-                        NMEASensorIds.NMEA_SENSOR_PROP_OUTPUT, false))) {
-                    LOG.info("Start receiver {}", getNamePath());
-					nmeaReceiver.receive();
-		            writer.start();
+				if (getType().equals(ReceiverType.UDP) && (boolean) getAttributeOrDefault(
+                        NMEASensorIds.NMEA_SENSOR_PROP_OUTPUT, false)) {
+					return;
 				}
+				ULog.info("Start {} receiver {}", getType().name(), nmeaSensor.getName());
+				ULog.debug("Receiver property name {}", getNamePath());
+				nmeaReceiver.receive();
+				writer.start();
 			}
 		} catch (Exception e) {
-			LOG.error("Could not start NMEA receiver {}.", getNamePath(), e);
+			ULog.error("Could not start NMEA receiver {}.", getNamePath(), e);
 		}
 	}
 	
@@ -259,7 +271,7 @@ public class NMEASensor implements ReceiverListener, SentenceListener {
 	 * Stop and remove this sensors receiver.
 	 */
 	public void remove() {
-		if (nmeaReceiver != null) nmeaReceiver.stopReceiving();
+		if (nmeaReceiver != null && nmeaReceiver.getState()) nmeaReceiver.stopReceiving();
 		if (nmeaSensor != null) nmeaSensor.removePropertyChangeListener(this.propListener);
 		if (writer != null) writer.stopWriter();
 	}
@@ -285,7 +297,7 @@ public class NMEASensor implements ReceiverListener, SentenceListener {
                     writer.write(msg);
 				}
 			} catch (Exception e) {
-				LOG.error("Exception while handling message. ", e);
+				ULog.error("Exception while handling message. ", e);
 			}
 		}
     }
@@ -301,17 +313,17 @@ public class NMEASensor implements ReceiverListener, SentenceListener {
 
 	@Override
 	public void readingPaused() {
-		LOG.debug("SentenceReader: readingPaused");
+		ULog.debug("SentenceReader: readingPaused");
 	}
 
 	@Override
 	public void readingStarted() {
-		LOG.debug("SentenceReader: readingStarted");
+		ULog.debug("SentenceReader: readingStarted");
 	}
 
 	@Override
 	public void readingStopped() {
-		LOG.debug("SentenceReader: readingStopped");
+		ULog.debug("SentenceReader: readingStopped");
 	}
 
 	@Override
@@ -326,50 +338,92 @@ public class NMEASensor implements ReceiverListener, SentenceListener {
 	 */
 	class WriteToPipe extends Thread {
 		/** The outputstream to write to (target will be the MarineAPI StreamReader). **/
-		private PipedOutputStream os;
-		/** State. **/
-		private volatile boolean run = true;
-		/** The received data to write to the stream. **/
-		private volatile byte[] msg;
-		
-		/**
-		 * Constructor for this writer.
-		 * 
-		 * @param os the outputstream to write to
-		 * @param msg the data to write
-		 */
-		public WriteToPipe(PipedOutputStream os, byte[] msg) {
-			this.os = os;
-			this.msg = msg;
-			run = true;
-		}
+		private final PipedOutputStream os;
+        /** If no new messages arrive we wait this long to check the thread running state. Default is 1s */
+        private int waitTimeoutMilliseconds = 1000;
+        /** Semaphore like queue containing messages to be processed **/
+        private final LinkedBlockingQueue<byte[]> blockingQueue = new LinkedBlockingQueue<>();
+        /** State. **/
+        private volatile boolean run = true;
+
 		
 		/**
 		 * Constructor for this writer.
 		 * 
 		 * @param os the outputstream to write to
 		 */
-		public WriteToPipe(PipedOutputStream os) {
-			this.os = os;
-			run = true;
+		public WriteToPipe(final PipedOutputStream os) {
+			this(os, 1000);
 		}
-		
+
+        /**
+         * Constructor for this writer.
+         *
+         * @param os the outputstream to write to
+         * @param waitTimeoutMilliseconds timeout for waiting for new messages
+         */
+        public WriteToPipe(final PipedOutputStream os, final int waitTimeoutMilliseconds) {
+            this(os, waitTimeoutMilliseconds, null);
+        }
+
+        /**
+         * Constructor for this writer.
+         *
+         * @param os the outputstream to write to
+         * @param initialMessage the data to write
+         */
+        public WriteToPipe(final PipedOutputStream os, final byte[] initialMessage) {
+            this(os, 1000, initialMessage);
+        }
+
+
+        /**
+         * Constructor for this writer.
+         *
+         * @param os the outputstream to write to
+         * @param waitTimeoutMilliseconds timeout for waiting for new messages
+         * @param initialMessage the data to write
+         */
+        public WriteToPipe(final PipedOutputStream os, final int waitTimeoutMilliseconds, final byte[] initialMessage) {
+            this.os = os;
+            if (initialMessage != null){
+                try {
+                    this.blockingQueue.put(initialMessage);
+                } catch (InterruptedException e) {
+                    // it is okay to catch here since: Even if the thread gets interrupted we
+                    // might only lose this message
+                    ULog.error(e);
+                }
+            }
+            this.waitTimeoutMilliseconds = waitTimeoutMilliseconds;
+            this.run = true;
+        }
+
+
 		/**
 		 * Place the data to write in this writer object. This will be written to the outputstream once the thread gets
 		 * to it. (Which should be immediately.)
 		 * 
 		 * @param msg the data to write
 		 */
-		public void write(byte[] msg) {
-			this.msg = msg;
+		public void write(final byte[] msg) {
+            try {
+                // wait automatically if queue is full
+                blockingQueue.put(msg);
+            } catch (InterruptedException e) {
+                // it is okay to catch here since: Even if the thread gets interrupted we
+                // might only lose this message
+                ULog.error(e);
+            }
 		}
 		
 		/**
 		 * Stop this writer thread.
 		 */
 		public void stopWriter() {
-			run = false;
-			Thread.interrupted();
+			this.run = false;
+            // wake up the thread
+            this.interrupt();
 		}
 		
 		/**
@@ -377,20 +431,26 @@ public class NMEASensor implements ReceiverListener, SentenceListener {
 		 */
 		public void run() {
 			try {
-				while (run) {
-					if (msg != null && msg.length > 0) {
-						os.write(msg);
-						os.flush();
-						msg = null;
-					}
-				}
+                // run until stop is requested
+                while (this.run) {
+                    // wait for new messages until timeout
+                    byte[] msg = this.blockingQueue.poll(this.waitTimeoutMilliseconds, TimeUnit.MILLISECONDS);
+                    if (msg != null){
+                        // write new message
+                        this.os.write(msg);
+                        this.os.flush();
+                    }
+                }
 				os.close();
 			} catch (IOException e) {
-				LOG.error("Exception while writing to outputstream.", e);
-			}/* catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
+				ULog.error("Exception while writing to outputstream.", e);
+			} catch (InterruptedException e) {
+                ULog.error("Interruption while writing to outputstream.", e);
+            }
 		}
+	}
+
+	public boolean needsRestart() {
+		return this.needsRestart ;
 	}
 }

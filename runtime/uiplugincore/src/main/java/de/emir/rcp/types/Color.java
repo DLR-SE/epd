@@ -1,86 +1,86 @@
 package de.emir.rcp.types;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 
 /**
  * This class simply exists to avoid serializing java.awt.Color.
- *
  */
 public class Color implements Serializable {
-	private static final long serialVersionUID = -674586248207935710L;
-	int red;
-	int green;
-	int blue;
-	int alpha = 255;
-	
-	public Color() {
-		
-	}
-	
-	public Color(int red, int green, int blue) {
-		this.red = red;
-		this.green = green;
-		this.blue = blue;
-		this.alpha = 255;
-	}
+    private static final long serialVersionUID = -674586248207935710L;
+    int red;
+    int green;
+    int blue;
+    int alpha = 255;
 
-	public Color(int red, int green, int blue, int alpha) {
-		this.red = red;
-		this.green = green;
-		this.blue = blue;
-		this.alpha = alpha;
-	}
+    public Color() {
 
-	public Color(java.awt.Color source) {
-		this.red = source.getRed();
-		this.green = source.getGreen();
-		this.blue = source.getBlue();
-		this.alpha = source.getAlpha();
-	}
-	
-	public int getRed() {
-		return red;
-	}
+    }
 
-	public void setRed(int red) {
-		this.red = red;
-	}
+    public Color(int red, int green, int blue) {
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+        this.alpha = 255;
+    }
 
-	public int getGreen() {
-		return green;
-	}
+    public Color(int red, int green, int blue, int alpha) {
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+        this.alpha = alpha;
+    }
 
-	public void setGreen(int green) {
-		this.green = green;
-	}
+    public Color(java.awt.Color source) {
+        this.red = source.getRed();
+        this.green = source.getGreen();
+        this.blue = source.getBlue();
+        this.alpha = source.getAlpha();
+    }
 
-	public int getBlue() {
-		return blue;
-	}
+    public int getRed() {
+        return red;
+    }
 
-	public void setBlue(int blue) {
-		this.blue = blue;
-	}
+    public void setRed(int red) {
+        this.red = red;
+    }
 
-	public int getAlpha() {
-		return alpha;
-	}
+    public int getGreen() {
+        return green;
+    }
 
-	public void setAlpha(int alpha) {
-		this.alpha = alpha;
-	}
+    public void setGreen(int green) {
+        this.green = green;
+    }
+
+    public int getBlue() {
+        return blue;
+    }
+
+    public void setBlue(int blue) {
+        this.blue = blue;
+    }
+
+    public int getAlpha() {
+        return alpha;
+    }
+
+    public void setAlpha(int alpha) {
+        this.alpha = alpha;
+    }
 
     @JsonIgnore
-	public java.awt.Color getAWTColor() {
-		return new java.awt.Color(this.red, this.green, this.blue, this.alpha);
-	}
-	
+    public java.awt.Color getAWTColor() {
+        return new java.awt.Color(this.red, this.green, this.blue, this.alpha);
+    }
+
     @JsonIgnore
-	public void setAWTColor(java.awt.Color source) {
-		this.red = source.getRed();
-		this.green = source.getGreen();
-		this.blue = source.getBlue();
-		this.alpha = source.getAlpha();
-	}
+    public void setAWTColor(java.awt.Color source) {
+        this.red = source.getRed();
+        this.green = source.getGreen();
+        this.blue = source.getBlue();
+        this.alpha = source.getAlpha();
+    }
 }

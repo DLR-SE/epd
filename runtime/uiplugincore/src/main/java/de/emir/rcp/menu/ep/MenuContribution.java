@@ -32,7 +32,7 @@ public class MenuContribution implements IMenuContribution {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.emir.rcp.menu.ep.IMenuContribution#separator(java.lang.String)
      */
     @Override
@@ -66,7 +66,7 @@ public class MenuContribution implements IMenuContribution {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.emir.rcp.menu.ep.IMenuContribution#menu(java.lang.String, java.lang.String)
      */
     @Override
@@ -98,7 +98,7 @@ public class MenuContribution implements IMenuContribution {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.emir.rcp.menu.ep.IMenuContribution#menuItem(java.lang.String, de.emir.rcp.commands.ep.Command)
      */
     @Override
@@ -108,7 +108,7 @@ public class MenuContribution implements IMenuContribution {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.emir.rcp.menu.ep.IMenuContribution#menuItem(java.lang.String, java.lang.String)
      */
     @Override

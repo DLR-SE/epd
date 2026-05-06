@@ -38,10 +38,11 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Creates a new ViewDescriptor.
-     * @param id ID of the descriptor. This is the ID which the views are assigned to. If the reopenable flag is set to true,
-     *           each instantiated views ID is appended by _InstanceX, such as _Instance1, _Instance2 etc.
+     *
+     * @param id        ID of the descriptor. This is the ID which the views are assigned to. If the reopenable flag is set to true,
+     *                  each instantiated views ID is appended by _InstanceX, such as _Instance1, _Instance2 etc.
      * @param viewClass View class which should be instantiated when triggered in the UI.
-     * @param provider Plugin which loads the view.
+     * @param provider  Plugin which loads the view.
      */
     public ViewDescriptor(String id, Class<? extends AbstractView> viewClass, AbstractUIPlugin provider) {
         this.id = id;
@@ -51,6 +52,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Creates a viewable string. If the label is not set, the ID is returned, else the label.
+     *
      * @return Label or ID.
      */
     @Override
@@ -63,6 +65,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Gets the identifier of the descriptor.
+     *
      * @return ID.
      */
     public String getId() {
@@ -71,6 +74,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Gets the view class which is assigned to the current descriptor.
+     *
      * @return Corresponding view class.
      */
     public Class<? extends AbstractView> getViewClass() {
@@ -79,6 +83,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Adds a label to the view.
+     *
      * @param label Name of the view which should be displayed in the Open View dialog.
      * @return IViewDescriptor.
      */
@@ -90,6 +95,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Adds an icon to the view.
+     *
      * @param iconPath Path of the icon of the view which should be displayed in the Open View dialog.
      * @return IViewDescriptor.
      */
@@ -100,8 +106,9 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Adds an icon to the view using a custom ResourceManager.
+     *
      * @param iconPath Path of the icon of the view which should be displayed in the Open View dialog.
-     * @param rmgr ResourceManager which should be used for loading the icon.
+     * @param rmgr     ResourceManager which should be used for loading the icon.
      * @return IViewDescriptor.
      */
     @Override
@@ -132,6 +139,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Gets the icon assigned to the view.
+     *
      * @return Icon loaded for the view.
      */
     public ImageIcon getIcon() {
@@ -140,6 +148,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Gets the label assigned to the view.
+     *
      * @return Label loaded for the view.
      */
     public String getLabel() {
@@ -148,6 +157,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Sets the maximizable flag of the view. If enabled, the view can be maximized.
+     *
      * @param isMaximizable Maximizable flag. Set to true if the view can be maximized.
      * @return IViewDescriptor.
      */
@@ -159,6 +169,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Sets the minimizable flag of the view. If enabled, the view can be minimized.
+     *
      * @param isMinimizable Minimizable flag. Set to true if the view can be minimized.
      * @return IViewDescriptor.
      */
@@ -171,6 +182,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Sets the externalizable flag of the view. If enabled, the view can be shown in a separate window.
+     *
      * @param isExternalizable Externalizable flag. Set to true if the view can be docked out in a separate window.
      * @return IViewDescriptor.
      */
@@ -182,6 +194,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Sets the reopenable flag of the view. If enabled, the view can be opened multiple times.
+     *
      * @param isReopenable Reopenable flag. Set to true if the view can be opened multiple times.
      * @return IViewDescriptor.
      */
@@ -193,6 +206,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Sets the closable flag of the view. If enabled, the view can be closed.
+     *
      * @param isCloseable Closable flag. Set to true if the view can be closed.
      * @return IViewDescriptor.
      */
@@ -204,6 +218,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Sets the visible on start flag of the view. If enabled, the view is visible at start of the application.
+     *
      * @param isVisible VisibleOnStart flag. Set to true if the view is visible at start of the application.
      * @return IViewDescriptor.
      */
@@ -215,6 +230,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Checks if the view is closable.
+     *
      * @return Closable flag.
      */
     public boolean isCloseable() {
@@ -223,6 +239,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Checks if the view is maximizable.
+     *
      * @return Maximizable flag.
      */
     public boolean isMaximizable() {
@@ -231,6 +248,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Checks if the view is minimizable.
+     *
      * @return Minimizable flag.
      */
     public boolean isMinimizable() {
@@ -239,6 +257,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Checks if the view can be opened in a separate window.
+     *
      * @return Externalizable flag.
      */
     public boolean isExternalizable() {
@@ -247,6 +266,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Checks if the view needs to be visible at start of the application.
+     *
      * @return VisibleOnStart flag.
      */
     public boolean isVisibleOnStart() {
@@ -255,6 +275,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Checks if the view can be opened multiple times.
+     *
      * @return Reopenable flag.
      */
     public boolean isReopenable() {
@@ -263,6 +284,7 @@ public class ViewDescriptor implements IViewDescriptor {
 
     /**
      * Gets the plugin which registered the view.
+     *
      * @return Plugin that registered the view.
      */
     public AbstractUIPlugin getProvider() {

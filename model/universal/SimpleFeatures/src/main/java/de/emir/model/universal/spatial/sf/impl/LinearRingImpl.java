@@ -18,9 +18,7 @@ import de.emir.model.universal.units.DistanceUnit;
 @UMLImplementation(classifier = LinearRing.class)
 public class LinearRingImpl extends LineStringImpl implements LinearRing  
 {
-	
-	
-			
+
 	/**
 	 *	Default constructor
 	 *	@generated
@@ -28,7 +26,7 @@ public class LinearRingImpl extends LineStringImpl implements LinearRing
 	public LinearRingImpl(){
 		super();
 	}
-	
+
 	/**
 	 *	Default copy constructor
 	 *	@generated
@@ -36,7 +34,7 @@ public class LinearRingImpl extends LineStringImpl implements LinearRing
 	public LinearRingImpl(final LinearRing _copy) {
 		super(_copy);
 	}
-	
+
 	/**
 	 *	Default attribute constructor
 	 *	@generated
@@ -44,15 +42,14 @@ public class LinearRingImpl extends LineStringImpl implements LinearRing
 	public LinearRingImpl(CoordinateSequence _points) {
 		super(_points);
 	}
-	
+
 	/**
 	 * @generated
 	 */
 	public UClass getUClassifier() {
 		return SfPackage.Literals.LinearRing;
 	}
-	
-	
+
 	//////////////////////////////////////////////////////////////////
 	//							 Operations							//
 	//////////////////////////////////////////////////////////////////

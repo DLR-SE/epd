@@ -20,7 +20,7 @@ public abstract class AbstractWizardPage extends JPanel implements IWizardPage {
 
     /**
      * Constructs a new AbstractWizardPage.
-     * 
+     *
      * @param wizard
      * @wbp.parser.constructor
      */
@@ -31,7 +31,7 @@ public abstract class AbstractWizardPage extends JPanel implements IWizardPage {
 
     /**
      * Constructs a new AbstractWizardPage.
-     * 
+     *
      * @param wizard
      * @param layout
      * @param isDoubleBuffered
@@ -43,7 +43,7 @@ public abstract class AbstractWizardPage extends JPanel implements IWizardPage {
 
     /**
      * Constructs a new AbstractWizardPage.
-     * 
+     *
      * @param wizard
      * @param layout
      */
@@ -54,7 +54,7 @@ public abstract class AbstractWizardPage extends JPanel implements IWizardPage {
 
     /**
      * Constructs a new AbstractWizardPage.
-     * 
+     *
      * @param wizard
      * @param isDoubleBuffered
      */

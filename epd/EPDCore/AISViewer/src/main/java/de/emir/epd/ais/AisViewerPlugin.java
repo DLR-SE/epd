@@ -56,7 +56,8 @@ public class AisViewerPlugin extends AbstractUIPlugin {
 		mvEP.layer("AisLayer", AisLayer.class)
 				.label("AIS")
 				.icon("icons/emiricons/32/settings_input_antenna.png")
-				.settingsPanel(AisLayerSettingsPanel.class);
+				.settingsPanel(AisLayerSettingsPanel.class)
+				.zOrder(10);
 
 		CommandExtensionPoint cmdEP = ExtensionPointManager.getExtensionPoint(CommandExtensionPoint.class);
 		ICommandDescriptor hideAisRouteCmd = cmdEP.command(

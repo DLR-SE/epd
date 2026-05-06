@@ -26,8 +26,6 @@ public class SpatialUtils {
 		}
 	}
 	
-	
-	
 	public static Coordinate getNearestPointOnRay(final LineSegment segment, final Coordinate coordinate) {
 		//use one of the existing coordinates, if possible
 		Engineering2D crs = (coordinate.getCrs() != null && coordinate.getCrs() instanceof Engineering2D) ? (Engineering2D)coordinate.getCrs() : null;
@@ -66,8 +64,6 @@ public class SpatialUtils {
 		return projection;
 	}
 	
-
-	
 	public static Coordinate getNearestPointOnLine(final LineSegment segment, final Coordinate coordinate) {
 		//use one of the existing coordinates, if possible
 		Engineering2D crs = (coordinate.getCrs() != null && coordinate.getCrs() instanceof Engineering2D) ? (Engineering2D)coordinate.getCrs() : null;
@@ -81,10 +77,6 @@ public class SpatialUtils {
 		return getNearestPointOnLine(segment, coordinate, crs);
 	}
 
-	
-
-
-	
 	private static Coordinate getNearestPointOnLine(LineSegment segment, Coordinate coordinate, Engineering2D crs) {
 		Vector2D v = (Vector2D) segment.start.get(crs).toVector();
 		Vector2D w = (Vector2D) segment.end.get(crs).toVector();

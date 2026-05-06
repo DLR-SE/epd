@@ -43,12 +43,11 @@ public class CoordinateImpl extends UObjectImpl implements Coordinate {
 	 */
 	protected double mZ = Double.NaN;
 	/**
-	 references the current coordinate system, and therefore how x,y,z has to be read
+	 References the current coordinate system, and therefore how x,y,z has to be read
 	 * if this value is set to null, a cartesian coordinate system (EngineeringCRS - default) is assumed
 	 * @generated 
 	 */
-	protected CoordinateReferenceSystem mCrs = null;
-
+	private CoordinateReferenceSystem mCrs = null;
 	//Shadow variables for fast access
 	private double mLatitude = Double.NaN;
 	private double mLongitude = Double.NaN;
@@ -233,7 +232,7 @@ public class CoordinateImpl extends UObjectImpl implements Coordinate {
 	}
 
 	/**
-	 references the current coordinate system, and therefore how x,y,z has to be read
+	 References the current coordinate system, and therefore how x,y,z has to be read
 	 * if this value is set to null, a cartesian coordinate system (EngineeringCRS - default) is assumed
 	 * @generated 
 	 */

@@ -6,13 +6,17 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -28,14 +32,13 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.apache.logging.log4j.Logger;
-
+import de.emir.epd.nmeasensor.NMEASensorPlugin;
 import de.emir.epd.nmeasensor.data.ReceiverType;
-import static de.emir.epd.nmeasensor.data.ReceiverType.TCP;
-import static de.emir.epd.nmeasensor.data.ReceiverType.UDP;
 import de.emir.epd.nmeasensor.data.SentenceType;
 import de.emir.epd.nmeasensor.ids.NMEASensorIds;
 import de.emir.epd.nmeasensor.ui.CheckBoxList;
@@ -46,10 +49,7 @@ import de.emir.rcp.settings.AbstractSettingsPage;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.prop.AbstractProperty;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
+import de.emir.tuml.ucore.runtime.resources.IconManager;
 
 public class NMEASensorSettingsPage extends AbstractSettingsPage {
 	private JComboBox<ReceiverType> connectionTypeComboBox;
@@ -79,7 +79,7 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
 	/** Checkbox to enable/disable current receiver. */
 	private JCheckBox chckbxActive;
 	/** The currently selected property. */
-	protected AbstractProperty activeProperty;
+	protected AbstractProperty<String> activeProperty;
     /** The currently active receiver editor. */
     protected AbstractReceiverSettings activeReceiverSettings;
 	/** Panel containing TCP receiver settings. */
@@ -97,9 +97,7 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
     
     private PropertyContext context = PropertyStore.getContext(NMEASensorIds.NMEA_SENSOR_PROP_CONTEXT);
     private IProperty<Integer> nmeaSources;
-//    private IProperty<Long> lastUpdate;
     
-    public static Logger LOG = ULog.getLogger(NMEASensorSettingsPage.class);
     private JSplitPane splitPane_1;
 
     /**
@@ -108,9 +106,7 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
     @Override
     public Component fillPage() {
         nmeaSources = context.getProperty(NMEASensorIds.NMEA_SENSOR_PROP, 0);
-//        lastUpdate = context.getProperty(NMEASensorIds.NMEA_SENSOR_PROP_NMEA_SOURCE, 0L);
         printProperty(nmeaSources);
-        java.awt.GridBagConstraints gridBagConstraints;
 
         nmeaSourcePanel = new JPanel();
         nmeaSourcePanel.setPreferredSize(new Dimension(512, 384));
@@ -123,10 +119,6 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
 
         receiverPanel.setBorder(null);
         receiverPanel.setLayout(new BorderLayout(0, 0));
-//        tcpReceiverPanel = new TCPReceiverSettings(this);
-//        udpReceiverPanel = new UDPReceiverSettings(this);
-//        serialReceiverPanel = new SerialReceiverSettings(this);
-//        fileReceiverPanel = new FileReceiverSettings(this);
 
         nmeaFilterPanel = new JPanel();
         nmeaFilterPanel.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -178,6 +170,7 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
         labelTextField = new JTextField();
         labelTextField.addFocusListener(new FocusAdapterImpl());
         labelTextField.setColumns(10);
+        labelTextField.setEditable(true);
 
         chckbxActive = new JCheckBox("Active");
         chckbxActive.addFocusListener(new FocusAdapterImpl());
@@ -226,15 +219,15 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
         receiverListPanel.add(toolBar, BorderLayout.NORTH);
 
         btnAdd = new JButton("");
-        btnAdd.setIcon(new ImageIcon(NMEASensorSettingsPage.class.getResource("/icons/emiricons/32/add.png")));
+        btnAdd.setIcon(IconManager.getIcon(this, "/icons/emiricons/32/add.png"));
         toolBar.add(btnAdd);
 
         btnClone = new JButton("");
-        btnClone.setIcon(new ImageIcon(NMEASensorSettingsPage.class.getResource("/icons/emiricons/32/content_copy.png")));
+		btnClone.setIcon(IconManager.getIcon(this, "/icons/emiricons/32/content_copy.png"));
         toolBar.add(btnClone);
 
         btnRemove = new JButton("");
-        btnRemove.setIcon(new ImageIcon(NMEASensorSettingsPage.class.getResource("/icons/emiricons/32/delete.png")));
+        btnRemove.setIcon(IconManager.getIcon(this, "/icons/emiricons/32/delete.png"));
         toolBar.add(btnRemove);
 
         receiverListScrollPane = new JScrollPane();
@@ -259,13 +252,15 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
         ReceiverType selectedType = ReceiverType.valueOf(type.getValue());
 		connectionTypeComboBox.setSelectedItem(selectedType);
         
-        IProperty<Boolean> active = context.getProperty(getNamePath() + '.' + NMEASensorIds.NMEA_SENSOR_PROP_ACTIVE, false);
+		IProperty<Boolean> active = context.getProperty(getNamePath() + '.' + NMEASensorIds.NMEA_SENSOR_PROP_ACTIVE,
+				false);
 		chckbxActive.setSelected(active.getValue());
 		for (int i = 0; i < nmeaFilterList.getModel().getSize(); i++) {
 			JCheckBox cb = nmeaFilterList.getModel().getElementAt(i);
 			cb.setSelected(false);
 		}
-        IProperty<String> sentences = context.getProperty(getNamePath() + '.' + NMEASensorIds.NMEA_SENSOR_PROP_SENTENCES, "");
+		IProperty<String> sentences = context
+				.getProperty(getNamePath() + '.' + NMEASensorIds.NMEA_SENSOR_PROP_SENTENCES, "");
         List<String> splitSentences = Arrays.asList(sentences.getValue().split(","));
         List<SentenceType> sentenceTypes = new ArrayList<>();
 		for (String sentence : splitSentences) {
@@ -274,7 +269,7 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
             try {
                 sentenceTypes.add(SentenceType.valueOf(sentence));
             } catch (IllegalArgumentException e) {
-                LOG.warn("No SenenceType for name \"" + sentence + "\", ignoring entry.");
+                ULog.warn("No SentenceType for name \"{}\", ignoring entry.", sentence);
                 continue;
             }
 		}
@@ -299,30 +294,43 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
      * 
      * @return the currenytly active property
      */
-    public AbstractProperty getActiveProperty() {
+    public AbstractProperty<String> getActiveProperty() {
         return this.activeProperty;
     }
 
+    /**
+     * Check wether a name is already used in the list of NMEA recievers.
+     * 
+     * @param name the name to search for
+     * @return <CODE>true</CODE> if the nema is already in use
+     */
 	private boolean nameTaken(String name) {
 		if (receiverListModel == null || receiverListModel.isEmpty()) {
 			return false;
 		}
 		for (int i = 0; i < receiverListModel.getSize(); i++) {
-            IProperty prop = receiverListModel.get(i);
-			if (prop.getName().equals(name))
+            IProperty<?> prop = receiverListModel.get(i);
+			if (prop.getValue().equals(name)) {
 				return true;
+			}
 		}
 		return false;
 	}
 
+	/**
+	 * Make sure the correct settings are updated and displayed when the selection of the receiver type changes.
+	 */
 	public void readValues() {
 		String selected = ((ReceiverType) connectionTypeComboBox.getSelectedItem()).name();
 		cLayout.show(receiverDetailPanel, selected);
-//        activeReceiverSettings.readValues();
 		printProperty(nmeaSources);
 		receiverList.repaint();
 	}
 
+	/**
+	 * Initializes the settings page with configurations for the receivers from the property store and registers
+	 * actionListeners for the most common UI components in the NMEASensor settings page.
+	 */
 	public void init() {
 		receiverListModel.clear();
         if (nmeaSources.getSubProperties() != null) {
@@ -336,7 +344,8 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
                 ReceiverType selected = ((ReceiverType) connectionTypeComboBox.getSelectedItem());
 
                 if (receiverList.getSelectedValue() != null) {
-                    IProperty<String> type = context.getProperty(getNamePath() + '.' + NMEASensorIds.NMEA_SENSOR_PROP_TYPE, "UDP");
+					IProperty<String> type = context
+							.getProperty(getNamePath() + '.' + NMEASensorIds.NMEA_SENSOR_PROP_TYPE, "UDP");
                     type.setValue(selected.name());
                     receiverList.invalidate();
 
@@ -375,14 +384,14 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
                 if (activeReceiverSettings != null) activeReceiverSettings.finish();
-				IProperty prop = receiverList.getSelectedValue();
+				IProperty<String> prop = receiverList.getSelectedValue();
 				if (prop == null) return;
                 
 				if (dirtyFlag) {
 					readValues();
 					dirtyFlag = false;
 				}
-				activeProperty = (AbstractProperty) receiverList.getSelectedValue();
+				activeProperty = (AbstractProperty<String>) receiverList.getSelectedValue();
 				fillValues();
 			}
 		});
@@ -390,7 +399,7 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
         // Initially select the first item and load the values.
 		receiverList.setSelectedIndex(0);
 		if (receiverList.getSelectedValue() != null) {
-			activeProperty = (AbstractProperty) receiverList.getSelectedValue();
+			activeProperty = (AbstractProperty<String>) receiverList.getSelectedValue();
 			fillValues();
 		}
         
@@ -398,17 +407,9 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
 		nmeaFilterList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-//				StringBuilder sbSentenceFilter = new StringBuilder();
-//				for (int i = 0; i < nmeaFilterList.getModel().getSize(); i++) {
-//					JCheckBox cbItem = nmeaFilterList.getModel().getElementAt(i);
-//					if (cbItem.isSelected()) {
-//						sbSentenceFilter.append(cbItem.getText()).append(",");
-//					}
-//				}
-//				IProperty<String> prop = context.getProperty(getNamePath() + "." + NMEASensorIds.NMEA_SENSOR_PROP_SENTENCES, "");
-//				prop.setValue(sbSentenceFilter.toString().substring(0, sbSentenceFilter.lastIndexOf(",")));
 				dirtyFlag = true;
 				readValues();
+				readSentenceFilter();
 			}
 		});
         
@@ -427,6 +428,7 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
 					}
 				}
                 nmeaFilterList.repaint();
+                readSentenceFilter();
 			}
 		});
         
@@ -434,9 +436,11 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
 		chckbxActive.addActionListener(new ActionListener() {
             @Override
 			public void actionPerformed(ActionEvent e) {
-				if (activeProperty == null)
+				if (activeProperty == null) {
 					return;
-                IProperty<Boolean> active = context.getProperty(getNamePath() + '.' + NMEASensorIds.NMEA_SENSOR_PROP_ACTIVE, false);
+				}
+				IProperty<Boolean> active = context
+						.getProperty(getNamePath() + '.' + NMEASensorIds.NMEA_SENSOR_PROP_ACTIVE, false);
                 active.setValue(chckbxActive.isSelected());
 				receiverList.repaint();
 				dirtyFlag = true;
@@ -448,20 +452,24 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
             @Override
 			public void actionPerformed(ActionEvent e) {
 				int index = receiverList.getSelectedIndex();
-				IProperty item = receiverList.getSelectedValue();
-				if (item == null)
+				IProperty<String> item = receiverList.getSelectedValue();
+				if (item == null) {
 					return;
-
-				int num = nmeaSources.getValue();
-                ((AbstractProperty) nmeaSources).removeChild(item);
+				}
+				// deactivate before removal
+				IProperty<Boolean> active = context
+						.getProperty(getNamePath() + '.' + NMEASensorIds.NMEA_SENSOR_PROP_ACTIVE, false);
+                active.setValue(false);
+                NMEASensorPlugin.getNMEASensors().removeSensor(activeProperty.getName());
+                NMEASensorPlugin.getNMEASensors().removeSensor(item.getName());
+				
+                ((AbstractProperty<Integer>) nmeaSources).removeChild(item);
                 item.dispose();
-                num--;
 				receiverListModel.remove(index);
 				receiverList.setSelectedIndex(index > 1 ? (index - 1) : 0);
 				receiverList.repaint();
 				receiverList.invalidate();
 				dirtyFlag = true;
-				nmeaSources.setValue(num);
 			}
 		});
         
@@ -470,26 +478,24 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
             @Override
 			public void actionPerformed(ActionEvent e) {
                 int index = receiverList.getSelectedIndex();
-				IProperty item = receiverList.getSelectedValue();
-				if (item == null)
+				IProperty<String> item = receiverList.getSelectedValue();
+				if (item == null) {
 					return;
+				}
                 
-				int num = nmeaSources.getValue();
-
+				String id =  UUID.randomUUID().toString();
 				String name = "Copy of " + (String) item.getValue();
 				while (nameTaken(name)) {
 					name += "_1";
 				}
-				String namePath = NMEASensorIds.NMEA_SENSOR_PROP + "." + name;
+				String namePath = NMEASensorIds.NMEA_SENSOR_PROP + "." + id;
                 IProperty<String> newProp = context.getProperty(namePath, "nmeaSensor", name);
-                num++;
-                nmeaSources.setValue(num);
                 
 				receiverListModel.addElement(newProp);
 				receiverList.setSelectedValue(newProp, true);
                 
 				receiverList.invalidate();
-                activeProperty = (AbstractProperty) newProp;
+                activeProperty = (AbstractProperty<String>) newProp;
 				dirtyFlag = true;
 				fillValues();
 			}
@@ -499,59 +505,64 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
 		btnAdd.addActionListener(new ActionListener() {
             @Override
 			public void actionPerformed(ActionEvent e) {
-				int num = nmeaSources.getValue();
-				
+				int num = receiverList.getModel().getSize();
+				String id =  UUID.randomUUID().toString();
 				String name = "Receiver" + (num + 1);
 				while (nameTaken(name)) {
 					name += "_1";
 				}
-                String namePath = NMEASensorIds.NMEA_SENSOR_PROP + "." + name;
+                String namePath = NMEASensorIds.NMEA_SENSOR_PROP + "." + id;
                 IProperty<String> newProp = context.getProperty(namePath, "nmeaSensor", name);
                 num++;
-                nmeaSources.setValue(num);
                 receiverListModel.addElement(newProp);
                 receiverList.invalidate();
 				receiverList.setSelectedValue(newProp, true);
-                activeProperty = (AbstractProperty) newProp;
+                activeProperty = (AbstractProperty<String>) newProp;
 				dirtyFlag = true;
 				fillValues();
 			}
 		});
 
-        // Name change means we need to dump the property and create a new one with the new name.
-		labelTextField.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-                if (activeReceiverSettings != null) activeReceiverSettings.finish();
-				if (!nameTaken(labelTextField.getText())
-						&& !labelTextField.getText().isEmpty()) {
-					if(activeProperty != null) {
-                        int index = receiverListModel.indexOf(activeProperty);
-                        AbstractProperty parent = (AbstractProperty) activeProperty.getParentProperty();
-                        List<IProperty> children = activeProperty.getSubProperties();
-                        String name = labelTextField.getText();
-                        String namePath = NMEASensorIds.NMEA_SENSOR_PROP + "." + name;
-                        IProperty<String> newProp = context.getProperty(namePath, "nmeaSensor", name);
-                        for (IProperty child : children) {
-                            ((AbstractProperty) newProp).addChild(child);
-                        }
-                        ((AbstractProperty) newProp).setParentProperty(parent);
-                        parent.removeChild(activeProperty);
-                        receiverListModel.set(index, newProp);
-                        activeProperty.dispose();
-                        receiverList.setSelectedIndex(index);
-                        activeProperty = (AbstractProperty) receiverList.getSelectedValue();
-                        receiverList.invalidate();
-					}
-					dirtyFlag = true;
-				}
+		// register listener for name changes
+		labelTextField.getDocument().addDocumentListener(new DocumentListener()
+        {
+			@Override
+			public void insertUpdate(DocumentEvent evt) {
+				nameUpdate();
 			}
-		});
-	}
 
-    public void setDirty(boolean dirty) {
-        this.dirtyFlag = dirty;
-    }
+			@Override
+			public void removeUpdate(DocumentEvent evt) {
+				nameUpdate();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent evt) {
+				nameUpdate();
+			}
+        });
+	}
+	
+	/**
+	 * This method updates the sensors name in the backed model and the property.
+	 */
+	private void nameUpdate() {
+		if (activeProperty != null && activeProperty.getName().equals(labelTextField.getText())) {
+			// name has not changed, do nothing.
+			return;
+		}
+		if (activeReceiverSettings != null) activeReceiverSettings.finish();
+		if (!nameTaken(labelTextField.getText()) && !labelTextField.getText().isEmpty()) {
+			if (activeProperty != null) {
+				int index = receiverListModel.indexOf(activeProperty);
+				activeProperty.setValue(labelTextField.getText());
+				receiverList.getModel().getElementAt(index).setValue(labelTextField.getText());
+				receiverList.repaint();
+				receiverList.revalidate();
+			}
+			dirtyFlag = true;
+		}
+	}
     
 	@Override
 	public boolean isDirty() {
@@ -561,12 +572,19 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
 
 	@Override
 	public void finish() {
-        if (activeReceiverSettings != null) activeReceiverSettings.finish();
-		readValues();
-		readSentenceFilter();
+        if (activeReceiverSettings != null) {
+        	activeReceiverSettings.finish();
+        	readValues();
+    		readSentenceFilter();
+        }
         printProperty(nmeaSources);
+        nmeaSources.setValue((int) Math.random());
+        PropertyStore.save();
 	}
 	
+	/**
+	 * Collect the selected checkboxes from the sentence filter list and create a filter String from it.
+	 */
 	private void readSentenceFilter() {
 		StringBuilder sbSentenceFilter = new StringBuilder();
 		for (int i = 0; i < nmeaFilterList.getModel().getSize(); i++) {
@@ -575,22 +593,26 @@ public class NMEASensorSettingsPage extends AbstractSettingsPage {
 				sbSentenceFilter.append(cbItem.getText()).append(",");
 			}
 		}
-		IProperty<String> prop = context.getProperty(getNamePath() + "." + NMEASensorIds.NMEA_SENSOR_PROP_SENTENCES, "");
-		prop.setValue(sbSentenceFilter.toString().substring(0, sbSentenceFilter.lastIndexOf(",")));
+		IProperty<String> prop = context.getProperty(getNamePath() + "." + NMEASensorIds.NMEA_SENSOR_PROP_SENTENCES,
+				"");
+		prop.setValue(sbSentenceFilter.toString().substring(0, Math.max(sbSentenceFilter.lastIndexOf(","), 0)));
+		
+		// Force update.
+		nmeaSources.setValue(nmeaSources.getValue() + 1);
 	}
 
 	public static void printProperty(IProperty<?> property) {
 		if (property == null || property.getValue() == null) {
-			LOG.warn("No subproperties found while loading NMEASensorSettings");
+			ULog.warn("No subproperties found while loading NMEASensorSettings");
 			return;
 		}
-        LOG.debug(property.getName() + ": " + property.getValue());
+        ULog.trace(property.getName() + ": " + property.getValue());
         if (property.getSubProperties() != null) {
-            LOG.debug("{");
+            ULog.trace("{");
             for (IProperty<?> prop : property.getSubProperties()) {
                 printProperty(prop);
             }
-            LOG.debug("}");
+            ULog.trace("}");
         }
     }
 

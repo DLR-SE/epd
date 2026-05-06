@@ -69,13 +69,13 @@ public class PluginRenderUtil {
     public static Icon getIcon(Model m) {
         Object pluginProp = m.getProperties().get(PMBasics.MAVEN_PLUGIN_PROPERTY);
         if (pluginProp instanceof String) {
-            if (m.getModules().size() > 0) {
+            if (!m.getModules().isEmpty()) {
                 return pluginAndFolderIcon;
             } else {
                 return pluginIcon;
             }
         } else {
-            if (m.getModules().size() > 0) {
+            if (!m.getModules().isEmpty()) {
                 return folderIcon;
             } else {
                 return pomIcon;

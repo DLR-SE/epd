@@ -1,6 +1,6 @@
 package de.emir.epd.routemanager.editor;
 
-import java.awt.Color; 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -23,11 +23,11 @@ import de.emir.epd.routemanager.cmd.ZoomToRouteCommand;
 import de.emir.epd.routemanager.cmd.ZoomToWayPointCommand;
 import de.emir.epd.routemanager.cmd.popup.DeleteWayPointCommand;
 import de.emir.epd.routemanager.ids.RouteManagerBasic;
-import de.emir.model.domain.maritime.iec61174.Iec61174Package;
-import de.emir.model.domain.maritime.iec61174.Route;
-import de.emir.model.domain.maritime.iec61174.Waypoint;
+import de.emir.model.domain.maritime.iec61174.*;
 import de.emir.model.domain.maritime.iec61174.impl.LegImpl;
 import de.emir.model.domain.maritime.iec61174.impl.RouteScheduleImpl;
+import de.emir.model.universal.units.DistanceUnit;
+import de.emir.model.universal.units.Length;
 import de.emir.model.universal.units.SpeedUnit;
 import de.emir.model.universal.units.impl.SpeedImpl;
 import de.emir.rcp.manager.CommandManager;
@@ -67,8 +67,8 @@ public class RoutePropertiesDialog extends JPanel {
     private Route current;
     private JLabel routeLengthLabel;
     private static final Logger LOG = LogManager.getLogger(RoutePropertiesDialog.class);
-    
-    private RoutePropertiesDialog(Route route) {
+
+    public RoutePropertiesDialog(Route route) {
         current = route;
         init();
     }
@@ -224,8 +224,6 @@ public class RoutePropertiesDialog extends JPanel {
                 updateButtons();
             }
         });
-
-
     }
 
     private void deleteWaypoint() {
@@ -253,16 +251,28 @@ public class RoutePropertiesDialog extends JPanel {
         CompoundTransaction ct = new CompoundTransaction();
 
         for (Waypoint point : current.getWaypoints().getWaypoints()) {
+            // leg could be null, in this case we must set it before calling the set value transaction
+            // as these do not create new legs
+            if (point.getLeg() == null) {
+                point.setLeg(new LegImpl());
+            }
+
             SetValueTransaction minPlanSpeed = new SetValueTransaction(
                     point.getLeg(),
                     Iec61174Package.Literals.Leg_planSpeedMin,
-                    new SpeedImpl(Double.parseDouble(speedAllLegsField.getText()),
-                            de.emir.model.universal.units.SpeedUnit.KNOTS));
+                    new SpeedImpl(
+                            Double.parseDouble(speedAllLegsField.getText()),
+                            de.emir.model.universal.units.SpeedUnit.KNOTS
+                    )
+            );
             SetValueTransaction maxPlanSpeed = new SetValueTransaction(
                     point.getLeg(),
                     Iec61174Package.Literals.Leg_planSpeedMax,
-                    new SpeedImpl(Double.parseDouble(speedAllLegsField.getText()),
-                            de.emir.model.universal.units.SpeedUnit.KNOTS));
+                    new SpeedImpl(
+                            Double.parseDouble(speedAllLegsField.getText()),
+                            de.emir.model.universal.units.SpeedUnit.KNOTS
+                    )
+            );
             ct.add(minPlanSpeed);
             ct.add(maxPlanSpeed);
         }
@@ -271,18 +281,37 @@ public class RoutePropertiesDialog extends JPanel {
     }
 
     private void update() {
-        routeLengthLabel.setText((int) current.getLength().getValue() + " " + current.getLength().getUnit().getName());
-        try {
-            speedAllLegsField.setText(String.valueOf(current.getWaypoints().getWaypoints().get(0).getLeg().getPlanSpeedMin().getValue()));
-        } catch (NullPointerException e) {
-            List<Waypoint> wayPoints = current.getWaypoints().getWaypoints();
-            if (wayPoints.get(0).getLeg() == null) {
-                wayPoints.get(0).setLeg(new LegImpl());
-            }
-
-            current.getWaypoints().getWaypoints().get(0).getLeg().setPlanSpeedMin(new SpeedImpl(10.00, SpeedUnit.KNOTS));
-            speedAllLegsField.setText(String.valueOf(current.getWaypoints().getWaypoints().get(0).getLeg().getPlanSpeedMin().getValue()));
+        // update route length label
+        Length length = current.getLength();
+        if (length != null){
+            routeLengthLabel.setText((int) length.getValue() + " " + length.getUnit().getName());
+        } else {
+            routeLengthLabel.setText("0 " + DistanceUnit.NAUTICAL_MILES.getName());
         }
+
+        WayPoints wayPoints = current.getWaypoints();
+        if (wayPoints == null) {
+            return;
+        }
+
+        List<Waypoint> wps = wayPoints.getWaypoints();
+        if (wps == null || wps.isEmpty()) {
+            return;
+        }
+
+        Waypoint first = wps.getFirst();
+
+        Leg firstLeg = first.getLeg();
+        if (firstLeg == null) {
+            first.setLeg(firstLeg = new LegImpl());
+            firstLeg.setPlanSpeedMin(new SpeedImpl(10.00, SpeedUnit.KNOTS));
+        }
+
+        speedAllLegsField.setText(
+                String.valueOf(
+                        firstLeg.getPlanSpeedMin().getAs(SpeedUnit.KNOTS)
+                )
+        );
         model.fireTableDataChanged();
     }
 

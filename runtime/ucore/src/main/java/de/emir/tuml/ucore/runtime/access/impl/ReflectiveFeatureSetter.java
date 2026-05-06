@@ -6,12 +6,13 @@ import com.google.common.reflect.Invokable;
 
 import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.tuml.ucore.runtime.access.IFeatureSetter;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 
 public class ReflectiveFeatureSetter implements IFeatureSetter {
 
-    private Invokable mInvokable;
+    private final Invokable<UObject, ?> mInvokable;
 
-    public ReflectiveFeatureSetter(Invokable invokable) {
+    public ReflectiveFeatureSetter(Invokable<UObject, ?> invokable) {
         mInvokable = invokable;
     }
 
@@ -19,10 +20,8 @@ public class ReflectiveFeatureSetter implements IFeatureSetter {
     public void set(UObject instance, Object value) {
         try {
             mInvokable.invoke(instance, value);
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            ULog.error(e);
         }
     }
 

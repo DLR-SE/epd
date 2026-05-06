@@ -9,7 +9,7 @@ import javax.swing.event.CellEditorListener;
 import javax.swing.table.TableCellEditor;
 
 /*
-* TODO implement this key binding editor
+ * TODO implement this key binding editor
  */
 public class KeyBindingTableCellEditor implements TableCellEditor {
 

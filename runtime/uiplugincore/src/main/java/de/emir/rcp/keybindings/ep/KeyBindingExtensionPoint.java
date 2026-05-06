@@ -7,6 +7,7 @@ import de.emir.model.universal.plugincore.var.ViewKeyBinding;
 import de.emir.model.universal.plugincore.var.impl.EditorKeyBindingImpl;
 import de.emir.model.universal.plugincore.var.impl.GlobalKeyBindingImpl;
 import de.emir.model.universal.plugincore.var.impl.ViewKeyBindingImpl;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,9 +30,8 @@ import de.emir.tuml.ucore.runtime.extension.IExtensionPoint;
  * KeyBindings can be registered via this ExtensionPoint. A distinction is made between editor, view and global
  * contexts. Global KeyBindings are active regardless of the focused UI component, Editor and View KeyBindings are only
  * active in the corresponding components.
- * 
- * @author fklein
  *
+ * @author fklein
  */
 public class KeyBindingExtensionPoint implements IExtensionPoint {
 

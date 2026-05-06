@@ -1,12 +1,14 @@
 package de.emir.rcp;
 
 import de.emir.model.universal.plugincore.var.impl.ConfigRectangleImpl;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.nio.file.Path;
 
 import javax.swing.*;
 
+import de.emir.rcp.commands.AbstractCheckableCommand;
 import de.emir.rcp.commands.ShowAboutCommand;
 import de.emir.rcp.commands.basics.*;
 import de.emir.rcp.commands.basics.perspective.*;
@@ -64,10 +66,10 @@ public class UICorePlugin extends AbstractUIPlugin {
 
         // Add Commands
         CommandExtensionPoint cmdEP = ExtensionPointManager.getExtensionPoint(CommandExtensionPoint.class);
-
         cmdEP.command(Basic.CMD_EXIT, "Exit Application", new ExitCommand());
         cmdEP.command(Basic.CMD_SETTINGS, "Open Settings Dialog", new OpenSettingsDialogCommand());
         cmdEP.command(Basic.CMD_LOCK_UNLOCK_LAYOUT, "Lock/Unlock Layout", new LockUnlockLayoutCommand());
+        cmdEP.command(Basic.CMD_TAB_LAYOUT, "Toggles the Tab-Based Layout", new TabLayoutCommand());
         cmdEP.command(Basic.CMD_LOAD_LAYOUT, "Load Layout", new LoadLayoutCommand());
         cmdEP.command(Basic.CMD_SAVE_LAYOUT, "Save Layout", new SaveLayoutCommand());
         cmdEP.command(Basic.CMD_IMPORT_LAYOUT, "Import Layout", new ImportLayoutCommand());
@@ -98,11 +100,18 @@ public class UICorePlugin extends AbstractUIPlugin {
 
         IMenu layoutMenu = menuEP.menuContribution(Basic.MENU_MAIN_MENU).menu("layout", "Layout");
         layoutMenu.menuItem("lockunlock", Basic.CMD_LOCK_UNLOCK_LAYOUT).label("Unlock Layout");
+        layoutMenu.menuItem("tablayout", Basic.CMD_TAB_LAYOUT).label("Tab Layout");
         layoutMenu.menuItem("openview", Basic.CMD_OPEN_VIEW).label("Open View...");
 
         IMenu perspectiveMenu = layoutMenu.menu(Basic.PERSPECTIVE_MENU, "Layouts");
         ResourceManager manager = ResourceManager.get(UICorePlugin.class);
         Path layoutFolder = manager.getHomePath().resolve("layouts");
+
+        ((AbstractCheckableCommand) cmdEP.getCommandDescriptor(Basic.CMD_TAB_LAYOUT)
+                .getCommand())
+                .setChecked(PropertyStore.getContext(Basic.TAB_LAYOUT_PROP_CTX)
+                        .getProperty(Basic.TAB_LAYOUT_ACTIVE_PROP, false)
+                        .getValue());
 
         IMenu defaultMenu = perspectiveMenu.menu("defaultlayoutmenu", "Default Layouts");
         defaultMenu.dynamicMenu("defaultlayout", new LayoutMenuProvider(layoutFolder.resolve("default").toFile()));
@@ -160,9 +169,14 @@ public class UICorePlugin extends AbstractUIPlugin {
         PlatformUtil.getViewManager().fillViews();
         PlatformUtil.getEditorManager().fillEditors();
 
-        PlatformUtil.getWindowManager().getMainWindow().loadLayout();
+        // Checks if the tab layout was activated at last start. If not, proceed with default layout control, else
+        // init the tab layout again after the ViewManager loaded all views.
+        if(!PlatformUtil.getMenuManager().getLayoutControl().tabLayoutActive()) {
+            PlatformUtil.getWindowManager().getMainWindow().loadLayout();
+        } else {
+            PlatformUtil.getMenuManager().getLayoutControl().init();
+        }
         PlatformUtil.getStatusBarManager().fillStatusBar();
-
     }
 
     @Override
@@ -230,7 +244,7 @@ public class UICorePlugin extends AbstractUIPlugin {
                 new ConfigRectangleImpl(PlatformUtil.getWindowManager().getMainWindow().getBounds()));
         PropertyStore.getContext("System").setValue("Maximized",
                 PlatformUtil.getWindowManager().getMainWindow().getExtendedState());
-        PropertyStore.getContext(Basic.KEY_BINDING_PROP_CTX).setValue(Basic.KEY_BINDING_PROP, 
+        PropertyStore.getContext(Basic.KEY_BINDING_PROP_CTX).setValue(Basic.KEY_BINDING_PROP,
                 PlatformUtil.getKeyBindingManager().getDeltas().getValue());
         PlatformUtil.getViewManager().runOnViewShutdown();
     }

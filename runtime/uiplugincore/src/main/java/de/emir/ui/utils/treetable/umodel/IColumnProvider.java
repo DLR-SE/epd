@@ -16,7 +16,7 @@ public interface IColumnProvider {
     /**
      * Returns a TableCellEditor for the given node, or null. If null is returned, the default cell editor will be used
      * (see JTable)
-     * 
+     *
      * @param node
      * @return
      */

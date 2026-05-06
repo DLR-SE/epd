@@ -19,15 +19,13 @@ import de.emir.tuml.ucore.runtime.utils.internal.builder.UClassBuilder;
 
 public class UCoreMetaRepository {
 
-    private static final HashSet<UPackage> mRootPackages = new HashSet<UPackage>();
+    private static final HashMap<String, UPackage> mPackageMap = new HashMap<>();
+    private static final HashMap<String, UClassifier> mQualifiedNamesMap = new HashMap<>();
+    private static final HashMap<String, UClassifier> mSimpleNamesMap = new HashMap<>();
 
-    private static final HashMap<String, UPackage> mPackageMap = new HashMap<String, UPackage>();
-    private static final HashMap<String, UClassifier> mQualifiedNamesMap = new HashMap<String, UClassifier>();
-    private static final HashMap<String, UClassifier> mSimpleNamesMap = new HashMap<String, UClassifier>();
+    private static final HashMap<String, UClass> mAnnotationsWithDetailsMap = new HashMap<>();
 
-    private static final HashMap<String, UClass> mAnnotationsWithDetailsMap = new HashMap<String, UClass>();
-
-    private static ClassifierUtilities mClassifierUtilities = new ClassifierUtilities();
+    private static final ClassifierUtilities mClassifierUtilities = new ClassifierUtilities();
 
     public static UClassifier registerClassifier(String name, UClassifier cl) {
         if (mQualifiedNamesMap.containsKey(name) == false) {
@@ -50,14 +48,14 @@ public class UCoreMetaRepository {
 
     public static UEnum getUEnumeration(Class<?> clazz) {
         UClassifier cl = getClassifier(clazz);
-        if (cl != null && cl instanceof UEnum)
+        if (cl instanceof UEnum)
             return (UEnum) cl;
         return null;
     }
 
     public static UInterface getUInterface(Class<?> clazz) {
         UClassifier cl = getClassifier(clazz);
-        if (cl != null && cl instanceof UInterface)
+        if (cl instanceof UInterface)
             return (UInterface) cl;
         return null;
     }
@@ -98,7 +96,7 @@ public class UCoreMetaRepository {
 
     public static UClass findClass(Class<?> clazz) {
         UClassifier cl = findClassifier(clazz);
-        if (cl != null && cl instanceof UClass)
+        if (cl instanceof UClass)
             return (UClass) cl;
         return null;
     }
@@ -113,13 +111,12 @@ public class UCoreMetaRepository {
 
     public static UClass findClassBySimpleName(String str) {
         UClassifier cl = findClassifierBySimpleName(str);
-        if (cl != null && cl instanceof UClass)
+        if (cl instanceof UClass)
             return (UClass) cl;
         return null;
     }
 
     public static UClass findClassByAnnotation(String name, String key, String value) {
-
         String mapKey = createAnnotationWithDetailMapKey(name, key, value);
 
         UClass result = mAnnotationsWithDetailsMap.get(mapKey);
@@ -149,20 +146,17 @@ public class UCoreMetaRepository {
 
                 return result;
             }
-
         }
 
         return null;
-
     }
 
     private static String createAnnotationWithDetailMapKey(String name, String key, String value) {
         return "@" + name + "(" + key + "=" + value + ")";
-
     }
 
     /**
-     * returns all classifiers, that inherit from parent
+     * Returns all classifiers, that inherit from parent
      * 
      * @param parent
      *            the parent classifier
@@ -175,14 +169,14 @@ public class UCoreMetaRepository {
     }
 
     /**
-     * Returns an collection of all registered classifiers
+     * Returns a collection of all registered classifiers
      * 
      * @return a transient list of all classifiers
      */
     public static List<UClassifier> getAllClassifier() {
-        HashSet<UClassifier> set = new HashSet<UClassifier>();
+        HashSet<UClassifier> set = new HashSet<>();
 
-        ArrayList<UClassifier> out = new ArrayList<UClassifier>();
+        ArrayList<UClassifier> out = new ArrayList<>();
         for (UClassifier cl : mQualifiedNamesMap.values())
             if (cl != null)
                 set.add(cl);

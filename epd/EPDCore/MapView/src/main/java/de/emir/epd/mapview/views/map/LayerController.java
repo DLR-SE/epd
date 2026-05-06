@@ -1,5 +1,6 @@
 package de.emir.epd.mapview.views.map;
 
+import de.emir.tuml.ucore.runtime.logging.ULog;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Consumer;
 
@@ -7,7 +8,7 @@ import java.awt.*;
 
 public class LayerController {
 	
-	private IMapDrawable layer;
+	private final IMapDrawable layer;
 	private BufferingGraphics2D buffer;
 	private Dimension size;
 
@@ -16,7 +17,6 @@ public class LayerController {
 	}
 
 	public void setSize(Dimension size) {
-
 		this.size = size;
 		layer.setDirty(true);
 	}
@@ -29,7 +29,6 @@ public class LayerController {
 	}
 	
 	public void handlePaint(IDrawContext c) {
-
 		if(layer.isVisible() && (layer.isDirty() == true || buffer == null) && size != null) {
 
 			if(size.getWidth() < 1 || size.getHeight() < 1) {
@@ -45,11 +44,9 @@ public class LayerController {
 				buffer = tmpBuffer;
 
 			}catch(Exception e) {
-				e.printStackTrace();
+                ULog.error(e);
 			}
-			
 		}
-		
 	}
 	
 	public Disposable subscribeVisibility(Consumer<Boolean> c) {
@@ -61,11 +58,9 @@ public class LayerController {
 	}
 
 	public void paint(Graphics2D g) {
-
 		if(buffer != null) {
 			buffer.paintTo(g);
 		}
-		
 	}
 	/*
 	 * Drop the buffer. This will result in a redraw at the next draw call

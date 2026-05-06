@@ -14,8 +14,6 @@ import de.emir.model.universal.math.impl.Vector2DImpl;
 import de.emir.model.universal.spatial.Coordinate;
 import de.emir.model.universal.spatial.Envelope;
 import de.emir.model.universal.spatial.SpatialPackage;
-import de.emir.model.universal.spatial.impl.CoordinateImpl;
-import de.emir.model.universal.spatial.delegate.IEnvelopeDelegationInterface;
 import de.emir.model.universal.units.Distance;
 import de.emir.model.universal.units.DistanceUnit;
 import de.emir.model.universal.units.Length;
@@ -23,7 +21,6 @@ import de.emir.model.universal.units.Rotation;
 import de.emir.model.universal.units.impl.LengthImpl;
 import de.emir.model.universal.units.impl.QuaternionImpl;
 import de.emir.tuml.ucore.runtime.NotificationType;
-import de.emir.tuml.ucore.runtime.Notification;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
 import de.emir.tuml.ucore.runtime.impl.UObjectImpl;
@@ -45,7 +42,7 @@ public class EnvelopeImpl extends UObjectImpl implements Envelope
 	 *	@generated 
 	 */
 	private Coordinate mMaxPoint = new CoordinateImpl();
-			
+
 	/**
 	 *	Default constructor
 	 * @note using this constructor creates a valid envelope with min and max point at location [0,0,NaN]
@@ -63,19 +60,19 @@ public class EnvelopeImpl extends UObjectImpl implements Envelope
 	 *	@generated
 	 */
 	public EnvelopeImpl(final Envelope _copy) {
-		mMinPoint = new CoordinateImpl(_copy.getMinPoint());
-		mMaxPoint = new CoordinateImpl(_copy.getMaxPoint());
+		mMinPoint = _copy.getMinPoint();
+		mMaxPoint = _copy.getMaxPoint();
 	}
-	
+
 	/**
 	 *	Default attribute constructor
 	 *	@generated
 	 */
 	public EnvelopeImpl(Coordinate _minPoint, Coordinate _maxPoint) {
-		mMinPoint = new CoordinateImpl(_minPoint); 
-		mMaxPoint = new CoordinateImpl(_maxPoint); 
+		mMinPoint = _minPoint; 
+		mMaxPoint = _maxPoint; 
 	}
-	
+
 	public EnvelopeImpl(double x, double y, double x2, double y2, CoordinateReferenceSystem crs) {
 		getMinPoint().setXY(x, y, crs);
 		getMaxPoint().setXY(x2, y2, crs);
@@ -103,7 +100,7 @@ public class EnvelopeImpl extends UObjectImpl implements Envelope
 		if (needNotification(SpatialPackage.Literals.Envelope_minPoint)){
 			Coordinate _oldValue = mMinPoint;
 			mMinPoint = _minPoint;
-			notify(_oldValue, mMinPoint, SpatialPackage.Literals.Envelope_minPoint, NotificationType.SET);
+			notify(_oldValue, _minPoint, SpatialPackage.Literals.Envelope_minPoint, NotificationType.SET);
 		}else{
 			mMinPoint = _minPoint;
 		}
@@ -123,7 +120,7 @@ public class EnvelopeImpl extends UObjectImpl implements Envelope
 		if (needNotification(SpatialPackage.Literals.Envelope_maxPoint)){
 			Coordinate _oldValue = mMaxPoint;
 			mMaxPoint = _maxPoint;
-			notify(_oldValue, mMaxPoint, SpatialPackage.Literals.Envelope_maxPoint, NotificationType.SET);
+			notify(_oldValue, _maxPoint, SpatialPackage.Literals.Envelope_maxPoint, NotificationType.SET);
 		}else{
 			mMaxPoint = _maxPoint;
 		}
@@ -136,8 +133,6 @@ public class EnvelopeImpl extends UObjectImpl implements Envelope
 		return mMaxPoint;
 	}
 
-	
-	
 	//////////////////////////////////////////////////////////////////
 	//							 Operations							//
 	//////////////////////////////////////////////////////////////////
@@ -527,7 +522,7 @@ public class EnvelopeImpl extends UObjectImpl implements Envelope
 
 	/**
 	 * Create an envelope around the given coordinate (center) and the given length and width
-	 * @param sensorWGSLoc
+	 * @param center
 	 * @param length
 	 * @param width
 	 * @return

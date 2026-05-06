@@ -11,7 +11,6 @@ import de.emir.tuml.ucore.runtime.UEnum;
 import de.emir.tuml.ucore.runtime.UEnumerator;
 import de.emir.tuml.ucore.runtime.UOperation;
 import de.emir.tuml.ucore.runtime.UPackage;
-import de.emir.tuml.ucore.runtime.impl.UClassifierImpl;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
 import de.emir.tuml.ucore.runtime.lists.UContainmentList;

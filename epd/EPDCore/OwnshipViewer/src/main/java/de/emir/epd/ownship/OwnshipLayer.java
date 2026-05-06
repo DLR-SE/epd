@@ -46,9 +46,9 @@ public class OwnshipLayer extends AbstractMapLayer implements Observer, IValueCh
 			super(new int[] { -3 + x, 0 + x, 3 + x, -3 + x }, new int[] { 3 + y, -6 + y, 3 + y, 3 + y }, 4);
 		}
 	}
-
-	private Color shipColor = new Color(78, 78, 78);
-	private Color trackColor = new Color(78, 78, 78, 96);
+	protected Color shipColor = new Color(34, 34, 34, 255);
+	protected Color trackColor = new Color(78, 78, 78, 96);
+	protected Color focusColor = new Color(0, 0, 0, 255);
 	private Vessel ownship;
 	private BasicStroke normalStroke = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER);
 	private BasicStroke cogStroke = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1,
@@ -187,7 +187,6 @@ public class OwnshipLayer extends AbstractMapLayer implements Observer, IValueCh
 			}
 		}
 
-		g.setColor(shipColor);
 		AffineTransform transform = g.getTransform();
 		g.translate(px.getX(), px.getY());
 
@@ -205,7 +204,11 @@ public class OwnshipLayer extends AbstractMapLayer implements Observer, IValueCh
 		// g.drawString(name, 0, 0);
 		// }
 
-		g.setColor(shipColor);
+		if(lastFocusedTarget == v) {
+			g.setColor(focusColor);
+		} else {
+			g.setColor(shipColor);
+		}
 		g.setStroke(normalStroke);
 
 		Ellipse2D outerRing = new Ellipse2D.Double(-9, -9, 18, 18);

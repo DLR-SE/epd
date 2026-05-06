@@ -44,7 +44,7 @@ public class CustomDialog extends JDialog {
      * Create the dialog.
      */
     public CustomDialog(IProperty<Boolean> okEnabled, String title, String description, JComponent component,
-            Image image) {
+                        Image image) {
         super(selectParent());
         setBounds(100, 100, 450, 300);
         getContentPane().setLayout(new BorderLayout());

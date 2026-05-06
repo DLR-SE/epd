@@ -1,6 +1,7 @@
 package de.emir.rcp.settings.basics.keybindings;
 
 import de.emir.model.universal.plugincore.var.AbstractKeyBinding;
+
 import java.awt.DefaultKeyboardFocusManager;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -60,8 +61,8 @@ public class EnterKeyBindingDialog extends JDialog {
         messageLbl = new JLabel("Press Key(s) to set Shortcut for command: " + desc.getLabel());
         messageLbl.setFont(messageLbl.getFont().deriveFont(Font.PLAIN, 13));
 
-        gridBagLayout.columnWeights = new double[] { 0.0 };
-        gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0 };
+        gridBagLayout.columnWeights = new double[]{0.0};
+        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0};
         cancelBtn.setFont(cancelBtn.getFont().deriveFont(Font.PLAIN, 13));
 
         cancelBtn.addActionListener(a -> setVisible(false));

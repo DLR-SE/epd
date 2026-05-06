@@ -47,7 +47,7 @@ public class EModTreeCellRenderer extends DefaultTreeCellRenderer implements Tre
 					setToolTipText(toolTip);
 				}
 			} else {
-				LOG.debug("Pointer in UNode " + node.getPath().toString() + " points to NULL.");
+				LOG.debug("Pointer in UNode " + node.getPointer() + " points to NULL.");
 			}
 		}
 		return c;

@@ -2,7 +2,6 @@ package de.emir.tuml.ucore.runtime.utils;
 
 import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.tuml.ucore.runtime.annotations.UMLClass;
-import de.emir.tuml.ucore.runtime.utils.QualifiedName;
 
 /**
  * 

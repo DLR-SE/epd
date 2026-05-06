@@ -27,163 +27,155 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class StoreableTileCache extends CustomTileCache {
 
-	private static final int LOADER_THREAD_COUNT = 5;
+    private static final int LOADER_THREAD_COUNT = 5;
 
-	private Thread saveThread;
+    private final Thread saveThread;
 
-	private Map<URI, Path> fileMap = new HashMap<>();
+    private final Map<URI, Path> fileMap = new HashMap<>();
 
-	private PropertyContext propCtx = PropertyStore.getContext(MVBasic.MAP_VIEW_PROP_CONTEXT);
+    private final PropertyContext propCtx = PropertyStore.getContext(MVBasic.MAP_VIEW_PROP_CONTEXT);
 
-	private IProperty cacheProp = propCtx.getProperty(MVBasic.MAP_VIEW_PROP_CACHE_TILES_ON_HARD_DRIVE, false);
-	private PropertyChangeListener cachePropListener;
+    private final IProperty<Boolean> cacheProp = propCtx.getProperty(MVBasic.MAP_VIEW_PROP_CACHE_TILES_ON_HARD_DRIVE, false);
+    private final PropertyChangeListener cachePropListener;
 
-	private BlockingQueue<IJob> saveJobQueue = new LinkedBlockingQueue<>();
-	private BlockingQueue<IJob> loadJobQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<IJob> saveJobQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<IJob> loadJobQueue = new LinkedBlockingQueue<>();
 
-	public StoreableTileCache() {
+    public StoreableTileCache() {
 
-		saveThread = new Thread(new Runnable() {
+        saveThread = new Thread(new Runnable() {
 
-			@Override
-			public void run() {
-				while (true) {
+            @Override
+            public void run() {
+                while (true) {
 
-					try {
-						IJob job = saveJobQueue.take();
-						job.run(new NullProgressMonitor());
-					} catch (InterruptedException e) {
-						ULog.info("Job interrupted. " + e.getMessage());
-					}
+                    try {
+                        IJob job = saveJobQueue.take();
+                        job.run(new NullProgressMonitor());
+                    } catch (InterruptedException e) {
+                        ULog.info("Job interrupted. " + e.getMessage());
+                    }
 
-				}
+                }
 
-			}
-		});
-		saveThread.setName("TileCacheSaveThread");
-		saveThread.start();
+            }
+        });
+        saveThread.setName("TileCacheSaveThread");
+        saveThread.start();
 
-		load();
+        load();
 
-		cachePropListener = p -> {
+        cachePropListener = p -> {
 
-			if ((boolean) p.getNewValue() == false) {
-				PlatformUtil.getJobManager().schedule(new DeleteTileCacheJob());
-			}
+            if ((boolean) p.getNewValue() == false) {
+                PlatformUtil.getJobManager().schedule(new DeleteTileCacheJob());
+            }
 
-		};
+        };
 
-		cacheProp.addPropertyChangeListener(cachePropListener);
-	}
+        cacheProp.addPropertyChangeListener(cachePropListener);
+    }
 
-	@Override
-	public void put(URI uri, byte[] bimg, BufferedImage img) {
-		super.put(uri, bimg, img);
+    @Override
+    public void put(URI uri, byte[] bimg, BufferedImage img) {
+        super.put(uri, bimg, img);
 
-		if ((boolean) cacheProp.getValue() == false) {
-			return;
-		}
+        if (cacheProp.getValue() == false) {
+            return;
+        }
 
-		try {
-			saveJobQueue.put(new SaveImageJob(uri, img));
-		} catch (InterruptedException e) {
+        try {
+            saveJobQueue.put(new SaveImageJob(uri, img));
+        } catch (InterruptedException e) {
 
-		}
+        }
 
-	}
+    }
 
-	/**
-	 * We need to reload the info files otherwise the cache would stop using our
-	 * hard drive cached tiles after dropping the map
-	 */
-	public void needMoreMemory() {
-		imgmap.clear();
-		load();
-	}
+    /**
+     * We need to reload the info files otherwise the cache would stop using our
+     * hard drive cached tiles after dropping the map
+     */
+    public void needMoreMemory() {
+        imgmap.clear();
+        load();
+    }
 
-	public void putWithoutSaving(URI uri, byte[] bimg, BufferedImage img) {
-		super.put(uri, bimg, img);
-	}
+    public void putWithoutSaving(URI uri, byte[] bimg, BufferedImage img) {
+        super.put(uri, bimg, img);
+    }
 
-	@Override
-	public BufferedImage get(URI uri) throws IOException {
+    @Override
+    public BufferedImage get(URI uri) throws IOException {
 
-		if (fileMap.containsKey(uri) == true) {
+        if (fileMap.containsKey(uri) == true) {
 
-			try {
+            try {
 
-				byte[] imgBytes = IOUtils.toByteArray(new FileInputStream(fileMap.remove(uri).toFile()));
+                byte[] imgBytes = IOUtils.toByteArray(new FileInputStream(fileMap.remove(uri).toFile()));
 
-				BufferedImage img = ImageIO.read(new ByteArrayInputStream(imgBytes));
+                BufferedImage img = ImageIO.read(new ByteArrayInputStream(imgBytes));
 
-				if (img != null) {
-					putWithoutSaving(uri, imgBytes, img);
-					return img;
-				}
-			} catch (Exception e2) {
+                if (img != null) {
+                    putWithoutSaving(uri, imgBytes, img);
+                    return img;
+                }
+            } catch (Exception e2) {
 
-			}
-		}
+            }
+        }
 
-		return super.get(uri);
-	}
+        return super.get(uri);
+    }
 
-	public void load() {
+    public void load() {
 
-		if ((boolean) cacheProp.getValue() == false) {
-			return;
-		}
+        if (cacheProp.getValue() == false) {
+            return;
+        }
 
-		Path folderPath = CacheFolder.getCachePath();
+        Path folderPath = CacheFolder.getCachePath();
 
-		for (int i = 0; i < LOADER_THREAD_COUNT; i++) {
-			Thread t = new Thread(new Runnable() {
+        for (int i = 0; i < LOADER_THREAD_COUNT; i++) {
+            Thread t = new Thread(() -> {
+                while (true) {
 
-				@Override
-				public void run() {
-					while (true) {
+                    try {
+                        IJob job = loadJobQueue.take();
+                        job.run(new NullProgressMonitor());
+                    } catch (InterruptedException ignored) {
 
-						try {
-							IJob job = loadJobQueue.take();
-							job.run(new NullProgressMonitor());
-						} catch (InterruptedException e) {
+                    }
 
-						}
+                }
+            });
+            t.start();
+        }
 
-					}
-				}
-			});
-			t.start();
-		}
+        try {
+            Object[] paths = Files.walk(folderPath).filter(n -> n.toString().endsWith(".tic")).toArray();
+            CountDownLatch latch = new CountDownLatch(paths.length);
+            for (Object path : paths) {
+                try {
+                    loadJobQueue.put(new LoadInfoJob(this, (Path) path, latch));
+                } catch (InterruptedException e) {
+                    ULog.error(e);
+                }
+            }
 
-		try {
+            latch.await();
 
-			Object[] paths = Files.walk(folderPath).filter(n -> n.toString().endsWith(".tic")).toArray();
-			CountDownLatch latch = new CountDownLatch(paths.length);
-			for (Object path : paths) {
-				try {
-					loadJobQueue.put(new LoadInfoJob(this, (Path) path, latch));
-				} catch (InterruptedException e) {
+        } catch (IOException | InterruptedException ignored) {
 
-					e.printStackTrace();
-				}
-			}
+        }
+    }
 
-			latch.await();
+    public void dispose() {
+        cacheProp.removePropertyChangeListener(cachePropListener);
+    }
 
-		} catch (IOException | InterruptedException e) {
-
-		}
-
-	}
-
-	public void dispose() {
-		cacheProp.removePropertyChangeListener(cachePropListener);
-
-	}
-
-	public void putURIFilePath(URI uri, Path imgPath) {
-		fileMap.put(uri, imgPath);
-	}
+    public void putURIFilePath(URI uri, Path imgPath) {
+        fileMap.put(uri, imgPath);
+    }
 
 }

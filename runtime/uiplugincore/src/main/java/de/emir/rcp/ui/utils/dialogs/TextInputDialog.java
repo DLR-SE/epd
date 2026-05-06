@@ -46,10 +46,10 @@ public class TextInputDialog extends JDialog {
         setSize(450, 143);
         setLocationRelativeTo(frame);
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
-        gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
-        gridBagLayout.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
-        gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE };
+        gridBagLayout.columnWidths = new int[]{0, 0, 0};
+        gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+        gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
         getContentPane().setLayout(gridBagLayout);
 
         JLabel lblDetailtext = new JLabel(info);
@@ -87,10 +87,10 @@ public class TextInputDialog extends JDialog {
         gbc_panel_1.gridy = 3;
         getContentPane().add(panel_1, gbc_panel_1);
         GridBagLayout gbl_panel_1 = new GridBagLayout();
-        gbl_panel_1.columnWidths = new int[] { 0, 0 };
-        gbl_panel_1.rowHeights = new int[] { 0, 0 };
-        gbl_panel_1.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-        gbl_panel_1.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
+        gbl_panel_1.columnWidths = new int[]{0, 0};
+        gbl_panel_1.rowHeights = new int[]{0, 0};
+        gbl_panel_1.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+        gbl_panel_1.rowWeights = new double[]{0.0, Double.MIN_VALUE};
         panel_1.setLayout(gbl_panel_1);
 
         errorLabel = new JLabel("");
@@ -113,10 +113,10 @@ public class TextInputDialog extends JDialog {
         gbc_panel.gridy = 4;
         getContentPane().add(panel, gbc_panel);
         GridBagLayout gbl_panel = new GridBagLayout();
-        gbl_panel.columnWidths = new int[] { 0, 0, 0 };
-        gbl_panel.rowHeights = new int[] { 0, 0 };
-        gbl_panel.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
-        gbl_panel.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
+        gbl_panel.columnWidths = new int[]{0, 0, 0};
+        gbl_panel.rowHeights = new int[]{0, 0};
+        gbl_panel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+        gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
         panel.setLayout(gbl_panel);
 
         btnOk = new JButton("Ok");

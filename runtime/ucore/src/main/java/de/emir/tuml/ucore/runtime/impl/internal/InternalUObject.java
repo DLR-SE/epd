@@ -1,8 +1,5 @@
 package de.emir.tuml.ucore.runtime.impl.internal;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import de.emir.tuml.ucore.runtime.NotificationType;
 import de.emir.tuml.ucore.runtime.RuntimePackage;
 import de.emir.tuml.ucore.runtime.UAssociationType;
@@ -14,9 +11,7 @@ import de.emir.tuml.ucore.runtime.pointer.PointerOperations;
 
 public class InternalUObject {
 
-    private static final int MAX_CONTAINER_MEMORY = 1;
-
-    private UObjectImpl mInstance;
+    private final UObjectImpl mInstance;
     private UStructuralFeature mContainingFeature;
     private UObject mContainer;
 
@@ -38,7 +33,6 @@ public class InternalUObject {
 		}
     }
 
-//    private HashMap<UAssociationType, ArrayList<ContainerStorage>> mPossibleContainers;
     private ContainerStorage[] mContainerOptions = null;
 
     public InternalUObject(UObjectImpl uObjectImpl) {
@@ -92,15 +86,14 @@ public class InternalUObject {
             UObject newValue) {
         if (container == null)
             return;
-        // check for newValue != null, otherwhise this will lead to an endless loop
+        // check for newValue != null, otherwise this will lead to an endless loop
         // no need to update if we still want to assign a new value in the next steps
-        UAssociationType assoType = feature.getAggregation();
-        if (!assignNew && newValue != null && feature != null
-                && assoType == UAssociationType.COMPOSITION && feature.isMany() == false) {
+        UAssociationType associationType = feature.getAggregation();
+        if (!assignNew && newValue != null && feature != null && associationType == UAssociationType.COMPOSITION && feature.isMany() == false) {
             PointerOperations.assign(container, feature, null);
         }
         // remove the container and feature from the list of possible containers
-        removePossibleContainers(container, feature, assoType);
+        removePossibleContainers(container, feature, associationType);
         mContainer = null;
         mContainingFeature = null;
 
@@ -113,10 +106,10 @@ public class InternalUObject {
 
     }
 
-    private void removePossibleContainers(UObject container, UStructuralFeature feature, UAssociationType assoType) {
+    private void removePossibleContainers(UObject container, UStructuralFeature feature, UAssociationType associationType) {
     	if (mContainerOptions == null) 
     		return ;
-    	int idx = getAggregationTypeIndex(assoType);
+    	int idx = getAggregationTypeIndex(associationType);
     	if (idx < 0)
     		return ;
     	ContainerStorage cs = mContainerOptions[idx];
@@ -127,41 +120,20 @@ public class InternalUObject {
     		if (mContainerOptions[0] == mContainerOptions[1] && mContainerOptions[1] == mContainerOptions[2])
     			mContainerOptions = null; //faster fail
     	}
-    	
-//        if (mPossibleContainers == null)
-//            return;
-//        ArrayList<ContainerStorage> list = mPossibleContainers.get(feature.getAggregation());
-//        synchronized (mPossibleContainers) {
-//            if (list != null && list.isEmpty() == false) {
-//                int idx = -1;
-//                for (int i = 0; i < list.size(); i++) {
-//                    ContainerStorage fp = list.get(i);
-//                    if (fp != null && fp.feature == feature) {
-//                        if (fp.container == container) {
-//                            idx = i;
-//                            break;
-//                        }
-//                    }
-//                }
-//                if (idx >= 0) {
-//                    list.remove(idx);
-//                }
-//            }
-//        }
     }
     private static int getAggregationTypeIndex(final UAssociationType t) {
-    	switch (t) {
-		case ASSOCIATION: 	return 0;
-		case AGGREGATION: 	return 1;
-		case PROPERTY 	: 	return 2;
-		}
-    	return -1;
+        return switch (t) {
+            case ASSOCIATION -> 0;
+            case AGGREGATION -> 1;
+            case PROPERTY -> 2;
+            default -> -1;
+        };
     }
 
     private ContainerStorage getNextContainer() {
     	if (mContainerOptions == null)
     		return null;
-    	//aggregationType is not ordererd in the correct order thus we have to check the correct order manually
+    	//aggregationType is not ordered in the correct order thus we have to check the correct order manually
     	if (mContainerOptions[0] != null)
     		return mContainerOptions[0]; //ASSOCIATION
     	else if (mContainerOptions[2] != null) //PROPERTY
@@ -169,23 +141,8 @@ public class InternalUObject {
     	else if (mContainerOptions[1] != null)
     		return mContainerOptions[1]; //AGGREGATION
     	return null;
-
-//        ContainerStorage fp = getNextContainer(UAssociationType.ASSOCIATION);
-//        if (fp == null)
-//            fp = getNextContainer(UAssociationType.PROPERTY);
-//        if (fp == null)
-//            fp = getNextContainer(UAssociationType.AGGREGATION);
-//        return fp;
     }
 
-//    private ContainerStorage getNextContainer(UAssociationType aggregation) {
-//        if (mPossibleContainers == null)
-//            return null;
-//        ArrayList<ContainerStorage> list = mPossibleContainers.get(aggregation);
-//        if (list == null || list.isEmpty())
-//            return null;
-//        return list.get(0);
-//    }
     public void rememberContainer(UObjectImpl container, UStructuralFeature feature, int listIndex, UAssociationType aggregationType) {
     	int idx = getAggregationTypeIndex(aggregationType);
     	if (idx < 0) 
@@ -202,7 +159,7 @@ public class InternalUObject {
         mContainer = owner;
         mContainingFeature = owningFeature;
         if (mInstance.needNotification(RuntimePackage.Literals.UObject_uContainer)  || mInstance.needNotification(RuntimePackage.Literals.UObject_uContainingFeature)) {
-            mInstance.dispatchNotification(new NotificationImpl<UObject>(null, owner, mInstance, RuntimePackage.Literals.UObject_uContainer, NotificationType.SET));
+            mInstance.dispatchNotification(new NotificationImpl<>(null, owner, mInstance, RuntimePackage.Literals.UObject_uContainer, NotificationType.SET));
         }
     }
 

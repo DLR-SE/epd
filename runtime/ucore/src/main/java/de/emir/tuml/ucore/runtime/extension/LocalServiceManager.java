@@ -11,13 +11,12 @@ import org.apache.logging.log4j.Logger;
 
 public class LocalServiceManager {
 	
-	private static final Logger log = ULog.getLogger(LocalServiceManager.class.getName());
-	
-	
+	private static final Logger LOG = ULog.getLogger(LocalServiceManager.class.getName());
+
 	private final String	mName;
 	
-    private Map<String, IService> 								mExtensionPoints = new HashMap<String, IService>();
-    private Map<Class<? extends IService>, IService> 			mExtensionPointsByClass = new HashMap<Class<? extends IService>, IService>();
+    private final Map<String, IService> 				    mExtensionPoints = new HashMap<>();
+    private final Map<Class<? extends IService>, IService>  mExtensionPointsByClass = new HashMap<>();
     
 
     public LocalServiceManager(String name) {
@@ -31,14 +30,16 @@ public class LocalServiceManager {
     }
 
     public void register(String id, IService ep) {
-        if (mExtensionPoints.containsKey(id) == true) {
-            log.error("Extension Point with id [" + id + "] already exists.");
+        assert LOG != null;
+
+        if (mExtensionPoints.containsKey(id)) {
+            LOG.error("Extension Point with id [{}] already exists.", id);
             return;
         }
+
         mExtensionPointsByClass.put(ep.getClass(), ep);
         mExtensionPoints.put(id, ep);
-        if (log.isDebugEnabled())
-        	log.debug("Extension Point with ID [" + id + "] registered.");
+        LOG.debug("Extension Point with ID [{}] registered.", id);
     }
 
     @SuppressWarnings("unchecked")

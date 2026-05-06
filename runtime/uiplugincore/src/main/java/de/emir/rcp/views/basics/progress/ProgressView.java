@@ -42,8 +42,8 @@ public class ProgressView extends AbstractView {
 
         GridBagLayout gbl_parent = new GridBagLayout();
 
-        gbl_parent.columnWeights = new double[] { 1.0 };
-        gbl_parent.rowWeights = new double[] { 1.0 };
+        gbl_parent.columnWeights = new double[]{1.0};
+        gbl_parent.rowWeights = new double[]{1.0};
         parent.setLayout(gbl_parent);
 
         scrollPane = new JScrollPane();

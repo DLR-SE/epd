@@ -5,8 +5,8 @@ import de.emir.tuml.ucore.runtime.utils.internal.builder.UReflectiveMetaBuilder;
 
 public abstract class UMetaBuilder {
 
-    private static UManualMetaBuilder sManualBuilder = new UManualMetaBuilder();
-    private static UReflectiveMetaBuilder sReflectiveBuilder = new UReflectiveMetaBuilder();
+    private static final UManualMetaBuilder sManualBuilder = new UManualMetaBuilder();
+    private static final UReflectiveMetaBuilder sReflectiveBuilder = new UReflectiveMetaBuilder();
 
     public static UManualMetaBuilder manual() {
         return sManualBuilder;

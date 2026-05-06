@@ -25,6 +25,7 @@ import de.emir.model.application.vehicle.Trajectory;
 import de.emir.model.domain.maritime.vessel.impl.InternalCombustionEngineImpl;
 import de.emir.model.application.vehicle.TrajectorySegment;
 import de.emir.model.domain.maritime.iec61174.Route;
+import de.emir.model.domain.maritime.vessel.AngularDistance;
 import de.emir.model.domain.maritime.iec61174.Leg;
 import de.emir.model.domain.maritime.vessel.impl.MachineCommandImpl;
 import de.emir.model.domain.maritime.vessel.Autopilot;
@@ -35,6 +36,7 @@ import de.emir.model.domain.maritime.vessel.CommandedEngineRpm;
 import de.emir.model.domain.maritime.iec61174.Waypoint;
 import de.emir.model.domain.maritime.vessel.CommandedPropellerPitch;
 import de.emir.model.domain.maritime.vessel.AutopilotAlarm;
+import de.emir.model.domain.maritime.vessel.DistanceCharacteristic;
 import de.emir.model.domain.maritime.vessel.DynamicSystem;
 import de.emir.model.domain.maritime.vessel.impl.PropulsionSystemImpl;
 import de.emir.model.domain.maritime.vessel.impl.RudderImpl;
@@ -45,6 +47,7 @@ import de.emir.model.domain.maritime.vessel.impl.SpeedCommandImpl;
 import de.emir.model.domain.maritime.vessel.impl.StandingCommandsImpl;
 import de.emir.model.domain.maritime.vessel.Engine;
 import de.emir.model.domain.maritime.vessel.impl.SteeringCommandImpl;
+import de.emir.model.domain.maritime.vessel.ReferencedDistance;
 import de.emir.model.domain.maritime.vessel.NavigationStatus;
 import de.emir.model.domain.maritime.vessel.NavigationInformation;
 import de.emir.model.domain.maritime.vessel.InternalCombustionEngine;
@@ -58,6 +61,7 @@ import de.emir.model.domain.maritime.vessel.VesselBuildInformation;
 import de.emir.model.domain.maritime.vessel.VesselDimensionCharacteristic;
 import de.emir.model.domain.maritime.vessel.SteeringCommand;
 import de.emir.model.domain.maritime.vessel.impl.VesselDimensionCharacteristicImpl;
+import de.emir.model.domain.maritime.vessel.impl.AngularDistanceImpl;
 import de.emir.model.domain.maritime.vessel.HeadingCommand;
 import de.emir.model.domain.maritime.vessel.impl.VesselImpl;
 import de.emir.model.domain.maritime.vessel.EngineBuildInformation;
@@ -68,6 +72,7 @@ import de.emir.model.domain.maritime.vessel.PropulsionSystem;
 import de.emir.model.universal.CoreModel;
 import de.emir.model.domain.maritime.vessel.Rudder;
 import de.emir.model.universal.PhysicsModel;
+import de.emir.model.domain.maritime.vessel.impl.DistanceCharacteristicImpl;
 import de.emir.model.domain.maritime.vessel.Propeller;
 import de.emir.model.domain.maritime.vessel.VesselType;
 import de.emir.model.domain.maritime.vessel.VoyageCharacteristic;
@@ -79,6 +84,7 @@ import de.emir.model.universal.core.IdentifiedObject;
 import de.emir.model.domain.maritime.vessel.Vessel;
 import de.emir.model.universal.core.RSIdentifier;
 import de.emir.model.universal.physics.PhysicsPackage;
+import de.emir.model.domain.maritime.vessel.impl.ReferencedDistanceImpl;
 import de.emir.model.universal.units.Acceleration;
 import de.emir.model.universal.units.Angle;
 import de.emir.model.domain.maritime.vessel.impl.VesselSafetyCharacteristicImpl;
@@ -95,6 +101,7 @@ import de.emir.model.universal.units.Velocity;
 import de.emir.model.universal.units.Volume;
 import de.emir.tuml.ucore.runtime.UAssociationType;
 import de.emir.tuml.ucore.runtime.UClass;
+import de.emir.model.universal.physics.PhysicalObject;
 import de.emir.tuml.ucore.runtime.UEnum;
 import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.model.universal.units.Mass;
@@ -240,6 +247,21 @@ public class VesselPackage
 		* @return meta type for classifier StandingCommands
 		*/
 		UClass StandingCommands = VesselPackage.theInstance.getStandingCommands();
+		/**
+		* @generated
+		* @return meta type for classifier ReferencedDistance
+		*/
+		UClass ReferencedDistance = VesselPackage.theInstance.getReferencedDistance();
+		/**
+		* @generated
+		* @return meta type for classifier AngularDistance
+		*/
+		UClass AngularDistance = VesselPackage.theInstance.getAngularDistance();
+		/**
+		* @generated
+		* @return meta type for classifier DistanceCharacteristic
+		*/
+		UClass DistanceCharacteristic = VesselPackage.theInstance.getDistanceCharacteristic();
 		/**
 		* @generated
 		* @return meta type for classifier Autopilot
@@ -647,6 +669,16 @@ public class VesselPackage
 		 UStructuralFeature Autopilot_segment = VesselPackage.theInstance.getAutopilot_segment();
 		/**
 		 * @generated
+		 * @return feature descriptor reference in type ReferencedDistance
+		 */
+		 UStructuralFeature ReferencedDistance_reference = VesselPackage.theInstance.getReferencedDistance_reference();
+		/**
+		 * @generated
+		 * @return feature descriptor angularDistances in type ReferencedDistance
+		 */
+		 UStructuralFeature ReferencedDistance_angularDistances = VesselPackage.theInstance.getReferencedDistance_angularDistances();
+		/**
+		 * @generated
 		 * @return feature descriptor angle in type CommandedRudderAngle
 		 */
 		 UStructuralFeature CommandedRudderAngle_angle = VesselPackage.theInstance.getCommandedRudderAngle_angle();
@@ -657,6 +689,31 @@ public class VesselPackage
 		 UStructuralFeature CommandedPropellerPitch_pitch = VesselPackage.theInstance.getCommandedPropellerPitch_pitch();
 		/**
 		 * @generated
+		 * @return feature descriptor minAngle in type AngularDistance
+		 */
+		 UStructuralFeature AngularDistance_minAngle = VesselPackage.theInstance.getAngularDistance_minAngle();
+		/**
+		 * @generated
+		 * @return feature descriptor maxAngle in type AngularDistance
+		 */
+		 UStructuralFeature AngularDistance_maxAngle = VesselPackage.theInstance.getAngularDistance_maxAngle();
+		/**
+		 * @generated
+		 * @return feature descriptor distance in type AngularDistance
+		 */
+		 UStructuralFeature AngularDistance_distance = VesselPackage.theInstance.getAngularDistance_distance();
+		/**
+		 * @generated
+		 * @return feature descriptor timestamp in type AngularDistance
+		 */
+		 UStructuralFeature AngularDistance_timestamp = VesselPackage.theInstance.getAngularDistance_timestamp();
+		/**
+		 * @generated
+		 * @return feature descriptor source in type ReferencedDistance
+		 */
+		 UStructuralFeature ReferencedDistance_source = VesselPackage.theInstance.getReferencedDistance_source();
+		/**
+		 * @generated
 		 * @return feature descriptor rpm in type CommandedEngineRpm
 		 */
 		 UStructuralFeature CommandedEngineRpm_rpm = VesselPackage.theInstance.getCommandedEngineRpm_rpm();
@@ -665,6 +722,11 @@ public class VesselPackage
 		 * @return feature descriptor lastCommand in type Autopilot
 		 */
 		 UStructuralFeature Autopilot_lastCommand = VesselPackage.theInstance.getAutopilot_lastCommand();
+		/**
+		 * @generated
+		 * @return feature descriptor distances in type DistanceCharacteristic
+		 */
+		 UStructuralFeature DistanceCharacteristic_distances = VesselPackage.theInstance.getDistanceCharacteristic_distances();
 		/**
 		 * @generated
 		 * @return feature descriptor configuration in type Autopilot
@@ -784,6 +846,18 @@ public class VesselPackage
 	* @generated
 	*/
 	private UClass mStandingCommands = null;
+	/**
+	* @generated
+	*/
+	private UClass mReferencedDistance = null;
+	/**
+	* @generated
+	*/
+	private UClass mAngularDistance = null;
+	/**
+	* @generated
+	*/
+	private UClass mDistanceCharacteristic = null;
 	/**
 	* @generated
 	*/
@@ -1161,6 +1235,7 @@ public class VesselPackage
 		//initialize referenced models
 		VehicleModel.init();
 		IEC61174Model.init();
+		PhysicsModel.init();
 		
 		theInstance.createClassifier();
 		theInstance.createFeatures();
@@ -1190,6 +1265,9 @@ public class VesselPackage
 		p.getContent().add(theInstance.mAutopilotConfiguration);
 		p.getContent().add(theInstance.mAutopilotAlarm);
 		p.getContent().add(theInstance.mAutopilot);
+		p.getContent().add(theInstance.mReferencedDistance);
+		p.getContent().add(theInstance.mAngularDistance);
+		p.getContent().add(theInstance.mDistanceCharacteristic);
 		p.getContent().add(theInstance.mStandingCommands);
 		p.getContent().add(theInstance.mCommandedValue);
 		p.getContent().add(theInstance.mSteeringCommand);
@@ -1232,7 +1310,39 @@ public class VesselPackage
 	/**
 	 * @generated
 	 */
+	private UStructuralFeature mReferencedDistance_angularDistances = null;
+	/**
+	 * @generated
+	 */
 	private UStructuralFeature mAutopilot_alarms = null;
+	/**
+	 * @generated
+	 */
+	private UStructuralFeature mAngularDistance_minAngle = null;
+	/**
+	 * @generated
+	 */
+	private UStructuralFeature mAngularDistance_maxAngle = null;
+	/**
+	 * @generated
+	 */
+	private UStructuralFeature mAngularDistance_distance = null;
+	/**
+	 * @generated
+	 */
+	private UStructuralFeature mReferencedDistance_reference = null;
+	/**
+	 * @generated
+	 */
+	private UStructuralFeature mAngularDistance_timestamp = null;
+	/**
+	 * @generated
+	 */
+	private UStructuralFeature mReferencedDistance_source = null;
+	/**
+	 * @generated
+	 */
+	private UStructuralFeature mDistanceCharacteristic_distances = null;
 	/**
 	* @generated
 	*/
@@ -1305,7 +1415,7 @@ public class VesselPackage
 					return ((Displacement)instance).getDeadWeightMass((float)parameter[0]);
 				}
 			});
-				operation.setDocumentation(" returns the dead weight mass, in relation to sea water (1025 kg/m^3)\r\n * @param seawaterFactor scales the mass to get the displaced weight in fresh water use 1000 [kg/m^3] / 1025 [kg/m^3]\r\n * @return the mass of the displaced water\r\n ");
+				operation.setDocumentation(" returns the dead weight mass, in relation to sea water (1025 kg/m^3)\n * @param seawaterFactor scales the mass to get the displaced weight in fresh water use 1000 [kg/m^3] / 1025 [kg/m^3]\n * @return the mass of the displaced water\n ");
 				//Annotations for Displacement:getDeadWeightMass(Mass, float)
 				operation.createAnnotation("const");
 				UMetaBuilder.manual().addParameter(operation, "seawaterFactor", TypeUtils.getPrimitiveType(float.class), 0, 1, UDirectionType.IN);
@@ -1426,25 +1536,25 @@ public class VesselPackage
 						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((Displacement)instance).getLight(); } }, 
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((Displacement)instance).setLight((Volume)value); } }
 				);
-				mDisplacement_light.setDocumentation("\r\n * The weight of the ship excluding cargo, fuel, ballast, stores, passengers, and crew, but with water in the boilers to steaming level.\r\n ");
+				mDisplacement_light.setDocumentation("\n * The weight of the ship excluding cargo, fuel, ballast, stores, passengers, and crew, but with water in the boilers to steaming level.\n ");
 			mDisplacement_loaded = UMetaBuilder.manual().createFeature("loaded", UnitsPackage.theInstance.getVolume(), UAssociationType.COMPOSITION, 0, 1);
 				UMetaBuilder.manual().setFeatureAccessor(mDisplacement_loaded, 
 						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((Displacement)instance).getLoaded(); } }, 
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((Displacement)instance).setLoaded((Volume)value); } }
 				);
-				mDisplacement_loaded.setDocumentation("\r\n * The weight of the ship including cargo, passengers, fuel, water, stores, dunnage and such other items necessary for use on a voyage, which brings the vessel down to her load draft.\r\n ");
+				mDisplacement_loaded.setDocumentation("\n * The weight of the ship including cargo, passengers, fuel, water, stores, dunnage and such other items necessary for use on a voyage, which brings the vessel down to her load draft.\n ");
 			mDisplacement_deadweight = UMetaBuilder.manual().createFeature("deadweight", UnitsPackage.theInstance.getVolume(), UAssociationType.COMPOSITION, 0, 1);
 				UMetaBuilder.manual().setFeatureAccessor(mDisplacement_deadweight, 
 						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((Displacement)instance).getDeadweight(); } }, 
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((Displacement)instance).setDeadweight((Volume)value); } }
 				);
-				mDisplacement_deadweight.setDocumentation("\r\n * (DWT) - The difference between displacement, light and displacement, loaded. A measure of the ship's total carrying capacity.\r\n ");
+				mDisplacement_deadweight.setDocumentation("\n * (DWT) - The difference between displacement, light and displacement, loaded. A measure of the ship's total carrying capacity.\n ");
 			mDisplacement_cargoDeadweigthTons = UMetaBuilder.manual().createFeature("cargoDeadweigthTons", UnitsPackage.theInstance.getVolume(), UAssociationType.COMPOSITION, 0, 1);
 				UMetaBuilder.manual().setFeatureAccessor(mDisplacement_cargoDeadweigthTons, 
 						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((Displacement)instance).getCargoDeadweigthTons(); } }, 
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((Displacement)instance).setCargoDeadweigthTons((Volume)value); } }
 				);
-				mDisplacement_cargoDeadweigthTons.setDocumentation("\r\n * The weight remaining after deducting fuel, water, stores, dunnage and such other items necessary for use on a voyage from the deadweight of the vessel.\r\n ");
+				mDisplacement_cargoDeadweigthTons.setDocumentation("\n * The weight remaining after deducting fuel, water, stores, dunnage and such other items necessary for use on a voyage from the deadweight of the vessel.\n ");
 			
 			//Features of WatercraftHull
 			mWatercraftHull_beam = UMetaBuilder.manual().createFeature("beam", UnitsPackage.theInstance.getLength(), UAssociationType.COMPOSITION, 0, 1);
@@ -1452,37 +1562,37 @@ public class VesselPackage
 						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((WatercraftHull)instance).getBeam(); } }, 
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((WatercraftHull)instance).setBeam((Length)value); } }
 				);
-				mWatercraftHull_beam.setDocumentation("\r\n * Beam or breadth (B) is the width of the hull. (ex: BWL is the maximum beam at the waterline)\r\n ");
+				mWatercraftHull_beam.setDocumentation("\n * Beam or breadth (B) is the width of the hull. (ex: BWL is the maximum beam at the waterline)\n ");
 			mWatercraftHull_lengthAtWaterline = UMetaBuilder.manual().createFeature("lengthAtWaterline", UnitsPackage.theInstance.getLength(), UAssociationType.COMPOSITION, 0, 1);
 				UMetaBuilder.manual().setFeatureAccessor(mWatercraftHull_lengthAtWaterline, 
 						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((WatercraftHull)instance).getLengthAtWaterline(); } }, 
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((WatercraftHull)instance).setLengthAtWaterline((Length)value); } }
 				);
-				mWatercraftHull_lengthAtWaterline.setDocumentation("\r\n * (LWL) is the length from the forwardmost point of the waterline measured in profile to the stern-most point of the waterline.\r\n ");
+				mWatercraftHull_lengthAtWaterline.setDocumentation("\n * (LWL) is the length from the forwardmost point of the waterline measured in profile to the stern-most point of the waterline.\n ");
 			mWatercraftHull_overAllLength = UMetaBuilder.manual().createFeature("overAllLength", UnitsPackage.theInstance.getLength(), UAssociationType.COMPOSITION, 0, 1);
 				UMetaBuilder.manual().setFeatureAccessor(mWatercraftHull_overAllLength, 
 						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((WatercraftHull)instance).getOverAllLength(); } }, 
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((WatercraftHull)instance).setOverAllLength((Length)value); } }
 				);
-				mWatercraftHull_overAllLength.setDocumentation("\r\n * (LOA) is the extreme length from one end to the other\r\n ");
+				mWatercraftHull_overAllLength.setDocumentation("\n * (LOA) is the extreme length from one end to the other\n ");
 			mWatercraftHull_draft = UMetaBuilder.manual().createFeature("draft", UnitsPackage.theInstance.getLength(), UAssociationType.COMPOSITION, 0, 1);
 				UMetaBuilder.manual().setFeatureAccessor(mWatercraftHull_draft, 
 						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((WatercraftHull)instance).getDraft(); } }, 
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((WatercraftHull)instance).setDraft((Length)value); } }
 				);
-				mWatercraftHull_draft.setDocumentation("\r\n * Draft (d) or (T) is the vertical distance from the bottom of the keel to the waterline.\r\n ");
+				mWatercraftHull_draft.setDocumentation("\n * Draft (d) or (T) is the vertical distance from the bottom of the keel to the waterline.\n ");
 			mWatercraftHull_mouldedDepth = UMetaBuilder.manual().createFeature("mouldedDepth", UnitsPackage.theInstance.getLength(), UAssociationType.COMPOSITION, 0, 1);
 				UMetaBuilder.manual().setFeatureAccessor(mWatercraftHull_mouldedDepth, 
 						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((WatercraftHull)instance).getMouldedDepth(); } }, 
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((WatercraftHull)instance).setMouldedDepth((Length)value); } }
 				);
-				mWatercraftHull_mouldedDepth.setDocumentation("\r\n * (D) is the vertical distance measured from the top of the keel to the underside of the upper deck at side\r\n ");
+				mWatercraftHull_mouldedDepth.setDocumentation("\n * (D) is the vertical distance measured from the top of the keel to the underside of the upper deck at side\n ");
 			mWatercraftHull_freeboard = UMetaBuilder.manual().createFeature("freeboard", UnitsPackage.theInstance.getLength(), UAssociationType.COMPOSITION, 0, 1);
 				UMetaBuilder.manual().setFeatureAccessor(mWatercraftHull_freeboard, 
 						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((WatercraftHull)instance).getFreeboard(); } }, 
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((WatercraftHull)instance).setFreeboard((Length)value); } }
 				);
-				mWatercraftHull_freeboard.setDocumentation("\r\n * Freeboard (FB) is depth plus the height of the keel structure minus draft.\r\n ");
+				mWatercraftHull_freeboard.setDocumentation("\n * Freeboard (FB) is depth plus the height of the keel structure minus draft.\n ");
 			
 			//Features of VesselDimensionCharacteristic
 			mVesselDimensionCharacteristic_neadTonnage = UMetaBuilder.manual().createFeature("neadTonnage", TypeUtils.getPrimitiveType(double.class), UAssociationType.PROPERTY, 0, 1);
@@ -1490,19 +1600,19 @@ public class VesselPackage
 						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((VesselDimensionCharacteristic)instance).getNeadTonnage(); } }, 
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((VesselDimensionCharacteristic)instance).setNeadTonnage((double)value); } }
 				);
-				mVesselDimensionCharacteristic_neadTonnage.setDocumentation("\r\n * Net tonnage (often abbreviated as NT, N.T. or nt) is a dimensionless index calculated from the total moulded volume of the ship's cargo spaces by using a mathematical formula. \r\n * Defined in The International Convention on Tonnage Measurement of Ships that was adopted by the International Maritime Organization in 1969, the net tonnage replaced the earlier net register tonnage (NRT) which denoted the volume of the ship's revenue-earning spaces in \"register tons\", units of volume equal to 100 cubic feet (2.83 m3).\r\n * Net tonnage is used to calculate the port duties and should not be taken as less than 30 per cent of the ship's gross tonnage.\r\n * \\source Wikipedia \r\n ");
+				mVesselDimensionCharacteristic_neadTonnage.setDocumentation("\n * Net tonnage (often abbreviated as NT, N.T. or nt) is a dimensionless index calculated from the total moulded volume of the ship's cargo spaces by using a mathematical formula. \n * Defined in The International Convention on Tonnage Measurement of Ships that was adopted by the International Maritime Organization in 1969, the net tonnage replaced the earlier net register tonnage (NRT) which denoted the volume of the ship's revenue-earning spaces in \"register tons\", units of volume equal to 100 cubic feet (2.83 m3).\n * Net tonnage is used to calculate the port duties and should not be taken as less than 30 per cent of the ship's gross tonnage.\n * \\source Wikipedia \n ");
 			mVesselDimensionCharacteristic_blockCoefficient = UMetaBuilder.manual().createFeature("blockCoefficient", TypeUtils.getPrimitiveType(double.class), UAssociationType.PROPERTY, 0, 1);
 				UMetaBuilder.manual().setFeatureAccessor(mVesselDimensionCharacteristic_blockCoefficient, 
 						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((VesselDimensionCharacteristic)instance).getBlockCoefficient(); } }, 
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((VesselDimensionCharacteristic)instance).setBlockCoefficient((double)value); } }
 				);
-				mVesselDimensionCharacteristic_blockCoefficient.setDocumentation("\r\n *  Block coefficient (Cb) is the volume (V) divided by the LWL x BWL x T. If you draw a box around the submerged part of the ship, it is the ratio of the box volume occupied by the ship. It gives a sense of how much of the block defined by the LWL, beam (B) & draft (T) is filled by the hull. Full forms such as oil tankers will have a high Cb where fine shapes such as sailboats will have a low Cb.\r\n * \\source Wikipedia / Beschnidt2010\r\n ");
+				mVesselDimensionCharacteristic_blockCoefficient.setDocumentation("\n *  Block coefficient (Cb) is the volume (V) divided by the LWL x BWL x T. If you draw a box around the submerged part of the ship, it is the ratio of the box volume occupied by the ship. It gives a sense of how much of the block defined by the LWL, beam (B) & draft (T) is filled by the hull. Full forms such as oil tankers will have a high Cb where fine shapes such as sailboats will have a low Cb.\n * \\source Wikipedia / Beschnidt2010\n ");
 			mVesselDimensionCharacteristic_displacement = UMetaBuilder.manual().createFeature("displacement", VesselPackage.theInstance.getDisplacement(), UAssociationType.COMPOSITION, 0, 1);
 				UMetaBuilder.manual().setFeatureAccessor(mVesselDimensionCharacteristic_displacement, 
 						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((VesselDimensionCharacteristic)instance).getDisplacement(); } }, 
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((VesselDimensionCharacteristic)instance).setDisplacement((Displacement)value); } }
 				);
-				mVesselDimensionCharacteristic_displacement.setDocumentation("\r\n * A measurement of the weight of the vessel, usually used for warships. (Merchant ships are usually measured based on the volume of cargo space; see tonnage).\r\n ");
+				mVesselDimensionCharacteristic_displacement.setDocumentation("\n * A measurement of the weight of the vessel, usually used for warships. (Merchant ships are usually measured based on the volume of cargo space; see tonnage).\n ");
 			mVesselDimensionCharacteristic_hull = UMetaBuilder.manual().createFeature("hull", VesselPackage.theInstance.getWatercraftHull(), UAssociationType.COMPOSITION, 0, 1);
 				UMetaBuilder.manual().setFeatureAccessor(mVesselDimensionCharacteristic_hull, 
 						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((VesselDimensionCharacteristic)instance).getHull(); } }, 
@@ -1515,13 +1625,13 @@ public class VesselPackage
 						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((VesselSafetyCharacteristic)instance).getUnderKeelClearance(); } }, 
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((VesselSafetyCharacteristic)instance).setUnderKeelClearance((Length)value); } }
 				);
-				mVesselSafetyCharacteristic_underKeelClearance.setDocumentation("\r\n * Under Keel Clearance, space between keel and ground\r\n ");
+				mVesselSafetyCharacteristic_underKeelClearance.setDocumentation("\n * Under Keel Clearance, space between keel and ground\n ");
 			mVesselSafetyCharacteristic_personalSpace = UMetaBuilder.manual().createFeature("personalSpace", UnitsPackage.theInstance.getLength(), UAssociationType.COMPOSITION, 0, 1);
 				UMetaBuilder.manual().setFeatureAccessor(mVesselSafetyCharacteristic_personalSpace, 
 						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((VesselSafetyCharacteristic)instance).getPersonalSpace(); } }, 
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((VesselSafetyCharacteristic)instance).setPersonalSpace((Length)value); } }
 				);
-				mVesselSafetyCharacteristic_personalSpace.setDocumentation("\r\n * Space around a ship where no other ship should be \r\n ");
+				mVesselSafetyCharacteristic_personalSpace.setDocumentation("\n * Space around a ship where no other ship should be \n ");
 			
 			//Features of EngineBuildInformation
 			mEngineBuildInformation_model = UMetaBuilder.manual().createFeature("model", TypeUtils.getPrimitiveType(String.class), UAssociationType.PROPERTY, 0, 1);
@@ -1729,7 +1839,7 @@ public class VesselPackage
 						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((VoyageCharacteristic)instance).getActiveRoute(); } }, 
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((VoyageCharacteristic)instance).setActiveRoute((Route)value); } }
 				);
-				mVoyageCharacteristic_activeRoute.setDocumentation(" current active route or null, if no route is active. \r\n * @note this route shall point to a route inside the routes[*] list\r\n ");
+				mVoyageCharacteristic_activeRoute.setDocumentation(" current active route or null, if no route is active. \n * @note this route shall point to a route inside the routes[*] list\n ");
 			
 			//Features of AutopilotConfiguration
 			mAutopilotConfiguration_angleLimit = UMetaBuilder.manual().createFeature("angleLimit", UnitsPackage.theInstance.getAngle(), UAssociationType.COMPOSITION, 0, 1);
@@ -1796,7 +1906,60 @@ public class VesselPackage
 						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((Autopilot)instance).getSegment(); } }, 
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((Autopilot)instance).setSegment((TrajectorySegment)value); } }
 				);
-				mAutopilot_segment.setDocumentation(" current active trajectory segment that is used by this autopilot \r\n\t\t\t\t\t\t\t\t * @note this segment has to be part of the current trajectory ");
+				mAutopilot_segment.setDocumentation(" current active trajectory segment that is used by this autopilot \n\t\t\t\t\t\t\t\t * @note this segment has to be part of the current trajectory ");
+			
+			//Features of ReferencedDistance
+			mReferencedDistance_reference = UMetaBuilder.manual().createFeature("reference", PhysicsPackage.theInstance.getPhysicalObject(), UAssociationType.COMPOSITION, 0, 1);
+				UMetaBuilder.manual().setFeatureAccessor(mReferencedDistance_reference, 
+						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((ReferencedDistance)instance).getReference(); } }, 
+						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((ReferencedDistance)instance).setReference((PhysicalObject)value); } }
+				);
+				mReferencedDistance_reference.setDocumentation(" The reference point of measurement. This is the position of the detection sensor in reference to the vessels coordinate system. ");
+			mReferencedDistance_angularDistances = UMetaBuilder.manual().createFeature("angularDistances", VesselPackage.theInstance.getAngularDistance(), UAssociationType.COMPOSITION, 0, -1);
+				UMetaBuilder.manual().setFeatureAccessor(mReferencedDistance_angularDistances, 
+						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((ReferencedDistance)instance).getAngularDistances(); } }, 
+						null
+				);
+			mReferencedDistance_source = UMetaBuilder.manual().createFeature("source", TypeUtils.getPrimitiveType(String.class), UAssociationType.COMPOSITION, 0, 1);
+				UMetaBuilder.manual().setFeatureAccessor(mReferencedDistance_source, 
+						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((ReferencedDistance)instance).getSource(); } }, 
+						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((ReferencedDistance)instance).setSource((String)value); } }
+				);
+				mReferencedDistance_source.setDocumentation(" Identifier of the sensor which detected the distance. ");
+			
+			//Features of AngularDistance
+			mAngularDistance_minAngle = UMetaBuilder.manual().createFeature("minAngle", UnitsPackage.theInstance.getAngle(), UAssociationType.COMPOSITION, 0, 1);
+				UMetaBuilder.manual().setFeatureAccessor(mAngularDistance_minAngle, 
+						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((AngularDistance)instance).getMinAngle(); } }, 
+						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((AngularDistance)instance).setMinAngle((Angle)value); } }
+				);
+				mAngularDistance_minAngle.setDocumentation(" The minimum opening degree of the sensor which detected the distance. This is in reference to the vessels heading with 0 being north. ");
+			mAngularDistance_maxAngle = UMetaBuilder.manual().createFeature("maxAngle", UnitsPackage.theInstance.getAngle(), UAssociationType.COMPOSITION, 0, 1);
+				UMetaBuilder.manual().setFeatureAccessor(mAngularDistance_maxAngle, 
+						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((AngularDistance)instance).getMaxAngle(); } }, 
+						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((AngularDistance)instance).setMaxAngle((Angle)value); } }
+				);
+				mAngularDistance_maxAngle.setDocumentation(" The maximum opening degree of the sensor which detected the distance. This is in reference to the vessels heading with 0 being north. ");
+			mAngularDistance_distance = UMetaBuilder.manual().createFeature("distance", UnitsPackage.theInstance.getDistance(), UAssociationType.COMPOSITION, 0, 1);
+				UMetaBuilder.manual().setFeatureAccessor(mAngularDistance_distance, 
+						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((AngularDistance)instance).getDistance(); } }, 
+						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((AngularDistance)instance).setDistance((Distance)value); } }
+				);
+				mAngularDistance_distance.setDocumentation(" The distance detected by the sensor. It is constrained by the minAngle and maxAngle which specify the FOV. ");
+			mAngularDistance_timestamp = UMetaBuilder.manual().createFeature("timestamp", UnitsPackage.theInstance.getTime(), UAssociationType.COMPOSITION, 0, 1);
+				UMetaBuilder.manual().setFeatureAccessor(mAngularDistance_timestamp, 
+						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((AngularDistance)instance).getTimestamp(); } }, 
+						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((AngularDistance)instance).setTimestamp((Time)value); } }
+				);
+				mAngularDistance_timestamp.setDocumentation(" Detection timestamp. ");
+			
+			//Features of DistanceCharacteristic
+			mDistanceCharacteristic_distances = UMetaBuilder.manual().createFeature("distances", VesselPackage.theInstance.getReferencedDistance(), UAssociationType.COMPOSITION, 0, -1);
+				UMetaBuilder.manual().setFeatureAccessor(mDistanceCharacteristic_distances, 
+						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((DistanceCharacteristic)instance).getDistances(); } }, 
+						null
+				);
+				mDistanceCharacteristic_distances.setDocumentation(" List of ReferenceDistance measurements. The source identifier of each ReferencedDistance should act as the key, i.e. for each source only the most recent ReferencedDistance should exist. ");
 			
 			//Features of StandingCommands
 			mStandingCommands_commands = UMetaBuilder.manual().createFeature("commands", VesselPackage.theInstance.getSteeringCommand(), UAssociationType.COMPOSITION, 0, -1);
@@ -1929,6 +2092,14 @@ public class VesselPackage
 			mAutopilot.getStructuralFeatures().add(mAutopilot_alarms);
 			mAutopilot.getStructuralFeatures().add(mAutopilot_lastCommand);
 			mAutopilot.getStructuralFeatures().add(mAutopilot_segment);
+			mReferencedDistance.getStructuralFeatures().add(mReferencedDistance_reference);
+			mReferencedDistance.getStructuralFeatures().add(mReferencedDistance_angularDistances);
+			mReferencedDistance.getStructuralFeatures().add(mReferencedDistance_source);
+			mAngularDistance.getStructuralFeatures().add(mAngularDistance_minAngle);
+			mAngularDistance.getStructuralFeatures().add(mAngularDistance_maxAngle);
+			mAngularDistance.getStructuralFeatures().add(mAngularDistance_distance);
+			mAngularDistance.getStructuralFeatures().add(mAngularDistance_timestamp);
+			mDistanceCharacteristic.getStructuralFeatures().add(mDistanceCharacteristic_distances);
 			mStandingCommands.getStructuralFeatures().add(mStandingCommands_commands);
 			mCommandedValue.getStructuralFeatures().add(mCommandedValue_creationTime);
 			mCommandedValue.getStructuralFeatures().add(mCommandedValue_source);
@@ -2078,6 +2249,7 @@ public class VesselPackage
 		mCapacityCharacteristic.setSuperType(VesselPackage.theInstance.getVesselCharacteristic());
 		mVoyageCharacteristic.setSuperType(VesselPackage.theInstance.getVesselCharacteristic());
 		mAutopilot.setSuperType(VesselPackage.theInstance.getVesselCharacteristic());
+		mDistanceCharacteristic.setSuperType(VesselPackage.theInstance.getVesselCharacteristic());
 		mStandingCommands.setSuperType(VesselPackage.theInstance.getVesselCharacteristic());
 		mSteeringCommand.setSuperType(VesselPackage.theInstance.getCommandedValue());
 		mSpeedCommand.setSuperType(VesselPackage.theInstance.getSteeringCommand());
@@ -2088,7 +2260,7 @@ public class VesselPackage
 		mCommandedPropellerPitch.setSuperType(VesselPackage.theInstance.getMachineCommand());
 		
 	}
-    /**
+	/**
 	* @generated
 	*/
 	public UClass getControlSurfaces(){
@@ -2148,7 +2320,7 @@ public class VesselPackage
 					return new VesselImpl();
 				}
 			});
-			mVessel.setDocumentation("\r\n *  a nautical term for all kinds of craft designed for transportation on water, such as ships or boats.\r\n");
+			mVessel.setDocumentation("\n *  a nautical term for all kinds of craft designed for transportation on water, such as ships or boats.\n");
 			//Annotations for Vessel
 			mVessel.createAnnotation("FeatureType");
 		
@@ -2171,7 +2343,7 @@ public class VesselPackage
 					return new DisplacementImpl();
 				}
 			});
-			mDisplacement.setDocumentation(" \r\n * A measurement of the weight of the vessel, usually used for warships. \r\n * Merchant ships are usually measured based on the volume of cargo space; see tonnage. \r\n ");
+			mDisplacement.setDocumentation(" \n * A measurement of the weight of the vessel, usually used for warships. \n * Merchant ships are usually measured based on the volume of cargo space; see tonnage. \n ");
 			//Annotations for Displacement
 			mDisplacement.createAnnotation("struct");
 		
@@ -2231,7 +2403,7 @@ public class VesselPackage
 					return new InternalCombustionEngineImpl();
 				}
 			});
-			mInternalCombustionEngine.setDocumentation("\r\n * An engine that converts chemical energy to mechanical energy\r\n ");
+			mInternalCombustionEngine.setDocumentation("\n * An engine that converts chemical energy to mechanical energy\n ");
 		
 		mPropeller = UMetaBuilder.manual().createClass("Propeller", false, Propeller.class, PropellerImpl.class);
 			UMetaBuilder.manual().setInstanceCreator(mPropeller, new IInstanceCreator() {
@@ -2240,7 +2412,7 @@ public class VesselPackage
 					return new PropellerImpl();
 				}
 			});
-			mPropeller.setDocumentation("\r\n * A propeller of a ship, used for converting mechanical energy to kinetic energy\r\n ");
+			mPropeller.setDocumentation("\n * A propeller of a ship, used for converting mechanical energy to kinetic energy\n ");
 		
 		mRudder = UMetaBuilder.manual().createClass("Rudder", false, Rudder.class, RudderImpl.class);
 			UMetaBuilder.manual().setInstanceCreator(mRudder, new IInstanceCreator() {
@@ -2257,7 +2429,7 @@ public class VesselPackage
 					return new PropulsionSystemImpl();
 				}
 			});
-			mPropulsionSystem.setDocumentation("\r\n * Propulsion is a means of creating force leading to movement. \r\n * \r\n * A propulsion system consists of a source of mechanical power, and a propulsor (means of converting this power into propulsive force).\r\n * A technological system uses an engine or motor as the power source, and wheels and axles, propellers, or a propulsive nozzle to generate the force. \r\n * Components such as clutches or gearboxes may be needed to connect the motor to axles, wheels, or propellors.\r\n * \r\n * \\source wikipedia\r\n ");
+			mPropulsionSystem.setDocumentation("\n * Propulsion is a means of creating force leading to movement. \n * \n * A propulsion system consists of a source of mechanical power, and a propulsor (means of converting this power into propulsive force).\n * A technological system uses an engine or motor as the power source, and wheels and axles, propellers, or a propulsive nozzle to generate the force. \n * Components such as clutches or gearboxes may be needed to connect the motor to axles, wheels, or propellors.\n * \n * \\source wikipedia\n ");
 		
 		mControlSurfaces = UMetaBuilder.manual().createClass("ControlSurfaces", false, ControlSurfaces.class, ControlSurfacesImpl.class);
 			UMetaBuilder.manual().setInstanceCreator(mControlSurfaces, new IInstanceCreator() {
@@ -2266,7 +2438,7 @@ public class VesselPackage
 					return new ControlSurfacesImpl();
 				}
 			});
-			mControlSurfaces.setDocumentation("\r\n * These forces and moments arise due to the Control Surfaces (CS) like rudder, fins, etc. movement\r\n * \r\n * \\source Mathematical Ship Modeling for Control Applications, 2002, Perez, Blanket\r\n ");
+			mControlSurfaces.setDocumentation("\n * These forces and moments arise due to the Control Surfaces (CS) like rudder, fins, etc. movement\n * \n * \\source Mathematical Ship Modeling for Control Applications, 2002, Perez, Blanket\n ");
 		
 		mDynamicSystem = UMetaBuilder.manual().createClass("DynamicSystem", false, DynamicSystem.class, DynamicSystemImpl.class);
 			UMetaBuilder.manual().setInstanceCreator(mDynamicSystem, new IInstanceCreator() {
@@ -2275,7 +2447,7 @@ public class VesselPackage
 					return new DynamicSystemImpl();
 				}
 			});
-			mDynamicSystem.setDocumentation("\r\n * \\source Mathematical Ship Modeling for Control Applications, 2002, Perez, Blanket\r\n ");
+			mDynamicSystem.setDocumentation("\n * \\source Mathematical Ship Modeling for Control Applications, 2002, Perez, Blanket\n ");
 		
 		mCapacityCharacteristic = UMetaBuilder.manual().createClass("CapacityCharacteristic", false, CapacityCharacteristic.class, CapacityCharacteristicImpl.class);
 			UMetaBuilder.manual().setInstanceCreator(mCapacityCharacteristic, new IInstanceCreator() {
@@ -2323,6 +2495,33 @@ public class VesselPackage
 				}
 			});
 		
+		mReferencedDistance = UMetaBuilder.manual().createClass("ReferencedDistance", false, ReferencedDistance.class, ReferencedDistanceImpl.class);
+			UMetaBuilder.manual().setInstanceCreator(mReferencedDistance, new IInstanceCreator() {
+				@Override
+				public UObject createNewInstance() {
+					return new ReferencedDistanceImpl();
+				}
+			});
+			mReferencedDistance.setDocumentation("\n    * Represents a measured distance from a vessel to detected objects surrounding the vessel.\n    * The ReferencedDistance stores the distance from the point of reference (i.e. the position of\n    * the detection sensor in reference to the vessels coordinate system) to a\n    * specific range which is defined by the minimum opening angle and maximum opening angle\n    * which is measured based on the ships relative northern position.\n    ");
+		
+		mAngularDistance = UMetaBuilder.manual().createClass("AngularDistance", false, AngularDistance.class, AngularDistanceImpl.class);
+			UMetaBuilder.manual().setInstanceCreator(mAngularDistance, new IInstanceCreator() {
+				@Override
+				public UObject createNewInstance() {
+					return new AngularDistanceImpl();
+				}
+			});
+			mAngularDistance.setDocumentation("\n    * Represents a measured distance to detected objects surrounding the vessel.\n                            * The AngularDistance is a wrapper for modeling multiple opening degrees for one sensor where\n                            * each opening degree is a specific range which is defined by the minimum opening angle and maximum opening angle\n                            * which is measured based on the ships relative northern position. It should be used as\n                            * part of the ReferencedDistance which specifies the origin point of the distance and the source identifier.\n    ");
+		
+		mDistanceCharacteristic = UMetaBuilder.manual().createClass("DistanceCharacteristic", false, DistanceCharacteristic.class, DistanceCharacteristicImpl.class);
+			UMetaBuilder.manual().setInstanceCreator(mDistanceCharacteristic, new IInstanceCreator() {
+				@Override
+				public UObject createNewInstance() {
+					return new DistanceCharacteristicImpl();
+				}
+			});
+			mDistanceCharacteristic.setDocumentation("\n    * Stores the measured distances from the vessel to detected objects in the vessels surroundings.\n    ");
+		
 		mStandingCommands = UMetaBuilder.manual().createClass("StandingCommands", false, StandingCommands.class, StandingCommandsImpl.class);
 			UMetaBuilder.manual().setInstanceCreator(mStandingCommands, new IInstanceCreator() {
 				@Override
@@ -2330,13 +2529,13 @@ public class VesselPackage
 					return new StandingCommandsImpl();
 				}
 			});
-			mStandingCommands.setDocumentation("\r\n * The StandingCommands characteristic holds all currently valid commands\r\n * which are not related to the machines (e.g. contains no MachineCommands)\r\n * Commands within this characteristic are typically given by an responsible nautical officer. \r\n ");
+			mStandingCommands.setDocumentation("\n * The StandingCommands characteristic holds all currently valid commands\n * which are not related to the machines (e.g. contains no MachineCommands)\n * Commands within this characteristic are typically given by an responsible nautical officer. \n ");
 		
 		mCommandedValue = UMetaBuilder.manual().createClass("CommandedValue", true, CommandedValue.class, CommandedValueImpl.class);
-			mCommandedValue.setDocumentation("\r\n * Represents a generic value that has been commanded\r\n * (typically by the captain) to be achieved in the future\r\n ");
+			mCommandedValue.setDocumentation("\n * Represents a generic value that has been commanded\n * (typically by the captain) to be achieved in the future\n ");
 		
 		mSteeringCommand = UMetaBuilder.manual().createClass("SteeringCommand", true, SteeringCommand.class, SteeringCommandImpl.class);
-			mSteeringCommand.setDocumentation(" Abstract command, related to steering, like direction / heading / speed\r\n * typically a command that is given and executed by some nautical officer\r\n ");
+			mSteeringCommand.setDocumentation(" Abstract command, related to steering, like direction / heading / speed\n * typically a command that is given and executed by some nautical officer\n ");
 		
 		mSpeedCommand = UMetaBuilder.manual().createClass("SpeedCommand", false, SpeedCommand.class, SpeedCommandImpl.class);
 			UMetaBuilder.manual().setInstanceCreator(mSpeedCommand, new IInstanceCreator() {
@@ -2345,7 +2544,7 @@ public class VesselPackage
 					return new SpeedCommandImpl();
 				}
 			});
-			mSpeedCommand.setDocumentation("\r\n * The commanded speed for the vessel, which is not directly\r\n * depended on any specific engine rpm or propeller pitch\r\n ");
+			mSpeedCommand.setDocumentation("\n * The commanded speed for the vessel, which is not directly\n * depended on any specific engine rpm or propeller pitch\n ");
 		
 		mHeadingCommand = UMetaBuilder.manual().createClass("HeadingCommand", false, HeadingCommand.class, HeadingCommandImpl.class);
 			UMetaBuilder.manual().setInstanceCreator(mHeadingCommand, new IInstanceCreator() {
@@ -2354,10 +2553,10 @@ public class VesselPackage
 					return new HeadingCommandImpl();
 				}
 			});
-			mHeadingCommand.setDocumentation("\r\n * The commanded heading, which is not directly depended\r\n * on any specific rudder angle.\r\n ");
+			mHeadingCommand.setDocumentation("\n * The commanded heading, which is not directly depended\n * on any specific rudder angle.\n ");
 		
 		mMachineCommand = UMetaBuilder.manual().createClass("MachineCommand", true, MachineCommand.class, MachineCommandImpl.class);
-			mMachineCommand.setDocumentation(" An concrete command for a machine\r\n * typically this commands are read by an machine and produced \r\n * by an controlling instance of the vessel (for example a nautical officer) as result / decomposition of steering commands\r\n ");
+			mMachineCommand.setDocumentation(" An concrete command for a machine\n * typically this commands are read by an machine and produced \n * by an controlling instance of the vessel (for example a nautical officer) as result / decomposition of steering commands\n ");
 		
 		mCommandedRudderAngle = UMetaBuilder.manual().createClass("CommandedRudderAngle", false, CommandedRudderAngle.class, CommandedRudderAngleImpl.class);
 			UMetaBuilder.manual().setInstanceCreator(mCommandedRudderAngle, new IInstanceCreator() {
@@ -2366,7 +2565,7 @@ public class VesselPackage
 					return new CommandedRudderAngleImpl();
 				}
 			});
-			mCommandedRudderAngle.setDocumentation("\r\n * A specific command for a rudder angle change. Directed\r\n * to only one rudder.\r\n ");
+			mCommandedRudderAngle.setDocumentation("\n * A specific command for a rudder angle change. Directed\n * to only one rudder.\n ");
 		
 		mCommandedEngineRpm = UMetaBuilder.manual().createClass("CommandedEngineRpm", false, CommandedEngineRpm.class, CommandedEngineRpmImpl.class);
 			UMetaBuilder.manual().setInstanceCreator(mCommandedEngineRpm, new IInstanceCreator() {
@@ -2375,7 +2574,7 @@ public class VesselPackage
 					return new CommandedEngineRpmImpl();
 				}
 			});
-			mCommandedEngineRpm.setDocumentation("\r\n * A command directed to change the rpm of a single engine\r\n ");
+			mCommandedEngineRpm.setDocumentation("\n * A command directed to change the rpm of a single engine\n ");
 		
 		mCommandedPropellerPitch = UMetaBuilder.manual().createClass("CommandedPropellerPitch", false, CommandedPropellerPitch.class, CommandedPropellerPitchImpl.class);
 			UMetaBuilder.manual().setInstanceCreator(mCommandedPropellerPitch, new IInstanceCreator() {
@@ -2384,7 +2583,7 @@ public class VesselPackage
 					return new CommandedPropellerPitchImpl();
 				}
 			});
-			mCommandedPropellerPitch.setDocumentation("\r\n * A command directed to change the pitch of a specific\r\n * propeller\r\n ");
+			mCommandedPropellerPitch.setDocumentation("\n * A command directed to change the pitch of a specific\n * propeller\n ");
 		
 	}
 	/**
@@ -2466,6 +2665,33 @@ public class VesselPackage
 			mSteeringCommand = UCoreMetaRepository.getUClass(SteeringCommand.class);
 		}
 		return mSteeringCommand;
+	}
+	/**
+	* @generated
+	*/
+	public UClass getAngularDistance(){
+		if (mAngularDistance == null){
+			mAngularDistance = UCoreMetaRepository.getUClass(AngularDistance.class);
+		}
+		return mAngularDistance;
+	}
+	/**
+	* @generated
+	*/
+	public UClass getReferencedDistance(){
+		if (mReferencedDistance == null){
+			mReferencedDistance = UCoreMetaRepository.getUClass(ReferencedDistance.class);
+		}
+		return mReferencedDistance;
+	}
+	/**
+	* @generated
+	*/
+	public UClass getDistanceCharacteristic(){
+		if (mDistanceCharacteristic == null){
+			mDistanceCharacteristic = UCoreMetaRepository.getUClass(DistanceCharacteristic.class);
+		}
+		return mDistanceCharacteristic;
 	}
 
 
@@ -3223,10 +3449,42 @@ public class VesselPackage
 	/**
 	* @generated
 	*/
+	public UStructuralFeature getAngularDistance_distance(){
+		if (mAngularDistance_distance == null)
+			mAngularDistance_distance = getAngularDistance().getFeature("distance");
+		return mAngularDistance_distance;
+	}
+	/**
+	* @generated
+	*/
+	public UStructuralFeature getAngularDistance_maxAngle(){
+		if (mAngularDistance_maxAngle == null)
+			mAngularDistance_maxAngle = getAngularDistance().getFeature("maxAngle");
+		return mAngularDistance_maxAngle;
+	}
+	/**
+	* @generated
+	*/
 	public UStructuralFeature getAutopilotAlarm_creationTime(){
 		if (mAutopilotAlarm_creationTime == null)
 			mAutopilotAlarm_creationTime = getAutopilotAlarm().getFeature("creationTime");
 		return mAutopilotAlarm_creationTime;
+	}
+	/**
+	* @generated
+	*/
+	public UStructuralFeature getReferencedDistance_angularDistances(){
+		if (mReferencedDistance_angularDistances == null)
+			mReferencedDistance_angularDistances = getReferencedDistance().getFeature("angularDistances");
+		return mReferencedDistance_angularDistances;
+	}
+	/**
+	* @generated
+	*/
+	public UStructuralFeature getAngularDistance_minAngle(){
+		if (mAngularDistance_minAngle == null)
+			mAngularDistance_minAngle = getAngularDistance().getFeature("minAngle");
+		return mAngularDistance_minAngle;
 	}
 	/**
 	* @generated
@@ -3239,10 +3497,26 @@ public class VesselPackage
 	/**
 	* @generated
 	*/
+	public UStructuralFeature getReferencedDistance_reference(){
+		if (mReferencedDistance_reference == null)
+			mReferencedDistance_reference = getReferencedDistance().getFeature("reference");
+		return mReferencedDistance_reference;
+	}
+	/**
+	* @generated
+	*/
 	public UStructuralFeature getAutopilot_lastCommand(){
 		if (mAutopilot_lastCommand == null)
 			mAutopilot_lastCommand = getAutopilot().getFeature("lastCommand");
 		return mAutopilot_lastCommand;
+	}
+	/**
+	* @generated
+	*/
+	public UStructuralFeature getAngularDistance_timestamp(){
+		if (mAngularDistance_timestamp == null)
+			mAngularDistance_timestamp = getAngularDistance().getFeature("timestamp");
+		return mAngularDistance_timestamp;
 	}
 	/**
 	* @generated
@@ -3275,5 +3549,21 @@ public class VesselPackage
 		if (mCommandedValue_creationTime == null)
 			mCommandedValue_creationTime = getCommandedValue().getFeature("creationTime");
 		return mCommandedValue_creationTime;
+	}
+	/**
+	* @generated
+	*/
+	public UStructuralFeature getDistanceCharacteristic_distances(){
+		if (mDistanceCharacteristic_distances == null)
+			mDistanceCharacteristic_distances = getDistanceCharacteristic().getFeature("distances");
+		return mDistanceCharacteristic_distances;
+	}
+	/**
+	* @generated
+	*/
+	public UStructuralFeature getReferencedDistance_source(){
+		if (mReferencedDistance_source == null)
+			mReferencedDistance_source = getReferencedDistance().getFeature("source");
+		return mReferencedDistance_source;
 	}
 }

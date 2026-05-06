@@ -1,18 +1,11 @@
 package de.emir.epd.ais;
 
-import java.awt.Color;
 import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 
 import de.emir.epd.ais.ids.AisBasics;
-import de.emir.epd.ais.manager.AisTargetManager;
-import de.emir.epd.ais.model.IAisReadAdapter;
 import de.emir.epd.mapview.views.map.AbstractMapLayerSettingsPanel;
 import de.emir.epd.mapview.views.map.MapView;
 import de.emir.epd.model.EPDModelUtils;
@@ -21,9 +14,8 @@ import de.emir.model.universal.physics.Environment;
 import de.emir.rcp.manager.util.PlatformUtil;
 import de.emir.rcp.properties.PropertyContext;
 import de.emir.rcp.properties.PropertyStore;
-import de.emir.rcp.ui.utils.databinding.PropertyJCheckBox;
-import de.emir.tuml.ucore.runtime.extension.ServiceManager;
-import de.emir.tuml.ucore.runtime.logging.ULog;
+import de.emir.rcp.ui.utils.properties.IPropertyWidget;
+import de.emir.rcp.ui.utils.properties.PropertyCheckboxWidget;
 import de.emir.tuml.ucore.runtime.prop.IProperty;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,6 +24,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.JTextField;
 
 /**
@@ -56,15 +50,77 @@ public class AisLayerSettingsPanel extends AbstractMapLayerSettingsPanel {
 		
 		JPanel parent = new JPanel();
 		parent.setPreferredSize(new Dimension(172, 200));
-		
-		JCheckBox chckbxShowNames = new PropertyJCheckBox("Show Names", AisBasics.AIS_VIEWER_PROP_CONTEXT, AisBasics.AIS_VIEWER_PROP_SHOW_NAMES, true);
+
+        PropertyCheckboxWidget chckbxShowNames = new PropertyCheckboxWidget(
+				"Show Names", // label
+				AisBasics.AIS_VIEWER_PROP_CONTEXT,
+				AisBasics.AIS_VIEWER_PROP_SHOW_NAMES,
+				true // default
+		);
 		chckbxShowNames.setOpaque(false);
-		JCheckBox chckbxFollowSelectedVessel = new PropertyJCheckBox("Show Timed Out Targets", AisBasics.AIS_VIEWER_PROP_CONTEXT, AisBasics.AIS_VIEWER_PROP_SHOW_TIMED_OUT, true);
+        chckbxShowNames.addPropertyChangeListener(
+                evt -> {
+                    if (IPropertyWidget.PROPERTY_VALUE_CHANGE_NAME.equals(evt.getPropertyName())){
+                        chckbxShowNames.finish();
+                    }
+                }
+        );
+        PropertyCheckboxWidget chckbxFollowSelectedVessel = new PropertyCheckboxWidget(
+				"Show Timed Out Targets", // label
+				AisBasics.AIS_VIEWER_PROP_CONTEXT,
+				AisBasics.AIS_VIEWER_PROP_SHOW_TIMED_OUT,
+				true // default
+		);
 		chckbxFollowSelectedVessel.setOpaque(false);
-		JCheckBox chckbxShowTracks = new PropertyJCheckBox("Show Target Tracks", AisBasics.AIS_VIEWER_PROP_CONTEXT, AisBasics.AIS_VIEWER_PROP_SHOW_TRACKS, true);
+        chckbxFollowSelectedVessel.addPropertyChangeListener(
+                evt -> {
+                    if (IPropertyWidget.PROPERTY_VALUE_CHANGE_NAME.equals(evt.getPropertyName())){
+                        chckbxFollowSelectedVessel.finish();
+                    }
+                }
+        );
+        PropertyCheckboxWidget chckbxShowTracks = new PropertyCheckboxWidget(
+				"Show Target Tracks", // label
+				AisBasics.AIS_VIEWER_PROP_CONTEXT,
+				AisBasics.AIS_VIEWER_PROP_SHOW_TRACKS,
+				true // default
+		);
 		chckbxShowTracks.setOpaque(false);
-		JCheckBox chckbxShowIntendedRoutes = new PropertyJCheckBox("Show Intended Routes", AisBasics.AIS_VIEWER_PROP_CONTEXT, AisBasics.AIS_VIEWER_PROP_SHOW_INTENDED_ROUTES, true);
+        chckbxShowTracks.addPropertyChangeListener(
+                evt -> {
+                    if (IPropertyWidget.PROPERTY_VALUE_CHANGE_NAME.equals(evt.getPropertyName())){
+                        chckbxShowTracks.finish();
+                    }
+                }
+        );
+        PropertyCheckboxWidget chckbxShowIntendedRoutes = new PropertyCheckboxWidget(
+				"Show Intended Routes", // label
+				AisBasics.AIS_VIEWER_PROP_CONTEXT,
+				AisBasics.AIS_VIEWER_PROP_SHOW_INTENDED_ROUTES,
+				true // default
+		);
 		chckbxShowIntendedRoutes.setOpaque(false);
+        chckbxShowIntendedRoutes.addPropertyChangeListener(
+                evt -> {
+                    if (IPropertyWidget.PROPERTY_VALUE_CHANGE_NAME.equals(evt.getPropertyName())){
+                        chckbxShowIntendedRoutes.finish();
+                    }
+                }
+        );
+		PropertyCheckboxWidget chckbxShowGeometries = new PropertyCheckboxWidget(
+				"Show Vessel Geometries", // label
+				AisBasics.AIS_VIEWER_PROP_CONTEXT,
+				AisBasics.AIS_VIEWER_PROP_LAYER_DISPLAY_GEOMETRIES,
+				true // default
+		);
+		chckbxShowGeometries.setOpaque(false);
+		chckbxShowGeometries.addPropertyChangeListener(
+				evt -> {
+					if (IPropertyWidget.PROPERTY_VALUE_CHANGE_NAME.equals(evt.getPropertyName())){
+						chckbxShowGeometries.finish();
+					}
+				}
+		);
         JButton clearButton = new JButton("Clear track display");
         clearButton.setOpaque(false);
 		
@@ -102,7 +158,8 @@ public class AisLayerSettingsPanel extends AbstractMapLayerSettingsPanel {
 								.addComponent(chckbxShowNames, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(chckbxFollowSelectedVessel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(chckbxShowTracks, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(chckbxShowIntendedRoutes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(chckbxShowIntendedRoutes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(chckbxShowGeometries, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addContainerGap(19, Short.MAX_VALUE))
 						.addGroup(gl_parent.createSequentialGroup()
 							.addComponent(clearButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -124,6 +181,8 @@ public class AisLayerSettingsPanel extends AbstractMapLayerSettingsPanel {
 					.addComponent(chckbxShowTracks, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(chckbxShowIntendedRoutes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(chckbxShowGeometries, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(clearButton)
 					.addPreferredGap(ComponentPlacement.RELATED)

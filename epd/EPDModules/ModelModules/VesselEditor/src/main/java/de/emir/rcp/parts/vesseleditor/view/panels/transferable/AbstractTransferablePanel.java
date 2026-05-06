@@ -7,8 +7,9 @@ import de.emir.model.universal.units.impl.EulerImpl;
 import de.emir.rcp.parts.vesseleditor.provider.ITransferableProvider;
 import de.emir.rcp.parts.vesseleditor.utils.View;
 import de.emir.rcp.parts.vesseleditor.view.parts.AbstractPhysicalObjectPart;
-import de.emir.tuml.ucore.runtime.ITreeValueChangeListener;
-import de.emir.tuml.ucore.runtime.Notification;
+import de.emir.tuml.ucore.runtime.IDisposable;
+import de.emir.tuml.ucore.runtime.logging.ULog;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,12 +18,18 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractTransferablePanel extends JPanel {
     public static final DataFlavor GENERIC_DATA_FLAVOR = new DataFlavor(
-            ITransferableProvider.class, "java/ITransferableProvider");
+            ITransferableProvider.class, "java/ITransferableProvider"
+    );
 
     protected AbstractPhysicalObjectPart editor;
+
+    private final List<Disposable> registeredConsumer = new ArrayList<>();
+    private final List<IDisposable> registeredTreeListeners = new ArrayList<>();
 
     public AbstractTransferablePanel(AbstractPhysicalObjectPart editor) {
         this.editor = editor;
@@ -50,28 +57,55 @@ public abstract class AbstractTransferablePanel extends JPanel {
         return null;
     }
 
-    protected void initListeners() {
-        editor.getPhysicalObject().registerTreeListener(new ITreeValueChangeListener() {
-            @Override
-            public void onValueChange(Notification<Object> notification) {
-                Object newValue = notification.getNewValue();
-                if (newValue instanceof ObjectSurfaceInformation) {
-                    if (notification.getOldValue() == null) {
-                        editor.getEditorPanel().setTransferHandler(new GenericImportHandler());
-                    }
+    /**
+     * Informs use that this panel got added to something. Thus, we can register listeners
+     * which get removed when this panel is removed (removeNotify).
+     */
+    @Override
+    public void addNotify() {
+        // check for changes in the selected geometry or view
+        IDisposable disposable = editor.getPhysicalObject().registerTreeListener(notification -> {
+            Object newValue = notification.getNewValue();
+            if (newValue instanceof ObjectSurfaceInformation) {
+                if (notification.getOldValue() == null) {
+                    editor.getEditorPanel().setTransferHandler(new GenericImportHandler());
                 }
             }
         });
+        registeredTreeListeners.add(disposable);
 
         // enable drop
         if (editor.getEditorPanel() != null) {
             editor.getEditorPanel().setTransferHandler(new GenericImportHandler());
         }
+
+        super.addNotify();
+    }
+
+    /**
+     * Unregister listeners when a panel got removed
+     */
+    @Override
+    public void removeNotify() {
+        // unregister consumers
+        for (Disposable disposable : registeredConsumer){
+            disposable.dispose();
+        }
+
+        // unregister tree listeners
+        for (IDisposable disposable : registeredTreeListeners){
+            disposable.dispose();
+        }
+
+        registeredTreeListeners.clear();
+        registeredConsumer.clear();
+
+        super.removeNotify();
     }
 
     protected class GenericTransferable implements Transferable {
 
-        private ITransferableProvider mProvider;
+        private final ITransferableProvider mProvider;
 
         public GenericTransferable(ITransferableProvider prov) {
             mProvider = prov;
@@ -91,12 +125,11 @@ public abstract class AbstractTransferablePanel extends JPanel {
         public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
             return mProvider;
         }
-
     }
 
     protected class GenericExportHandler extends TransferHandler {
 
-        private ITransferableProvider mProvider;
+        private final ITransferableProvider mProvider;
 
         public GenericExportHandler(ITransferableProvider prov) {
             mProvider = prov;
@@ -127,7 +160,7 @@ public abstract class AbstractTransferablePanel extends JPanel {
                 ITransferableProvider provider = (ITransferableProvider) t.getTransferData(GENERIC_DATA_FLAVOR);
                 return placeObject(provider, comp.getMousePosition());
             } catch (UnsupportedFlavorException | IOException e) {
-                e.printStackTrace();
+                ULog.error(e);
             }
             return super.importData(comp, t);
         }

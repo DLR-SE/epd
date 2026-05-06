@@ -13,9 +13,8 @@ import de.emir.tuml.ucore.runtime.logging.ULog;
 
 /**
  * Performs a redo operation on the command stack of the currently active editor
- * 
- * @author fklein
  *
+ * @author fklein
  */
 public class RedoCommand extends AbstractCommand implements Observer {
 

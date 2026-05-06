@@ -23,6 +23,7 @@ import de.emir.tuml.ucore.runtime.access.IFeatureGetter;
 import de.emir.tuml.ucore.runtime.access.IFeatureSetter;
 import de.emir.tuml.ucore.runtime.access.IInstanceCreator;
 import de.emir.tuml.ucore.runtime.access.IOperationInvoker;
+import de.emir.model.universal.spatial.sf.impl.GeometryCollectionImpl;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.utils.TypeUtils;
 import de.emir.tuml.ucore.runtime.utils.UCoreMetaRepository;
@@ -38,7 +39,7 @@ public class SfPackage
 	 * @generated
 	 */
 	public static SfPackage theInstance = new SfPackage().init();
-	
+
 	/**
 	 * @generated
 	 */
@@ -70,6 +71,11 @@ public class SfPackage
 		UClass LinearRing = SfPackage.theInstance.getLinearRing();
 		/**
 		* @generated
+		* @return meta type for classifier GeometryCollection
+		*/
+		UClass GeometryCollection = SfPackage.theInstance.getGeometryCollection();
+		/**
+		* @generated
 		* @return meta type for classifier Polygon
 		*/
 		UClass Polygon = SfPackage.theInstance.getPolygon();
@@ -83,7 +89,6 @@ public class SfPackage
 		* @return meta type for classifier WKTGeometry
 		*/
 		UClass WKTGeometry = SfPackage.theInstance.getWKTGeometry();
-		
 		/**
 		 * @generated
 		 * @return feature descriptor coordinate in type Point
@@ -109,6 +114,11 @@ public class SfPackage
 		 * @return feature descriptor holes in type Polygon
 		 */
 		 UStructuralFeature Polygon_holes = SfPackage.theInstance.getPolygon_holes();
+		/**
+		 * @generated
+		 * @return feature descriptor geometries in type MultiGeometry
+		 */
+		 UStructuralFeature MultiGeometry_geometries = SfPackage.theInstance.getMultiGeometry_geometries();
 		/**
 		 * @generated
 		 * @return feature descriptor polygons in type MultiPolygon
@@ -149,6 +159,10 @@ public class SfPackage
 	/**
 	* @generated
 	*/
+	private UClass mGeometryCollection = null;
+	/**
+	* @generated
+	*/
 	private UClass mPolygon = null;
 	/**
 	* @generated
@@ -159,32 +173,25 @@ public class SfPackage
 	*/
 	private UClass mWKTGeometry = null;
 	
+	
 	//////////////////////////////////////////////////////////////////////
 	//				StructuralFeatures									//
 	//////////////////////////////////////////////////////////////////////
 	
 	
 	
-	//Features for classifier Point
 	/**
 	 * @generated
 	 */
 	private UStructuralFeature mPoint_coordinate = null;
-	
-	//Features for classifier LineString
 	/**
 	 * @generated
 	 */
 	private UStructuralFeature mLineString_points = null;
-	
-	//Features for classifier MultiLineString
 	/**
 	 * @generated
 	 */
 	private UStructuralFeature mMultiLineString_lines = null;
-	
-	
-	//Features for classifier Polygon
 	/**
 	 * @generated
 	 */
@@ -193,22 +200,22 @@ public class SfPackage
 	 * @generated
 	 */
 	private UStructuralFeature mPolygon_holes = null;
-	
-	//Features for classifier MultiPolygon
 	/**
 	 * @generated
 	 */
 	private UStructuralFeature mMultiPolygon_polygons = null;
-	
-	//Features for classifier WKTGeometry
+	/**
+	 * @generated
+	 */
+	private UStructuralFeature mMultiGeometry_geometries = null;
 	/**
 	 * @generated
 	 */
 	private UStructuralFeature mWKTGeometry_wkt = null;
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * @generated
 	 */
@@ -216,7 +223,7 @@ public class SfPackage
 		if (theInstance != null)
 			return theInstance;
 		
-		ULog.debug("initialize package SfPackage ...");
+		ULog.debug("initialize package SfPackage ...", 1);
 		theInstance = new SfPackage();
 		//initialize referenced models
 		SpatialModel.init();
@@ -227,30 +234,29 @@ public class SfPackage
 		theInstance.createOperations();
 		theInstance.buildHierarchies();
 		UPackage p = UCoreMetaRepository.getPackage("de.emir.model.universal.spatial.sf");
-		p.getContent().add(theInstance.mMultiGeometry);
 		p.getContent().add(theInstance.mPoint);
 		p.getContent().add(theInstance.mLineString);
-		p.getContent().add(theInstance.mMultiLineString);
 		p.getContent().add(theInstance.mLinearRing);
 		p.getContent().add(theInstance.mPolygon);
-		p.getContent().add(theInstance.mMultiPolygon);
 		p.getContent().add(theInstance.mWKTGeometry);
+		p.getContent().add(theInstance.mGeometryCollection);
+		p.getContent().add(theInstance.mMultiGeometry);
+		p.getContent().add(theInstance.mMultiLineString);
+		p.getContent().add(theInstance.mMultiPolygon);
 		p.freeze();
 		
 		
 		
-		ULog.debug("... package SfPackage initialized");
+		ULog.debug(-1, "... package SfPackage initialized");
 		
 		return theInstance;
 	}
-	
+
 	/**
 	 * create all required classifiers
 	 * @generated
 	**/
 	private void createClassifier(){
-		mMultiGeometry = UMetaBuilder.manual().createClass("MultiGeometry", true, MultiGeometry.class, MultiGeometryImpl.class);
-		
 		mPoint = UMetaBuilder.manual().createClass("Point", false, Point.class, PointImpl.class);
 			UMetaBuilder.manual().setInstanceCreator(mPoint, new IInstanceCreator() {
 				@Override
@@ -272,17 +278,6 @@ public class SfPackage
 			//Annotations for LineString
 			mLineString.createAnnotation("ComplexAttributeType");
 			mLineString.createAnnotation("struct");
-		
-		mMultiLineString = UMetaBuilder.manual().createClass("MultiLineString", false, MultiLineString.class, MultiLineStringImpl.class);
-			UMetaBuilder.manual().setInstanceCreator(mMultiLineString, new IInstanceCreator() {
-				@Override
-				public UObject createNewInstance() {
-					return new MultiLineStringImpl();
-				}
-			});
-			//Annotations for MultiLineString
-			mMultiLineString.createAnnotation("ComplexAttributeType");
-			mMultiLineString.createAnnotation("struct");
 		
 		mLinearRing = UMetaBuilder.manual().createClass("LinearRing", false, LinearRing.class, LinearRingImpl.class);
 			UMetaBuilder.manual().setInstanceCreator(mLinearRing, new IInstanceCreator() {
@@ -307,17 +302,6 @@ public class SfPackage
 			mPolygon.createAnnotation("ComplexAttributeType");
 			mPolygon.createAnnotation("struct");
 		
-		mMultiPolygon = UMetaBuilder.manual().createClass("MultiPolygon", false, MultiPolygon.class, MultiPolygonImpl.class);
-			UMetaBuilder.manual().setInstanceCreator(mMultiPolygon, new IInstanceCreator() {
-				@Override
-				public UObject createNewInstance() {
-					return new MultiPolygonImpl();
-				}
-			});
-			//Annotations for MultiPolygon
-			mMultiPolygon.createAnnotation("ComplexAttributeType");
-			mMultiPolygon.createAnnotation("struct");
-		
 		mWKTGeometry = UMetaBuilder.manual().createClass("WKTGeometry", false, WKTGeometry.class, WKTGeometryImpl.class);
 			UMetaBuilder.manual().setInstanceCreator(mWKTGeometry, new IInstanceCreator() {
 				@Override
@@ -325,12 +309,52 @@ public class SfPackage
 					return new WKTGeometryImpl();
 				}
 			});
-			mWKTGeometry.setDocumentation(" The WKTGeometry is a helper geometry, where the geometry is specified using a WKT (Well known text) String\r\n * the internal geometry (getNativeGeometry()) is determinated at runtime\r\n ");
+			mWKTGeometry.setDocumentation(" The WKTGeometry is a helper geometry, where the geometry is specified using a WKT (Well known text) String\n * the internal geometry (getNativeGeometry()) is determined at runtime\n ");
 			//Annotations for WKTGeometry
 			mWKTGeometry.createAnnotation("ComplexAttributeType");
 			mWKTGeometry.createAnnotation("struct");
 		
+		mGeometryCollection = UMetaBuilder.manual().createClass("GeometryCollection", true, GeometryCollection.class, GeometryCollectionImpl.class);
+			mGeometryCollection.setDocumentation(" Base class for collections of geometries ");
+		
+		mMultiGeometry = UMetaBuilder.manual().createClass("MultiGeometry", false, MultiGeometry.class, MultiGeometryImpl.class);
+			UMetaBuilder.manual().setInstanceCreator(mMultiGeometry, new IInstanceCreator() {
+				@Override
+				public UObject createNewInstance() {
+					return new MultiGeometryImpl();
+				}
+			});
+			mMultiGeometry.setDocumentation(" Collection of multiple geometries ");
+			//Annotations for MultiGeometry
+			mMultiGeometry.createAnnotation("ComplexAttributeType");
+			mMultiGeometry.createAnnotation("struct");
+		
+		mMultiLineString = UMetaBuilder.manual().createClass("MultiLineString", false, MultiLineString.class, MultiLineStringImpl.class);
+			UMetaBuilder.manual().setInstanceCreator(mMultiLineString, new IInstanceCreator() {
+				@Override
+				public UObject createNewInstance() {
+					return new MultiLineStringImpl();
+				}
+			});
+			mMultiLineString.setDocumentation(" Collection of multiple line strings ");
+			//Annotations for MultiLineString
+			mMultiLineString.createAnnotation("ComplexAttributeType");
+			mMultiLineString.createAnnotation("struct");
+		
+		mMultiPolygon = UMetaBuilder.manual().createClass("MultiPolygon", false, MultiPolygon.class, MultiPolygonImpl.class);
+			UMetaBuilder.manual().setInstanceCreator(mMultiPolygon, new IInstanceCreator() {
+				@Override
+				public UObject createNewInstance() {
+					return new MultiPolygonImpl();
+				}
+			});
+			mMultiPolygon.setDocumentation(" Collection of multiple polygons ");
+			//Annotations for MultiPolygon
+			mMultiPolygon.createAnnotation("ComplexAttributeType");
+			mMultiPolygon.createAnnotation("struct");
+		
 	}
+
 	/**
 	 * create all required classifiers
 	 * @generated
@@ -351,13 +375,6 @@ public class SfPackage
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((LineString)instance).setPoints((CoordinateSequence)value); } }
 				);
 			
-			//Features of MultiLineString
-			mMultiLineString_lines = UMetaBuilder.manual().createFeature("lines", SfPackage.theInstance.getLineString(), UAssociationType.COMPOSITION, 0, -1);
-				UMetaBuilder.manual().setFeatureAccessor(mMultiLineString_lines, 
-						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((MultiLineString)instance).getLines(); } }, 
-						null
-				);
-			
 			//Features of Polygon
 			mPolygon_shell = UMetaBuilder.manual().createFeature("shell", SfPackage.theInstance.getLinearRing(), UAssociationType.COMPOSITION, 0, 1);
 				UMetaBuilder.manual().setFeatureAccessor(mPolygon_shell, 
@@ -370,13 +387,6 @@ public class SfPackage
 						null
 				);
 			
-			//Features of MultiPolygon
-			mMultiPolygon_polygons = UMetaBuilder.manual().createFeature("polygons", SfPackage.theInstance.getPolygon(), UAssociationType.COMPOSITION, 0, -1);
-				UMetaBuilder.manual().setFeatureAccessor(mMultiPolygon_polygons, 
-						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((MultiPolygon)instance).getPolygons(); } }, 
-						null
-				);
-			
 			//Features of WKTGeometry
 			mWKTGeometry_wkt = UMetaBuilder.manual().createFeature("wkt", TypeUtils.getPrimitiveType(String.class), UAssociationType.PROPERTY, 0, 1);
 				UMetaBuilder.manual().setFeatureAccessor(mWKTGeometry_wkt, 
@@ -384,18 +394,41 @@ public class SfPackage
 						new IFeatureSetter() { @Override public void set(UObject instance, Object value) { ((WKTGeometry)instance).setWkt((String)value); } }
 				);
 			
+			//Features of MultiGeometry
+			mMultiGeometry_geometries = UMetaBuilder.manual().createFeature("geometries", SpatialPackage.theInstance.getGeometry(), UAssociationType.COMPOSITION, 0, -1);
+				UMetaBuilder.manual().setFeatureAccessor(mMultiGeometry_geometries, 
+						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((MultiGeometry)instance).getGeometries(); } }, 
+						null
+				);
+			
+			//Features of MultiLineString
+			mMultiLineString_lines = UMetaBuilder.manual().createFeature("lines", SfPackage.theInstance.getLineString(), UAssociationType.COMPOSITION, 0, -1);
+				UMetaBuilder.manual().setFeatureAccessor(mMultiLineString_lines, 
+						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((MultiLineString)instance).getLines(); } }, 
+						null
+				);
+			
+			//Features of MultiPolygon
+			mMultiPolygon_polygons = UMetaBuilder.manual().createFeature("polygons", SfPackage.theInstance.getPolygon(), UAssociationType.COMPOSITION, 0, -1);
+				UMetaBuilder.manual().setFeatureAccessor(mMultiPolygon_polygons, 
+						new IFeatureGetter() { @Override public Object get(UObject instance) { return ((MultiPolygon)instance).getPolygons(); } }, 
+						null
+				);
+			
 		}
 		{ //assign features
 			mPoint.getStructuralFeatures().add(mPoint_coordinate);
 			mLineString.getStructuralFeatures().add(mLineString_points);
-			mMultiLineString.getStructuralFeatures().add(mMultiLineString_lines);
 			mPolygon.getStructuralFeatures().add(mPolygon_shell);
 			mPolygon.getStructuralFeatures().add(mPolygon_holes);
-			mMultiPolygon.getStructuralFeatures().add(mMultiPolygon_polygons);
 			mWKTGeometry.getStructuralFeatures().add(mWKTGeometry_wkt);
+			mMultiGeometry.getStructuralFeatures().add(mMultiGeometry_geometries);
+			mMultiLineString.getStructuralFeatures().add(mMultiLineString_lines);
+			mMultiPolygon.getStructuralFeatures().add(mMultiPolygon_polygons);
 		}
 		
 	}
+
 	/**
 	 * create all required classifiers
 	 * @generated
@@ -424,21 +457,25 @@ public class SfPackage
 				mLinearRing.getOperations().add(operation);
 		}
 	}
+
 	/**
 	 * create all required classifiers
 	 * @generated
 	**/
 	private void buildHierarchies(){
-		mMultiGeometry.setSuperType(SpatialPackage.theInstance.getGeometry());
 		mPoint.setSuperType(SpatialPackage.theInstance.getGeometry());
 		mLineString.setSuperType(SpatialPackage.theInstance.getGeometry());
-		mMultiLineString.setSuperType(SfPackage.theInstance.getMultiGeometry());
 		mLinearRing.setSuperType(SfPackage.theInstance.getLineString());
 		mPolygon.setSuperType(SpatialPackage.theInstance.getGeometry());
-		mMultiPolygon.setSuperType(SfPackage.theInstance.getMultiGeometry());
 		mWKTGeometry.setSuperType(SpatialPackage.theInstance.getGeometry());
+		mGeometryCollection.setSuperType(SpatialPackage.theInstance.getGeometry());
+		mMultiGeometry.setSuperType(SfPackage.theInstance.getGeometryCollection());
+		mMultiLineString.setSuperType(SfPackage.theInstance.getGeometryCollection());
+		mMultiPolygon.setSuperType(SfPackage.theInstance.getGeometryCollection());
 		
 	}
+
+	
 	
 	//////////////////////////////////////////////////////////////////////
 	//				Classifier GETTER									//
@@ -453,6 +490,7 @@ public class SfPackage
 		}
 		return mMultiGeometry;
 	}
+
 	/**
 	* @generated
 	*/
@@ -462,6 +500,7 @@ public class SfPackage
 		}
 		return mPoint;
 	}
+
 	/**
 	* @generated
 	*/
@@ -471,6 +510,7 @@ public class SfPackage
 		}
 		return mLineString;
 	}
+
 	/**
 	* @generated
 	*/
@@ -480,6 +520,7 @@ public class SfPackage
 		}
 		return mMultiLineString;
 	}
+
 	/**
 	* @generated
 	*/
@@ -489,6 +530,7 @@ public class SfPackage
 		}
 		return mLinearRing;
 	}
+
 	/**
 	* @generated
 	*/
@@ -498,6 +540,17 @@ public class SfPackage
 		}
 		return mPolygon;
 	}
+
+	/**
+	* @generated
+	*/
+	public UClass getGeometryCollection(){
+		if (mGeometryCollection == null){
+			mGeometryCollection = UCoreMetaRepository.getUClass(GeometryCollection.class);
+		}
+		return mGeometryCollection;
+	}
+
 	/**
 	* @generated
 	*/
@@ -507,6 +560,7 @@ public class SfPackage
 		}
 		return mMultiPolygon;
 	}
+
 	/**
 	* @generated
 	*/
@@ -516,6 +570,8 @@ public class SfPackage
 		}
 		return mWKTGeometry;
 	}
+
+	
 	
 	//////////////////////////////////////////////////////////////////////
 	//				StructuralFeatures	GETTER							//
@@ -529,6 +585,7 @@ public class SfPackage
 			mPoint_coordinate = getPoint().getFeature("coordinate");
 		return mPoint_coordinate;
 	}
+
 	/**
 	* @generated
 	*/
@@ -537,6 +594,7 @@ public class SfPackage
 			mLineString_points = getLineString().getFeature("points");
 		return mLineString_points;
 	}
+
 	/**
 	* @generated
 	*/
@@ -545,6 +603,7 @@ public class SfPackage
 			mMultiLineString_lines = getMultiLineString().getFeature("lines");
 		return mMultiLineString_lines;
 	}
+
 	/**
 	* @generated
 	*/
@@ -553,6 +612,7 @@ public class SfPackage
 			mPolygon_shell = getPolygon().getFeature("shell");
 		return mPolygon_shell;
 	}
+
 	/**
 	* @generated
 	*/
@@ -561,6 +621,7 @@ public class SfPackage
 			mPolygon_holes = getPolygon().getFeature("holes");
 		return mPolygon_holes;
 	}
+
 	/**
 	* @generated
 	*/
@@ -569,6 +630,7 @@ public class SfPackage
 			mMultiPolygon_polygons = getMultiPolygon().getFeature("polygons");
 		return mMultiPolygon_polygons;
 	}
+
 	/**
 	* @generated
 	*/
@@ -576,5 +638,14 @@ public class SfPackage
 		if (mWKTGeometry_wkt == null)
 			mWKTGeometry_wkt = getWKTGeometry().getFeature("wkt");
 		return mWKTGeometry_wkt;
+	}
+
+	/**
+	* @generated
+	*/
+	public UStructuralFeature getMultiGeometry_geometries(){
+		if (mMultiGeometry_geometries == null)
+			mMultiGeometry_geometries = getMultiGeometry().getFeature("geometries");
+		return mMultiGeometry_geometries;
 	}
 }

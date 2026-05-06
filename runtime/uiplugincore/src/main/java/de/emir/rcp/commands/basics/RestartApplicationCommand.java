@@ -65,7 +65,10 @@ public class RestartApplicationCommand extends AbstractCommand {
 
         // notify all view plugins, that we are going to shut down
         mw.notifyAboutToClose();
-        mw.saveLayout();
+        // Check if the tab layout was active. If not, the default layout is saved.
+        if (!PlatformUtil.getMenuManager().getLayoutControl().tabLayoutActive()) {
+            mw.saveLayout();
+        }
         PropertyStore.save();
 
         mw.notifyClosed();
@@ -81,7 +84,7 @@ public class RestartApplicationCommand extends AbstractCommand {
         try {
             ULog.warn("Restart Application up on user request with the following command: " + cmd.toString());
             Runtime.getRuntime().exec(cmd.toString()); // we are no longer interested in the process, we will kill this
-                                                       // one in the next statement
+            // one in the next statement
         } catch (IOException e) {
             e.printStackTrace();
         }

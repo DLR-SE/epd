@@ -1,28 +1,46 @@
 package de.emir.epd.routemanager.view;
 
-import de.emir.epd.routemanager.IRouteManager;
-import de.emir.epd.routemanager.IRouteManager.IRouteAccessModel;
-import de.emir.epd.routemanager.cmd.OpenRoutePropertiesCommand;
-import de.emir.epd.routemanager.ids.RouteManagerBasic;
-import de.emir.model.domain.maritime.iec61174.Route;
-import de.emir.rcp.manager.CommandManager;
-import de.emir.rcp.manager.util.PlatformUtil;
-import de.emir.rcp.views.AbstractView;
-import de.emir.tuml.ucore.runtime.extension.ServiceManager;
-
-import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JToolBar;
+import javax.swing.JTree;
+import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreePath;
+
+import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 
+import de.emir.epd.routemanager.IRouteManager;
+import de.emir.epd.routemanager.IRouteManager.IRouteAccessModel;
+import de.emir.epd.routemanager.cmd.OpenRoutePropertiesCommand;
+import de.emir.epd.routemanager.ids.RouteManagerBasic;
+import de.emir.epd.routemanager.impl.RouteManager;
+import de.emir.model.domain.maritime.iec61174.Route;
+import de.emir.rcp.manager.CommandManager;
+import de.emir.rcp.manager.util.PlatformUtil;
+import de.emir.rcp.model.AbstractModelProvider;
+import de.emir.rcp.views.AbstractView;
+import de.emir.tuml.ucore.runtime.extension.ServiceManager;
+import de.emir.tuml.ucore.runtime.logging.ULog;
+
 public class RouteListView extends AbstractView {
+	private static final Logger LOG = ULog.getLogger(RouteManager.class);
+
     private JXTreeTable					mTreeTable;
     private TreeTableModel				routeTableModel;
 
@@ -123,7 +141,23 @@ public class RouteListView extends AbstractView {
         });
         sc.setViewportView(mTreeTable);
         
+        AbstractModelProvider modelProvider = PlatformUtil.getModelManager().getModelProvider();
+        LOG.debug(modelProvider);
         
+//        if (modelProvider == null) {
+//        	LOG.error("ModelProvider is null");
+//        }
+//        else {
+//        	modelProvider.subscribeModel((subChanged) -> {
+//        		LOG.debug("Model Changed");
+//            	mTreeTable.clearSelection();
+//            	if (mTreeTable.getRowCount() >= 1) {
+//            		mTreeTable.changeSelection(0, 0, false, false);        		
+//            		mTreeTable.updateUI();
+//            	}
+//        	});
+//        }
+//        
         mRouteManager.subscribeStructureChanges(this::_updateUI);
         mRouteManager.subscribeRouteChanges(this::_updateUI);
         registerListeners();
@@ -131,28 +165,50 @@ public class RouteListView extends AbstractView {
     }
 
     private void _updateUI(PropertyChangeEvent event) {
-        //TODO verify if this will work with changes or if there's another way to handle this
-    		//FIXME @jm: No it does not work. Changeing the editor / the eMod File does not work
-    		//please add short description why this change was done, e.g. the observed error
-		String pName = event.getPropertyName();
-//		try {
-//		System.out.println(String.format("%s %s %s", event.getPropertyName(), event.getOldValue().toString(),
-//				event.getNewValue().toString()));
-//		} catch (Exception e) {
+    	LOG.debug("updating UI of route tree");
+		SwingUtilities.invokeLater(new Runnable() {         
+            @Override
+            public void run() {
+            	// Workaround:
+            	// Clear current selection, then select anything, clear selection again and then update the tree gui.
+            	mTreeTable.clearSelection();
+            	if (mTreeTable.getRowCount() >= 1) {
+            		mTreeTable.changeSelection(0, 0, false, false);        		
+            		mTreeTable.clearSelection();
+            		mTreeTable.updateUI();
+            	}
+            }
+        });   	
+    	
+    	
+    	// FIXME: following does not work, workaround above is not ideal
+    	
+//        //TODO verify if this will work with changes or if there's another way to handle this
+//    		//FIXME @jm: No it does not work. Changeing the editor / the eMod File does not work
+//    		//please add short description why this change was done, e.g. the observed error
+//		String pName = event.getPropertyName();
+////		try {
+////		System.out.println(String.format("%s %s %s", event.getPropertyName(), event.getOldValue().toString(),
+////				event.getNewValue().toString()));
+////		} catch (Exception e) {
+////
+////		}
 //
-//		}
-		  //checks whether the change needs to be displayed or if a value changed thats irrelevant for RouteListView
-        if ("name".equals(pName) || "value".equals(pName) || "Routes".equals(pName)) {
-            SwingUtilities.invokeLater(new Runnable() {         
-                @Override
-                public void run() {
-                    mTreeTable.updateUI();
-                }
-            });
-        }
+//       
+//		//checks whether the change needs to be displayed or if a value changed thats irrelevant for RouteListView
+//		if ("name".equals(pName) || "value".equals(pName) || "Routes".equals(pName)) {
+//            SwingUtilities.invokeLater(new Runnable() {         
+//                @Override
+//                public void run() {
+//                	mTreeTable.updateUI();
+//                }
+//            });
+//        }
 	}
+    
 	private void registerListeners() {
-
+		LOG.debug("Register listeners!");
+		
         mTreeTable.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent mouseEvent) {
                 if (mouseEvent.getClickCount() == 2) {
@@ -214,8 +270,13 @@ public class RouteListView extends AbstractView {
 
     public List<Route> getRoutes(int[] selectedRows) {
 		ArrayList<Route> out = new ArrayList<>();
-		for (int row : selectedRows) {
-            Object obj = mTreeTable.getPathForRow(row).getLastPathComponent();
+		for (int row : selectedRows) {           
+            TreePath path = mTreeTable.getPathForRow(row);
+            if (path == null) {
+            	return out;
+            }
+            Object obj = path.getLastPathComponent();
+            
 			if (obj instanceof Route)
 				out.add((Route)obj);
 		}

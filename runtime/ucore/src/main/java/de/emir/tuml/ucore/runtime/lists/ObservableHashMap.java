@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.function.BiFunction;
 
 import de.emir.tuml.ucore.runtime.lists.ICollectionObserver.CHANGE_TYPE;
+import de.emir.tuml.ucore.runtime.logging.ULog;
 
 /**
  * Specialized HashMap that notifies about changes.
@@ -68,7 +69,7 @@ public class ObservableHashMap<K, V> extends HashMap<K, V> {
                     obs.onCollectionChanged(this, type, o, n);
                 } catch (Exception | Error err) {
                     // DO nothing at the moment, expect printing the stacktrace
-                    err.printStackTrace();
+                    ULog.error(err);
                 }
             }
         }

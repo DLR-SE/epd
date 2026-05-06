@@ -36,327 +36,325 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 /**
  * Responsible for creating new editors. To do so, references the
  * EditorExtensionPoint
- * 
- * @author fklein
  *
+ * @author fklein
  */
-public class EditorManager implements IService{
+public class EditorManager implements IService {
 
-	public static final String PROPERTY_CONTEXT = "EditorsProperties";
+    public static final String PROPERTY_CONTEXT = "EditorsProperties";
 
-	public static final String EDITOR_ID_FILE_EXTENSION_PROPERTY = "FileExtMap";
-	public static final String OPEN_FILES_EDITOR_MAP_PROPERTY = "OpenFilesEditorMap";
+    public static final String EDITOR_ID_FILE_EXTENSION_PROPERTY = "FileExtMap";
+    public static final String OPEN_FILES_EDITOR_MAP_PROPERTY = "OpenFilesEditorMap";
 
-	private static Logger log = ULog.getLogger(EditorManager.class);
+    private static Logger log = ULog.getLogger(EditorManager.class);
 
-	private EditorExtensionPoint eEP = new EditorExtensionPoint();
+    private EditorExtensionPoint eEP = new EditorExtensionPoint();
 
-	private BasicEditorFactory fileEditorFactory;
+    private BasicEditorFactory fileEditorFactory;
 
-	private AbstractEditor activeEditor;
+    private AbstractEditor activeEditor;
 
-	private HashMap<String, AbstractEditor> openEditors = new HashMap<String, AbstractEditor>();
+    private HashMap<String, AbstractEditor> openEditors = new HashMap<String, AbstractEditor>();
 
-	private ConfigMapImpl editorFileExtMap;
+    private ConfigMapImpl editorFileExtMap;
 
-	private ConfigMapImpl openFilesEditorIdMap;
-	
-	private PublishSubject<Optional<AbstractEditor>> activeEditorSubject = PublishSubject.create();
+    private ConfigMapImpl openFilesEditorIdMap;
 
-	public EditorExtensionPoint getEditorExtensionPoint() {
-		return eEP;
-	}
+    private PublishSubject<Optional<AbstractEditor>> activeEditorSubject = PublishSubject.create();
 
-	public boolean isEditorOpen(File file) {
-		return getOpenEditor(file) != null;
-	}
+    public EditorExtensionPoint getEditorExtensionPoint() {
+        return eEP;
+    }
 
-	public AbstractEditor getOpenEditor(File file) {
-		return openEditors.get(file.getAbsolutePath());
-	}
+    public boolean isEditorOpen(File file) {
+        return getOpenEditor(file) != null;
+    }
 
-	public Editor getEditor(File file) {
+    public AbstractEditor getOpenEditor(File file) {
+        return openEditors.get(file.getAbsolutePath());
+    }
 
-		// First we check if this file is already opened with a specific editor
-		String idOfOpenEditorForFile = openFilesEditorIdMap.get(file.getAbsolutePath()) == null ? null : ((ConfigObject) openFilesEditorIdMap.get(file.getAbsolutePath())).getValue();
+    public Editor getEditor(File file) {
 
-		Map<String, Editor> editors = eEP.getEditors();
+        // First we check if this file is already opened with a specific editor
+        String idOfOpenEditorForFile = openFilesEditorIdMap.get(file.getAbsolutePath()) == null ? null : ((ConfigObject) openFilesEditorIdMap.get(file.getAbsolutePath())).getValue();
 
-		if (idOfOpenEditorForFile != null) {
+        Map<String, Editor> editors = eEP.getEditors();
+
+        if (idOfOpenEditorForFile != null) {
 
             return editors.get(idOfOpenEditorForFile);
-		}
+        }
 
-		// Now we check if there is an editor type manually set for the files
-		// extension
-		String extension = FilenameUtils.getExtension(file.getName());
-		String manualSetEditorID = editorFileExtMap.get(extension) == null ? null : ((ConfigObject) editorFileExtMap.get(extension)).getValue();
+        // Now we check if there is an editor type manually set for the files
+        // extension
+        String extension = FilenameUtils.getExtension(file.getName());
+        String manualSetEditorID = editorFileExtMap.get(extension) == null ? null : ((ConfigObject) editorFileExtMap.get(extension)).getValue();
 
-		if (manualSetEditorID != null) {
-			Editor editor = editors.get(manualSetEditorID);
-			if (editor != null) {
-				return editor;
-			}
-		}
+        if (manualSetEditorID != null) {
+            Editor editor = editors.get(manualSetEditorID);
+            if (editor != null) {
+                return editor;
+            }
+        }
 
-		// Last we check if there is a default editor for this files extension
+        // Last we check if there is a default editor for this files extension
         return eEP.getEditorForExtension(extension);
-	}
+    }
 
-	/**
-	 * 
-	 * @param f
-	 * @return If an editor to open this file has been found and created
-	 */
-	public boolean openFile(File f) {
+    /**
+     * @param f
+     * @return If an editor to open this file has been found and created
+     */
+    public boolean openFile(File f) {
 
-		MainWindow mw = PlatformUtil.getWindowManager().getMainWindow();
-		
-		if (mw.hasEditorArea() == false) {
+        MainWindow mw = PlatformUtil.getWindowManager().getMainWindow();
 
-			mw.showError("Error", "The product layout has no editor area.");
-			return false;
-		}
+        if (mw.hasEditorArea() == false) {
 
-		BasicEditorLayout layout = fileEditorFactory.create();
-		layout.setPath(f.toPath());
-		AbstractEditor editor = fileEditorFactory.readManually(layout);
+            mw.showError("Error", "The product layout has no editor area.");
+            return false;
+        }
 
-		if (editor == null) {
+        BasicEditorLayout layout = fileEditorFactory.create();
+        layout.setPath(f.toPath());
+        AbstractEditor editor = fileEditorFactory.readManually(layout);
 
-			return false;
+        if (editor == null) {
 
-		}
+            return false;
 
-		boolean visible = editor.isVisible();
+        }
 
-		if (visible == false) {
+        boolean visible = editor.isVisible();
 
-			mw.getWorkingArea().show(editor);
-		}
-		editor.toFront();
+        if (visible == false) {
 
-		return true;
-	}
+            mw.getWorkingArea().show(editor);
+        }
+        editor.toFront();
 
-	public boolean openFile(File f, String editorID) {
+        return true;
+    }
 
-		openFilesEditorIdMap.put(f.getAbsolutePath(), editorID);
-		return openFile(f);
-	}
+    public boolean openFile(File f, String editorID) {
 
-	@SuppressWarnings("unchecked")
-	public void fillEditors() {
+        openFilesEditorIdMap.put(f.getAbsolutePath(), editorID);
+        return openFile(f);
+    }
 
-		fileEditorFactory = new BasicEditorFactory();
-		PlatformUtil.getWindowManager().getMainWindow().getMainControl().addMultipleDockableFactory("BasicEditorFactory",
-				fileEditorFactory);
+    @SuppressWarnings("unchecked")
+    public void fillEditors() {
 
-		PropertyContext context = PropertyStore.getContext(PROPERTY_CONTEXT);
-		IProperty<ConfigMapImpl> prop = context.getProperty(EDITOR_ID_FILE_EXTENSION_PROPERTY, new ConfigMapImpl());
-		editorFileExtMap = prop.getValue();
+        fileEditorFactory = new BasicEditorFactory();
+        PlatformUtil.getWindowManager().getMainWindow().getMainControl().addMultipleDockableFactory("BasicEditorFactory",
+                fileEditorFactory);
 
-		IProperty<ConfigMapImpl> prop2 = context.getProperty(OPEN_FILES_EDITOR_MAP_PROPERTY, new ConfigMapImpl());
-		openFilesEditorIdMap = prop2.getValue();
+        PropertyContext context = PropertyStore.getContext(PROPERTY_CONTEXT);
+        IProperty<ConfigMapImpl> prop = context.getProperty(EDITOR_ID_FILE_EXTENSION_PROPERTY, new ConfigMapImpl());
+        editorFileExtMap = prop.getValue();
 
-	}
+        IProperty<ConfigMapImpl> prop2 = context.getProperty(OPEN_FILES_EDITOR_MAP_PROPERTY, new ConfigMapImpl());
+        openFilesEditorIdMap = prop2.getValue();
 
-	public AbstractEditor getActiveEditor() {
-		return activeEditor;
-	}
+    }
 
-	public void setActiveEditor(AbstractEditor editor) {
+    public AbstractEditor getActiveEditor() {
+        return activeEditor;
+    }
 
-		if (activeEditor == editor) {
-			return;
-		}
+    public void setActiveEditor(AbstractEditor editor) {
 
-		activeEditor = editor;
-		EventManager.UI.post(new ActiveEditorChangedEvent(editor));
-		log.trace("Active editor changed [" + editor + "]");
-		activeEditorSubject.onNext(Optional.ofNullable(activeEditor));
-	}
-	
-	public Disposable subscribeActiveEditor(Consumer<Optional<AbstractEditor>> c) {
-		return activeEditorSubject.subscribe(c);
-	}
+        if (activeEditor == editor) {
+            return;
+        }
 
-	public void setTypeForFile(String editorID, String ext) {
-		editorFileExtMap.put(ext, editorID);
-	}
+        activeEditor = editor;
+        EventManager.UI.post(new ActiveEditorChangedEvent(editor));
+        log.trace("Active editor changed [" + editor + "]");
+        activeEditorSubject.onNext(Optional.ofNullable(activeEditor));
+    }
 
-	public class BasicEditorFactory implements MultipleCDockableFactory<AbstractEditor, BasicEditorLayout> {
+    public Disposable subscribeActiveEditor(Consumer<Optional<AbstractEditor>> c) {
+        return activeEditorSubject.subscribe(c);
+    }
 
-		private Logger log = ULog.getLogger(BasicEditorFactory.class);
+    public void setTypeForFile(String editorID, String ext) {
+        editorFileExtMap.put(ext, editorID);
+    }
 
-		@Override
-		public BasicEditorLayout write(AbstractEditor dockable) {
-			return new BasicEditorLayout(dockable.getPath());
-		}
+    public class BasicEditorFactory implements MultipleCDockableFactory<AbstractEditor, BasicEditorLayout> {
 
-		/**
-		 * This method is only used when restoring the application state
-		 */
-		@Override
-		public AbstractEditor read(BasicEditorLayout layout) {
+        private Logger log = ULog.getLogger(BasicEditorFactory.class);
 
-			File file = layout.getPath().toFile();
-			String filename = file.getName();
+        @Override
+        public BasicEditorLayout write(AbstractEditor dockable) {
+            return new BasicEditorLayout(dockable.getPath());
+        }
 
-			Editor editor = PlatformUtil.getEditorManager().getEditor(file);
+        /**
+         * This method is only used when restoring the application state
+         */
+        @Override
+        public AbstractEditor read(BasicEditorLayout layout) {
 
-			if (editor == null) {
-				log.trace("No editor found for file [" + filename + "]");
-				return null;
-			}
+            File file = layout.getPath().toFile();
+            String filename = file.getName();
 
-			Class<? extends AbstractEditor> editorClass = editor.getEditorClass();
+            Editor editor = PlatformUtil.getEditorManager().getEditor(file);
 
-			if (editorClass == null) {
-				log.trace("No editor found for file [" + filename + "]");
-				return null;
-			}
-			Constructor<? extends AbstractEditor> constructor;
-			AbstractEditor result = null;
+            if (editor == null) {
+                log.trace("No editor found for file [" + filename + "]");
+                return null;
+            }
 
-			try {
+            Class<? extends AbstractEditor> editorClass = editor.getEditorClass();
 
-				constructor = editorClass.getConstructor(MultipleCDockableFactory.class);
-				result = constructor.newInstance(this);
-				result.setPath(layout.getPath());
-				result.setID(editor.getId());
+            if (editorClass == null) {
+                log.trace("No editor found for file [" + filename + "]");
+                return null;
+            }
+            Constructor<? extends AbstractEditor> constructor;
+            AbstractEditor result = null;
 
-				ImageIcon icon = editor.getIcon();
+            try {
 
-				if (icon != null) {
-					result.setTitleIcon(icon);
-				}
+                constructor = editorClass.getConstructor(MultipleCDockableFactory.class);
+                result = constructor.newInstance(this);
+                result.setPath(layout.getPath());
+                result.setID(editor.getId());
 
-				openEditors.put(file.getAbsolutePath(), result);
-				openFilesEditorIdMap.put(file.getAbsolutePath(), editor.getId());
+                ImageIcon icon = editor.getIcon();
 
-				result.init(result.getParentPanel());
+                if (icon != null) {
+                    result.setTitleIcon(icon);
+                }
 
-				PlatformUtil.getKeyBindingManager().registerEditorKeyBindings(result);
+                openEditors.put(file.getAbsolutePath(), result);
+                openFilesEditorIdMap.put(file.getAbsolutePath(), editor.getId());
 
-			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
-					| IllegalArgumentException | InvocationTargetException e) {
+                result.init(result.getParentPanel());
 
-				e.printStackTrace();
-			}
+                PlatformUtil.getKeyBindingManager().registerEditorKeyBindings(result);
 
-			return result;
-		}
+            } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
+                     | IllegalArgumentException | InvocationTargetException e) {
 
-		/**
-		 * This method is used when an editor should be opened manually
-		 * 
-		 * @param layout
-		 * @return
-		 */
-		public AbstractEditor readManually(BasicEditorLayout layout) {
+                e.printStackTrace();
+            }
 
-			File file = layout.getPath().toFile();
-			String filename = file.getName();
+            return result;
+        }
 
-			AbstractEditor editorInstance = openEditors.get(file.getAbsolutePath());
+        /**
+         * This method is used when an editor should be opened manually
+         *
+         * @param layout
+         * @return
+         */
+        public AbstractEditor readManually(BasicEditorLayout layout) {
 
-			if (editorInstance != null) {
-				return editorInstance;
-			}
+            File file = layout.getPath().toFile();
+            String filename = file.getName();
 
-			Editor editor = PlatformUtil.getEditorManager().getEditor(file);
+            AbstractEditor editorInstance = openEditors.get(file.getAbsolutePath());
 
-			if (editor == null) {
-				log.trace("No editor found for file [" + filename + "]");
-				return null;
-			}
+            if (editorInstance != null) {
+                return editorInstance;
+            }
 
-			Class<? extends AbstractEditor> editorClass = editor.getEditorClass();
+            Editor editor = PlatformUtil.getEditorManager().getEditor(file);
 
-			if (editorClass == null) {
-				log.trace("No editor class found for editor [" + editor.getId() + "]");
-				return null;
-			}
-			Constructor<? extends AbstractEditor> constructor;
-			AbstractEditor result = null;
+            if (editor == null) {
+                log.trace("No editor found for file [" + filename + "]");
+                return null;
+            }
 
-			try {
+            Class<? extends AbstractEditor> editorClass = editor.getEditorClass();
 
-				constructor = editorClass.getConstructor(MultipleCDockableFactory.class);
-				result = constructor.newInstance(this);
-				result.setPath(layout.getPath());
-				result.setID(editor.getId());
+            if (editorClass == null) {
+                log.trace("No editor class found for editor [" + editor.getId() + "]");
+                return null;
+            }
+            Constructor<? extends AbstractEditor> constructor;
+            AbstractEditor result = null;
 
-				ImageIcon icon = editor.getIcon();
-				if (icon != null) {
-					result.setTitleIcon(icon);
-				}
+            try {
 
-				openEditors.put(file.getAbsolutePath(), result);
-				openFilesEditorIdMap.put(file.getAbsolutePath(), editor.getId());
+                constructor = editorClass.getConstructor(MultipleCDockableFactory.class);
+                result = constructor.newInstance(this);
+                result.setPath(layout.getPath());
+                result.setID(editor.getId());
 
-				result.init(result.getParentPanel());
+                ImageIcon icon = editor.getIcon();
+                if (icon != null) {
+                    result.setTitleIcon(icon);
+                }
 
-				PlatformUtil.getKeyBindingManager().registerEditorKeyBindings(result);
+                openEditors.put(file.getAbsolutePath(), result);
+                openFilesEditorIdMap.put(file.getAbsolutePath(), editor.getId());
 
-			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
-					| IllegalArgumentException | InvocationTargetException e) {
+                result.init(result.getParentPanel());
 
-				e.printStackTrace();
-			}
+                PlatformUtil.getKeyBindingManager().registerEditorKeyBindings(result);
 
-			return result;
-		}
+            } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
+                     | IllegalArgumentException | InvocationTargetException e) {
 
-		@Override
-		public boolean match(AbstractEditor dockable, BasicEditorLayout layout) {
-			return dockable.getPath().equals(layout.getPath());
-		}
+                e.printStackTrace();
+            }
 
-		@Override
-		public BasicEditorLayout create() {
-			return new BasicEditorLayout(null);
-		}
+            return result;
+        }
 
-	}
+        @Override
+        public boolean match(AbstractEditor dockable, BasicEditorLayout layout) {
+            return dockable.getPath().equals(layout.getPath());
+        }
 
-	public void removeEditor(AbstractEditor editorInstance) {
+        @Override
+        public BasicEditorLayout create() {
+            return new BasicEditorLayout(null);
+        }
 
-		File file = editorInstance.getPath().toFile();
+    }
 
-		openEditors.remove(file.getAbsolutePath());
-		openFilesEditorIdMap.remove(file.getAbsolutePath());
+    public void removeEditor(AbstractEditor editorInstance) {
 
-	}
+        File file = editorInstance.getPath().toFile();
 
-	public boolean shutdown() {
+        openEditors.remove(file.getAbsolutePath());
+        openFilesEditorIdMap.remove(file.getAbsolutePath());
 
-		for (AbstractEditor editor : openEditors.values()) {
-			if (editor.shutdown() == false) {
-				return false;
-			}
-		}
-		return true;
-	}
+    }
 
-	public boolean isSomeEditorDirty() {
+    public boolean shutdown() {
 
-		for (AbstractEditor editor : openEditors.values()) {
-			if (editor.isDirty() == true) {
-				return true;
-			}
-		}
+        for (AbstractEditor editor : openEditors.values()) {
+            if (editor.shutdown() == false) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-		return false;
-	}
-	
-	public Editor getEditorData(String editorID) {	
-		return eEP.getEditors().get(editorID);		
-	}
+    public boolean isSomeEditorDirty() {
 
-	public Collection<AbstractEditor> getOpenEditors() {
-		return Collections.unmodifiableCollection(openEditors.values());
-	}
+        for (AbstractEditor editor : openEditors.values()) {
+            if (editor.isDirty() == true) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public Editor getEditorData(String editorID) {
+        return eEP.getEditors().get(editorID);
+    }
+
+    public Collection<AbstractEditor> getOpenEditors() {
+        return Collections.unmodifiableCollection(openEditors.values());
+    }
 
 }

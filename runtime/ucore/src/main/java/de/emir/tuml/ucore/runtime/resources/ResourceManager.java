@@ -44,7 +44,7 @@ public final class ResourceManager {
 
     private static final Logger LOG = LogManager.getLogger(ResourceManager.class, null);
 
-    private static Map<CacheKey, Object> cache = new ConcurrentHashMap<>();
+    private static final Map<CacheKey, Object> cache = new ConcurrentHashMap<>();
 
     /**
      * Name of the current application. This name is (by default) used to determine the home path within the user
@@ -93,7 +93,7 @@ public final class ResourceManager {
      *            program arguments as in public static void main(String[] args)
      * @param prefix
      *            prefix after which the path shall be expected
-     * @return true if the prefix could be found and the home directy could be set, false otherwise
+     * @return true if the prefix could be found and the home directly could be set, false otherwise
      */
     public boolean parseHomePath(String[] args, String prefix) {
         if (args == null || args.length < 2 || prefix == null || prefix.isEmpty())
@@ -196,8 +196,8 @@ public final class ResourceManager {
         try {
             f = new File(url.toURI());
         } catch (Exception e) {
-            ULog.error("Failed to resolve file with Error: " + e.getMessage() + " for path: " + url);
-            e.printStackTrace();
+            ULog.error("Failed to resolve file with Error: {} for path: {}", e.getMessage(), url);
+            ULog.error(e);
         }
         if (f != null && f.exists())
             return f;
@@ -218,14 +218,14 @@ public final class ResourceManager {
             try {
                 return f.toPath().toUri().toURL();
             } catch (MalformedURLException e1) {
-                e1.printStackTrace();
+                ULog.error(e1);
             }
         Path p = getHomePath().resolve(resourceName);
         if (Files.exists(p))
             try {
                 return p.toFile().toURI().toURL();
             } catch (MalformedURLException e) {
-                e.printStackTrace();
+                ULog.error(e);
             }
         URL url = loaderClass.getClassLoader().getResource(resourceName);
         if (url != null)
@@ -442,19 +442,19 @@ public final class ResourceManager {
     }
 
     /**
-     * Collect Resources that match the filter predicate in the all available classpathes
+     * Collect Resources that match the filter predicate in the all available classpaths
      * 
      * @warn This method search all registered ClassPathProvider, this may take some time
      * @param filter
      * @return collection of Resource URLs, that did match the filter or an empty list
      */
     public static Collection<URL> collectResourcesInAllClasspaths(Predicate<URL> filter) {
-        Collection<ClassPathProvider> classpathes = UCoreExtensionManager.getExtensions(ClassPathProvider.class);
-        return collectResourcesInClassPaths(filter, classpathes);
+        Collection<ClassPathProvider> classpaths = UCoreExtensionManager.getExtensions(ClassPathProvider.class);
+        return collectResourcesInClassPaths(filter, classpaths);
     }
 
     /**
-     * Collect Resources that match the filter predicate in the all available classpathes
+     * Collect Resources that match the filter predicate in the all available classpaths
      * 
      * @warn This method search all registered ClassPathProvider, this may take some time
      * @param regEx
@@ -462,43 +462,40 @@ public final class ResourceManager {
      * @return collection of Resource URLs, that did match the filter or an empty list
      */
     public static Collection<URL> collectResourcesInAllClasspaths(String regEx) {
-        Collection<ClassPathProvider> classpathes = UCoreExtensionManager.getExtensions(ClassPathProvider.class);
-        return collectResourcesInClassPaths(regEx, classpathes);
+        Collection<ClassPathProvider> classpaths = UCoreExtensionManager.getExtensions(ClassPathProvider.class);
+        return collectResourcesInClassPaths(regEx, classpaths);
     }
 
     /**
-     * Collect Resources that match the filter predicate in all provided classpathes
+     * Collect Resources that match the filter predicate in all provided classpaths
      * 
      * @param regEx
      *            Regular Expression for the name of the URL that shall be accepted
-     * @param classpathes
-     *            classpathes to be searched in
+     * @param classpaths
+     *            classpaths to be searched in
      * @return collection of Resource URLs, that did match the filter or an empty list
      */
-    public static Collection<URL> collectResourcesInClassPaths(String regEx,
-            Collection<ClassPathProvider> classpathes) {
+    public static Collection<URL> collectResourcesInClassPaths(String regEx, Collection<ClassPathProvider> classpaths) {
         final Pattern pattern = Pattern.compile(regEx);
-        return collectResourcesInClassPaths(new Predicate<URL>() {
-            @Override
-            public boolean apply(URL input) {
-                return pattern.matcher(input.toString()).matches();
-            }
-        }, classpathes);
+        return collectResourcesInClassPaths(
+                input -> pattern.matcher(input.toString()).matches(),
+                classpaths
+        );
     }
 
     /**
-     * Collect Resources that match the filter predicate in all provided classpathes
+     * Collect Resources that match the filter predicate in all provided classpaths
      * 
      * @param filter
      *            filter to select accepted URLs
-     * @param classpathes
-     *            classpathes to be searched in
+     * @param classpaths
+     *            classpaths to be searched in
      * @return collection of Resource URLs, that did match the filter or an empty list
      */
     public static Collection<URL> collectResourcesInClassPaths(Predicate<URL> filter,
-            Collection<ClassPathProvider> classpathes) {
+            Collection<ClassPathProvider> classpaths) {
         ArrayList<URL> out = new ArrayList<>();
-        for (ClassPathProvider cpp : classpathes) {
+        for (ClassPathProvider cpp : classpaths) {
             ClassPath cp = cpp.getClassPath();
             if (cp != null) {
                 for (ResourceInfo ri : cp.getResources()) {

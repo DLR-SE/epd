@@ -26,8 +26,11 @@ import de.emir.rcp.parts.vesseleditor.utils.View;
 import de.emir.rcp.parts.vesseleditor.view.geometry.GeometryPanel;
 import de.emir.rcp.parts.vesseleditor.view.helper.DragProperties;
 import de.emir.rcp.parts.vesseleditor.view.helper.DragWrapper;
+import de.emir.tuml.ucore.runtime.IDisposable;
 import de.emir.tuml.ucore.runtime.UObject;
 import de.emir.tuml.ucore.runtime.extension.ExtensionPointManager;
+import de.emir.tuml.ucore.runtime.logging.ULog;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -47,22 +50,48 @@ import java.util.List;
 import java.util.Map;
 
 public class VesselEditorPanel extends GeometryPanel {
-    private double EQUIPMENT_SIZE = 32; //EDIT_POINT_SIZE * 2;
+    private static final double EQUIPMENT_SIZE = 32; //EDIT_POINT_SIZE * 2;
     private ActionListener equipmentListener;
 
-    private Map<String, Coordinate> featureMap;
+    private final Map<String, Coordinate> featureMap;
+
+    private final List<Disposable> registeredConsumer = new ArrayList<>();
+    private final List<IDisposable> registeredTreeListeners = new ArrayList<>();
 
     public VesselEditorPanel(Geometry geometry, View view) {
         super(geometry, view);
         featureMap = new HashMap<>();
     }
 
+    /**
+     * Informs use that this panel got added to something. Thus, we can register listeners
+     * which get removed when this panel is removed (removeNotify).
+     */
     @Override
-    protected void initListeners() {
-        super.initListeners();
-
+    public void addNotify() {
         EquipmentHandler dragHandler = new EquipmentHandler();
         addMouseListener(dragHandler);
+
+        super.addNotify();
+    }
+
+    /**
+     * Unregister listeners when a panel got removed
+     */
+    @Override
+    public void removeNotify() {
+        for (Disposable disposable : registeredConsumer){
+            disposable.dispose();
+        }
+
+        for (IDisposable disposable : registeredTreeListeners){
+            disposable.dispose();
+        }
+
+        registeredTreeListeners.clear();
+        registeredConsumer.clear();
+
+        super.removeNotify();
     }
 
     /**
@@ -103,8 +132,7 @@ public class VesselEditorPanel extends GeometryPanel {
                 Vessel vessel = (Vessel) uContainer;
                 VesselSafetyCharacteristic vsc = vessel.getFirstCharacteristic(VesselSafetyCharacteristic.class, true);
                 if (vsc == null) {
-                    vsc = new VesselSafetyCharacteristicImpl();
-                    vessel.getCharacteristics().add(vsc);
+                    return;
                 }
 
                 Length ukc = (vsc.getUnderKeelClearance() != null) ? vsc.getUnderKeelClearance() : new LengthImpl();
@@ -158,8 +186,7 @@ public class VesselEditorPanel extends GeometryPanel {
                 Vessel vessel = (Vessel) uContainer;
                 VesselSafetyCharacteristic vsc = vessel.getFirstCharacteristic(VesselSafetyCharacteristic.class, true);
                 if (vsc == null) {
-                    vsc = new VesselSafetyCharacteristicImpl();
-                    vessel.getCharacteristics().add(vsc);
+                    return;
                 }
 
                 Length ps = (vsc.getPersonalSpace() != null) ? vsc.getPersonalSpace() : new LengthImpl();
@@ -204,8 +231,7 @@ public class VesselEditorPanel extends GeometryPanel {
                 VesselDimensionCharacteristic vdc = vessel.getFirstCharacteristic(VesselDimensionCharacteristic.class, true);
 
                 if (vdc == null) {
-                    vdc = new VesselDimensionCharacteristicImpl();
-                    vessel.getCharacteristics().add(vdc);
+                    return;
                 }
                 WatercraftHull hull = (vdc.getHull() != null) ? vdc.getHull() : new WatercraftHullImpl();
 
@@ -271,7 +297,7 @@ public class VesselEditorPanel extends GeometryPanel {
                 try {
                     image = ImageIO.read(url);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    ULog.error(e);
                 }
 
                 image = PaintUtil.rotateImag(image, 180);
@@ -303,7 +329,8 @@ public class VesselEditorPanel extends GeometryPanel {
         Coordinate waterLine = featureMap.get("waterLine");
         if (waterLine == null) {
             waterLine = new CoordinateImpl(0, 0, 0, new WGS842DImpl());
-            waterLine.registerTreeListener(e -> refresh());
+            IDisposable disposable = waterLine.registerTreeListener(e -> refresh());
+            registeredTreeListeners.add(disposable);
             featureMap.put("waterLine", waterLine);
         }
 

@@ -1,0 +1,6 @@
+<project>
+	<name>EPD</name>
+	<description>eMaritime Prototype Display</description>
+	<version>1.0.0</version>
+	<localRepos>${PRODUCT_FOLDER}</localRepos>
+</project>

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.emir.tuml.ucore.runtime.logging.ULog;
 import de.emir.tuml.ucore.runtime.prop.AbstractProperty;
+
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,49 +18,49 @@ import de.emir.tuml.ucore.runtime.utils.QualifiedName;
 import de.emir.tuml.ucore.runtime.utils.impl.QualifiedNameImpl;
 
 public class PropertyContext {
-	private Map<String, IProperty<?>> properties = new HashMap<>();
+    private Map<String, IProperty<?>> properties = new HashMap<>();
 
-	private ArrayList<PropertyChangeListener> 		mListener = new ArrayList<>();
+    private ArrayList<PropertyChangeListener> mListener = new ArrayList<>();
 
-	public <T> IProperty<T> getProperty(String name) {
-		return getProperty(name, null);
-	}
-	
-	public <T> IProperty<T> getProperty(String name, T defaultValue) {
-		return getProperty(name, "", defaultValue);
-	}
-	
-	public <T> IProperty<T> getProperty(String name, String description, T defaultValue) {
-		return getProperty(name, description, true, defaultValue);		
-	}
-	
-	
-	@SuppressWarnings("unchecked")
-	public <T> IProperty<T> getProperty(String name, String description, boolean editable, T defaultValue) {
-		
-		IProperty<T> property = (IProperty<T>) properties.get(name);
-		
-		if(property == null) {
+    public <T> IProperty<T> getProperty(String name) {
+        return getProperty(name, null);
+    }
+
+    public <T> IProperty<T> getProperty(String name, T defaultValue) {
+        return getProperty(name, "", defaultValue);
+    }
+
+    public <T> IProperty<T> getProperty(String name, String description, T defaultValue) {
+        return getProperty(name, description, true, defaultValue);
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public <T> IProperty<T> getProperty(String name, String description, boolean editable, T defaultValue) {
+
+        IProperty<T> property = (IProperty<T>) properties.get(name);
+
+        if (property == null) {
             /* Old method, no subproperties for qualified names:
 //          property = new GenericProperty<T>(name, description, editable, null);
 //			property.setValue(defaultValue);
             */
-            
+
             property = _getOrCreateProperty(QualifiedNameImpl.createWithRegEx(name, "\\."), description, editable, true);
             if (property.getValue() == null) {
                 property.setValue(defaultValue);
             }
-			properties.put(name, property);
-			if (mListener != null)
-				for (PropertyChangeListener pcl : mListener) {
-					property.addPropertyChangeListener(pcl);
-				}
-		}
-		
-		return property;
-		
-	}
-    
+            properties.put(name, property);
+            if (mListener != null)
+                for (PropertyChangeListener pcl : mListener) {
+                    property.addPropertyChangeListener(pcl);
+                }
+        }
+
+        return property;
+
+    }
+
     private IProperty _getOrCreateProperty(QualifiedName qn, String desc, boolean editable, boolean create) {
         // returns one of the top level properties for this element, based on the qualified name. if the property does
         // not yet exits, it will be created
@@ -87,7 +88,7 @@ public class PropertyContext {
     }
 
     private IProperty _getOrCreateProperty(IProperty parent, QualifiedName qn, String desc, boolean editable,
-            boolean create) {
+                                           boolean create) {
         // returns or creates a sub property of the parent property
         if (qn == null || qn.isEmpty())
             throw new UnsupportedOperationException("require a valid property name");
@@ -115,66 +116,68 @@ public class PropertyContext {
         if (qn.numSegments() == 1)
             return prop;
         return _getOrCreateProperty(prop, qn.removeSegmentsFromStart(1), desc, editable, create);// recursive call but
-                                                                                                 // with shorter
-                                                                                                 // qualified name
+        // with shorter
+        // qualified name
     }
-	
-	@SuppressWarnings("unchecked")
-	public <T> T getValue(String name, T defaultValue) {
-		
-		IProperty property = getProperty(name, defaultValue);
-		return property.getValue() == null ? defaultValue : (T) property.getValue();
-	}
-	
-	public boolean hasProperty(String name) {
-		return properties.get(name) != null;
-	}
-	
-	@SuppressWarnings("unchecked")
+
+    @SuppressWarnings("unchecked")
+    public <T> T getValue(String name, T defaultValue) {
+
+        IProperty property = getProperty(name, defaultValue);
+        return property.getValue() == null ? defaultValue : (T) property.getValue();
+    }
+
+    public boolean hasProperty(String name) {
+        return properties.get(name) != null;
+    }
+
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-	public <T> T getValue(String name) {
-		return (T)getProperty(name, null).getValue();
-	}
+    public <T> T getValue(String name) {
+        return (T) getProperty(name, null).getValue();
+    }
 
     @JsonIgnore
-	public void setValue(String name, Object value) {
-		getProperty(name, null).setValue(value);
-	}
+    public void setValue(String name, Object value) {
+        getProperty(name, null).setValue(value);
+    }
 
-    @JsonIgnore     
-	public Collection<IProperty> getAllProperties() {
-		return Collections.unmodifiableCollection(properties.values());
-	}
-	
+    @JsonIgnore
+    public Collection<IProperty> getAllProperties() {
+        return Collections.unmodifiableCollection(properties.values());
+    }
 
-	/**
-	 * register a listener that will be delegated to all existing and future properties within this context
-	 * @param listener
-	 */
-	public void registerListener(PropertyChangeListener listener) {
-		if (listener == null) return ;
-		if (mListener.contains(listener))
-			return ;
-		for (IProperty p : properties.values()){
-			p.addPropertyChangeListener(listener);
-		}
-		mListener.add(listener);
-	}
-	
-	/** 
-	 * remove a listener from all properties within this context
-	 * @param listener
-	 */
-	public void removeListener(PropertyChangeListener listener) {
-		if (listener == null) return ;
-		mListener.remove(listener);
-		for (IProperty p : properties.values())
-			p.removePropertyChangeListener(listener);
-	}
-    
+
+    /**
+     * register a listener that will be delegated to all existing and future properties within this context
+     *
+     * @param listener
+     */
+    public void registerListener(PropertyChangeListener listener) {
+        if (listener == null) return;
+        if (mListener.contains(listener))
+            return;
+        for (IProperty p : properties.values()) {
+            p.addPropertyChangeListener(listener);
+        }
+        mListener.add(listener);
+    }
+
+    /**
+     * remove a listener from all properties within this context
+     *
+     * @param listener
+     */
+    public void removeListener(PropertyChangeListener listener) {
+        if (listener == null) return;
+        mListener.remove(listener);
+        for (IProperty p : properties.values())
+            p.removePropertyChangeListener(listener);
+    }
+
     /**
      * Add a complete property to the context uncluding possible subproperties.
-     * 
+     *
      * @param property the property to add
      */
     public void addProperty(IProperty property) {

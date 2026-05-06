@@ -1,6 +1,5 @@
 package de.emir.tuml.ucore.runtime.impl;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 import java.util.List;
 
@@ -10,7 +9,6 @@ import de.emir.tuml.ucore.runtime.UAnnotation;
 import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.UPackage;
 import de.emir.tuml.ucore.runtime.UPrimitiveType;
-import de.emir.tuml.ucore.runtime.impl.UTypeImpl;
 import de.emir.tuml.ucore.runtime.UType;
 import de.emir.tuml.ucore.runtime.annotations.UMLImplementation;
 import de.emir.tuml.ucore.runtime.utils.TypeUtils;
@@ -122,22 +120,22 @@ public class UPrimitiveTypeImpl extends UTypeImpl implements UPrimitiveType {
     public Object getDefaultValue() {
         if (mClazz == String.class)
             return "";
-        if (mClazz == int.class || mClazz == Integer.class)
-            return Integer.valueOf(0);
-        if (mClazz == double.class || mClazz == Double.class)
-            return Double.valueOf(0);
-        if (mClazz == boolean.class || mClazz == Boolean.class)
-            return Boolean.valueOf(false);
-        if (mClazz == float.class || mClazz == Float.class)
-            return Float.valueOf(0);
-        if (mClazz == byte.class || mClazz == Byte.class)
-            return Byte.valueOf((byte) 0);
-        if (mClazz == short.class || mClazz == Short.class)
-            return Short.valueOf((short) 0);
-        if (mClazz == long.class || mClazz == Long.class)
-            return Long.valueOf(0);
-        if (mClazz == char.class || mClazz == Character.class)
-            return Character.valueOf(' ');
+        else if (mClazz == int.class || mClazz == Integer.class)
+            return 0;
+        else if (mClazz == double.class || mClazz == Double.class)
+            return 0.0;
+        else if (mClazz == boolean.class || mClazz == Boolean.class)
+            return false;
+        else if (mClazz == float.class || mClazz == Float.class)
+            return 0.0f;
+        else if (mClazz == byte.class || mClazz == Byte.class)
+            return (byte) 0;
+        else if (mClazz == short.class || mClazz == Short.class)
+            return (short) 0;
+        else if (mClazz == long.class || mClazz == Long.class)
+            return 0L;
+        else if (mClazz == char.class || mClazz == Character.class)
+            return ' ';
         return null;
     }
 }

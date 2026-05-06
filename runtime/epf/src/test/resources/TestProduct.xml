@@ -1,0 +1,31 @@
+<project>
+
+	<!-- This is NOT a MAVEN file it just uses a similar syntax -->
+
+	<name>EPD</name>
+	<description>eMaritime Prototype Display</description>
+	<version>1.0.0</version>
+	<localRepos>/home/user/product/repository</localRepos>
+
+	<workspaces>
+		<workspace>/home/user/code/pom.xml</workspace>
+	</workspaces>
+
+	<dependencies>
+		<dependency>
+			<groupId>de.dlr-se.emir.epd</groupId>
+			<artifactId>MapView</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>MavenCentral</id>
+			<url>https://repo1.maven.org/maven2/</url>
+			<username></username>
+			<passwort></passwort>
+		</repository>
+	</repositories>
+
+</project>

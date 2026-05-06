@@ -11,15 +11,11 @@ import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import bibliothek.gui.dock.common.MultipleCDockable;
-import bibliothek.gui.dock.common.MultipleCDockableFactory;
 import de.emir.rcp.manager.util.InstanceManager;
 import de.emir.rcp.views.AbstractViewFactory;
 import de.emir.rcp.views.ep.*;
 import org.apache.logging.log4j.Logger;
 
-import bibliothek.gui.dock.common.SingleCDockable;
-import bibliothek.gui.dock.common.SingleCDockableFactory;
 import bibliothek.gui.dock.common.event.CDockableStateListener;
 import bibliothek.gui.dock.common.intern.CDockable;
 import bibliothek.gui.dock.common.mode.ExtendedMode;
@@ -37,13 +33,20 @@ public class ViewManager implements IService {
 
     private final ViewExtensionPoint viewEP = new ViewExtensionPoint();
 
+    /**
+     * Contains a unique ID for each AbstractView and the view itself. This map is only filled with currently visible
+     * views. Since there could be multiple instances of a view (e.g., with the tab layout functionality), unique IDs
+     * might be suffixed (currently _InstanceX).
+     */
     private final Map<String, AbstractView> visibleViews = new ConcurrentHashMap<>();
 
-    // This flag should be set to true if loading the layout from XML is finished. As long as it is set to false,
-    // making the views visible when using the createView method is not possible. This is to prevent the ViewManager
-    // and CControl from both registering dockables to the Control which is not allowed. Only after loading of the
-    // layout is complete, newly added views can be added to CControl. This is done by the MainWindow by calling
-    // makeViewsVisible and setLoadComplete.
+    /**
+     *  This flag should be set to true if loading the layout from XML is finished. As long as it is set to false,
+     *  making the views visible when using the createView method is not possible. This is to prevent the ViewManager
+     *  and CControl from both registering dockables to the Control which is not allowed. Only after loading of the
+     *  layout is complete, newly added views can be added to CControl. This is done by the MainWindow by calling
+     *  makeViewsVisible and setLoadComplete.
+     */
     private boolean loadComplete;
     private final InstanceManager instanceManager = new InstanceManager();
 
@@ -70,7 +73,11 @@ public class ViewManager implements IService {
      * loading the layout from XML since all AbstractViews use this factory.
      */
     public void fillViews() {
-        PlatformUtil.getWindowManager().getMainWindow().getMainControl().addMultipleDockableFactory("AbstractViewFactory", new AbstractViewFactory());
+        PlatformUtil
+                .getWindowManager()
+                .getMainWindow()
+                .getMainControl()
+                .addMultipleDockableFactory("AbstractViewFactory", new AbstractViewFactory());
     }
 
     /**
@@ -79,11 +86,25 @@ public class ViewManager implements IService {
      * @param epView ViewDescriptor to load view information from.
      * @return Created instance of the view.
      * @implNote If the view is not reopenable, the ID of the ViewDescriptor is assigned to the view. If the view is reopenable,
-     * * each view is assigned the ViewDescriptor ID + _InstanceX with X being an incremental value. For example,
-     * * when registering a view AISView which is reopenable, the view instances are named AISView_Instance1, AISView_Instance2 etc.
+     * each view is assigned the ViewDescriptor ID + _InstanceX with X being an incremental value. For example,
+     * when registering a view AISView which is reopenable, the view instances are named AISView_Instance1, AISView_Instance2 etc.
      */
     public AbstractView createView(ViewDescriptor epView) {
         return createView(epView, "");
+    }
+
+    /**
+     * Creates a new instance of a view based on the ViewDescriptor and assigns a unique id to the view.
+     *
+     * @param epView ViewDescriptor to load view information from.
+     * @param uniqueID ID the view should be assigned to.
+     * @return Created instance of the view.
+     * @implNote If the view is not reopenable, the ID of the ViewDescriptor is assigned to the view. If the view is reopenable,
+     * each view is assigned the ViewDescriptor ID + _InstanceX with X being an incremental value. For example,
+     * when registering a view AISView which is reopenable, the view instances are named AISView_Instance1, AISView_Instance2 etc.
+     */
+    public AbstractView createView(ViewDescriptor epView, String uniqueID) {
+        return createView(epView, uniqueID, UUID.randomUUID().toString());
     }
 
     /**
@@ -98,29 +119,43 @@ public class ViewManager implements IService {
      * each view is assigned the ViewDescriptor ID + _InstanceX with X being an incremental value. For example,
      * when registering a view AISView which is reopenable, the view instances are named AISView_Instance1, AISView_Instance2 etc.
      */
-    public AbstractView createView(ViewDescriptor epView, String uniqueID) {
+    public AbstractView createView(ViewDescriptor epView, String uniqueID, String globalID) {
         Class<? extends AbstractView> viewClass = epView.getViewClass();
         String viewId = epView.getId();
         AbstractView view = null;
         String instanceId = null;
 
         try {
-            Constructor<? extends AbstractView> constructor = viewClass.getConstructor(String.class);
+            Constructor<? extends AbstractView> constructor;
+            try {
+                constructor = viewClass.getConstructor(String.class);
+            } catch (NoSuchMethodException e) {
+                constructor = viewClass.getConstructor();
+            }
             if (epView.isReopenable()) {
+                // The globalID is assigned after creation. This is in order to keep compatibility with previous versions
+                // since old views do not have a constructor which enables passing of the globalID.
                 if (uniqueID.isEmpty()) {
                     view = constructor.newInstance(instanceManager.create(epView.getId()));
+                    view.setGlobalID(globalID);
                 } else {
                     instanceManager.loadExistingName(uniqueID);
                     view = constructor.newInstance(uniqueID);
+                    view.setGlobalID(globalID);
                 }
                 String[] parts = view.getUniqueId().split("_Instance");
-        		if (parts.length == 2) {
-        			instanceId = parts[1];
-        		}
+                if (parts.length == 2) {
+                    instanceId = parts[1];
+                }
             } else {
-                view = constructor.newInstance(viewId);
+                if(constructor.getParameterCount() == 1) {
+                    view = constructor.newInstance(viewId);
+                } else {
+                    view = constructor.newInstance();
+                }
             }
         } catch (NoSuchMethodException | SecurityException e) {
+            log.warn("Getting constructor for view {} failed. Trying again with deprecated class loading.", epView.getId());
             try {
                 view = viewClass.newInstance();
             } catch (InstantiationException | IllegalAccessException e1) {
@@ -134,17 +169,16 @@ public class ViewManager implements IService {
 
         if (view != null) {
             log.debug("Created view with id [{}]", viewId);
-
+            view.setGlobalID(globalID);view.setGlobalID(globalID);
             view.setExternalizable(epView.isExternalizable());
             view.setMinimizable(epView.isMinimizable());
             view.setMaximizable(epView.isMaximizable());
             view.setCloseable(epView.isCloseable());
-    		if (instanceId != null) {
-   				view.setTitleText(epView.getLabel() + "[" + instanceId + "]");
-    		}
-    		else {
-    			view.setTitleText(epView.getLabel());
-    		}
+            if (instanceId != null) {
+                view.setTitleText(epView.getLabel() + "[" + instanceId + "]");
+            } else {
+                view.setTitleText(epView.getLabel());
+            }
 
             ImageIcon icon = epView.getIcon();
             if (icon != null) {
@@ -169,7 +203,7 @@ public class ViewManager implements IService {
     /**
      * Sets the load complete flag. If set to true, views created using the createView method will automatically be
      * registered to the Dockable management and set to be visible. During initialization before loading the XML layout,
-     * this flag is set to false to prevent multiple calls to addDockable on the main CControl which causes exceptions.
+     * this flag is set to "false" to prevent multiple calls to addDockable on the main CControl which causes exceptions.
      * After finish loading the layout, this flag needs to be set to true.
      *
      * @param complete True if views should be made visible during creation.
@@ -192,7 +226,7 @@ public class ViewManager implements IService {
 
     /**
      * Registers a view to the main CControl if not done already, adds it to the data structure and registers listeners
-     * for object managemenet of the CDockables. Afterwards, the view is set to visible and will be displayed in the
+     * for object management of the CDockables. Afterward, the view is set to visible and will be displayed in the
      * main CControl.
      *
      * @param view View to make visible and add to data structure.
@@ -203,7 +237,7 @@ public class ViewManager implements IService {
         }
         // Loads view to the data structure.
         visibleViews.put(view.getUniqueId(), view);
-        if(getViewDescriptor(view.getUniqueId()) != null && getViewDescriptor(view.getUniqueId()).isReopenable()) {
+        if (getViewDescriptor(view.getUniqueId()) != null && getViewDescriptor(view.getUniqueId()).isReopenable()) {
             instanceManager.loadExistingName(view.getUniqueId());
         }
 
@@ -218,7 +252,7 @@ public class ViewManager implements IService {
                 if (dockable.isVisible()) {
                     visibleViews.put(view.getUniqueId(), view);
                 } else {
-                    if(getViewDescriptor(view.getUniqueId()) != null && getViewDescriptor(view.getUniqueId()).isReopenable()) {
+                    if (getViewDescriptor(view.getUniqueId()) != null && getViewDescriptor(view.getUniqueId()).isReopenable()) {
                         instanceManager.delete(view.getUniqueId());
                     }
                     visibleViews.remove(view.getUniqueId());
@@ -242,7 +276,7 @@ public class ViewManager implements IService {
      */
     public ViewDescriptor getViewDescriptor(String viewID) {
         Map<String, ViewGroup> viewsFromEP = viewEP.getViewDescriptors();
-        if(viewID.contains("_Instance")) {
+        if (viewID.contains("_Instance")) {
             viewID = viewID.split("_Instance")[0];
         }
 
@@ -275,7 +309,7 @@ public class ViewManager implements IService {
         if (view == null) {
             return;
         }
-        if(!visibleViews.containsKey(view.getUniqueId())) {
+        if (!visibleViews.containsKey(view.getUniqueId())) {
             addVisibleViewToMap(view);
         }
 
@@ -291,7 +325,8 @@ public class ViewManager implements IService {
      * @return The view or null if not active.
      */
     public AbstractView getVisibleView(String viewID) {
-        return visibleViews.get(viewID);
+        ViewDescriptor descriptor = getViewDescriptor(viewID);
+        return getVisibleView(descriptor);
     }
 
     /**
@@ -339,7 +374,12 @@ public class ViewManager implements IService {
      */
     @SuppressWarnings("unchecked")
     public <T extends AbstractView> T getView(Class<T> viewClass) {
-        return (T) visibleViews.values().stream().filter(abstractView -> abstractView.getClass() == viewClass).findFirst().orElse(null);
+        return (T) visibleViews
+                .values()
+                .stream()
+                .filter(abstractView -> abstractView.getClass() == viewClass)
+                .findFirst()
+                .orElse(null);
     }
 
     /**
@@ -349,7 +389,12 @@ public class ViewManager implements IService {
      * @return List of views of the given class.
      */
     public <T extends AbstractView> List<T> getViews(Class<T> viewClass) {
-        return visibleViews.values().stream().filter(abstractView -> abstractView.getClass() == viewClass).map(abstractView -> (T) abstractView).toList();
+        return visibleViews
+                .values()
+                .stream()
+                .filter(abstractView -> abstractView.getClass() == viewClass)
+                .map(abstractView -> (T) abstractView)
+                .toList();
     }
 
     /**

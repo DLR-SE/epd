@@ -1,30 +1,33 @@
 package de.emir.tuml.ucore.runtime;
 
+import de.emir.tuml.ucore.runtime.logging.ULog;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 public class DelegateFactory {
 
     public static class DelegateProvider implements IDelegateProvider {
-        private Class mClazz;
+        private Class<?> mClazz;
 
-        public DelegateProvider(Class cl) {
+        public DelegateProvider(Class<?> cl) {
             mClazz = cl;
         }
 
         @Override
         public Object provideDelegate(UClassifier cl, UObject obj) {
             try {
-                return mClazz.newInstance();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                // The call `clazz.newInstance()` is deprecated since Java 1.9 and was replaced by
+                // `clazz.getDeclaredConstructor().newInstance()` according to the documentation.
+                return mClazz.getDeclaredConstructor().newInstance();
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                ULog.error(e);
             }
             return null;
         }
     }
 
-    private static HashMap<UClassifier, IDelegateProvider> mDelegateProviders = new HashMap<UClassifier, IDelegateProvider>();
+    private static final HashMap<UClassifier, IDelegateProvider> mDelegateProviders = new HashMap<>();
 
     /**
      * Associates the specified value with the specified key in this map. If the map previously contained a mapping for

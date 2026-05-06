@@ -10,7 +10,6 @@ import de.emir.tuml.ucore.runtime.UClass;
 import de.emir.tuml.ucore.runtime.UClassifier;
 import de.emir.tuml.ucore.runtime.UEnum;
 import de.emir.tuml.ucore.runtime.UOperation;
-import de.emir.tuml.ucore.runtime.impl.UTypeImpl;
 import de.emir.tuml.ucore.runtime.UPackage;
 import de.emir.tuml.ucore.runtime.UStructuralFeature;
 import de.emir.tuml.ucore.runtime.UType;
@@ -287,8 +286,8 @@ abstract public class UClassifierImpl extends UTypeImpl implements UClassifier {
 
     @Override
     public void freeze() {
-        // delete convinience lists, in case they have been created while the classifier has not been fully defined.
-        // they will be rebuild the next time, they are requested.
+        // delete convenience lists, in case they have been created while the classifier has not been fully defined.
+        // they will be rebuilt the next time, they are requested.
         mAllParents = null;
         mAllAttributes = null;
         mAllReferences = null;

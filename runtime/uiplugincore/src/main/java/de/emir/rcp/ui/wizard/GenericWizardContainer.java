@@ -30,7 +30,7 @@ import de.emir.rcp.ui.utils.JProgressBarProgressMonitor;
 public class GenericWizardContainer extends JDialog {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 6827258078569241411L;
 
@@ -89,12 +89,12 @@ public class GenericWizardContainer extends JDialog {
     private boolean isNextAvailable;
     private final JSeparator separator = new JSeparator();
     private final JProgressBarProgressMonitor progressBarProgressMonitor = new JProgressBarProgressMonitor();
-    
-	private LocalPropertyStore mPropertyStore;
+
+    private LocalPropertyStore mPropertyStore;
 
     /**
      * Constructs a new GenericWizardContainer.
-     * 
+     *
      * @throws HeadlessException
      */
     public GenericWizardContainer(JFrame parent, String title) throws HeadlessException {
@@ -118,8 +118,8 @@ public class GenericWizardContainer extends JDialog {
 
         // set layout
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWeights = new double[] { 1.0 };
-        gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0 };
+        gridBagLayout.columnWeights = new double[]{1.0};
+        gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0};
         getContentPane().setLayout(gridBagLayout);
         // wire elements together
         GridBagConstraints gbc_container = new GridBagConstraints();
@@ -258,7 +258,7 @@ public class GenericWizardContainer extends JDialog {
 
         /**
          * Constructs a new DynamicContainerSizeListener.
-         * 
+         *
          * @param genericWizardContainer
          */
         public DynamicContainerSizeListener(GenericWizardContainer genericWizardContainer) {
@@ -291,9 +291,9 @@ public class GenericWizardContainer extends JDialog {
         }
     }
 
-	public LocalPropertyStore getPropertyStore() {
-		if (mPropertyStore == null) 
-			mPropertyStore = new LocalPropertyStore();
-		return mPropertyStore;
-	}
+    public LocalPropertyStore getPropertyStore() {
+        if (mPropertyStore == null)
+            mPropertyStore = new LocalPropertyStore();
+        return mPropertyStore;
+    }
 }
